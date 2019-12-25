@@ -1,4 +1,3 @@
-"リンク"
 ln -sf ~/dotfiles/fish ~/.config/fish
 DOTPATH=~/dotfiles
 
