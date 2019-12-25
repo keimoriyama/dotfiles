@@ -1,0 +1,22 @@
+[[plugins]]
+repo = 'wakatime/vim-wakatime'
+
+[[plugins]]
+repo = 'jeetsukumaran/vim-nefertiti'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+
+[[plugins]]
+repo   = 'Shougo/unite.vim'
+
+
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
