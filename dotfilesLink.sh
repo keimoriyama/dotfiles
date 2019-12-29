@@ -7,7 +7,7 @@ if has "git"; then
 
 # 使えない場合は curl か wget を使用する
 elif has "curl" || has "wget"; then
-    #tarball="https://github.com/b4b4r07/dotfiles/archive/master.tar.gz"
+    tarball="https://github.com/keimoriyama/dotfiles/archive/master.tar.gz"
 
     # どっちかでダウンロードして，tar に流す
     if has "curl"; then
