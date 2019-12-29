@@ -1,4 +1,5 @@
 ln -sf ~/dotfiles/fish ~/.config/fish
+ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
 
 DOTPATH=~/dotfiles
 
