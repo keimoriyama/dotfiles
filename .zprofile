@@ -1,1 +1,0 @@
-/Users/kei/.zprezto/runcoms/zprofile

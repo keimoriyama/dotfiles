@@ -1,4 +1,5 @@
 ln -sf ~/dotfiles/fish ~/.config/fish
+
 DOTPATH=~/dotfiles
 
 # git が使えるなら git
