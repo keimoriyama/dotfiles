@@ -2,6 +2,9 @@ ln -sf ~/dotfiles/fish ~/.config/fish
 ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
 
 DOTPATH=~/dotfiles
+if [ "$(uname)" == 'Darwin' ]; then
+    source ./bin/brewInstall.sh
+fi
 
 # git が使えるなら git
 if has "git"; then
