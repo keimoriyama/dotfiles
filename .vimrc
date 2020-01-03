@@ -9,7 +9,6 @@ set hlsearch
 set wildmenu
 set wildmode=full
 set laststatus=2
-set guifont=Menlo\ Regular:h20
 "#####検索設定#####
 set ignorecase "大文字/小文字の区別なく検索する 
 set smartcase "検索文字列に大文字が含まれている場合は区別して検索する 
@@ -94,24 +93,22 @@ filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
+if dein#check_install()
+  call dein#install()
+endif
 
 "End dein Scripts-------------------------
 let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
 
 set background=dark
 
-"vim-goの設定
-let g:go_highlight_functions = 1
-let g:go_highlight_methods  = 1
-let g:go_highlight_structs = 1
-
-
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
+"settgin about lsp
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+let g:asyncomplete_popup_delay = 200
+let g:lsp_text_edit_enabled = 1
 
 highlight Pmenu ctermbg=4
 highlight PmenuSel ctermbg=1
