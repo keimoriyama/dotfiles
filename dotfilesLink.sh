@@ -2,28 +2,31 @@ ln -sf ~/dotfiles/fish ~/.config/fish
 ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
 
 DOTPATH=~/dotfiles
+
+GITHUB_URL=https://github.com/keimoriyama/dotfiles
+
 if [ "$(uname)" == 'Darwin' ]; then
     source ./bin/brewInstall.sh
 fi
 
-# git $B$,;H$($k$J$i(B git
-if has "git"; then
+# git が使えるなら git
+if type "git";then
     git clone --recursive "$GITHUB_URL" "$DOTPATH"
 
-# $B;H$($J$$>l9g$O(B curl $B$+(B wget $B$r;HMQ$9$k(B
-elif has "curl" || has "wget"; then
+# 使えない場合は curl か wget を使用する
+elif type "curl" || type "wget"; then
     tarball="https://github.com/keimoriyama/dotfiles/archive/master.tar.gz"
 
-    # $B$I$C$A$+$G%@%&%s%m!<%I$7$F!$(Btar $B$KN.$9(B
-    if has "curl"; then
+    # どっちかでダウンロードして，tar に流す
+    if type "curl"; then
         curl -L "$tarball"
 
-    elif has "wget"; then
+    elif type "wget"; then
         wget -O - "$tarball"
 
     fi | tar zxv
 
-    # $B2rE`$7$?$i!$(BDOTPATH $B$KCV$/(B
+    # 解凍したら，DOTPATH に置く
     mv -f dotfiles-master "$DOTPATH"
 
 else
@@ -35,7 +38,7 @@ if [ $? -ne 0 ]; then
     die "not found: $DOTPATH"
 fi
 
-# $B0\F0$G$-$?$i%j%s%/$r<B9T$9$k(B
+# 移動できたらリンクを実行する
 for f in .??*
 do
     [ "$f" = ".git" ] && continue
