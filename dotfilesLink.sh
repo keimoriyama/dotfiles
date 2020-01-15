@@ -1,5 +1,7 @@
 ln -sf ~/dotfiles/fish ~/.config/fish
 ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
+ln -sf ~/dotfiles/tmux-powerline ~/tmux-powerline
+
 
 DOTPATH=~/dotfiles
 
