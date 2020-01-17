@@ -11,32 +11,46 @@ repo = 'Shougo/vimproc.vim'
 repo   = 'Shougo/unite.vim'
 
 
-
 [[plugins]]
 repo = 'Shougo/unite.vim'
 
 [[plugins]]
 repo = 'Shougo/neocomplete.vim'
 
+# settings of status bar
 [[plugins]]
-repo = 'itchyny/lightline.vim'
+repo = 'vim-airline/vim-airline'
 
+[[plugin]]
+repo = 'vim-airline/vim-airline-themes'
+
+[[plugin]]
+repo = 'ryanoasis/vim-devicons'
+
+# setting of lsp
 [[plugins]]
 repo = 'prabirshrestha/async.vim'
 
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
+
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
+
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
+
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
+
 [[plugins]]
 repo = 'mattn/vim-lsp-icons'
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip'
+
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
 
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
