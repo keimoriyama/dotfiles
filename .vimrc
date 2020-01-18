@@ -132,8 +132,6 @@ highlight Pmenu ctermbg=4
 highlight PmenuSel ctermbg=1
 highlight PMenuSbar ctermbg=4
 
-"setting of airline
-
 "setting of status bar of vim
 
 let g:airline#extensions#branch#enabled = 1

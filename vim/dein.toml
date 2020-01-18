@@ -27,6 +27,9 @@ repo = 'vim-airline/vim-airline-themes'
 [[plugin]]
 repo = 'ryanoasis/vim-devicons'
 
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
 # setting of lsp
 [[plugins]]
 repo = 'prabirshrestha/async.vim'
