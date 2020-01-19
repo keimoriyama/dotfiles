@@ -57,3 +57,6 @@ repo = 'hrsh7th/vim-vsnip-integ'
 
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
