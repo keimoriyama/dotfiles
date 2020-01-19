@@ -147,3 +147,6 @@ let NERDTreeShowHidden = 1
 " setting of buffer 
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
+
+" setting for help
+set helplang=ja

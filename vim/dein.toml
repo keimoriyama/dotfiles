@@ -60,3 +60,7 @@ repo = 'ryanoasis/vim-devicons'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
+
+# japanese help
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
