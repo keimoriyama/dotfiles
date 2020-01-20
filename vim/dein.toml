@@ -30,6 +30,15 @@ repo = 'ryanoasis/vim-devicons'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
 # setting of lsp
 [[plugins]]
 repo = 'prabirshrestha/async.vim'
@@ -55,12 +64,13 @@ repo = 'hrsh7th/vim-vsnip'
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
 
-[[plugins]]
-repo = 'ryanoasis/vim-devicons'
-
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-
 # japanese help
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
+
+# show whitespaces
+[[plugins]]
+repo = 'bronson/vim-trailing-whitespace'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'

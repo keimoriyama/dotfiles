@@ -1,4 +1,3 @@
-
 set number "行番号を表示する
 set title "編集中のファイル名を表示
 set showmatch "括弧入力時の対応する括弧を表示
@@ -140,11 +139,10 @@ let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
 
 " setting of nerdtree
-autocmd vimenter * NERDTree
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 1
 
-" setting of buffer 
+" setting of buffer
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
 
