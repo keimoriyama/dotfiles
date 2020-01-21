@@ -1,5 +1,6 @@
 # dotfiles
-to install 
+to install
+
 ```
 raw.github.com/keimoriyama/dotfiles/master/install.sh | bash
 ```

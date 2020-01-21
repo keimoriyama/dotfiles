@@ -7,12 +7,12 @@ echo "run brew doctor..."
 
 echo "run brew update..."
   which brew >/dev/null 2>&1 && brew update
-brew upgrade 
+brew upgrade
 
 
 echo "start brew install apps..."
 
-  brew bundle 
+  brew bundle
 
 cat << END
 **************************************************
