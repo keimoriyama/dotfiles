@@ -148,3 +148,6 @@ nnoremap <silent> <C-k> :bnext<CR>
 
 " setting for help
 set helplang=ja
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
