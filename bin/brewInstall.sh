@@ -12,7 +12,7 @@ brew upgrade
 
 echo "start brew install apps..."
 
-  brew bundle
+brew bundle
 
 cat << END
 **************************************************
