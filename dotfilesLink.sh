@@ -1,6 +1,7 @@
 ln -sf ~/dotfiles/fish ~/.config/fish
 ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
 ln -sf ~/dotfiles/tmux-powerline ~/tmux-powerline
+ln -sf ~/dotfiles/zprezto ~/zprezto
 
 
 DOTPATH=~/dotfiles
@@ -8,7 +9,15 @@ DOTPATH=~/dotfiles
 GITHUB_URL=https://github.com/keimoriyama/dotfiles
 
 if [ "$(uname)" == 'Darwin' ]; then
-    source ./bin/brewInstall.sh
+  #プロンプトをechoを使って表示
+  echo -n Do you want to install Brewfile?:
+  #入力を受付、その入力を「str」に代入
+  read str
+  #結果を表示
+  echo $str
+    if [str == 'y'];then
+      source ./bin/brewInstall.sh
+    fi
 fi
 
 # git が使えるなら git
