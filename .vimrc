@@ -129,6 +129,9 @@ highlight Pmenu ctermbg=4
 highlight PmenuSel ctermbg=1
 highlight PMenuSbar ctermbg=4
 
+" color scheme
+colorscheme onedark
+
 "setting of status bar of vim
 
 let g:airline#extensions#branch#enabled = 1
@@ -137,6 +140,7 @@ let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
+let g:airline_theme='onedark'
 
 " setting of nerdtree
 map <C-n> :NERDTreeToggle<CR>
@@ -148,4 +152,15 @@ nnoremap <silent> <C-k> :bnext<CR>
 
 " setting for help
 set helplang=ja
+
+" setting of deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_delay = 0
+let g:deoplete#auto_complete_start_length = 1
+let g:deoplete#enable_camel_case = 0
+let g:deoplete#enable_ignore_case = 0
+let g:deoplete#enable_refresh_always = 0
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#file#enable_buffer_path = 1
+let g:deoplete#max_list = 10000
 
