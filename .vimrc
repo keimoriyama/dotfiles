@@ -130,8 +130,10 @@ highlight PmenuSel ctermbg=1
 highlight PMenuSbar ctermbg=4
 
 " color scheme
-colorscheme onedark
-
+syntax enable
+set background=dark
+"colorscheme solarized
+let g:solarized_termcolors=256
 "setting of status bar of vim
 
 let g:airline#extensions#branch#enabled = 1
@@ -140,7 +142,6 @@ let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
-let g:airline_theme='onedark'
 
 " setting of nerdtree
 map <C-n> :NERDTreeToggle<CR>
