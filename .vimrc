@@ -13,11 +13,6 @@ set smartcase "検索文字列に大文字が含まれている場合は区別�
 set wrapscan "検索時に最後まで行ったら最初に戻る
 set clipboard=unnamed,autoselect "クリップボードの有効化
 
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-
-nnoremap : ;
-nnoremap : ;
 "余計なファイルを作成しない
 set noswapfile
 set nobackup
@@ -134,9 +129,10 @@ highlight PMenuSbar ctermbg=4
 
 " color scheme
 syntax enable
-set background=dark
+"set background=dark
 "colorscheme solarized
 let g:solarized_termcolors=256
+
 "setting of status bar of vim
 
 let g:airline#extensions#branch#enabled = 1
@@ -145,6 +141,7 @@ let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
+let g:airline_solarized_gb = 'dark'
 
 " setting of nerdtree
 map <C-n> :NERDTreeToggle<CR>
