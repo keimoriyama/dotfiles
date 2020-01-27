@@ -15,6 +15,9 @@ set clipboard=unnamed,autoselect "クリップボードの有効化
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+
+nnoremap : ;
+nnoremap : ;
 "余計なファイルを作成しない
 set noswapfile
 set nobackup
