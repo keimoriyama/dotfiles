@@ -2,5 +2,5 @@
 to install
 
 ```
-raw.github.com/keimoriyama/dotfiles/master/install.sh | bash
+raw.github.com/keimoriyama/dotfiles/master/dotfilesLink.sh | bash
 ```
