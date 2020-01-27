@@ -1,6 +1,3 @@
-ln -sf ~/dotfiles/fish ~/.config/fish
-ln -sf ~/dotfiles/tmux-powerline ~/tmux-powerline
-
 DOTPATH=~/dotfiles
 
 GITHUB_URL=https://github.com/keimoriyama/dotfiles
@@ -49,6 +46,8 @@ if [ $ans == 'y' ];then
       die "not found: $DOTPATH"
   fi
 fi
+ln -sf ~/dotfiles/fish ~/.config/fish
+ln -sf ~/dotfiles/tmux-powerline ~/tmux-powerline
 # 移動できたらリンクを実行する
 for f in .??*
 do
@@ -56,4 +55,5 @@ do
 
     ln -snfv "$DOTPATH/$f" "$HOME"/"$f"
 done
+source ~/.zshrc
 
