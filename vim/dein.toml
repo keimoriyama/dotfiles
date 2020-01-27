@@ -10,10 +10,6 @@ repo = 'Shougo/vimproc.vim'
 [[plugins]]
 repo   = 'Shougo/unite.vim'
 
-
-[[plugins]]
-repo = 'Shougo/unite.vim'
-
 [[plugins]]
 repo = 'Shougo/neocomplete.vim'
 
@@ -84,3 +80,7 @@ repo = 'roxma/vim-hug-neovim-rpc'
 
 [[plugins]]
 repo = 'roxma/nvim-yarp'
+
+# solarized
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
