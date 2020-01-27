@@ -130,7 +130,7 @@ highlight PMenuSbar ctermbg=4
 " color scheme
 syntax enable
 "set background=dark
-"colorscheme solarized
+" colorscheme solarized
 let g:solarized_termcolors=256
 
 "setting of status bar of vim
