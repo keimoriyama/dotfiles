@@ -17,7 +17,7 @@ repo = 'Shougo/neocomplete.vim'
 [[plugins]]
 repo = 'vim-airline/vim-airline'
 
-[[plugin]]
+[[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 
 [[plugin]]

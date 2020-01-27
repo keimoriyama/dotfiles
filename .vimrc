@@ -1,5 +1,4 @@
-set number "行番号を表示する
-set title "編集中のファイル名を表示
+set number "行番号を表示する set title "編集中のファイル名を表示
 set showmatch "括弧入力時の対応する括弧を表示
 syntax on "コードの色分け
 set tabstop=4 "インデントをスペース4つ分に設定
@@ -78,7 +77,6 @@ if dein#load_state('~/.cache/dein')
   " Add or remove your plugins here like this:
   "call dein#add('Shougo/neosnippet.vim')
   "call dein#add('Shougo/neosnippet-snippets')
-
   " Required:
   call dein#end()
   call dein#save_state()
@@ -92,7 +90,6 @@ syntax enable
 if dein#check_install()
   call dein#install()
 endif
-
 "End dein Scripts-------------------------
 let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
 
@@ -129,11 +126,11 @@ highlight PMenuSbar ctermbg=4
 
 " color scheme
 syntax enable
-"set background=dark
-" colorscheme solarized
-let g:solarized_termcolors=256
 
 "setting of status bar of vim
+let g:solarized_termtrans = 1
+let g:solarized_termcolors=256
+set background=dark
 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -141,6 +138,7 @@ let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
+let g:airline_theme='solarized'
 let g:airline_solarized_gb = 'dark'
 
 " setting of nerdtree
@@ -164,4 +162,3 @@ let g:deoplete#enable_refresh_always = 0
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#file#enable_buffer_path = 1
 let g:deoplete#max_list = 10000
-
