@@ -162,3 +162,6 @@ let g:deoplete#enable_refresh_always = 0
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#file#enable_buffer_path = 1
 let g:deoplete#max_list = 10000
+
+" 検索文字のハイライトの設定
+nnoremap  <C-c><C-c> :<C-u>nohlsearch<cr><Esc>
