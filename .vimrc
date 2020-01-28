@@ -66,7 +66,7 @@ if dein#load_state('~/.cache/dein')
   " Let dein manage dein
   " Required:
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-" dein.toml, dein_layz.tomlファイルのディレクトリをセット
+  " dein.toml, dein_layz.tomlファイルのディレクトリをセット
   let s:toml_dir = expand('~/dotfiles/vim')
 
   " 起動時に読み込むプラグイン群
