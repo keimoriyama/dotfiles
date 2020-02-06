@@ -59,7 +59,7 @@ let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('~/.cache/dein') 
+if dein#load_state('~/.cache/dein')
   call dein#begin('~/.cache/dein')
 
   " Let dein manage dein
@@ -120,8 +120,8 @@ let g:asyncomplete_auto_completeopt = 1
 let g:asyncomplete_popup_delay = 200
 
 " color scheme
-"set background=dark
-"colorscheme solarized
+set background=dark
+colorscheme onedark
 
 "setting of status bar of vim
 let g:solarized_termtrans = 1

@@ -83,4 +83,4 @@ repo = 'roxma/nvim-yarp'
 
 # solarized
 [[plugins]]
-repo = 'altercation/vim-colors-solarized'
+repo = 'joshdick/onedark.vim'
