@@ -4,7 +4,7 @@ GITHUB_URL=https://github.com/keimoriyama/dotfiles
 
 if [ "$(uname)" == 'Darwin' ]; then
   #プロンプトをechoを使って表示
-  echo Do you want to install Brewfile?(Y/N):
+  echo Do you want to install Brewfile?Y/N:
   #入力を受付、その入力を「str」に代入
   read str
   #結果を表示
@@ -13,7 +13,7 @@ if [ "$(uname)" == 'Darwin' ]; then
     fi
 fi
 
-echo Do you want to deploy?(Y/N):
+echo Do you want to deploy?Y/N:
 read ans
 if [ $ans == 'y' ];then
 
@@ -55,5 +55,7 @@ do
 
     ln -snfv "$DOTPATH/$f" "$HOME"/"$f"
 done
+
+source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 source ~/.zshrc
 
