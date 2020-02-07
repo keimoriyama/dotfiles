@@ -20,6 +20,6 @@ if air_info=($(eval "$airport_path" -I | grep -E "^ *(agrCtlRSSI|state|SSID):" |
     ;;
     "init"    ) airport_="#[fg=yellow] ... " ;;
     *         ) airport_="#[fg=red] ✘  " ;;
-  esac  
+  esac
   echo "#[bold]|#[default]${airport_}#[fg=colour014]|#[default] "
 fi
