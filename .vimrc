@@ -120,7 +120,6 @@ let g:asyncomplete_auto_completeopt = 1
 let g:asyncomplete_popup_delay = 200
 
 " color scheme
-set background=dark
 colorscheme onedark
 
 "setting of status bar of vim
