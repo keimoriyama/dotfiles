@@ -133,8 +133,7 @@ let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
-let g:airline_theme='solarized'
-let g:airline_solarized_gb = 'dark'
+let g:airline_theme='onedark'
 
 let g:airline#extensions#tabline#buffer_idx_format = {
   \ '0': '0 ',
