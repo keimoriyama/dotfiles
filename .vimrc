@@ -121,10 +121,7 @@ let g:asyncomplete_popup_delay = 200
 
 " color scheme
 colorscheme onedark
-
-"setting of status bar of vim
-let g:solarized_termtrans = 1
-let g:solarized_termcolors=256
+let g:onedark_termcolors=256
 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
