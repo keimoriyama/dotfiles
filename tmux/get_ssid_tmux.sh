@@ -12,7 +12,7 @@ if air_info=($(eval "$airport_path" -I | grep -E "^ *(agrCtlRSSI|state|SSID):" |
     "running" )
       signals=(▁ ▂ ▄ ▆ █)
       signal=""
-      rssi_=$(expr 5 - ${rssi} / -20)
+      rssi_=$(expr 8 - ${rssi} / -20)
       for ((i=0; i < $rssi_; i++ )); do
         signal="${signal}${signals[$i]}"
       done
