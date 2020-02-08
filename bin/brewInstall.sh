@@ -12,6 +12,7 @@ brew upgrade
 
 echo "start brew install apps..."
 
+cd ~/dotfiles/bin/
 brew bundle
 
 cat << END
