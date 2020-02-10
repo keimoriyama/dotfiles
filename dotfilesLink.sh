@@ -48,7 +48,6 @@ if [ $ans == 'y' ];then
 fi
 # 手動でリンクを貼る
 ln -sf ~/dotfiles/fish ~/.config/fish
-ln -sf ~/dotfiles/tmux-powerline ~/tmux-powerline
 ln -sf ~/dotfiles/karabiner/ ~/.config/karabiner
 # 移動できたらリンクを実行する
 for f in .??*
