@@ -59,5 +59,3 @@ do
 done
 
 source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-source ~/.zshrc
-
