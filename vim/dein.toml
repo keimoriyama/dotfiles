@@ -86,3 +86,6 @@ repo = 'joshdick/onedark.vim'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
+# plugin for template
+[[plugins]]
+repo = 'mattn/vim-sonictemplate'
