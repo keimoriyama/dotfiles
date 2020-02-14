@@ -9,6 +9,7 @@ if [ "$(uname)" == 'Darwin' ]; then
   read str
   #結果を表示
     if [ $str == 'y' ];then
+      cd ~/dotfiles
       source ./bin/brewInstall.sh
     fi
 fi
