@@ -92,8 +92,6 @@ endif
 "End dein Scripts-------------------------
 let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
 
-set background=dark
-
 "setting about lsp
 if empty(globpath(&rtp, 'autoload/lsp.vim'))
   finish
