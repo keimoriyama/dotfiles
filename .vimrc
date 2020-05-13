@@ -31,7 +31,8 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-
+" changed leader key to space
+let mapleader = " "
 "dein Scripts-----------------------------:u
 if &compatible
   set nocompatible               " Be iMproved
@@ -164,5 +165,3 @@ let g:deoplete#enable_refresh_always = 0
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#file#enable_buffer_path = 1
 let g:deoplete#max_list = 10000
-
-
