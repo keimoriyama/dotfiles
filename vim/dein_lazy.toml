@@ -10,4 +10,14 @@ on_ft = ['elixir']
 repo = 'mattreduce/vim-mix'
 on_ft = ['elixir']
 
+[[plugins]]
+repo = 'tpope/vim-markdown'
+on_ft = ['markdown']
 
+[[plugins]]
+repo = 'kannokanno/previm'
+on_ft = ['markdown']
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_ft = ['markdown']
