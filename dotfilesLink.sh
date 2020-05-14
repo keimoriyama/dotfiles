@@ -57,5 +57,7 @@ do
 
     ln -snfv "$DOTPATH/$f" "$HOME"/"$f"
 done
+# change shell
+chsh -s $(which zsh)
 
 source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
