@@ -14,6 +14,18 @@ if [ "$(uname)" == 'Darwin' ]; then
     fi
 fi
 
+if [ "$(uname)" == 'Linux' ]; then
+  #プロンプトをechoを使って表示
+  echo Do you want to install ?Y/N:
+  #入力を受付、その入力を「str」に代入
+  read str
+  #結果を表示
+    if [ $str == 'y' ];then
+      cd ~/dotfiles
+      source ./bin/ubuntuInstall.sh
+    fi
+fi
+
 echo Do you want to deploy?Y/N:
 read ans
 if [ $ans == 'y' ];then
@@ -61,3 +73,4 @@ done
 chsh -s $(which zsh)
 
 source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+
