@@ -73,4 +73,9 @@ done
 chsh -s $(which zsh)
 
 source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-
+#insatll nerd font
+git clone --branch=master --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+cd nerd-fonts
+./install.sh   # "Source" to install Sauce Code Nerd Font
+cd ..
+rm -rf nerd-fonts
