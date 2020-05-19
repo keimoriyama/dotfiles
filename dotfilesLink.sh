@@ -72,7 +72,10 @@ done
 # change shell
 chsh -s $(which zsh)
 
-source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+setopt EXTENDED_GLOB
+for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+done
 #insatll nerd font
 git clone --branch=master --depth 1 https://github.com/ryanoasis/nerd-fonts.git
 cd nerd-fonts
