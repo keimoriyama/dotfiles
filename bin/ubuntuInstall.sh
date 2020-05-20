@@ -1,6 +1,6 @@
 #!/bin/sh
 
-$ sudo apt-get update
+apt-get update
 
 apt install git
 
@@ -9,18 +9,19 @@ apt install build-essential libbz2-dev libdb-dev \
 >   libncursesw5-dev libsqlite3-dev libssl-dev \
 >   zlib1g-dev uuid-dev tk-dev
 
-sudo apt install python3-pip
+apt install python3-pip
 
 
 # install python liblary
 
 pip3 install pynvim
 
-#install nerd font
-
 #install zsh
 apt-get install zsh
 chsh -s $(which zsh)
+
+#install vim
+apt-get install vim
 
 # install tmux
 apt-get install tmux
