@@ -76,9 +76,18 @@ setopt EXTENDED_GLOB
 for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
-#insatll nerd font
-git clone --branch=master --depth 1 https://github.com/ryanoasis/nerd-fonts.git
-cd nerd-fonts
-./install.sh   # "Source" to install Sauce Code Nerd Font
-cd ..
-rm -rf nerd-fonts
+
+#プロンプトをechoを使って表示
+echo Do you want to install nerdfont ?Y/N:
+#入力を受付、その入力を「str」に代入
+read str
+#結果を表示
+  if [ $str == 'y' ];then
+
+    #insatll nerd font
+    git clone --branch=master --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+    cd nerd-fonts
+    ./install.sh   # "Source" to install Sauce Code Nerd Font
+    cd ..
+    rm -rf nerd-fonts
+  fi
