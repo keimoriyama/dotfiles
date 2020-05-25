@@ -166,3 +166,9 @@ let g:deoplete#enable_at_startup = 1
   let g:vim_markdown_folding_disabled=1
   let g:previm_enable_realtime = 1
 " }}}
+
+""" sonictemplate{{{
+  let g:sonictemplate_vim_template_dir = [
+    \ '~/dotfiles/template'
+  \]
+"""}}}
