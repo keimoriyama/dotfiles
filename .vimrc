@@ -144,9 +144,12 @@ let g:airline#extensions#tabline#buffer_idx_format = {
   \ '9': '9 '
   \}
 
-" setting of nerdtree
+" setting of nerdtree {{{
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+"}}}
 
 " setting of buffer
 nnoremap <silent> <C-j> :bprev<CR>
@@ -155,8 +158,9 @@ nnoremap <silent> <C-k> :bnext<CR>
 " setting for help
 set helplang=ja
 
-" setting of deoplete
+" setting of deoplete {{{
 let g:deoplete#enable_at_startup = 1
+" }}}
 
 """ markdown {{{
   autocmd BufRead,BufNewFile *.mkd  set filetype=markdown
