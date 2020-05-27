@@ -91,3 +91,6 @@ read str
     cd ..
     rm -rf nerd-fonts
   fi
+
+  # tpmのインストール
+ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
