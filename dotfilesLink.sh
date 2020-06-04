@@ -71,11 +71,14 @@ do
 done
 # change shell
 chsh -s $(which zsh)
-
-setopt EXTENDED_GLOB
-for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-done
+echo Do you want to init .zprezto ?Y/N:
+read str
+if [ $str == 'y' ];then
+  setopt EXTENDED_GLOB
+  for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+    ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+  done
+fi
 
 #プロンプトをechoを使って表示
 echo Do you want to install nerdfont ?Y/N:
@@ -94,3 +97,9 @@ read str
 
   # tpmのインストール
  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+echo Do you want to intall Rust? Y/N:
+read str
+if [ $str == 'y' ];then
+  curl https://sh.rustup.rs -sSf | s://sh.rustup.rs -sSf | shi
+fi
