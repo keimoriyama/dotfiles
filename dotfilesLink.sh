@@ -101,5 +101,6 @@ read str
 echo Do you want to intall Rust? Y/N:
 read str
 if [ $str == 'y' ];then
-  curl https://sh.rustup.rs -sSf | s://sh.rustup.rs -sSf | shi
+  curl https://sh.rustup.rs -sSf | s://sh.rustup.rs -sSf | sh
+  cargo install exa
 fi
