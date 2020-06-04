@@ -6,3 +6,6 @@
 .wakatime.log
 
 .python_history
+
+.Rhistory
+.zprofile
