@@ -23,12 +23,12 @@ repo = 'vim-airline/vim-airline-themes'
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
 
-
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
+
 # setting of lsp
 [[plugins]]
 repo = 'prabirshrestha/async.vim'
@@ -41,9 +41,6 @@ repo = 'prabirshrestha/vim-lsp'
 
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
-
-[[plugins]]
-repo = 'mattn/vim-lsp-icons'
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip'
