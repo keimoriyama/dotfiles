@@ -10,6 +10,7 @@ set ignorecase "大文字/小文字の区別なく検索する
 set smartcase "検索文字列に大文字が含まれている場合は区別して検索する
 set wrapscan "検索時に最後まで行ったら最初に戻る
 set clipboard=unnamed,autoselect "クリップボードの有効化
+set ambiwidth=double " □や○文字が崩れる問題を解決
 
 "余計なファイルを作成しない
 set noswapfile
@@ -32,18 +33,33 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+
+" setting of copy & paster
+if &term =~ "xterm"
+    let &t_SI .= "\e[?2004h"
+    let &t_EI .= "\e[?2004l"
+    let &pastetoggle = "\e[201~"
+
+    function XTermPasteBegin(ret)
+      set paste
+      return a:ret
+    endfunction
+
+  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+endif
 " changed leader key to space
 let mapleader = " "
 " F3でハイライトの設定
 nnoremap <C-b> :set hlsearch!<CR>
-
-" setting for tab space and so on
 
 " スペース + wでファイル保存
 nnoremap <Leader>w :w<CR>
 
 " スペース + . でvimrcを開く
 nnoremap <Leader>. :new ~/.vimrc<CR>
+
+set list
+set listchars=tab:>-
 
 if has('persistent_undo')
   let undo_path = expand('~/.vim/undo')
@@ -194,4 +210,8 @@ let g:deoplete#enable_at_startup = 1
   let g:sonictemplate_vim_template_dir = [
     \ '~/dotfiles/template'
   \]
+"""}}}
+
+"""setting of indenline{{{
+  let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 """}}}
