@@ -110,7 +110,7 @@ endif
 "End dein Scripts-------------------------
 let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
 
-"setting about lsp
+"setting about lsp{{{
 if empty(globpath(&rtp, 'autoload/lsp.vim'))
   finish
 endif
@@ -134,6 +134,7 @@ let g:lsp_diagnostics_echo_cursor = 1
 let g:asyncomplete_auto_popup = 1
 let g:asyncomplete_auto_completeopt = 1
 let g:asyncomplete_popup_delay = 200
+"}}}
 
 " color scheme
 colorscheme onedark
