@@ -38,8 +38,6 @@ let mapleader = " "
 nnoremap <C-b> :set hlsearch!<CR>
 
 " setting for tab space and so on
-set list
-set listchars=tab:»-,eol:↲,extends:»,precedes:«,nbsp:%,space:-
 
 " スペース + wでファイル保存
 nnoremap <Leader>w :w<CR>
