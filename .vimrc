@@ -33,6 +33,9 @@ nnoremap j gj
 nnoremap gj j
 " changed leader key to space
 let mapleader = " "
+" F3でハイライトの設定
+nnoremap <C-b> :set hlsearch!<CR>
+
 "dein Scripts-----------------------------:u
 if &compatible
   set nocompatible               " Be iMproved
@@ -122,6 +125,7 @@ let g:asyncomplete_popup_delay = 200
 colorscheme onedark
 let g:onedark_termcolors=256
 
+" settings of airline{{{
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -143,6 +147,7 @@ let g:airline#extensions#tabline#buffer_idx_format = {
   \ '8': '8 ',
   \ '9': '9 '
   \}
+" }}}
 
 " setting of nerdtree {{{
 map <C-n> :NERDTreeToggle<CR>
