@@ -23,9 +23,6 @@ repo = 'vim-airline/vim-airline-themes'
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
 
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
@@ -78,10 +75,6 @@ repo = 'roxma/nvim-yarp'
 # setting of colorscheme
 [[plugins]]
 repo = 'joshdick/onedark.vim'
-
-# git
-[[plugins]]
-repo = 'tpope/vim-fugitive'
 
 # plugin for template
 [[plugins]]
