@@ -26,6 +26,7 @@ set shiftwidth=2 "自動インデントでずれる幅
 set softtabstop=2 "連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
 set autoindent "改行時に前の行のインデントを継続する
 set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set incsearch
 
 nnoremap k gk
 nnoremap gk k
@@ -36,6 +37,21 @@ let mapleader = " "
 " F3でハイライトの設定
 nnoremap <C-b> :set hlsearch!<CR>
 
+" setting for tab space and so on
+set list
+set listchars=tab:»-,eol:↲,extends:»,precedes:«,nbsp:%,space:-
+
+" スペース + wでファイル保存
+nnoremap <Leader>w :w<CR>
+
+" スペース + . でvimrcを開く
+nnoremap <Leader>. :new ~/.vimrc<CR>
+
+if has('persistent_undo')
+  let undo_path = expand('~/.vim/undo')
+    exe 'set undodir=' .. undo_path
+    set undofile
+endif
 "dein Scripts-----------------------------:u
 if &compatible
   set nocompatible               " Be iMproved
