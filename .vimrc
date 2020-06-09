@@ -50,7 +50,7 @@ endif
 " changed leader key to space
 let mapleader = " "
 " F3でハイライトの設定
-nnoremap <C-b> :set hlsearch!<CR>
+nnoremap <C-c> :set hlsearch!<CR>
 
 " スペース + wでファイル保存
 nnoremap <Leader>w :w<CR>
@@ -169,6 +169,10 @@ let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
 let g:airline_theme='onedark'
+let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
+let g:airline#extensions#ale#open_lnum_symbol = '('
+let g:airline#extensions#ale#close_lnum_symbol = ')'
+let g:ale_echo_msg_format = '[%linter%]%code: %%s'
 
 let g:airline#extensions#tabline#buffer_idx_format = {
   \ '0': '0 ',
@@ -219,4 +223,36 @@ let g:deoplete#enable_at_startup = 1
 
 """setting of indenline{{{
   let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-"""}}}
+"}}}
+
+"setting of ale{{{
+" ファイル保存時にLinterを実行する
+let g:ale_lint_on_save = 1
+" テキスト変更時にはLinterを実行しない
+let g:ale_lint_on_text_changed = 'never'
+" Linter(コードチェックツール)の設定
+let g:ale_linters = {
+\   'python': ['flake8', 'mypy'],
+\}
+" ファイル保存時にはFixerを時刻しない
+let g:ale_fix_on_save = 0
+" テキスト変更時にはFixerを実行しない
+let g:ale_fix_on_text_changed = 'never'
+" Fixer(コード整形ツール)の設定
+let b:ale_fixers = {
+\   'python': ['autopep8', 'isort'],
+\}
+" 余分な空白があるときは警告表示
+let b:ale_warn_about_trailing_whitespace = 0
+" ALE実行時にでる目印行を常に表示
+let g:ale_sign_column_always = 1
+"}}}
+"
+"setting of gitgutter{{{
+"" 目印行を常に表示する
+if exists('&signcolumn')  " Vim 7.4.2201
+  set signcolumn=yes
+else
+  let g:gitgutter_sign_column_always = 1
+endif
+"}}}
