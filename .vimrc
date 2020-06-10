@@ -55,6 +55,7 @@ nnoremap <C-c> :set hlsearch!<CR>
 " スペース + wでファイル保存
 nnoremap <Leader>w :w<CR>
 
+nnoremap <Leader>q :q<CR>
 " スペース + . でvimrcを開く
 nnoremap <Leader>. :new ~/.vimrc<CR>
 
@@ -169,10 +170,10 @@ let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
 let g:airline_theme='onedark'
+let g:airline#extensions#ale#enabled = 1
 let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
 let g:airline#extensions#ale#open_lnum_symbol = '('
 let g:airline#extensions#ale#close_lnum_symbol = ')'
-let g:ale_echo_msg_format = '[%linter%]%code: %%s'
 
 let g:airline#extensions#tabline#buffer_idx_format = {
   \ '0': '0 ',
@@ -246,6 +247,9 @@ let b:ale_fixers = {
 let b:ale_warn_about_trailing_whitespace = 0
 " ALE実行時にでる目印行を常に表示
 let g:ale_sign_column_always = 1
+
+let g:ale_echo_msg_format = '[%linter%]%code: %%s'
+
 "}}}
 "
 "setting of gitgutter{{{
