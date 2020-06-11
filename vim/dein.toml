@@ -78,8 +78,6 @@ repo = 'joshdick/onedark.vim'
 repo = 'mattn/vim-sonictemplate'
 
 # plugin for lint
-[[plugins]]
-repo = 'w0rp/ale'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
