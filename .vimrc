@@ -170,10 +170,11 @@ let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
 let g:airline_theme='onedark'
-"let g:airline#extensions#ale#enabled = 1
-"let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
-"let g:airline#extensions#ale#open_lnum_symbol = '('
-"let g:airline#extensions#ale#close_lnum_symbol = ')'
+
+" Lintツールによるエラー、警告を表示(ALEの拡張)
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#error_symbol = 'E:'
+let g:airline#extensions#ale#warning_symbol = 'W:'
 
 let g:airline#extensions#tabline#buffer_idx_format = {
   \ '0': '0 ',
@@ -227,29 +228,32 @@ let g:deoplete#enable_at_startup = 1
 "}}}
 
 "setting of ale{{{
-" ファイル保存時にLinterを実行する
-"let g:ale_lint_on_save = 1
-"" テキスト変更時にはLinterを実行しない
-"let g:ale_lint_on_text_changed = 'never'
-"" Linter(コードチェックツール)の設定
-"let g:ale_linters = {
-"\   'python': ['flake8', 'mypy'],
-"\}
-"" ファイル保存時にはFixerを時刻しない
-"let g:ale_fix_on_save = 0
-"" テキスト変更時にはFixerを実行しない
-"let g:ale_fix_on_text_changed = 'never'
-"" Fixer(コード整形ツール)の設定
-"let b:ale_fixers = {
-"\   'python': ['autopep8', 'isort'],
-"\}
-"" 余分な空白があるときは警告表示
-"let b:ale_warn_about_trailing_whitespace = 0
-"" ALE実行時にでる目印行を常に表示
-"let g:ale_sign_column_always = 1
+"" エラー行に表示するマーク
+let g:ale_sign_error = '⨉'
+let g:ale_sign_warning = '⚠'
+" エラー行にカーソルをあわせた際に表示されるメッセージフォーマット
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" " エラー表示の列を常時表示
+let g:ale_sign_column_always = 1
 "
-"let g:ale_echo_msg_format = '[%linter%]%code: %%s'
+" " ファイルを開いたときにlint実行
+let g:ale_lint_on_enter = 1
+" " ファイルを保存したときにlint実行
+let g:ale_lint_on_save = 1
+" " 編集中のlintはしない
+let g:ale_lint_on_text_changed = 'never'
 "
+" " lint結果をロケーションリストとQuickFixには表示しない
+" " 出てると結構うざいしQuickFixを書き換えられるのは困る
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 0
+let g:ale_open_list = 0
+let g:ale_keep_list_window_open = 0
+"
+" " 有効にするlinter
+let g:ale_linters = {
+\   'python': ['flake8'],
+\}
 "}}}
 "
 "setting of gitgutter{{{
