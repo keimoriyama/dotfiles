@@ -83,3 +83,6 @@ repo = 'w0rp/ale'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'

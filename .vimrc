@@ -1,4 +1,5 @@
-set number "行番号を表示する set title "編集中のファイル名を表示
+set number "行番号を表示する
+set title "編集中のファイル名を表示
 set showmatch "括弧入力時の対応する括弧を表示
 set tabstop=4 "インデントをスペース4つ分に設定
 set cursorline
@@ -11,7 +12,8 @@ set smartcase "検索文字列に大文字が含まれている場合は区別�
 set wrapscan "検索時に最後まで行ったら最初に戻る
 set clipboard=unnamed,autoselect "クリップボードの有効化
 set ambiwidth=double " □や○文字が崩れる問題を解決
-
+set splitbelow "新しいウィンドウを下に開く
+set splitright "新しいウィンドウを右に開く
 "余計なファイルを作成しない
 set noswapfile
 set nobackup
@@ -264,3 +266,17 @@ else
   let g:gitgutter_sign_column_always = 1
 endif
 "}}}
+
+" setting of quickrun{{{
+
+let g:quickrun_config = get(g:, 'quickrun_config', {})
+let g:quickrun_config._ = {
+      \ 'runner'    : 'vimproc',
+      \ 'runner/vimproc/updatetime' : 60,
+      \ 'outputter' : 'error',
+      \ 'outputter/error/success' : 'buffer',
+      \ 'outputter/error/error'   : 'quickfix',
+      \ 'outputter/buffer/split'  : ':rightbelow 8sp',
+      \ 'outputter/buffer/close_on_empty' : 1,
+      \ }
+    " }}}
