@@ -6,6 +6,7 @@
 .wakatime.log
 
 .python_history
+.DS_Store
 
 .Rhistory
 .zprofile
