@@ -59,15 +59,6 @@ repo = 'vim-jp/vimdoc-ja'
 [[plugins]]
 repo = 'bronson/vim-trailing-whitespace'
 
-# setting of deoplete
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
-
-[[plugins]]
-repo = 'roxma/nvim-yarp'
 
 # setting of colorscheme
 [[plugins]]
@@ -77,9 +68,6 @@ repo = 'joshdick/onedark.vim'
 [[plugins]]
 repo = 'mattn/vim-sonictemplate'
 
-# plugin for lint
-[[plugins]]
-repo = 'w0rp/ale'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
