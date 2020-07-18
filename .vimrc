@@ -134,31 +134,6 @@ if empty(globpath(&rtp, 'autoload/lsp.vim'))
   finish
 endif
 
-function! s:on_lsp_buffer_enabled() abort
-  setlocal omnifunc=lsp#complete
-  setlocal signcolumn=yes
-  nnoremap <buffer> gd :<C-u>LspDefinition<CR>
-  nnoremap <buffer> gD :<C-u>LspReferences<CR>
-  nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
-  nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
-  nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
-  vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
-  nnoremap <buffer> K :<C-u>LspHover<CR>
-  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-endfunction
-
-augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-    augroup END
-command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
-
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:asyncomplete_auto_popup = 1
-let g:asyncomplete_auto_completeopt = 1
-let g:asyncomplete_popup_delay = 200
-
 " color scheme
 colorscheme onedark
 let g:onedark_termcolors=256
@@ -193,7 +168,7 @@ let g:airline#extensions#tabline#buffer_idx_format = {
 " }}}
 
 " setting of nerdtree {{{
-map <C-n> :NERDTreeToggle<CR>
+map <leader>n :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 1
 "}}}
 
@@ -280,3 +255,25 @@ let g:quickrun_config._ = {
      au!
        "au BufEnter * if &buftype !=# 'terminal' | lcd %:p:h | endif
      augroup End
+""""""""""""""""""""""""""""""
+" Unit.vimの設定
+""""""""""""""""""""""""""""""
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+" バッファ一覧
+noremap <C-P> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-N> :Unite -buffer-name=file file<CR>
+" 最近使ったファイルの一覧
+noremap <C-Z> :Unite file_mru<CR>
+" sourcesを「今開いているファイルのディレクトリ」とする
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>

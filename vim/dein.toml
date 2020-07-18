@@ -10,6 +10,10 @@ repo = 'Shougo/vimproc.vim'
 [[plugins]]
 repo = 'Shougo/unite.vim'
 
+" Unite.vimで最近使ったファイルを表示できるようにする
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
 [[plugins]]
 repo = 'Shougo/neocomplete.vim'
 
