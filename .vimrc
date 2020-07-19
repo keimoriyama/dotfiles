@@ -167,11 +167,6 @@ let g:airline#extensions#tabline#buffer_idx_format = {
   \}
 " }}}
 
-" setting of nerdtree {{{
-map <leader>n :NERDTreeToggle<CR>
-let NERDTreeShowHidden = 1
-"}}}
-
 " setting of buffer
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
