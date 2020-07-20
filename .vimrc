@@ -36,19 +36,6 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 
-" setting of copy & paster
-if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
-
-    function XTermPasteBegin(ret)
-      set paste
-      return a:ret
-    endfunction
-
-  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-endif
 " changed leader key to space
 let mapleader = " "
 " F3でハイライトの設定
@@ -69,64 +56,51 @@ if has('persistent_undo')
     exe 'set undodir=' .. undo_path
     set undofile
 endif
-"dein Scripts-----------------------------:u
-if &compatible
-  set nocompatible               " Be iMproved
-endif
 
-" dein.vimインストール時に指定したディレクトリをセット
-let s:dein_dir = expand('~/.cache/dein')
-
-" dein.vimの実体があるディレクトリをセット
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-" dein.vimが存在していない場合はgithubからclone
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+if has('vim_starting')
+  set rtp+=~/.vim/plugged/vim-plug
+  if !isdirectory(expand('~/.vim/plugged/vim-plug'))
+    echo 'install vim-plug...'
+    call system('mkdir -p ~/.vim/plugged/vim-plug')
+    call system('git clone https://github.com/junegunn/vim-plug.git ~/.vim/plugged/vim-plug/autoload')
   endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
-" dein.vimインストール時に指定したディレクトリをセット
-let s:dein_dir = expand('~/.cache/dein')
 
-" dein.vimの実体があるディレクトリをセット
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-" Required:
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+call plug#begin('~/.vim/plugged')
+" インストールしたいプラグインを列挙 (以下は一例)
+Plug 'twitvim/twitvim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'wakatime/vim-wakatime'
+Plug 'jeetsukumaran/vim-nefertiti'
+Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neocomplete.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+Plug 'neoclide/coc.nvim'
+Plug 'vim-jp/vimdoc-ja'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'joshdick/onedark.vim'
+Plug 'mattn/vim-sonictemplate'
+Plug 'airblade/vim-gitgutter'
+Plug 'thinca/vim-quickrun'
+Plug 'tpope/vim-markdown',{'for','markdown'}
+Plug 'kannokanno/previm',{'for','markdown'}
+Plug 'tyru/open-browser.vim',{'for','markdown'}
 
-" Required:
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+" ...
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-  " dein.toml, dein_layz.tomlファイルのディレクトリをセット
-  let s:toml_dir = expand('~/dotfiles/vim')
-
-  " 起動時に読み込むプラグイン群
-  call dein#load_toml(s:toml_dir . '/dein.toml', {'lazy': 0})
-
-  " 遅延読み込みしたいプラグイン群
-  call dein#load_toml(s:toml_dir . '/dein_lazy.toml', {'lazy': 1})
-  " Add or remove your plugins here like this:
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
+call plug#end()
 
 " Required:
 filetype plugin indent on
 syntax enable
 
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-"End dein Scripts-------------------------
 let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
 
 "setting about lsp{{{
