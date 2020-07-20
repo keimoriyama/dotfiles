@@ -70,8 +70,6 @@ endif
 call plug#begin('~/.vim/plugged')
 " インストールしたいプラグインを列挙 (以下は一例)
 Plug 'twitvim/twitvim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'wakatime/vim-wakatime'
 Plug 'jeetsukumaran/vim-nefertiti'
 Plug 'Shougo/vimproc.vim'
@@ -79,20 +77,21 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neocomplete.vim'
 Plug 'Yggdroot/indentLine'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'neoclide/coc.nvim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-jp/vimdoc-ja'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'joshdick/onedark.vim'
 Plug 'mattn/vim-sonictemplate'
 Plug 'airblade/vim-gitgutter'
 Plug 'thinca/vim-quickrun'
-Plug 'tpope/vim-markdown',{'for','markdown'}
-Plug 'kannokanno/previm',{'for','markdown'}
-Plug 'tyru/open-browser.vim',{'for','markdown'}
-
+Plug 'tpope/vim-markdown',{'for':'markdown'}
+Plug 'kannokanno/previm',{'for':'markdown'}
+Plug 'tyru/open-browser.vim',{'for':'markdown'}
+Plug 'lambdalisue/battery.vim'
+Plug 'lambdalisue/wifi.vim'
+Plug 'itchyny/vim-gitbranch'
 " ...
 
 call plug#end()
@@ -100,6 +99,30 @@ call plug#end()
 " Required:
 filetype plugin indent on
 syntax enable
+
+" setting of lightline{{{
+set laststatus=2
+if !has('gui_running')
+    set t_Co=256
+endif
+
+let g:lightline = {
+      \ 'colorscheme': 'onedark',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'modified', 'cwd' ] ],
+      \   'right':[['gitbranch', 'wifi', 'battery']]
+      \ },
+      \ 'component_function': {
+      \   'helloworld': 'Hello, world!',
+      \    'cwd': 'getcwd',
+      \    'gitbranch': 'gitbranch#name',
+      \    'wifi': 'wifi#component',
+      \    'battery': 'battery#component',
+      \ },
+      \}
+" }}}
+
 
 let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
 
@@ -112,34 +135,6 @@ endif
 colorscheme onedark
 let g:onedark_termcolors=256
 
-" settings of airline{{{
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#wordcount#enabled = 0
-let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
-let g:airline_section_c = '%t'
-let g:airline_section_x = '%{&filetype}'
-let g:airline_theme='onedark'
-
-" Lintツールによるエラー、警告を表示(ALEの拡張)
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#ale#error_symbol = 'E:'
-let g:airline#extensions#ale#warning_symbol = 'W:'
-
-let g:airline#extensions#tabline#buffer_idx_format = {
-  \ '0': '0 ',
-  \ '1': '1 ',
-  \ '2': '2 ',
-  \ '3': '3 ',
-  \ '4': '4 ',
-  \ '5': '5 ',
-  \ '6': '6 ',
-  \ '7': '7 ',
-  \ '8': '8 ',
-  \ '9': '9 '
-  \}
-" }}}
 
 " setting of buffer
 nnoremap <silent> <C-j> :bprev<CR>
