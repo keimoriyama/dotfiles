@@ -10,7 +10,6 @@ set laststatus=2
 set ignorecase "大文字/小文字の区別なく検索する
 set smartcase "検索文字列に大文字が含まれている場合は区別して検索する
 set wrapscan "検索時に最後まで行ったら最初に戻る
-set clipboard=unnamed,autoselect "クリップボードの有効化
 set ambiwidth=double " □や○文字が崩れる問題を解決
 set splitbelow "新しいウィンドウを下に開く
 set splitright "新しいウィンドウを右に開く
@@ -38,13 +37,8 @@ nnoremap gj j
 
 " changed leader key to space
 let mapleader = " "
-" F3でハイライトの設定
 nnoremap <C-c> :set hlsearch!<CR>
 
-" スペース + wでファイル保存
-nnoremap <Leader>w :w<CR>
-
-nnoremap <Leader>q :q<CR>
 " スペース + . でvimrcを開く
 nnoremap <Leader>. :new ~/.vimrc<CR>
 
@@ -92,6 +86,10 @@ Plug 'tyru/open-browser.vim',{'for':'markdown'}
 Plug 'lambdalisue/battery.vim'
 Plug 'lambdalisue/wifi.vim'
 Plug 'itchyny/vim-gitbranch'
+Plug 'lambdalisue/fern.vim'
+Plug 'Shougo/defx.nvim',{ 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 " ...
 
 call plug#end()
@@ -114,7 +112,6 @@ let g:lightline = {
       \   'right':[['gitbranch', 'wifi', 'battery']]
       \ },
       \ 'component_function': {
-      \   'helloworld': 'Hello, world!',
       \    'cwd': 'getcwd',
       \    'gitbranch': 'gitbranch#name',
       \    'wifi': 'wifi#component',
@@ -142,7 +139,6 @@ nnoremap <silent> <C-k> :bnext<CR>
 
 " setting for help
 set helplang=ja
-
 
 """ markdown {{{
   autocmd BufRead,BufNewFile *.mkd  set filetype=markdown
@@ -217,27 +213,87 @@ let g:quickrun_config._ = {
 " 開いた箇所を自動的に作業ディレクトリにする
  augroup auto_lcd
      au!
-       "au BufEnter * if &buftype !=# 'terminal' | lcd %:p:h | endif
-     augroup End
-""""""""""""""""""""""""""""""
-" Unit.vimの設定
-""""""""""""""""""""""""""""""
-" 入力モードで開始する
-let g:unite_enable_start_insert=1
-" バッファ一覧
-noremap <C-P> :Unite buffer<CR>
-" ファイル一覧
-noremap <C-N> :Unite -buffer-name=file file<CR>
-" 最近使ったファイルの一覧
-noremap <C-Z> :Unite file_mru<CR>
-" sourcesを「今開いているファイルのディレクトリ」とする
-noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-" ウィンドウを分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-" ウィンドウを縦に分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+     "au BufEnter * if &buftype !=# 'terminal' | lcd %:p:h | endif
+ augroup End
+
+ " settings of defx{{{
+autocmd VimEnter * execute 'Defx'
+nnoremap <silent> <C-n> :<C-u> Defx <CR>
+autocmd FileType defx call s:defx_my_settings()
+
+call defx#custom#option('_', {
+      \ 'winwidth': 40,
+      \ 'split': 'vertical',
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 1,
+      \ 'buffer_name': 'exlorer',
+      \ 'toggle': 1,
+      \ 'resume': 1,
+      \ })
+
+function! s:defx_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+   \ defx#do_action('drop')
+  nnoremap <silent><buffer><expr> c
+  \ defx#do_action('copy')
+  nnoremap <silent><buffer><expr> m
+  \ defx#do_action('move')
+  nnoremap <silent><buffer><expr> p
+  \ defx#do_action('paste')
+  nnoremap <silent><buffer><expr> l
+  \ defx#do_action('drop')
+  nnoremap <silent><buffer><expr> t
+  \ defx#do_action('open','tabnew')
+  nnoremap <silent><buffer><expr> E
+  \ defx#do_action('drop', 'vsplit')
+  nnoremap <silent><buffer><expr> P
+  \ defx#do_action('drop', 'pedit')
+  nnoremap <silent><buffer><expr> o
+  \ defx#do_action('open_or_close_tree')
+  nnoremap <silent><buffer><expr> K
+  \ defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> N
+  \ defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> M
+  \ defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> C
+  \ defx#do_action('toggle_columns',
+  \                'mark:indent:icon:filename:type:size:time')
+  nnoremap <silent><buffer><expr> S
+  \ defx#do_action('toggle_sort', 'time')
+  nnoremap <silent><buffer><expr> d
+  \ defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r
+  \ defx#do_action('rename')
+  nnoremap <silent><buffer><expr> !
+  \ defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> x
+  \ defx#do_action('execute_system')
+  nnoremap <silent><buffer><expr> yy
+  \ defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> .
+  \ defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> ;
+  \ defx#do_action('repeat')
+  nnoremap <silent><buffer><expr> h
+  \ defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> ~
+  \ defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q
+  \ defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Space>
+  \ defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> *
+  \ defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> j
+  \ line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k
+  \ line('.') == 1 ? 'G' : 'k'
+  nnoremap <silent><buffer><expr> <C-l>
+  \ defx#do_action('redraw')
+  nnoremap <silent><buffer><expr> <C-g>
+  \ defx#do_action('print')
+  nnoremap <silent><buffer><expr> cd
+  \ defx#do_action('change_vim_cwd')
+endfunction
+ "}}}
