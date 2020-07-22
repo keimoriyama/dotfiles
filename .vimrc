@@ -86,10 +86,16 @@ Plug 'tyru/open-browser.vim',{'for':'markdown'}
 Plug 'lambdalisue/battery.vim'
 Plug 'lambdalisue/wifi.vim'
 Plug 'itchyny/vim-gitbranch'
-Plug 'lambdalisue/fern.vim'
-Plug 'Shougo/defx.nvim',{ 'do': ':UpdateRemotePlugins' }
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+if has('nvim')
+  Plug 'Shougo/defx.nvim',{ 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'ryanoasis/vim-devicons'
+Plug 'kristijanhusak/defx-git'
+Plug 'kristijanhusak/defx-icons'
 " ...
 
 call plug#end()
@@ -98,138 +104,21 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
-" setting of lightline{{{
-set laststatus=2
-if !has('gui_running')
-    set t_Co=256
-endif
-
-let g:lightline = {
-      \ 'colorscheme': 'onedark',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'modified', 'cwd' ] ],
-      \   'right':[['gitbranch', 'wifi', 'battery']]
-      \ },
-      \ 'component_function': {
-      \    'cwd': 'getcwd',
-      \    'gitbranch': 'gitbranch#name',
-      \    'wifi': 'wifi#component',
-      \    'battery': 'battery#component',
-      \ },
-      \}
-" }}}
-
-
-let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
-
-"setting about lsp{{{
-if empty(globpath(&rtp, 'autoload/lsp.vim'))
-  finish
-endif
-
-" color scheme
-colorscheme onedark
-let g:onedark_termcolors=256
-
-
-" setting of buffer
-nnoremap <silent> <C-j> :bprev<CR>
-nnoremap <silent> <C-k> :bnext<CR>
-
-" setting for help
-set helplang=ja
-
-""" markdown {{{
-  autocmd BufRead,BufNewFile *.mkd  set filetype=markdown
-  autocmd BufRead,BufNewFile *.md  set filetype=markdown
-  nnoremap <silent> <C-p> :PrevimOpen<CR>
-  " 自動で折りたたまないようにする
-  let g:vim_markdown_folding_disabled=1
-  let g:previm_enable_realtime = 1
-" }}}
-
-""" sonictemplate{{{
-  let g:sonictemplate_vim_template_dir = [
-    \ '~/dotfiles/template'
-  \]
-"""}}}
-
-"""setting of indenline{{{
-  let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-"}}}
-
-"setting of ale{{{
-"" エラー行に表示するマーク
-let g:ale_sign_error = '⨉'
-let g:ale_sign_warning = '⚠'
-" エラー行にカーソルをあわせた際に表示されるメッセージフォーマット
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" " エラー表示の列を常時表示
-let g:ale_sign_column_always = 1
-"
-" " ファイルを開いたときにlint実行
-let g:ale_lint_on_enter = 1
-" " ファイルを保存したときにlint実行
-let g:ale_lint_on_save = 1
-" " 編集中のlintはしない
-let g:ale_lint_on_text_changed = 'never'
-"
-" " lint結果をロケーションリストとQuickFixには表示しない
-" " 出てると結構うざいしQuickFixを書き換えられるのは困る
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 0
-let g:ale_open_list = 0
-let g:ale_keep_list_window_open = 0
-"
-" " 有効にするlinter
-let g:ale_linters = {
-\   'python': ['flake8'],
-\}
-"}}}
-"
-"setting of gitgutter{{{
-"" 目印行を常に表示する
-if exists('&signcolumn')  " Vim 7.4.2201
-  set signcolumn=yes
-else
-  let g:gitgutter_sign_column_always = 1
-endif
-"}}}
-
-" setting of quickrun{{{
-
-let g:quickrun_config = get(g:, 'quickrun_config', {})
-let g:quickrun_config._ = {
-      \ 'runner'    : 'vimproc',
-      \ 'runner/vimproc/updatetime' : 60,
-      \ 'outputter' : 'error',
-      \ 'outputter/error/success' : 'buffer',
-      \ 'outputter/error/error'   : 'quickfix',
-      \ 'outputter/buffer/split'  : ':rightbelow 8sp',
-      \ 'outputter/buffer/close_on_empty' : 1,
-      \ }
-    " }}}
-" 開いた箇所を自動的に作業ディレクトリにする
- augroup auto_lcd
-     au!
-     "au BufEnter * if &buftype !=# 'terminal' | lcd %:p:h | endif
- augroup End
-
  " settings of defx{{{
+autocmd BufWritePost * call defx#redraw()
+autocmd BufEnter * call defx#redraw()
 autocmd VimEnter * execute 'Defx'
-nnoremap <silent> <C-n> :<C-u> Defx <CR>
-autocmd FileType defx call s:defx_my_settings()
-
 call defx#custom#option('_', {
-      \ 'winwidth': 40,
+      \ 'winwidth': 30,
       \ 'split': 'vertical',
       \ 'direction': 'topleft',
       \ 'show_ignored_files': 1,
       \ 'buffer_name': 'exlorer',
       \ 'toggle': 1,
       \ 'resume': 1,
+      \ 'columns': 'indent:git:icons:filename:mark',
       \ })
+autocmd FileType defx call s:defx_my_settings()
 
 function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>
@@ -296,4 +185,99 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> cd
   \ defx#do_action('change_vim_cwd')
 endfunction
+
+call defx#custom#column('git', 'indicators', {
+  \ 'Modified'  : '✹',
+  \ 'Staged'    : '✚',
+  \ 'Untracked' : '✭',
+  \ 'Renamed'   : '➜',
+  \ 'Unmerged'  : '═',
+  \ 'Ignored'   : '☒',
+  \ 'Deleted'   : '✖',
+  \ 'Unknown'   : '?'
+  \ })
  "}}}
+
+" setting of lightline{{{
+set laststatus=2
+if !has('gui_running')
+    set t_Co=256
+endif
+
+let g:lightline = {
+      \ 'colorscheme': 'onedark',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'modified', 'cwd' ] ],
+      \   'right':[['gitbranch', 'wifi', 'battery']]
+      \ },
+      \ 'component_function': {
+      \    'cwd': 'getcwd',
+      \    'gitbranch': 'gitbranch#name',
+      \    'wifi': 'wifi#component',
+      \    'battery': 'battery#component',
+      \ },
+      \}
+" }}}
+
+
+let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
+
+"setting about lsp{{{
+if empty(globpath(&rtp, 'autoload/lsp.vim'))
+  finish
+endif
+
+" color scheme
+colorscheme onedark
+let g:onedark_termcolors=256
+
+
+" setting of buffer
+nnoremap <silent> <C-j> :bprev<CR>
+nnoremap <silent> <C-k> :bnext<CR>
+
+" setting for help
+set helplang=ja
+
+""" markdown {{{
+  autocmd BufRead,BufNewFile *.mkd  set filetype=markdown
+  autocmd BufRead,BufNewFile *.md  set filetype=markdown
+  nnoremap <silent> <C-p> :PrevimOpen<CR>
+  " 自動で折りたたまないようにする
+  let g:vim_markdown_folding_disabled=1
+  let g:previm_enable_realtime = 1
+" }}}
+
+""" sonictemplate{{{
+  let g:sonictemplate_vim_template_dir = [
+    \ '~/dotfiles/template'
+  \]
+"""}}}
+
+"""setting of indenline{{{
+  let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+"}}}
+
+"setting of gitgutter{{{
+"" 目印行を常に表示する
+if exists('&signcolumn')  " Vim 7.4.2201
+  set signcolumn=yes
+else
+  let g:gitgutter_sign_column_always = 1
+endif
+"}}}
+
+" setting of quickrun{{{
+
+let g:quickrun_config = get(g:, 'quickrun_config', {})
+let g:quickrun_config._ = {
+      \ 'runner'    : 'vimproc',
+      \ 'runner/vimproc/updatetime' : 60,
+      \ 'outputter' : 'error',
+      \ 'outputter/error/success' : 'buffer',
+      \ 'outputter/error/error'   : 'quickfix',
+      \ 'outputter/buffer/split'  : ':rightbelow 8sp',
+      \ 'outputter/buffer/close_on_empty' : 1,
+      \ }
+" }}}
