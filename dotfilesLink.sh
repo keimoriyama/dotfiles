@@ -62,6 +62,7 @@ fi
 # 手動でリンクを貼る
 ln -sf ~/dotfiles/fish ~/.config/fish
 ln -sf ~/dotfiles/karabiner/ ~/.config/karabiner
+ln -sf ~/dotfiles/.vimrc/ ~/.config/nvim/init.vim
 # 移動できたらリンクを実行する
 for f in .??*
 do

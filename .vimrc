@@ -17,6 +17,7 @@ set splitright "新しいウィンドウを右に開く
 set noswapfile
 set nobackup
 set noundofile
+set clipboard=unnamed
 
 set fileencodings=utf-8
 set laststatus=2
@@ -29,6 +30,11 @@ set softtabstop=2 "連続した空白に対してタブキーやバックスペ�
 set autoindent "改行時に前の行のインデントを継続する
 set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set incsearch
+set termguicolors
+
+highlight Pmenu ctermfg=15 ctermbg=darkcyan guifg=black guibg=darkcyan
+highlight PmenuSel ctermfg=white ctermbg=darkgray guibg=darkgray
+
 
 nnoremap k gk
 nnoremap gk k
@@ -77,6 +83,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-jp/vimdoc-ja'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'joshdick/onedark.vim'
+Plug 'altercation/vim-colors-solarized'
 Plug 'mattn/vim-sonictemplate'
 Plug 'airblade/vim-gitgutter'
 Plug 'thinca/vim-quickrun'
@@ -229,10 +236,8 @@ if empty(globpath(&rtp, 'autoload/lsp.vim'))
 endif
 
 " color scheme
-colorscheme onedark
-let g:onedark_termcolors=256
-
-
+colorscheme solarized
+kkk background=dark
 " setting of buffer
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
