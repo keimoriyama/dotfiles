@@ -40,6 +40,8 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+nnoremap : ;
+nnoremap ; :
 
 " changed leader key to space
 let mapleader = " "
@@ -103,6 +105,8 @@ endif
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-git'
 Plug 'kristijanhusak/defx-icons'
+Plug 't9md/vim-quickhl'
+Plug 'mattn/vim-lexiv'
 " ...
 
 call plug#end()
