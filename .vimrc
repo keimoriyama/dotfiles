@@ -114,7 +114,8 @@ syntax enable
  " settings of defx{{{
 autocmd BufWritePost * call defx#redraw()
 autocmd BufEnter * call defx#redraw()
-autocmd VimEnter * execute 'Defx'
+"autocmd VimEnter * execute 'Defx'
+nnoremap <silent> <C-n> :Defx<CR>
 call defx#custom#option('_', {
       \ 'winwidth': 30,
       \ 'split': 'vertical',
@@ -237,7 +238,7 @@ endif
 
 " color scheme
 colorscheme solarized
-kkk background=dark
+set background=dark
 " setting of buffer
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
