@@ -10,3 +10,6 @@
 
 .Rhistory
 .zprofile
+zlib1g-dev
+libncursesw5-dev
+libreadline-dev
