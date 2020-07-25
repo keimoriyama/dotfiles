@@ -2,6 +2,8 @@
 
 apt-get update
 
+apt-get upgrade
+
 apt install git
 
 apt install build-essential libbz2-dev libdb-dev \
