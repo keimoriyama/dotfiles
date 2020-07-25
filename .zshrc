@@ -7,6 +7,7 @@ fi
 source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "yous/lime"
+zplug 'eendroroy/alien'
 zplug "mollifier/cd-gitroot"
 zplug "hchbaw/opp.zsh", hook-build:"__zsh_version 5.0.8"
 zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 4.3"
@@ -21,9 +22,25 @@ if ! zplug check --verbose; then
     fi
 fi
 
-export LIME_DIR_DISPLAY_COMPONENTS=2
-
 zplug load
+# 左側のプロンプト
+export ALIEN_SECTIONS_LEFT=(
+  exit
+  user
+  path
+  vcs_branch:async
+  vcs_dirty:async
+  newline
+  ssh
+  venv
+  prompt
+)
+
+# 右側のプロンプト
+export ALIEN_SECTIONS_RIGHT=(
+  battery
+  time
+)
 
 
 alias g='git'
