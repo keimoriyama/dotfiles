@@ -1,0 +1,1 @@
+source ~/.zplug/zplug
