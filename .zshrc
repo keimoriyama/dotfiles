@@ -6,8 +6,7 @@ fi
 
 source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "yous/lime"
-zplug 'eendroroy/alien'
+zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme, as:theme
 zplug "mollifier/cd-gitroot"
 zplug "hchbaw/opp.zsh", hook-build:"__zsh_version 5.0.8"
 zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 4.3"
@@ -23,25 +22,8 @@ if ! zplug check --verbose; then
 fi
 
 zplug load
-# 左側のプロンプト
-export ALIEN_SECTIONS_LEFT=(
-  exit
-  user
-  path
-  vcs_branch:async
-  vcs_dirty:async
-  newline
-  ssh
-  venv
-  prompt
-)
-
-# 右側のプロンプト
-export ALIEN_SECTIONS_RIGHT=(
-  battery
-  time
-)
-
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir newline vcs)
+POWERLEVEL9K_MODE='awesome-patched'
 
 alias g='git'
 alias ga='git add'
