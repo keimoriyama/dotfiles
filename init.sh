@@ -12,7 +12,7 @@ if [ "$(uname)" == 'Darwin' ]; then
   #結果を表示
     if [ $str == 'y' ];then
       cd ~/dotfiles
-      source ./bin/brewInstall.sh
+      source ./etc/init/osx/brewInstall.sh
     fi
 fi
 
@@ -24,7 +24,7 @@ if [ "$(uname)" == 'Linux' ]; then
   #結果を表示
     if [ $str == 'y' ];then
       cd ~/dotfiles
-      source ./bin/ubuntuInstall.sh
+      source ./etc/init/linux/ubuntuInstall.sh
     fi
 fi
 
