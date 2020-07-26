@@ -15,6 +15,8 @@ echo "start brew install apps..."
 cd ~/dotfiles/etc/init/osx/
 brew bundle
 
+pip install pynvim pep8
+
 cat << END
 **************************************************
 HOMEBREW INSTALLED! bye.
