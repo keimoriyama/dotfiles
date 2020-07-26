@@ -11,7 +11,7 @@ export PATH=${JAVA_HOME}/bin:${PATH}
 
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
-eval "$(pyenv virtualenv-init -)"
+#eval "$(pyenv virtualenv-init -)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 export TERM=xterm-256color
