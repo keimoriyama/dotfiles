@@ -17,6 +17,13 @@ brew bundle
 
 pip install pynvim pep8
 
+nodebrew install-binary stable
+nodebrew use stable
+
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zshenv
+
+npm install yarn
+
 cat << END
 **************************************************
 HOMEBREW INSTALLED! bye.
