@@ -44,6 +44,8 @@ alias vim='nvim'
 
 alias c='clear'
 
+alias sl='sl -aF'
+
 setopt auto_cd
 
 
