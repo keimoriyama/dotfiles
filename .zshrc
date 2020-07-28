@@ -1,3 +1,11 @@
+autoload -Uz compinit && compinit
+setopt auto_list
+setopt auto_menu
+zstyle ':completion:*:default' menu select=1
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+setopt auto_cd
+
 export ZPLUG_HOME=~/.zplug
 
 if [[ ! -d ~/.zplug ]];then
@@ -13,6 +21,11 @@ zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 4.3"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
 zplug "chrissicool/zsh-256color"
+zplug "peterhurford/git-aliases.zsh"
+# 入力途中に候補をうっすら表示
+zplug "zsh-users/zsh-autosuggestions"
+# ヒストリの補完を強化する
+zplug "zsh-users/zsh-history-substring-search", defer:3
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
