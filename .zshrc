@@ -22,8 +22,6 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
 zplug "chrissicool/zsh-256color"
 zplug "peterhurford/git-aliases.zsh"
-# 入力途中に候補をうっすら表示
-zplug "zsh-users/zsh-autosuggestions"
 # ヒストリの補完を強化する
 zplug "zsh-users/zsh-history-substring-search", defer:3
 
