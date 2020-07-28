@@ -25,6 +25,8 @@ zplug load
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir newline vcs)
 POWERLEVEL9K_MODE='awesome-patched'
 
+setopt no_beep
+
 alias g='git'
 alias ga='git add'
 alias gd='git diff'

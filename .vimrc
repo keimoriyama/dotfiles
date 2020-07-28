@@ -72,7 +72,6 @@ endif
 call plug#begin('~/.vim/plugged')
 " インストールしたいプラグインを列挙 (以下は一例)
 Plug 'twitvim/twitvim'
-Plug 'wakatime/vim-wakatime'
 Plug 'jeetsukumaran/vim-nefertiti'
 Plug 'Shougo/vimproc.vim'
 Plug 'Shougo/unite.vim'
