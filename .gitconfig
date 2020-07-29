@@ -1,0 +1,6 @@
+[url "github:"]
+    InstadOf = https://github.com/
+  InstadOf = git@github.com:
+[user]
+	email = keischwiiz@gmail.com
+	name = keimoriyama

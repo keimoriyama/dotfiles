@@ -12,8 +12,17 @@ brew upgrade
 
 echo "start brew install apps..."
 
-cd ~/dotfiles/bin/
+cd ~/dotfiles/etc/init/osx/
 brew bundle
+
+pip install pynvim pep8
+
+nodebrew install-binary stable
+nodebrew use stable
+
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zshenv
+
+npm install yarn
 
 cat << END
 **************************************************
