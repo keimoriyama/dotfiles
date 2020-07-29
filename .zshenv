@@ -12,3 +12,4 @@ export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 export TERM=xterm-256color
 export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH=~/anaconda3/bin:$PATH
