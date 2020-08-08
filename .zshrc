@@ -1,3 +1,6 @@
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+m:{[:upper:]}={[:lower:]}'
+setopt auto_cd
+
 autoload -Uz compinit && compinit
 setopt auto_list
 setopt auto_menu
@@ -58,8 +61,6 @@ alias vim='nvim'
 alias c='clear'
 
 alias sl='sl -aF'
-
-setopt auto_cd
 
 
 if [[ ! -n $TMUX ]]; then
