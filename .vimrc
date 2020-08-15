@@ -84,7 +84,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-jp/vimdoc-ja'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'joshdick/onedark.vim'
-Plug 'altercation/vim-colors-solarized'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'mattn/vim-sonictemplate'
 Plug 'airblade/vim-gitgutter'
 Plug 'thinca/vim-quickrun'
@@ -209,6 +209,11 @@ call defx#custom#column('git', 'indicators', {
   \ })
  "}}}
 
+" color scheme
+colorscheme PaperColor
+set background=dark
+
+
 " setting of lightline{{{
 set laststatus=2
 if !has('gui_running')
@@ -216,7 +221,7 @@ if !has('gui_running')
 endif
 
 let g:lightline = {
-      \ 'colorscheme': 'onedark',
+      \ 'colorscheme': 'PaperColor',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'modified', 'cwd' ] ],
@@ -239,9 +244,6 @@ if empty(globpath(&rtp, 'autoload/lsp.vim'))
   finish
 endif
 
-" color scheme
-colorscheme solarized
-set background=dark
 " setting of buffer
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
