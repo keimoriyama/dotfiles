@@ -2,9 +2,18 @@
 #include <string>
 #include <boost/foreach.hpp>
 
-int
-main(int argc, char* argv[]) {
-	{{_cursor_}}
+int main(int argc, char *argv[])
+{
+	{
+		{
+			_cursor_
+		}
+	}
 	return 0;
 }
-{{_filter_:boost}}
+{
+	{
+	_filter_:
+		boost
+	}
+}
