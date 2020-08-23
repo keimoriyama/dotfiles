@@ -13,7 +13,6 @@ set wrapscan "検索時に最後まで行ったら最初に戻る
 set ambiwidth=double " □や○文字が崩れる問題を解決
 set splitbelow "新しいウィンドウを下に開く
 set splitright "新しいウィンドウを右に開く
-"余計なファイルを作成しない
 set noswapfile
 set nobackup
 set noundofile
@@ -23,18 +22,17 @@ set fileencodings=utf-8
 set laststatus=2
 set fileformats=unix,dos,mac
 
-set expandtab "タブ入力を複数の空白入力に置き換える
-set tabstop=2 "画面上でタブ文字が占める幅
-set shiftwidth=2 "自動インデントでずれる幅
-set softtabstop=2 "連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
-set autoindent "改行時に前の行のインデントを継続する
-set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set autoindent
+set smartindent
 set incsearch
 set termguicolors
 
 highlight Pmenu ctermfg=15 ctermbg=darkcyan guifg=black guibg=darkcyan
 highlight PmenuSel ctermfg=white ctermbg=darkgray guibg=darkgray
-
 
 nnoremap k gk
 nnoremap gk k
@@ -46,7 +44,6 @@ nnoremap ; :
 " changed leader key to space
 let mapleader = " "
 nnoremap <C-c> :set hlsearch!<CR>
-
 " スペース + . でvimrcを開く
 nnoremap <Leader>. :new ~/.vimrc<CR>
 
@@ -113,6 +110,12 @@ call plug#end()
 " Required:
 filetype plugin indent on
 syntax enable
+
+""" sonictemplate{{{
+  let g:sonictemplate_vim_template_dir = [
+    \ '$HOME/dotfiles/template'
+  \]
+"""}}}
 
  " settings of defx{{{
 autocmd BufWritePost * call defx#redraw()
@@ -237,8 +240,6 @@ let g:lightline = {
 " }}}
 
 
-let g:wakatime_PythonBinary = '/usr/bin/python'  " (Default: 'python')
-
 "setting about lsp{{{
 if empty(globpath(&rtp, 'autoload/lsp.vim'))
   finish
@@ -260,11 +261,6 @@ set helplang=ja
   let g:previm_enable_realtime = 1
 " }}}
 
-""" sonictemplate{{{
-  let g:sonictemplate_vim_template_dir = [
-    \ '~/dotfiles/template'
-  \]
-"""}}}
 
 """setting of indenline{{{
   let g:indentLine_char_list = ['|', '¦', '┆', '┊']

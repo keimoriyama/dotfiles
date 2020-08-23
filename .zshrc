@@ -56,8 +56,6 @@ alias gc='git commit'
 alias python='python3'
 alias pip='pip3'
 
-alias vim='nvim'
-
 alias c='clear'
 
 alias sl='sl -aF'
