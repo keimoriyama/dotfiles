@@ -80,7 +80,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-jp/vimdoc-ja'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'joshdick/onedark.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'mattn/vim-sonictemplate'
 Plug 'airblade/vim-gitgutter'
