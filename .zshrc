@@ -1,13 +1,18 @@
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+m:{[:upper:]}={[:lower:]}'
-setopt auto_cd
-
+## 色を使用出来るようにする
+autoload -Uz colors
+colors
 autoload -Uz compinit && compinit
+compinit
 setopt auto_list
 setopt auto_menu
 zstyle ':completion:*:default' menu select=1
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 setopt auto_cd
+
+## タブ補完時に大文字小文字を区別しない
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 export ZPLUG_HOME=~/.zplug
 
@@ -17,11 +22,13 @@ fi
 
 source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme, as:theme
+#zplug "bhilburn/powerlevel9k", as:theme, depth:1
 zplug "mollifier/cd-gitroot"
 zplug "hchbaw/opp.zsh", hook-build:"__zsh_version 5.0.8"
 zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 4.3"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
+zplug "sindresorhus/pure"
 zplug "zsh-users/zsh-completions"
 zplug "chrissicool/zsh-256color"
 zplug "peterhurford/git-aliases.zsh"
@@ -36,8 +43,19 @@ if ! zplug check --verbose; then
 fi
 
 zplug load
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir newline vcs)
-POWERLEVEL9K_MODE='awesome-patched'
+#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir newline vcs)
+#POWERLEVEL9K_MODE='awesome-patched'
+# optionally define some options
+PURE_CMD_MAX_EXEC_TIME=10
+
+# change the path color
+zstyle :prompt:pure:path color white
+
+# change the color for both `prompt:success` and `prompt:error`
+zstyle ':prompt:pure:prompt:*' color cyan
+# turn on git stash status
+zstyle :prompt:pure:git:stash show yes
+
 
 setopt no_beep
 
@@ -59,7 +77,6 @@ alias pip='pip3'
 alias c='clear'
 
 alias sl='sl -aF'
-
 
 if [[ ! -n $TMUX ]]; then
   tmux new-session
