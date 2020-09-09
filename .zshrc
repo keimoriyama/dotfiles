@@ -1,4 +1,3 @@
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+m:{[:upper:]}={[:lower:]}'
 ## 色を使用出来るようにする
 autoload -Uz colors
 colors
@@ -10,6 +9,7 @@ zstyle ':completion:*:default' menu select=1
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 setopt auto_cd
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+m:{[:upper:]}={[:lower:]}'
 
 ## タブ補完時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -22,7 +22,6 @@ fi
 
 source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-#zplug "bhilburn/powerlevel9k", as:theme, depth:1
 zplug "mollifier/cd-gitroot"
 zplug "hchbaw/opp.zsh", hook-build:"__zsh_version 5.0.8"
 zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 4.3"
@@ -43,9 +42,8 @@ if ! zplug check --verbose; then
 fi
 
 zplug load
-#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir newline vcs)
-#POWERLEVEL9K_MODE='awesome-patched'
-# optionally define some options
+
+autoload -U promptinit; promptinit
 PURE_CMD_MAX_EXEC_TIME=10
 
 # change the path color
@@ -53,9 +51,10 @@ zstyle :prompt:pure:path color white
 
 # change the color for both `prompt:success` and `prompt:error`
 zstyle ':prompt:pure:prompt:*' color cyan
+zstyle ':prompt:pure:path' color blue
+
 # turn on git stash status
 zstyle :prompt:pure:git:stash show yes
-
 
 setopt no_beep
 
