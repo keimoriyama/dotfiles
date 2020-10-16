@@ -30,6 +30,7 @@ set autoindent
 set smartindent
 set incsearch
 set termguicolors
+set backspace=2
 
 highlight Pmenu ctermfg=15 ctermbg=darkcyan guifg=black guibg=darkcyan
 highlight PmenuSel ctermfg=white ctermbg=darkgray guibg=darkgray
