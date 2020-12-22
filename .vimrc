@@ -288,3 +288,8 @@ let g:quickrun_config._ = {
       \ 'outputter/buffer/close_on_empty' : 1,
       \ }
 " }}}
+
+"setting of kite{{{
+" All the languages Kite supports
+let g:kite_supported_languages = ['*']
+"}}}
