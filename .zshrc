@@ -75,8 +75,6 @@ alias pip='pip3'
 
 alias c='clear'
 
-alias sl='sl -aF'
-
 if [[ ! -n $TMUX ]]; then
   tmux new-session
 fi
