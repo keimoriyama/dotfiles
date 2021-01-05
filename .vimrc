@@ -78,7 +78,6 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'NLKNguyen/papercolor-theme'
@@ -91,6 +90,10 @@ Plug 'tyru/open-browser.vim',{'for':'markdown'}
 Plug 'lambdalisue/battery.vim'
 Plug 'lambdalisue/wifi.vim'
 Plug 'itchyny/vim-gitbranch'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 if has('nvim')
   Plug 'Shougo/defx.nvim',{ 'do': ':UpdateRemotePlugins' }
 else
