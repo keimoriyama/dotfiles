@@ -1,8 +1,8 @@
 export PLATFORM
 
-DOTPATH=~/dotfiles
+DOTPATH=~/.dotfiles
 
-GITHUB_URL=https://github.com/keimoriyama/dotfiles
+GITHUB_URL=https://github.com/keimoriyama/.dotfiles
 
 if [ "$(uname)" == 'Darwin' ]; then
   #プロンプトをechoを使って表示
@@ -11,7 +11,7 @@ if [ "$(uname)" == 'Darwin' ]; then
   read str
   #結果を表示
     if [ $str == 'y' ];then
-      cd ~/dotfiles
+      cd ~/.dotfiles
       source ./etc/init/osx/brewInstall.sh
     fi
 fi
@@ -23,7 +23,7 @@ if [ "$(uname)" == 'Linux' ]; then
   read str
   #結果を表示
     if [ $str == 'y' ];then
-      cd ~/dotfiles
+      cd ~/.dotfiles
       source ./etc/init/linux/ubuntuInstall.sh
     fi
 fi
@@ -38,7 +38,7 @@ if [ $ans == 'y' ];then
 
   # 使えない場合は curl か wget を使用する
   elif type "curl" || type "wget"; then
-      tarball="https://github.com/keimoriyama/dotfiles/archive/master.tar.gz"
+      tarball="https://github.com/keimoriyama/.dotfiles/archive/master.tar.gz"
 
       # どっちかでダウンロードして，tar に流す
       if type "curl"; then
@@ -56,15 +56,15 @@ if [ $ans == 'y' ];then
       die "curl or wget required"
   fi
 
-  cd ~/dotfiles
+  cd ~/.dotfiles
   if [ $? -ne 0 ]; then
       die "not found: $DOTPATH"
   fi
 fi
 # 手動でリンクを貼る
-ln -sf ~/dotfiles/fish ~/.config/fish
-ln -sf ~/dotfiles/karabiner/ ~/.config/karabiner
-ln -sf ~/dotfiles/.vimrc ~/.config/nvim/init.vim
+ln -sf ~/.dotfiles/fish ~/.config/fish
+ln -sf ~/.dotfiles/karabiner/ ~/.config/karabiner
+ln -sf ~/.dotfiles/nvim/init.vim ~/.config/nvim/init.vim
 # 移動できたらリンクを実行する
 for f in .??*
 do
