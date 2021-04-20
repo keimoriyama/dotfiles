@@ -28,6 +28,8 @@ if !filereadable(vimplug_exists)
   autocmd VimEnter * PlugInstall
 endif
 
+let g:python3_host_prog = expand('~/miniforge3/envs/vim')
+
 " Required:
 call plug#begin(expand('~/.config/nvim/plugged'))
 
@@ -532,6 +534,7 @@ else
 endif
 
 " latex
+let g:tex_flavor = "latex"
 let g:vimtex_compiler_latexmk_engines = {'_': '-pdfdvi'}
 let g:vimtex_view_method= 'skim'
 let g:vimtex_quickfix_latexlog = {'default': 0}
