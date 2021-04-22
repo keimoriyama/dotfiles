@@ -53,6 +53,7 @@ Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 Plug 'tomasr/molokai'
 Plug 'lervag/vimtex'
+Plug 'mattn/vim-sonictemplate'
 
 
 if isdirectory('/usr/local/opt/fzf')
@@ -250,7 +251,7 @@ let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
-nnoremap <silent> <F3> :NERDTreeToggle<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
 
 " grep.vim
 nnoremap <silent> <leader>f :Rgrep<CR>
@@ -538,3 +539,9 @@ let g:tex_flavor = "latex"
 let g:vimtex_compiler_latexmk_engines = {'_': '-pdfdvi'}
 let g:vimtex_view_method= 'skim'
 let g:vimtex_quickfix_latexlog = {'default': 0}
+
+
+" sonic template
+let g:sonictemplate_vim_template_dir = [
+      \ '~/.dotfiles/template'
+      \]
