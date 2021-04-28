@@ -15,3 +15,4 @@ lib*
 .config/nvim/autoload/
 .config/nvim/plugged/
 .config/session/
+.config/coc/
