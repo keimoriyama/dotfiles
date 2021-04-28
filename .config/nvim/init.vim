@@ -80,20 +80,23 @@ Plug 'honza/vim-snippets'
 "" Custom bundles
 "*****************************************************************************
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+
 " c
-Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
-Plug 'ludwig/split-manpage.vim'
+"Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
+"Plug 'ludwig/split-manpage.vim'
 
 
 " javascript
 "" Javascript Bundle
-Plug 'jelera/vim-javascript-syntax'
+"Plug 'jelera/vim-javascript-syntax'
 
 
 " python
 "" Python Bundle
-Plug 'davidhalter/jedi-vim'
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+"Plug 'davidhalter/jedi-vim'
+"Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 
 
 "*****************************************************************************
@@ -440,39 +443,40 @@ nnoremap <Leader>o :.Gbrowse<CR>
 "*****************************************************************************
 
 " c
-autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
-autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
-
-
-" javascript
-let g:javascript_enable_domhtmlcss = 1
-
-" vim-javascript
-augroup vimrc-javascript
-  autocmd!
-  autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
-augroup END
-
-
-" python
-" vim-python
-augroup vimrc-python
-  autocmd!
-  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
-      \ formatoptions+=croq softtabstop=4
-      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-augroup END
-
-" jedi-vim
-let g:jedi#popup_on_dot = 0
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>d"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#show_call_signatures = "0"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#smart_auto_mappings = 0
+"autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
+"autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
+"
+"
+"" javascript
+"let g:javascript_enable_domhtmlcss = 1
+"
+"" vim-javascript
+"augroup vimrc-javascript
+"  autocmd!
+"  autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
+"augroup END
+"
+"
+"" python
+"" vim-python
+"augroup vimrc-python
+"  autocmd!
+"  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
+"      \ formatoptions+=croq softtabstop=4
+"      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+"augroup END
+"
+"
+"" jedi-vim
+"let g:jedi#popup_on_dot = 0
+"let g:jedi#goto_assignments_command = "<leader>g"
+"let g:jedi#goto_definitions_command = "<leader>d"
+"let g:jedi#documentation_command = "K"
+"let g:jedi#usages_command = "<leader>n"
+"let g:jedi#rename_command = "<leader>r"
+"let g:jedi#show_call_signatures = "0"
+"let g:jedi#completions_command = "<C-Space>"
+"let g:jedi#smart_auto_mappings = 0
 
 " ale
 :call extend(g:ale_linters, {

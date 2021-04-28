@@ -1,11 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 
-int main(int argc, char *argv[])
+int main()
 {
 	{{_cursor_}}
 	return 0;
