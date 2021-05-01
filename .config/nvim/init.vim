@@ -1,4 +1,4 @@
-" vim-bootstrap 2021-04-18 07:53:35
+" vim-bootstrap 2021-05-01 03:18:03
 
 "*****************************************************************************
 "" Vim-Plug core
@@ -10,7 +10,7 @@ else
   let curl_exists=expand('curl')
 endif
 
-let g:vim_bootstrap_langs = "c,javascript,python"
+let g:vim_bootstrap_langs = ""
 let g:vim_bootstrap_editor = "nvim"				" nvim or vim
 let g:vim_bootstrap_theme = "molokai"
 let g:vim_bootstrap_frams = ""
@@ -27,8 +27,6 @@ if !filereadable(vimplug_exists)
 
   autocmd VimEnter * PlugInstall
 endif
-
-let g:python3_host_prog = expand('~/miniforge3/envs/vim')
 
 " Required:
 call plug#begin(expand('~/.config/nvim/plugged'))
@@ -53,8 +51,10 @@ Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 Plug 'tomasr/molokai'
 Plug 'lervag/vimtex'
-Plug 'mattn/vim-sonictemplate'
-
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -79,25 +79,6 @@ Plug 'honza/vim-snippets'
 "*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
-
-" c
-"Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
-"Plug 'ludwig/split-manpage.vim'
-
-
-" javascript
-"" Javascript Bundle
-"Plug 'jelera/vim-javascript-syntax'
-
-
-" python
-"" Python Bundle
-"Plug 'davidhalter/jedi-vim'
-"Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-
 
 "*****************************************************************************
 "*****************************************************************************
@@ -156,6 +137,8 @@ let g:session_directory = "~/.config/nvim/session"
 let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
+
+let g:python3_host_prog = expand('/Users/kei/miniforge3/bin/python3')
 
 "*****************************************************************************
 "" Visual Settings
@@ -254,7 +237,7 @@ let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <silent> <F3> :NERDTreeToggle<CR>
 
 " grep.vim
 nnoremap <silent> <leader>f :Rgrep<CR>
@@ -442,53 +425,6 @@ nnoremap <Leader>o :.Gbrowse<CR>
 "" Custom configs
 "*****************************************************************************
 
-" c
-"autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
-"autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
-"
-"
-"" javascript
-"let g:javascript_enable_domhtmlcss = 1
-"
-"" vim-javascript
-"augroup vimrc-javascript
-"  autocmd!
-"  autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
-"augroup END
-"
-"
-"" python
-"" vim-python
-"augroup vimrc-python
-"  autocmd!
-"  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
-"      \ formatoptions+=croq softtabstop=4
-"      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-"augroup END
-"
-"
-"" jedi-vim
-"let g:jedi#popup_on_dot = 0
-"let g:jedi#goto_assignments_command = "<leader>g"
-"let g:jedi#goto_definitions_command = "<leader>d"
-"let g:jedi#documentation_command = "K"
-"let g:jedi#usages_command = "<leader>n"
-"let g:jedi#rename_command = "<leader>r"
-"let g:jedi#show_call_signatures = "0"
-"let g:jedi#completions_command = "<C-Space>"
-"let g:jedi#smart_auto_mappings = 0
-
-" ale
-:call extend(g:ale_linters, {
-    \'python': ['flake8'], })
-
-" vim-airline
-let g:airline#extensions#virtualenv#enabled = 1
-
-" Syntax highlight
-let python_highlight_all = 1
-
-
 
 "*****************************************************************************
 "*****************************************************************************
@@ -543,9 +479,31 @@ let g:tex_flavor = "latex"
 let g:vimtex_compiler_latexmk_engines = {'_': '-pdfdvi'}
 let g:vimtex_view_method= 'skim'
 let g:vimtex_quickfix_latexlog = {'default': 0}
+let g:vimtex_compiler_progname = 'nvr'
 
 
-" sonic template
-let g:sonictemplate_vim_template_dir = [
-      \ '~/.dotfiles/template'
-      \]
+" neosnippet 用の設定                                                                    {{{
+" ==============================================
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+let s:my_snippet = "~/.dotfiles/tempalte/"
+let g:neosnippet#snippets_directory = s:my_snippet
+
