@@ -84,24 +84,8 @@ Plug 'Shougo/neosnippet-snippets'
 "" Custom bundles
 "*****************************************************************************
 
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
-
-" c
-"Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
-"Plug 'ludwig/split-manpage.vim'
-
-
-" javascript
-"" Javascript Bundle
-"Plug 'jelera/vim-javascript-syntax'
-
-
-" python
-"" Python Bundle
-"Plug 'davidhalter/jedi-vim'
-"Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
 
 "*****************************************************************************
 "*****************************************************************************
