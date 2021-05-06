@@ -567,5 +567,5 @@ endif
 " ==============================================
 " neosnippet 用の設定                                                                    }}}
 " ==============================================
-let s:my_snippet = "~/.dotfiles/tempalte/"
+let s:my_snippet = "~/.dotfiles/template/"
 let g:neosnippet#snippets_directory = s:my_snippet
