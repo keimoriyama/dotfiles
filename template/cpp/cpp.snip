@@ -9,6 +9,12 @@ snippet main
 
     int main()
     {
-        
+        ${1:start}
         return 0;
     }
+
+snippet print_vector
+    for(${1:type} x : ${2:vector}){
+        cout << x << " ";
+    }
+    cout << endl;
