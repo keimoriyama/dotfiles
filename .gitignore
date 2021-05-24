@@ -16,3 +16,4 @@ lib*
 .config/nvim/plugged/
 .config/session/
 .config/coc/
+.config/gcloud/
