@@ -96,3 +96,7 @@ if [ -f '/Users/kei/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kei/google-
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kei/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kei/google-cloud-sdk/completion.zsh.inc'; fi
+
+if [[ ! -n $TMUX ]]; then
+  tmux new-session
+fi
