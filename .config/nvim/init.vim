@@ -137,7 +137,9 @@ if exists('$SHELL')
 else
     set shell=/bin/sh
 endif
-
+nnoremap <silent>bp :bprevious<CR>
+nnoremap <silent>bn :bnext<CR>
+nnoremap <silent>bb :b#<CR>
 " session management
 let g:session_directory = "~/.config/nvim/session"
 let g:session_autoload = "no"
