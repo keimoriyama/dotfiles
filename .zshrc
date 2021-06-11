@@ -100,3 +100,4 @@ if [ -f '/Users/kei/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kei/g
 if [[ ! -n $TMUX ]]; then
   tmux new-session
 fi
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

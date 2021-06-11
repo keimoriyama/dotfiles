@@ -23,43 +23,43 @@
 #		endsnippet
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
-snippet main ['basic main function' [b]]
-	#include <string>
-	#include <iostream>
-	#include <vector>
-	#include <algorithm>
+snippet main 
+#include <string>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
-	using namespace std;
+using namespace std;
 
-	int main()
-	{
-		${1}
-		return 0;
-	}
+int main()
+{
+	${1}
+	return 0;
+}
 endsnippet
 
 snippet print_1d_vector
-	for(${1:type of vector} x : ${2:vector}){
-		cout << x << " ";
-	}
-	cout << endl;
+for(${1:type of vector} x : ${2:vector}){
+	cout << x << " ";
+}
+cout << endl;
 endsnippet
 
 snippet print_2d_vector
-	for(int ${1:index} = 0; $1 < ${2:vector}.size(); $1++){
-		for(int ${3:index2} = 0; $3 < $2[$1].size(); $2++)
-			cout << $2[$1][$3] << " ";
-		cout << endl;
-	}
+for(int ${1:index} = 0; $1 < ${2:vector}.size(); $1++){
+	for(int ${3:index2} = 0; $3 < $2[$1].size(); $3++)
+		cout << $2[$1][$3] << " ";
+	cout << endl;
+}
 endsnippet
 
 snippet graph
-	struct Edge{
-		int from, to, dist;
-		Edge (int a, int b, int c){
-			from = a;
-			to = b;
-			dist = c;
-		}
-	};
+struct Edge{
+	int from, to, dist;
+	Edge (int a, int b, int c){
+		from = a;
+		to = b;
+		dist = c;
+	}
+};
 endsnippet

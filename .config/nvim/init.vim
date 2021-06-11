@@ -38,8 +38,6 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -55,7 +53,9 @@ Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 Plug 'tomasr/molokai'
 Plug 'lervag/vimtex'
-Plug 'mattn/vim-sonictemplate'
+Plug 'tpope/vim-surround'
+Plug 'cohama/lexima.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -137,9 +137,8 @@ if exists('$SHELL')
 else
     set shell=/bin/sh
 endif
-nnoremap <silent>bp :bprevious<CR>
-nnoremap <silent>bn :bnext<CR>
-nnoremap <silent>bb :b#<CR>
+nnoremap <C-b><C-p> :bprevious<CR>
+nnoremap <C-b><C-n> :bnext<CR>
 " session management
 let g:session_directory = "~/.config/nvim/session"
 let g:session_autoload = "no"
@@ -232,18 +231,6 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
-
-"" NERDTree configuration
-let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 50
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-nnoremap <silent> <F2> :NERDTreeFind<CR>
-nnoremap <C-n> :NERDTreeToggle<CR>
 
 " grep.vim
 nnoremap <silent> <leader>f :Rgrep<CR>
@@ -534,51 +521,18 @@ let g:vimtex_view_method= 'skim'
 let g:vimtex_quickfix_latexlog = {'default': 0}
 let g:vimtex_compiler_progname = 'nvr'
 
-
 let g:vimtex_syntax_conceal_default = 0
-
-" sonic template
-let g:sonictemplate_vim_template_dir = [
-      \ '~/.dotfiles/template'
-      \]
-
-" neosnippet 用の設定                                                                    {{{
-" ==============================================
-
-" Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-" ==============================================
-" neosnippet 用の設定                                                                    }}}
-" ==============================================
-let s:my_snippet = "~/.dotfiles/template/"
-let g:neosnippet#snippets_directory = s:my_snippet
 
 " setting of coc
 
 let g:coc_global_extentions = [
             \ 'coc-snippets'
-            \, 'coc-python'
+            \, 'coc-pyright'
             \, 'coc-vimtex'
             \, 'coc-json'
             \, 'coc-clangd'
+            \, 'coc-elixir'
+            \, 'coc-explorer'
             \, ]
 
 " Use <C-l> for trigger snippet expand.
@@ -593,8 +547,9 @@ let g:coc_snippet_next = '<c-j>'
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
 let g:coc_snippet_prev = '<c-k>'
 
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
+
+nmap <C-d><C-j> <Plug>(coc-definition)
+
+:nnoremap <C-n> :CocCommand explorer<CR>
