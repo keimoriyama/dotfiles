@@ -3,6 +3,7 @@
 "python.pythonPath":"~/miniforge3/bin/python3",
 "coc.preferences.formatOnType": true,
  "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh",
+ "explorer.icon.enableNerdfont":"true",
  "explorer.keyMappings.global": {
     "i": false, // cancel default mapkey
 
