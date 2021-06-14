@@ -56,6 +56,9 @@ Plug 'lervag/vimtex'
 Plug 'tpope/vim-surround'
 Plug 'cohama/lexima.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'tpope/vim-commentary'
+Plug 'preservim/tagbar'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -82,6 +85,7 @@ Plug 'Shougo/neosnippet-snippets'
 "*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
+
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
@@ -113,7 +117,7 @@ set fileencodings=utf-8
 set backspace=indent,eol,start
 set nospell
 "" Tabs. May be overridden by autocmd rules
-set tabstop=4
+set tabstop=2
 set softtabstop=0
 set shiftwidth=4
 set expandtab
@@ -525,7 +529,7 @@ let g:vimtex_syntax_conceal_default = 0
 
 " setting of coc
 
-let g:coc_global_extentions = [
+let g:coc_global_extensions = [
             \ 'coc-snippets'
             \, 'coc-pyright'
             \, 'coc-vimtex'
@@ -533,7 +537,9 @@ let g:coc_global_extentions = [
             \, 'coc-clangd'
             \, 'coc-elixir'
             \, 'coc-explorer'
+            \, 'coc-html'
             \, ]
+
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
@@ -552,7 +558,7 @@ xmap <leader>x  <Plug>(coc-convert-snippet)
 
 nmap <C-d><C-j> <Plug>(coc-definition)
 
-:nnoremap <C-n> :CocCommand explorer<CR>
+nnoremap <C-n> :CocCommand explorer<CR>
 
 let g:coc_explorer_global_presets = {
 \   '.vim': {
@@ -597,3 +603,7 @@ let g:coc_explorer_global_presets = {
 \     'sources': [{'name': 'buffer', 'expand': v:true}]
 \   },
 \ }
+
+""" setting of tagbar
+
+nnoremap <C-t> :TagbarToggle<CR>

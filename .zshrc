@@ -74,6 +74,7 @@ alias python='python3'
 alias pip='pip3'
 
 alias c='clear'
+alias vim='nvim'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
