@@ -47,7 +47,6 @@ Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/CSApprox'
 Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
-Plug 'dense-analysis/ale'
 Plug 'Yggdroot/indentLine'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
@@ -141,8 +140,6 @@ if exists('$SHELL')
 else
     set shell=/bin/sh
 endif
-nnoremap <C-b><C-p> :bprevious<CR>
-nnoremap <C-b><C-n> :bnext<CR>
 " session management
 let g:session_directory = "~/.config/nvim/session"
 let g:session_autoload = "no"
@@ -208,6 +205,8 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 " search will center on the line it's found in.
 nnoremap n nzzzv
 nnoremap N Nzzzv
+
+
 
 if exists("*fugitive#statusline")
   set statusline+=%{fugitive#statusline()}
@@ -355,17 +354,9 @@ nnoremap <silent> <leader>e :FZF -m<CR>
 "Recovery commands from history through FZF
 nmap <leader>y :History:<CR>
 
-" snippets
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-let g:UltiSnipsEditSplit="vertical"
-
-" ale
-let g:ale_linters = {}
 
 " Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
+nnoremap <C-t> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 " Disable visualbell
@@ -390,13 +381,9 @@ if has('macunix')
 endif
 
 "" Buffer nav
-noremap <leader>z :bp<CR>
-noremap <leader>q :bp<CR>
-noremap <leader>x :bn<CR>
-noremap <leader>w :bn<CR>
-
-"" Close buffer
-noremap <leader>c :bd<CR>
+nnoremap <Leader>bp :bprevious<CR>
+nnoremap <Leader>bn :bnext<CR>
+nnoremap <Leader>bd :bd<CR>
 
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
@@ -421,46 +408,6 @@ nnoremap <Leader>o :.Gbrowse<CR>
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
-
-" c
-"autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
-"autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
-"
-"
-"" javascript
-"let g:javascript_enable_domhtmlcss = 1
-"
-"" vim-javascript
-"augroup vimrc-javascript
-"  autocmd!
-"  autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
-"augroup END
-"
-"
-"" python
-"" vim-python
-"augroup vimrc-python
-"  autocmd!
-"  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
-"      \ formatoptions+=croq softtabstop=4
-"      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-"augroup END
-"
-"
-"" jedi-vim
-"let g:jedi#popup_on_dot = 0
-"let g:jedi#goto_assignments_command = "<leader>g"
-"let g:jedi#goto_definitions_command = "<leader>d"
-"let g:jedi#documentation_command = "K"
-"let g:jedi#usages_command = "<leader>n"
-"let g:jedi#rename_command = "<leader>r"
-"let g:jedi#show_call_signatures = "0"
-"let g:jedi#completions_command = "<C-Space>"
-"let g:jedi#smart_auto_mappings = 0
-
-" ale
-:call extend(g:ale_linters, {
-    \'python': ['flake8'], })
 
 " vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
@@ -604,6 +551,4 @@ let g:coc_explorer_global_presets = {
 \   },
 \ }
 
-""" setting of tagbar
 
-nnoremap <C-t> :TagbarToggle<CR>
