@@ -309,7 +309,6 @@ noremap <Leader>gs :Gstatus<CR>
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
-
 " session management
 nnoremap <leader>so :OpenSession<Space>
 nnoremap <leader>ss :SaveSession<Space>
@@ -409,9 +408,9 @@ nnoremap <Leader>o :.Gbrowse<CR>
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
-nmap <C-d><C-j> <Plug>(coc-definition)
+nmap <Leader>cd <Plug>(coc-definition)
 
-nnoremap <C-n> :CocCommand explorer<CR>
+nnoremap <Leader>n :CocCommand explorer<CR>
 
 "*****************************************************************************
 "*****************************************************************************
