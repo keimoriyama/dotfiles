@@ -405,7 +405,6 @@ vnoremap K :m '<-2<CR>gv=gv
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
 
-nnoremap <Leader>ht :noh<CR>
 
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
@@ -413,18 +412,6 @@ xmap <leader>x  <Plug>(coc-convert-snippet)
 nmap <C-d><C-j> <Plug>(coc-definition)
 
 nnoremap <C-n> :CocCommand explorer<CR>
-
-"*****************************************************************************
-"" Custom configs
-"*****************************************************************************
-
-" vim-airline
-let g:airline#extensions#virtualenv#enabled = 1
-
-" Syntax highlight
-let python_highlight_all = 1
-
-
 
 "*****************************************************************************
 "*****************************************************************************
