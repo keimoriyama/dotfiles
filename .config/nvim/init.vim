@@ -57,6 +57,7 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'elixir-editors/vim-elixir'
 Plug 'tpope/vim-commentary'
 Plug 'preservim/tagbar'
+Plug 'mhinz/vim-mix-format'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -537,4 +538,12 @@ let g:coc_explorer_global_presets = {
 \   },
 \ }
 
+
+""" setting of elixir formatting
+
+let g:mix_format_on_save = 1
+
+let g:mix_format_options = '--check-equivalent'
+
+let g:mix_format_silent_errors = 1
 
