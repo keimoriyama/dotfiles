@@ -479,6 +479,9 @@ let g:coc_global_extensions = [
             \, 'coc-elixir'
             \, 'coc-explorer'
             \, 'coc-html'
+            \, 'coc-tsserver'
+            \, 'coc-prettier'
+            \, 'coc-eslint'
             \, ]
 
 
