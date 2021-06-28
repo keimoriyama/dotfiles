@@ -482,6 +482,7 @@ let g:coc_global_extensions = [
             \, 'coc-tsserver'
             \, 'coc-prettier'
             \, 'coc-eslint'
+            \, 'coc-docker'
             \, ]
 
 
