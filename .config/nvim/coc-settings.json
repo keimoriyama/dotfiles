@@ -2,7 +2,6 @@
 "snippets.userSnippetsDirectory": "~/.dotfiles/template/",
 "python.pythonPath":"~/miniforge3/bin/python3",
 "python.formatting.provider":"yapf",
-"python.organizeimports.provider": "isort",
 "coc.preferences.formatOnType": true,
  "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh",
  "explorer.icon.enableNerdfont":"true",
@@ -89,7 +88,8 @@
   "coc.preferences.formatOnSaveFiletypes":[
     "cpp",
     "python",
-    "javascript"
+    "javascript",
+    "html"
   ]
 }
 
