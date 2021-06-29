@@ -4,9 +4,9 @@
 "python.formatting.provider":"yapf",
 "coc.preferences.formatOnType": true,
  "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh",
- "explorer.icon.enableNerdfont":"true",
+ "explorer.icon.enableNerdfont":true,
  "explorer.keyMappings.global": {
-    "i": false, // cancel default mapkey
+    "i": false, 
 
     "*": "toggleSelection",
     "<tab>": "actionMenu",
