@@ -102,3 +102,13 @@ if [[ ! -n $TMUX ]]; then
   tmux new-session
 fi
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+function gitMain(){
+    git config --global user.name "keimoriyama"
+    git config --global user.email "keischwiiz@gmail.com"
+}
+
+function gitIntern(){
+    git config --global user.name "keimoriyama097"
+    git config --global user.email "kei.moriyama@hogeticlab.com"
+}
