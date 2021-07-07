@@ -11,3 +11,21 @@ export TERM=xterm-256color
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH=~/anaconda3/bin:$PATH
 export PATH=$PATH:~/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin
+alias g='git'
+alias ga='git add'
+alias gd='git diff'
+alias gs='git status'
+alias gp='git push'
+alias gpo='git push origin'
+alias gb='git branch'
+alias gst='git status'
+alias gco='git checkout'
+alias gf='git fetch'
+alias gc='git commit'
+
+alias python='python3'
+alias pip='pip3'
+
+alias c='clear'
+alias vim='nvim'
+

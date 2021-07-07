@@ -1,3 +1,14 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+if [[ ! -n $TMUX ]]; then
+  tmux new-session
+fi
+
 ## 色を使用出来るようにする
 autoload -Uz colors
 colors
@@ -27,13 +38,13 @@ zplug "hchbaw/opp.zsh", hook-build:"__zsh_version 5.0.8"
 zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version 4.3"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
-zplug "sindresorhus/pure"
+#zplug "romkatv/powerlevel10k"
 zplug "zsh-users/zsh-completions"
 zplug "chrissicool/zsh-256color"
 zplug "peterhurford/git-aliases.zsh"
 # ヒストリの補完を強化する
 zplug "zsh-users/zsh-history-substring-search", defer:3
-
+zplug romkatv/powerlevel10k, as:theme, depth:1
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
     if read -q; then
@@ -46,51 +57,7 @@ zplug load
 autoload -U promptinit; promptinit
 PURE_CMD_MAX_EXEC_TIME=10
 
-# change the path color
-zstyle :prompt:pure:path color white
-
-# change the color for both `prompt:success` and `prompt:error`
-zstyle ':prompt:pure:prompt:*' color cyan
-zstyle ':prompt:pure:path' color blue
-
-# turn on git stash status
-zstyle :prompt:pure:git:stash show yes
-
 setopt no_beep
-
-alias g='git'
-alias ga='git add'
-alias gd='git diff'
-alias gs='git status'
-alias gp='git push'
-alias gpo='git push origin'
-alias gb='git branch'
-alias gst='git status'
-alias gco='git checkout'
-alias gf='git fetch'
-alias gc='git commit'
-
-alias python='python3'
-alias pip='pip3'
-
-alias c='clear'
-alias vim='nvim'
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/kei/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/kei/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/Users/kei/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/kei/miniforge3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kei/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kei/google-cloud-sdk/path.zsh.inc'; fi
@@ -98,9 +65,6 @@ if [ -f '/Users/kei/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kei/google-
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kei/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kei/google-cloud-sdk/completion.zsh.inc'; fi
 
-if [[ ! -n $TMUX ]]; then
-  tmux new-session
-fi
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 function gitMain(){
@@ -112,3 +76,10 @@ function gitIntern(){
     git config --global user.name "keimoriyama097"
     git config --global user.email "kei.moriyama@hogeticlab.com"
 }
+
+# opam configuration
+test -r /Users/kei/.opam/opam-init/init.zsh && . /Users/kei/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
