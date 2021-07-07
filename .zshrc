@@ -78,3 +78,4 @@ test -r /Users/kei/.opam/opam-init/init.zsh && . /Users/kei/.opam/opam-init/init
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 unset TMPDIR
+eval "$(/opt/homebrew/bin/brew shellenv)"
