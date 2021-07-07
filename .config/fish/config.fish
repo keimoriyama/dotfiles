@@ -3,6 +3,9 @@ if status is-interactive
 end
 set PATH /usr/local/opt/llvm/bin $PATH 
 set PATH ~/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin $PATH
+set PATH ~/.nodebrew/current/bin $PATH
+
+eval (/opt/homebrew/bin/brew shellenv)
 
 alias g='git'
 alias ga='git add'
@@ -21,3 +24,14 @@ alias pip='pip3'
 
 alias c='clear'
 alias vim='nvim'
+
+if test -z $TMUX
+  tmux new-session
+end
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+eval /opt/homebrew/Caskroom/miniforge/base/bin/conda "shell.fish" "hook" $argv | source
+# <<< conda initialize <<<
+

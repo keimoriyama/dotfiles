@@ -28,7 +28,8 @@ if !filereadable(vimplug_exists)
   autocmd VimEnter * PlugInstall
 endif
 
-let g:python3_host_prog = expand('/Users/kei/miniforge3/bin/python3')
+let g:python3_host_prog = expand('/opt/homebrew/Caskroom/miniforge/base/bin/python')
+
 " let g:python3_host_prog = expand('~/miniforge3/envs/vim')
 "let g:python3_host_prog = expand('/opt/homebrew/bin/python3/')
 

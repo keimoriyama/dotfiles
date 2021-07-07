@@ -1,6 +1,9 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:3100
+SETUVAR _fisher_oh_2D_my_2D_fish_2F_plugin_2D_peco_files:/Users/kei/\x2econfig/fish/functions/peco_kill\x2efish\x1e/Users/kei/\x2econfig/fish/functions/peco_select_history\x2efish
+SETUVAR _fisher_oh_2D_my_2D_fish_2F_theme_2D_agnoster_files:/Users/kei/\x2econfig/fish/functions/fish_mode_prompt\x2efish\x1e/Users/kei/\x2econfig/fish/functions/fish_prompt\x2efish\x1e/Users/kei/\x2econfig/fish/functions/fish_right_prompt\x2efish
+SETUVAR _fisher_plugins:oh\x2dmy\x2dfish/plugin\x2dpeco\x1eoh\x2dmy\x2dfish/theme\x2dagnoster
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:005fd7
