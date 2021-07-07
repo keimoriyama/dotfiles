@@ -11,6 +11,10 @@ export TERM=xterm-256color
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH=~/anaconda3/bin:$PATH
 export PATH=$PATH:~/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin
+export PATH=/opt/homebrew/Cellar/zsh/5.8_1/bin:$PATH
+export PATH=/opt/homebrew/Cellar/tmux/3.2a/bin:$PATH
+export PATH=/opt/homebrew/Cellar/reattach-to-user-namespace/2.9/bin:$PATH
+
 alias g='git'
 alias ga='git add'
 alias gd='git diff'
