@@ -484,7 +484,9 @@ let g:coc_global_extensions = [
             \, 'coc-prettier'
             \, 'coc-eslint'
             \, 'coc-docker'
-            \, ]
+            \, 'coc-go'
+            \, 'coc-css'
+            \,]
 
 
 " Use <C-l> for trigger snippet expand.
@@ -551,4 +553,5 @@ let g:mix_format_on_save = 1
 let g:mix_format_options = '--check-equivalent'
 
 let g:mix_format_silent_errors = 1
-
+autocmd BufNewFile,BufRead *.tsx let b:tsx_ext_found = 1
+autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx

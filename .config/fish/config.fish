@@ -4,6 +4,10 @@ end
 set PATH /usr/local/opt/llvm/bin $PATH 
 set PATH ~/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin $PATH
 set PATH ~/.nodebrew/current/bin $PATH
+set PATH ~/bin/digdag $PATH
+
+set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib"
+set -gx CPPFLAGS "-I/opt/homebrew/opt/llvm/include"
 
 eval (/opt/homebrew/bin/brew shellenv)
 
@@ -19,11 +23,11 @@ alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
 
-alias python='python3'
-alias pip='pip3'
-
 alias c='clear'
 alias vim='nvim'
+
+alias gcc='gcc-11'
+alias g++='g++-11'
 
 if test -z $TMUX
   tmux new-session
@@ -35,3 +39,5 @@ end
 eval /opt/homebrew/Caskroom/miniforge/base/bin/conda "shell.fish" "hook" $argv | source
 # <<< conda initialize <<<
 
+fish_add_path /opt/homebrew/opt/llvm/bin
+fish_add_path /opt/homebrew/opt/ruby/bin

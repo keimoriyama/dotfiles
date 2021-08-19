@@ -38,10 +38,14 @@ snippet report
 \setlength{\\headheight}{0pt}
 \setlength{\\headsep}{0pt}
 
+\renewcommand{\thesubsection}{\arabic{subsection}}
+
+\renewcommand{\thesubsubsection}{(\arabic{subsubsection})}
 \begin{document}
 \section*{${1:title}}
-\section{${2:problem}}
 
+\subsection{${2:problem}}
+		${0}
 \end{document}
 endsnippet
 
@@ -49,4 +53,28 @@ snippet begin
 \begin{${1:type}}
 	${0}
 \end{$1}
+endsnippet
+
+snippet codes
+\usepackage{listings,plistings}
+
+\lstset{%
+ language={Ruby},
+ basicstyle={\small},%
+ identifierstyle={\small},%
+ commentstyle={\small\itshape},%
+ keywordstyle={\small\bfseries},%
+ ndkeywordstyle={\small},%
+ stringstyle={\small\ttfamily},
+ frame={tb},
+ breaklines=true,
+ columns=[l]{fullflexible},%
+ numbers=left,%
+ xrightmargin=0zw,%
+ xleftmargin=3zw,%
+ numberstyle={\scriptsize},%
+ stepnumber=1,
+ numbersep=1zw,%
+ lineskip=-0.5ex%
+}
 endsnippet

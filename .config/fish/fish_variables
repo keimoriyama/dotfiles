@@ -1,9 +1,15 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR ZO_CMD:zo
+SETUVAR Z_CMD:z
+SETUVAR Z_DATA:/Users/kei/\x2elocal/share/z/data
+SETUVAR Z_DATA_DIR:/Users/kei/\x2elocal/share/z
+SETUVAR Z_EXCLUDE:\x5e/Users/kei\x24
 SETUVAR __fish_initialized:3100
+SETUVAR _fisher_jethrokuan_2F_z_files:/Users/kei/\x2econfig/fish/functions/__z\x2efish\x1e/Users/kei/\x2econfig/fish/functions/__z_add\x2efish\x1e/Users/kei/\x2econfig/fish/functions/__z_clean\x2efish\x1e/Users/kei/\x2econfig/fish/functions/__z_complete\x2efish\x1e/Users/kei/\x2econfig/fish/conf\x2ed/z\x2efish
 SETUVAR _fisher_oh_2D_my_2D_fish_2F_plugin_2D_peco_files:/Users/kei/\x2econfig/fish/functions/peco_kill\x2efish\x1e/Users/kei/\x2econfig/fish/functions/peco_select_history\x2efish
 SETUVAR _fisher_oh_2D_my_2D_fish_2F_theme_2D_agnoster_files:/Users/kei/\x2econfig/fish/functions/fish_mode_prompt\x2efish\x1e/Users/kei/\x2econfig/fish/functions/fish_prompt\x2efish\x1e/Users/kei/\x2econfig/fish/functions/fish_right_prompt\x2efish
-SETUVAR _fisher_plugins:oh\x2dmy\x2dfish/plugin\x2dpeco\x1eoh\x2dmy\x2dfish/theme\x2dagnoster
+SETUVAR _fisher_plugins:oh\x2dmy\x2dfish/plugin\x2dpeco\x1eoh\x2dmy\x2dfish/theme\x2dagnoster\x1ejethrokuan/z
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:005fd7
@@ -31,3 +37,4 @@ SETUVAR fish_pager_color_completion:\x1d
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
+SETUVAR fish_user_paths:/opt/homebrew/opt/ruby/bin\x1e/opt/homebrew/opt/llvm/bin
