@@ -36,10 +36,6 @@ eval /opt/homebrew/Caskroom/miniforge/base/bin/conda "shell.fish" "hook" $argv |
 fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path /opt/homebrew/opt/ruby/bin
 
-# Setting PATH for Python 3.10
-# The original version is saved in /Users/kei/.config/fish/config.fish.pysave
-set -x PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" "$PATH"
-
 set -x GOPRIVATE 'github.com/hogeticlab'
 
 # Setting PATH for Python 3.10
@@ -52,3 +48,7 @@ if [ -f '/Users/kei/google-cloud-sdk/path.fish.inc' ]; . '/Users/kei/google-clou
 
 set -x GITHUB_USER (git config user.name)
 set -x GITHUB_ACCESS_TOKEN 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
+# tmux の自動起動
+if test -z $TMUX
+	  tmux new-session
+	  end
