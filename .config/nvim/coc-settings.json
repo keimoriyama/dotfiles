@@ -90,7 +90,8 @@
     "python",
     "javascript",
     "typescript",
-    "html"
+    "html",
+    "go"
   ]
 }
 

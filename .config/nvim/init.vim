@@ -477,7 +477,6 @@ let g:coc_global_extensions = [
             \, 'coc-vimtex'
             \, 'coc-json'
             \, 'coc-clangd'
-            \, 'coc-elixir'
             \, 'coc-explorer'
             \, 'coc-html'
             \, 'coc-tsserver'
