@@ -12,6 +12,7 @@ set noswapfile
 syntax enable
 set tabstop=4
 set shiftwidth=4
+set modifiable
 
 let data_dir = has("nvim") ? stdpath("data") . "/site" : "~/.vim"
 
