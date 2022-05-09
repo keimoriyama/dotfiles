@@ -31,6 +31,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'lambdalisue/fern.vim'
 	Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 	Plug 'lambdalisue/fern-git-status.vim'
+	Plug 'yuki-yano/fern-preview.vim'
 	Plug 'lambdalisue/glyph-palette.vim'
 	Plug 'lambdalisue/nerdfont.vim'
 	" git plugins
@@ -77,3 +78,17 @@ nnoremap <C-j> }
 nnoremap <C-k> {
 
 " TODO: add keymap by plugins
+" setting of fern
+let g:fern#default_hidden=1
+let g:fern#renderer = 'nerdfont'
+nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=30<CR>
+function! s:fern_settings() abort
+  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+  nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+  nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
+endfunction
+augroup fern-settings
+	autocmd!
+	autocmd FileType fern call s:fern_settings()
+augroup END
