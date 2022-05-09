@@ -70,15 +70,6 @@ nnoremap <Esc><Esc> :nohlsearch<CR>
 " スペース + . でvimrcを開く
 nnoremap <Leader>. :new ~/.vimrc<CR>
 
-" オペレーター待機モードのマッピング
-" 一例：c8 で ci( の動きになる
-onoremap 8 i(
-onoremap 2 i"
-onoremap 7 i'
-onoremap @ i`
-onoremap [ i[
-onoremap { i{
-
 " Ctrl + j と Ctrl + k で 段落の前後に移動
 nnoremap <C-j> }
 nnoremap <C-k> {
@@ -98,8 +89,10 @@ augroup fern-settings
 	autocmd!
 	autocmd FileType fern call s:fern_settings()
 augroup END
+
 " setting color scheme
 colorscheme solarized8
+
 " setting of status line
 if !has('gui_running')
 	set t_Co=256
