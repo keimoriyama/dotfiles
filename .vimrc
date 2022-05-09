@@ -35,6 +35,9 @@ call plug#begin('~/.vim/plugged')
 	Plug 'lambdalisue/glyph-palette.vim'
 	Plug 'lambdalisue/nerdfont.vim'
 	" git plugins
+	"
+	" color scheme
+	Plug 'lifepillar/vim-solarized8'
 call plug#end()
 
 if has('persistent_undo')
@@ -92,3 +95,5 @@ augroup fern-settings
 	autocmd!
 	autocmd FileType fern call s:fern_settings()
 augroup END
+" setting color scheme
+colorscheme solarized8
