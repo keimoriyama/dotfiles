@@ -38,6 +38,8 @@ call plug#begin('~/.vim/plugged')
 	"
 	" color scheme
 	Plug 'lifepillar/vim-solarized8'
+	" setting of statusline
+	 Plug 'itchyny/lightline.vim'
 call plug#end()
 
 if has('persistent_undo')
@@ -97,3 +99,12 @@ augroup fern-settings
 augroup END
 " setting color scheme
 colorscheme solarized8
+" setting of status line
+if !has('gui_running')
+	set t_Co=256
+endif
+
+let g:lightline = {
+	\ 'colorscheme': 'solarized',
+\ }
+
