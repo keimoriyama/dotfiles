@@ -36,11 +36,11 @@ call plug#begin('~/.vim/plugged')
 	Plug 'lambdalisue/glyph-palette.vim'
 	Plug 'lambdalisue/nerdfont.vim'
 	" git plugins
-	"
+	Plug 'tpope/vim-fugitive'
 	" color scheme
 	Plug 'lifepillar/vim-solarized8'
 	" setting of statusline
-	 Plug 'itchyny/lightline.vim'
+	Plug 'itchyny/lightline.vim'
 call plug#end()
 
 if has('persistent_undo')
@@ -102,3 +102,10 @@ let g:lightline = {
 	\ 'colorscheme': 'solarized',
 \ }
 
+" setting of fugitive.vim
+nmap <silent> <Leader>ga :Gwrite<CR>
+nmap <silent> <Leader>gc :Git commit<CR>
+nmap <silent> <Leader>gl :Git log<CR>
+nmap <silent> <Leader>gd :Git diff<CR>
+nmap <silent> <Leader>gs :Git<CR>
+nmap <silent> <Leader>gb :Git blame<CR>
