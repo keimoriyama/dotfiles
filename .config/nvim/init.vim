@@ -39,8 +39,10 @@ call plug#begin('~/.vim/plugged')
 	Plug 'tpope/vim-fugitive'
 	" color scheme
 	Plug 'lifepillar/vim-solarized8'
-	" setting of statusline
+	" statusline
 	Plug 'itchyny/lightline.vim'
+	" plugin for tex
+	Plug 'lervag/vimtex'
 call plug#end()
 
 if has('persistent_undo')
@@ -109,3 +111,6 @@ nmap <silent> <Leader>gl :Git log<CR>
 nmap <silent> <Leader>gd :Git diff<CR>
 nmap <silent> <Leader>gs :Git<CR>
 nmap <silent> <Leader>gb :Git blame<CR>
+
+" setting of vimtex
+let g:latex_latexmk_options = '-pdf'
