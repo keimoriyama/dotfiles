@@ -26,8 +26,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'prabirshrestha/vim-lsp'
 	Plug 'mattn/vim-lsp-settings'
 	" auto complete plugins
-	Plug 'Shougo/ddc.vim'
-	Plug 'shun/ddc-vim-lsp'
+	Plug 'prabirshrestha/asyncomplete.vim'
+	Plug 'prabirshrestha/asyncomplete-lsp.vim'
 	" filer plugins
 	Plug 'lambdalisue/fern.vim'
 	Plug 'lambdalisue/fern-renderer-nerdfont.vim'
