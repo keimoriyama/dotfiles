@@ -13,6 +13,7 @@ syntax enable
 set tabstop=4
 set shiftwidth=4
 set modifiable
+set encoding=utf-8
 
 let data_dir = has("nvim") ? stdpath("data") . "/site" : "~/.vim"
 
@@ -57,22 +58,16 @@ autocmd VimEnter *
   \| endif
 
 
-" <Leader>というプレフィックスキーにスペースを使用する
 let g:mapleader = "\<Space>"
 
-" スペース + wでファイル保存
 nnoremap <Leader>w :w<CR>
 
-" カーソル下の単語を、置換後の文字列の入力を待つ状態にする
 nnoremap <Leader>re :%s;\<<C-R><C-W>\>;g<Left><Left>;
 
-" Escを2回押すとハイライトを消す
 nnoremap <Esc><Esc> :nohlsearch<CR>
 
-" スペース + . でvimrcを開く
 nnoremap <Leader>. :new ~/.config/nvim/init.vim<CR>
 
-" Ctrl + j と Ctrl + k で 段落の前後に移動
 nnoremap <C-j> }
 nnoremap <C-k> {
 
