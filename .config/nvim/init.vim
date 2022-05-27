@@ -45,9 +45,10 @@ call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 call plug#end()
 
+
 if has('persistent_undo')
-	let undo_path = expand('~/.vim/undo')
-	exe 'set undodir=' .. undo_path
+	let undo_dir = has("nvim") ? stdpath("data") . "~/.nvim" : "~/.vim"
+	exe 'set undodir=' .. undo_dir
 	set undofile
 endif
 
@@ -70,7 +71,7 @@ nnoremap <Leader>re :%s;\<<C-R><C-W>\>;g<Left><Left>;
 nnoremap <Esc><Esc> :nohlsearch<CR>
 
 " スペース + . でvimrcを開く
-nnoremap <Leader>. :new ~/.config/nvim/init.vim<CR>
+nnoremap <Leader>. :new ~/.vimrc<CR>
 
 " Ctrl + j と Ctrl + k で 段落の前後に移動
 nnoremap <C-j> }

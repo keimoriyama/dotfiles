@@ -49,7 +49,7 @@ set -x PATH "/Users/kei/Documents/hogeticlab/collectro/" "$PATH"
 if [ -f '/Users/kei/google-cloud-sdk/path.fish.inc' ]; . '/Users/kei/google-cloud-sdk/path.fish.inc'; end
 
 set -x GITHUB_USER (git config user.name)
-set -x GITHUB_ACCESS_TOKEN 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
+set -x GITHUB_ACCESS_TOKEN  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
 # tmux の自動起動
 if test -z $TMUX
 	  tmux new-session
