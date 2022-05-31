@@ -118,3 +118,7 @@ nmap <silent> <Leader>gb :Git blame<CR>
 
 " setting of vimtex
 let g:latex_latexmk_options = '-pdf'
+
+" setting of lsp
+let g:lsp_diagnostics_highlights_insert_mode_enabled = 0
+let g:lsp_diagnostics_signs_insert_mode_enabled = 0

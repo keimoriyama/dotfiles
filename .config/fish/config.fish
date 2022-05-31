@@ -28,7 +28,7 @@ alias c='clear'
 alias gcc='gcc-11'
 alias g++='g++-11'
 
-# alias vim='nvim'
+alias vim='nvim'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
