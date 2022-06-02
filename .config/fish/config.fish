@@ -30,11 +30,6 @@ alias g++='g++-11'
 
 alias vim='nvim'
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-eval /opt/homebrew/Caskroom/miniforge/base/bin/conda "shell.fish" "hook" $argv | source
-# <<< conda initialize <<<
-
 fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path /opt/homebrew/opt/ruby/bin
 
@@ -53,4 +48,4 @@ set -x GITHUB_ACCESS_TOKEN  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
 # tmux の自動起動
 if test -z $TMUX
 	  tmux new-session
-	  end
+end

@@ -36,9 +36,7 @@ if [ $ans == 'y' ];then
   fi
 fi
 # 手動でリンクを貼る
-ln -sf ~/.dotfiles/fish ~/.config/fish
-ln -sf ~/.dotfiles/karabiner/ ~/.config/karabiner
-ln -sf ~/.dotfiles/nvim/init.vim ~/.config/nvim/init.vim
+ln -sf ~/.dotfiles/.config/ $HOME
 # 移動できたらリンクを実行する
 for f in .??*
 do
@@ -46,29 +44,3 @@ do
 
     ln -snfv "$DOTPATH/$f" "$HOME"/"$f"
 done
-#プロンプトをechoを使って表示
-echo Do you want to install nerdfont ?Y/N:
-#入力を受付、その入力を「str」に代入
-read str
-#結果を表示
-if [ $str == 'y' ];then
-
-  #insatll nerd font
-  git clone --branch=master --depth 1 https://github.com/ryanoasis/nerd-fonts.git
-  cd nerd-fonts
-  ./install.sh   # "Source" to install Sauce Code Nerd Font
-  cd ..
-  rm -rf nerd-fonts
-fi
-
-# os_detect export the PLATFORM variable as you see fit
-os_detect() {
-    export PLATFORM
-    case "$(ostype)" in
-        *'linux'*)  PLATFORM='linux'   ;;
-        *'darwin'*) PLATFORM='osx'     ;;
-        *'bsd'*)    PLATFORM='bsd'     ;;
-        *)          PLATFORM='unknown' ;;
-    esac
-}
-
