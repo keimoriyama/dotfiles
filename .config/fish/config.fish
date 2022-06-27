@@ -30,18 +30,18 @@ alias g++='g++-11'
 
 alias vim='nvim'
 
+alias python='python3'
+alias pip='pip3'
+
 fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path /opt/homebrew/opt/ruby/bin
 
 set -x GOPRIVATE 'github.com/hogeticlab'
 
 # Setting PATH for Python 3.10
-# The original version is saved in /Users/kei/.config/fish/config.fish.pysave
+# The original version is saved in /Users/keimoriyamamoriyama/.config/fish/config.fish.pysave
 set -x PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" "$PATH"
-set -x PATH "/Users/kei/Documents/hogeticlab/collectro/" "$PATH"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kei/google-cloud-sdk/path.fish.inc' ]; . '/Users/kei/google-cloud-sdk/path.fish.inc'; end
+set -x PATH "/Users/keimoriyama/Documents/hogeticlab/collectro/" "$PATH"
 
 set -x GITHUB_USER (git config user.name)
 set -x GITHUB_ACCESS_TOKEN  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
@@ -49,3 +49,6 @@ set -x GITHUB_ACCESS_TOKEN  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
 if test -z $TMUX
 	  tmux new-session
 end
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/keimoriyama/google-cloud-sdk/path.fish.inc' ]; . '/Users/keimoriyama/google-cloud-sdk/path.fish.inc'; end

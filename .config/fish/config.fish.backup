@@ -24,33 +24,28 @@ alias gf='git fetch'
 alias gc='git commit'
 
 alias c='clear'
-alias vim='nvim'
 
 alias gcc='gcc-11'
 alias g++='g++-11'
 
-if test -z $TMUX
-  tmux new-session
-end
-
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-eval /opt/homebrew/Caskroom/miniforge/base/bin/conda "shell.fish" "hook" $argv | source
-# <<< conda initialize <<<
+alias vim='nvim'
 
 fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path /opt/homebrew/opt/ruby/bin
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kei/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/kei/Downloads/google-cloud-sdk/path.fish.inc'; end
-
-# Setting PATH for Python 3.10
-# The original version is saved in /Users/kei/.config/fish/config.fish.pysave
-set -x PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" "$PATH"
-
 set -x GOPRIVATE 'github.com/hogeticlab'
 
 # Setting PATH for Python 3.10
-# The original version is saved in /Users/kei/.config/fish/config.fish.pysave
+# The original version is saved in /Users/keimoriyamamoriyama/.config/fish/config.fish.pysave
 set -x PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" "$PATH"
+set -x PATH "/Users/keimoriyama/Documents/hogeticlab/collectro/" "$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/keimoriyama/google-cloud-sdk/path.fish.inc' ]; . '/Users/keimoriyama/google-cloud-sdk/path.fish.inc'; end
+
+set -x GITHUB_USER (git config user.name)
+set -x GITHUB_ACCESS_TOKEN  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
+# tmux の自動起動
+if test -z $TMUX
+	  tmux new-session
+end

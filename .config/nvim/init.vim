@@ -35,6 +35,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'yuki-yano/fern-preview.vim'
 	Plug 'lambdalisue/glyph-palette.vim'
 	Plug 'lambdalisue/nerdfont.vim'
+	" Template plugins
+	Plug 'mattn/vim-sonictemplate'
 	" git plugins
 	Plug 'tpope/vim-fugitive'
 	" color scheme
@@ -122,3 +124,8 @@ let g:latex_latexmk_options = '-pdf'
 " setting of lsp
 let g:lsp_diagnostics_highlights_insert_mode_enabled = 0
 let g:lsp_diagnostics_signs_insert_mode_enabled = 0
+
+"setting of snipet
+let g:sonictemplate_vim_template_dir = [
+      \ '~/.dotfiles/template'
+      \]
