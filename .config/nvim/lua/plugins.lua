@@ -30,7 +30,9 @@ require'packer'.startup(function()
 		end
 	}
 	-- Configurations for Nvim LSP
-	use 'neovim/nvim-lspconfig' 
-	use"williamboman/nvim-lsp-installer"
+	use'neovim/nvim-lspconfig' 
+	use'williamboman/nvim-lsp-installer'
+	use'Shougo/ddc.vim'
+	use'vim-denops/denops.vim'
 end)
 
