@@ -20,6 +20,7 @@ require'packer'.startup(function()
 		end}
 	-- color scheme
 	use'lifepillar/vim-solarized8'
+	vim.api.nvim_command[[colorscheme solarized8-low]]
 	-- statusline
 	use'itchyny/lightline.vim'
 	-- plugin for tex
