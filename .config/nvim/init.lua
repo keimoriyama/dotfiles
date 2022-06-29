@@ -29,12 +29,13 @@ vim.o.shiftwidth=4
 vim.o.modifiable=true
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
-
 if vim.fn.has('mac')==1 then
   vim.cmd[[set clipboard+=unnamed]]
 else
   vim.cmd[[set clipboard^=unnamedplus]]
 end
+-- シェルの設定
+vim.g.shell='/opt/homebrew/bin/fish'
 
 vim.g.mapleader=' '
 
