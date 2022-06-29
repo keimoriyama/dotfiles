@@ -69,10 +69,65 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["ddc-around"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-around",
+    url = "https://github.com/Shougo/ddc-around"
+  },
+  ["ddc-buffer"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-buffer",
+    url = "https://github.com/matsui54/ddc-buffer"
+  },
+  ["ddc-file"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-file",
+    url = "https://github.com/LumaKernel/ddc-file"
+  },
+  ["ddc-fuzzy"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-fuzzy",
+    url = "https://github.com/tani/ddc-fuzzy"
+  },
+  ["ddc-matcher_head"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-matcher_head",
+    url = "https://github.com/Shougo/ddc-matcher_head"
+  },
+  ["ddc-matcher_length"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-matcher_length",
+    url = "https://github.com/Shougo/ddc-matcher_length"
+  },
+  ["ddc-nvim-lsp"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-nvim-lsp",
+    url = "https://github.com/Shougo/ddc-nvim-lsp"
+  },
+  ["ddc-path"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-path",
+    url = "https://github.com/tani/ddc-path"
+  },
+  ["ddc-sorter_rank"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-sorter_rank",
+    url = "https://github.com/Shougo/ddc-sorter_rank"
+  },
   ["ddc.vim"] = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc.vim",
     url = "https://github.com/Shougo/ddc.vim"
+  },
+  ["denops-popup-preview.vim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/denops-popup-preview.vim",
+    url = "https://github.com/matsui54/denops-popup-preview.vim"
+  },
+  ["denops-signature_help"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/denops-signature_help",
+    url = "https://github.com/matsui54/denops-signature_help"
   },
   ["denops.vim"] = {
     loaded = true,
@@ -98,6 +153,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
+  },
+  ["pum.vim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/pum.vim",
+    url = "https://github.com/Shougo/pum.vim"
   },
   ["vim-fugitive"] = {
     loaded = true,

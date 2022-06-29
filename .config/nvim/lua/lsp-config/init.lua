@@ -1,3 +1,4 @@
+require("nvim-lsp-installer").setup {}
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
@@ -35,11 +36,11 @@ local lsp_flags = {
 }
 
 -- add lsp
-local servers={'pyright'}
+local servers={'clangd','pyright', 'gopls', 'sumneko_lua'}
 
 for _, lsp in ipairs(servers) do 
   require('lspconfig')[lsp].setup{
     on_attach=on_attach,
-    lsp_flags=lsp_flags
+    lsp_flags=lsp_flags,
   }
 end
