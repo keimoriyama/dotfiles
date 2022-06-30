@@ -1,6 +1,7 @@
 vim.cmd[[packadd packer.nvim]]
 
 require'packer'.startup(function()
+	if vim.g.vscode then return nil end
     use'wbthomason/packer.nvim'
 	-- Template plugins
 	use{'mattn/vim-sonictemplate',
