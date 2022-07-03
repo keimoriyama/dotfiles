@@ -1,5 +1,3 @@
-vim.cmd[[packadd packer.nvim]]
-
 require'packer'.startup(function()
 	if vim.g.vscode then return nil end
     use'wbthomason/packer.nvim'
@@ -30,10 +28,6 @@ require'packer'.startup(function()
 			vim.g.latex_latexmk_options = '-pdf'
 		end
 	}
-	-- remote contaners
-	use{'esensar/nvim-dev-container',
-		requires = {'nvim-treesitter/nvim-treesitter'}
-	}
 	-- Configurations for Nvim LSP
 	use'neovim/nvim-lspconfig' 
 	use'williamboman/nvim-lsp-installer'
@@ -52,4 +46,3 @@ require'packer'.startup(function()
 	use'matsui54/denops-popup-preview.vim'
 	use'Shougo/pum.vim'
 end)
-

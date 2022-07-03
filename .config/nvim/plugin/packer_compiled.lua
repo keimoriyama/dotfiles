@@ -139,11 +139,6 @@ _G.packer_plugins = {
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/lightline.vim",
     url = "https://github.com/itchyny/lightline.vim"
   },
-  ["nvim-dev-container"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-dev-container",
-    url = "https://github.com/esensar/nvim-dev-container"
-  },
   ["nvim-lsp-installer"] = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
@@ -153,11 +148,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
-  },
-  ["nvim-treesitter"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
-    url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["packer.nvim"] = {
     loaded = true,
