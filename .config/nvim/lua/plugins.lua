@@ -30,6 +30,8 @@ require'packer'.startup(function()
 			vim.g.latex_latexmk_options = '-pdf'
 		end
 	}
+	-- remote contaners
+	use'jamestthompson3/nvim-remote-containers'
 	-- Configurations for Nvim LSP
 	use'neovim/nvim-lspconfig' 
 	use'williamboman/nvim-lsp-installer'
