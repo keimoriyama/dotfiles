@@ -31,7 +31,9 @@ require'packer'.startup(function()
 		end
 	}
 	-- remote contaners
-	use'jamestthompson3/nvim-remote-containers'
+	use{'esensar/nvim-dev-container',
+		requires = {'nvim-treesitter/nvim-treesitter'}
+	}
 	-- Configurations for Nvim LSP
 	use'neovim/nvim-lspconfig' 
 	use'williamboman/nvim-lsp-installer'
