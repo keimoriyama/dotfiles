@@ -38,7 +38,7 @@ local lsp_flags = {
 -- add lsp
 local servers={'clangd','pyright', 'gopls', 'sumneko_lua'}
 
-for _, lsp in ipairs(servers) do 
+for _,lsp in ipairs(servers) do 
   require('lspconfig')[lsp].setup{
     on_attach=on_attach,
     lsp_flags=lsp_flags,
