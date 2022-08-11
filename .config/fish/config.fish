@@ -44,7 +44,7 @@ set -x PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" "$PATH"
 set -x PATH "/Users/keimoriyama/Documents/hogeticlab/collectro/" "$PATH"
 
 set -x GITHUB_USER (git config user.name)
-set -x GITHUB_ACCESS_TOKEN  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
+set -x GITHUB_ACCESS_TOKEN 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
 # tmux の自動起動
 if test -z $TMUX
 	  tmux new-session
@@ -52,3 +52,7 @@ end
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/keimoriyama/google-cloud-sdk/path.fish.inc' ]; . '/Users/keimoriyama/google-cloud-sdk/path.fish.inc'; end
+
+# Setting PATH for Python 3.10
+# The original version is saved in /Users/keimoriyama/.config/fish/config.fish.pysave
+set -x PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" "$PATH"

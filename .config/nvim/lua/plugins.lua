@@ -1,12 +1,9 @@
 require 'packer'.startup(function()
-	if vim.g.vscode then return nil end
-	use 'wbthomason/packer.nvim'
 	-- Template plugins
 	use { 'mattn/vim-sonictemplate',
 		setup = function()
 			vim.g.sonictemplate_vim_template_dir = '~/.dotfiles/template'
 		end }
-	-- git plugins
 	use {
 		'tpope/vim-fugitive',
 		setup = function()
@@ -17,6 +14,9 @@ require 'packer'.startup(function()
 			vim.api.nvim_set_keymap('n', '<Leader>gs', ':Git<CR>', { noremap = true, silent = true })
 			vim.api.nvim_set_keymap('n', '<Leader>gb', ':Git blame<CR>', { noremap = true, silent = true })
 		end }
+	if vim.g.vscode then return nil end
+	use 'wbthomason/packer.nvim'
+	-- git plugins
 	-- color scheme
 	use 'lifepillar/vim-solarized8'
 	vim.api.nvim_command [[colorscheme solarized8_low]]
