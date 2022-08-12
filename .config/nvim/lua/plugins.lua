@@ -20,8 +20,6 @@ require 'packer'.startup(function()
 	-- color scheme
 	use 'lifepillar/vim-solarized8'
 	vim.api.nvim_command [[colorscheme solarized8_low]]
-	-- statusline
-	use 'itchyny/lightline.vim'
 	-- plugin for tex
 	use { 'lervag/vimtex', opt = true, ft = { 'tex' },
 		setup = function()
@@ -35,6 +33,8 @@ require 'packer'.startup(function()
 	}
 	use 'nvim-telescope/telescope-file-browser.nvim'
 	use 'kyazdani42/nvim-web-devicons'
+	-- configurations for buffer
+	use 'akinsho/nvim-bufferline.lua'
 	-- Configurations for Nvim LSP
 	use 'neovim/nvim-lspconfig'
 	use 'williamboman/nvim-lsp-installer'

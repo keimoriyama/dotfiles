@@ -38,7 +38,4 @@ vim.g.shell='/opt/homebrew/bin/fish'
 vim.g.mapleader=' '
 
 vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<Leader>q', ':q<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Esc><Esc>', ':nohlsearch,<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<C-j>', '}', {silent=true})
-vim.api.nvim_set_keymap('n', '<C-k>', '{', {silent=true})
