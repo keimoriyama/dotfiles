@@ -149,15 +149,40 @@ _G.packer_plugins = {
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
+  },
   ["pum.vim"] = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/pum.vim",
     url = "https://github.com/Shougo/pum.vim"
+  },
+  ripgrep = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ripgrep",
+    url = "https://github.com/BurntSushi/ripgrep"
+  },
+  ["telescope-file-browser.nvim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",
+    url = "https://github.com/nvim-telescope/telescope-file-browser.nvim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["vim-fugitive"] = {
     loaded = true,
@@ -186,9 +211,16 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Setup for: vim-sonictemplate
+time([[Setup for vim-sonictemplate]], true)
+try_loadstring("\27LJ\2\nU\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\25~/.dotfiles/template#sonictemplate_vim_template_dir\6g\bvim\0", "setup", "vim-sonictemplate")
+time([[Setup for vim-sonictemplate]], false)
+time([[packadd for vim-sonictemplate]], true)
+vim.cmd [[packadd vim-sonictemplate]]
+time([[packadd for vim-sonictemplate]], false)
 -- Setup for: vim-fugitive
 time([[Setup for vim-fugitive]], true)
-try_loadstring("\27LJ\2\nî\3\0\0\6\0\22\00016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\4\0'\4\5\0005\5\6\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\a\0'\4\b\0005\5\t\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\n\0'\4\v\0005\5\f\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\r\0'\4\14\0005\5\15\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\16\0'\4\17\0005\5\18\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\19\0'\4\20\0005\5\21\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\2\19:Git blame<CR>\15<Leader>gb\1\0\2\vsilent\2\fnoremap\2\r:Git<CR>\15<Leader>gs\1\0\2\vsilent\2\fnoremap\2\18:Git diff<CR>\15<Leader>gd\1\0\2\vsilent\2\fnoremap\2\17:Git log<CR>\15<Leader>gl\1\0\2\vsilent\2\fnoremap\2\20:Git commit<CR>\15<Leader>gc\1\0\2\vsilent\2\fnoremap\2\16:Gwrite<CR>\15<Leader>ga\6n\20nvim_set_keymap\bapi\bvim\0", "setup", "vim-fugitive")
+try_loadstring("\27LJ\2\nî\3\0\0\6\0\22\00016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\4\0'\4\5\0005\5\6\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\a\0'\4\b\0005\5\t\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\n\0'\4\v\0005\5\f\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\r\0'\4\14\0005\5\15\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\16\0'\4\17\0005\5\18\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\19\0'\4\20\0005\5\21\0B\0\5\1K\0\1\0\1\0\2\fnoremap\2\vsilent\2\19:Git blame<CR>\15<Leader>gb\1\0\2\fnoremap\2\vsilent\2\r:Git<CR>\15<Leader>gs\1\0\2\fnoremap\2\vsilent\2\18:Git diff<CR>\15<Leader>gd\1\0\2\fnoremap\2\vsilent\2\17:Git log<CR>\15<Leader>gl\1\0\2\fnoremap\2\vsilent\2\20:Git commit<CR>\15<Leader>gc\1\0\2\fnoremap\2\vsilent\2\16:Gwrite<CR>\15<Leader>ga\6n\20nvim_set_keymap\bapi\bvim\0", "setup", "vim-fugitive")
 time([[Setup for vim-fugitive]], false)
 time([[packadd for vim-fugitive]], true)
 vim.cmd [[packadd vim-fugitive]]
@@ -197,13 +229,6 @@ time([[packadd for vim-fugitive]], false)
 time([[Setup for vimtex]], true)
 try_loadstring("\27LJ\2\n<\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\t-pdf\26latex_latexmk_options\6g\bvim\0", "setup", "vimtex")
 time([[Setup for vimtex]], false)
--- Setup for: vim-sonictemplate
-time([[Setup for vim-sonictemplate]], true)
-try_loadstring("\27LJ\2\nU\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\25~/.dotfiles/template#sonictemplate_vim_template_dir\6g\bvim\0", "setup", "vim-sonictemplate")
-time([[Setup for vim-sonictemplate]], false)
-time([[packadd for vim-sonictemplate]], true)
-vim.cmd [[packadd vim-sonictemplate]]
-time([[packadd for vim-sonictemplate]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads

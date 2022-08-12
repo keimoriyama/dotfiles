@@ -28,6 +28,13 @@ require 'packer'.startup(function()
 			vim.g.latex_latexmk_options = '-pdf'
 		end
 	}
+	-- configurations for Filer
+	use 'BurntSushi/ripgrep'
+	use {'nvim-telescope/telescope.nvim',
+		requires = {{'nvim-lua/plenary.nvim'}}
+	}
+	use 'nvim-telescope/telescope-file-browser.nvim'
+	use 'kyazdani42/nvim-web-devicons'
 	-- Configurations for Nvim LSP
 	use 'neovim/nvim-lspconfig'
 	use 'williamboman/nvim-lsp-installer'
