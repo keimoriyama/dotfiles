@@ -4,6 +4,7 @@ require 'packer'.startup(function()
 		setup = function()
 			vim.g.sonictemplate_vim_template_dir = '~/.dotfiles/template'
 		end }
+	-- github
 	use {
 		'tpope/vim-fugitive',
 		setup = function()
@@ -14,12 +15,14 @@ require 'packer'.startup(function()
 			vim.api.nvim_set_keymap('n', '<Leader>gs', ':Git<CR>', { noremap = true, silent = true })
 			vim.api.nvim_set_keymap('n', '<Leader>gb', ':Git blame<CR>', { noremap = true, silent = true })
 		end }
+	use'lewis6991/gitsigns.nvim'
 	if vim.g.vscode then return nil end
 	use 'wbthomason/packer.nvim'
-	-- git plugins
 	-- color scheme
 	use 'lifepillar/vim-solarized8'
 	vim.api.nvim_command [[colorscheme solarized8_low]]
+	-- status line
+	use 'nvim-lualine/lualine.nvim'
 	-- plugin for tex
 	use { 'lervag/vimtex', opt = true, ft = { 'tex' },
 		setup = function()
