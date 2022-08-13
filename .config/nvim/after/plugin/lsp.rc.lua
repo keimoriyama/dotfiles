@@ -36,7 +36,7 @@ local lsp_flags = {
 }
 
 -- add lsp
-local servers = { 'clangd', 'pyright', 'gopls', 'sumneko_lua' }
+local servers = { 'clangd', 'pylsp', 'gopls', 'sumneko_lua' }
 
 for _, lsp in ipairs(servers) do
 	require('lspconfig')[lsp].setup {
@@ -45,4 +45,19 @@ for _, lsp in ipairs(servers) do
 	}
 end
 
+require 'lspconfig'.pylsp.setup {
+	settings = {
+		pylsp = {
+			plugins = {
+				pycodestyle = {
+					on_attach = on_attach,
+					lsp_flags = lsp_flags
+				},
+				autopep8 = {
+					enabled = false
+				},
+			}
+		}
+	}
+}
 vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]

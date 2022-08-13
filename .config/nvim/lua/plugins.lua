@@ -15,7 +15,7 @@ require 'packer'.startup(function()
 			vim.api.nvim_set_keymap('n', '<Leader>gs', ':Git<CR>', { noremap = true, silent = true })
 			vim.api.nvim_set_keymap('n', '<Leader>gb', ':Git blame<CR>', { noremap = true, silent = true })
 		end }
-	use'lewis6991/gitsigns.nvim'
+	use 'lewis6991/gitsigns.nvim'
 	if vim.g.vscode then return nil end
 	use 'wbthomason/packer.nvim'
 	-- color scheme
@@ -31,8 +31,8 @@ require 'packer'.startup(function()
 	}
 	-- configurations for Filer
 	use 'BurntSushi/ripgrep'
-	use {'nvim-telescope/telescope.nvim',
-		requires = {{'nvim-lua/plenary.nvim'}}
+	use { 'nvim-telescope/telescope.nvim',
+		requires = { { 'nvim-lua/plenary.nvim' } }
 	}
 	use 'nvim-telescope/telescope-file-browser.nvim'
 	use 'kyazdani42/nvim-web-devicons'
