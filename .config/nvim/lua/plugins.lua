@@ -14,7 +14,8 @@ require 'packer'.startup(function()
 			vim.api.nvim_set_keymap('n', '<Leader>gd', ':Git diff<CR>', { noremap = true, silent = true })
 			vim.api.nvim_set_keymap('n', '<Leader>gs', ':Git<CR>', { noremap = true, silent = true })
 			vim.api.nvim_set_keymap('n', '<Leader>gb', ':Git blame<CR>', { noremap = true, silent = true })
-		end }
+		end
+	}
 	use 'lewis6991/gitsigns.nvim'
 	if vim.g.vscode then return nil end
 	use 'wbthomason/packer.nvim'
@@ -28,6 +29,10 @@ require 'packer'.startup(function()
 		setup = function()
 			vim.g.latex_latexmk_options = '-pdf'
 		end
+	}
+	use {
+		'nvim-treesitter/nvim-treesitter',
+		run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
 	}
 	-- configurations for Filer
 	use 'BurntSushi/ripgrep'
