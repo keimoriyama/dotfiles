@@ -45,7 +45,10 @@ require 'packer'.startup(function()
 	use 'akinsho/nvim-bufferline.lua'
 	-- Configurations for Nvim LSP
 	use 'neovim/nvim-lspconfig'
-	use 'williamboman/nvim-lsp-installer'
+	use 'williamboman/mason.nvim'
+	use 'williamboman/mason-lspconfig.nvim'
+
+
 	use 'Shougo/ddc.vim'
 	use 'vim-denops/denops.vim'
 	use 'Shougo/ddc-nvim-lsp'
