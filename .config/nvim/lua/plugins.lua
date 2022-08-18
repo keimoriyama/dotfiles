@@ -63,4 +63,5 @@ require 'packer'.startup(function()
 	use 'matsui54/denops-signature_help'
 	use 'matsui54/denops-popup-preview.vim'
 	use 'Shougo/pum.vim'
+	use 'jose-elias-alvarez/null-ls.nvim'
 end)
