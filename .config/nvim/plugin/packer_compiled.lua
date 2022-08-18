@@ -199,6 +199,11 @@ _G.packer_plugins = {
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ripgrep",
     url = "https://github.com/BurntSushi/ripgrep"
   },
+  ["sidebar.nvim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/sidebar.nvim",
+    url = "https://github.com/sidebar-nvim/sidebar.nvim"
+  },
   ["telescope-file-browser.nvim"] = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",
@@ -236,10 +241,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Setup for: vimtex
-time([[Setup for vimtex]], true)
-try_loadstring("\27LJ\2\n<\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\t-pdf\26latex_latexmk_options\6g\bvim\0", "setup", "vimtex")
-time([[Setup for vimtex]], false)
 -- Setup for: vim-sonictemplate
 time([[Setup for vim-sonictemplate]], true)
 try_loadstring("\27LJ\2\nU\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\25~/.dotfiles/template#sonictemplate_vim_template_dir\6g\bvim\0", "setup", "vim-sonictemplate")
@@ -254,6 +255,10 @@ time([[Setup for vim-fugitive]], false)
 time([[packadd for vim-fugitive]], true)
 vim.cmd [[packadd vim-fugitive]]
 time([[packadd for vim-fugitive]], false)
+-- Setup for: vimtex
+time([[Setup for vimtex]], true)
+try_loadstring("\27LJ\2\n<\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\t-pdf\26latex_latexmk_options\6g\bvim\0", "setup", "vimtex")
+time([[Setup for vimtex]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
