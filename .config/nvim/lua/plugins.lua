@@ -30,10 +30,19 @@ require 'packer'.startup(function()
 			vim.g.latex_latexmk_options = '-pdf'
 		end
 	}
+	-- treesitter
 	use {
 		'nvim-treesitter/nvim-treesitter',
 		run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
 	}
+	--markdwon
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && npm install",
+		setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+		ft = { "markdown" }
+	})
+
 	-- configurations for Filer
 	use 'BurntSushi/ripgrep'
 	use { 'nvim-telescope/telescope.nvim',
