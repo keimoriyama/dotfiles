@@ -69,75 +69,30 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["ddc-around"] = {
+  ["cmp-buffer"] = {
     loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-around",
-    url = "https://github.com/Shougo/ddc-around"
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/cmp-buffer",
+    url = "https://github.com/hrsh7th/cmp-buffer"
   },
-  ["ddc-buffer"] = {
+  ["cmp-nvim-lsp"] = {
     loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-buffer",
-    url = "https://github.com/matsui54/ddc-buffer"
-  },
-  ["ddc-file"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-file",
-    url = "https://github.com/LumaKernel/ddc-file"
-  },
-  ["ddc-fuzzy"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-fuzzy",
-    url = "https://github.com/tani/ddc-fuzzy"
-  },
-  ["ddc-matcher_head"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-matcher_head",
-    url = "https://github.com/Shougo/ddc-matcher_head"
-  },
-  ["ddc-matcher_length"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-matcher_length",
-    url = "https://github.com/Shougo/ddc-matcher_length"
-  },
-  ["ddc-nvim-lsp"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-nvim-lsp",
-    url = "https://github.com/Shougo/ddc-nvim-lsp"
-  },
-  ["ddc-path"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-path",
-    url = "https://github.com/tani/ddc-path"
-  },
-  ["ddc-sorter_rank"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc-sorter_rank",
-    url = "https://github.com/Shougo/ddc-sorter_rank"
-  },
-  ["ddc.vim"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/ddc.vim",
-    url = "https://github.com/Shougo/ddc.vim"
-  },
-  ["denops-popup-preview.vim"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/denops-popup-preview.vim",
-    url = "https://github.com/matsui54/denops-popup-preview.vim"
-  },
-  ["denops-signature_help"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/denops-signature_help",
-    url = "https://github.com/matsui54/denops-signature_help"
-  },
-  ["denops.vim"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/denops.vim",
-    url = "https://github.com/vim-denops/denops.vim"
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
+  ["lspkind.nvim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
+    url = "https://github.com/onsails/lspkind.nvim"
+  },
+  ["lspsaga.nvim"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
+    url = "https://github.com/glepnir/lspsaga.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
@@ -164,6 +119,11 @@ _G.packer_plugins = {
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-bufferline.lua",
     url = "https://github.com/akinsho/nvim-bufferline.lua"
   },
+  ["nvim-cmp"] = {
+    loaded = true,
+    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+    url = "https://github.com/hrsh7th/nvim-cmp"
+  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
@@ -188,11 +148,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
-  },
-  ["pum.vim"] = {
-    loaded = true,
-    path = "/Users/keimoriyama/.local/share/nvim/site/pack/packer/start/pum.vim",
-    url = "https://github.com/Shougo/pum.vim"
   },
   ripgrep = {
     loaded = true,
@@ -241,13 +196,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Setup for: vim-sonictemplate
-time([[Setup for vim-sonictemplate]], true)
-try_loadstring("\27LJ\2\nU\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\25~/.dotfiles/template#sonictemplate_vim_template_dir\6g\bvim\0", "setup", "vim-sonictemplate")
-time([[Setup for vim-sonictemplate]], false)
-time([[packadd for vim-sonictemplate]], true)
-vim.cmd [[packadd vim-sonictemplate]]
-time([[packadd for vim-sonictemplate]], false)
 -- Setup for: vim-fugitive
 time([[Setup for vim-fugitive]], true)
 try_loadstring("\27LJ\2\nî\3\0\0\6\0\22\00016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\4\0'\4\5\0005\5\6\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\a\0'\4\b\0005\5\t\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\n\0'\4\v\0005\5\f\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\r\0'\4\14\0005\5\15\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\16\0'\4\17\0005\5\18\0B\0\5\0016\0\0\0009\0\1\0009\0\2\0'\2\3\0'\3\19\0'\4\20\0005\5\21\0B\0\5\1K\0\1\0\1\0\2\fnoremap\2\vsilent\2\19:Git blame<CR>\15<Leader>gb\1\0\2\fnoremap\2\vsilent\2\r:Git<CR>\15<Leader>gs\1\0\2\fnoremap\2\vsilent\2\18:Git diff<CR>\15<Leader>gd\1\0\2\fnoremap\2\vsilent\2\17:Git log<CR>\15<Leader>gl\1\0\2\fnoremap\2\vsilent\2\20:Git commit<CR>\15<Leader>gc\1\0\2\fnoremap\2\vsilent\2\16:Gwrite<CR>\15<Leader>ga\6n\20nvim_set_keymap\bapi\bvim\0", "setup", "vim-fugitive")
@@ -259,6 +207,13 @@ time([[packadd for vim-fugitive]], false)
 time([[Setup for vimtex]], true)
 try_loadstring("\27LJ\2\n<\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\t-pdf\26latex_latexmk_options\6g\bvim\0", "setup", "vimtex")
 time([[Setup for vimtex]], false)
+-- Setup for: vim-sonictemplate
+time([[Setup for vim-sonictemplate]], true)
+try_loadstring("\27LJ\2\nU\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\25~/.dotfiles/template#sonictemplate_vim_template_dir\6g\bvim\0", "setup", "vim-sonictemplate")
+time([[Setup for vim-sonictemplate]], false)
+time([[packadd for vim-sonictemplate]], true)
+vim.cmd [[packadd vim-sonictemplate]]
+time([[packadd for vim-sonictemplate]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
