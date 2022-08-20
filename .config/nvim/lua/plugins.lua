@@ -5,8 +5,7 @@ require 'packer'.startup(function()
 			vim.g.sonictemplate_vim_template_dir = '~/.dotfiles/template'
 		end }
 	-- github
-	use {
-		'tpope/vim-fugitive',
+	use { 'tpope/vim-fugitive',
 		setup = function()
 			vim.api.nvim_set_keymap('n', '<Leader>ga', ':Gwrite<CR>', { noremap = true, silent = true })
 			vim.api.nvim_set_keymap('n', '<Leader>gc', ':Git commit<CR>', { noremap = true, silent = true })
@@ -16,6 +15,7 @@ require 'packer'.startup(function()
 			vim.api.nvim_set_keymap('n', '<Leader>gb', ':Git blame<CR>', { noremap = true, silent = true })
 		end
 	}
+
 	use 'lewis6991/gitsigns.nvim'
 	if vim.g.vscode then return nil end
 	use 'wbthomason/packer.nvim'
