@@ -1,7 +1,7 @@
 local sidebar = require("sidebar-nvim")
 local opts = {
-	open = true,
-	sections = { "datetime", "git", "diagnostics", "files" },
+	open = false,
+	sections = { "git", "diagnostics", "files" },
 	files = {
 		icon = "",
 		show_hidden = false,
