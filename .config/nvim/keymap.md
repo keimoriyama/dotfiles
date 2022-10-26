@@ -58,16 +58,15 @@
 
 ## sidebar commands
 
-│   key   │        when        │           action           │
-- d        │hovering an item    │delete file/folder          │
-- y        │hovering an item    │yank/copy a file/folder     │
-- x        │hovering an item    │cut a file/folder           │
-- p        │hovering an item    │paste a file/folder         │
-- c        │hovering an item    │create a new file           │
-- e        │hovering an item    │open the current file/folder│
-- r        │hovering an item    │rename file/folder          │
-- u        │hovering the section│undo operation              │
-- <C-r>    │hovering the section│redo operation              │
-- <CR>     │hovering an item    │open file/folder            │
+- `d`:hovering an item :delete file/folder          
+- `y`:hovering an item :yank/copy a file/folder     
+- `x`:hovering an item :cut a file/folder           
+- `p`:hovering an item :paste a file/folder         
+- `c`:hovering an item :create a new file           
+- `e`:hovering an item  :open the current file/folder
+- `r`:hovering an item :rename file/folder          
+- `u`:hovering the section:undo operation              
+- `<C-r>`:hovering the section:redo operation              
+- `<CR>`:hovering an item :open file/folder            
 
 
