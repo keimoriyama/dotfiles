@@ -27,6 +27,9 @@ vim.o.shiftwidth = 4
 vim.o.modifiable = true
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
+-- スワップファイルを作らない
+vim.o.noswapfile = true
+
 if vim.fn.has('mac') == 1 then
 	vim.cmd [[set clipboard+=unnamed]]
 else
@@ -37,5 +40,4 @@ vim.g.shell = '/opt/homebrew/bin/fish'
 
 vim.g.mapleader = ' '
 
-vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Esc><Esc>', ':nohlsearch,<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<C-c>', ':nohlsearch,<CR>', { silent = true })
