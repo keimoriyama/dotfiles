@@ -20,8 +20,8 @@ require 'packer'.startup(function()
 	if vim.g.vscode then return nil end
 	use 'wbthomason/packer.nvim'
 	-- color scheme
-	use 'lifepillar/vim-solarized8'
-	vim.api.nvim_command [[colorscheme solarized8_low]]
+	use 'folke/tokyonight.nvim'
+	vim.api.nvim_command [[colorscheme tokyonight-storm]]
 	-- status line
 	use 'nvim-lualine/lualine.nvim'
 	-- plugin for tex
