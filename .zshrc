@@ -26,12 +26,14 @@ alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
 
+alias ls='ls -G'
 alias c='clear'
 
 alias vim='nvim'
 
 alias python='python3'
 alias pip='pip3'
+
 
 git_prompt() {
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = true ]; then
@@ -40,6 +42,12 @@ git_prompt() {
   else
     PROMPT="%F{034}%n%f %F{081}%~%f "$'\n'"%# "
   fi
+}
+
+chpwd() {
+	if [[ $(pwd) != $HOME ]]; then;
+		ls
+	fi
 }
 
 precmd(){
@@ -54,8 +62,12 @@ setopt correct
 
 if type brew &>/dev/null; then
 	FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-	source /opt/homebrew/opt/zsh-git-prompt/zshrc.sh
-	source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+	source $(brew --prefix)/opt/zsh-git-prompt/zshrc.sh
+	source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+	source $(brew --prefix)/opt/z/etc/profile.d/z.sh
 	autoload -Uz compinit
 	compinit
+fi
+if [[ ! -n $TMUX ]]; then
+  tmux new-session
 fi
