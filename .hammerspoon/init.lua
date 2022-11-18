@@ -63,16 +63,9 @@ local function switchInputSourceEvent(event)
 		end
 	elseif eventType == flagsChanged then
 		if isCmd then
-			if isCmdAsModifier == false then
-				-- 入力された command キーの入力ソースと現在の入力ソースが異なるときだけ実行
-				if keyCode == map['cmd'] then
-					switchInputSource()
-				elseif keyCode == map['rightcmd'] then
-					switchInputSource()
-				end
-			end
-			isCmdAsModifier = false
+			switchInputSource()
 		end
+		isCmdAsModifier = false
 	end
 end
 
@@ -137,6 +130,7 @@ hs.hotkey.bind(map, 'h', function() hs.window.focusedWindow():move(units.right50
 hs.hotkey.bind(map, 'l', function() hs.window.focusedWindow():move(units.left50, nil, true) end)
 hs.hotkey.bind(map, "j", function() hs.window.focusedWindow():move(units.bot50, nil, true) end)
 hs.hotkey.bind(map, "k", function() hs.window.focusedWindow():move(units.top50, nil, true) end)
+hs.hotkey.bind(map, "m", function() hs.window.focusedWindow():toggleFullScreen() end)
 --hs.hotkey.bind(map, "f", function() hs.window.focusedWindow():move(units.top50, nil, true) end)
 -- 4分割する
 hs.hotkey.bind(map, "1", function() hs.window.focusedWindow():move(units.lefttop, nil, true) end)
