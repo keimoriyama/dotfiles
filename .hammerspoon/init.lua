@@ -149,7 +149,7 @@ hs.hotkey.bind(map, "p", moveToPrevScreen)
 
 -- アプリの起動のためのショートカット
 appHotKey = { "ctrl" }
-hs.hotkey.bind(appHotKey, "w", function() hs.application.launchOrFocusByBundleID('dev.warp.Warp-Stable') end)
+hs.hotkey.bind(appHotKey, "i", function() hs.application.launchOrFocusByBundleID('com.googlecode.iterm2') end)
 hs.hotkey.bind(appHotKey, "s", function() hs.application.launchOrFocusByBundleID('com.tinyspeck.slackmacgap') end)
 hs.hotkey.bind(appHotKey, "c", function() hs.application.launchOrFocusByBundleID('com.google.Chrome') end)
 hs.hotkey.bind(appHotKey, "n", function() hs.application.launchOrFocusByBundleID('notion.id') end)

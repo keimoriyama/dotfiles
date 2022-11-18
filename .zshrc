@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 autoload -Uz colors && colors
 zstyle ":completion:*:commands" rehash 1
 # 小文字でも大文字ディレクトリ、ファイルを補完できるようにする
@@ -37,24 +44,24 @@ alias python='python3'
 alias pip='pip3'
 
 
-git_prompt() {
-  if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = true ]; then
-    PROMPT='%F{034}%n%f %F{081}%~%f $(git_super_status)'
-    PROMPT+=""$'\n'"%# "
-  else
-    PROMPT="%F{034}%n%f %F{081}%~%f "$'\n'"%# "
-  fi
-}
-
-chpwd() {
-	if [[ $(pwd) != $HOME ]]; then;
-		ls
-	fi
-}
-
-precmd(){
-	git_prompt
-}
+#git_prompt() {
+#  if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = true ]; then
+#    PROMPT='%F{034}%n%f %F{081}%~%f $(git_super_status)'
+#    PROMPT+=""$'\n'"%# "
+#  else
+#    PROMPT="%F{034}%n%f %F{081}%~%f "$'\n'"%# "
+#  fi
+#}
+#
+#chpwd() {
+#	if [[ $(pwd) != $HOME ]]; then;
+#		ls
+#	fi
+#}
+#
+#precmd(){
+#	git_prompt
+#}
 
 # コマンド補完についての設定
 autoload -Uz compinit
@@ -69,4 +76,25 @@ if type brew &>/dev/null; then
 	source $(brew --prefix)/opt/z/etc/profile.d/z.sh
 	autoload -Uz compinit
 	compinit
+fi
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if [[ ! -n $TMUX && $- == *l* ]]; then
+  # get the IDs
+  ID="`tmux list-sessions`"
+  if [[ -z "$ID" ]]; then
+    tmux new-session
+  fi
+  create_new_session="Create New Session"
+  ID="$ID\n${create_new_session}:"
+  ID="`echo $ID | $PERCOL | cut -d: -f1`"
+  if [[ "$ID" = "${create_new_session}" ]]; then
+    tmux new-session
+  elif [[ -n "$ID" ]]; then
+    tmux attach-session -t "$ID"
+  else
+    :  # Start terminal normally
+  fi
 fi
