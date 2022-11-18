@@ -1,5 +1,7 @@
 autoload -Uz colors && colors
 zstyle ":completion:*:commands" rehash 1
+# 小文字でも大文字ディレクトリ、ファイルを補完できるようにする
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 export PATH=/Users/keimoriyama/Documents/hogeticlab/collectro/:$PATH
 export GITHUB_USER=keimoriyama
@@ -67,7 +69,4 @@ if type brew &>/dev/null; then
 	source $(brew --prefix)/opt/z/etc/profile.d/z.sh
 	autoload -Uz compinit
 	compinit
-fi
-if [[ ! -n $TMUX ]]; then
-  tmux new-session
 fi
