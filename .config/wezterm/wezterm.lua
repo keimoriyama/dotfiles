@@ -10,13 +10,10 @@ wezterm.on('update-right-status', function(window, pane)
 end)
 
 local keys = {
+	-- cmd+shift+lで設定を再読み込みする
 	{ key = 'l', mods = 'CMD|SHIFT', action = wezterm.action.ReloadConfiguration, },
-	-- CTRL+SHIFT+Space, followed by 'r' will put us in resize-pane
-	-- mode until we cancel that mode.
+	-- ペインの分割部分の設定
 	{ key = 'r', mods = 'LEADER', action = act.ActivateKeyTable { name = 'resize_pane', one_shot = false, }, },
-	-- CTRL+SHIFT+Space, followed by 'a' will put us in activate-pane
-	-- mode until we press some other key or until 1 second (1000ms)
-	-- of time elapses
 	{ key = 's', mods = 'LEADER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' }, },
 	{ key = 'a', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' }, },
 	{ key = "q", mods = "LEADER", action = act.CloseCurrentPane { confirm = false } },
@@ -24,13 +21,17 @@ local keys = {
 	{ key = 'l', mods = 'LEADER', action = act.ActivatePaneDirection 'Right', },
 	{ key = 'k', mods = 'LEADER', action = act.ActivatePaneDirection 'Up', },
 	{ key = 'j', mods = 'LEADER', action = act.ActivatePaneDirection 'Down', },
+	-- ペインのサイズの設定
 	{ key = 'H', mods = 'LEADER', action = act.AdjustPaneSize { 'Left', 5 }, },
 	{ key = 'J', mods = 'LEADER', action = act.AdjustPaneSize { 'Down', 5 }, },
 	{ key = 'K', mods = 'LEADER', action = act.AdjustPaneSize { 'Up', 5 } },
 	{ key = 'L', mods = 'LEADER', action = act.AdjustPaneSize { 'Right', 5 }, },
+	-- コピペの設定
+	{ key = "c", mods = "CTRL|SHIFT", action = act({ CopyTo = "Clipboard" }) },
+	{ key = "v", mods = "CTRL|SHIFT", action = act({ PasteFrom = "Clipboard" }) },
 }
 
-local search_key_tables = {
+local key_tables = {
 	-- 検索モードの時のキーバインドの設定
 	search_mode = {
 		{ key = 'Enter', mods = 'NONE', action = act.CopyMode 'PriorMatch' },
@@ -39,6 +40,53 @@ local search_key_tables = {
 		{ key = 'p', mods = 'CTRL', action = act.CopyMode 'PriorMatch' },
 		{ key = 'r', mods = 'CTRL', action = act.CopyMode 'CycleMatchType' },
 		{ key = 'c', mods = 'CTRL', action = act.CopyMode 'ClearPattern' },
+	},
+	copy_mode = {
+		-- move cursor
+		{ key = "h", mods = "NONE", action = act.CopyMode("MoveLeft") },
+		{ key = "LeftArrow", mods = "NONE", action = act.CopyMode("MoveLeft") },
+		{ key = "j", mods = "NONE", action = act.CopyMode("MoveDown") },
+		{ key = "DownArrow", mods = "NONE", action = act.CopyMode("MoveDown") },
+		{ key = "k", mods = "NONE", action = act.CopyMode("MoveUp") },
+		{ key = "UpArrow", mods = "NONE", action = act.CopyMode("MoveUp") },
+		{ key = "l", mods = "NONE", action = act.CopyMode("MoveRight") },
+		{ key = "RightArrow", mods = "NONE", action = act.CopyMode("MoveRight") },
+		{ key = "w", mods = "NONE", action = act.CopyMode("MoveForwardWord") },
+		{ key = "b", mods = "NONE", action = act.CopyMode("MoveBackwardWord") },
+		{
+			key = "y",
+			mods = "NONE",
+			action = act({
+				Multiple = {
+					act({ CopyTo = "ClipboardAndPrimarySelection" }),
+					act.CopyMode("Close"),
+				},
+			}),
+		},
+		{ key = "G", mods = "NONE", action = act.CopyMode("MoveToScrollbackBottom") },
+		{ key = "H", mods = "NONE", action = act.CopyMode("MoveToViewportTop") },
+		{ key = "M", mods = "NONE", action = act.CopyMode("MoveToViewportMiddle") },
+		{ key = "L", mods = "NONE", action = act.CopyMode("MoveToViewportBottom") },
+		{ key = "O", mods = "NONE", action = act.CopyMode("MoveToSelectionOtherEndHoriz") },
+		{ key = "b", mods = "CTRL", action = act.CopyMode("PageUp") },
+		{ key = "f", mods = "CTRL", action = act.CopyMode("PageDown") },
+		{ key = "/", mods = "NONE", action = act.Search("CurrentSelectionOrEmptyString") },
+		{
+			key = "n",
+			mods = "NONE",
+			action = act.Multiple({
+				act.CopyMode("NextMatch"),
+				act.CopyMode("ClearSelectionMode"),
+			}),
+		},
+		{
+			key = "N",
+			mods = "SHIFT",
+			action = act.Multiple({
+				act.CopyMode("PriorMatch"),
+				act.CopyMode("ClearSelectionMode"),
+			}),
+		},
 	}
 }
 
@@ -96,6 +144,6 @@ return {
 	color_scheme = 'tokyonight-storm',
 	leader = { key = 's', mods = 'CTRL' },
 	keys = keys,
-	key_tables = search_key_tables,
+	key_tables = key_tables,
 	hyperlink_rules = hyperlink_rules,
 }
