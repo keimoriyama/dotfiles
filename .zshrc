@@ -82,8 +82,8 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # tmux が起動中でなければ attach する
-if [ -z "$TMUX" ]
-then
-  tmux new-session
-else
-fi
+#if [ -z "$TMUX" ]
+#then
+#  tmux new-session
+#else
+#fi
