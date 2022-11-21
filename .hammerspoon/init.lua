@@ -48,27 +48,6 @@ local function switchInputSource()
 	hs.eventtap.keyStroke({ "ctrl", "alt" }, "space", 0)
 end
 
-local isCmdAsModifier = false
-
-local function switchInputSourceEvent(event)
-	local eventType = event:getType()
-	local keyCode = event:getKeyCode()
-	local flags = event:getFlags()
-	local map = hs.keycodes.map
-	local isCmd = flags['cmd']
-
-	if eventType == keyDown then
-		if isCmd then
-			isCmdAsModifier = true
-		end
-	elseif eventType == flagsChanged then
-		if isCmd then
-			switchInputSource()
-		end
-		isCmdAsModifier = false
-	end
-end
-
 function getScreenWindowInfo()
 	local focusedWindow = hs.window.focusedWindow()
 	local focusedScreenFrame = focusedWindow:screen():frame()
@@ -121,9 +100,6 @@ function moveToPrevScreen()
 	focusedWindow:setFrame(windowFrame)
 end
 
-eventTap = hs.eventtap.new({ keyDown, flagsChanged }, switchInputSourceEvent)
-eventTap:start()
-
 map = { 'ctrl', 'option' }
 -- 半分に分割する
 hs.hotkey.bind(map, 'h', function() hs.window.focusedWindow():move(units.right50, nil, true) end)
@@ -151,3 +127,5 @@ hs.hotkey.bind(appHotKey, "c", function() hs.application.launchOrFocusByBundleID
 hs.hotkey.bind(appHotKey, "n", function() hs.application.launchOrFocusByBundleID('notion.id') end)
 hs.hotkey.bind(appHotKey, "d", function() hs.application.launchOrFocusByBundleID('com.hnc.Discord') end)
 hs.hotkey.bind(appHotKey, "a", function() hs.application.launchOrFocusByBundleID('com.apple.safari') end)
+
+hs.hotkey.bind({ "ctrl" }, "c", function() switchInputSource() end)

@@ -139,7 +139,7 @@ local hyperlink_rules = {
 
 return {
 	default_prog = { '/bin/zsh', '-l' },
-	font = wezterm.font 'JetBrains Mono',
+	font = wezterm.font 'Hack Nerd Font Mono',
 	font_size = 18,
 	color_scheme = 'tokyonight-storm',
 	leader = { key = 's', mods = 'CTRL' },
