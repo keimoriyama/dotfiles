@@ -129,3 +129,7 @@ hs.hotkey.bind(appHotKey, "d", function() hs.application.launchOrFocusByBundleID
 hs.hotkey.bind(appHotKey, "a", function() hs.application.launchOrFocusByBundleID('com.apple.safari') end)
 
 hs.hotkey.bind({ "ctrl" }, "c", function() switchInputSource() end)
+
+switcher = hs.window.switcher.new()
+hs.hotkey.bind('option', 'tab', function() switcher:next() end)
+hs.hotkey.bind({ 'option', 'shift' }, 'tab', function() switcher:previous() end)
