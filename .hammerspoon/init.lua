@@ -127,9 +127,11 @@ hs.hotkey.bind(appHotKey, "c", function() hs.application.launchOrFocusByBundleID
 hs.hotkey.bind(appHotKey, "n", function() hs.application.launchOrFocusByBundleID('notion.id') end)
 hs.hotkey.bind(appHotKey, "d", function() hs.application.launchOrFocusByBundleID('com.hnc.Discord') end)
 hs.hotkey.bind(appHotKey, "a", function() hs.application.launchOrFocusByBundleID('com.apple.safari') end)
+hs.hotkey.bind(appHotKey, "v", function() hs.application.launchOrFocusByBundleID('com.microsoft.VSCode') end)
+
 
 hs.hotkey.bind({ "ctrl" }, "c", function() switchInputSource() end)
 
-switcher = hs.window.switcher.new()
-hs.hotkey.bind('option', 'tab', function() switcher:next() end)
+switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter {})
+hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
 hs.hotkey.bind({ 'option', 'shift' }, 'tab', function() switcher:previous() end)
