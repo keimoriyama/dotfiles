@@ -44,25 +44,11 @@ alias python='python3'
 alias pip='pip3'
 
 
-#git_prompt() {
-#  if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = true ]; then
-#    PROMPT='%F{034}%n%f %F{081}%~%f $(git_super_status)'
-#    PROMPT+=""$'\n'"%# "
-#  else
-#    PROMPT="%F{034}%n%f %F{081}%~%f "$'\n'"%# "
-#  fi
-#}
-#
-#chpwd() {
-#	if [[ $(pwd) != $HOME ]]; then;
-#		ls
-#	fi
-#}
-#
-#precmd(){
-#	git_prompt
-#}
-
+chpwd() {
+	if [[ $(pwd) != $HOME ]]; then;
+		ls
+	fi
+}
 # コマンド補完についての設定
 autoload -Uz compinit
 compinit
@@ -81,9 +67,3 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-# tmux が起動中でなければ attach する
-#if [ -z "$TMUX" ]
-#then
-#  tmux new-session
-#else
-#fi
