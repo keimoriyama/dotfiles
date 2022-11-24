@@ -151,7 +151,7 @@ hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
 hs.hotkey.bind({ 'option', 'shift' }, 'tab', function() switcher:previous() end)
 
 local qStartTime = 0.0
-local qDuration = 1.5
+local qDuration = 1
 hs.hotkey.bind({ "cmd" }, "Q", function()
 	qStartTime = hs.timer.secondsSinceEpoch()
 end, function()
