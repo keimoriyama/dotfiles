@@ -36,23 +36,10 @@ local function reloadConfig(files)
 	end
 end
 
-local map = hs.keycodes.map
-local keyDown = hs.eventtap.event.types.keyDown
-local flagsChanged = hs.eventtap.event.types.flagsChanged
-
-local SOURCE_ID_EN = "com.apple.keylayout.ABC" -- 「英数」の入力ソースID
-local SOURCE_ID_JA = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese" -- 「かな」の入力ソースID
-
--- 「入力ソースを切り替えるショートカット」を押す
-local function switchInputSource()
-	hs.eventtap.keyStroke({ "ctrl", "alt" }, "space", 0)
-end
-
 function getScreenWindowInfo()
 	local focusedWindow = hs.window.focusedWindow()
 	local focusedScreenFrame = focusedWindow:screen():frame()
 	return focusedWindow, focusedScreenFrame
-
 end
 
 function calcNextWindowRatio(windowFrame, focusedScreenFrame, nextScreenFrame)
@@ -128,10 +115,47 @@ hs.hotkey.bind(appHotKey, "n", function() hs.application.launchOrFocusByBundleID
 hs.hotkey.bind(appHotKey, "d", function() hs.application.launchOrFocusByBundleID('com.hnc.Discord') end)
 hs.hotkey.bind(appHotKey, "a", function() hs.application.launchOrFocusByBundleID('com.apple.safari') end)
 hs.hotkey.bind(appHotKey, "v", function() hs.application.launchOrFocusByBundleID('com.microsoft.VSCode') end)
+hs.hotkey.bind(appHotKey, "k", function() hs.application.launchOrFocusByBundleID('com.apple.Keynote') end)
 
 
-hs.hotkey.bind({ "ctrl" }, "c", function() switchInputSource() end)
+local map = hs.keycodes.map
+local keyDown = hs.eventtap.event.types.keyDown
+local flagsChanged = hs.eventtap.event.types.flagsChanged
+
+
+-- 「入力ソースを切り替えるショートカット」を押す
+local function switchInputSource()
+	hs.eventtap.keyStroke({ "ctrl", "alt" }, "space", 0)
+end
+
+local function switchInputSourceEvent(event)
+	local keyCode = event:getKeyCode()
+	local flags = event:getFlags()
+	local isCmd = flags['cmd']
+
+	if keyCode == map['cmd'] and isCmd then
+		switchInputSource()
+	end
+	if keyCode == map['rightcmd'] and isCmd then
+		switchInputSource()
+	end
+end
+
+eventTap = hs.eventtap.new({ keyDown, flagsChanged }, switchInputSourceEvent)
+eventTap:start()
+
+--hs.hotkey.bind({ "command" }, "", function() switchInputSource() end)
 
 switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter {})
 hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
 hs.hotkey.bind({ 'option', 'shift' }, 'tab', function() switcher:previous() end)
+
+local qStartTime = 0.0
+local qDuration = 1.5
+hs.hotkey.bind({ "cmd" }, "Q", function()
+	qStartTime = hs.timer.secondsSinceEpoch()
+end, function()
+	local qEndTime = hs.timer.secondsSinceEpoch()
+	local duration = qEndTime - qStartTime
+	if duration >= qDuration then hs.application.frontmostApplication():kill() end
+end)
