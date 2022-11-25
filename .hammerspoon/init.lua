@@ -132,10 +132,6 @@ local function switchInputSourceEvent(event)
 	local keyCode = event:getKeyCode()
 	local flags = event:getFlags()
 	local isCmd = flags['cmd']
-
-	if keyCode == map['cmd'] and isCmd then
-		switchInputSource()
-	end
 	if keyCode == map['rightcmd'] and isCmd then
 		switchInputSource()
 	end
