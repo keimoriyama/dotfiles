@@ -105,17 +105,25 @@ hs.hotkey.bind(map, "n", moveToNextScreen)
 hs.hotkey.bind(map, "p", moveToPrevScreen)
 
 -- アプリの起動のためのショートカット
-appHotKey = { "ctrl", "cmd" }
-hs.hotkey.bind(appHotKey, "i", function() hs.application.launchOrFocusByBundleID('com.googlecode.iterm2') end)
-hs.hotkey.bind(appHotKey, "w", function() hs.application.launchOrFocusByBundleID('com.github.wez.wezterm') end)
+function open(name)
+	return function()
+		hs.application.launchOrFocus(name)
+		if name == 'Finder' then
+			hs.appfinder.appFromName(name):activate()
+		end
+	end
+end
 
-hs.hotkey.bind(appHotKey, "s", function() hs.application.launchOrFocusByBundleID('com.tinyspeck.slackmacgap') end)
-hs.hotkey.bind(appHotKey, "c", function() hs.application.launchOrFocusByBundleID('com.google.Chrome') end)
-hs.hotkey.bind(appHotKey, "n", function() hs.application.launchOrFocusByBundleID('notion.id') end)
-hs.hotkey.bind(appHotKey, "d", function() hs.application.launchOrFocusByBundleID('com.hnc.Discord') end)
-hs.hotkey.bind(appHotKey, "a", function() hs.application.launchOrFocusByBundleID('com.apple.safari') end)
-hs.hotkey.bind(appHotKey, "v", function() hs.application.launchOrFocusByBundleID('com.microsoft.VSCode') end)
-hs.hotkey.bind(appHotKey, "k", function() hs.application.launchOrFocusByBundleID('com.apple.Keynote') end)
+appHotKey = { "ctrl", "cmd" }
+hs.hotkey.bind(appHotKey, "i", open("iTerm"))
+hs.hotkey.bind(appHotKey, "w", open("wezterm"))
+
+hs.hotkey.bind(appHotKey, "s", open("slack"))
+hs.hotkey.bind(appHotKey, "c", open("Google Chrome"))
+hs.hotkey.bind(appHotKey, "n", open("Notion"))
+hs.hotkey.bind(appHotKey, "d", open("Discord"))
+hs.hotkey.bind(appHotKey, "a", open("safari"))
+hs.hotkey.bind(appHotKey, "v", open("Visual Studio Code"))
 
 
 local map = hs.keycodes.map
@@ -139,8 +147,6 @@ end
 
 eventTap = hs.eventtap.new({ keyDown, flagsChanged }, switchInputSourceEvent)
 eventTap:start()
-
---hs.hotkey.bind({ "command" }, "", function() switchInputSource() end)
 
 switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter {})
 hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
