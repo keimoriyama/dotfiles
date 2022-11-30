@@ -17,6 +17,7 @@ require 'packer'.startup(function()
 	}
 
 	use 'lewis6991/gitsigns.nvim'
+	-- using packer.nvim
 	if vim.g.vscode then return nil end
 	use 'wbthomason/packer.nvim'
 	-- color scheme
