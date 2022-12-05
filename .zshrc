@@ -14,6 +14,7 @@ export PATH=/Users/keimoriyama/Documents/hogeticlab/collectro/:$PATH
 export GITHUB_USER=keimoriyama
 export GITHUB_ACCESS_TOKEN=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
 
+export PYENV_ROOT="$HOME/.pyenv"
 export LDFLAGS=-L/opt/homebrew/opt/llvm/lib
 export CPPFLAGS=-I/opt/homebrew/opt/llvm/include
 
@@ -40,10 +41,6 @@ alias c='clear'
 
 alias vim='nvim'
 
-alias python='python3'
-alias pip='pip3'
-
-
 chpwd() {
 	if [[ $(pwd) != $HOME ]]; then;
 		ls
@@ -67,3 +64,7 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+eval "$(pyenv init --path)" # これを追記
+eval "$(pyenv init -)"
+
