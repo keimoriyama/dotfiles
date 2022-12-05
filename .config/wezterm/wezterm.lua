@@ -22,13 +22,14 @@ local keys = {
 	{ key = 'k', mods = 'LEADER', action = act.ActivatePaneDirection 'Up', },
 	{ key = 'j', mods = 'LEADER', action = act.ActivatePaneDirection 'Down', },
 	-- ペインのサイズの設定
-	{ key = 'H', mods = 'LEADER', action = act.AdjustPaneSize { 'Left', 5 }, },
-	{ key = 'J', mods = 'LEADER', action = act.AdjustPaneSize { 'Down', 5 }, },
-	{ key = 'K', mods = 'LEADER', action = act.AdjustPaneSize { 'Up', 5 } },
-	{ key = 'L', mods = 'LEADER', action = act.AdjustPaneSize { 'Right', 5 }, },
+	{ key = 'H', mods = 'LEADER', action = act.AdjustPaneSize { 'Left', 10 }, },
+	{ key = 'J', mods = 'LEADER', action = act.AdjustPaneSize { 'Down', 10 }, },
+	{ key = 'K', mods = 'LEADER', action = act.AdjustPaneSize { 'Up', 10 } },
+	{ key = 'L', mods = 'LEADER', action = act.AdjustPaneSize { 'Right', 10 }, },
 	-- コピペの設定
 	{ key = "c", mods = "CTRL|SHIFT", action = act({ CopyTo = "Clipboard" }) },
-	{ key = "v", mods = "CTRL|SHIFT", action = act({ PasteFrom = "Clipboard" }) },
+	{ key = "v", mods = 'LEADER', action = act.ActivateCopyMode },
+	{ key = "/", mods = 'LEADER', action = act.Search { Regex = '' } }
 }
 
 local key_tables = {
@@ -125,15 +126,6 @@ local hyperlink_rules = {
 	{
 		regex = [[\b[tT](\d+)\b]],
 		format = 'https://example.com/tasks/?t=$1',
-	},
-
-	-- Make username/project paths clickable. This implies paths like the following are for GitHub.
-	-- ( "nvim-treesitter/nvim-treesitter" | wbthomason/packer.nvim | wez/wezterm | "wez/wezterm.git" )
-	-- As long as a full URL hyperlink regex exists above this it should not match a full URL to
-	-- GitHub or GitLab / BitBucket (i.e. https://gitlab.com/user/project.git is still a whole clickable URL)
-	{
-		regex = [[["]?([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)["]?]],
-		format = 'https://www.github.com/$1/$3',
 	},
 }
 
