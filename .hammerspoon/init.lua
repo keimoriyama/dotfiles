@@ -152,6 +152,7 @@ switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):s
 hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
 hs.hotkey.bind({ 'option', 'shift' }, 'tab', function() switcher:previous() end)
 
+-- command+Qですぐに閉じないようにする
 local qStartTime = 0.0
 local qDuration = 1
 hs.hotkey.bind({ "cmd" }, "Q", function()
