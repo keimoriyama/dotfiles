@@ -136,17 +136,10 @@ local function switchInputSource()
 	hs.eventtap.keyStroke({ "ctrl", "alt" }, "space", 0)
 end
 
-local function switchInputSourceEvent(event)
-	local keyCode = event:getKeyCode()
-	local flags = event:getFlags()
-	local isCmd = flags['cmd']
-	if keyCode == map['rightcmd'] and isCmd then
-		switchInputSource()
-	end
-end
+hs.hotkey.bind({ "ctrl" }, "return", function()
+	hs.eventtap.keyStroke({ "ctrl", "alt" }, "space", 0)
+end)
 
-eventTap = hs.eventtap.new({ keyDown, flagsChanged }, switchInputSourceEvent)
-eventTap:start()
 
 switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter {})
 hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
