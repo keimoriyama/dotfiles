@@ -126,21 +126,6 @@ hs.hotkey.bind(appHotKey, "a", open("safari"))
 hs.hotkey.bind(appHotKey, "v", open("Visual Studio Code"))
 
 
-local map = hs.keycodes.map
-local keyDown = hs.eventtap.event.types.keyDown
-local flagsChanged = hs.eventtap.event.types.flagsChanged
-
-
--- 「入力ソースを切り替えるショートカット」を押す
-local function switchInputSource()
-	hs.eventtap.keyStroke({ "ctrl", "alt" }, "space", 0)
-end
-
-hs.hotkey.bind({ "ctrl" }, "return", function()
-	hs.eventtap.keyStroke({ "ctrl", "alt" }, "space", 0)
-end)
-
-
 switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter {})
 hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
 hs.hotkey.bind({ 'option', 'shift' }, 'tab', function() switcher:previous() end)
@@ -155,3 +140,4 @@ end, function()
 	local duration = qEndTime - qStartTime
 	if duration >= qDuration then hs.application.frontmostApplication():kill() end
 end)
+

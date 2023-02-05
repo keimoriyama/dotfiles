@@ -44,7 +44,7 @@ local lsp_flags = {
 }
 
 -- add lsp
-local servers = { 'pyright', 'sumneko_lua', 'bashls', 'clangd' }
+local servers = { 'pyright', 'sumneko_lua', 'bashls', 'clangd', 'grammarly' }
 
 local status, mason_lspconfig = pcall(require, 'mason-lspconfig')
 if not status then return end
