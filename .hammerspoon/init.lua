@@ -27,7 +27,7 @@ units = {
 local function reloadConfig(files)
 	doReload = false
 	for _, file in pairs(files) do
-		if file:sub(-4) == ".lua" then
+		if file:sub( -4) == ".lua" then
 			doReload = true
 		end
 	end
@@ -127,7 +127,7 @@ hs.hotkey.bind(appHotKey, "v", open("Visual Studio Code"))
 
 
 switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter {})
-hs.hotkey.bind('option', 'tab', function() switcher:nextWindow() end)
+hs.hotkey.bind('alt', 'tab', function() switcher:nextWindow() end)
 hs.hotkey.bind({ 'option', 'shift' }, 'tab', function() switcher:previous() end)
 
 -- command+Qですぐに閉じないようにする
@@ -140,4 +140,3 @@ end, function()
 	local duration = qEndTime - qStartTime
 	if duration >= qDuration then hs.application.frontmostApplication():kill() end
 end)
-
