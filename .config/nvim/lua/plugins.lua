@@ -16,28 +16,10 @@ if not status then
 	return
 end
 
-
+if vim.g.vscode then return nil end
 lazy.setup({
 	-- color scheme
-	{ 'cocopon/iceberg.vim',             lazy = true },
-	{ 'arcticicestudio/nord-vim',        lazy = true },
-	{ 'sainnhe/edge',                    lazy = true },
-	{ 'EdenEast/nightfox.nvim',          lazy = true },
-	{ 'folke/tokyonight.nvim',           lazy = true },
-	{ 'w0ng/vim-hybrid',                 lazy = true },
-	{ 'nanotech/jellybeans.vim',         lazy = true },
-	{ 'matsuuu/pinkmare',                lazy = true },
-	{ '4513ECHO/vim-colors-hatsunemiku', lazy = true },
-	{ 'catppuccin/nvim',                 lazy = true },
-	{ 'rebelot/kanagawa.nvim',           lazy = true },
-	{ 'laniusone/kyotonight.vim',        lazy = true },
-	{ 'sainnhe/everforest',              lazy = true },
-	{ 'ayu-theme/ayu-vim',               lazy = true },
-	{ 'catppuccin/catppuccin',           lazy = true },
-	{ 'is-hoku/sakura',                  lazy = true },
-	{ 'navarasu/onedark.nvim',           lazy = true },
-	{ 'morhetz/gruvbox',                 lazy = true },
-
+	'folke/tokyonight.nvim',
 	-- status line
 	'nvim-lualine/lualine.nvim',
 
@@ -48,10 +30,8 @@ lazy.setup({
 	'windwp/nvim-autopairs',
 	'windwp/nvim-ts-autotag',
 
-
 	-- surround
 	"kylechui/nvim-surround",
-	-- "tpope/vim-surround"
 
 	-- git
 	'dinhhuy258/git.nvim',
@@ -59,7 +39,7 @@ lazy.setup({
 	'airblade/vim-gitgutter',
 	'akinsho/git-conflict.nvim',
 
-
+	-- auto comment out
 	'numToStr/Comment.nvim',
 
 	'luochen1990/rainbow',
@@ -142,6 +122,18 @@ lazy.setup({
 	'folke/trouble.nvim',
 	'rcarriga/nvim-notify',
 
+	-- template
+	'mattn/vim-sonictemplate',
+	  -- markdown
+	{
+	    "iamcco/markdown-preview.nvim",
+	    build = "cd app && npm install",
+	    init = function() vim.g.mkdp_filetypes = { "markdown" } end,
+	    ft = { "markdown" }
+	},
+	--- obsidian
+	'epwalsh/obsidian.nvim',
+	'BurntSushi/ripgrep',
 })
 
 vim.cmd [[colorscheme tokyonight]]
