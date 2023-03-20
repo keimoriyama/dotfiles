@@ -32,8 +32,6 @@ if vim.fn.has('mac') == 1 then
 else
 	vim.cmd [[set clipboard^=unnamedplus]]
 end
--- シェルの設定
-vim.g.shell = '/opt/homebrew/bin/fish'
 
 vim.g.mapleader = ' '
 
