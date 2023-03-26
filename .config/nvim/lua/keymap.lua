@@ -36,4 +36,3 @@ end
 vim.g.mapleader = ' '
 
 vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Esc><Esc>', ':nohlsearch,<CR>', { silent = true })

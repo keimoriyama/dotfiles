@@ -79,16 +79,12 @@ lazy.setup({
 
 	-- views
 	'petertriho/nvim-scrollbar',
-	'kevinhwang91/nvim-hlslens',
 
 	-- keep lastest cursor position
 	'ethanholz/nvim-lastplace',
 
 	-- sidebar-nvim
 	'sidebar-nvim/sidebar.nvim',
-
-	-- hop
-	'phaazon/hop.nvim',
 
 	-- mkdir
 	'jghauser/mkdir.nvim',

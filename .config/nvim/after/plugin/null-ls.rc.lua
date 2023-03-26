@@ -34,20 +34,6 @@ for _, package in ipairs(mason_registry.get_installed_packages()) do
   end
 end
 
--- null_ls.setup({
---   sources = {
---     -- null_ls.builtins.formatting.black, null_ls.builtins.diagnostics.flake8,
---     -- null_ls.builtins.diagnostics.mypy, null_ls.builtins.formatting.isort,
---     --
---     -- null_ls.builtins.diagnostics.luacheck,
---     -- null_ls.builtins.diagnostics.trail_space,
---     -- null_ls.builtins.formatting.lua_format
---
---     -- null_ls.builtins.formatting.prettier, null_ls.builtins.formatting.djhtml
---   }
---   -- on_attach = on_attach
--- })
-
 null_ls.setup({
   sources = null_sources,
   on_attach = on_attach

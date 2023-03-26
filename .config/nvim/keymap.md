@@ -3,34 +3,16 @@
 ## Default Keymaps
 
 - `<Leader>w`：ファイルを保存
-- `<Esc><Esc>`：ハイライトを消す
 
 ## Plugin Keymaps
 
-### github
-
-- `<Leader>ga`:そのファイルを`git add`する
-- `<Leader>gc`:そのファイルを`git commit`する
-- `<Leader>gl`:`git log`を出力する
-- `<Leader>gd`:`diff`を表示する
-- `<Leader>gs`:`git blame`を表示する
-
 ### 補完
 
-- `<C-d>`：ドキュメントのスクロール（上）
-- `<C-f>`：ドキュメントのスクロール（下）
-- `<C-Space>`：補完を止める
+- `<C-n>` or `<Tab>`：ドキュメントのスクロール（上）
+- `<C-p>` or `<S-Tab>`：ドキュメントのスクロール（下）
+- `<C-l>`：補完を呼び出す
 - `<C-e>`：補完のメニューを閉じる
 - `<CR>`：補完を確定する
-
-### lsp
-
-- `<C-j>`：diagnostic間で移動する
-- `K`：ドキュメントをhoverする（？）
-- `gd`：定義ジャンプ
-- `<C-k>`：signatureのヘルプを開く
-- `gp`：定義参照
-- `gr`：まとめて名前を変更
 
 ## lsp(mason)
 
@@ -49,24 +31,23 @@
 
 ## telescope
 
-- `<C-f>`：file finderを開く
-- `<C-r>`：謎コマンド(`telescope.builtin.live_grep()`)
-- `\\\\`：バッファを検索する
-- `<C-t>`：helpの検索
-- `;;`：直前にやった検索と同じものを行う
-- `<C-e>`：diagnosticのfizzy finderを開く
+- `;f`：file finderを開く
+- `;r`：入力した文字列を含む場所を全てのファイルから検索する
+- `;b`：バッファを検索する
+- `;t`：helpの検索
+- `;e`：diagnosticのfizzy finderを開く
+- `sf`：ディレクトリツリーを開く
+- `;k`：コマンドの検索
 
-## sidebar commands
+## コメントアウト
 
-- `d`:hovering an item :delete file/folder          
-- `y`:hovering an item :yank/copy a file/folder     
-- `x`:hovering an item :cut a file/folder           
-- `p`:hovering an item :paste a file/folder         
-- `c`:hovering an item :create a new file           
-- `e`:hovering an item  :open the current file/folder
-- `r`:hovering an item :rename file/folder          
-- `u`:hovering the section:undo operation              
-- `<C-r>`:hovering the section:redo operation              
-- `<CR>`:hovering an item :open file/folder            
+- `col`：１行だけコメントアウト
+- `cob`：ブロック全体をコメントアウト
 
+## Gitでconflictした時のコマンド
+
+- `co`：手元にある変更を反映する
+- `ct`：リモートの変更を反映する
+- `]x`：前のconflictに移動
+- `[x`：次のconflictに移動
 

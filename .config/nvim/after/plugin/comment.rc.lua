@@ -9,9 +9,9 @@ comment.setup(
     ---@type table
     toggler = {
       ---Line-comment toggle keymap
-      line = 'gcl',
+      line = 'col',
       ---Block-comment toggle keymap
-      block = 'gbc',
+      block = 'cob',
     },
   }
 )

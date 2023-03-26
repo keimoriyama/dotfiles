@@ -12,8 +12,7 @@ cmp.setup({
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ['<C-l>'] = cmp.mapping.complete(),
-    ['<Esc>'] = cmp.mapping.close(),
-    ['<C-{>'] = cmp.mapping.close(),
+    ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm({
       select = true
     }),
@@ -68,6 +67,5 @@ cmp.setup.cmdline('/', {
     { name = 'buffer' }
   }
 })
-
 
 vim.cmd [[highlight! default link CmpItemKind CmpItemMenuDefault]]
