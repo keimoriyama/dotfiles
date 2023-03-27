@@ -1,3 +1,5 @@
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true}
 -- エンコーディングの指定
 vim.o.fileencoding = 'utf-8'
 -- indexを相対表記にする
@@ -35,4 +37,11 @@ end
 
 vim.g.mapleader = ' '
 
+-- ;でコマンド入力( ;と:を入れ替)
+keymap("n", ";", ":", opts)
+-- ESC*2 でハイライトやめる
+keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
+-- Do not yank with x
+keymap("n", "x", '"_x', opts)
 vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>q', ':wq<CR>', { silent = true })

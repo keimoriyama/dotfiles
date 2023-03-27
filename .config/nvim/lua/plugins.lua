@@ -56,7 +56,13 @@ lazy.setup({
 
 	-- fuzzy finder
 	'nvim-telescope/telescope.nvim',
-	'nvim-telescope/telescope-file-browser.nvim',
+	{
+		'nvim-telescope/telescope-file-browser.nvim',
+		dependencies = { 
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim" 
+		}
+	},
 
 	-- File icons
 	'kyazdani42/nvim-web-devicons',
@@ -120,16 +126,17 @@ lazy.setup({
 
 	-- template
 	'mattn/vim-sonictemplate',
-	  -- markdown
+	-- markdown
 	{
-	    "iamcco/markdown-preview.nvim",
-	    build = "cd app && npm install",
-	    init = function() vim.g.mkdp_filetypes = { "markdown" } end,
-	    ft = { "markdown" }
+		"iamcco/markdown-preview.nvim",
+		build = "cd app && npm install",
+		init = function() vim.g.mkdp_filetypes = { "markdown" } end,
+		ft = { "markdown" }
 	},
 	--- obsidian
 	'epwalsh/obsidian.nvim',
 	'BurntSushi/ripgrep',
+
 })
 
 vim.cmd [[colorscheme tokyonight]]
