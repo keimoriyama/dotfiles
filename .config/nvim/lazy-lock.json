@@ -51,6 +51,7 @@
   "tokyonight.nvim": { "branch": "main", "commit": "3ebc29df627c5cf70eb6acb8f0843c9ea9cf6348" },
   "trouble.nvim": { "branch": "main", "commit": "67337644e38144b444d026b0df2dc5fa0038930f" },
   "vim-gitgutter": { "branch": "master", "commit": "edb607cc4b329099da825c028c53b1264dbd2350" },
+  "vim-maketable": { "branch": "master", "commit": "d72e73f333c64110524197ec637897bd1464830f" },
   "vim-repeat": { "branch": "master", "commit": "24afe922e6a05891756ecf331f39a1f6743d3d5a" },
   "vim-sonictemplate": { "branch": "master", "commit": "0e4d422c85decd8d159c663f234eb484b1b04b25" }
 }
