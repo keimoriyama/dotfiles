@@ -35,5 +35,9 @@ marks.setup{
     -- defaults to false.
     annotate = false,
   },
-  mappings = {}
+  mappings = {
+		set_next='ms',
+		next= 'mn',
+		prev='mN'
+	}
 }
