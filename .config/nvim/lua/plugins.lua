@@ -133,6 +133,7 @@ lazy.setup({
 		init = function() vim.g.mkdp_filetypes = { "markdown" } end,
 		ft = { "markdown" }
 	},
+	'mattn/vim-maketable',
 	--- obsidian
 	'epwalsh/obsidian.nvim',
 	'BurntSushi/ripgrep',
