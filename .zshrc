@@ -15,8 +15,10 @@ export GITHUB_USER=keimoriyama
 export GITHUB_ACCESS_TOKEN=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
 
 export PYENV_ROOT="$HOME/.pyenv"
-export LDFLAGS=-L/opt/homebrew/opt/llvm/lib
-export CPPFLAGS=-I/opt/homebrew/opt/llvm/include
+export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
+
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig"
 
 export PATH=$HOME/.pyenv/bin:$PATH
 export PATH=/opt/homebrew/opt/llvm/bin:$PATH

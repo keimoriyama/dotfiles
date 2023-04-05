@@ -136,6 +136,8 @@ lazy.setup({
 	--- obsidian
 	'epwalsh/obsidian.nvim',
 	'BurntSushi/ripgrep',
+	-- mark visualization
+	'chentoast/marks.nvim'
 
 })
 
