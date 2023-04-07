@@ -37,8 +37,6 @@ end
 
 vim.g.mapleader = ' '
 
--- ;でコマンド入力( ;と:を入れ替)
-keymap("n", ";", ":", opts)
 -- ESC*2 でハイライトやめる
 keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 -- Do not yank with x
