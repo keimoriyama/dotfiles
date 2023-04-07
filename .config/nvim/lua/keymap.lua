@@ -41,5 +41,6 @@ vim.g.mapleader = ' '
 keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 -- Do not yank with x
 keymap("n", "x", '"_x', opts)
+keymap('n', '<Leader>bd', ":bd<CR>", {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>q', ':wq<CR>', { silent = true })
