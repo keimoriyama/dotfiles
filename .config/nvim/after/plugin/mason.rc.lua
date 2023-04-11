@@ -20,7 +20,7 @@ vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, opts)
 
 
 -- add lsp
-local servers = { 'pyright', 'lua_ls', 'bashls', 'html', 'clangd', 'rust_analyzer', 'quick_lint_js', 'tsserver' }
+local servers = { 'pyright', 'lua_ls' }
 
 local status, mason_lspconfig = pcall(require, 'mason-lspconfig')
 if not status then return end
