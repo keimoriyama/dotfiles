@@ -1,21 +1,9 @@
 local status, obsidian = pcall(require, 'obsidian')
 if not status then return end
 
-local files = vim.fn.expand("%:p")
-local obsidian_dir = '~/Documents'
-
--- ここをもう少しうまく描きたいところではある
-if string.match(files, "daily_notes") then
-	print("daily ")
-	obsidian_dir = 	'~/Documents/daily_notes/summary/'
-end
-if string.match(files, "BirdCLEF") then
-	print("BirdCLEF")
-	obsidian_dir = 	'~/Program/kaggle/BirdCLEF2023/notes'
-end
 
 obsidian.setup({
-  dir = obsidian_dir,
+  dir = "~/Documents/paper_summary",
   completion = {
     nvim_cmp = true,
   },
