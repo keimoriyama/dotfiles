@@ -138,8 +138,10 @@ lazy.setup({
 	'epwalsh/obsidian.nvim',
 	'BurntSushi/ripgrep',
 	-- mark visualization
-	'chentoast/marks.nvim'
+	'chentoast/marks.nvim',
 
+	-- copilot
+	"zbirenbaum/copilot.lua",
 })
 
 vim.cmd [[colorscheme tokyonight]]
