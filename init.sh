@@ -7,5 +7,6 @@ for f in .??*
 do
     [ "$f" = ".git" ] && continue
     [ "$f" = ".config" ] && continue
+	rm -rf "~/dotfiles/$f"
     ln -sf "~/.dotfiles/$f" "$HOME/$f"
 done
