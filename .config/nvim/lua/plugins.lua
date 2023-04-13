@@ -141,7 +141,8 @@ lazy.setup({
 	'chentoast/marks.nvim',
 
 	-- copilot
-	-- "zbirenbaum/copilot.lua",
+	"zbirenbaum/copilot.lua",
+	{"zbirenbaum/copilot-cmp", dependencies="zbirenbaum/copilot.lua"},
 })
 
 vim.cmd [[colorscheme tokyonight]]
