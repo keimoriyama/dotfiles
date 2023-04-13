@@ -6,12 +6,14 @@ ts.setup {
   },
   indent = { enable = false, disable = { 'python' } },
   ensure_installed = {
-    "tsx", "toml", "php", "json", "yaml", "css", "html", "lua", "python",
+    "tsx", "toml", "gitignore", "json", "yaml", "css", "html", "lua", "python",
     "cpp", "markdown", "markdown_inline",
   },
   autotag = { enable = true },
   yati = { enable = true,
-    indent = { enable = false } }
+    indent = { enable = false }
+	},
+	update_strategy = 'lockfile'
 }
 
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()

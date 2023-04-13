@@ -139,10 +139,9 @@ lazy.setup({
 	'BurntSushi/ripgrep',
 	-- mark visualization
 	'chentoast/marks.nvim',
-
-	-- copilot
-	"zbirenbaum/copilot.lua",
-	{"zbirenbaum/copilot-cmp", dependencies="zbirenbaum/copilot.lua"},
+	--copilot
+	--"zbirenbaum/copilot.lua",
+	--"zbirenbaum/copilot-cmp,
 })
 
 vim.cmd [[colorscheme tokyonight]]

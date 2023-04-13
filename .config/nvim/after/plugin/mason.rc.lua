@@ -30,7 +30,25 @@ mason_lspconfig.setup({ ensure_installed = servers })
 local status, lspconfig = pcall(require, 'lspconfig')
 if not status then return end
 
-for _, lsp in ipairs(servers) do lspconfig[lsp].setup({}) end
+for _, lsp in ipairs(servers) do
+	if lsp == 'lua_ls' then
+		lspconfig[lsp].setup({
+			settings = {
+				Lua = {
+					runtime = {
+						-- Tell the language server
+						diagnostics = {
+							-- Get the language server to recognize the `vim` global
+							globals = { 'vim' }
+						}
+					}
+				}
+			}
+		})
+	else
+		lspconfig[lsp].setup({})
+	end
+end
 
 -- LSP handlers
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -73,13 +91,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 
 
-lspconfig.lua_ls.setup {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { 'vim', 'hs', 'wez' }
-			}
-		}
-	},
-	on_attach = on_attach
-}
+-- LSP handlers
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+	vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true }
+)
