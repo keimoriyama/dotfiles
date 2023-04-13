@@ -26,3 +26,4 @@ lib*
 .config/fish/conf.d
 .config/fish/fish_variables
 .config/karabiner
+.zshenv
