@@ -5,10 +5,6 @@ if not status then return end
 copilot.setup({
 	suggestion={enabled = false},
 	panel = {enabled = false},
-	filetypes = {
-    markdown = true, -- overrides default
-	["."] = false,
-  },
 })
 
 local status_copilot, copilot_cmp = pcall(require, 'copilot_cmp')
