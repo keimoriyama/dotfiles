@@ -118,11 +118,11 @@ lazy.setup({
 	-- mark visualization
 	"chentoast/marks.nvim",
 	--copilot
-	-- { "zbirenbaum/copilot.lua", build = ":Copilot auth" },
-	-- {
-	-- "zbirenbaum/copilot-cmp",
-	-- dependencies = "copilot.lua",
-	-- },
+	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
+	{
+		"zbirenbaum/copilot-cmp",
+		dependencies = "copilot.lua",
+	},
 	-- ChatGPT
 	{
 		"jackMort/ChatGPT.nvim",
