@@ -1,12 +1,6 @@
-#!/bin/bash
-
-# 手動でリンクを貼る
-ln -sf ~/.dotfiles/.config/ $HOME
+FILES=(.zshrc .zshenv .config .tmux.conf .tigrc .vimrc .hammerspoon .p10k.zsh)
 # 移動できたらリンクを実行する
-for f in .??*
-do
-    [ "$f" = ".git" ] && continue
-    [ "$f" = ".config" ] && continue
-	rm -rf "~/dotfiles/$f"
-    ln -sf "~/.dotfiles/$f" "$HOME/$f"
+for f in ${FILES[@]}; do
+	ln -snfv ~/.dotfiles/$f $HOME/$f
+	echo $f
 done
