@@ -5,16 +5,10 @@ end
 
 copilot.setup({
 	suggestion = {
-		enabled = true,
-		keymap = {
-			confirm = "<CR>",
-			next = "<C-n>",
-			prev = "<C-p>",
-		},
+		enabled = false,
 	},
 	panel = { enabled = false },
 	filetypes = {
-		markdown = false,
 		yaml = false,
 		help = false,
 	},
