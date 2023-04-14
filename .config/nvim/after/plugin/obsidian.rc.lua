@@ -23,6 +23,11 @@ obsidian.setup({
 		end
 		return suffix
 	end,
+	ensure_installed = { "markdown", "markdown_inline", ... },
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = { "markdown" },
+	},
 })
 
 vim.keymap.set("n", "gf", function()
