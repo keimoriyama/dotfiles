@@ -1,46 +1,46 @@
 local keymap = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true}
+local opts = { noremap = true, silent = true }
 -- エンコーディングの指定
-vim.o.fileencoding = 'utf-8'
+vim.opt.fileencoding = "utf-8"
 -- indexを相対表記にする
-vim.o.relativenumber = true
+vim.opt.relativenumber = true
 -- リアルタイム検索にする
-vim.o.hlsearch = true
-vim.o.incsearch = true
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
 -- 最下ウィンドウにいつステータス行を表示するか
-vim.o.laststatus = 2
+vim.opt.laststatus = 2
 -- コマンドライン補完の有効化
-vim.o.wildmenu = true
+vim.opt.wildmenu = true
 -- 直前の行から新しいインデントを指定する
-vim.o.autoindent = true
+vim.opt.autoindent = true
 -- vim以外でファイルを編集した時
-vim.o.autoread = true
+vim.opt.autoread = true
 -- バックアップファイルを作成しない
 vim.b.noswapfile = true
 vim.b.nobackup = true
 vim.b.nowritebackup = true
 -- カレントバッファの強調表示
-vim.o.syntax = 'enable'
+vim.opt.syntax = "enable"
 -- tabの表示幅の修正
-vim.o.tabstop = 4
+vim.opt.tabstop = 4
 -- インデントに使うshift幅
-vim.o.shiftwidth = 4
+vim.opt.shiftwidth = 4
 -- ファイルの変更評価
-vim.o.modifiable = true
+vim.opt.modifiable = true
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
-if vim.fn.has('mac') == 1 then
-	vim.cmd [[set clipboard+=unnamed]]
+if vim.fn.has("mac") == 1 then
+	vim.cmd([[set clipboard+=unnamed]])
 else
-	vim.cmd [[set clipboard^=unnamedplus]]
+	vim.cmd([[set clipboard^=unnamedplus]])
 end
 
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
 -- ESC*2 でハイライトやめる
 keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 -- Do not yank with x
 keymap("n", "x", '"_x', opts)
-keymap('n', '<Leader>bd', ":bd<CR>", {silent=true})
-vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>q', ':wq<CR>', { silent = true })
+keymap("n", "<Leader>bd", ":bd<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>q", ":wq<CR>", { silent = true })
