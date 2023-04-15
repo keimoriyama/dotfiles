@@ -40,6 +40,7 @@ local key_tables = {
 		{ key = "c", mods = "CTRL", action = act.CopyMode("ClearPattern") },
 	},
 	copy_mode = {
+		{ key = "v", mods = "NONE", action = act.CopyMode({ SetSelectionMode = "Cell" }) },
 		-- move cursor
 		{ key = "h", mods = "NONE", action = act.CopyMode("MoveLeft") },
 		{ key = "LeftArrow", mods = "NONE", action = act.CopyMode("MoveLeft") },
