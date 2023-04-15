@@ -26,5 +26,6 @@ lib*
 .config/fish/conf.d
 .config/fish/fish_variables
 .config/karabiner
+.config/nvim/lua/.luarc.json
 .zshenv
 .config/github-copilot/hosts.json
