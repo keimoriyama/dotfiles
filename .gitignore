@@ -11,21 +11,10 @@
 .Rhistory
 .zprofile
 lib*
+.config/
+!.config/nvim
+!.config/wezterm
 
-.config/nvim/autoload/
-.config/nvim/plugged/
-.config/session/
-.config/coc/
-.config/gcloud/
-.config/nvim/node_modules
-.config/nvim/package-lock.json
-.config/nvim/package.json
-
-.config/fish/functions
-.config/fish/fish_plugins
-.config/fish/conf.d
-.config/fish/fish_variables
-.config/karabiner
 .config/nvim/lua/.luarc.json
 .zshenv
 .config/github-copilot/hosts.json
