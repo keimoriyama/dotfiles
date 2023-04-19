@@ -15,6 +15,5 @@ lib*
 !.config/nvim
 !.config/wezterm
 
-.config/nvim/lua/.luarc.json
 .zshenv
 .config/github-copilot/hosts.json
