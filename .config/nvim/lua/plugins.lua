@@ -136,6 +136,8 @@ lazy.setup({
 			"nvim-telescope/telescope.nvim",
 		},
 	},
+	-- terminal setting
+	{ "akinsho/toggleterm.nvim", version = "*", config = true },
 })
 
 vim.cmd([[colorscheme tokyonight]])
