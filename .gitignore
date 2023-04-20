@@ -12,10 +12,15 @@
 .zprofile
 lib*
 
-/.config/
-!/.config/nvim
-!/.config/nvim/after/plugin/*.lua
-!/.config/wezterm
+.config/*
+
+.config/nvim/*.json
+.config/nvim/node_modules
+
+!.config/nvim/*.lua
+!.config/nvim/
+!.config/nvim/after/plugin/*.lua
+!.config/wezterm
 
 .zshenv
 .config/github-copilot/hosts.json
