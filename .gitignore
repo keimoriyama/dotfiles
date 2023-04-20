@@ -11,8 +11,10 @@
 .Rhistory
 .zprofile
 lib*
+
 /.config/
 !/.config/nvim
+!/.config/nvim/after/plugin/*.lua
 !/.config/wezterm
 
 .zshenv
