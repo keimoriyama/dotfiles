@@ -11,9 +11,9 @@
 .Rhistory
 .zprofile
 lib*
-.config/
-!.config/nvim
-!.config/wezterm
+/.config/
+!/.config/nvim
+!/.config/wezterm
 
 .zshenv
 .config/github-copilot/hosts.json
