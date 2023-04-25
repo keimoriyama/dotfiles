@@ -22,7 +22,7 @@ end
 
 local option = { noremap = true, silent = true }
 
-vim.api.nvim_set_keymap("n", "lg", "<cmd>lua _lazygit_toggle()<CR>", option)
+vim.api.nvim_set_keymap("n", "<Leader>lg", "<cmd>lua _lazygit_toggle()<CR>", option)
 vim.api.nvim_set_keymap("t", "<C-h>", "<cmd>wincmd h<CR>", option)
 vim.api.nvim_set_keymap("t", "<C-l>", "<cmd>wincmd l<CR>", option)
 vim.api.nvim_set_keymap("t", "<C-j>", "<cmd>wincmd j<CR>", option)
