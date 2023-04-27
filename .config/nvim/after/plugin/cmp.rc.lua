@@ -42,9 +42,9 @@ cmp.setup({
 		end,
 	}),
 	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
 		{ name = "buffer" },
 		{ name = "mocword" },
-		{ name = "nvim_lsp" },
 		{ name = "path" },
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "treesitter" },
