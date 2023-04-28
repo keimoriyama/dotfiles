@@ -25,6 +25,7 @@ cmp.setup({
 		["<C-e>"] = cmp.mapping.close(),
 		["<CR>"] = cmp.mapping.confirm({
 			select = true,
+			behavior = cmp.ConfirmBehavior.Replace,
 		}),
 		["<Tab>"] = vim.schedule_wrap(function(fallback)
 			if cmp.visible() and has_words_before() then
@@ -49,7 +50,7 @@ cmp.setup({
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "treesitter" },
 		-- { name = "obsidian" },
-		-- { name = "copilot" },
+		{ name = "copilot" },
 	}),
 	formatting = {
 		format = lspkind.cmp_format({
