@@ -73,7 +73,7 @@ lazy.setup({
 	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
 	-- sidebar-nvim
-	"sidebar-nvim/sidebar.nvim",
+	-- "sidebar-nvim/sidebar.nvim",
 	-- mkdir
 	"jghauser/mkdir.nvim",
 	---

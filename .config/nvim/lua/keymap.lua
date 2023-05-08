@@ -1,5 +1,7 @@
 local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
+
+vim.g.mapleader = " "
 -- エンコーディングの指定
 vim.opt.fileencoding = "utf-8"
 -- indexを相対表記にする
@@ -34,8 +36,6 @@ if vim.fn.has("mac") == 1 then
 else
 	vim.cmd([[set clipboard^=unnamedplus]])
 end
-
-vim.g.mapleader = " "
 
 -- ESC*2 でハイライトやめる
 keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
