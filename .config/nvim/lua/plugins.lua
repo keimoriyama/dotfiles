@@ -32,6 +32,7 @@ lazy.setup({
 	-- surround
 	"kylechui/nvim-surround",
 	-- git
+	"TimUntersberger/neogit",
 	"dinhhuy258/git.nvim",
 	"lewis6991/gitsigns.nvim",
 	"airblade/vim-gitgutter",

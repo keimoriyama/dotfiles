@@ -2,6 +2,7 @@ local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 vim.g.mapleader = " "
+
 -- エンコーディングの指定
 vim.opt.fileencoding = "utf-8"
 -- indexを相対表記にする
