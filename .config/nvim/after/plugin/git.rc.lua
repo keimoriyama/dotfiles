@@ -17,3 +17,11 @@ git.setup({
 		browse = "<Leader>go",
 	},
 })
+
+local option = { noremap = true, silent = true }
+
+vim.api.nvim_set_keymap("n", "<Leader>gc", "<cmd>Git commit<CR>", option)
+vim.api.nvim_set_keymap("n", "<Leader>ga", "<cmd>Git add<CR>", option)
+vim.api.nvim_set_keymap("n", "<Leader>gs", "<cmd>Git status<CR>", option)
+vim.api.nvim_set_keymap("n", "<Leader>gp", "<cmd>Git push<CR>", option)
+vim.api.nvim_set_keymap("n", "<Leader>gP", "<cmd>Git pull<CR>", option)
