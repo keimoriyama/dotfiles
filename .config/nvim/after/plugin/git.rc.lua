@@ -20,8 +20,11 @@ git.setup({
 
 local option = { noremap = true, silent = true }
 
+local filename = vim.fn.expand("%:p")
+local command_add = string.format("<cmd>Git add %s<CR>", filename)
+
 vim.api.nvim_set_keymap("n", "<Leader>gc", "<cmd>Git commit<CR>", option)
-vim.api.nvim_set_keymap("n", "<Leader>ga", "<cmd>Git add<CR>", option)
+vim.api.nvim_set_keymap("n", "<Leader>ga", command_add, option)
 vim.api.nvim_set_keymap("n", "<Leader>gs", "<cmd>Git status<CR>", option)
 vim.api.nvim_set_keymap("n", "<Leader>gp", "<cmd>Git push<CR>", option)
 vim.api.nvim_set_keymap("n", "<Leader>gP", "<cmd>Git pull<CR>", option)

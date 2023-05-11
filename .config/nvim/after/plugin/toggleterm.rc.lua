@@ -1,28 +1,11 @@
-local status, toggleterm = pcall(require, "toggleterm")
+local status, ugaterm = pcall(require, "ugaterm")
 if not status then
 	return
 end
-
-toggleterm.setup({
-	open_mapping = [[<C-t>]],
-	direction = "vertical",
-	size = vim.o.columns * 0.4,
-})
-
-local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({
-	cmd = "lazygit",
-	direction = "float",
-	hidden = true,
-})
-
-function _lazygit_toggle()
-	lazygit:toggle()
-end
-
+ugaterm.setup()
 local option = { noremap = true, silent = true }
-
-vim.api.nvim_set_keymap("n", "<Leader>lg", "<cmd>lua _lazygit_toggle()<CR>", option)
+vim.api.nvim_set_keymap("n", "<C-t>", "<cmd>UgatermToggle<CR>", option)
+vim.api.nvim_set_keymap("t", "<C-t>", "<cmd>UgatermToggle<CR>", option)
 
 vim.api.nvim_set_keymap("t", "<C-h>", "<cmd>wincmd h<CR>", option)
 vim.api.nvim_set_keymap("t", "<C-l>", "<cmd>wincmd l<CR>", option)

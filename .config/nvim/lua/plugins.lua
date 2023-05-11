@@ -36,12 +36,6 @@ lazy.setup({
 	"lewis6991/gitsigns.nvim",
 	"airblade/vim-gitgutter",
 	"akinsho/git-conflict.nvim",
-	-- {
-	-- "tanvirtin/vgit.nvim",
-	-- dependencies = {
-	-- "nvim-lua/plenary.nvim",
-	-- },
-	-- },
 	-- auto comment out
 	"numToStr/Comment.nvim",
 	"luochen1990/rainbow",
@@ -143,7 +137,7 @@ lazy.setup({
 		},
 	},
 	-- terminal setting
-	{ "akinsho/toggleterm.nvim", version = "*", config = true },
+	"uga-rosa/ugaterm.nvim",
 })
 
 vim.cmd([[colorscheme tokyonight]])
