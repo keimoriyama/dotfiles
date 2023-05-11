@@ -20,14 +20,11 @@ git.setup({
 
 local option = { noremap = true, silent = true }
 
--- local filename = vim.fn.expand("%:p")
-local file = vim.api.nvim_buf_get_name(0)
-local command_add = string.format("<cmd>Git add %s<CR>", file)
+local file = ""
+local command_add = ""
 
 vim.api.nvim_create_autocmd("BufEnter", {
-	pattern = "*",
-	nested = true,
-	callback = function(args)
+	callback = function()
 		file = vim.api.nvim_buf_get_name(0)
 		command_add = string.format("<cmd>Git add %s<CR>", file)
 	end,

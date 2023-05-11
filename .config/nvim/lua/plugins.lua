@@ -78,9 +78,9 @@ lazy.setup({
 	"jghauser/mkdir.nvim",
 	---
 	"tversteeg/registers.nvim",
-	--- code action list
+	-- - code action list
 	"aznhe21/actions-preview.nvim",
-	--- lsp
+	-- - lsp
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
@@ -95,7 +95,7 @@ lazy.setup({
 	"yutkat/cmp-mocword",
 	"hrsh7th/cmp-cmdline",
 	"ray-x/cmp-treesitter",
-	--- noice
+	-- - noice
 	"folke/noice.nvim",
 	"MunifTanjim/nui.nvim",
 	"folke/trouble.nvim",
@@ -117,7 +117,7 @@ lazy.setup({
 	"BurntSushi/ripgrep",
 	-- mark visualization
 	"chentoast/marks.nvim",
-	--copilot
+	-- copilot
 	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
 	{
 		"zbirenbaum/copilot-cmp",

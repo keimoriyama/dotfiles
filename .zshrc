@@ -27,7 +27,7 @@ alias gc='git commit'
 alias ls='ls -G'
 alias c='clear'
 
-alias vim='nvim'
+alias n='nvim'
 
 chpwd() {
 	if [[ $(pwd) != $HOME ]]; then;
