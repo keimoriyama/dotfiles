@@ -27,7 +27,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	callback = function()
 		file = vim.api.nvim_buf_get_name(0)
 		command_add = string.format("<cmd>Git add %s<CR>", file)
-		print(command_add)
 		vim.api.nvim_set_keymap("n", "<Leader>ga", command_add, option)
 	end,
 })
