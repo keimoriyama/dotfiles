@@ -40,8 +40,6 @@ end
 
 -- ESC*2 でハイライトやめる
 keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
--- Do not yank with x
-keymap("n", "x", '"_x', opts)
 keymap("n", "<Leader>bd", ":bd<CR>", opts)
 keymap("n", "<Leader>w", ":w<CR>", opts)
 keymap("n", "<Leader>q", ":wq<CR>", opts)
