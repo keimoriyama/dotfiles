@@ -1,0 +1,6 @@
+sync:
+  defaults:
+    ignore:
+      paths:
+        - "*.pth"
+        - "*.ckpt"
