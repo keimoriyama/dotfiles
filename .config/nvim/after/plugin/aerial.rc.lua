@@ -18,7 +18,6 @@ aerial.setup({
 		"Module",
 		"Method",
 		"Struct",
-		"Variable",
 	},
 })
 
