@@ -13,6 +13,13 @@ sidebar.setup({
 		ignore_not_loaded = false, -- whether to ignore not loaded buffers
 		ignore_terminal = true, -- whether to show terminal buffers in the list
 	},
+	bindings = {
+		["q"] = function()
+			sidebar.close()
+		end,
+	},
+	open = true,
+	initial_width = 30,
 })
 
 vim.keymap.set("n", "<C-n>", sidebar.toggle, { noremap = true, silent = true })

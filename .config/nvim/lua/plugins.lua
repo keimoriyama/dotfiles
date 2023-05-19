@@ -132,6 +132,8 @@ lazy.setup({
 	},
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
+	-- sidebar
+	"sidebar-nvim/sidebar.nvim",
 })
 
 vim.cmd([[colorscheme tokyonight]])
