@@ -16,6 +16,7 @@ lib*
 
 .config/nvim/*.json
 .config/nvim/node_modules
+.config/nvim/lazy-lock.json
 
 !.config/nvim/*.lua
 !.config/nvim/
@@ -24,3 +25,4 @@ lib*
 
 .zshenv
 .config/github-copilot/hosts.json
+
