@@ -56,7 +56,7 @@ lazy.setup({
 		},
 	},
 	-- File icons
-	"kyazdani42/nvim-web-devicons",
+	-- "kyazdani42/nvim-web-devicons",
 	-- treesitter
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	{ "yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter" },
@@ -72,8 +72,15 @@ lazy.setup({
 	"petertriho/nvim-scrollbar",
 	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
-	-- sidebar-nvim
-	-- "sidebar-nvim/sidebar.nvim",
+	-- aerial
+	{
+		"stevearc/aerial.nvim",
+		-- Optional dependencies
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+	},
 	-- mkdir
 	"jghauser/mkdir.nvim",
 	---
