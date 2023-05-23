@@ -26,24 +26,24 @@ lazy.setup({
 	"nvim-lualine/lualine.nvim",
 	-- indent
 	"lukas-reineke/indent-blankline.nvim",
-	-- auto pair and tag close
+	--	-- auto pair and tag close
 	"windwp/nvim-autopairs",
 	"windwp/nvim-ts-autotag",
-	-- surround
+	--	-- surround
 	"kylechui/nvim-surround",
-	-- git
+	--	-- git
 	"dinhhuy258/git.nvim",
 	"lewis6991/gitsigns.nvim",
 	"airblade/vim-gitgutter",
 	"akinsho/git-conflict.nvim",
-	-- auto comment out
+	--	-- auto comment out
 	"numToStr/Comment.nvim",
 	"luochen1990/rainbow",
-	-- dot repeat
+	--	-- dot repeat
 	"tpope/vim-repeat",
-	-- linter, formatter
+	--	-- linter, formatter
 	"jose-elias-alvarez/null-ls.nvim",
-	-- utility
+	--	-- utility
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
 	-- fuzzy finder
@@ -55,36 +55,36 @@ lazy.setup({
 			"nvim-lua/plenary.nvim",
 		},
 	},
-	-- File icons
-	-- "kyazdani42/nvim-web-devicons",
+	--	-- File icons
+	"kyazdani42/nvim-web-devicons",
 	-- treesitter
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	{ "yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter" },
-	-- bufferline
+	--	-- bufferline
 	"akinsho/nvim-bufferline.lua",
-	-- show color
+	--	-- show color
 	"norcalli/nvim-colorizer.lua",
-	-- csv
+	--	-- csv
 	"Decodetalkers/csv-tools.lua",
-	-- comment
+	--	-- comment
 	"folke/todo-comments.nvim",
-	-- views
+	--	-- views
 	"petertriho/nvim-scrollbar",
-	-- keep lastest cursor position
+	--	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
 	-- symbols outline
 	"simrat39/symbols-outline.nvim",
-	-- mkdir
+	--	-- mkdir
 	"jghauser/mkdir.nvim",
-	---
+	--	---
 	"tversteeg/registers.nvim",
-	-- - code action list
+	--	-- - code action list
 	"aznhe21/actions-preview.nvim",
-	-- - lsp
+	--	-- - lsp
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
-	--- cmp
+	--	--- cmp
 	"onsails/lspkind-nvim", -- vscode-like pictograms
 	"L3MON4D3/LuaSnip",
 	"hrsh7th/cmp-nvim-lsp",
@@ -96,10 +96,10 @@ lazy.setup({
 	"hrsh7th/cmp-cmdline",
 	"ray-x/cmp-treesitter",
 	-- - noice
-	"folke/noice.nvim",
-	"MunifTanjim/nui.nvim",
-	"folke/trouble.nvim",
-	"rcarriga/nvim-notify",
+	-- "folke/noice.nvim",
+	-- "MunifTanjim/nui.nvim",
+	-- "folke/trouble.nvim",
+	-- "rcarriga/nvim-notify",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
@@ -131,4 +131,5 @@ lazy.setup({
 	"TimUntersberger/neogit",
 })
 
+print("Hello")
 vim.cmd([[colorscheme tokyonight]])
