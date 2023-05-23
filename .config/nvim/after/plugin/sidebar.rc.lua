@@ -18,7 +18,6 @@ sidebar.setup({
 			sidebar.close()
 		end,
 	},
-	open = true,
 	initial_width = 30,
 })
 

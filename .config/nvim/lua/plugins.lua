@@ -72,15 +72,8 @@ lazy.setup({
 	"petertriho/nvim-scrollbar",
 	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
-	-- aerial
-	{
-		"stevearc/aerial.nvim",
-		-- Optional dependencies
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-		},
-	},
+	-- symbols outline
+	"simrat39/symbols-outline.nvim",
 	-- mkdir
 	"jghauser/mkdir.nvim",
 	---
@@ -134,6 +127,8 @@ lazy.setup({
 	"uga-rosa/ugaterm.nvim",
 	-- sidebar
 	"sidebar-nvim/sidebar.nvim",
+	-- neogit
+	"TimUntersberger/neogit",
 })
 
 vim.cmd([[colorscheme tokyonight]])
