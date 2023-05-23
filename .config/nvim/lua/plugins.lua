@@ -95,7 +95,7 @@ lazy.setup({
 	"yutkat/cmp-mocword",
 	"hrsh7th/cmp-cmdline",
 	"ray-x/cmp-treesitter",
-	--	-- - noice
+	-- - noice
 	-- "folke/noice.nvim",
 	-- "MunifTanjim/nui.nvim",
 	-- "folke/trouble.nvim",
