@@ -115,20 +115,21 @@ lazy.setup({
 	--- obsidian
 	"epwalsh/obsidian.nvim",
 	"BurntSushi/ripgrep",
-	--	-- mark visualization
+	-- mark visualization
 	"chentoast/marks.nvim",
-	--	-- copilot
+	-- copilot
 	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
 	{
 		"zbirenbaum/copilot-cmp",
 		dependencies = "copilot.lua",
 	},
-	--	-- terminal setting
+	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
-	--	-- sidebar
+	-- sidebar
 	"sidebar-nvim/sidebar.nvim",
-	--	-- neogit
+	-- neogit
 	"TimUntersberger/neogit",
 })
 
+print("Hello")
 vim.cmd([[colorscheme tokyonight]])
