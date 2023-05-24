@@ -8,12 +8,12 @@ comment.setup({
 	---@type table
 	toggler = {
 		---Line-comment toggle keymap
-		line = "col",
+		line = "gc",
 		---Block-comment toggle keymap
-		block = "cob",
+		block = "gb",
 	},
 	opleader = {
-		line = "cc",
+		line = "gc",
 		block = "bc",
 	},
 })
