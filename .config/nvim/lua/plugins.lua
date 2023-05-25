@@ -131,5 +131,4 @@ lazy.setup({
 	"TimUntersberger/neogit",
 })
 
-print("Hello")
 vim.cmd([[colorscheme tokyonight]])
