@@ -129,6 +129,15 @@ lazy.setup({
 	"sidebar-nvim/sidebar.nvim",
 	-- neogit
 	"TimUntersberger/neogit",
+	-- barbecue
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+		},
+	},
 })
 
 vim.cmd([[colorscheme tokyonight]])
