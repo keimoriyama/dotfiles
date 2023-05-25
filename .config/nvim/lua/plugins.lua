@@ -96,10 +96,10 @@ lazy.setup({
 	"hrsh7th/cmp-cmdline",
 	"ray-x/cmp-treesitter",
 	-- - noice
-	-- "folke/noice.nvim",
-	-- "MunifTanjim/nui.nvim",
-	-- "folke/trouble.nvim",
-	-- "rcarriga/nvim-notify",
+	"folke/noice.nvim",
+	"MunifTanjim/nui.nvim",
+	"folke/trouble.nvim",
+	"rcarriga/nvim-notify",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
