@@ -41,4 +41,4 @@ vim.g.shell = "/opt/homebrew/bin/fish"
 
 vim.g.mapleader = " "
 
-vim.api.nvim_set_keymap("n", "<C-c>", ":nohlsearch,<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<C-c>", "<cmd>!nohlsearch<CR>", { silent = true })
