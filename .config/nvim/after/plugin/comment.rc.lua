@@ -12,8 +12,4 @@ comment.setup({
 		---Block-comment toggle keymap
 		block = "gb",
 	},
-	opleader = {
-		line = "gc",
-		block = "bc",
-	},
 })
