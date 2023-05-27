@@ -21,11 +21,16 @@ if not status then return end
 local status, mason_registry = pcall(require, "mason-registry")
 if not status then return end
 
-local null_sources = {null_ls.builtins.formatting.lua_format}
+local null_sources = {
+    null_ls.builtins.formatting.lua_format,
+    null_ls.builtins.formatting.clang_format
+}
 
 for _, package in ipairs(mason_registry.get_installed_packages()) do
-    -- print(package)
-    if package.name == 'luaformatter' then goto continue end
+    print(package)
+    if package.name == 'luaformatter' or package.name == "clang-format" then
+        goto continue
+    end
     local package_categories = package.spec.categories[1]
     if package_categories == mason_package.Cat.Formatter then
         table.insert(null_sources, null_ls.builtins.formatting[package.name])
