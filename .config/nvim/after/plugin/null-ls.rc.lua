@@ -27,7 +27,6 @@ local null_sources = {
 }
 
 for _, package in ipairs(mason_registry.get_installed_packages()) do
-    print(package)
     if package.name == 'luaformatter' or package.name == "clang-format" then
         goto continue
     end
