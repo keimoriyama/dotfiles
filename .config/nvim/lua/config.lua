@@ -1,5 +1,5 @@
 -- エンコーディングの指定
-vim.o.fileencoding = 'utf-8'
+vim.o.fileencoding = "utf-8"
 -- indexを相対表記にする
 vim.o.relativenumber = true
 -- リアルタイム検索にする
@@ -18,7 +18,7 @@ vim.b.noswapfile = true
 vim.b.nobackup = true
 vim.b.nowritebackup = true
 -- カレントバッファの強調表示
-vim.o.syntax = 'enable'
+vim.o.syntax = "enable"
 -- tabの表示幅の修正
 vim.o.tabstop = 4
 -- インデントに使うshift幅
@@ -29,15 +29,16 @@ vim.o.modifiable = true
 vim.opt.clipboard:append({ unnamedplus = true })
 -- スワップファイルを作らない
 vim.o.noswapfile = true
+vim.opt.updatetime = 200
 
-if vim.fn.has('mac') == 1 then
-	vim.cmd [[set clipboard+=unnamed]]
+if vim.fn.has("mac") == 1 then
+	vim.cmd([[set clipboard+=unnamed]])
 else
-	vim.cmd [[set clipboard^=unnamedplus]]
+	vim.cmd([[set clipboard^=unnamedplus]])
 end
 -- シェルの設定
-vim.g.shell = '/opt/homebrew/bin/fish'
+vim.g.shell = "/opt/homebrew/bin/fish"
 
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
-vim.api.nvim_set_keymap('n', '<C-c>', ':nohlsearch,<CR>', { silent = true })
+vim.api.nvim_set_keymap("n", "<C-c>", "<cmd>!nohlsearch<CR>", { silent = true })

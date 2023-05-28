@@ -56,3 +56,4 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 eval "$(pyenv init --path)" # これを追記
 eval "$(pyenv init -)"
 eval "$(mutagen daemon start)"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
