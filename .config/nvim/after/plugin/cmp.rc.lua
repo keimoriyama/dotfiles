@@ -1,6 +1,7 @@
 local status, cmp = pcall(require, "cmp")
 if not status then return end
 local lspkind = require("lspkind")
+local luasnip = require('luasnip')
 
 local has_words_before = function()
     if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
@@ -28,6 +29,11 @@ cmp.setup({
         ["<Tab>"] = vim.schedule_wrap(function(fallback)
             if cmp.visible() and has_words_before() then
                 cmp.select_next_item({behavior = cmp.SelectBehavior.Select})
+			elseif luasnpi.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			
+			elseif has_words_before() then
+				cmp.complete()
             else
                 fallback()
             end
@@ -35,16 +41,23 @@ cmp.setup({
         ["<S-Tab>"] = function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
             else
                 fallback()
             end
         end
     }),
     sources = cmp.config.sources({
-        {name = "nvim_lsp"}, {name = "buffer"}, {name = "mocword"},
-        {name = "path"}, {name = "nvim_lsp_signature_help"},
-        {name = "treesitter"}, {name = 'omni', keyword_length = 0},
-        {name = "copilot"}, {name = 'latex_symbols', option = {strategy = 0}}
+        {name = "nvim_lsp"}, 
+		{name = "buffer"}, 
+		{name = "mocword"},
+        {name = "path"}, 
+		{name = "nvim_lsp_signature_help"},
+        {name = "treesitter"}, 
+		{name = 'omni', keyword_length = 0},
+        {name = "copilot"}, 
+		{name = 'latex_symbols', option = {strategy = 0}}
     }),
     formatting = {
         format = lspkind.cmp_format({
