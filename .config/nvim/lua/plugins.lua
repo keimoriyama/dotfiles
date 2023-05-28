@@ -68,7 +68,7 @@ lazy.setup({
     {"zbirenbaum/copilot-cmp", dependencies = "copilot.lua"},
     -- terminal setting
     "uga-rosa/ugaterm.nvim", -- sidebar
-    "sidebar-nvim/sidebar.nvim", -- neogit
+    -- "sidebar-nvim/sidebar.nvim", -- neogit
     "TimUntersberger/neogit", -- barbecue
     {
         "utilyre/barbecue.nvim",
