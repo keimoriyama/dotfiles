@@ -13,63 +13,107 @@ if not status then
     return
 end
 
+-- LuaFormatter off
 if vim.g.vscode then return nil end
 lazy.setup({
     -- color scheme
-    "folke/tokyonight.nvim", -- status line
-    "nvim-lualine/lualine.nvim", -- indent
-    "lukas-reineke/indent-blankline.nvim", --	-- auto pair and tag close
-    "windwp/nvim-autopairs", "windwp/nvim-ts-autotag", --	-- surround
-    "kylechui/nvim-surround", --	-- git
-    "dinhhuy258/git.nvim", "lewis6991/gitsigns.nvim", "airblade/vim-gitgutter",
-    "akinsho/git-conflict.nvim", --	-- auto comment out
-    "numToStr/Comment.nvim", "luochen1990/rainbow", --	-- dot repeat
-    "tpope/vim-repeat", --	-- linter, formatter
-    "jose-elias-alvarez/null-ls.nvim", --	-- utility
-    "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim", -- fuzzy finder
-    "nvim-telescope/telescope.nvim", {
+    "folke/tokyonight.nvim", 
+	-- status line
+    "nvim-lualine/lualine.nvim", 
+	-- indent
+    "lukas-reineke/indent-blankline.nvim", --	
+	-- auto pair and tag close
+    "windwp/nvim-autopairs", 
+	"windwp/nvim-ts-autotag", --	
+	-- surround
+    "kylechui/nvim-surround", --	
+	-- git
+    "dinhhuy258/git.nvim", 
+	"lewis6991/gitsigns.nvim", 
+	"airblade/vim-gitgutter",
+    "akinsho/git-conflict.nvim", --	
+	-- auto comment out
+    "numToStr/Comment.nvim", 
+	"luochen1990/rainbow", --	
+	-- dot repeat
+    "tpope/vim-repeat", --	
+	-- linter, formatter
+    "jose-elias-alvarez/null-ls.nvim", --	
+	-- utility
+    "nvim-lua/plenary.nvim", 
+	"nvim-lua/popup.nvim", -- fuzzy finder
+    "nvim-telescope/telescope.nvim", 
+	{
         "nvim-telescope/telescope-file-browser.nvim",
         dependencies = {
             "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"
         }
-    }, --	-- File icons
-    "kyazdani42/nvim-web-devicons", -- treesitter
+    },
+	-- File icons
+    "kyazdani42/nvim-web-devicons",
+	-- treesitter
     {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
     {"yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter"},
     --	-- bufferline
-    "akinsho/nvim-bufferline.lua", --	-- show color
-    "norcalli/nvim-colorizer.lua", --	-- csv
-    "Decodetalkers/csv-tools.lua", --	-- comment
-    "folke/todo-comments.nvim", --	-- views
-    "petertriho/nvim-scrollbar", --	-- keep lastest cursor position
-    "ethanholz/nvim-lastplace", -- symbols outline
-    "simrat39/symbols-outline.nvim", --	-- mkdir
-    "jghauser/mkdir.nvim", --	---
-    "tversteeg/registers.nvim", --	-- - code action list
-    "aznhe21/actions-preview.nvim", --	-- - lsp
-    "neovim/nvim-lspconfig", "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim", --	--- cmp
-    "onsails/lspkind-nvim", -- vscode-like pictograms
-    "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path", "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-nvim-lsp-signature-help", "yutkat/cmp-mocword",
-    "hrsh7th/cmp-cmdline", "ray-x/cmp-treesitter", "hrsh7th/cmp-omni",
-    "kdheepak/cmp-latex-symbols", -- template
-    "mattn/vim-sonictemplate", -- markdown
+    "akinsho/nvim-bufferline.lua", --	
+	-- show color
+    "norcalli/nvim-colorizer.lua", --	
+	-- csv
+    "Decodetalkers/csv-tools.lua",
+    "petertriho/nvim-scrollbar", 
+	--	-- keep lastest cursor position
+    "ethanholz/nvim-lastplace", 
+	-- symbols outline
+    "simrat39/symbols-outline.nvim", --	
+	-- mkdir
+    "jghauser/mkdir.nvim",
+    "tversteeg/registers.nvim",
+	-- - code action list
+    "aznhe21/actions-preview.nvim",
+	-- lsp
+    "neovim/nvim-lspconfig", 
+	"williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim", 
+	-- vscode-like pictograms
+    "onsails/lspkind-nvim", 
+    "L3MON4D3/LuaSnip", 
+	{
+        "iurimateus/luasnip-latex-snippets.nvim",
+        dependencies = {"L3MON4D3/LuaSnip", 'lervag/vimtex'},
+        ft = {'tex', 'markdown'}
+    }, 
+	-- cmp
+	"hrsh7th/cmp-nvim-lsp", 
+	"hrsh7th/cmp-buffer", 
+	"hrsh7th/cmp-path",
+    "hrsh7th/nvim-cmp", 
+	"hrsh7th/cmp-nvim-lsp-signature-help",
+    "yutkat/cmp-mocword", 
+	"hrsh7th/cmp-cmdline", 
+	"ray-x/cmp-treesitter",
+    "hrsh7th/cmp-omni", 
+	"kdheepak/cmp-latex-symbols", 
+	-- template
+    "mattn/vim-sonictemplate", 
+	-- markdown
     {
         "iamcco/markdown-preview.nvim",
         build = "cd app && npm install",
         init = function() vim.g.mkdp_filetypes = {"markdown"} end,
         ft = {"markdown"}
-    }, "mattn/vim-maketable", --- obsidian
-    "epwalsh/obsidian.nvim", "BurntSushi/ripgrep", -- mark visualization
-    "chentoast/marks.nvim", -- copilot
+    },
+	--- obsidian
+    "epwalsh/obsidian.nvim", 
+	"BurntSushi/ripgrep", 
+	-- mark visualization
+    "chentoast/marks.nvim",
+	-- copilot
     {"zbirenbaum/copilot.lua", build = ":Copilot auth"},
     {"zbirenbaum/copilot-cmp", dependencies = "copilot.lua"},
     -- terminal setting
-    "uga-rosa/ugaterm.nvim", -- sidebar
-    -- "sidebar-nvim/sidebar.nvim", -- neogit
-    "TimUntersberger/neogit", -- barbecue
+    "uga-rosa/ugaterm.nvim",
+    "TimUntersberger/neogit", 
+	-- barbecue
     {
         "utilyre/barbecue.nvim",
         name = "barbecue",
@@ -78,5 +122,6 @@ lazy.setup({
     }, -- latex
     {"lervag/vimtex", ft = {"tex", "bib"}}
 })
+-- LuaFOrmatter on
 
 vim.cmd([[colorscheme tokyonight]])

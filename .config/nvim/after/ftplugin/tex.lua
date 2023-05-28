@@ -1,7 +1,8 @@
 local status, cmp = pcall(require, "cmp")
 if not status then return end
 
-cmp.setup.buffer {
+local lspkind = require('lspkind')
+cmp.setup {
     formatting = {
         format = function(entry, vim_item)
             vim_item.menu = ({
@@ -17,6 +18,21 @@ cmp.setup.buffer {
         {name = "buffer"}, {name = "mocword"}, {name = "path"},
         {name = "nvim_lsp_signature_help"}, {name = "treesitter"},
         {name = "copilot"}, {name = 'latex_symbols', option = {strategy = 0}}
-        -- other sources
+    },
+    completion = {keyword_length = 1, completeopt = "menu,noselect"},
+    view = {entries = 'custom'},
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = "symbol_text",
+            menu = ({
+                nvim_lsp = "[LSP]",
+                ultisnips = "[US]",
+                nvim_lua = "[Lua]",
+                path = "[Path]",
+                buffer = "[Buffer]",
+                emoji = "[Emoji]",
+                omni = "[Omni]"
+            })
+        })
     }
 }

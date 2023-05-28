@@ -27,10 +27,9 @@ mason_lspconfig.setup({ensure_installed = servers})
 
 local status, lspconfig = pcall(require, "lspconfig")
 if not status then return end
-
 for _, lsp in ipairs(servers) do lspconfig[lsp].setup({}) end
 
--- LSP handlers
+-- -- LSP handlers
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
                  {virtual_text = true})
@@ -39,7 +38,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
         -- Enable completion triggered by <c-x><c-o>
-        vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+        -- vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
         local bufopts = {noremap = true, silent = true, buffer = ev.buf}
         -- Mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -86,7 +85,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
     end
 })
-
+--
 -- LSP handlers
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
