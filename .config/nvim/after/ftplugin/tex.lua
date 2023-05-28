@@ -1,6 +1,5 @@
 local status, cmp = pcall(require, "cmp")
 if not status then return end
-local lspkind = require("lspkind")
 
 cmp.setup.buffer {
     formatting = {
@@ -14,7 +13,10 @@ cmp.setup.buffer {
         end
     },
     sources = {
-        {name = 'omni'}, {name = 'buffer'}
+        {name = 'omni', keyword_length = 0}, {name = "nvim_lsp"},
+        {name = "buffer"}, {name = "mocword"}, {name = "path"},
+        {name = "nvim_lsp_signature_help"}, {name = "treesitter"},
+        {name = "copilot"}, {name = 'latex_symbols', option = {strategy = 0}}
         -- other sources
     }
 }
