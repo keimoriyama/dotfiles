@@ -41,9 +41,9 @@ cmp.setup({
         end
     }),
     sources = cmp.config.sources({
-        {name = "nvim_lsp"}, {name = "buffer"}, {name = "mocword"},
-        {name = "path"}, {name = "nvim_lsp_signature_help"},
-        {name = "treesitter"}, {name = "copilot"}, {name = 'omni'},
+        {name = 'omni'}, {name = "nvim_lsp"}, {name = "buffer"},
+        {name = "mocword"}, {name = "path"}, {name = "nvim_lsp_signature_help"},
+        {name = "treesitter"}, {name = "copilot"},
         {name = 'latex_symbols', option = {strategy = 0}}
     }),
     formatting = {
