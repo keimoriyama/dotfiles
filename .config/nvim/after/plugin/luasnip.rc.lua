@@ -1,4 +1,4 @@
-local status, ls= pcall(require, 'luasnip')
+local status, ls = pcall(require, "luasnip")
 
 local s = ls.snippet
 local sn = ls.snippet_node
@@ -20,7 +20,9 @@ local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.conditions")
 local conds_expand = require("luasnip.extras.conditions.expand")
 
-if not status then return end
+if not status then
+	return
+end
 
 -- Every unspecified option will be set to the default.
 ls.setup({
@@ -58,17 +60,52 @@ ls.setup({
 	end,
 })
 
+-- 'recursive' dynamic snippet. Expands to some text followed by itself.
+local rec_item
+rec_item = function()
+	return sn(
+		nil,
+		c(1, {
+			-- Order is important, sn(...) first would cause infinite loop of expansion.
+			t(""),
+			sn(nil, { t({ "", "\t\\item " }), i(1), d(2, rec_ls, {}) }),
+		})
+	)
+end
 
 ls.add_snippets("tex", {
 	-- rec_ls is self-referencing. That makes this snippet 'infinite' eg. have as many
 	-- \item as necessary by utilizing a choiceNode.
-	s("ls", {
+	s("item", {
 		t({ "\\begin{itemize}", "\t\\item " }),
 		i(1),
-		d(2, rec_ls, {}),
+		d(2, rec_item, {}),
 		t({ "", "\\end{itemize}" }),
+	}),
+	s("figure", {
+		t({ "\\begin{figure}", "\\centering" }),
+		t({ "\\includegraphics[scale=]{" }),
+		i(1, "figure name"),
+		t({ "}", "\\caption{" }),
+		i(2, "caption"),
+		t({ "}", "\\label{fig:" }),
+		i(3, "label of figure"),
+		t({ "}", "\\end{figure}" }),
+	}),
+	s("table", {
+		t({ "\\begin{table}[htbp]", "\\centering", "\\begin{tablular}{ccccc}" }),
+		i(1, "table contents"),
+		t({ "\\end{tabular}", "\\caption{" }),
+		i(2, "caption"),
+		t({ "}", "\\label{table:" }),
+		i(3, "label of table"),
+		t({ "}", "\\end{table}" }),
 	}),
 }, {
 	key = "tex",
 })
 
+vim.cmd([[imap <silent><expr> <C-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-k>']])
+vim.cmd([[smap <silent><expr> <C-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-k>']])
+vim.cmd([[imap <silent><expr> <C-m> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-q>']])
+vim.cmd([[smap <silent><expr> <C-m> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-q>']])

@@ -86,11 +86,6 @@ lazy.setup({
 		"L3MON4D3/LuaSnip",
 		version = "1.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 	},
-	{
-		"iurimateus/luasnip-latex-snippets.nvim",
-		dependencies = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
-		ft = { "tex", "markdown" },
-	},
 	-- cmp
 	"hrsh7th/cmp-nvim-lsp",
 	"hrsh7th/cmp-buffer",
@@ -102,6 +97,7 @@ lazy.setup({
 	"ray-x/cmp-treesitter",
 	"hrsh7th/cmp-omni",
 	"kdheepak/cmp-latex-symbols",
+	"saadparwaiz1/cmp_luasnip",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
