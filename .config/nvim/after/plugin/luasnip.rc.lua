@@ -83,7 +83,7 @@ ls.add_snippets("tex", {
 		t({ "", "\\end{itemize}" }),
 	}),
 	s("figure", {
-		t({ "\\begin{figure}", "\\centering" }),
+		t({ "\\begin{figure}[tb]", "\\centering" }),
 		t({ "\\includegraphics[scale=]{" }),
 		i(1, "figure name"),
 		t({ "}", "\\caption{" }),

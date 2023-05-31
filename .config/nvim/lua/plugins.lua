@@ -96,7 +96,6 @@ lazy.setup({
 	"hrsh7th/cmp-cmdline",
 	"ray-x/cmp-treesitter",
 	"hrsh7th/cmp-omni",
-	"kdheepak/cmp-latex-symbols",
 	"saadparwaiz1/cmp_luasnip",
 	-- template
 	"mattn/vim-sonictemplate",
@@ -129,6 +128,6 @@ lazy.setup({
 	}, -- latex
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 })
--- LuaFOrmatter on
+-- LuaFormatter on
 
 vim.cmd([[colorscheme tokyonight]])

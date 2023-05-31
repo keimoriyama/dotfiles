@@ -48,20 +48,28 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "buffer" },
+		{ name = "luasnip", option = { show_autosnippets = true } },
 		{ name = "mocword" },
 		{ name = "path" },
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "treesitter" },
 		{ name = "omni", keyword_length = 0 },
-		{ name = "luasnip", option = { show_autosnippets = true } },
 		{ name = "copilot" },
-		{ name = "latex_symbols", option = { strategy = 0 } },
 	}),
 	formatting = {
 		format = lspkind.cmp_format({
-			mode = "symbol",
+			mode = "symbol_text",
 			maxwidth = 50,
 			ellipsis_char = "…",
+			menu = {
+				nvim_lsp = "[LSP]",
+				ultisnips = "[US]",
+				nvim_lua = "[Lua]",
+				path = "[Path]",
+				buffer = "[Buffer]",
+				emoji = "[Emoji]",
+				omni = "[Omni]",
+			},
 		}),
 	},
 })
