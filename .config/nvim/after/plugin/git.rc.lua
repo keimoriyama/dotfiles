@@ -23,3 +23,4 @@ local option = { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap("n", "<Leader>gp", "<cmd>Git push<CR>", option)
 vim.api.nvim_set_keymap("n", "<Leader>gP", "<cmd>Git pull<CR>", option)
+vim.g.gitgutter_map_keys = 0

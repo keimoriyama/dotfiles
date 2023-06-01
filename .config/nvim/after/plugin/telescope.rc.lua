@@ -54,15 +54,10 @@ end)
 vim.keymap.set("n", "<Leader>b", function()
 	builtin.buffers()
 end)
-vim.keymap.set("n", "<Leader>he", function()
+vim.keymap.set("n", "<Leader>h", function()
 	builtin.help_tags()
 end)
--- vim.keymap.set('n', ';;', function()
---   builtin.resume()
--- end)
-vim.keymap.set("n", "<Leader>e", function()
-	builtin.diagnostics()
-end)
+
 vim.keymap.set("n", "sf", function()
 	telescope.extensions.file_browser.file_browser({
 		path = "%:p:h",
