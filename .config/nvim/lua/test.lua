@@ -20,17 +20,49 @@ end
 if vim.g.vscode then
 	return nil
 end
-lazy.setup({
-	-- color scheme
+lazy.setup({	-- color scheme
 	"folke/tokyonight.nvim",
-	-- code2image
-	-- "vim-denops/denops-helloworld.vim",
-	"vim-denops/denops.vim",
-	-- {
-	-- 	"skanehira/denops-silicon.vim",
-	-- 	dependencies = { "vim-denops/denops.vim" },
-	-- },
+	-- status line
+	"nvim-lualine/lualine.nvim",
+	-- indent
+	"lukas-reineke/indent-blankline.nvim", --
+	-- auto pair and tag close
+	"windwp/nvim-autopairs",
+	"windwp/nvim-ts-autotag", --
+	-- surround
+	"kylechui/nvim-surround", --
+	-- git
+	"dinhhuy258/git.nvim",
+	"lewis6991/gitsigns.nvim",
+	"airblade/vim-gitgutter",
+	"akinsho/git-conflict.nvim", --
+	-- auto comment out
+	"numToStr/Comment.nvim",
+	"luochen1990/rainbow", --
+	-- dot repeat
+	"tpope/vim-repeat", --
+	-- linter, formatter
+	"jose-elias-alvarez/null-ls.nvim", --
+	-- utility
+	"nvim-lua/plenary.nvim",
+	"nvim-lua/popup.nvim", -- fuzzy finder
+	"nvim-telescope/telescope.nvim",
+	{
+		"nvim-telescope/telescope-file-browser.nvim",
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+	},
+		-- File icons
+	"kyazdani42/nvim-web-devicons",
+	-- treesitter
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+	{ "yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter" },
+	--	-- bufferline
+	"akinsho/nvim-bufferline.lua", --
+	-- csv
+	"Decodetalkers/csv-tools.lua",
+	--	-- keep lastest cursor position
+	"ethanholz/nvim-lastplace",
 })
--- LuaFOrmatter on
-
-vim.cmd([[colorscheme tokyonight]])
