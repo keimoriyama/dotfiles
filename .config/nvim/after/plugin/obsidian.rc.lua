@@ -4,7 +4,7 @@ if not status then
 end
 
 obsidian.setup({
-	dir = "~/Documents/paper_summary",
+	dir = "~/Documents/Notes",
 	completion = {
 		nvim_cmp = true,
 	},
