@@ -68,7 +68,7 @@ rec_item = function()
 		c(1, {
 			-- Order is important, sn(...) first would cause infinite loop of expansion.
 			t(""),
-			sn(nil, { t({ "", "\t\\item " }), i(1), d(2, rec_ls, {}) }),
+			sn(nil, { t({ "", "\t\\item " }), i(1), d(2, rec_item, {}) }),
 		})
 	)
 end

@@ -5,14 +5,9 @@ end
 
 local lspkind = require("lspkind")
 cmp.setup({
-	formatting = {
-		format = function(entry, vim_item)
-			vim_item.menu = ({
-				omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
-				buffer = "[Buffer]",
-				-- formatting for other sources
-			})[entry.source.name]
-			return vim_item
+	snippet = {
+		expand = function(args)
+			luasnip.lsp_expand(args.body)
 		end,
 	},
 	sources = {
@@ -25,7 +20,6 @@ cmp.setup({
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "treesitter" },
 		{ name = "copilot" },
-		{ name = "latex_symbols", option = { strategy = 0 } },
 	},
 	completion = { keyword_length = 1, completeopt = "menu,noselect" },
 	view = { entries = "custom" },

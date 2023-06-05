@@ -16,7 +16,7 @@ end
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
+			luasnip.lsp_expand(args.body)
 		end,
 	},
 	mapping = cmp.mapping.preset.insert({
@@ -54,7 +54,6 @@ cmp.setup({
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "treesitter" },
 		{ name = "omni", keyword_length = 0 },
-		{ name = "copilot" },
 	}),
 	formatting = {
 		format = lspkind.cmp_format({
