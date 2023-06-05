@@ -24,16 +24,19 @@
 	lineskip=-0.5ex
 }
 
+\newcommand{\Fig}[1]{Fig. \ref{fig:#1}}
+\newcommand{\Table}[1]{Table \ref{table:#1}}
+\newcommand{\Eq}[1]{Eq. \ref{eq:#1}}
+
 \renewcommand{\lstlistingname}{ソースコード}
 \makeatletter
 \title{{{_input_:title}}}
 \author{守山 慧}
-\date{\today}
 
 \pagestyle{fancy}
 
 % headers & footers
-\lhead{{{_input_:fact}} \@title 提出日：\@date\\\@author}
+\lhead{\@title   ~\@author}
 \chead{}
 \rhead{}
 \lfoot{}
