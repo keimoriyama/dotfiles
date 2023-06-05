@@ -41,4 +41,4 @@ for _, package in ipairs(mason_registry.get_installed_packages()) do
 	end
 end
 
-null_ls.setup({ debug = true, sources = null_sources, on_attach = on_attach })
+null_ls.setup({ debug = false, sources = null_sources, on_attach = on_attach })
