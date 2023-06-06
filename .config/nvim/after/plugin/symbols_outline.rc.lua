@@ -9,6 +9,7 @@ outline.setup({
 	auto_close = true,
 	show_number = true,
 	show_symbol_details = true,
+	autofold_depth = 0,
 })
 
 vim.keymap.set("n", "<C-o>", "<cmd>SymbolsOutline<CR>")

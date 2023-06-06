@@ -66,7 +66,6 @@ lazy.setup({
 	"norcalli/nvim-colorizer.lua", --
 	-- csv
 	"Decodetalkers/csv-tools.lua",
-	-- "petertriho/nvim-scrollbar",
 	--	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
 	-- symbols outline
