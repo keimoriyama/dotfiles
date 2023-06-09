@@ -30,10 +30,12 @@ obsidian.setup({
 	},
 })
 
-vim.keymap.set("n", "gf", function()
+vim.keymap.set("n", "<Leader>gf", function()
 	if obsidian.util.cursor_on_markdown_link() then
 		return "<cmd>ObsidianFollowLink<CR>"
 	else
 		return "gf"
 	end
 end, { noremap = false, expr = true })
+
+vim.keymap.set("n", "<Leader>ot", "<cmd>ObsidianToday<cr>", { noremap = false, expr = true })
