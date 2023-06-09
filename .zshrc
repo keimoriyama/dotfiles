@@ -45,13 +45,6 @@ eval "$(pyenv init -)"
 eval "$(mutagen daemon start)"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
-
-function kill_tmux(){
-	tmux kill-server
-}
-autoload -Uz add-zsh-hook
-add-zsh-hook zshexit kill_tmux
-
 if type brew &>/dev/null; then
 	FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 	source $(brew --prefix)/opt/zsh-git-prompt/zshrc.sh
