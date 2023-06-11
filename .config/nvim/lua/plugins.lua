@@ -119,12 +119,12 @@ lazy.setup({
 	"uga-rosa/ugaterm.nvim",
 	"TimUntersberger/neogit",
 	-- barbecue
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
-		dependencies = { "SmiteshP/nvim-navic" },
-	}, -- latex
+	-- {
+	-- 	"utilyre/barbecue.nvim",
+	-- 	name = "barbecue",
+	-- 	version = "*",
+	-- 	dependencies = { "SmiteshP/nvim-navic" },
+	-- }, -- latex
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 })
 
