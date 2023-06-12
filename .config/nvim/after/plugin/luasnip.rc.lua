@@ -73,6 +73,76 @@ rec_item = function()
 	)
 end
 
+local function print_table(args)
+	for index, data in ipairs(args) do
+		print("index:")
+		print(index)
+
+		for key, value in pairs(data) do
+			print(key, value)
+		end
+	end
+end
+
+local function docstrings(args, _, old_state)
+	local nodes = {
+		t({ '"""', "" }),
+		i(1, "A short Description"),
+		t({ "" }),
+	}
+	local param_nodes = {}
+
+	if old_state then
+		nodes[2] = i(1, old_state.descr:get_text())
+	end
+	local insert = 2
+	for indx, arg in ipairs(vim.split(args[2][1], ",", true)) do
+		local inode
+		-- if there was some text in this parameter, use it as static_text for this new snippet.
+		if old_state and old_state[arg] then
+			inode = i(insert, old_state["arg" .. arg]:get_text())
+		else
+			inode = i(insert)
+		end
+		vim.list_extend(nodes, { t({ "", "" }), t({ " * @param " .. arg .. " " }), inode, t({ "" }) })
+		param_nodes["arg" .. arg] = inode
+
+		insert = insert + 1
+	end
+	vim.list_extend(nodes, { t({ "", '"""', "" }) })
+
+	param_nodes.descr = nodes[2]
+	local snip = sn(nil, nodes)
+	-- Error on attempting overwrite.
+	snip.old_state = param_nodes
+	return snip
+end
+
+ls.add_snippets("python", {
+	s("def", {
+		d(3, docstrings, { 1, 2 }),
+		t({ "def " }),
+		i(1, "name"),
+		t("("),
+		i(2),
+		t("):"),
+		i(0),
+	}),
+	s("trig", {
+		t("text: "),
+		i(1),
+		t({ "", "copy: " }),
+		d(2, function(args)
+			-- the returned snippetNode doesn't need a position; it's inserted
+			-- "inside" the dynamicNode.
+			return sn(nil, {
+				-- jump-indices are local to each snippetNode, so restart at 1.
+				i(1, args[1]),
+			})
+		end, { 1 }),
+	}),
+})
+
 ls.add_snippets("tex", {
 	-- rec_ls is self-referencing. That makes this snippet 'infinite' eg. have as many
 	-- \item as necessary by utilizing a choiceNode.

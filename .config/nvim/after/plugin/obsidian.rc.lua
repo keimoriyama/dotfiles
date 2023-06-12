@@ -38,4 +38,4 @@ vim.keymap.set("n", "<Leader>gf", function()
 	end
 end, { noremap = false, expr = true })
 
-vim.keymap.set("n", "<Leader>ot", "<cmd>ObsidianToday<cr>", { noremap = false, expr = true })
+vim.keymap.set("n", "<Leader>ot", "<cmd>ObsidianToday<cr>", { noremap = false, expr = false })
