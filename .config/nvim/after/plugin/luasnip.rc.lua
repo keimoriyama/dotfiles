@@ -128,19 +128,6 @@ ls.add_snippets("python", {
 		t("):"),
 		i(0),
 	}),
-	s("trig", {
-		t("text: "),
-		i(1),
-		t({ "", "copy: " }),
-		d(2, function(args)
-			-- the returned snippetNode doesn't need a position; it's inserted
-			-- "inside" the dynamicNode.
-			return sn(nil, {
-				-- jump-indices are local to each snippetNode, so restart at 1.
-				i(1, args[1]),
-			})
-		end, { 1 }),
-	}),
 })
 
 ls.add_snippets("tex", {
