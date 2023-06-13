@@ -96,36 +96,32 @@ local function docstrings(args, _, old_state)
 		nodes[2] = i(1, old_state.descr:get_text())
 	end
 	local insert = 2
-	for indx, arg in ipairs(vim.split(args[1][1], ",", true)) do
-		local inode
-		-- if there was some text in this parameter, use it as static_text for this new snippet.
-		if old_state and old_state[arg] then
-			inode = i(insert, old_state["arg" .. arg]:get_text())
-		else
-			inode = i(insert)
+	if args[1][1] ~= nil then
+		for indx, arg in ipairs(vim.split(args[1][1], ",", true)) do
+			if indx == 1 then
+				vim.list_extend(nodes, { t({ "", "Arguments" }) })
+			end
+			local inode
+			-- if there was some text in this parameter, use it as static_text for this new snippet.
+			if old_state and old_state[arg] then
+				inode = i(insert, old_state["arg" .. arg]:get_text())
+			else
+				inode = i(insert)
+			end
+			vim.list_extend(nodes, { t({ "", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
+			param_nodes["arg" .. arg] = inode
+
+			insert = insert + 1
 		end
-		vim.list_extend(nodes, { t({ "", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
-		param_nodes["arg" .. arg] = inode
-
-		insert = insert + 1
 	end
-
 	if args[2][2] ~= nil then
 		local after_return = vim.split(args[2][2], " ", true)
 		local exc = vim.split(after_return[6], ",", true)
-		-- print("after return")
-		-- for key, value in pairs(after_return) do
-		-- 	print(key)
-		-- 	print(value)
-		-- end
-		-- print("exc")
-		-- for key, value in pairs(exc) do
-		-- 	print(key)
-		-- 	print(value)
-		-- end
-		for _, arg in pairs(exc) do
+		for indx, arg in pairs(exc) do
+			if indx == 1 then
+				vim.list_extend(nodes, { t({ "", "Returns" }) })
+			end
 			local inode
-			-- if there was some text in this parameter, use it as static_text for this new snippet.
 			if old_state and old_state[arg] then
 				inode = i(insert, old_state["arg" .. arg]:get_text())
 			else
