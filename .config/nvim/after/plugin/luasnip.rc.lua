@@ -104,29 +104,36 @@ local function docstrings(args, _, old_state)
 		else
 			inode = i(insert)
 		end
-		vim.list_extend(nodes, { t({ "", "" }), t({ " * @param " .. arg .. " " }), inode, t({ "" }) })
+		vim.list_extend(nodes, { t({ "", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
 		param_nodes["arg" .. arg] = inode
 
 		insert = insert + 1
 	end
 
-	-- print(args[2])
-	-- print_table(args)
-	for key, value in pairs(args[2]) do
-		print(key, value)
-		print(string.find(value, "return"))
-	end
 	if args[2][2] ~= nil then
-		if string.find(args[2][2], "return") ~= nil then
+		local after_return = vim.split(args[2][2], " ", true)
+		local exc = vim.split(after_return[6], ",", true)
+		-- print("after return")
+		-- for key, value in pairs(after_return) do
+		-- 	print(key)
+		-- 	print(value)
+		-- end
+		-- print("exc")
+		-- for key, value in pairs(exc) do
+		-- 	print(key)
+		-- 	print(value)
+		-- end
+		for _, arg in pairs(exc) do
 			local inode
-			local exc = string.gsub(args[2][2], "return ", "")
-			if old_state and old_state.ret then
-				inode = i(insert, old_state.ret:get_text())
+			-- if there was some text in this parameter, use it as static_text for this new snippet.
+			if old_state and old_state[arg] then
+				inode = i(insert, old_state["arg" .. arg]:get_text())
 			else
 				inode = i(insert)
 			end
-			vim.list_extend(nodes, { t({ "", "" }), t({ "  @return " .. exc .. " " }), inode, t({ "" }) })
-			param_nodes.ret = inode
+			vim.list_extend(nodes, { t({ "", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
+			param_nodes["arg" .. arg] = inode
+
 			insert = insert + 1
 		end
 	end
@@ -153,12 +160,12 @@ ls.add_snippets("python", {
 		})
 	),
 	s("def", {
-		d(4, docstrings, { 2, 3 }),
 		t({ "def " }),
 		i(1, "name"),
 		t("("),
 		i(2),
-		t("):"),
+		t({ "):", "" }),
+		d(4, docstrings, { 2, 3 }),
 		c(3, {
 			sn(nil, { t({ "", "\treturn " }), i(1) }),
 			t({ "" }),
