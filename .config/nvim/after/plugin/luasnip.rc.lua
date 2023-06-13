@@ -78,8 +78,8 @@ local function print_table(args)
 		print("index:")
 		print(index)
 
-		for key, value in pairs(data) do
-			print(key, value)
+		for _, value in pairs(data) do
+			print(value)
 		end
 	end
 end
@@ -96,7 +96,7 @@ local function docstrings(args, _, old_state)
 		nodes[2] = i(1, old_state.descr:get_text())
 	end
 	local insert = 2
-	for indx, arg in ipairs(vim.split(args[2][1], ",", true)) do
+	for indx, arg in ipairs(vim.split(args[1][1], ",", true)) do
 		local inode
 		-- if there was some text in this parameter, use it as static_text for this new snippet.
 		if old_state and old_state[arg] then
@@ -109,6 +109,29 @@ local function docstrings(args, _, old_state)
 
 		insert = insert + 1
 	end
+
+	-- print(args[2])
+	-- print_table(args)
+	for key, value in pairs(args[2]) do
+		print(key, value)
+		print(string.find(value, "return"))
+	end
+	if args[2][2] ~= nil then
+		if string.find(args[2][2], "return") ~= nil then
+			local inode
+			local exc = string.gsub(args[2][2], "return ", "")
+			if old_state and old_state.ret then
+				inode = i(insert, old_state.ret:get_text())
+			else
+				inode = i(insert)
+			end
+			vim.list_extend(nodes, { t({ "", "" }), t({ "  @return " .. exc .. " " }), inode, t({ "" }) })
+			param_nodes.ret = inode
+			insert = insert + 1
+		end
+	end
+
+	-- print_table(args)
 	vim.list_extend(nodes, { t({ "", '"""', "" }) })
 
 	param_nodes.descr = nodes[2]
@@ -119,15 +142,30 @@ local function docstrings(args, _, old_state)
 end
 
 ls.add_snippets("python", {
+	s(
+		"trig",
+		c(1, {
+			t("Ugh boring, a text node"),
+			i(nil, "At least I can edit something now..."),
+			f(function(args)
+				return "Still only counts as text!!"
+			end, {}),
+		})
+	),
 	s("def", {
-		d(3, docstrings, { 1, 2 }),
+		d(4, docstrings, { 2, 3 }),
 		t({ "def " }),
 		i(1, "name"),
 		t("("),
 		i(2),
 		t("):"),
-		i(0),
+		c(3, {
+			sn(nil, { t({ "", "\treturn " }), i(1) }),
+			t({ "" }),
+		}),
 	}),
+}, {
+	key = "python",
 })
 
 ls.add_snippets("tex", {
@@ -163,5 +201,5 @@ ls.add_snippets("tex", {
 
 vim.cmd([[imap <silent><expr> <C-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-k>']])
 vim.cmd([[smap <silent><expr> <C-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-k>']])
-vim.cmd([[imap <silent><expr> <C-m> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-q>']])
-vim.cmd([[smap <silent><expr> <C-m> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-q>']])
+vim.cmd([[imap <silent><expr> <C-q> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-q>']])
+vim.cmd([[smap <silent><expr> <C-q> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-q>']])
