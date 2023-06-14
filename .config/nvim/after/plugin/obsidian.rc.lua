@@ -21,7 +21,7 @@ obsidian.setup({
 				suffix = suffix .. string.char(math.random(65, 90))
 			end
 		end
-		return suffix
+		return tostring(os.time()) .. "-" .. suffix
 	end,
 	ensure_installed = { "markdown", "markdown_inline", ... },
 	highlight = {
