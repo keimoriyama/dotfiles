@@ -165,12 +165,3 @@ end, function()
 		hs.application.frontmostApplication():kill()
 	end
 end)
-hs.hotkey.bind({ "cmd" }, "w", function()
-	qStartTime = hs.timer.secondsSinceEpoch()
-end, function()
-	local qEndTime = hs.timer.secondsSinceEpoch()
-	local duration = qEndTime - qStartTime
-	if duration >= qDuration then
-		hs.application.frontmostApplication():kill()
-	end
-end)

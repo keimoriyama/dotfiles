@@ -108,7 +108,7 @@ local function docstrings(args, _, old_state)
 			else
 				inode = i(insert)
 			end
-			vim.list_extend(nodes, { t({ "", "\t" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
+			vim.list_extend(nodes, { t({ "", "\t" }), t({ "" .. arg .. "" }), inode, t({ "" }) })
 			param_nodes["arg" .. arg] = inode
 
 			insert = insert + 1
