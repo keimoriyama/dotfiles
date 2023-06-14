@@ -53,5 +53,5 @@ return {
 	color_scheme = "tokyonight-storm",
 	hyperlink_rules = hyperlink_rules,
 	hide_tab_bar_if_only_one_tab = true,
-	disable_default_mouse_bindings = true,
+	-- disable_default_mouse_bindings = true,
 }
