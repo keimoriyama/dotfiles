@@ -86,8 +86,8 @@ end
 
 local function docstrings(args, _, old_state)
 	local nodes = {
-		t({ '"""', "" }),
-		i(1, "A short Description"),
+		t({ '\t"""', "" }),
+		i(1, "\tA short Description"),
 		t({ "" }),
 	}
 	local param_nodes = {}
@@ -99,7 +99,7 @@ local function docstrings(args, _, old_state)
 	if args[1][1] ~= nil then
 		for indx, arg in ipairs(vim.split(args[1][1], ",", true)) do
 			if indx == 1 then
-				vim.list_extend(nodes, { t({ "", "Arguments" }) })
+				vim.list_extend(nodes, { t({ "", "\tArguments" }) })
 			end
 			local inode
 			-- if there was some text in this parameter, use it as static_text for this new snippet.
@@ -108,7 +108,7 @@ local function docstrings(args, _, old_state)
 			else
 				inode = i(insert)
 			end
-			vim.list_extend(nodes, { t({ "", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
+			vim.list_extend(nodes, { t({ "", "\t" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
 			param_nodes["arg" .. arg] = inode
 
 			insert = insert + 1
@@ -119,7 +119,7 @@ local function docstrings(args, _, old_state)
 		local exc = vim.split(after_return[6], ",", true)
 		for indx, arg in pairs(exc) do
 			if indx == 1 then
-				vim.list_extend(nodes, { t({ "", "Returns" }) })
+				vim.list_extend(nodes, { t({ "", "\tReturns" }) })
 			end
 			local inode
 			if old_state and old_state[arg] then
@@ -127,7 +127,7 @@ local function docstrings(args, _, old_state)
 			else
 				inode = i(insert)
 			end
-			vim.list_extend(nodes, { t({ "", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
+			vim.list_extend(nodes, { t({ "\t", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
 			param_nodes["arg" .. arg] = inode
 
 			insert = insert + 1
@@ -135,7 +135,7 @@ local function docstrings(args, _, old_state)
 	end
 
 	-- print_table(args)
-	vim.list_extend(nodes, { t({ "", '"""', "" }) })
+	vim.list_extend(nodes, { t({ "", '\t"""', "" }) })
 
 	param_nodes.descr = nodes[2]
 	local snip = sn(nil, nodes)
@@ -145,16 +145,6 @@ local function docstrings(args, _, old_state)
 end
 
 ls.add_snippets("python", {
-	s(
-		"trig",
-		c(1, {
-			t("Ugh boring, a text node"),
-			i(nil, "At least I can edit something now..."),
-			f(function(args)
-				return "Still only counts as text!!"
-			end, {}),
-		})
-	),
 	s("def", {
 		t({ "def " }),
 		i(1, "name"),
