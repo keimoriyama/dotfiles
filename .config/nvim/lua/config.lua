@@ -28,7 +28,6 @@ vim.o.modifiable = true
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
 -- スワップファイルを作らない
-vim.o.noswapfile = true
 vim.opt.updatetime = 200
 
 if vim.fn.has("mac") == 1 then
