@@ -56,6 +56,11 @@ cmp.setup({
 		-- { name = "omni", keyword_length = 0 },
 	}),
 	formatting = {
+		fields = {
+			"abbr",
+			"kind",
+			"menu",
+		},
 		format = lspkind.cmp_format({
 			mode = "symbol_text",
 			maxwidth = 50,

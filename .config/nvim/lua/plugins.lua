@@ -119,16 +119,7 @@ lazy.setup({
 	"uga-rosa/ugaterm.nvim",
 	"TimUntersberger/neogit",
 	-- barbecue
-	-- {
-	-- 	"utilyre/barbecue.nvim",
-	-- 	name = "barbecue",
-	-- 	version = "*",
-	-- 	dependencies = { "SmiteshP/nvim-navic" },
-	-- }, -- latex
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 })
 
--- LuaFormatter on
-
-vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 vim.cmd([[colorscheme tokyonight]])
