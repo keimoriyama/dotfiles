@@ -1,7 +1,7 @@
 -- -- -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
-	sources = { "around", "nvim-lsp", "file", "buffer", "cmdline", "cmdline-history" },
+	sources = { "around", "nvim-lsp", "file", "buffer", "copilot" },
 	autoCompleteEvents = {
 		"InsertEnter",
 		"TextChangedI",
@@ -57,6 +57,7 @@ vim.fn["ddc#custom#patch_global"]("sourceParams", {
 	["around"] = { maxSize = 500 },
 	["nvim-lsp"] = { kindLabels = { Class = "c" } },
 	["buffer"] = { requireSameFiletype = [[v:false]], forceCollect = [[v:true]] },
+	["copilot"] = { mark = "copilot", minAutoCompleteLength = 1 },
 })
 
 vim.fn["ddc#custom#patch_global"]("filterParams", {

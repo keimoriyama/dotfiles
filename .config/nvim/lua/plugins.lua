@@ -110,6 +110,7 @@ lazy.setup({
 	"Shougo/ddc-converter_remove_overlap",
 	"Shougo/ddc-source-nextword",
 	"LumaKernel/ddc-source-file",
+	-- ddu
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
@@ -127,8 +128,8 @@ lazy.setup({
 	-- mark visualization
 	"chentoast/marks.nvim",
 	-- copilot
-	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
-	-- { "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
+	"github/copilot.vim",
+	"Shougo/ddc-source-copilot",
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
 	"TimUntersberger/neogit",
