@@ -66,7 +66,7 @@ lazy.setup({
 	"norcalli/nvim-colorizer.lua", --
 	-- csv
 	"Decodetalkers/csv-tools.lua",
-	--	-- keep lastest cursor position
+	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
 	-- symbols outline
 	"simrat39/symbols-outline.nvim", --
@@ -85,17 +85,30 @@ lazy.setup({
 		"L3MON4D3/LuaSnip",
 		version = "1.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 	},
-	-- cmp
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-	"hrsh7th/nvim-cmp",
-	"hrsh7th/cmp-nvim-lsp-signature-help",
-	"yutkat/cmp-mocword",
-	"hrsh7th/cmp-cmdline",
-	"ray-x/cmp-treesitter",
-	"hrsh7th/cmp-omni",
-	"saadparwaiz1/cmp_luasnip",
+	-- -- cmp
+	-- ddc
+	"vim-denops/denops.vim",
+	"Shougo/ddc.vim",
+	"Shougo/ddc-nvim-lsp",
+	"Shougo/ddc-around",
+	"LumaKernel/ddc-file",
+	"matsui54/ddc-buffer",
+	"Shougo/ddc-sorter_rank",
+	"tani/ddc-fuzzy",
+	"Shougo/ddc-matcher_head",
+	"Shougo/ddc-matcher_length",
+	"tani/ddc-path",
+	"matsui54/denops-signature_help",
+	"matsui54/denops-popup-preview.vim",
+	"Shougo/pum.vim",
+	"Shougo/ddc-ui-pum",
+	"Shougo/ddc-source-cmdline",
+	"Shougo/ddc-source-cmdline-history",
+	"Shougo/ddc-source-nvim-lsp",
+	"matsui54/denops-signature_help",
+	"matsui54/denops-popup-preview.vim",
+	"Shougo/ddc-converter_remove_overlap",
+	"Shougo/ddc-source-nextword",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
@@ -114,7 +127,7 @@ lazy.setup({
 	"chentoast/marks.nvim",
 	-- copilot
 	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
-	{ "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
+	-- { "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
 	"TimUntersberger/neogit",
