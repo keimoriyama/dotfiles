@@ -111,6 +111,12 @@ lazy.setup({
 	"Shougo/ddc-source-nextword",
 	"LumaKernel/ddc-source-file",
 	-- ddu
+	"Shougo/ddu.vim",
+	"uga-rosa/ddu-source-lsp",
+	"Shougo/ddu-ui-filer",
+	"Shougo ddu-source-file",
+	"Shougo/ddu-kind-file",
+	"Shougo/ddu-column-filename",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
