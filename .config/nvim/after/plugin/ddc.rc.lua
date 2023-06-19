@@ -12,6 +12,7 @@ vim.fn["ddc#custom#patch_global"]({
 		[":"] = { "cmdline", "cmdline-history", "around" },
 	},
 })
+
 -- コマンドライン補完の設定
 vim.cmd([[
 	nnoremap :       <Cmd>call CommandlinePre()<CR>:
@@ -58,14 +59,28 @@ vim.fn["ddc#custom#patch_global"]("sourceParams", {
 	["buffer"] = { requireSameFiletype = [[v:false]], forceCollect = [[v:true]] },
 })
 
+vim.fn["ddc#custom#patch_global"]("filterParams", {
+	["matcher_fuzzy"] = { camelcase = [[v:true]] },
+})
+
+-- path completion
+vim.fn["ddc#custom#patch_filetype"]({ "ps1", "dosbatch", "autohotkey", "registry" }, {
+	sourceOptions = {
+		file = {
+			forceCompletionPattern = [['\S\\\S*']],
+		},
+	},
+	sourceParams = {
+		file = {
+			mode = [[win32]],
+		},
+	},
+})
+
 vim.g.signature_help_config = {
 	contentsStyle = "currentLabel",
 	viewStyle = "floating",
 }
-
-vim.fn["ddc#custom#patch_global"]("filterParams", {
-	["matcher_fuzzy"] = { camelcase = [[v:true]] },
-})
 -- -- Use ddc.
 vim.fn["ddc#enable"]()
 

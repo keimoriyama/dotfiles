@@ -109,6 +109,7 @@ lazy.setup({
 	"matsui54/denops-popup-preview.vim",
 	"Shougo/ddc-converter_remove_overlap",
 	"Shougo/ddc-source-nextword",
+	"LumaKernel/ddc-source-file",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
