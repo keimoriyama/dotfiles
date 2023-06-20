@@ -110,13 +110,7 @@ lazy.setup({
 	"Shougo/ddc-converter_remove_overlap",
 	"Shougo/ddc-source-nextword",
 	"LumaKernel/ddc-source-file",
-	-- ddu
-	"Shougo/ddu.vim",
-	"uga-rosa/ddu-source-lsp",
-	"Shougo/ddu-ui-filer",
-	"Shougo ddu-source-file",
-	"Shougo/ddu-kind-file",
-	"Shougo/ddu-column-filename",
+	"ttak0422/ddc-source-nvim-obsidian",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown

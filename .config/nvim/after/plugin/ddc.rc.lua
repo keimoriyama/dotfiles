@@ -51,6 +51,8 @@ vim.fn["ddc#custom#patch_global"]("sourceOptions", {
 	["file"] = { mark = "file", isVolatile = [[v:true]], forceCompletionPattern = [['\S/\S*']] },
 	["cmdline"] = { mark = "cmdline" },
 	["buffer"] = { mark = "buffer" },
+	["nvim-obsidian"] = { mark = "obsidian" },
+	["nvim-obsidian-new"] = { mark = "obsidian+" },
 })
 
 vim.fn["ddc#custom#patch_global"]("sourceParams", {
@@ -58,6 +60,8 @@ vim.fn["ddc#custom#patch_global"]("sourceParams", {
 	["nvim-lsp"] = { kindLabels = { Class = "c" } },
 	["buffer"] = { requireSameFiletype = [[v:false]], forceCollect = [[v:true]] },
 	["copilot"] = { mark = "copilot", minAutoCompleteLength = 1 },
+	["nvim-obsidian"] = { dir = "~/Documents/Notes" },
+	["nvim-obsidian-new"] = { dir = "~/Documents/Notes" },
 })
 
 vim.fn["ddc#custom#patch_global"]("filterParams", {
@@ -77,6 +81,18 @@ vim.fn["ddc#custom#patch_filetype"]({ "ps1", "dosbatch", "autohotkey", "registry
 		},
 	},
 })
+
+-- obsidian completion
+vim.cmd([[
+function! Obsidian() abort
+        call ddc#custom#patch_buffer('sources', [
+        \   'nvim-obsidian',
+        \   'nvim-obsidian-new',
+        \ ])
+endfunction
+
+autocmd BufRead,BufNewFile ~/Documents/Notes/*/*.md call Obsidian()
+]])
 
 vim.g.signature_help_config = {
 	contentsStyle = "currentLabel",
