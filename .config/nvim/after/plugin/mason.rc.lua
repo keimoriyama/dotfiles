@@ -87,9 +87,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
---
 -- LSP handlers
-
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single", -- "shadow" , "none", "rounded"
 })
