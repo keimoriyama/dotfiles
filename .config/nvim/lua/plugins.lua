@@ -110,6 +110,8 @@ lazy.setup({
 	"Shougo/ddc-source-nextword",
 	"LumaKernel/ddc-source-file",
 	"ttak0422/ddc-source-nvim-obsidian",
+	"hrsh7th/vim-vsnip",
+	"hrsh7th/vim-vsnip-integ",
 	-- ddu
 	"Shougo/ddu.vim",
 	"Shougo/ddu-ui-ff",

@@ -40,6 +40,7 @@ alias gst='git status'
 alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
+alias gt='git log --graph --pretty=format:\'%x09%C(auto) %h %Cgreen %ar %Creset%x09by\"%C(cyan ul)%an%Creset\" %x09%C(auto)%s %d\''
 
 alias ls='ls -G'
 alias c='clear'
