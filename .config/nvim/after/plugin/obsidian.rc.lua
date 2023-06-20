@@ -6,7 +6,7 @@ end
 obsidian.setup({
 	dir = "~/Documents/Notes",
 	completion = {
-		nvim_cmp = false,
+		nvim_cmp = true,
 	},
 	daily_notes = { folder = "daily" },
 	note_id_func = function(title)
