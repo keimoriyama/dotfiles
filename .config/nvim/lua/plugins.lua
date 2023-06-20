@@ -85,7 +85,6 @@ lazy.setup({
 		"L3MON4D3/LuaSnip",
 		version = "1.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 	},
-	-- -- cmp
 	-- ddc
 	"vim-denops/denops.vim",
 	"Shougo/ddc.vim",
@@ -111,6 +110,12 @@ lazy.setup({
 	"Shougo/ddc-source-nextword",
 	"LumaKernel/ddc-source-file",
 	"ttak0422/ddc-source-nvim-obsidian",
+	-- ddu
+	"Shougo/ddu.vim",
+	"Shougo/ddu-ui-ff",
+	"Shougo/ddu-source-file_rec",
+	"Shougo/ddu-filter-matcher_substring",
+	"Shougo/ddu-kind-file",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown

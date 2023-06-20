@@ -41,31 +41,31 @@ vim.cmd([[
 ]])
 
 vim.fn["ddc#custom#patch_global"]("sourceOptions", {
-	["around"] = { mark = "around" },
+	around = { mark = "around" },
+	file = { mark = "file", isVolatile = [[v:true]], forceCompletionPattern = [['\S/\S*']] },
+	cmdline = { mark = "cmdline" },
+	buffer = { mark = "buffer" },
 	["_"] = {
 		matchers = { "matcher_head", "matcher_fuzzy", "matcher_length" },
 		sorters = { "sorter_fuzzy", "sorter_rank" },
 		converters = { "converter_fuzzy" },
 	},
 	["nvim-lsp"] = { mark = "lsp", forceCompletionPattern = [['\.\w*|:\w*|->\w*']] },
-	["file"] = { mark = "file", isVolatile = [[v:true]], forceCompletionPattern = [['\S/\S*']] },
-	["cmdline"] = { mark = "cmdline" },
-	["buffer"] = { mark = "buffer" },
 	["nvim-obsidian"] = { mark = "obsidian" },
 	["nvim-obsidian-new"] = { mark = "obsidian+" },
 })
 
 vim.fn["ddc#custom#patch_global"]("sourceParams", {
-	["around"] = { maxSize = 500 },
+	around = { maxSize = 500 },
+	buffer = { requireSameFiletype = [[v:false]], forceCollect = [[v:true]] },
+	copilot = { mark = "copilot", minAutoCompleteLength = 1 },
 	["nvim-lsp"] = { kindLabels = { Class = "c" } },
-	["buffer"] = { requireSameFiletype = [[v:false]], forceCollect = [[v:true]] },
-	["copilot"] = { mark = "copilot", minAutoCompleteLength = 1 },
 	["nvim-obsidian"] = { dir = "~/Documents/Notes" },
 	["nvim-obsidian-new"] = { dir = "~/Documents/Notes" },
 })
 
 vim.fn["ddc#custom#patch_global"]("filterParams", {
-	["matcher_fuzzy"] = { camelcase = [[v:true]] },
+	matcher_fuzzy = { camelcase = [[v:true]] },
 })
 
 -- path completion
