@@ -110,16 +110,22 @@ lazy.setup({
 	--- obsidian
 	"epwalsh/obsidian.nvim",
 	"BurntSushi/ripgrep",
-	-- mark visualization
-	"chentoast/marks.nvim",
 	-- copilot
 	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
 	{ "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
 	"TimUntersberger/neogit",
-	-- barbecue
+	-- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
+	-- ddu
+	"vim-denops/denops.vim",
+	"Shougo/ddu.vim",
+	"Shougo/ddu-ui-filer",
+	"uga-rosa/ddu-source-lsp",
+	"Shougo/ddu-kind-file",
+	"Shougo/ddu-source-file",
+	"Shougo/ddu-column-filename",
 })
 
 vim.cmd([[colorscheme tokyonight]])
