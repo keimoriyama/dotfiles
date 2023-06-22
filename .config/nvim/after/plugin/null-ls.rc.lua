@@ -34,7 +34,14 @@ local null_sources = { null_ls.builtins.formatting.clang_format }
 for _, package in ipairs(mason_registry.get_installed_packages()) do
 	local package_categories = package.spec.categories[1]
 	if package_categories == mason_package.Cat.Formatter then
-		table.insert(null_sources, null_ls.builtins.formatting[package.name])
+		-- prettier をMarkdownで動作させないようにする
+		if package.name == "prettier" then
+			local source = null_ls.builtins.formatting[package.name]
+			source.disabled_filetypes = { "markdown" }
+			table.insert(null_sources, source)
+		else
+			table.insert(null_sources, null_ls.builtins.formatting[package.name])
+		end
 	end
 	if package_categories == mason_package.Cat.Linter then
 		table.insert(null_sources, null_ls.builtins.diagnostics[package.name])
