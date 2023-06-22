@@ -106,6 +106,7 @@ lazy.setup({
 		end,
 		ft = { "markdown" },
 	},
+	"mattn/vim-maketable",
 	--- obsidian
 	"epwalsh/obsidian.nvim",
 	"BurntSushi/ripgrep",

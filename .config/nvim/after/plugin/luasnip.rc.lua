@@ -91,7 +91,6 @@ local function docstrings(args, _, old_state)
 		t({ "" }),
 	}
 	local param_nodes = {}
-
 	if old_state then
 		nodes[2] = i(1, old_state.descr:get_text())
 	end
@@ -102,13 +101,18 @@ local function docstrings(args, _, old_state)
 				vim.list_extend(nodes, { t({ "", "\tArguments" }) })
 			end
 			local inode
-			-- if there was some text in this parameter, use it as static_text for this new snippet.
+
+			if string.find(arg, ":") ~= nil then
+				local tmp = vim.split(arg, ":", true)
+				arg = tmp[1] .. "(" .. tmp[2] .. ") : "
+			end
+			print(arg)
 			if old_state and old_state[arg] then
 				inode = i(insert, old_state["arg" .. arg]:get_text())
 			else
 				inode = i(insert)
 			end
-			vim.list_extend(nodes, { t({ "", "\t" }), t({ "" .. arg .. "" }), inode, t({ "" }) })
+			vim.list_extend(nodes, { t({ "", "\t\t" }), t({ "" .. arg .. "" }), inode, t({ "" }) })
 			param_nodes["arg" .. arg] = inode
 
 			insert = insert + 1
@@ -127,7 +131,7 @@ local function docstrings(args, _, old_state)
 			else
 				inode = i(insert)
 			end
-			vim.list_extend(nodes, { t({ "\t", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
+			vim.list_extend(nodes, { t({ "\t\t", "" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
 			param_nodes["arg" .. arg] = inode
 
 			insert = insert + 1
