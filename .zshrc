@@ -4,23 +4,6 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-export PATH=$HOME/.pyenv/bin:$PATH
-export PATH=/opt/homebrew/opt/llvm/bin:$PATH
-export PATH=/Users/keimoriyama/.local/bin:$PATH
-
-export PATH=/Users/keimoriyama/Applications:$PATH
-
-export PYENV_ROOT="$HOME/.pyenv"
-export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
-
-export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-
-export NEOVIM_HOME=$HOME/.local/nvim
-if [ -d "${NEOVIM_HOME}" ]; then
-	export PATH="${NEOVIM_HOME}/bin:$PATH"
-fi
 
 autoload -Uz colors && colors
 zstyle ":completion:*:commands" rehash 1
@@ -61,7 +44,6 @@ setopt correct
 eval "$(pyenv init --path)" # これを追記
 eval "$(pyenv init -)"
 eval "$(mutagen daemon start)"
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 if type brew &>/dev/null; then
 	FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
