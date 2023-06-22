@@ -117,6 +117,28 @@ lazy.setup({
 	"TimUntersberger/neogit",
 	-- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
+	-- easymotion
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					-- default options: exact mode, multi window, all directions, with a backdrop
+					require("flash").jump()
+				end,
+			},
+			{
+				"S",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter()
+				end,
+			},
+		},
+	},
 })
 
 vim.cmd([[colorscheme tokyonight]])
