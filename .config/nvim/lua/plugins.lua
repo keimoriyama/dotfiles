@@ -33,7 +33,6 @@ lazy.setup({
 	-- surround
 	"kylechui/nvim-surround", --
 	-- git
-	"dinhhuy258/git.nvim",
 	"lewis6991/gitsigns.nvim",
 	"airblade/vim-gitgutter",
 	-- auto comment out
@@ -43,7 +42,7 @@ lazy.setup({
 	"tpope/vim-repeat", --
 	-- linter, formatter
 	"jose-elias-alvarez/null-ls.nvim", --
-	-- utility
+	-- tility
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim", -- fuzzy finder
 	"nvim-telescope/telescope.nvim",
@@ -115,7 +114,6 @@ lazy.setup({
 	{ "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
-	"TimUntersberger/neogit",
 	-- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 	-- easymotion
@@ -131,6 +129,14 @@ lazy.setup({
 			"SmiteshP/nvim-navic",
 		},
 	},
+	-- ddu
+	"vim-denops/denops.vim",
+	"Shougo/ddu.vim",
+	"Shougo/ddu-ui-filer",
+	"uga-rosa/ddu-source-lsp",
+	"Shougo/ddu-kind-file",
+	"Shougo/ddu-source-file",
+	"Shougo/ddu-column-filename",
 })
 
 vim.cmd([[colorscheme tokyonight]])

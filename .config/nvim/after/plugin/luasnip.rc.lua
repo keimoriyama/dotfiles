@@ -104,7 +104,7 @@ local function docstrings(args, _, old_state)
 
 			if string.find(arg, ":") ~= nil then
 				local tmp = vim.split(arg, ":", true)
-				arg = tmp[1] .. "(" .. tmp[2] .. ") : "
+				arg = tmp[1] .. "(" .. tmp[2] .. ") :"
 			end
 			print(arg)
 			if old_state and old_state[arg] then
