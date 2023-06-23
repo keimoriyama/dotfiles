@@ -1,4 +1,4 @@
-vim.fn["ddu#custom#patch_global"]({
+vim.fn["ddu#custom#patch_local"]("filer", {
 	ui = "filer",
 	actionOptions = {
 		narrow = {
@@ -11,6 +11,7 @@ vim.fn["ddu#custom#patch_global"]({
 	sourceOptions = {
 		_ = {
 			columns = { "filename" },
+			converters = { "converter_devicion" },
 		},
 	},
 	kindOptions = {
@@ -32,4 +33,4 @@ vim.api.nvim_create_autocmd({ "Filetype" }, {
 	end,
 })
 
-vim.keymap.set("n", "<Leader>sf", "<cmd> call ddu#start()<cr>", opt)
+vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>', opt)

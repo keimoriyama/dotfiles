@@ -139,6 +139,8 @@ lazy.setup({
 	"Shougo/ddu-kind-file",
 	"Shougo/ddu-source-file",
 	"Shougo/ddu-column-filename",
+	"Shougo/ddu-commands.vim",
+	"uga-rosa/ddu-filter-converter_devicon",
 })
 
 vim.cmd([[colorscheme tokyonight]])
