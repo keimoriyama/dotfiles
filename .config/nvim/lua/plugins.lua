@@ -68,8 +68,6 @@ lazy.setup({
 	"Decodetalkers/csv-tools.lua",
 	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
-	-- symbols outline
-	"simrat39/symbols-outline.nvim", --
 	-- mkdir
 	"jghauser/mkdir.nvim",
 	"tversteeg/registers.nvim",
@@ -122,14 +120,6 @@ lazy.setup({
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
-	},
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
-		dependencies = {
-			"SmiteshP/nvim-navic",
-		},
 	},
 	-- ddu
 	"vim-denops/denops.vim",

@@ -21,11 +21,10 @@ vim.fn["ddu#custom#patch_local"]("filer", {
 	},
 })
 
-local opt = { buffer = true }
-
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-filer",
 	callback = function()
+		local opt = { buffer = true, silent = true }
 		vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#filer#do_action("itemAction", {"name": "open"})<CR>', opt)
 		vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#filer#do_action("toggleSelectItem")<CR>', opt)
 		vim.keymap.set("n", "o", '<cmd>call ddu#ui#do_action("expandItem", {"mode": "toggle"})<CR>', opt)
