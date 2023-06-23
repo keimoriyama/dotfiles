@@ -31,3 +31,5 @@ vim.api.nvim_create_autocmd({ "Filetype" }, {
 		vim.keymap.set("n", "q", '<cmd>call ddu#ui#filer#do_action("quit")<CR>', opt)
 	end,
 })
+
+vim.keymap.set("n", "<Leader>sf", "<cmd> call ddu#start()<cr>", opt)

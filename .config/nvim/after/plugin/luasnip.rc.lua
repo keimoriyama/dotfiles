@@ -97,6 +97,9 @@ local function docstrings(args, _, old_state)
 	local insert = 2
 	if args[1][1] ~= nil then
 		for indx, arg in ipairs(vim.split(args[1][1], ",", true)) do
+			if arg == "self" then
+				goto continue
+			end
 			if indx == 1 then
 				vim.list_extend(nodes, { t({ "", "\tArguments" }) })
 			end
@@ -106,7 +109,6 @@ local function docstrings(args, _, old_state)
 				local tmp = vim.split(arg, ":", true)
 				arg = tmp[1] .. "(" .. tmp[2] .. ") :"
 			end
-			print(arg)
 			if old_state and old_state[arg] then
 				inode = i(insert, old_state["arg" .. arg]:get_text())
 			else
@@ -116,6 +118,7 @@ local function docstrings(args, _, old_state)
 			param_nodes["arg" .. arg] = inode
 
 			insert = insert + 1
+			::continue::
 		end
 	end
 	if args[2][2] ~= nil then
