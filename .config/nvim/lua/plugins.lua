@@ -129,6 +129,7 @@ lazy.setup({
 	"Shougo/ddu-ui-ff",
 	"uga-rosa/ddu-source-lsp",
 	"Shougo/ddu-source-file",
+	"matsui54/ddu-source-help",
 	"Shougo/ddu-source-file_rec",
 	"Shougo/ddu-column-filename",
 	"Shougo/ddu-commands.vim",
