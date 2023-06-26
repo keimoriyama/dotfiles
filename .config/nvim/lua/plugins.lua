@@ -34,9 +34,9 @@ lazy.setup({
 	"kylechui/nvim-surround", --
 	-- git
 	"lewis6991/gitsigns.nvim",
+	"dinhhuy258/git.nvim",
 	"airblade/vim-gitgutter",
 	"TimUntersberger/neogit",
-	"lambdalisue/gin.vim",
 	-- auto comment out
 	"numToStr/Comment.nvim",
 	"luochen1990/rainbow", --

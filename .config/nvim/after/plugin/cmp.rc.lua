@@ -88,9 +88,9 @@ cmp.setup.cmdline(":", {
 })
 
 -- `/` cmdline setup.
--- cmp.setup.cmdline("/", {
--- 	mapping = cmp.mapping.preset.cmdline(),
--- 	sources = { { name = "buffer" } },
--- })
+cmp.setup.cmdline("/", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = { { name = "buffer" } },
+})
 
 vim.cmd([[highlight! default link CmpItemKind CmpItemMenuDefault]])
