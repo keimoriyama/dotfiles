@@ -35,6 +35,7 @@ lazy.setup({
 	-- git
 	"lewis6991/gitsigns.nvim",
 	"dinhhuy258/git.nvim",
+	"akinsho/git-conflict.nvim",
 	"airblade/vim-gitgutter",
 	"TimUntersberger/neogit",
 	-- auto comment out

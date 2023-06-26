@@ -126,7 +126,7 @@ local function docstrings(args, _, old_state)
 		local exc = vim.split(after_return[6], ",", true)
 		for indx, arg in pairs(exc) do
 			if indx == 1 then
-				vim.list_extend(nodes, { t({ "\tReturns" }) })
+				vim.list_extend(nodes, { t({ "", "\tReturns" }) })
 			end
 			local inode
 			if old_state and old_state[arg] then
@@ -134,7 +134,7 @@ local function docstrings(args, _, old_state)
 			else
 				inode = i(insert)
 			end
-			vim.list_extend(nodes, { t({ "\t\t" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
+			vim.list_extend(nodes, { t({ "", "\t\t" }), t({ " " .. arg .. " " }), inode, t({ "" }) })
 			param_nodes["arg" .. arg] = inode
 
 			insert = insert + 1

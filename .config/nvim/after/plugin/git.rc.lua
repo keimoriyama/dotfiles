@@ -22,3 +22,10 @@ local option = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", "<leader>gp", "<cmd>git push<cr>", option)
 vim.api.nvim_set_keymap("n", "<leader>gp", "<cmd>git pull<cr>", option)
 vim.g.gitgutter_map_keys = 0
+
+local status, gitconflict = pcall(requre, "git-conflict")
+if not status then
+	return
+end
+
+gitconflict.setup()
