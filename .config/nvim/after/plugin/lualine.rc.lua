@@ -67,5 +67,4 @@ lualine.setup({
 		lualine_z = {},
 	},
 	tabline = {},
-	extensions = { "fugitive" },
 })

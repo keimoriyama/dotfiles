@@ -121,21 +121,6 @@ lazy.setup({
 		"folke/flash.nvim",
 		event = "VeryLazy",
 	},
-	-- ddu
-	"vim-denops/denops.vim",
-	"Shougo/ddu.vim",
-	"Shougo/ddu-kind-file",
-	"Shougo/ddu-ui-filer",
-	"Shougo/ddu-ui-ff",
-	"uga-rosa/ddu-source-lsp",
-	"Shougo/ddu-source-file",
-	"matsui54/ddu-source-help",
-	"Shougo/ddu-source-file_rec",
-	"Shougo/ddu-column-filename",
-	"Shougo/ddu-commands.vim",
-	"uga-rosa/ddu-filter-converter_devicon",
-	"Shougo/ddu-filter-matcher_substring",
-	"Shougo/ddu-filter-sorter_alpha",
 })
 
 vim.cmd([[colorscheme tokyonight]])
