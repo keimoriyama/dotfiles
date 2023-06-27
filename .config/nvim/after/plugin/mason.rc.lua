@@ -46,19 +46,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		-- Enable completion triggered by <c-x><c-o>
 		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-		local bufopts = { noremap = true, silent = true, buffer = ev.buf }
+		local opt = { noremap = true, silent = true, buffer = ev.buf }
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-		vim.keymap.set("n", "H", vim.lsp.buf.hover, bufopts)
-		vim.keymap.set("n", "K", vim.lsp.buf.signature_help, bufopts)
-		vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, bufopts)
-		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, bufopts)
-		vim.keymap.set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", bufopts)
-		vim.keymap.set("n", "<Leader>cc", vim.lsp.buf.incoming_calls, bufopts)
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
+		vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definiction<cr>", opt)
+		vim.keymap.set("n", "gi", "<cmd>Lspsaga peek_definition<cr>", opt)
+		vim.keymap.set("n", "gr", "<cmd>Lspsaga lsp_finder<cr>", opt)
+		vim.keymap.set("n", "H", vim.lsp.buf.hover, opt)
+		vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>", opt)
+		vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
+		vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", opt)
+		vim.keymap.set("n", "<Leader>rn", "<cmd>Lspsaga rename<cr>", opt)
+		vim.keymap.set("n", "<Leader>f", "<cmd>Lspsaga vim.lsp.buf.format({async=true})<CR>", opt)
+		vim.keymap.set("n", "<Leader>cc", "<cmd>Lspsaga incoming_calls<cr>", opt)
+		vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opt)
+		vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opt)
 
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)

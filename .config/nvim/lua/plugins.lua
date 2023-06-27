@@ -74,10 +74,11 @@ lazy.setup({
 	"tversteeg/registers.nvim",
 	-- - code action list
 	"aznhe21/actions-preview.nvim",
-	-- lsp
+	-- sp
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
+	"nvimdev/lspsaga.nvim",
 	-- vscode-like pictograms
 	"onsails/lspkind-nvim",
 	{
