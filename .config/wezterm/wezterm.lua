@@ -50,8 +50,8 @@ local hyperlink_rules = {
 return {
 	font = wezterm.font_with_fallback({ "Hack Nerd Font", "Source Han Code JP" }),
 	font_size = 22,
-	color_scheme = "Kanagawa(Goph)",
+	color_scheme = "tokyonight",
 	hyperlink_rules = hyperlink_rules,
 	hide_tab_bar_if_only_one_tab = true,
-	-- disable_default_mouse_bindings = true,
+	default_cursor_style = "SteadyUnderline",
 }
