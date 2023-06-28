@@ -161,6 +161,10 @@ ls.add_snippets("python", {
 			t({ "" }),
 		}),
 	}),
+	s("ipdb", {
+		t({ "import ipdb; ipdb.set_trace()" }),
+		i(0),
+	}),
 }, {
 	key = "python",
 })

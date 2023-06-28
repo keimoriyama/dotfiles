@@ -32,6 +32,8 @@ vim.opt.updatetime = 200
 
 vim.opt.pumblend = 30
 
+--vim.opt.guicursor = "n-v-c-sm:vertical,i-ci-ve:ver25,r-cr-o:hor20"
+
 if vim.fn.has("mac") == 1 then
 	vim.cmd([[set clipboard+=unnamed]])
 else

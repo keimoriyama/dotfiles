@@ -109,8 +109,6 @@ lazy.setup({
 		ft = { "markdown" },
 	},
 	"mattn/vim-maketable",
-	--- obsidian
-	"epwalsh/obsidian.nvim",
 	"BurntSushi/ripgrep",
 	-- copilot
 	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
@@ -125,5 +123,4 @@ lazy.setup({
 		event = "VeryLazy",
 	},
 })
-
-vim.cmd([[colorscheme kanagawa]])
+vim.cmd([[colorscheme kanagawa-wave]])
