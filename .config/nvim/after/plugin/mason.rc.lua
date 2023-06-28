@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
-		vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definiction<cr>", opt)
+		vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<cr>", opt)
 		vim.keymap.set("n", "gi", "<cmd>Lspsaga peek_definition<cr>", opt)
 		vim.keymap.set("n", "gr", "<cmd>Lspsaga lsp_finder<cr>", opt)
 		vim.keymap.set("n", "H", vim.lsp.buf.hover, opt)

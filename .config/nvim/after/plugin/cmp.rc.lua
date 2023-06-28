@@ -54,8 +54,17 @@ cmp.setup({
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "treesitter" },
 		{ name = "copilot" },
-		-- { name = "omni", keyword_length = 0 },
+		-- { name = "omni", eyword_length = 0 },
 	}),
+	sorting = {
+		comparators = {
+			cmp.config.compare.offset,
+			cmp.config.compare.exact,
+			cmp.config.compare.kind,
+			cmp.config.compare.length,
+			cmp.config.compare.order,
+		},
+	},
 	formatting = {
 		fields = {
 			"abbr",

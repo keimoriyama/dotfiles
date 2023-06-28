@@ -23,6 +23,7 @@ end
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
+	"rebelot/kanagawa.nvim",
 	-- status line
 	"nvim-lualine/lualine.nvim",
 	-- indent
@@ -125,4 +126,4 @@ lazy.setup({
 	},
 })
 
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme kanagawa]])

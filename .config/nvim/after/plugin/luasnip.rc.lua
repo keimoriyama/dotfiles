@@ -97,9 +97,6 @@ local function docstrings(args, _, old_state)
 	local insert = 2
 	if args[1][1] ~= nil then
 		for indx, arg in ipairs(vim.split(args[1][1], ",", true)) do
-			if arg == "self" then
-				goto continue
-			end
 			if indx == 1 then
 				vim.list_extend(nodes, { t({ "", "\tArguments" }) })
 			end
