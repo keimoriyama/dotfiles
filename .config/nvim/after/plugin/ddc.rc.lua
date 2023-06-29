@@ -6,7 +6,7 @@ require("lspconfig").denols.setup({
 -- -- -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
-	sources = { "around", "nvim-lsp", "file", "buffer", "copilot" },
+	sources = { "nvim-lsp", "file", "buffer", "around", "copilot" },
 	autoCompleteEvents = {
 		"InsertEnter",
 		"TextChangedI",

@@ -23,7 +23,6 @@ end
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
-	"rebelot/kanagawa.nvim",
 	-- status line
 	"nvim-lualine/lualine.nvim",
 	-- indent
@@ -118,93 +117,53 @@ lazy.setup({
 	"uga-rosa/ugaterm.nvim",
 	-- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
-	-- easymotion
-	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		keys = {
-			{
-				"s",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").jump()
-				end,
-				desc = "Flash",
-			},
-			{
-				"S",
-				mode = { "n", "o", "x" },
-				function()
-					require("flash").treesitter()
-				end,
-				desc = "Flash Treesitter",
-			},
-			{
-				"r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
-			{
-				"R",
-				mode = { "o", "x" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "Flash Treesitter Search",
-			},
-			{
-				"<c-s>",
-				mode = { "c" },
-				function()
-					require("flash").toggle()
-				end,
-				desc = "Toggle Flash Search",
-			},
-		},
-	},
 
 	-- ddc
 	"vim-denops/denops.vim",
-	"Shougo/ddc.vim",
-	"Shougo/ddc-nvim-lsp",
-	"Shougo/ddc-around",
-	"LumaKernel/ddc-file",
-	"matsui54/ddc-buffer",
-	"Shougo/ddc-sorter_rank",
-	"tani/ddc-fuzzy",
-	"Shougo/ddc-matcher_head",
-	"Shougo/ddc-matcher_length",
-	"tani/ddc-path",
-	"matsui54/denops-signature_help",
-	"matsui54/denops-popup-preview.vim",
-	"Shougo/pum.vim",
-	"Shougo/ddc-ui-pum",
-	"Shougo/ddc-source-cmdline",
-	"Shougo/ddc-source-cmdline-history",
-	"Shougo/ddc-source-nvim-lsp",
-	"matsui54/denops-signature_help",
-	"matsui54/denops-popup-preview.vim",
-	"Shougo/ddc-converter_remove_overlap",
-	"Shougo/ddc-source-nextword",
-	"Shougo/ddc-source-copilot",
-	"LumaKernel/ddc-source-file",
+	{
+		"Shougo/ddc.vim",
+		dependencies = {
+			"Shougo/ddc-nvim-lsp",
+			"Shougo/ddc-around",
+			"LumaKernel/ddc-file",
+			"matsui54/ddc-buffer",
+			"Shougo/ddc-source-cmdline",
+			"Shougo/ddc-source-cmdline-history",
+			"Shougo/ddc-source-nvim-lsp",
+			"Shougo/ddc-source-nextword",
+			"Shougo/ddc-source-copilot",
+			"LumaKernel/ddc-source-file",
+			"Shougo/ddc-sorter_rank",
+			"Shougo/ddc-ui-pum",
+			"Shougo/ddc-converter_remove_overlap",
+			"tani/ddc-fuzzy",
+			"Shougo/ddc-matcher_head",
+			"Shougo/ddc-matcher_length",
+			"tani/ddc-path",
+			"matsui54/denops-signature_help",
+			"matsui54/denops-popup-preview.vim",
+			"Shougo/pum.vim",
+		},
+	},
+
 	-- ddu
-	"vim-denops/denops.vim",
-	"Shougo/ddu.vim",
-	"Shougo/ddu-kind-file",
-	"Shougo/ddu-ui-filer",
-	"Shougo/ddu-ui-ff",
-	"uga-rosa/ddu-source-lsp",
-	"Shougo/ddu-source-file",
-	"matsui54/ddu-source-help",
-	"Shougo/ddu-source-file_rec",
-	"Shougo/ddu-column-filename",
-	"Shougo/ddu-commands.vim",
-	"uga-rosa/ddu-filter-converter_devicon",
-	"Shougo/ddu-filter-matcher_substring",
-	"Shougo/ddu-filter-sorter_alpha",
+	{
+		"Shougo/ddu.vim",
+		dependencies = {
+			"Shougo/ddu-kind-file",
+			"Shougo/ddu-ui-filer",
+			"Shougo/ddu-ui-ff",
+			"uga-rosa/ddu-source-lsp",
+			"Shougo/ddu-source-file",
+			"matsui54/ddu-source-help",
+			"Shougo/ddu-source-file_rec",
+			"Shougo/ddu-source-action",
+			"Shougo/ddu-column-filename",
+			"Shougo/ddu-commands.vim",
+			"uga-rosa/ddu-filter-converter_devicon",
+			"Shougo/ddu-filter-matcher_substring",
+			"Shougo/ddu-filter-sorter_alpha",
+		},
+	},
 })
-vim.cmd([[colorscheme kanagawa-wave]])
+vim.cmd([[colorscheme tokyonight]])
