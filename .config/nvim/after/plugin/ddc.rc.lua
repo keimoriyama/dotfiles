@@ -1,3 +1,8 @@
+local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+require("lspconfig").denols.setup({
+	capabilities = capabilities,
+})
+
 -- -- -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
@@ -48,17 +53,21 @@ vim.fn["ddc#custom#patch_global"]("sourceOptions", {
 		converters = { "converter_fuzzy" },
 	},
 	["nvim-lsp"] = { mark = "lsp", forceCompletionPattern = [['\.\w*|:\w*|->\w*']] },
-	["nvim-obsidian"] = { mark = "obsidian" },
-	["nvim-obsidian-new"] = { mark = "obsidian+" },
 })
 
+vim.fn["denops#callback#register"](function(body)
+	require("luasnip").lsp_expand(body)
+end)
+
 vim.fn["ddc#custom#patch_global"]("sourceParams", {
-	around = { maxSize = 500 },
+	around = { maxSize = 100 },
 	buffer = { requireSameFiletype = [[v:false]], forceCollect = [[v:true]] },
 	copilot = { mark = "copilot", minAutoCompleteLength = 1 },
-	["nvim-lsp"] = { kindLabels = { Class = "c" } },
-	["nvim-obsidian"] = { dir = "~/Documents/Notes" },
-	["nvim-obsidian-new"] = { dir = "~/Documents/Notes" },
+	["nvim-lsp"] = {
+		kindLabels = { Class = "c" },
+		enableResolveItem = [[v:true]],
+		enableAdditionalTextEdit = [[v:true]],
+	},
 })
 
 vim.fn["ddc#custom#patch_global"]("filterParams", {
@@ -79,26 +88,15 @@ vim.fn["ddc#custom#patch_filetype"]({ "ps1", "dosbatch", "autohotkey", "registry
 	},
 })
 
--- obsidian completion
-vim.cmd([[
-function! Obsidian() abort
-        call ddc#custom#patch_buffer('sources', [
-        \   'nvim-obsidian',
-        \   'nvim-obsidian-new',
-        \ ])
-endfunction
-autocmd BufRead,BufNewFile ~/Documents/Notes/*/*.md call Obsidian()
-]])
-
 vim.g.signature_help_config = {
 	contentsStyle = "currentLabel",
 	viewStyle = "floating",
 }
--- -- Use ddc.
--- vim.fn["ddc#enable"]()
---
--- -- Use signature help
--- vim.fn["signature_help#enable"]()
---
--- -- use pop up preview
--- vim.fn["popup_preview#enable"]()
+-- Use ddc.
+vim.fn["ddc#enable"]()
+
+-- Use signature help
+vim.fn["signature_help#enable"]()
+
+-- use pop up preview
+vim.fn["popup_preview#enable"]()

@@ -3,4 +3,4 @@ if not status then
 	return
 end
 
-flash.setup()
+flash.setup({ labels = "asdfghjklqwertyuiopzxcvbnm" })

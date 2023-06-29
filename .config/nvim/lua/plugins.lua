@@ -87,16 +87,16 @@ lazy.setup({
 		version = "1.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 	},
 	-- cmp
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-	"hrsh7th/nvim-cmp",
-	"hrsh7th/cmp-nvim-lsp-signature-help",
-	"yutkat/cmp-mocword",
-	"hrsh7th/cmp-cmdline",
-	"ray-x/cmp-treesitter",
-	"hrsh7th/cmp-omni",
-	"saadparwaiz1/cmp_luasnip",
+	-- "hrsh7th/cmp-nvim-lsp",
+	-- "hrsh7th/cmp-buffer",
+	-- "hrsh7th/cmp-path",
+	-- "hrsh7th/nvim-cmp",
+	-- "hrsh7th/cmp-nvim-lsp-signature-help",
+	-- "yutkat/cmp-mocword",
+	-- "hrsh7th/cmp-cmdline",
+	-- "ray-x/cmp-treesitter",
+	-- "hrsh7th/cmp-omni",
+	-- "saadparwaiz1/cmp_luasnip",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
@@ -111,8 +111,9 @@ lazy.setup({
 	"mattn/vim-maketable",
 	"BurntSushi/ripgrep",
 	-- copilot
-	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
-	{ "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
+	-- { "zbirenbaum/copilot.lua", build = ":Copilot auth" },
+	-- { "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
+	{ "github/copilot.vim", build = ":Copilot auth" },
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
 	-- tex plugin
@@ -121,6 +122,48 @@ lazy.setup({
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "o", "x" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Flash Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
 	},
 
 	-- ddc
@@ -146,6 +189,7 @@ lazy.setup({
 	"matsui54/denops-popup-preview.vim",
 	"Shougo/ddc-converter_remove_overlap",
 	"Shougo/ddc-source-nextword",
+	"Shougo/ddc-source-copilot",
 	"LumaKernel/ddc-source-file",
 	-- ddu
 	"vim-denops/denops.vim",
