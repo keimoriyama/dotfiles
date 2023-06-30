@@ -11,6 +11,7 @@ copilot.setup({
 	filetypes = {
 		yaml = false,
 		help = false,
+		markdown = false,
 	},
 })
 
