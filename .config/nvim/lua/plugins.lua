@@ -120,6 +120,9 @@ lazy.setup({
 
 	-- ddc
 	"vim-denops/denops.vim",
+	"matsui54/denops-signature_help",
+	"matsui54/denops-popup-preview.vim",
+	"Shougo/pum.vim",
 	{
 		"Shougo/ddc.vim",
 		dependencies = {
@@ -140,12 +143,8 @@ lazy.setup({
 			"Shougo/ddc-matcher_head",
 			"Shougo/ddc-matcher_length",
 			"tani/ddc-path",
-			"matsui54/denops-signature_help",
-			"matsui54/denops-popup-preview.vim",
-			"Shougo/pum.vim",
 		},
 	},
-
 	-- ddu
 	{
 		"Shougo/ddu.vim",

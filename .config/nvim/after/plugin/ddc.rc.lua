@@ -2,6 +2,9 @@ local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
 require("lspconfig").denols.setup({
 	capabilities = capabilities,
 })
+vim.fn["denops#callback#register"](function(body)
+	require("luasnip").lsp_expand(body)
+end)
 
 -- -- -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
@@ -15,6 +18,30 @@ vim.fn["ddc#custom#patch_global"]({
 	},
 	cmdlineSources = {
 		[":"] = { "cmdline", "cmdline-history", "around" },
+	},
+	sourceOptions = {
+		around = { mark = "a" },
+		file = { mark = "f", isVolatile = true, forceCompletionPattern = [['\S/\S*']] },
+		cmdline = { mark = "c" },
+		buffer = { mark = "b" },
+		["_"] = {
+			matchers = { "matcher_head", "matcher_fuzzy", "matcher_length" },
+			sorters = { "sorter_fuzzy", "sorter_rank" },
+			converters = { "converter_fuzzy", "converter_remove_overlap" },
+			minAutoCompleteLength = 1,
+		},
+		["nvim-lsp"] = { mark = "lsp", forceCompletionPattern = [['\.\w*|:\w*|->\w*']] },
+	},
+	sourceParams = {
+		around = { maxSize = 100 },
+		buffer = { requireSameFiletype = false, forceCollect = true },
+		copilot = { minAutoCompleteLength = 1 },
+		["nvim-lsp"] = {
+			kindLabels = { Class = "c" },
+			enableResolveItem = true,
+			enableAdditionalTextEdit = true,
+			forceCompletionPattern = [['\.\w*|:\w*|->\w*']],
+		},
 	},
 })
 
@@ -41,38 +68,6 @@ vim.cmd([[
 		silent! cunmap <C-e>
 	endfunction
 ]])
-
-vim.fn["ddc#custom#patch_global"]("sourceOptions", {
-	around = { mark = "around" },
-	file = { mark = "file", isVolatile = [[v:true]], forceCompletionPattern = [['\S/\S*']] },
-	cmdline = { mark = "cmdline" },
-	buffer = { mark = "buffer" },
-	["_"] = {
-		matchers = { "matcher_head", "matcher_fuzzy", "matcher_length" },
-		sorters = { "sorter_fuzzy", "sorter_rank" },
-		converters = { "converter_fuzzy" },
-	},
-	["nvim-lsp"] = { mark = "lsp", forceCompletionPattern = [['\.\w*|:\w*|->\w*']] },
-})
-
-vim.fn["denops#callback#register"](function(body)
-	require("luasnip").lsp_expand(body)
-end)
-
-vim.fn["ddc#custom#patch_global"]("sourceParams", {
-	around = { maxSize = 100 },
-	buffer = { requireSameFiletype = [[v:false]], forceCollect = [[v:true]] },
-	copilot = { mark = "copilot", minAutoCompleteLength = 1 },
-	["nvim-lsp"] = {
-		kindLabels = { Class = "c" },
-		enableResolveItem = [[v:true]],
-		enableAdditionalTextEdit = [[v:true]],
-	},
-})
-
-vim.fn["ddc#custom#patch_global"]("filterParams", {
-	matcher_fuzzy = { camelcase = [[v:true]] },
-})
 
 -- path completion
 vim.fn["ddc#custom#patch_filetype"]({ "ps1", "dosbatch", "autohotkey", "registry" }, {

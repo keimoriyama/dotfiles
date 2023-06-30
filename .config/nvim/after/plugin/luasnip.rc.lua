@@ -1,4 +1,7 @@
 local status, ls = pcall(require, "luasnip")
+if not status then
+	return
+end
 
 local s = ls.snippet
 local sn = ls.snippet_node

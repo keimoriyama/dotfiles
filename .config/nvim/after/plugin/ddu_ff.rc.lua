@@ -36,15 +36,24 @@ vim.fn["ddu#custom#patch_global"]({
 			floatingTitle = "Ddu ff",
 			floatingTitlePos = "center",
 			highlights = {
-				floatingCursorLine = "DduCursor",
+				floating = "Normal",
 				preview = "DduPreview",
 			},
 			filterFloatingPosition = "bottom",
 
+			previewSplit = "vertical",
 			previewFloating = true,
 			previewFloatingBorder = "rounded",
 			previewFloatingTitle = "Ddu ff preview",
 			previewFloatingTitlePos = "center",
+			previewWindowOptions = {
+				{ "&signcolumn", "no" },
+				{ "&foldcolumn", 0 },
+				{ "&foldenable", 0 },
+				{ "&number", 0 },
+				{ "&wrap", 0 },
+				{ "&scrolloff", 0 },
+			},
 		},
 	},
 })
