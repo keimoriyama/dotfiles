@@ -3,6 +3,7 @@
 -- require("lspconfig").denols.setup({
 -- 	capabilities = capabilities,
 -- })
+-- require("ddc_nvim_lsp_setup").setup()
 --
 -- -- -- -- Use around source.
 -- vim.fn["ddc#custom#patch_global"]({
@@ -30,6 +31,7 @@
 -- 		},
 -- 		["nvim-lsp"] = { mark = "lsp", forceCompletionPattern = [['\.\w*|:\w*|->\w*']] },
 -- 	},
+--
 -- 	sourceParams = {
 -- 		around = { maxSize = 100 },
 -- 		buffer = { requireSameFiletype = false, forceCollect = true },
@@ -37,9 +39,10 @@
 -- 		["nvim-lsp"] = {
 -- 			enableResolveItem = true,
 -- 			enableAdditionalTextEdit = true,
--- 			snippetEngine = vim.fn["denops#callback#register"](function()
--- 				require("luasnip").lsp_expand()
+-- 			snippetEngine = vim.fn["denops#callback#register"](function(body)
+-- 				require("luasnip").lsp_expand(body)
 -- 			end),
+-- 			confirmBehavior = "insert",
 -- 		},
 -- 	},
 -- })

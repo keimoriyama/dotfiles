@@ -143,9 +143,10 @@ lazy.setup({
 	-- 		"Shougo/ddc-matcher_head",
 	-- 		"Shougo/ddc-matcher_length",
 	-- 		"tani/ddc-path",
+	-- 		"uga-rosa/ddc-nvim-lsp-setup",
 	-- 	},
 	-- },
-	-- ddu
+	--ddu
 	-- {
 	-- 	"Shougo/ddu.vim",
 	-- 	dependencies = {
