@@ -80,22 +80,7 @@ lazy.setup({
 	"williamboman/mason-lspconfig.nvim",
 	"nvimdev/lspsaga.nvim",
 	-- vscode-like pictograms
-	-- "onsails/lspkind-nvim",
-	-- {
-	-- 	"L3MON4D3/LuaSnip",
-	-- 	version = "1.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-	-- },
-	-- cmp
-	-- "hrsh7th/cmp-nvim-lsp",
-	-- "hrsh7th/cmp-buffer",
-	-- "hrsh7th/cmp-path",
-	-- "hrsh7th/nvim-cmp",
-	-- "hrsh7th/cmp-nvim-lsp-signature-help",
-	-- "yutkat/cmp-mocword",
-	-- "hrsh7th/cmp-cmdline",
-	-- "ray-x/cmp-treesitter",
-	-- "hrsh7th/cmp-omni",
-	-- "saadparwaiz1/cmp_luasnip",
+	"onsails/lspkind-nvim",
 	-- template
 	"mattn/vim-sonictemplate",
 	-- markdown
@@ -109,9 +94,6 @@ lazy.setup({
 	},
 	"mattn/vim-maketable",
 	"BurntSushi/ripgrep",
-	-- copilot
-	-- { "zbirenbaum/copilot.lua", build = ":Copilot auth" },
-	-- { "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
 	-- tex plugin
