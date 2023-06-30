@@ -1,3 +1,8 @@
+local Col = 2
+local Row = 1
+local Width = vim.o.columns
+local Height = vim.o.lines - 8
+
 vim.fn["ddu#custom#patch_global"]({
 	ui = "ff",
 	sources = {
@@ -30,26 +35,47 @@ vim.fn["ddu#custom#patch_global"]({
 		ff = {
 			autoAction = { "name", "preview" },
 			split = "floating",
-			prompt = ">",
-			startFilter = [[v:true]],
+			prompt = "> ",
+			startFilter = true,
 			floatingBorder = "rounded",
 			floatingTitle = "Ddu ff",
 			floatingTitlePos = "center",
-			previewFloating = [[v:true]],
+			highlights = {
+				floatingCursorLine = "DduCursor",
+				preview = "DduPreview",
+			},
+			filterFloatingPosition = "bottom",
+
+			winCol = Col,
+			winRow = Row,
+			winWidth = math.ceil(Width / 2) - 4,
+			winHeight = Height,
+
+			previewFloating = true,
 			previewFloatingBorder = "rounded",
 			previewFloatingTitle = "Ddu ff preview",
 			previewFloatingTitlePos = "center",
-			winCol = vim.fn.wincol(),
-			winRow = vim.fn.winrow(),
-			--'winWidth': s:winWidth / 2,
-			-- \		'winHeight': s:winHeight,
-			-- \		'previewCol': s:winCol + s:winWidth / 2 + 2,
-			-- \		'previewRow': s:winRow + s:winHeight + 5,
-			-- \		'previewWidth': s:winWidth / 2,
-			-- \		'previewHeight': s:winHeight + 3,
+			previewCol = Col + math.ceil(Width / 2),
+			previewRow = Row + Height,
+			previewWidth = math.ceil(Width / 2),
+			previewHeight = Height,
 		},
 	},
 })
+
+-- local function set_size()
+-- 	winCol = vim.o.columns / 8
+-- 	winWidth = vim.o.columns - (vim.o.columns / 4)
+-- 	winRow = vim.o.lines / 8
+-- 	winHeight = vim.o.lines - (vim.o.lines / 4)
+-- end
+--
+-- vim.api.nvim_create_autocmd("VimResized", {
+-- 	pattern = "*",
+-- 	callback = function()
+-- 		set_size()
+-- 	end,
+-- })
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-ff",

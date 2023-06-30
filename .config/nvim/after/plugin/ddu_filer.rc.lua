@@ -30,7 +30,12 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-filer",
 	callback = function()
 		local opt = { buffer = true, silent = true }
-		vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name":"open"})<CR>', opt)
+		vim.keymap.set(
+			"n",
+			"<CR>",
+			'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"tabnew"}})<CR>',
+			opt
+		)
 		vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
 		vim.keymap.set("n", "o", '<cmd>call ddu#ui#do_action("expandItem", {"mode": "toggle"})<CR>', opt)
 		vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
