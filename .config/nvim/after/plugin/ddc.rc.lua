@@ -39,9 +39,6 @@ vim.fn["ddc#custom#patch_global"]({
 		["nvim-lsp"] = {
 			enableResolveItem = true,
 			enableAdditionalTextEdit = true,
-			-- snippetEngine = vim.fn["denops#callback#register"](function(body)
-			-- 	require("luasnip").lsp_expand(body)
-			-- end),
 			confirmBehavior = "insert",
 		},
 	},

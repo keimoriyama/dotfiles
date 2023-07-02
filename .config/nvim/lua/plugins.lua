@@ -99,6 +99,9 @@ lazy.setup({
 	-- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 
+	-- keymap
+	"folke/which-key.nvim",
+
 	-- ddc
 	"vim-denops/denops.vim",
 	"matsui54/denops-signature_help",
@@ -126,7 +129,8 @@ lazy.setup({
 			"tani/ddc-path",
 			"uga-rosa/ddc-nvim-lsp-setup",
 			"hrsh7th/vim-vsnip",
-			"hrsh7th/vim-vsnip-integ",
+			-- "hrsh7th/vim-vsnip-integ",
+			"uga-rosa/ddc-source-vsnip",
 			{ "github/copilot.vim", build = ":Copilot auth" },
 		},
 	},
