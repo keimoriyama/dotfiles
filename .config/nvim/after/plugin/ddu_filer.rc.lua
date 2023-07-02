@@ -48,4 +48,4 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>', { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>', { noremap = true, silent = true })

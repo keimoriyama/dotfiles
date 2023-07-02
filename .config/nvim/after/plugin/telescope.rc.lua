@@ -58,18 +58,18 @@ vim.keymap.set("n", "<Leader>h", function()
 	builtin.help_tags()
 end, opt)
 
-vim.keymap.set("n", "<Leader>sf", function()
-	telescope.extensions.file_browser.file_browser({
-		path = "%:p:h",
-		cwd = telescope_buffer_dir(),
-		respect_gitignore = false,
-		hidden = true,
-		grouped = true,
-		previewer = true,
-		initial_mode = "normal",
-		layout_config = { height = 40 },
-	})
-end, opt)
+-- vim.keymap.set("n", "<Leader>sf", function()
+-- 	telescope.extensions.file_browser.file_browser({
+-- 		path = "%:p:h",
+-- 		cwd = telescope_buffer_dir(),
+-- 		respect_gitignore = false,
+-- 		hidden = true,
+-- 		grouped = true,
+-- 		previewer = true,
+-- 		initial_mode = "normal",
+-- 		layout_config = { height = 40 },
+-- 	})
+-- end, opt)
 
 vim.keymap.set("n", "<Leader>k", function()
 	builtin.keymaps()
