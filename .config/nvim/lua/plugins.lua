@@ -37,7 +37,6 @@ lazy.setup({
 	"dinhhuy258/git.nvim",
 	"akinsho/git-conflict.nvim",
 	"airblade/vim-gitgutter",
-	"TimUntersberger/neogit",
 	-- auto comment out
 	"numToStr/Comment.nvim",
 	"luochen1990/rainbow", --
@@ -92,7 +91,7 @@ lazy.setup({
 		end,
 		ft = { "markdown" },
 	},
-	"mattn/vim-maketable",
+	{ "mattn/vim-maketable", ft = { "markdown" } },
 	"BurntSushi/ripgrep",
 	-- terminal setting
 	"uga-rosa/ugaterm.nvim",
@@ -116,6 +115,7 @@ lazy.setup({
 			"Shougo/ddc-source-nvim-lsp",
 			"Shougo/ddc-source-nextword",
 			"Shougo/ddc-source-copilot",
+			"uga-rosa/ddc-source-nvim-lua",
 			"LumaKernel/ddc-source-file",
 			"Shougo/ddc-sorter_rank",
 			"Shougo/ddc-ui-pum",
