@@ -3,7 +3,6 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 require("lspconfig").denols.setup({
 	capabilities = capabilities,
 })
-require("ddc_nvim_lsp_setup").setup()
 
 -- -- -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
