@@ -1,4 +1,4 @@
-vim.fn["ddu#custom#patch_local"]("ff", {
+vim.fn["ddu#custom#patch_local"]("helper", {
 	ui = "ff",
 	sources = {
 		{ name = "helper", params = {} },

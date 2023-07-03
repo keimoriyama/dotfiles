@@ -28,32 +28,23 @@ vim.fn["ddu#custom#patch_global"]({
 	},
 	uiParams = {
 		ff = {
-			autoAction = { "name", "preview" },
+			startFilter = true,
 			split = "floating",
 			prompt = "> ",
-			startFilter = true,
 			floatingBorder = "rounded",
 			floatingTitle = "Ddu ff",
 			floatingTitlePos = "center",
 			highlights = {
 				floating = "Normal",
-				preview = "DduPreview",
+				floatingBorder = "Normal",
 			},
 			filterFloatingPosition = "bottom",
 
-			previewSplit = "vertical",
 			previewFloating = true,
+			previewSplit = "vertical",
 			previewFloatingBorder = "rounded",
-			previewFloatingTitle = "Ddu ff preview",
+			previewFloatingTitle = "preview",
 			previewFloatingTitlePos = "center",
-			previewWindowOptions = {
-				{ "&signcolumn", "no" },
-				{ "&foldcolumn", 0 },
-				{ "&foldenable", 0 },
-				{ "&number", 0 },
-				{ "&wrap", 0 },
-				{ "&scrolloff", 0 },
-			},
 		},
 	},
 })
@@ -70,13 +61,14 @@ local function resize()
 				winRow = row,
 				winWidth = width,
 				winHeight = height,
-				previewWidth = math.floor(width / 2),
+				previewCol = math.floor(width) + col,
+				previewRow = row,
+				previewWidth = math.floor(width) + col,
 				previewHeight = height,
 			},
 		},
 	})
 end
-resize()
 
 vim.api.nvim_create_autocmd("VimResized", { callback = resize })
 
@@ -103,3 +95,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
 	end,
 })
+
+resize()
+vim.keymap.set("n", "<Leader>ff", '<cmd>call ddu#start({"name":"ff"})<CR>', { noremap = true, silent = true })

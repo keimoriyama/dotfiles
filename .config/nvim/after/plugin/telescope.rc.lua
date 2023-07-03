@@ -42,12 +42,12 @@ telescope.setup({
 
 telescope.load_extension("file_browser")
 opt = { noremap = true, silent = true }
-vim.keymap.set("n", "<Leader>ff", function()
-	builtin.find_files({
-		hidden = true,
-		initial_mode = "normal",
-	})
-end, opt)
+-- vim.keymap.set("n", "<Leader>ff", function()
+-- 	builtin.find_files({
+-- 		hidden = true,
+-- 		initial_mode = "normal",
+-- 	})
+-- end, opt)
 vim.keymap.set("n", "<Leader>fr", function()
 	builtin.live_grep()
 end, opt)
