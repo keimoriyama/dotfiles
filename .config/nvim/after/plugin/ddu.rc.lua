@@ -42,7 +42,6 @@ vim.fn["ddu#custom#patch_global"]({
 				floatingBorder = "Normal",
 			},
 			filterFloatingPosition = "bottom",
-
 			previewFloating = true,
 			previewSplit = "vertical",
 			previewFloatingBorder = "rounded",
@@ -56,7 +55,7 @@ local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.8), math.floor(lines * 0.05)
 	local columns = vim.opt.columns:get()
-	local width, col = math.floor(columns * 0.5), math.floor(columns * 0.05)
+	local width, col = math.floor(columns * 0.7), math.floor(columns * 0.05)
 	vim.fn["ddu#custom#patch_global"]({
 		uiParams = {
 			ff = {
@@ -64,9 +63,9 @@ local function resize()
 				winRow = row,
 				winWidth = width,
 				winHeight = height,
-				previewCol = math.floor(width) + col,
+				previewCol = math.floor(width) + col + 10,
 				previewRow = row,
-				previewWidth = math.floor(width) + col,
+				previewWidth = math.floor(width),
 				previewHeight = height,
 			},
 		},

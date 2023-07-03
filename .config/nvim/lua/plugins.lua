@@ -22,7 +22,7 @@ if vim.g.vscode then
 end
 lazy.setup({
 	-- color scheme
-	"rebelot/kanagawa.nvim",
+	"folke/tokyonight.nvim",
 	-- status line
 	"nvim-lualine/lualine.nvim",
 	-- indent
@@ -152,4 +152,4 @@ lazy.setup({
 	},
 })
 
-vim.cmd([[colorscheme kanagawa]])
+vim.cmd([[colorscheme tokyonight]])
