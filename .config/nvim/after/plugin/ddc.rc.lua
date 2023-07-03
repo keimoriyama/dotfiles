@@ -8,7 +8,7 @@ require("ddc_nvim_lsp_setup").setup()
 -- -- -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
-	sources = { "nvim-lsp", "file", "vsnip", "nvim-lua", "buffer", "around", "copilot" },
+	sources = { "nvim-lsp", "file", "vsnip", "mocword", "nvim-lua", "buffer", "around", "copilot" },
 	autoCompleteEvents = {
 		"InsertEnter",
 		"TextChangedI",
@@ -32,6 +32,11 @@ vim.fn["ddc#custom#patch_global"]({
 		["nvim-lsp"] = { mark = "lsp", forceCompletionPattern = [['\.\w*|:\w*|->\w*']] },
 		vsnip = { mark = "vsnip" },
 		["nvim-lua"] = { mark = "lua", forceCompletionPattern = "." },
+		mocword = {
+			mark = "moc",
+			minAutoCompleteLength = 2,
+			isVolatile = true,
+		},
 	},
 	sourceParams = {
 		around = { maxSize = 100 },

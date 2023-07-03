@@ -22,7 +22,7 @@ if vim.g.vscode then
 end
 lazy.setup({
 	-- color scheme
-	"folke/tokyonight.nvim",
+	"rebelot/kanagawa.nvim",
 	-- status line
 	"nvim-lualine/lualine.nvim",
 	-- indent
@@ -113,7 +113,7 @@ lazy.setup({
 			"Shougo/ddc-source-cmdline",
 			"Shougo/ddc-source-cmdline-history",
 			"Shougo/ddc-source-nvim-lsp",
-			"Shougo/ddc-source-nextword",
+			"Shougo/ddc-source-mocword",
 			"Shougo/ddc-source-copilot",
 			"uga-rosa/ddc-source-nvim-lua",
 			"LumaKernel/ddc-source-file",
@@ -142,6 +142,7 @@ lazy.setup({
 			"matsui54/ddu-source-help",
 			"Shougo/ddu-source-file_rec",
 			"Shougo/ddu-source-action",
+			"shun/ddu-source-rg",
 			"Shougo/ddu-column-filename",
 			"Shougo/ddu-commands.vim",
 			"uga-rosa/ddu-filter-converter_devicon",
@@ -150,4 +151,5 @@ lazy.setup({
 		},
 	},
 })
-vim.cmd([[colorscheme tokyonight]])
+
+vim.cmd([[colorscheme kanagawa]])
