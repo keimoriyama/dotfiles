@@ -54,9 +54,9 @@ end, opt)
 vim.keymap.set("n", "<Leader>fb", function()
 	builtin.buffers()
 end, opt)
-vim.keymap.set("n", "<Leader>h", function()
-	builtin.help_tags()
-end, opt)
+-- vim.keymap.set("n", "<Leader>h", function()
+-- 	builtin.help_tags()
+-- end, opt)
 
 -- vim.keymap.set("n", "<Leader>sf", function()
 -- 	telescope.extensions.file_browser.file_browser({

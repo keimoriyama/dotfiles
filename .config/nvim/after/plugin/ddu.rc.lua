@@ -25,6 +25,9 @@ vim.fn["ddu#custom#patch_global"]({
 		file = {
 			defaultAction = "open",
 		},
+		help = {
+			defaultAction = "open",
+		},
 	},
 	uiParams = {
 		ff = {
@@ -98,3 +101,9 @@ vim.api.nvim_create_autocmd("FileType", {
 
 resize()
 vim.keymap.set("n", "<Leader>ff", '<cmd>call ddu#start({"name":"ff"})<CR>', { noremap = true, silent = true })
+vim.keymap.set(
+	"n",
+	"<leader>dh",
+	"<cmd>call ddu#start({'sources': [{'name':'help', 'params':{}}]})<cr>",
+	{ noremap = true, silent = true }
+)
