@@ -3,4 +3,9 @@ if not status then
 	return
 end
 
-flash.setup({ labels = "asdfghjklqwertyuiopzxcvbnm" })
+flash.setup({
+	labels = "asdfghjklqwertyuiopzxcvbnm",
+	char = {
+		jump_labels = true,
+	},
+})
