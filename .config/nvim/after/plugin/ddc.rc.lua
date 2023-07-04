@@ -5,9 +5,9 @@ require("lspconfig").denols.setup({
 })
 
 if string.find(vim.fn.expand("%:p:h"), "Atcoder") then
-	sources = { "nvim-lsp", "file", "mocword", "buffer", "around" }
+	sources = { "nvim-lsp", "file", "vsnip", "mocword", "buffer", "around" }
 else
-	sources = { "nvim-lsp", "file", "mocword", "nvim-lua", "buffer", "around", "copilot" }
+	sources = { "nvim-lsp", "file", "vsnip", "mocword", "nvim-lua", "buffer", "around", "copilot" }
 end
 
 -- Use around source.

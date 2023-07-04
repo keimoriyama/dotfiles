@@ -1,5 +1,5 @@
 {
-  "debug": {
+  "function": {
     "prefix": "fun",
     "body": [
       "local function($1) do",
