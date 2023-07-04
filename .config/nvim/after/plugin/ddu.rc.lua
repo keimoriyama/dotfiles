@@ -10,7 +10,7 @@ vim.fn["ddu#custom#patch_global"]({
 	},
 	sourceOptions = {
 		_ = {
-			matchers = { "matcher_substring" },
+			matchers = { "matcher_substring", "matcher_ff" },
 		},
 		file_rec = {
 			matchers = { "matcher_substring" },

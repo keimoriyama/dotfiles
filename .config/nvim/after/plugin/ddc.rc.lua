@@ -4,74 +4,64 @@ require("lspconfig").denols.setup({
 	capabilities = capabilities,
 })
 
--- -- -- Use around source.
+if string.find(vim.fn.expand("%:p:h"), "Atcoder") then
+	sources = { "nvim-lsp", "file", "mocword", "buffer", "around" }
+else
+	sources = { "nvim-lsp", "file", "mocword", "nvim-lua", "buffer", "around", "copilot" }
+end
+
+-- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
-	sources = { "nvim-lsp", "file", "vsnip", "mocword", "nvim-lua", "buffer", "around", "copilot" },
+	sources = sources,
 	autoCompleteEvents = {
 		"InsertEnter",
 		"TextChangedI",
 		"TextChangedP",
+		"CmdlineEnter",
 		"CmdlineChanged",
+		"TextChangedT",
 	},
 	cmdlineSources = {
 		[":"] = { "cmdline", "cmdline-history", "around" },
 	},
 	sourceOptions = {
+		["_"] = {
+			matchers = { "matcher_head" },
+			sorters = { "sorter_rank" },
+			-- converters = { "converter_fuzzy", "converter_lsp-kind" },
+			minAutoCompleteLength = 1,
+		},
 		around = { mark = "a" },
 		file = { mark = "f", isVolatile = true, forceCompletionPattern = [['\S/\S*']] },
 		cmdline = { mark = "c" },
 		buffer = { mark = "b" },
-		["_"] = {
-			matchers = { "matcher_head", "matcher_fuzzy", "matcher_length" },
-			sorters = { "sorter_fuzzy", "sorter_rank" },
-			converters = { "converter_fuzzy", "converter_remove_overlap" },
-			minAutoCompleteLength = 1,
+		["nvim-lsp"] = {
+			mark = "lsp",
+			forceCompletionPattern = [['\.\w*|:\w*|->\w*']],
+			keywordPattern = "\\k*",
+			dup = "keep",
 		},
-		["nvim-lsp"] = { mark = "lsp", forceCompletionPattern = [['\.\w*|:\w*|->\w*']] },
-		vsnip = { mark = "vsnip" },
 		["nvim-lua"] = { mark = "lua", forceCompletionPattern = "." },
 		mocword = {
 			mark = "moc",
-			minAutoCompleteLength = 2,
 			isVolatile = true,
 		},
+		vsnip = { mark = "vsnip" },
 	},
 	sourceParams = {
 		around = { maxSize = 100 },
 		buffer = { requireSameFiletype = false, forceCollect = true },
-		copilot = { minAutoCompleteLength = 1 },
 		["nvim-lsp"] = {
 			enableResolveItem = true,
 			enableAdditionalTextEdit = true,
 			confirmBehavior = "insert",
+			snippetEngine = vim.fn["denops#callback#register"](function(body)
+				return vim.fn["vsnip#anonymous"](body)
+			end),
 		},
 	},
 })
-
--- コマンドライン補完の設定
-vim.cmd([[
-	nnoremap :       <Cmd>call CommandlinePre()<CR>:
-	function! CommandlinePre() abort
-		cnoremap <Tab>   <Cmd>call pum#map#insert_relative(+1)<CR>
-		cnoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-		cnoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
-		cnoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
-		cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-		cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-		autocmd User DDCCmdlineLeave ++once call CommandlinePost()
-		" Enable command line completion for the buffer
-		call ddc#enable_cmdline_completion()
-	endfunction
-	function! CommandlinePost() abort
-		silent! cunmap <Tab>
-		silent! cunmap <S-Tab>
-		silent! cunmap <C-n>
-		silent! cunmap <C-p>
-		silent! cunmap <C-y>
-		silent! cunmap <C-e>
-	endfunction
-]])
 
 -- path completion
 vim.fn["ddc#custom#patch_filetype"]({ "ps1", "dosbatch", "autohotkey", "registry" }, {

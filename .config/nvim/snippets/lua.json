@@ -1,0 +1,10 @@
+{
+  "debug": {
+    "prefix": "fun",
+    "body": [
+      "local function($1) do",
+      "$0",
+      "end"
+    ]
+  }
+}

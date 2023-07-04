@@ -97,7 +97,8 @@ lazy.setup({
 	"uga-rosa/ugaterm.nvim",
 	-- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
-
+	-- snippet
+	"hrsh7th/vim-vsnip",
 	-- ddc
 	"vim-denops/denops.vim",
 	"matsui54/denops-signature_help",
@@ -116,17 +117,15 @@ lazy.setup({
 			"Shougo/ddc-source-mocword",
 			"Shougo/ddc-source-copilot",
 			"uga-rosa/ddc-source-nvim-lua",
+			"uga-rosa/ddc-source-vsnip",
 			"LumaKernel/ddc-source-file",
 			"Shougo/ddc-sorter_rank",
 			"Shougo/ddc-ui-pum",
 			"Shougo/ddc-converter_remove_overlap",
 			"tani/ddc-fuzzy",
 			"Shougo/ddc-matcher_head",
-			"Shougo/ddc-matcher_length",
 			"tani/ddc-path",
 			"uga-rosa/ddc-nvim-lsp-setup",
-			"hrsh7th/vim-vsnip",
-			"uga-rosa/ddc-source-vsnip",
 			{ "github/copilot.vim", build = ":Copilot auth" },
 		},
 	},
