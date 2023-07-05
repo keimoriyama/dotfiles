@@ -99,7 +99,7 @@ lazy.setup({
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 	-- snippet
 	"hrsh7th/vim-vsnip",
-	-- ddc
+	-- easy motion
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -180,6 +180,7 @@ lazy.setup({
 			"uga-rosa/ddu-filter-converter_devicon",
 			"Shougo/ddu-filter-matcher_substring",
 			"Shougo/ddu-filter-sorter_alpha",
+			"yuki-yano/ddu-filter-fzf",
 		},
 	},
 })

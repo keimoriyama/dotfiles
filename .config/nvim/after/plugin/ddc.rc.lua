@@ -27,9 +27,9 @@ vim.fn["ddc#custom#patch_global"]({
 	},
 	sourceOptions = {
 		["_"] = {
-			matchers = { "matcher_head" },
+			matchers = { "matcher_head", "matcher_fuzzy" },
 			sorters = { "sorter_rank" },
-			-- converters = { "converter_fuzzy", "converter_lsp-kind" },
+			converters = { "converter_fuzzy", "converter_remove_overlap", "converter_fuzzy" },
 			minAutoCompleteLength = 1,
 		},
 		around = { mark = "a" },

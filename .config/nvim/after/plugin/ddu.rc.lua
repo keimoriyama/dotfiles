@@ -10,7 +10,7 @@ vim.fn["ddu#custom#patch_global"]({
 	},
 	sourceOptions = {
 		_ = {
-			matchers = { "matcher_substring", "matcher_ff" },
+			matchers = { "matcher_substring", "matcher_fzf" },
 		},
 		file_rec = {
 			matchers = { "matcher_substring" },
@@ -19,6 +19,9 @@ vim.fn["ddu#custom#patch_global"]({
 	filterParams = {
 		matcher_substring = {
 			highlightMatched = "Title",
+		},
+		matcher_fzf = {
+			highlightMatched = "Search",
 		},
 	},
 	kindOptions = {
@@ -53,7 +56,7 @@ vim.fn["ddu#custom#patch_global"]({
 
 local function resize()
 	local lines = vim.opt.lines:get()
-	local height, row = math.floor(lines * 0.8), math.floor(lines * 0.05)
+	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
 	local columns = vim.opt.columns:get()
 	local width, col = math.floor(columns * 0.7), math.floor(columns * 0.05)
 	vim.fn["ddu#custom#patch_global"]({
@@ -95,10 +98,12 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("q", "<CR>", "<cmd>close<CR>", opt)
 		vim.keymap.set("i", "<C-j>", '<cmd>call ddu#ui#do_action("cursorNext")', opt)
 		vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
+		vim.keymap.set("n", "q", "<esc><cmd>close<CR>", opt)
 	end,
 })
 
 resize()
+
 vim.keymap.set("n", "<Leader>ff", '<cmd>call ddu#start({"name":"ff"})<CR>', { noremap = true, silent = true })
 vim.keymap.set(
 	"n",
