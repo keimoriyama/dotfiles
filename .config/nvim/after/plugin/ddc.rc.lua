@@ -33,7 +33,7 @@ vim.fn["ddc#custom#patch_global"]({
 			minAutoCompleteLength = 1,
 		},
 		around = { mark = "a" },
-		file = { mark = "f", isVolatile = true, forceCompletionPattern = [['\S/\S*']] },
+		file = { mark = "f", isVolatile = true, forceCompletionPattern = [['\S/\S*']], minAutoCompleteLength = 0 },
 		cmdline = { mark = "c" },
 		buffer = { mark = "b" },
 		["nvim-lsp"] = {
@@ -68,6 +68,7 @@ vim.fn["ddc#custom#patch_filetype"]({ "ps1", "dosbatch", "autohotkey", "registry
 	sourceOptions = {
 		file = {
 			forceCompletionPattern = [['\S\\\S*']],
+			minAutoCompleteLength = 1,
 		},
 	},
 	sourceParams = {
