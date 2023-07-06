@@ -42,34 +42,34 @@ telescope.setup({
 
 telescope.load_extension("file_browser")
 opt = { noremap = true, silent = true }
--- vim.keymap.set("n", "<Leader>ff", function()
--- 	builtin.find_files({
--- 		hidden = true,
--- 		initial_mode = "normal",
--- 	})
--- end, opt)
+vim.keymap.set("n", "<Leader>ff", function()
+	builtin.find_files({
+		hidden = true,
+		initial_mode = "normal",
+	})
+end, opt)
 vim.keymap.set("n", "<Leader>fr", function()
 	builtin.live_grep()
 end, opt)
 vim.keymap.set("n", "<Leader>fb", function()
 	builtin.buffers()
 end, opt)
--- vim.keymap.set("n", "<Leader>h", function()
--- 	builtin.help_tags()
--- end, opt)
+vim.keymap.set("n", "<Leader>h", function()
+	builtin.help_tags()
+end, opt)
 
--- vim.keymap.set("n", "<Leader>sf", function()
--- 	telescope.extensions.file_browser.file_browser({
--- 		path = "%:p:h",
--- 		cwd = telescope_buffer_dir(),
--- 		respect_gitignore = false,
--- 		hidden = true,
--- 		grouped = true,
--- 		previewer = true,
--- 		initial_mode = "normal",
--- 		layout_config = { height = 40 },
--- 	})
--- end, opt)
+vim.keymap.set("n", "<Leader>sf", function()
+	telescope.extensions.file_browser.file_browser({
+		path = "%:p:h",
+		cwd = telescope_buffer_dir(),
+		respect_gitignore = false,
+		hidden = true,
+		grouped = true,
+		previewer = true,
+		initial_mode = "normal",
+		layout_config = { height = 40 },
+	})
+end, opt)
 
 vim.keymap.set("n", "<Leader>k", function()
 	builtin.keymaps()
