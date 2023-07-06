@@ -23,28 +23,28 @@ end
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
-	-- status line
+	-- -- status line
 	"nvim-lualine/lualine.nvim",
-	-- indent
+	-- -- indent
 	"lukas-reineke/indent-blankline.nvim", --
-	-- auto pair and tag close
+	-- -- auto pair and tag close
 	"windwp/nvim-autopairs",
 	"windwp/nvim-ts-autotag", --
-	-- surround
+	-- -- surround
 	"kylechui/nvim-surround", --
-	-- git
+	-- -- git
 	"lewis6991/gitsigns.nvim",
 	"dinhhuy258/git.nvim",
 	"akinsho/git-conflict.nvim",
 	"airblade/vim-gitgutter",
-	-- auto comment out
+	-- -- auto comment out
 	"numToStr/Comment.nvim",
 	"luochen1990/rainbow", --
-	-- dot repeat
+	-- -- dot repeat
 	"tpope/vim-repeat", --
-	-- linter, formatter
+	-- -- linter, formatter
 	"jose-elias-alvarez/null-ls.nvim", --
-	-- tility
+	-- -- tility
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim", -- fuzzy finder
 	"nvim-telescope/telescope.nvim",
@@ -55,34 +55,34 @@ lazy.setup({
 			"nvim-lua/plenary.nvim",
 		},
 	},
-	-- File icons
+	-- -- File icons
 	"kyazdani42/nvim-web-devicons",
-	-- treesitter
+	-- -- treesitter
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	{ "yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter" },
 	--	-- bufferline
 	"akinsho/nvim-bufferline.lua", --
-	-- show color
+	-- -- show color
 	"norcalli/nvim-colorizer.lua", --
-	-- csv
+	-- -- csv
 	"Decodetalkers/csv-tools.lua",
-	-- keep lastest cursor position
+	-- -- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
-	-- mkdir
+	-- -- mkdir
 	"jghauser/mkdir.nvim",
 	"tversteeg/registers.nvim",
 	-- - code action list
 	"aznhe21/actions-preview.nvim",
-	-- sp
+	-- -- sp
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"nvimdev/lspsaga.nvim",
-	-- vscode-like pictograms
+	-- -- vscode-like pictograms
 	"onsails/lspkind-nvim",
 	-- template
 	"mattn/vim-sonictemplate",
-	-- markdown
+	-- -- markdown
 	{
 		"iamcco/markdown-preview.nvim",
 		build = "cd app && npm install",
@@ -93,11 +93,11 @@ lazy.setup({
 	},
 	{ "mattn/vim-maketable", ft = { "markdown" } },
 	"BurntSushi/ripgrep",
-	-- terminal setting
+	-- -- terminal setting
 	"uga-rosa/ugaterm.nvim",
-	-- tex plugin
+	-- -- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
-	-- snippet
+	-- -- snippet
 	"hrsh7th/vim-vsnip",
 	-- easy motion
 	{
@@ -141,58 +141,23 @@ lazy.setup({
 	"hrsh7th/cmp-cmdline",
 	"ray-x/cmp-treesitter",
 	"hrsh7th/cmp-vsnip",
-	{ "zbirenbaum/copilot.lua", build = ":Copilot auth" },
-	{ "zbirenbaum/copilot-cmp", dependencies = "copilot.lua" },
-	-- denops
-	-- "vim-denops/denops.vim",
-	-- "matsui54/denops-signature_help",
-	-- "matsui54/denops-popup-preview.vim",
-	-- ddc
-	-- "Shougo/pum.vim",
-	-- {
-	-- 	"Shougo/ddc.vim",
-	-- 	dependencies = {
-	-- 		"Shougo/ddc-nvim-lsp",
-	-- 		"Shougo/ddc-around",
-	-- 		"LumaKernel/ddc-file",
-	-- 		"matsui54/ddc-buffer",
-	-- 		"Shougo/ddc-source-cmdline",
-	-- 		"Shougo/ddc-source-cmdline-history",
-	-- 		"Shougo/ddc-source-nvim-lsp",
-	-- 		"Shougo/ddc-source-copilot",
-	-- 		"uga-rosa/ddc-source-nvim-lua",
-	-- 		"uga-rosa/ddc-source-vsnip",
-	-- 		"LumaKernel/ddc-source-file",
-	-- 		"Shougo/ddc-sorter_rank",
-	-- 		"Shougo/ddc-ui-pum",
-	-- 		"Shougo/ddc-converter_remove_overlap",
-	-- 		"tani/ddc-fuzzy",
-	-- 		"Shougo/ddc-matcher_head",
-	-- 		"tani/ddc-path",
-	-- 		"uga-rosa/ddc-nvim-lsp-setup",
-	-- 	},
-	-- },
-	--ddu
-	-- {
-	-- 	"Shougo/ddu.vim",
-	-- 	dependencies = {
-	-- 		"Shougo/ddu-kind-file",
-	-- 		"Shougo/ddu-ui-filer",
-	-- 		"Shougo/ddu-ui-ff",
-	-- 		"uga-rosa/ddu-source-lsp",
-	-- 		"Shougo/ddu-source-file",
-	-- 		"matsui54/ddu-source-help",
-	-- 		"Shougo/ddu-source-file_rec",
-	-- 		"Shougo/ddu-source-action",
-	-- 		"shun/ddu-source-rg",
-	-- 		"Shougo/ddu-column-filename",
-	-- 		"Shougo/ddu-commands.vim",
-	-- 		"uga-rosa/ddu-filter-converter_devicon",
-	-- 		"Shougo/ddu-filter-matcher_substring",
-	-- 		"Shougo/ddu-filter-sorter_alpha",
-	-- 		"yuki-yano/ddu-filter-fzf",
-	-- 	},
-	-- },
+	{
+		"zbirenbaum/copilot.lua",
+		build = ":Copilot auth",
+		config = function()
+			require("copilot").setup({})
+		end,
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
+	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
 })
 
 vim.cmd([[colorscheme tokyonight]])

@@ -1,6 +1,8 @@
-local status, todocomments = pcall(require, 'todo-comments')
+local status, todocomments = pcall(require, "todo-comments")
 if not status then
-  return 
+	return
 end
 
-todocomments.setup{}
+todocomments.setup({})
+local opts = { noremap = true, silent = true }
+vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
