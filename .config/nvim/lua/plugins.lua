@@ -94,7 +94,7 @@ lazy.setup({
 	{ "mattn/vim-maketable", ft = { "markdown" } },
 	"BurntSushi/ripgrep",
 	-- -- terminal setting
-	"uga-rosa/ugaterm.nvim",
+	"akinsho/toggleterm.nvim",
 	-- -- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 	-- -- snippet
