@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
 		vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", opt)
 		vim.keymap.set("n", "<Leader>rn", "<cmd>Lspsaga rename<cr>", opt)
-		vim.keymap.set("n", "<Leader>f", "<cmd>Lspsaga vim.lsp.buf.format({async=true})<CR>", opt)
+		vim.keymap.set("n", "<Leader>f", vim.lsp.buf.format, opt)
 		vim.keymap.set("n", "<Leader>cc", "<cmd>Lspsaga incoming_calls<cr>", opt)
 		vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opt)
 		vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opt)

@@ -12,9 +12,9 @@ lspsaga.setup({
 	},
 	show_outline = {
 		win_width = 50,
-		auto_preview = false,
+		auto_preview = true,
 	},
 	symbol_in_winbar = {
-		enable = true,
+		enable = false,
 	},
 })
