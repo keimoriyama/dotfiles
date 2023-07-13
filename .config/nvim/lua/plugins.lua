@@ -158,7 +158,6 @@ lazy.setup({
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-	"kosayoda/nvim-lightbulb",
 })
 
 vim.cmd([[colorscheme tokyonight]])
