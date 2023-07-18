@@ -33,9 +33,24 @@ local status, lspconfig = pcall(require, "lspconfig")
 if not status then
 	return
 end
-for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({})
-end
+local handlers = {
+	function(server_name)
+		lspconfig[server_name].setup({})
+	end,
+	lspconfig.pyright.setup({
+		settings = {
+			python = {
+				venvPath = ".",
+				pythonPath = "./.venv/bin/python",
+				analysis = {
+					extraPaths = { "." },
+				},
+			},
+		},
+	}),
+}
+
+mason_lspconfig.setup_handlers(handlers)
 
 -- -- LSP handlers
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
