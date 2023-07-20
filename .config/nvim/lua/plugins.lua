@@ -132,16 +132,56 @@ lazy.setup({
 			},
 		},
 	},
-	-- cmp
-	"hrsh7th/nvim-cmp",
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-	"hrsh7th/cmp-nvim-lsp-signature-help",
-	"yutkat/cmp-mocword",
-	"hrsh7th/cmp-cmdline",
-	"ray-x/cmp-treesitter",
-	"hrsh7th/cmp-vsnip",
+	-- denops
+	"vim-denops/denops.vim",
+	"matsui54/denops-signature_help",
+	"matsui54/denops-popup-preview.vim",
+	-- ddc
+	"Shougo/pum.vim",
+	{
+		"Shougo/ddc.vim",
+		dependencies = {
+			"Shougo/ddc-nvim-lsp",
+			"Shougo/ddc-around",
+			"LumaKernel/ddc-file",
+			"matsui54/ddc-buffer",
+			"Shougo/ddc-source-cmdline",
+			"Shougo/ddc-source-cmdline-history",
+			"Shougo/ddc-source-nvim-lsp",
+			"Shougo/ddc-source-copilot",
+			"uga-rosa/ddc-source-nvim-lua",
+			"uga-rosa/ddc-source-vsnip",
+			"LumaKernel/ddc-source-file",
+			"Shougo/ddc-sorter_rank",
+			"Shougo/ddc-ui-pum",
+			"Shougo/ddc-converter_remove_overlap",
+			"tani/ddc-fuzzy",
+			"Shougo/ddc-matcher_head",
+			"tani/ddc-path",
+			"uga-rosa/ddc-nvim-lsp-setup",
+		},
+	},
+	--ddu
+	{
+		"Shougo/ddu.vim",
+		dependencies = {
+			"Shougo/ddu-kind-file",
+			"Shougo/ddu-ui-filer",
+			"Shougo/ddu-ui-ff",
+			"uga-rosa/ddu-source-lsp",
+			"Shougo/ddu-source-file",
+			"matsui54/ddu-source-help",
+			"Shougo/ddu-source-file_rec",
+			"Shougo/ddu-source-action",
+			"shun/ddu-source-rg",
+			"Shougo/ddu-column-filename",
+			"Shougo/ddu-commands.vim",
+			"uga-rosa/ddu-filter-converter_devicon",
+			"Shougo/ddu-filter-matcher_substring",
+			"Shougo/ddu-filter-sorter_alpha",
+			"yuki-yano/ddu-filter-fzf",
+		},
+	},
 	{
 		"zbirenbaum/copilot.lua",
 		build = ":Copilot auth",
@@ -149,12 +189,12 @@ lazy.setup({
 			require("copilot").setup({})
 		end,
 	},
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	},
+	-- {
+	-- 	"zbirenbaum/copilot-cmp",
+	-- 	config = function()
+	-- 		require("copilot_cmp").setup()
+	-- 	end,
+	-- },
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
