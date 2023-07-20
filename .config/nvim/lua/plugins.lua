@@ -23,6 +23,7 @@ end
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
+	"ellisonleao/gruvbox.nvim",
 	-- -- status line
 	"nvim-lualine/lualine.nvim",
 	-- -- indent
