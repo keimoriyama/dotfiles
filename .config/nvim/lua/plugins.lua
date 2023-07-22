@@ -159,6 +159,7 @@ lazy.setup({
 			"Shougo/ddc-matcher_head",
 			"tani/ddc-path",
 			"uga-rosa/ddc-nvim-lsp-setup",
+			"Shougo/ddc-filter-converter_truncate_abbr",
 		},
 	},
 	--ddu

@@ -8,6 +8,7 @@ vim.fn["ddu#custom#patch_global"]({
 			},
 		},
 	},
+	columns = { "filename" },
 	sourceOptions = {
 		_ = {
 			matchers = { "matcher_substring" },
@@ -112,11 +113,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 resize()
 -- ff
-vim.keymap.set("n", "<Leader>dff", "<cmd>call ddu#start()<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>ff", "<cmd>call ddu#start()<CR>", { noremap = true, silent = true })
 -- helper ff
 vim.keymap.set(
 	"n",
 	"<leader>h",
-	"<cmd>call ddu#start({'sources': [{'name':'help', 'params':{}}]})<cr>",
+	"<cmd>call ddu#start({'sources': [{'name':'help' }]})<cr>",
 	{ noremap = true, silent = true }
 )

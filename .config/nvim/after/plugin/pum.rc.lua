@@ -1,12 +1,18 @@
 vim.fn["pum#set_option"]({
 	item_orders = { "kind", "abbr", "menu" },
 	highlight_selected = "CursorLine",
+	horizontal_menu = false,
+	offset_cmdcol = 0,
+	padding = false,
+	use_complete = true,
+	use_setline = false,
 })
 
 vim.keymap.set({ "i", "c" }, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>")
 vim.keymap.set({ "i", "c" }, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
 vim.keymap.set("i", "<C-y>", "<cmd>call pum#map#confirm()<cr>")
 vim.keymap.set("i", "<C-e>", "<cmd>call pum#map#cancel()<cr>")
+
 -- コマンドライン補完の設定
 -- CommandlinePost()とCommandlinePre()のキーマップは必ず揃える
 vim.cmd([[
