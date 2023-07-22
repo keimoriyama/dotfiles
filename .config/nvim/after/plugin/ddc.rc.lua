@@ -4,12 +4,6 @@ require("lspconfig").denols.setup({
 	capabilities = capabilities,
 })
 
--- if string.find(vim.fn.expand("%:p:h"), "Atcoder") then
--- 	sources = { "nvim-lsp", "file", "vsnip", "buffer", "around" }
--- else
--- 	sources = { "nvim-lsp", "file", "vsnip", "nvim-lua", "buffer", "around", "copilot" }
--- end
---
 -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",

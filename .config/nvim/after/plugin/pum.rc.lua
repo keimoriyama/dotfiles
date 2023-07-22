@@ -1,5 +1,5 @@
 vim.fn["pum#set_option"]({
-	item_orders = { "kind", "abbr", "menu" },
+	item_orders = { "abbr", "kind", "menu" },
 	highlight_selected = "CursorLine",
 	horizontal_menu = false,
 	offset_cmdcol = 0,

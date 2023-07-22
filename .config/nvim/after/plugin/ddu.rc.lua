@@ -8,7 +8,6 @@ vim.fn["ddu#custom#patch_global"]({
 			},
 		},
 	},
-	columns = { "filename" },
 	sourceOptions = {
 		_ = {
 			matchers = { "matcher_substring" },
@@ -38,6 +37,9 @@ vim.fn["ddu#custom#patch_global"]({
 		help = {
 			defaultAction = "open",
 		},
+		rg = {
+			defaultAction = "open",
+		},
 	},
 	uiParams = {
 		ff = {
@@ -63,6 +65,27 @@ vim.fn["ddu#custom#patch_global"]({
 		},
 	},
 })
+
+local function ddu_rg_live()
+	vim.cmd([[
+	     call ddu#start(#{
+            \   sources: [#{
+            \     name: 'rg',
+            \     options: #{
+            \       matchers: [],
+            \       volatile: v:true,
+            \     },
+            \   }],
+            \   uiParams: #{
+            \     ff: #{
+            \       ignoreEmpty: v:false,
+            \       autoResize: v:false,
+            \     }
+            \   },
+            \ })
+			]])
+end
+
 local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
@@ -112,12 +135,10 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 resize()
+local opt = { noremap = true, silent = true }
 -- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>call ddu#start()<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>ff", "<cmd>call ddu#start()<CR>", opt)
 -- helper ff
-vim.keymap.set(
-	"n",
-	"<leader>h",
-	"<cmd>call ddu#start({'sources': [{'name':'help' }]})<cr>",
-	{ noremap = true, silent = true }
-)
+vim.keymap.set("n", "<leader>h", "<cmd>call ddu#start({'sources': [{'name':'help'}]})<cr>", opt)
+-- ripgrep
+vim.keymap.set("n", "<leader>fr", ddu_rg_live, opt)
