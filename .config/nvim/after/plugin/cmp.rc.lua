@@ -62,7 +62,6 @@ cmp.setup({
 		},
 	},
 	sources = cmp.config.sources({
-		{ name = "copilot" },
 		{ name = "nvim_lsp" },
 		{ name = "buffer" },
 		{ name = "mocword" },
@@ -70,6 +69,7 @@ cmp.setup({
 		{ name = "path" },
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "treesitter" },
+		{ name = "copilot" },
 		-- { name = "omni", eyword_length = 0 },
 	}),
 	formatting = {
