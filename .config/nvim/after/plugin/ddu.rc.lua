@@ -99,7 +99,7 @@ local function resize()
 				winRow = row,
 				winWidth = width,
 				winHeight = height,
-				previewCol = math.floor(width) + col + 10,
+				previewCol = math.floor(width) + col,
 				previewRow = row,
 				previewWidth = math.floor(width),
 				previewHeight = height,
