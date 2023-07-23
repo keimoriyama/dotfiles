@@ -137,8 +137,6 @@ lazy.setup({
 	"matsui54/denops-signature_help",
 	"matsui54/denops-popup-preview.vim",
 	"github/copilot.vim",
-	-- ime
-	"vim-skk/skkeleton",
 	-- ddc
 	"Shougo/pum.vim",
 	{

@@ -12,7 +12,6 @@ vim.fn["ddc#custom#patch_global"]({
 		"file",
 		"vsnip",
 		"nvim-lua",
-		"skkeleton",
 		"buffer",
 		"around",
 		"copilot",
@@ -47,12 +46,6 @@ vim.fn["ddc#custom#patch_global"]({
 		},
 		["nvim-lua"] = { mark = "lua", forceCompletionPattern = "." },
 		vsnip = { mark = "vsnip" },
-		skkeleton = {
-			mark = "skk",
-			matchers = { "skkeleton" },
-			sorters = {},
-			minAutoCompleteLength = 1,
-		},
 		copilot = {
 			mark = "copilot",
 			matchers = {},
