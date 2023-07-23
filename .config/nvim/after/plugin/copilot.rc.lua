@@ -1,17 +1,2 @@
--- vim.g.copilot_no_tab_map = true
--- vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>") ]])
--- require("copilot").setup({
--- 	suggestion = { enabled = false },
--- 	panel = { enabled = false },
--- 	filetypes = {
--- 		markdown = false, -- overrides default
--- 		sh = function()
--- 			if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), "^%.env.*") then
--- 				-- disable for .env files
--- 				return false
--- 			end
--- 			return true
--- 		end,
--- 	},
--- })
+vim.cmd([[imap <silent><script><expr> <C-j> copilot#Accept("\<CR>") ]])
 vim.g.copilot_no_maps = true

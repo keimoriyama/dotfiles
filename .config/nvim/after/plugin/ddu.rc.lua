@@ -11,6 +11,7 @@ vim.fn["ddu#custom#patch_global"]({
 	sourceOptions = {
 		_ = {
 			matchers = { "matcher_substring" },
+			sorters = { "sorter_alpha" },
 		},
 		file_rec = {
 			matchers = { "matcher_substring" },
