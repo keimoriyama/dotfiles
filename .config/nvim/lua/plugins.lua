@@ -136,6 +136,7 @@ lazy.setup({
 	"vim-denops/denops.vim",
 	"matsui54/denops-signature_help",
 	"matsui54/denops-popup-preview.vim",
+	"github/copilot.vim",
 	-- ime
 	"vim-skk/skkeleton",
 	-- ddc
@@ -185,13 +186,6 @@ lazy.setup({
 			"Shougo/ddu-filter-sorter_alpha",
 			"yuki-yano/ddu-filter-fzf",
 		},
-	},
-	{
-		"zbirenbaum/copilot.lua",
-		build = ":Copilot auth",
-		config = function()
-			require("copilot").setup({})
-		end,
 	},
 	{
 		"folke/todo-comments.nvim",
