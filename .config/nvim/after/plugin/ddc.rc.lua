@@ -53,6 +53,11 @@ vim.fn["ddc#custom#patch_global"]({
 			sorters = {},
 			minAutoCompleteLength = 1,
 		},
+		copilot = {
+			mark = "copilot",
+			matchers = {},
+			minAutoCompleteLength = 1,
+		},
 	},
 	sourceParams = {
 		buffer = { requireSameFiletype = false, forceCollect = true },
