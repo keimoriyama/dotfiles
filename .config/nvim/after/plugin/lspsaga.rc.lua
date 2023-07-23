@@ -8,7 +8,7 @@ lspsaga.setup({
 		enable = true,
 	},
 	code_action_lightbulb = {
-		enable = true,
+		enable = false,
 	},
 	show_outline = {
 		win_width = 50,

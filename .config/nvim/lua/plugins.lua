@@ -45,17 +45,9 @@ lazy.setup({
 	"tpope/vim-repeat", --
 	-- -- linter, formatter
 	"jose-elias-alvarez/null-ls.nvim", --
-	-- -- tility
+	-- utility
 	"nvim-lua/plenary.nvim",
-	"nvim-lua/popup.nvim", -- fuzzy finder
-	"nvim-telescope/telescope.nvim",
-	{
-		"nvim-telescope/telescope-file-browser.nvim",
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
-		},
-	},
+	"nvim-lua/popup.nvim",
 	-- -- File icons
 	"kyazdani42/nvim-web-devicons",
 	-- -- treesitter
@@ -132,28 +124,56 @@ lazy.setup({
 			},
 		},
 	},
-	-- cmp
-	"hrsh7th/nvim-cmp",
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-	"hrsh7th/cmp-nvim-lsp-signature-help",
-	"yutkat/cmp-mocword",
-	"hrsh7th/cmp-cmdline",
-	"ray-x/cmp-treesitter",
-	"hrsh7th/cmp-vsnip",
+	-- denops
+	"vim-denops/denops.vim",
+	"matsui54/denops-signature_help",
+	"matsui54/denops-popup-preview.vim",
+	"github/copilot.vim",
+	-- ddc
+	"Shougo/pum.vim",
 	{
-		"zbirenbaum/copilot.lua",
-		build = ":Copilot auth",
-		config = function()
-			require("copilot").setup({})
-		end,
+		"Shougo/ddc.vim",
+		dependencies = {
+			"Shougo/ddc-nvim-lsp",
+			"Shougo/ddc-around",
+			"LumaKernel/ddc-file",
+			"matsui54/ddc-buffer",
+			"Shougo/ddc-source-cmdline",
+			"Shougo/ddc-source-cmdline-history",
+			"Shougo/ddc-source-nvim-lsp",
+			"Shougo/ddc-source-copilot",
+			"uga-rosa/ddc-source-nvim-lua",
+			"uga-rosa/ddc-source-vsnip",
+			"LumaKernel/ddc-source-file",
+			"Shougo/ddc-sorter_rank",
+			"Shougo/ddc-ui-pum",
+			"Shougo/ddc-converter_remove_overlap",
+			"tani/ddc-fuzzy",
+			"Shougo/ddc-matcher_head",
+			"tani/ddc-path",
+			"uga-rosa/ddc-nvim-lsp-setup",
+			"Shougo/ddc-filter-converter_truncate_abbr",
+		},
 	},
+	--ddu
 	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
+		"Shougo/ddu.vim",
+		dependencies = {
+			"Shougo/ddu-kind-file",
+			"Shougo/ddu-ui-filer",
+			"Shougo/ddu-ui-ff",
+			-- "uga-rosa/ddu-source-lsp",
+			"Shougo/ddu-source-file",
+			"matsui54/ddu-source-help",
+			"Shougo/ddu-source-file_rec",
+			"Shougo/ddu-source-action",
+			"shun/ddu-source-rg",
+			"Shougo/ddu-column-filename",
+			"ryota2357/ddu-column-icon_filename",
+			"Shougo/ddu-filter-matcher_substring",
+			"Shougo/ddu-filter-sorter_alpha",
+			"yuki-yano/ddu-filter-fzf",
+		},
 	},
 	{
 		"folke/todo-comments.nvim",
