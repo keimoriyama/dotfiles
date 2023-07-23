@@ -176,7 +176,7 @@ lazy.setup({
 			"Shougo/ddu-source-action",
 			"shun/ddu-source-rg",
 			"Shougo/ddu-column-filename",
-			-- "ryota2357/ddu-column-icon_filename",
+			"ryota2357/ddu-column-icon_filename",
 			"Shougo/ddu-commands.vim",
 			"uga-rosa/ddu-filter-converter_devicon",
 			"Shougo/ddu-filter-matcher_substring",

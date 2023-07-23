@@ -11,10 +11,10 @@ vim.fn["ddu#custom#patch_global"]({
 	sourceOptions = {
 		_ = {
 			matchers = { "matcher_substring" },
-			converters = { "converter_devicon" },
 		},
 		file_rec = {
 			matchers = { "matcher_substring" },
+			converters = { "converter_devicon" },
 		},
 	},
 	sourceParams = {

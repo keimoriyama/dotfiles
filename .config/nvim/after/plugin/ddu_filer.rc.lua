@@ -5,7 +5,7 @@ vim.fn["ddu#custom#patch_local"]("filer", {
 	},
 	sourceOptions = {
 		_ = {
-			columns = { "filename" },
+			columns = { "icon_filename" },
 			sorters = { "sorter_alpha" },
 		},
 	},
@@ -18,7 +18,7 @@ vim.fn["ddu#custom#patch_local"]("filer", {
 		filer = {
 			split = "floating",
 			floatingBorder = "rounded",
-			floatingTitle = "Ddu filer",
+			floatingTitle = "filer",
 			floatingTitlePos = "center",
 			winRow = vim.o.lines / 2 - 15,
 			winHeight = 25,

@@ -85,7 +85,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.api.nvim_command("highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040")
 			vim.api.nvim_command("highlight LspReferenceWrite cterm=underline ctermbg=8 gui=underline guibg=#104040")
 			vim.api.nvim_command("set updatetime=100")
-			vim.api.nvim_command("set updatetime=100")
 			vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
 			vim.api.nvim_clear_autocmds({
 				buffer = ev.buf,
