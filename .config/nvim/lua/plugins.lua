@@ -45,17 +45,9 @@ lazy.setup({
 	"tpope/vim-repeat", --
 	-- -- linter, formatter
 	"jose-elias-alvarez/null-ls.nvim", --
-	-- -- tility
+	-- utility
 	"nvim-lua/plenary.nvim",
-	"nvim-lua/popup.nvim", -- fuzzy finder
-	"nvim-telescope/telescope.nvim",
-	{
-		"nvim-telescope/telescope-file-browser.nvim",
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
-		},
-	},
+	"nvim-lua/popup.nvim",
 	-- -- File icons
 	"kyazdani42/nvim-web-devicons",
 	-- -- treesitter
