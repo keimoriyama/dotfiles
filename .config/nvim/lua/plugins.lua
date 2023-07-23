@@ -172,6 +172,7 @@ lazy.setup({
 			"ryota2357/ddu-column-icon_filename",
 			"Shougo/ddu-filter-matcher_substring",
 			"Shougo/ddu-filter-sorter_alpha",
+			"uga-rosa/ddu-filter-converter_devicon",
 			"yuki-yano/ddu-filter-fzf",
 		},
 	},
