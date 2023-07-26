@@ -92,38 +92,6 @@ lazy.setup({
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 	-- -- snippet
 	"hrsh7th/vim-vsnip",
-	-- easy motion
-	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		opts = {},
-		keys = {
-			{
-				"r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
-			{
-				"R",
-				mode = { "o", "x" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "Flash Treesitter Search",
-			},
-			{
-				"<c-s>",
-				mode = { "c" },
-				function()
-					require("flash").toggle()
-				end,
-				desc = "Toggle Flash Search",
-			},
-		},
-	},
 	-- denops
 	"vim-denops/denops.vim",
 	"matsui54/denops-signature_help",
