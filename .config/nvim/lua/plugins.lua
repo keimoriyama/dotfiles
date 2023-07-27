@@ -115,6 +115,8 @@ lazy.setup({
 			require("copilot_cmp").setup()
 		end,
 	},
+	"nvim-telescope/telescope.nvim",
+	"nvim-telescope/telescope-file-browser.nvim",
 	-- denops
 	-- "vim-denops/denops.vim",
 	-- "matsui54/denops-signature_help",
