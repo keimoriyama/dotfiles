@@ -22,15 +22,15 @@ function M.cmp_setup()
 			end,
 		},
 		mapping = cmp.mapping.preset.insert({
-			["<C-p>"] = cmp.mapping.select_prev_item(),
-			["<C-n>"] = cmp.mapping.select_next_item(),
+			-- ["<C-p>"] = cmp.mapping.select_prev_item(),
+			-- ["<C-n>"] = cmp.mapping.select_next_item(),
 			["<C-l>"] = cmp.mapping.complete(),
 			["<C-e>"] = cmp.mapping.close(),
 			["<CR>"] = cmp.mapping.confirm({
 				select = true,
 				behavior = cmp.ConfirmBehavior.Replace,
 			}),
-			["<Tab>"] = vim.schedule_wrap(function(fallback)
+			["<C-n>"] = vim.schedule_wrap(function(fallback)
 				if cmp.visible() and has_words_before() then
 					cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
 				elseif has_words_before() then
@@ -39,7 +39,7 @@ function M.cmp_setup()
 					fallback()
 				end
 			end),
-			["<S-Tab>"] = function(fallback)
+			["<C-p>"] = function(fallback)
 				if cmp.visible() then
 					cmp.select_prev_item()
 				else

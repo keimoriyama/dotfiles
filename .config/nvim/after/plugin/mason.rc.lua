@@ -21,7 +21,7 @@ vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist, opts)
 
 -- add lsp
-local servers = { "pyright", "lua_ls", "texlab", "clangd", "lua_ls", "html" }
+local servers = { "pyright", "lua_ls", "texlab", "clangd", "html" }
 local status, mason_lspconfig = pcall(require, "mason-lspconfig")
 if not status then
 	return
@@ -33,12 +33,12 @@ local status, lspconfig = pcall(require, "lspconfig")
 if not status then
 	return
 end
+
 local handlers = {
 	function(server_name)
 		lspconfig[server_name].setup({})
 	end,
 }
-
 mason_lspconfig.setup_handlers(handlers)
 
 -- -- LSP handlers
@@ -54,19 +54,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
-		vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<cr>", opt)
-		vim.keymap.set("n", "gi", "<cmd>Lspsaga peek_definition<cr>", opt)
-		vim.keymap.set("n", "gr", "<cmd>Lspsaga lsp_finder<cr>", opt)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
 		vim.keymap.set("n", "H", vim.lsp.buf.hover, opt)
-		vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>", opt)
+		vim.keymap.set("n", "K", vim.lsp.buf.type_definition, opt)
 		vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
-		vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", opt)
-		vim.keymap.set("n", "<Leader>rn", "<cmd>Lspsaga rename<cr>", opt)
-		vim.keymap.set("n", "<Leader>f", vim.lsp.buf.format, opt)
-		vim.keymap.set("n", "<Leader>cc", "<cmd>Lspsaga incoming_calls<cr>", opt)
-		vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opt)
-		vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opt)
-
+		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opt)
+		vim.keymap.set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", opt)
+		vim.keymap.set("n", "<Leader>cc", vim.lsp.buf.incoming_calls, opt)
+		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
+		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client.server_capabilities.documentHighlightProvider then

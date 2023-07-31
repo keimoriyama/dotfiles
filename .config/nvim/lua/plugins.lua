@@ -33,50 +33,54 @@ end
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
-	-- -- status line
+	-- status line
 	"nvim-lualine/lualine.nvim",
-	-- -- indent
+	-- indent
 	"lukas-reineke/indent-blankline.nvim", --
-	-- -- auto pair and tag close
-	"windwp/nvim-autopairs",
-	"windwp/nvim-ts-autotag", --
-	-- -- surround
+	-- auto pair and tag close
+	{ "windwp/nvim-autopairs", event = "InsertEnter" },
+	{ "windwp/nvim-ts-autotag", event = "InsertEnter" }, --
+	-- surround
 	"kylechui/nvim-surround", --
-	-- -- git
+	-- git
 	"lewis6991/gitsigns.nvim",
 	"dinhhuy258/git.nvim",
 	{ "akinsho/git-conflict.nvim", version = "*", config = true },
 	"airblade/vim-gitgutter",
-	-- -- auto comment out
+	-- auto comment out
 	"numToStr/Comment.nvim",
 	"luochen1990/rainbow", --
-	-- -- dot repeat
+	-- dot repeat
 	"tpope/vim-repeat", --
-	-- -- linter, formatter
+	-- linter, formatter
 	"jose-elias-alvarez/null-ls.nvim", --
 	-- utility
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
-	-- -- File icons
+	-- File icons
 	"kyazdani42/nvim-web-devicons",
-	-- -- treesitter
+	-- treesitter
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	{ "yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter" },
-	--	-- bufferline
+	-- bufferline
 	"akinsho/nvim-bufferline.lua", --
 	-- -- show color
 	"norcalli/nvim-colorizer.lua", --
-	-- -- csv
-	"Decodetalkers/csv-tools.lua",
-	-- -- keep lastest cursor position
+	-- csv
+	{
+		"Decodetalkers/csv-tools.lua",
+		ft = {
+			"csv",
+		},
+	},
+	-- keep lastest cursor position
 	"ethanholz/nvim-lastplace",
-	-- -- mkdir
+	-- mkdir
 	"jghauser/mkdir.nvim",
 	-- lsp
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
-	"nvimdev/lspsaga.nvim",
 	-- -- vscode-like pictograms
 	"onsails/lspkind-nvim",
 	-- template
@@ -93,11 +97,11 @@ lazy.setup({
 	{ "mattn/vim-maketable", ft = { "markdown" } },
 	"BurntSushi/ripgrep",
 	-- terminal setting
-	"akinsho/toggleterm.nvim",
+	{ "akinsho/toggleterm.nvim", keys = { { "<C-t>", ":ToggleTerm<CR>" } } },
 	-- tex plugin
 	{ "lervag/vimtex", ft = { "tex", "bib" } },
 	-- snippet
-	"hrsh7th/vim-vsnip",
+	{ "hrsh7th/vim-vsnip", event = { "InsertEnter" } },
 	-- cmp
 	{
 		"hrsh7th/nvim-cmp",
@@ -131,11 +135,6 @@ lazy.setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{ dir = "~/Program/example_plugin/" },
-	"kosayoda/nvim-lightbulb",
 }, opts)
 
 vim.cmd([[colorscheme tokyonight]])
-
-require("nvim-lightbulb").setup({
-	autocmd = { enabled = true },
-})
