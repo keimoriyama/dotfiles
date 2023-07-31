@@ -37,17 +37,6 @@ local handlers = {
 	function(server_name)
 		lspconfig[server_name].setup({})
 	end,
-	lspconfig.pyright.setup({
-		settings = {
-			python = {
-				venvPath = ".",
-				pythonPath = "./.venv/bin/python",
-				analysis = {
-					extraPaths = { "." },
-				},
-			},
-		},
-	}),
 }
 
 mason_lspconfig.setup_handlers(handlers)

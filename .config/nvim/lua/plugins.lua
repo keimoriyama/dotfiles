@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+print(lazypath)
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -16,14 +17,23 @@ if not status then
 	return
 end
 
--- LuaFormatter off
+local opts = {
+	defaults = {
+		lazy = true,
+	},
+	performance = {
+		cache = {
+			enabled = true,
+		},
+	},
+}
+
 if vim.g.vscode then
 	return nil
 end
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
-	"ellisonleao/gruvbox.nvim",
 	-- -- status line
 	"nvim-lualine/lualine.nvim",
 	-- -- indent
@@ -63,10 +73,7 @@ lazy.setup({
 	"ethanholz/nvim-lastplace",
 	-- -- mkdir
 	"jghauser/mkdir.nvim",
-	"tversteeg/registers.nvim",
-	-- - code action list
-	"aznhe21/actions-preview.nvim",
-	-- -- sp
+	-- lsp
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
@@ -173,7 +180,12 @@ lazy.setup({
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-	-- { dir = "~/Program/example_plugin/" },
-})
+	{ dir = "~/Program/example_plugin/" },
+	"kosayoda/nvim-lightbulb",
+}, opts)
 
 vim.cmd([[colorscheme tokyonight]])
+
+require("nvim-lightbulb").setup({
+	autocmd = { enabled = true },
+})
