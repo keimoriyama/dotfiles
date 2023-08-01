@@ -18,7 +18,7 @@ end
 
 local opts = {
 	defaults = {
-		lazy = true,
+		lazy = false,
 	},
 	performance = {
 		cache = {

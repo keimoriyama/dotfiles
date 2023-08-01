@@ -40,3 +40,9 @@ end
 function M.end_debug(mes)
 	M.debug_echo("end " .. mes)
 end
+
+function M.print_table(tbl)
+	for key, val in pairs(tbl) do
+		print(key, val)
+	end
+end
