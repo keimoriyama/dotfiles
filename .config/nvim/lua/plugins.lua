@@ -53,8 +53,9 @@ lazy.setup({
 	-- dot repeat
 	"tpope/vim-repeat", --
 	-- linter, formatter
-	"jose-elias-alvarez/null-ls.nvim", --
-	"mattn/efm-langserver",
+	'mfussenegger/nvim-lint',
+	-- formatter
+	"mhartington/formatter.nvim",
 	-- utility
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
