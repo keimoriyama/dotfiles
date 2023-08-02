@@ -1,16 +1,15 @@
-local status, lint = pcall(require, 'lint')
+local status, lint = pcall(require, "lint")
 if not status then
-	return 
+	return
 end
 
 lint.linters_by_ft = {
-	lua = {'luacheck'},
-	python = {'mypy'}
+	lua = { "luacheck" },
+	python = { "mypy" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  callback = function()
-    lint.try_lint()
-  end,
+	callback = function()
+		lint.try_lint()
+	end,
 })
-
