@@ -53,7 +53,7 @@ lazy.setup({
 	-- dot repeat
 	"tpope/vim-repeat", --
 	-- linter, formatter
-	'mfussenegger/nvim-lint',
+	"mfussenegger/nvim-lint",
 	-- formatter
 	"mhartington/formatter.nvim",
 	-- utility
@@ -136,7 +136,7 @@ lazy.setup({
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-	{ dir = "~/Program/example_plugin/" },
+	-- { dir = "~/Program/example_plugin/" },
 }, opts)
 
 vim.cmd([[colorscheme tokyonight]])
