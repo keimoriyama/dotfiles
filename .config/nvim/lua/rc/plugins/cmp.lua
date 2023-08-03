@@ -26,7 +26,7 @@ function M.cmp_setup()
 			-- ["<C-n>"] = cmp.mapping.select_next_item(),
 			["<C-l>"] = cmp.mapping.complete(),
 			["<C-e>"] = cmp.mapping.close(),
-			["<CR>"] = cmp.mapping.confirm({
+			["<C-y>"] = cmp.mapping.confirm({
 				select = true,
 				behavior = cmp.ConfirmBehavior.Replace,
 			}),
