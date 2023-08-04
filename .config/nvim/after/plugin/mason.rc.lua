@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
 		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opt)
 		vim.keymap.set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", opt)
-		vim.keymap.set("n", "<Leader>cc", vim.lsp.buf.incoming_calls, opt)
+		vim.keymap.set("n", "<Leader>ic", vim.lsp.buf.incoming_calls, opt)
 		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		-- Reference highlight

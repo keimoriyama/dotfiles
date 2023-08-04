@@ -83,10 +83,10 @@ lazy.setup({
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
-	-- -- vscode-like pictograms
+	-- vscode-like pictograms
 	"onsails/lspkind-nvim",
 	-- template
-	"mattn/vim-sonictemplate",
+	-- "mattn/vim-sonictemplate",
 	-- -- markdown
 	{
 		"iamcco/markdown-preview.nvim",
@@ -115,7 +115,6 @@ lazy.setup({
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"hrsh7th/cmp-cmdline",
 			"ray-x/cmp-treesitter",
-			"zbirenbaum/copilot-cmp",
 			"hrsh7th/cmp-vsnip",
 		},
 		config = function()
@@ -130,6 +129,13 @@ lazy.setup({
 			require("copilot").setup({})
 		end,
 	},
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
+	},
+
 	"nvim-telescope/telescope.nvim",
 	"nvim-telescope/telescope-file-browser.nvim",
 	{
