@@ -143,6 +143,7 @@ lazy.setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	-- { dir = "~/Program/example_plugin/" },
+	-- { dir = "~/Program/nvim-lint/" },
 }, opts)
 
 vim.cmd([[colorscheme tokyonight]])
