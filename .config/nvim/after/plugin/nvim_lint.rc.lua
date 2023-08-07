@@ -8,8 +8,9 @@ lint.linters_by_ft = {
 	python = { "mypy" },
 }
 
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+vim.api.nvim_create_autocmd({ "BufWritePre", "BufEnter" }, {
 	callback = function()
 		lint.try_lint()
 	end,
 })
+
