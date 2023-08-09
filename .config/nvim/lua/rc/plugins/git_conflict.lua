@@ -1,5 +1,5 @@
 local M = {}
-function M.gitconflict_setup()
+function M.setup()
 	local status, gitconflict = pcall(requre, "git-conflict")
 	if not status then
 		return

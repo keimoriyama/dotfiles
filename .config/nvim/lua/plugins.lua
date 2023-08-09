@@ -264,7 +264,7 @@ lazy.setup({
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("rc.plugins.todo").setup()
+			require("rc.plugins.todo-comments").setup()
 		end,
 	},
 	-- { dir = "~/Program/example_plugin/" },
