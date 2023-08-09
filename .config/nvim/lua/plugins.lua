@@ -30,61 +30,158 @@ local opts = {
 if vim.g.vscode then
 	return nil
 end
+-- local plugs=require('rc.plugins')
+
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
 	-- status line
-	"nvim-lualine/lualine.nvim",
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("rc.plugins.lualine").setup()
+		end,
+	},
 	-- indent
-	"lukas-reineke/indent-blankline.nvim", --
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			require("rc.plugins.indent_blank").setup()
+		end,
+	}, --
 	-- auto pair and tag close
-	{ "windwp/nvim-autopairs", event = "InsertEnter" },
-	{ "windwp/nvim-ts-autotag", event = "InsertEnter" }, --
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = function()
+			require("rc.plugins.autopairs").setup()
+		end,
+	},
+	{
+		"windwp/nvim-ts-autotag",
+		event = "InsertEnter",
+		config = function()
+			require("nvim-ts-autotag").setup()
+		end,
+	}, --
 	-- surround
-	"kylechui/nvim-surround", --
+	{
+		"kylechui/nvim-surround",
+		config = function()
+			require("nvim-surround").setup()
+		end,
+	}, --
 	-- git
-	"lewis6991/gitsigns.nvim",
-	"dinhhuy258/git.nvim",
-	{ "akinsho/git-conflict.nvim", version = "*", config = true },
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("rc.plugins.gitsigns").setup()
+		end,
+	},
+	{
+		"dinhhuy258/git.nvim",
+		config = function()
+			require("rc.plugins.git").setup()
+		end,
+	},
+	{
+		"akinsho/git-conflict.nvim",
+		version = "*",
+		config = function()
+			require("rc.plugins.git_conflict").setup()
+		end,
+	},
 	"airblade/vim-gitgutter",
 	-- auto comment out
-	"numToStr/Comment.nvim",
-	"luochen1990/rainbow", --
+	{
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	},
+	{
+		"luochen1990/rainbow",
+		config = function()
+			vim.g.rainbow_active = 1
+		end,
+	}, --
 	-- dot repeat
 	"tpope/vim-repeat", --
-	-- linter, formatter
-	"mfussenegger/nvim-lint",
-	-- formatter
-	"mhartington/formatter.nvim",
 	-- utility
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
 	-- File icons
-	"kyazdani42/nvim-web-devicons",
+	{
+		"kyazdani42/nvim-web-devicons",
+		config = function()
+			require("rc.plugins.web-devicon").setup()
+		end,
+	},
 	-- treesitter
-	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			require("rc.plugins.treesitter").setup()
+		end,
+	},
 	{ "yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter" },
 	-- bufferline
-	"akinsho/nvim-bufferline.lua", --
+	{
+		"akinsho/nvim-bufferline.lua",
+		config = function()
+			require("rc.plugins.bufferline").setup()
+		end,
+	}, --
 	-- -- show color
-	"norcalli/nvim-colorizer.lua", --
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("rc.plugins.colorizer").setup()
+		end,
+	}, --
 	-- csv
 	{
 		"Decodetalkers/csv-tools.lua",
 		ft = {
 			"csv",
 		},
+		config = function()
+			require("rc.plugins.csvtools").setup()
+		end,
 	},
 	-- keep lastest cursor position
-	"ethanholz/nvim-lastplace",
+	{
+		"ethanholz/nvim-lastplace",
+		config = function()
+			require("nvim-lastplace").setup({})
+		end,
+	},
 	-- mkdir
 	"jghauser/mkdir.nvim",
-	-- lsp
-	"neovim/nvim-lspconfig",
-	"williamboman/mason.nvim",
-	"williamboman/mason-lspconfig.nvim",
+	{
+		"williamboman/mason.nvim",
+		dependencies = {
+			-- lsp
+			"neovim/nvim-lspconfig",
+			"williamboman/mason-lspconfig.nvim",
+			-- linter
+			"mfussenegger/nvim-lint",
+			-- formatter
+			"mhartington/formatter.nvim",
+		},
+		config = function()
+			-- linter,formatter,lspの設定が書いてある
+			require("rc.plugins.mason").setup()
+		end,
+	},
 	-- vscode-like pictograms
-	"onsails/lspkind-nvim",
+	{
+		"onsails/lspkind-nvim",
+		config = function()
+			require("rc.plugins.lspkind").setup()
+		end,
+	},
 	-- template
 	-- "mattn/vim-sonictemplate",
 	-- -- markdown
@@ -99,11 +196,29 @@ lazy.setup({
 	{ "mattn/vim-maketable", ft = { "markdown" } },
 	"BurntSushi/ripgrep",
 	-- terminal setting
-	{ "akinsho/toggleterm.nvim", keys = { { "<C-t>", ":ToggleTerm<CR>" } } },
+	{
+		"akinsho/toggleterm.nvim",
+		keys = { { "<C-t>", ":ToggleTerm<CR>" } },
+		config = function()
+			require("rc.plugins.toggleterm").setup()
+		end,
+	},
 	-- tex plugin
-	{ "lervag/vimtex", ft = { "tex", "bib" } },
+	{
+		"lervag/vimtex",
+		ft = { "tex", "bib" },
+		config = function()
+			require("rc.plugins.vimtex").setup()
+		end,
+	},
 	-- snippet
-	{ "hrsh7th/vim-vsnip", event = { "InsertEnter" } },
+	{
+		"hrsh7th/vim-vsnip",
+		event = { "InsertEnter" },
+		config = function()
+			require("rc.plugins.vsnip").setup()
+		end,
+	},
 	-- cmp
 	{
 		"hrsh7th/nvim-cmp",
@@ -126,7 +241,7 @@ lazy.setup({
 		"zbirenbaum/copilot.lua",
 		build = ":Copilot auth",
 		config = function()
-			require("copilot").setup({})
+			require("rc.plugins.copilot").setup()
 		end,
 	},
 	{
@@ -136,11 +251,21 @@ lazy.setup({
 		end,
 	},
 
-	"nvim-telescope/telescope.nvim",
-	"nvim-telescope/telescope-file-browser.nvim",
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"nvim-telescope/telescope-file-browser.nvim",
+		},
+		config = function()
+			require("rc.plugins.telescope").setup()
+		end,
+	},
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("rc.plugins.todo").setup()
+		end,
 	},
 	-- { dir = "~/Program/example_plugin/" },
 	-- { dir = "~/Program/nvim-lint/" },

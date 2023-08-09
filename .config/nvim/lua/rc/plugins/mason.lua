@@ -1,0 +1,201 @@
+local M = {}
+function M.setup()
+	--print("mason")
+	---@diagnostic disable: redefined-local
+	local status, mason = pcall(require, "mason")
+	if not status then
+		return
+	end
+
+	mason.setup({
+		ui = {
+			icons = {
+				package_installed = "✓",
+				package_pending = "➜",
+				package_uninstalled = "✗",
+			},
+		},
+	})
+
+	local opts = { noremap = true, silent = true }
+
+	-- add lsp
+	local servers = { "pyright", "lua_ls", "texlab", "clangd", "html" }
+	local status, mason_lspconfig = pcall(require, "mason-lspconfig")
+	if not status then
+		return
+	end
+
+	mason_lspconfig.setup({ ensure_installed = servers })
+
+	local status, lspconfig = pcall(require, "lspconfig")
+	if not status then
+		return
+	end
+
+	local handlers = {
+		function(server_name)
+			lspconfig[server_name].setup({})
+		end,
+	}
+	mason_lspconfig.setup_handlers(handlers)
+
+	-- -- LSP handlers
+	vim.lsp.handlers["textDocument/publishDiagnostics"] =
+		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
+
+	vim.api.nvim_create_autocmd("LspAttach", {
+		group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+		callback = function(ev)
+			-- Enable completion triggered by <c-x><c-o>
+			vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+			local opt = { noremap = true, silent = true, buffer = ev.buf }
+			-- Mappings.
+			-- See `:help vim.lsp.*` for documentation on any of the below functions
+			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
+			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
+			vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
+			vim.keymap.set("n", "H", vim.lsp.buf.hover, opt)
+			vim.keymap.set("n", "K", vim.lsp.buf.type_definition, opt)
+			vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
+			vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opt)
+			vim.keymap.set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", opt)
+			vim.keymap.set("n", "<Leader>ic", vim.lsp.buf.incoming_calls, opt)
+			vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
+			vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
+			vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
+			-- Reference highlight
+			local client = vim.lsp.get_client_by_id(ev.data.client_id)
+			if client.server_capabilities.documentHighlightProvider then
+				vim.api.nvim_command(
+					"highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040"
+				)
+				vim.api.nvim_command(
+					"highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040"
+				)
+				vim.api.nvim_command(
+					"highlight LspReferenceWrite cterm=underline ctermbg=8 gui=underline guibg=#104040"
+				)
+				vim.api.nvim_command("set updatetime=100")
+				vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+				vim.api.nvim_clear_autocmds({
+					buffer = ev.buf,
+					group = "lsp_document_highlight",
+				})
+				vim.api.nvim_create_autocmd("CursorHold", {
+					callback = vim.lsp.buf.document_highlight,
+					buffer = ev.buf,
+					group = "lsp_document_highlight",
+					desc = "Document Highlight",
+				})
+				vim.api.nvim_create_autocmd("CursorMoved", {
+					callback = vim.lsp.buf.clear_references,
+					buffer = ev.buf,
+					group = "lsp_document_highlight",
+					desc = "Clear All the References",
+				})
+			end
+		end,
+	})
+	-- LSP handlers
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+		border = "single", -- "shadow" , "none", "rounded"
+	})
+	Setup_formatter()
+	Setup_linter()
+end
+
+function Setup_linter()
+	local status, lint = pcall(require, "lint")
+	if not status then
+		return
+	end
+
+	-- add
+	local status, mason_package = pcall(require, "mason-core.package")
+	if not status then
+		return
+	end
+	local status, mason_registry = pcall(require, "mason-registry")
+	if not status then
+		return
+	end
+	local sources = {}
+	for _, package in ipairs(mason_registry.get_installed_packages()) do
+		local package_categories = package.spec.categories[1]
+		if package_categories == mason_package.Cat.Linter then
+			local linter_name = package.name
+			for _, language in ipairs(package.spec.languages) do
+				-- sources[string.lower(language)] = { linter_name }
+				local lang = string.lower(language)
+				local linter_by_lang = lint.linters_by_ft[lang]
+				if linter_by_lang == nil then
+					linter_by_lang = {}
+				end
+				if lint.linters[linter_name] == nil then
+					error("This linter " .. linter_name .. " is not available in nvim-lint!!!")
+				else
+					table.insert(linter_by_lang, linter_name)
+					sources[lang] = linter_by_lang
+				end
+			end
+		end
+	end
+	lint.linters_by_ft = sources
+
+	-- print(vim.inspect(sources))
+	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+		callback = function()
+			lint.try_lint()
+		end,
+	})
+end
+
+function Setup_formatter()
+	local status, formatter = pcall(require, "formatter")
+	if not status then
+		return
+	end
+
+	formatter.setup({
+		filetype = {
+			lua = {
+				require("formatter.filetypes.lua").stylua,
+			},
+			python = {
+				require("formatter.filetypes.python").black,
+				require("formatter.filetypes.python").isort,
+			},
+		},
+	})
+
+	local status, filetypes = pcall(require, "formatter.filetypes")
+	if not status then
+		return
+	end
+
+	local status, mason_package = pcall(require, "mason-core.package")
+	if not status then
+		return
+	end
+	local status, mason_registry = pcall(require, "mason-registry")
+	if not status then
+		return
+	end
+
+	-- for _, package in ipairs(mason_registry.get_installed_packages()) do
+	-- 	local package_categories = package.spec.categories[1]
+	-- 	if package_categories == mason_package.Cat.Formatter then
+	-- 		print(vim.inspect(package.name))
+	-- 	end
+	-- end
+
+	--print(vim.inspect(filetypes["python"]["black"]))
+	vim.api.nvim_create_autocmd("BufWritePost", {
+		pattern = { "*" },
+		command = "FormatWrite",
+	})
+end
+
+return M
