@@ -184,7 +184,7 @@ function Setup_formatter()
 	end
 
 	local formatters = {}
-	print(vim.inspect(filetypes["python"]["black"]))
+	-- print(vim.inspect(filetypes["python"]["black"]))
 
 	for _, package in ipairs(mason_registry.get_installed_packages()) do
 		local package_categories = package.spec.categories[1]
