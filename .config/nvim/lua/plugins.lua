@@ -244,12 +244,6 @@ lazy.setup({
 			require("rc.plugins.copilot").setup()
 		end,
 	},
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	},
 
 	{
 		"nvim-telescope/telescope.nvim",
