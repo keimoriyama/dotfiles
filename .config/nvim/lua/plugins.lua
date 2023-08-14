@@ -262,61 +262,65 @@ lazy.setup({
 		end,
 	},
 	-- denops
-	"vim-denops/denops.vim",
-	"matsui54/denops-signature_help",
-	"matsui54/denops-popup-preview.vim",
-	"github/copilot.vim",
-	-- ddc
-	{ "Shougo/pum.vim", config = function() require("rc.plugins.pum").setup() end },
 	{
-		"Shougo/ddc.vim",
+		"vim-denops/denops.vim",
 		dependencies = {
-			"Shougo/ddc-nvim-lsp",
-			"Shougo/ddc-around",
-			"LumaKernel/ddc-file",
-			"matsui54/ddc-buffer",
-			"Shougo/ddc-source-cmdline",
-			"Shougo/ddc-source-cmdline-history",
-			"Shougo/ddc-source-nvim-lsp",
-			"Shougo/ddc-source-copilot",
-			"uga-rosa/ddc-source-nvim-lua",
-			"uga-rosa/ddc-source-vsnip",
-			"LumaKernel/ddc-source-file",
-			"Shougo/ddc-sorter_rank",
-			"Shougo/ddc-ui-pum",
-			"Shougo/ddc-converter_remove_overlap",
-			"tani/ddc-fuzzy",
-			"Shougo/ddc-matcher_head",
-			"tani/ddc-path",
-			"uga-rosa/ddc-nvim-lsp-setup",
-			"Shougo/ddc-filter-converter_truncate_abbr",
+			"matsui54/denops-signature_help",
+			"matsui54/denops-popup-preview.vim",
+			"github/copilot.vim",
+			-- ddc
+			{ "Shougo/pum.vim", config = function() require("rc.plugins.pum").setup() end },
+			{
+				"Shougo/ddc.vim",
+				dependencies = {
+					"Shougo/ddc-nvim-lsp",
+					"Shougo/ddc-around",
+					"LumaKernel/ddc-file",
+					"matsui54/ddc-buffer",
+					"Shougo/ddc-source-cmdline",
+					"Shougo/ddc-source-cmdline-history",
+					"Shougo/ddc-source-nvim-lsp",
+					"Shougo/ddc-source-copilot",
+					"uga-rosa/ddc-source-nvim-lua",
+					"uga-rosa/ddc-source-vsnip",
+					"LumaKernel/ddc-source-file",
+					"Shougo/ddc-sorter_rank",
+					"Shougo/ddc-ui-pum",
+					"Shougo/ddc-converter_remove_overlap",
+					"tani/ddc-fuzzy",
+					"Shougo/ddc-matcher_head",
+					"tani/ddc-path",
+					"uga-rosa/ddc-nvim-lsp-setup",
+					"Shougo/ddc-filter-converter_truncate_abbr",
+				},
+				config = function() require("rc.plugins.ddc").setup() end,
+			},
+			--ddu
+			{
+				"Shougo/ddu.vim",
+				dependencies = {
+					"Shougo/ddu-kind-file",
+					"Shougo/ddu-ui-filer",
+					"Shougo/ddu-ui-ff",
+					-- "uga-rosa/ddu-source-lsp",
+					"Shougo/ddu-source-file",
+					"matsui54/ddu-source-help",
+					"Shougo/ddu-source-file_rec",
+					"Shougo/ddu-source-action",
+					"shun/ddu-source-rg",
+					"Shougo/ddu-column-filename",
+					"ryota2357/ddu-column-icon_filename",
+					"Shougo/ddu-filter-matcher_substring",
+					"Shougo/ddu-filter-sorter_alpha",
+					"yuki-yano/ddu-filter-fzf",
+				},
+				config = function()
+					require("rc.plugins.ddu").setup()
+					require("rc.plugins.ddu_filer").setup()
+				end,
+			},
 		},
-		config = function() require("rc.plugins.ddc").setup() end,
-	},
-	--ddu
-	{
-		"Shougo/ddu.vim",
-		dependencies = {
-			"Shougo/ddu-kind-file",
-			"Shougo/ddu-ui-filer",
-			"Shougo/ddu-ui-ff",
-			-- "uga-rosa/ddu-source-lsp",
-			"Shougo/ddu-source-file",
-			"matsui54/ddu-source-help",
-			"Shougo/ddu-source-file_rec",
-			"Shougo/ddu-source-action",
-			"shun/ddu-source-rg",
-			"Shougo/ddu-column-filename",
-			"ryota2357/ddu-column-icon_filename",
-			"Shougo/ddu-filter-matcher_substring",
-			"Shougo/ddu-filter-sorter_alpha",
-			"yuki-yano/ddu-filter-fzf",
-		},
-		config = function()
-			require("rc.plugins.ddu").setup()
-			require("rc.plugins.ddu_filer").setup()
-		end,
-	},
+	}
 }, opts)
 
 vim.cmd([[colorscheme tokyonight]])
