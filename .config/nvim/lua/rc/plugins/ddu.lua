@@ -4,7 +4,7 @@ local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
 	local columns = vim.opt.columns:get()
-	local width, col = math.floor(columns * 0.7), math.floor(columns * 0.05)
+	local width, col = math.floor(columns * 0.7), math.floor(columns * 0.15)
 	vim.fn["ddu#custom#patch_global"]({
 		uiParams = {
 			ff = {
@@ -12,8 +12,8 @@ local function resize()
 				winRow = row,
 				winWidth = width,
 				winHeight = height,
-				previewCol = math.floor(width) + col,
-				previewRow = row,
+				previewCol = math.floor(width),
+				previewRow = row + 10,
 				previewWidth = math.floor(width),
 				previewHeight = height,
 			},
@@ -29,7 +29,7 @@ function M.setup()
 			{
 				name = "file_rec",
 				params = {
-					ignoredDirectories = { ".git", "node_modules", "vendor" },
+					ignoredDirectories = { ".git", "node_modules", "vendor", ".mypy_cache", ".hydra", 'mlruns' },
 				},
 			},
 		},

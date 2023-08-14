@@ -1,7 +1,7 @@
 local M = {}
 function M.setup()
 	vim.fn["pum#set_option"]({
-		item_orders = { "abbr", "kind", "menu" },
+		item_orders = { "abbr", "space", "kind", "space", "menu" },
 		highlight_selected = "CursorLine",
 		horizontal_menu = false,
 		offset_cmdcol = 0,

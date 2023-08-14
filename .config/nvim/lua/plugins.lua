@@ -159,6 +159,7 @@ lazy.setup({
 	},
 	-- mkdir
 	"jghauser/mkdir.nvim",
+	-- mason
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
@@ -292,6 +293,7 @@ lazy.setup({
 					"tani/ddc-path",
 					"uga-rosa/ddc-nvim-lsp-setup",
 					"Shougo/ddc-filter-converter_truncate_abbr",
+					"uga-rosa/ddu-filter-converter_devicon"
 				},
 				config = function() require("rc.plugins.ddc").setup() end,
 			},
