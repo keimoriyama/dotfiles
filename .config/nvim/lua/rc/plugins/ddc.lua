@@ -15,6 +15,7 @@ function M.setup()
 			"vsnip",
 			"nvim-lsp",
 			"file",
+			'skkeleton',
 			"nvim-lua",
 			"buffer",
 			"around",
