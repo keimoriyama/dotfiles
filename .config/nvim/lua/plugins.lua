@@ -282,7 +282,6 @@ lazy.setup({
 					"Shougo/ddc-source-cmdline",
 					"Shougo/ddc-source-cmdline-history",
 					"Shougo/ddc-source-nvim-lsp",
-					"Shougo/ddc-source-copilot",
 					"uga-rosa/ddc-source-nvim-lua",
 					"uga-rosa/ddc-source-vsnip",
 					"LumaKernel/ddc-source-file",

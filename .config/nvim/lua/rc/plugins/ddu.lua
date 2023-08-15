@@ -29,7 +29,8 @@ function M.setup()
 			{
 				name = "file_rec",
 				params = {
-					ignoredDirectories = { ".git", "node_modules", "vendor", ".mypy_cache", ".hydra", 'mlruns' },
+					ignoredDirectories = { ".git", "node_modules", "vendor", ".mypy_cache", ".hydra", 'mlruns', "logs",
+						'data', "outputs" },
 				},
 			},
 		},

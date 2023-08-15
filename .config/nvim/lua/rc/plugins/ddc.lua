@@ -11,13 +11,12 @@ function M.setup()
 	vim.fn["ddc#custom#patch_global"]({
 		ui = "pum",
 		sources = {
+			"vsnip",
 			"nvim-lsp",
 			"file",
-			"vsnip",
 			"nvim-lua",
 			"buffer",
 			"around",
-			"copilot",
 		},
 		autoCompleteEvents = {
 			"InsertEnter",

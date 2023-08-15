@@ -64,6 +64,3 @@ vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", opts)
 vim.api.nvim_set_keymap("n", "<leader>ss", "<C-w>s", opts)
 vim.api.nvim_set_keymap("n", "<leader>sv", "<C-w>v", opts)
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", opts)
-
--- vim.cmd([[set runtimepath^=~/dps-helloworld]])
--- vim.cmd([[let g:denops#debug = 1]])
