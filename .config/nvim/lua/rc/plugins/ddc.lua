@@ -1,5 +1,6 @@
 local M = {}
 
+
 function M.setup()
 	local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -48,10 +49,12 @@ function M.setup()
 			},
 			["nvim-lua"] = { mark = "[lua]", forceCompletionPattern = "." },
 			vsnip = { mark = "[vsnip]" },
-			copilot = {
-				mark = "[copilot]",
-				matchers = {},
+			skkeleton = {
+				mark = "skk",
+				matchers = { "skkeleton" },
+				sorters = {},
 				minAutoCompleteLength = 1,
+				isVolatile = true
 			},
 			["cmdline-history"] = { mark = "[cmdline-history]" },
 		},

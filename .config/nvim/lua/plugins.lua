@@ -268,10 +268,17 @@ lazy.setup({
 		dependencies = {
 			"matsui54/denops-signature_help",
 			"matsui54/denops-popup-preview.vim",
-			"github/copilot.vim",
+			{
+				"vim-skk/skkeleton",
+				config = function() require("rc.plugins.skkeleton").setup() end
+			},
 			{ dir = "~/Program/dps-helloworld" },
 			-- ddc
-			{ "Shougo/pum.vim",                config = function() require("rc.plugins.pum").setup() end },
+			{
+				"Shougo/pum.vim",
+				config = function() require("rc.plugins.pum").setup() end
+			},
+			"Shougo/ddc-ui-native",
 			{
 				"Shougo/ddc.vim",
 				dependencies = {
