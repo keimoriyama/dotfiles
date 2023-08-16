@@ -41,8 +41,9 @@ function M.setup()
 	mason_lspconfig.setup_handlers(handlers)
 
 	-- -- LSP handlers
+	vim.diagnostic.config({ virtual_text = false })
 	vim.lsp.handlers["textDocument/publishDiagnostics"] =
-		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
+		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -105,6 +106,9 @@ function M.setup()
 				})
 			end
 		end,
+	})
+	vim.api.nvim_create_autocmd("CursorHold", {
+		callback = function() vim.diagnostic.open_float({ focus = false }) end,
 	})
 	-- LSP handlers
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {

@@ -28,7 +28,7 @@ alias gt='git log --graph --pretty=format:'\''%x09%C(auto) %h %Cgreen %ar %Crese
 alias ls='ls -G'
 alias c='clear'
 
-alias n='nvim'
+alias vim='nvim'
 
 chpwd() {
 	if [[ $(pwd) != $HOME ]]; then;
