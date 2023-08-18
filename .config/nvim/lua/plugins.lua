@@ -35,6 +35,8 @@ end
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
+	{ "ellisonleao/gruvbox.nvim" },
+	{ "typicode/bg.nvim",        lazy = false },
 	-- status line
 	{
 		"nvim-lualine/lualine.nvim",
@@ -332,4 +334,4 @@ lazy.setup({
 	}
 }, opts)
 
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme gruvbox]])

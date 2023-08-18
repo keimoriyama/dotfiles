@@ -8,7 +8,7 @@ function M.setup()
 		debug = false,
 		showCandidatesCount = 1
 	})
-	vim.keymap.set({ "i", "c", "t" }, "<C-k>", "<Plug>(skkeleton-toggle)", { noremap = true })
+	vim.keymap.set({ "i", "c", "t" }, "<C-i>", "<Plug>(skkeleton-toggle)", { noremap = true })
 end
 
 return M
