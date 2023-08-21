@@ -94,6 +94,13 @@ lazy.setup({
 		end,
 	},
 	"airblade/vim-gitgutter",
+	{
+		'APZelos/blamer.nvim',
+		config = function()
+			vim.g.blamer_enabled = 1
+			vim.g.blamer_delay = 200
+		end,
+	},
 	-- auto comment out
 	{
 		"numToStr/Comment.nvim",
@@ -135,6 +142,10 @@ lazy.setup({
 			require("rc.plugins.bufferline").setup()
 		end,
 	}, --
+	-- buffer sizer
+	"simeji/winresizer",
+	-- show diff from recover file
+	"chrisbra/Recover.vim",
 	-- -- show color
 	{
 		"norcalli/nvim-colorizer.lua",
@@ -222,23 +233,6 @@ lazy.setup({
 			require("rc.plugins.vsnip").setup()
 		end,
 	},
-	-- cmp
-	-- {
-	-- 	"hrsh7th/nvim-cmp",
-	-- 	event = { "InsertEnter", "CmdlineEnter" },
-	-- 	dependencies = {
-	-- 		"hrsh7th/cmp-nvim-lsp",
-	-- 		"hrsh7th/cmp-buffer",
-	-- 		"hrsh7th/cmp-path",
-	-- 		"hrsh7th/cmp-nvim-lsp-signature-help",
-	-- 		"hrsh7th/cmp-cmdline",
-	-- 		"ray-x/cmp-treesitter",
-	-- 		"hrsh7th/cmp-vsnip",
-	-- 	},
-	-- 	config = function()
-	-- 		require("rc.plugins.cmp").cmp_setup()
-	-- 	end,
-	-- },
 	--copilot
 	{
 		"zbirenbaum/copilot.lua",
@@ -247,16 +241,6 @@ lazy.setup({
 			require("rc.plugins.copilot").setup()
 		end,
 	},
-
-	-- {
-	-- 	"nvim-telescope/telescope.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-telescope/telescope-file-browser.nvim",
-	-- 	},
-	-- 	config = function()
-	-- 		require("rc.plugins.telescope").setup()
-	-- 	end,
-	-- },
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -270,6 +254,11 @@ lazy.setup({
 		dependencies = {
 			"matsui54/denops-signature_help",
 			"matsui54/denops-popup-preview.vim",
+			-- git
+			{
+				"lambdalisue/gin.vim",
+				config = function() require("rc.plugins.gin").setup() end
+			},
 			{
 				"vim-skk/skkeleton",
 				config = function() require("rc.plugins.skkeleton").setup() end
@@ -331,7 +320,7 @@ lazy.setup({
 				end,
 			},
 		},
-	}
+	},
 }, opts)
 
 vim.cmd([[colorscheme gruvbox]])
