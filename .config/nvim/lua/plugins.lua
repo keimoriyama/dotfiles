@@ -81,12 +81,6 @@ lazy.setup({
 		end,
 	},
 	{
-		"dinhhuy258/git.nvim",
-		config = function()
-			require("rc.plugins.git").setup()
-		end,
-	},
-	{
 		"akinsho/git-conflict.nvim",
 		version = "*",
 		config = function()
@@ -254,6 +248,7 @@ lazy.setup({
 		dependencies = {
 			"matsui54/denops-signature_help",
 			"matsui54/denops-popup-preview.vim",
+			"lambdalisue/guise.vim",
 			-- git
 			{
 				"lambdalisue/gin.vim",
@@ -269,7 +264,6 @@ lazy.setup({
 				"Shougo/pum.vim",
 				config = function() require("rc.plugins.pum").setup() end
 			},
-			"Shougo/ddc-ui-native",
 			{
 				"Shougo/ddc.vim",
 				dependencies = {
@@ -321,6 +315,15 @@ lazy.setup({
 			},
 		},
 	},
+	-- smart wards
+	{
+		"kana/vim-smartword",
+		config = function()
+			vim.keymap.set("n", "w", "<Plug>(smartword-w)")
+			vim.keymap.set("n", "b", "<Plug>(smartword-b)")
+			vim.keymap.set("n", "e", "<Plug>(smartword-e)")
+		end
+	}
 }, opts)
 
 vim.cmd([[colorscheme gruvbox]])
