@@ -15,7 +15,7 @@ function M.setup()
 			"vsnip",
 			"nvim-lsp",
 			"file",
-			'skkeleton',
+			'copilot',
 			"nvim-lua",
 			"buffer",
 			"around",
@@ -50,13 +50,7 @@ function M.setup()
 			},
 			["nvim-lua"] = { mark = "[lua]", forceCompletionPattern = "." },
 			vsnip = { mark = "[vsnip]" },
-			skkeleton = {
-				mark = "skk",
-				matchers = { "skkeleton" },
-				sorters = {},
-				minAutoCompleteLength = 1,
-				isVolatile = true
-			},
+			copilot = { mark = "[copilot]", minAutoCompleteLength = 1, isVolatile = true },
 			["cmdline-history"] = { mark = "[cmdline-history]" },
 		},
 		sourceParams = {

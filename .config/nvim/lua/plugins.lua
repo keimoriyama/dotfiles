@@ -191,7 +191,17 @@ lazy.setup({
 		end,
 	},
 	-- template
-	-- "mattn/vim-sonictemplate",
+	{
+		"mattn/vim-sonictemplate",
+		cmd = "Template",
+		config =
+			function()
+				vim.g.sonictemplate_vim_template_dir = "./dotfiles/template"
+				vim.g.sonictemplate_key = 0
+				vim.g.sonictemplate_intelligent_key = 0
+				vim.g.sonictemplate_postfix_key = 0
+			end
+	},
 	-- -- markdown
 	{
 		"iamcco/markdown-preview.nvim",
@@ -229,11 +239,19 @@ lazy.setup({
 	},
 	--copilot
 	{
-		"zbirenbaum/copilot.lua",
-		build = ":Copilot auth",
+		"github/copilot.vim",
+		cmd = "Copilot enable",
 		config = function()
-			require("rc.plugins.copilot").setup()
-		end,
+			vim.g.copilot_no_maps = true
+			vim.g.copilot_no_tab_map = true
+			vim.g.copilot_enabled = false
+			vim.keymap.set(
+				"i",
+				"<C-g>",
+				'copilot#Accept("<CR>")',
+				{ silent = true, expr = true, script = true, replace_keycodes = false }
+			)
+		end
 	},
 	{
 		"folke/todo-comments.nvim",
@@ -254,10 +272,6 @@ lazy.setup({
 				"lambdalisue/gin.vim",
 				config = function() require("rc.plugins.gin").setup() end
 			},
-			{
-				"vim-skk/skkeleton",
-				config = function() require("rc.plugins.skkeleton").setup() end
-			},
 			{ dir = "~/Program/dps-helloworld" },
 			-- ddc補完のための設定
 			{
@@ -266,6 +280,7 @@ lazy.setup({
 			},
 			{
 				"Shougo/ddc.vim",
+				event = 'InsertEnter',
 				dependencies = {
 					"Shougo/ddc-nvim-lsp",
 					"Shougo/ddc-around",
@@ -274,6 +289,7 @@ lazy.setup({
 					"Shougo/ddc-source-cmdline",
 					"Shougo/ddc-source-cmdline-history",
 					"Shougo/ddc-source-nvim-lsp",
+					"Shougo/ddc-source-copilot",
 					"uga-rosa/ddc-source-nvim-lua",
 					"uga-rosa/ddc-source-vsnip",
 					"LumaKernel/ddc-source-file",
@@ -285,7 +301,6 @@ lazy.setup({
 					"tani/ddc-path",
 					"uga-rosa/ddc-nvim-lsp-setup",
 					"Shougo/ddc-filter-converter_truncate_abbr",
-					"uga-rosa/ddu-filter-converter_devicon"
 				},
 				config = function() require("rc.plugins.ddc").setup() end,
 			},
@@ -296,7 +311,7 @@ lazy.setup({
 					"Shougo/ddu-kind-file",
 					"Shougo/ddu-ui-filer",
 					"Shougo/ddu-ui-ff",
-					-- "uga-rosa/ddu-source-lsp",
+					"uga-rosa/ddu-source-lsp",
 					"Shougo/ddu-source-file",
 					"matsui54/ddu-source-help",
 					"Shougo/ddu-source-file_rec",
@@ -307,6 +322,7 @@ lazy.setup({
 					"Shougo/ddu-filter-matcher_substring",
 					"Shougo/ddu-filter-sorter_alpha",
 					"yuki-yano/ddu-filter-fzf",
+					"uga-rosa/ddu-filter-converter_devicon"
 				},
 				config = function()
 					require("rc.plugins.ddu").setup()

@@ -13,7 +13,7 @@ local function resize()
 				winWidth = width,
 				winHeight = height,
 				previewCol = math.floor(width),
-				previewRow = row + 10,
+				previewRow = row,
 				previewWidth = math.floor(width),
 				previewHeight = height,
 			},
@@ -21,6 +21,37 @@ local function resize()
 	})
 end
 
+-- rgの設定
+local function ddu_rg_live()
+	vim.cmd([[
+	     call ddu#start(#{
+            \   sources: [#{
+            \     name: 'rg',
+            \     options: #{
+            \       matchers: [],
+            \       volatile: v:true,
+            \     },
+            \   }],
+            \   uiParams: #{
+            \     ff: #{
+            \       ignoreEmpty: v:false,
+            \       autoResize: v:false,
+            \     }
+            \   },
+            \ })
+			]])
+end
+
+local function ddu_lsp_references()
+	vim.cmd([[
+	call ddu#start(#{
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_references',
+	    \ }],
+	    \})
+	]])
+end
 
 function M.setup()
 	vim.fn["ddu#custom#patch_global"]({
@@ -93,28 +124,8 @@ function M.setup()
 		},
 	})
 
-	local function ddu_rg_live()
-		vim.cmd([[
-	     call ddu#start(#{
-            \   sources: [#{
-            \     name: 'rg',
-            \     options: #{
-            \       matchers: [],
-            \       volatile: v:true,
-            \     },
-            \   }],
-            \   uiParams: #{
-            \     ff: #{
-            \       ignoreEmpty: v:false,
-            \       autoResize: v:false,
-            \     }
-            \   },
-            \ })
-			]])
-	end
-
 	vim.api.nvim_create_autocmd("VimResized", { callback = resize })
-
+	-- キーマッピングの設定
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = "ddu-ff",
 		callback = function()
@@ -123,7 +134,7 @@ function M.setup()
 			vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
 			vim.keymap.set("n", "i", '<cmd>call ddu#ui#do_action("openFilterWindow")<CR>', opt)
 			vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
-			vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("preview")<CR>', opt)
+			vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
 			vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
 		end,
 	})
@@ -148,6 +159,9 @@ function M.setup()
 	vim.keymap.set("n", "<leader>h", "<cmd>call ddu#start({'sources': [{'name':'help'}]})<cr>", opt)
 	-- ripgrep
 	vim.keymap.set("n", "<leader>fr", ddu_rg_live, opt)
+	-- definition
+	vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
+	vim.keymap.set("n", "<leader>qi", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
 end
 
 return M
