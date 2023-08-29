@@ -4,7 +4,7 @@ local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
 	local columns = vim.opt.columns:get()
-	local width, col = math.floor(columns * 0.7), math.floor(columns * 0.15)
+	local width, col = math.floor(columns * 0.8), math.floor(columns * 0.1)
 	vim.fn["ddu#custom#patch_global"]({
 		uiParams = {
 			ff = {
@@ -12,8 +12,8 @@ local function resize()
 				winRow = row,
 				winWidth = width,
 				winHeight = height,
-				previewCol = math.floor(width),
-				previewRow = row,
+				previewCol = col,
+				previewRow = row + 20,
 				previewWidth = math.floor(width),
 				previewHeight = height,
 			},
@@ -48,6 +48,17 @@ local function ddu_lsp_references()
 	    \ sync: v:true,
 	    \ sources: [#{
 	    \   name: 'lsp_references',
+	    \ }],
+	    \})
+	]])
+end
+
+local function ddu_lsp_documentSymbol()
+	vim.cmd([[
+	call ddu#start(#{
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_documentSymbol',
 	    \ }],
 	    \})
 	]])
@@ -96,6 +107,9 @@ function M.setup()
 				defaultAction = "open",
 			},
 			rg = {
+				defaultAction = "open",
+			},
+			lsp = {
 				defaultAction = "open",
 			},
 		},
@@ -163,6 +177,7 @@ function M.setup()
 	vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
 	-- show reference of the values
 	vim.keymap.set("n", "<leader>sr", ddu_lsp_references, opt)
+	vim.keymap.set("n", "<leader>ds", ddu_lsp_documentSymbol, opt)
 end
 
 return M
