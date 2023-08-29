@@ -161,7 +161,8 @@ function M.setup()
 	vim.keymap.set("n", "<leader>fr", ddu_rg_live, opt)
 	-- definition
 	vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
-	vim.keymap.set("n", "<leader>qi", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
+	-- show reference of the values
+	vim.keymap.set("n", "<leader>sr", ddu_lsp_references, opt)
 end
 
 return M
