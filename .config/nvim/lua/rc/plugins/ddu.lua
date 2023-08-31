@@ -64,6 +64,33 @@ local function ddu_lsp_documentSymbol()
 	]])
 end
 
+local function ddu_lsp_incoming_hierarchy()
+	vim.cmd([[
+	call ddu#start(#{
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_callHierarchy',
+	    \ }],
+		\ params: #{
+		\	'incomingCalls'
+		\ }
+	    \})
+	]])
+end
+
+local function ddu_lsp_outgoing_hierarchy()
+	vim.cmd([[
+	call ddu#start(#{
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_callHierarchy',
+	    \ }],
+		\ params: #{
+		\	'outgoingCalls'
+		\ }
+	    \})
+	]])
+end
 function M.setup()
 	vim.fn["ddu#custom#patch_global"]({
 		ui = "ff",
@@ -176,8 +203,11 @@ function M.setup()
 	-- definition
 	vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
 	-- show reference of the values
+	-- lsp related configs(maybe moving to the mason.lua?)
 	vim.keymap.set("n", "<leader>sr", ddu_lsp_references, opt)
 	vim.keymap.set("n", "<leader>ds", ddu_lsp_documentSymbol, opt)
+	vim.keymap.set("n", "<leader>ic", ddu_lsp_incoming_hierarchy, opt)
+	vim.keymap.set("n", "<leader>oc", ddu_lsp_outgoing_hierarchy, opt)
 end
 
 return M

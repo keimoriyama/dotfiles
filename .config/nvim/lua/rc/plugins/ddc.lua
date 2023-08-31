@@ -19,6 +19,7 @@ function M.setup()
 			"nvim-lua",
 			"buffer",
 			"around",
+			'skkeleton'
 		},
 		autoCompleteEvents = {
 			"InsertEnter",
@@ -51,6 +52,13 @@ function M.setup()
 			["nvim-lua"] = { mark = "[lua]", forceCompletionPattern = "." },
 			vsnip = { mark = "[vsnip]" },
 			copilot = { mark = "[copilot]", minAutoCompleteLength = 1, isVolatile = true },
+			skkeleton = {
+				mark = "skk",
+				matchers = { "skkeleton" },
+				sorters = {},
+				minAutoCompleteLength = 1,
+				isVolatile = true
+			},
 			["cmdline-history"] = { mark = "[cmdline-history]" },
 		},
 		sourceParams = {

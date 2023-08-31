@@ -273,6 +273,11 @@ lazy.setup({
 				config = function() require("rc.plugins.gin").setup() end
 			},
 			{ dir = "~/Program/dps-helloworld" },
+			-- skk
+			{
+				"vim-skk/skkeleton",
+				config = function() require("rc.plugins.skkeleton").setup() end
+			},
 			-- ddc補完のための設定
 			{
 				"Shougo/pum.vim",
