@@ -253,6 +253,24 @@ lazy.setup({
 			)
 		end
 	},
+	-- cmp
+	-- {
+	-- 	"hrsh7th/nvim-cmp",
+	-- 	event = { "InsertEnter", "CmdlineEnter" },
+	-- 	dependencies = {
+	-- 		"hrsh7th/cmp-nvim-lsp",
+	-- 		"hrsh7th/cmp-buffer",
+	-- 		"hrsh7th/cmp-path",
+	-- 		"hrsh7th/cmp-nvim-lsp-signature-help",
+	-- 		"hrsh7th/cmp-cmdline",
+	-- 		"ray-x/cmp-treesitter",
+	-- 		"hrsh7th/cmp-vsnip",
+	-- 		"rinx/cmp-skkeleton"
+	-- 	},
+	-- 	config = function()
+	-- 		require("rc.plugins.cmp").cmp_setup()
+	-- 	end,
+	-- },
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -285,7 +303,7 @@ lazy.setup({
 			},
 			{
 				"Shougo/ddc.vim",
-				event = 'InsertEnter',
+				event = { 'InsertEnter', "CmdlineEnter" },
 				dependencies = {
 					"Shougo/ddc-nvim-lsp",
 					"Shougo/ddc-around",

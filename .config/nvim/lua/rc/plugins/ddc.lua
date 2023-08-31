@@ -19,7 +19,7 @@ function M.setup()
 			"nvim-lua",
 			"buffer",
 			"around",
-			'skkeleton'
+			'skkeleton',
 		},
 		autoCompleteEvents = {
 			"InsertEnter",
