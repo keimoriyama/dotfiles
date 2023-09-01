@@ -10,6 +10,8 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:prepend("./denops")
+
 local status, lazy = pcall(require, "lazy")
 if not status then
 	print("lazy is not installed")
@@ -290,7 +292,6 @@ lazy.setup({
 				"lambdalisue/gin.vim",
 				config = function() require("rc.plugins.gin").setup() end
 			},
-			{ dir = "~/Program/dps-helloworld" },
 			-- skk
 			{
 				"vim-skk/skkeleton",
@@ -340,6 +341,7 @@ lazy.setup({
 					"Shougo/ddu-source-file_rec",
 					"Shougo/ddu-source-action",
 					"shun/ddu-source-rg",
+					{ dir = "~/Program/dps-helloworld" },
 					"Shougo/ddu-column-filename",
 					"ryota2357/ddu-column-icon_filename",
 					"Shougo/ddu-filter-matcher_substring",

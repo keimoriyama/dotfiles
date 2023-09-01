@@ -91,6 +91,17 @@ local function ddu_lsp_outgoing_hierarchy()
 	    \})
 	]])
 end
+
+local function keymaps()
+	vim.cmd([[
+	call ddu#start(#{
+      \   ui: 'ff',
+      \   sources: [#{
+	  \ 		name: 'keymaps'
+      \ }],
+      \})
+	]])
+end
 function M.setup()
 	vim.fn["ddu#custom#patch_global"]({
 		ui = "ff",
@@ -208,6 +219,8 @@ function M.setup()
 	vim.keymap.set("n", "<leader>ds", ddu_lsp_documentSymbol, opt)
 	vim.keymap.set("n", "<leader>ic", ddu_lsp_incoming_hierarchy, opt)
 	vim.keymap.set("n", "<leader>oc", ddu_lsp_outgoing_hierarchy, opt)
+
+	vim.keymap.set("n", "<leader>k", keymaps, opt)
 end
 
 return M
