@@ -255,24 +255,36 @@ lazy.setup({
 			)
 		end
 	},
+	--obsidian
+	{
+		"epwalsh/obsidian.nvim",
+		ft = { 'markdown' },
+		opts = {
+			dir = "~/Documents/Notes",
+			completion = {
+				-- If using nvim-cmp, otherwise set to false
+				nvim_cmp = true
+			},
+		}
+	},
 	-- cmp
-	-- {
-	-- 	"hrsh7th/nvim-cmp",
-	-- 	event = { "InsertEnter", "CmdlineEnter" },
-	-- 	dependencies = {
-	-- 		"hrsh7th/cmp-nvim-lsp",
-	-- 		"hrsh7th/cmp-buffer",
-	-- 		"hrsh7th/cmp-path",
-	-- 		"hrsh7th/cmp-nvim-lsp-signature-help",
-	-- 		"hrsh7th/cmp-cmdline",
-	-- 		"ray-x/cmp-treesitter",
-	-- 		"hrsh7th/cmp-vsnip",
-	-- 		"rinx/cmp-skkeleton"
-	-- 	},
-	-- 	config = function()
-	-- 		require("rc.plugins.cmp").cmp_setup()
-	-- 	end,
-	-- },
+	{
+		"hrsh7th/nvim-cmp",
+		event = { "InsertEnter", "CmdlineEnter" },
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"hrsh7th/cmp-cmdline",
+			"ray-x/cmp-treesitter",
+			"hrsh7th/cmp-vsnip",
+			"rinx/cmp-skkeleton"
+		},
+		config = function()
+			require("rc.plugins.cmp").cmp_setup()
+		end,
+	},
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -298,36 +310,37 @@ lazy.setup({
 				config = function() require("rc.plugins.skkeleton").setup() end
 			},
 			-- ddc補完のための設定
-			{
-				"Shougo/pum.vim",
-				config = function() require("rc.plugins.pum").setup() end
-			},
-			{
-				"Shougo/ddc.vim",
-				event = { 'InsertEnter', "CmdlineEnter" },
-				dependencies = {
-					"Shougo/ddc-nvim-lsp",
-					"Shougo/ddc-around",
-					"LumaKernel/ddc-file",
-					"matsui54/ddc-buffer",
-					"Shougo/ddc-source-cmdline",
-					"Shougo/ddc-source-cmdline-history",
-					"Shougo/ddc-source-nvim-lsp",
-					"Shougo/ddc-source-copilot",
-					"uga-rosa/ddc-source-nvim-lua",
-					"uga-rosa/ddc-source-vsnip",
-					"LumaKernel/ddc-source-file",
-					"Shougo/ddc-sorter_rank",
-					"Shougo/ddc-ui-pum",
-					"Shougo/ddc-converter_remove_overlap",
-					"tani/ddc-fuzzy",
-					"Shougo/ddc-matcher_head",
-					"tani/ddc-path",
-					"uga-rosa/ddc-nvim-lsp-setup",
-					"Shougo/ddc-filter-converter_truncate_abbr",
-				},
-				config = function() require("rc.plugins.ddc").setup() end,
-			},
+			-- {
+			-- 	"Shougo/pum.vim",
+			-- 	config = function() require("rc.plugins.pum").setup() end
+			-- },
+			-- {
+			-- 	"Shougo/ddc.vim",
+			-- 	event = { 'InsertEnter', "CmdlineEnter" },
+			-- 	dependencies = {
+			-- 		"Shougo/ddc-nvim-lsp",
+			-- 		"Shougo/ddc-around",
+			-- 		"LumaKernel/ddc-file",
+			-- 		"matsui54/ddc-buffer",
+			-- 		"Shougo/ddc-source-cmdline",
+			-- 		"Shougo/ddc-source-cmdline-history",
+			-- 		"Shougo/ddc-source-nvim-lsp",
+			-- 		"Shougo/ddc-source-copilot",
+			-- 		"uga-rosa/ddc-source-nvim-lua",
+			-- 		"uga-rosa/ddc-source-vsnip",
+			-- 		"LumaKernel/ddc-source-file",
+			-- 		"Shougo/ddc-sorter_rank",
+			-- 		"Shougo/ddc-ui-pum",
+			-- 		"Shougo/ddc-ui-native",
+			-- 		"Shougo/ddc-converter_remove_overlap",
+			-- 		"tani/ddc-fuzzy",
+			-- 		"Shougo/ddc-matcher_head",
+			-- 		"tani/ddc-path",
+			-- 		"uga-rosa/ddc-nvim-lsp-setup",
+			-- 		"Shougo/ddc-filter-converter_truncate_abbr",
+			-- 	},
+			-- 	config = function() require("rc.plugins.ddc").setup() end,
+			-- },
 			--ddu
 			{
 				"Shougo/ddu.vim",
@@ -341,7 +354,6 @@ lazy.setup({
 					"Shougo/ddu-source-file_rec",
 					"Shougo/ddu-source-action",
 					"shun/ddu-source-rg",
-					{ dir = "~/Program/dps-helloworld" },
 					"Shougo/ddu-column-filename",
 					"ryota2357/ddu-column-icon_filename",
 					"Shougo/ddu-filter-matcher_substring",
