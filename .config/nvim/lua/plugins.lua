@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- print(lazypath)
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -32,13 +33,11 @@ local opts = {
 if vim.g.vscode then
 	return nil
 end
--- local plugs=require('rc.plugins')
 
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
 	{ "ellisonleao/gruvbox.nvim" },
-	{ "typicode/bg.nvim",        lazy = false },
 	-- status line
 	{
 		"nvim-lualine/lualine.nvim",
@@ -130,7 +129,7 @@ lazy.setup({
 			require("rc.plugins.treesitter").setup()
 		end,
 	},
-	{ "yioneko/nvim-yati",   dependencies = "nvim-treesitter/nvim-treesitter" },
+	{ "yioneko/nvim-yati",       dependencies = "nvim-treesitter/nvim-treesitter" },
 	-- bufferline
 	{
 		"akinsho/nvim-bufferline.lua",
@@ -142,13 +141,13 @@ lazy.setup({
 	"simeji/winresizer",
 	-- show diff from recover file
 	"chrisbra/Recover.vim",
-	-- -- show color
+	-- show color
 	{
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("rc.plugins.colorizer").setup()
 		end,
-	}, --
+	},
 	-- csv
 	{
 		"Decodetalkers/csv-tools.lua",
@@ -258,23 +257,10 @@ lazy.setup({
 	--obsidian
 	{
 		"epwalsh/obsidian.nvim",
-		opts = {
-			dir = "~/Documents/Notes",
-			daily_notes = {
-				-- Optional, if you keep daily notes in a separate directory.
-				folder = "notes/daily",
-				-- Optional, if you want to change the date format for daily notes.
-				date_format = "%Y-%m-%d"
-			},
-			completion = {
-				-- If using nvim-cmp, otherwise set to false
-				nvim_cmp = true
-			},
-			mappings = {
-				-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-				["pt"] = require("obsidian.mapping").gf_passthrough(),
-			},
-		}
+		config = function()
+			require("rc.plugins.obsidian").setup()
+		end
+
 	},
 	-- cmp
 	{
