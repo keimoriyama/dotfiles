@@ -1,10 +1,12 @@
-local M = {}
+local spec = {
+		{
+		"hrsh7th/vim-vsnip",
+		event = { "InsertEnter" },
+		config = function()
+			vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
+			vim.g.vsnip_choice_delay = 0
 
-function M.setup()
-	vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
-	vim.g.vsnip_choice_delay = 0
-
-	vim.cmd([[
+			vim.cmd([[
     " Expand or jump
     imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
     smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
@@ -15,6 +17,7 @@ function M.setup()
     imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
     smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 ]])
-end
-
-return M
+		end,
+	},
+}
+return spec

@@ -1,29 +1,50 @@
-local M = {}
+local spec = {
+	-- git
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			local status, gitsings = pcall(require, "gitsings")
+			if not status then
+				return
+			end
 
-function M.setup()
-	local status, git = pcall(require, "git")
+			gitsings.setup()
+		end,
+	},
+	{
+		"akinsho/git-conflict.nvim",
+		version = "*",
+		config = function()
+			local status, gitconflict = pcall(requre, "git-conflict")
+			if not status then
+				return
+			end
 
-	if not status then
-		return
-	end
-
-	git.setup({
-		keymaps = {
-			-- Open blame window
-			blame = "<Leader>gb",
-			-- Close blame window
-			quit_blame = "q",
-			-- Open blame commit
-			blame_commit = "<CR>",
-			-- Open file/folder in git repository
-			browse = "<Leader>go",
+			gitconflict.setup()
+		end,
+	},
+	{
+		"airblade/vim-gitgutter",
+		config = function()
+			vim.g.gitgutter_map_keys = 0
+		end
+	},
+		{
+		"vim-denops/denops.vim",
+		dependencies = {
+			-- git
+			{
+				"lambdalisue/gin.vim",
+				config = function()
+					local opts = { noremap = true, silent = true }
+					vim.keymap.set("n", "<leader>gs", ":GinStatus<CR>", opts)
+					vim.keymap.set("n", "<leader>ga", ":Gin add .<CR>", opts)
+					vim.keymap.set("n", "<leader>gd", ":GinDiff<CR>", opts)
+					vim.keymap.set("n", "<leader>gb", ":GinBranch<CR>", opts)
+					vim.keymap.set("n", "<leader>gl", ":GinLog<CR>", opts)
+				end
+			},
 		},
-	})
-
-	local option = { noremap = true, silent = true }
-
-	vim.api.nvim_set_keymap("n", "<leader>gp", "<cmd>git push<cr>", option)
-	vim.g.gitgutter_map_keys = 0
-end
-
-return M
+	},
+}
+return spec
