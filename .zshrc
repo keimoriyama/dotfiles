@@ -15,11 +15,10 @@ setopt no_beep
 alias g='git'
 alias ga='git add'
 alias gd='git diff'
-alias gs='git status'
 alias gp='git push'
 alias gpo='git push origin'
 alias gb='git branch'
-alias gst='git status'
+alias gs='git status'
 alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
@@ -28,7 +27,7 @@ alias gt='git log --graph --pretty=format:'\''%x09%C(auto) %h %Cgreen %ar %Crese
 alias ls='ls -G'
 alias c='clear'
 
-alias n='nvim'
+alias vim='nvim'
 
 chpwd() {
 	if [[ $(pwd) != $HOME ]]; then;

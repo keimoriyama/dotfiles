@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- print(lazypath)
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -10,6 +11,8 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:prepend("./denops")
+
 local status, lazy = pcall(require, "lazy")
 if not status then
 	print("lazy is not installed")
@@ -30,11 +33,11 @@ local opts = {
 if vim.g.vscode then
 	return nil
 end
--- local plugs=require('rc.plugins')
 
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
+	{ "ellisonleao/gruvbox.nvim" },
 	-- status line
 	{
 		"nvim-lualine/lualine.nvim",
@@ -79,19 +82,25 @@ lazy.setup({
 		end,
 	},
 	{
-		"dinhhuy258/git.nvim",
-		config = function()
-			require("rc.plugins.git").setup()
-		end,
-	},
-	{
 		"akinsho/git-conflict.nvim",
 		version = "*",
 		config = function()
 			require("rc.plugins.git_conflict").setup()
 		end,
 	},
-	"airblade/vim-gitgutter",
+	{
+		"airblade/vim-gitgutter",
+		config = function()
+			vim.g.gitgutter_map_keys = 0
+		end
+	},
+	{
+		'APZelos/blamer.nvim',
+		config = function()
+			vim.g.blamer_enabled = 1
+			vim.g.blamer_delay = 200
+		end,
+	},
 	-- auto comment out
 	{
 		"numToStr/Comment.nvim",
@@ -125,7 +134,7 @@ lazy.setup({
 			require("rc.plugins.treesitter").setup()
 		end,
 	},
-	{ "yioneko/nvim-yati",   dependencies = "nvim-treesitter/nvim-treesitter" },
+	{ "yioneko/nvim-yati",       dependencies = "nvim-treesitter/nvim-treesitter" },
 	-- bufferline
 	{
 		"akinsho/nvim-bufferline.lua",
@@ -133,13 +142,17 @@ lazy.setup({
 			require("rc.plugins.bufferline").setup()
 		end,
 	}, --
-	-- -- show color
+	-- buffer sizer
+	"simeji/winresizer",
+	-- show diff from recover file
+	"chrisbra/Recover.vim",
+	-- show color
 	{
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("rc.plugins.colorizer").setup()
 		end,
-	}, --
+	},
 	-- csv
 	{
 		"Decodetalkers/csv-tools.lua",
@@ -159,6 +172,7 @@ lazy.setup({
 	},
 	-- mkdir
 	"jghauser/mkdir.nvim",
+	-- mason
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
@@ -183,8 +197,18 @@ lazy.setup({
 		end,
 	},
 	-- template
-	-- "mattn/vim-sonictemplate",
-	-- -- markdown
+	{
+		"mattn/vim-sonictemplate",
+		cmd = "Template",
+		config =
+			function()
+				vim.g.sonictemplate_vim_template_dir = "./dotfiles/template"
+				vim.g.sonictemplate_key = 0
+				vim.g.sonictemplate_intelligent_key = 0
+				vim.g.sonictemplate_postfix_key = 0
+			end
+	},
+	-- markdown
 	{
 		"iamcco/markdown-preview.nvim",
 		build = "cd app && npm install",
@@ -219,6 +243,40 @@ lazy.setup({
 			require("rc.plugins.vsnip").setup()
 		end,
 	},
+	--copilot
+	{
+		"github/copilot.vim",
+		cmd = "Copilot enable",
+		config = function()
+			vim.g.copilot_no_maps = true
+			vim.g.copilot_no_tab_map = true
+			vim.g.copilot_enabled = false
+			vim.keymap.set(
+				"i",
+				"<C-g>",
+				'copilot#Accept("<CR>")',
+				{ silent = true, expr = true, script = true, replace_keycodes = false }
+			)
+		end
+	},
+	-- telescope
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"nvim-telescope/telescope-file-browser.nvim",
+		},
+		config = function()
+			require("rc.plugins.telescope").setup()
+		end,
+	},
+	--obsidian
+	{
+		"epwalsh/obsidian.nvim",
+		config = function()
+			require("rc.plugins.obsidian").setup()
+		end
+
+	},
 	-- cmp
 	{
 		"hrsh7th/nvim-cmp",
@@ -231,27 +289,10 @@ lazy.setup({
 			"hrsh7th/cmp-cmdline",
 			"ray-x/cmp-treesitter",
 			"hrsh7th/cmp-vsnip",
+			-- "rinx/cmp-skkeleton"
 		},
 		config = function()
 			require("rc.plugins.cmp").cmp_setup()
-		end,
-	},
-	--copilot
-	{
-		"zbirenbaum/copilot.lua",
-		build = ":Copilot auth",
-		config = function()
-			require("rc.plugins.copilot").setup()
-		end,
-	},
-
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = {
-			"nvim-telescope/telescope-file-browser.nvim",
-		},
-		config = function()
-			require("rc.plugins.telescope").setup()
 		end,
 	},
 	{
@@ -261,8 +302,91 @@ lazy.setup({
 			require("rc.plugins.todo-comments").setup()
 		end,
 	},
-	-- { dir = "~/Program/example_plugin/" },
-	-- { dir = "~/Program/nvim-lint/" },
+	-- denops
+	{
+		"vim-denops/denops.vim",
+		dependencies = {
+			-- "matsui54/denops-signature_help",
+			-- "matsui54/denops-popup-preview.vim",
+			-- "lambdalisue/guise.vim",
+			-- git
+			{
+				"lambdalisue/gin.vim",
+				config = function() require("rc.plugins.gin").setup() end
+			},
+			-- skk
+			-- {
+			-- 	"vim-skk/skkeleton",
+			-- 	config = function() require("rc.plugins.skkeleton").setup() end
+			-- },
+			-- ddc補完のための設定
+			-- {
+			-- 	"Shougo/pum.vim",
+			-- 	config = function() require("rc.plugins.pum").setup() end
+			-- },
+			-- {
+			-- 	"Shougo/ddc.vim",
+			-- 	event = { 'InsertEnter', "CmdlineEnter" },
+			-- 	dependencies = {
+			-- 		"Shougo/ddc-nvim-lsp",
+			-- 		"Shougo/ddc-around",
+			-- 		"LumaKernel/ddc-file",
+			-- 		"matsui54/ddc-buffer",
+			-- 		"Shougo/ddc-source-cmdline",
+			-- 		"Shougo/ddc-source-cmdline-history",
+			-- 		"Shougo/ddc-source-nvim-lsp",
+			-- 		"Shougo/ddc-source-copilot",
+			-- 		"uga-rosa/ddc-source-nvim-lua",
+			-- 		"uga-rosa/ddc-source-vsnip",
+			-- 		"LumaKernel/ddc-source-file",
+			-- 		"Shougo/ddc-sorter_rank",
+			-- 		"Shougo/ddc-ui-pum",
+			-- 		"Shougo/ddc-ui-native",
+			-- 		"Shougo/ddc-converter_remove_overlap",
+			-- 		"tani/ddc-fuzzy",
+			-- 		"Shougo/ddc-matcher_head",
+			-- 		"tani/ddc-path",
+			-- 		"uga-rosa/ddc-nvim-lsp-setup",
+			-- 		"Shougo/ddc-filter-converter_truncate_abbr",
+			-- 	},
+			-- 	config = function() require("rc.plugins.ddc").setup() end,
+			-- },
+			--ddu
+			-- {
+			-- 	"Shougo/ddu.vim",
+			-- 	dependencies = {
+			-- 		"Shougo/ddu-kind-file",
+			-- 		"Shougo/ddu-ui-filer",
+			-- 		"Shougo/ddu-ui-ff",
+			-- 		"uga-rosa/ddu-source-lsp",
+			-- 		"Shougo/ddu-source-file",
+			-- 		"matsui54/ddu-source-help",
+			-- 		"Shougo/ddu-source-file_rec",
+			-- 		"Shougo/ddu-source-action",
+			-- 		"shun/ddu-source-rg",
+			-- 		"Shougo/ddu-column-filename",
+			-- 		"ryota2357/ddu-column-icon_filename",
+			-- 		"Shougo/ddu-filter-matcher_substring",
+			-- 		"Shougo/ddu-filter-sorter_alpha",
+			-- 		"yuki-yano/ddu-filter-fzf",
+			-- 		"uga-rosa/ddu-filter-converter_devicon"
+			-- 	},
+			-- 	config = function()
+			-- 		require("rc.plugins.ddu").setup()
+			-- 		require("rc.plugins.ddu_filer").setup()
+			-- 	end,
+			-- },
+		},
+	},
+	-- smart wards
+	{
+		"kana/vim-smartword",
+		config = function()
+			vim.keymap.set("n", "w", "<Plug>(smartword-w)")
+			vim.keymap.set("n", "b", "<Plug>(smartword-b)")
+			vim.keymap.set("n", "e", "<Plug>(smartword-e)")
+		end
+	}
 }, opts)
 
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme gruvbox]])

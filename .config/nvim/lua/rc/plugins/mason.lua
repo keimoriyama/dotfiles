@@ -41,8 +41,9 @@ function M.setup()
 	mason_lspconfig.setup_handlers(handlers)
 
 	-- -- LSP handlers
+	vim.diagnostic.config({ virtual_text = false })
 	vim.lsp.handlers["textDocument/publishDiagnostics"] =
-		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
+		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -60,7 +61,7 @@ function M.setup()
 			vim.keymap.set("n", "K", vim.lsp.buf.type_definition, opt)
 			vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
 			vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opt)
-			vim.keymap.set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", opt)
+			vim.keymap.set("n", "<Leader>bf", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", opt)
 			vim.keymap.set("n", "<Leader>ic", vim.lsp.buf.incoming_calls, opt)
 			vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
 			vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
@@ -105,6 +106,9 @@ function M.setup()
 				})
 			end
 		end,
+	})
+	vim.api.nvim_create_autocmd("CursorHold", {
+		callback = function() vim.diagnostic.open_float({ focus = false }) end,
 	})
 	-- LSP handlers
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -165,18 +169,6 @@ function Setup_formatter()
 	if not status then
 		return
 	end
-
-	-- formatter.setup({
-	-- 	filetype = {
-	-- 		lua = {
-	-- 			require("formatter.filetypes.lua").stylua,
-	-- 		},
-	-- 		python = {
-	-- 			require("formatter.filetypes.python").black,
-	-- 			require("formatter.filetypes.python").isort,
-	-- 		},
-	-- 	},
-	-- })
 	local status, filetypes = pcall(require, "formatter.filetypes")
 	if not status then
 		return
@@ -192,7 +184,6 @@ function Setup_formatter()
 	end
 
 	local formatters = {}
-	-- print(vim.inspect(filetypes["python"]["black"]))
 
 	for _, package in ipairs(mason_registry.get_installed_packages()) do
 		local package_categories = package.spec.categories[1]
@@ -201,7 +192,7 @@ function Setup_formatter()
 			for _, language in ipairs(package.spec.languages) do
 				local lang = string.lower(language)
 				if filetypes[lang] == nil then
-					-- print("This lang " .. lang .. " is not available in nvim-formatter!!!")
+					error("This lang " .. lang .. " is not available in nvim-formatter!!!")
 					goto continue
 				end
 

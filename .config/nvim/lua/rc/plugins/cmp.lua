@@ -24,7 +24,7 @@ function M.cmp_setup()
 		mapping = cmp.mapping.preset.insert({
 			-- ["<C-p>"] = cmp.mapping.select_prev_item(),
 			-- ["<C-n>"] = cmp.mapping.select_next_item(),
-			["<C-l>"] = cmp.mapping.complete(),
+			-- ["<C-l>"] = cmp.mapping.complete(),
 			["<C-e>"] = cmp.mapping.close(),
 			["<C-y>"] = cmp.mapping.confirm({
 				select = true,
@@ -33,8 +33,6 @@ function M.cmp_setup()
 			["<C-n>"] = vim.schedule_wrap(function(fallback)
 				if cmp.visible() and has_words_before() then
 					cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-				elseif has_words_before() then
-					cmp.complete()
 				else
 					fallback()
 				end
@@ -55,6 +53,7 @@ function M.cmp_setup()
 			{ name = "path" },
 			{ name = "nvim_lsp_signature_help" },
 			{ name = "treesitter" },
+			{ name = 'skkeleton' }
 			-- { name = "omni", eyword_length = 0 },
 		}),
 		formatting = {
