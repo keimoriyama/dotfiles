@@ -258,7 +258,6 @@ lazy.setup({
 	--obsidian
 	{
 		"epwalsh/obsidian.nvim",
-		ft = { 'markdown' },
 		opts = {
 			dir = "~/Documents/Notes",
 			daily_notes = {
@@ -270,6 +269,10 @@ lazy.setup({
 			completion = {
 				-- If using nvim-cmp, otherwise set to false
 				nvim_cmp = true
+			},
+			mappings = {
+				-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+				["pt"] = require("obsidian.mapping").gf_passthrough(),
 			},
 		}
 	},
@@ -285,7 +288,7 @@ lazy.setup({
 			"hrsh7th/cmp-cmdline",
 			"ray-x/cmp-treesitter",
 			"hrsh7th/cmp-vsnip",
-			"rinx/cmp-skkeleton"
+			-- "rinx/cmp-skkeleton"
 		},
 		config = function()
 			require("rc.plugins.cmp").cmp_setup()
@@ -302,19 +305,19 @@ lazy.setup({
 	{
 		"vim-denops/denops.vim",
 		dependencies = {
-			"matsui54/denops-signature_help",
-			"matsui54/denops-popup-preview.vim",
-			"lambdalisue/guise.vim",
+			-- "matsui54/denops-signature_help",
+			-- "matsui54/denops-popup-preview.vim",
+			-- "lambdalisue/guise.vim",
 			-- git
 			{
 				"lambdalisue/gin.vim",
 				config = function() require("rc.plugins.gin").setup() end
 			},
 			-- skk
-			{
-				"vim-skk/skkeleton",
-				config = function() require("rc.plugins.skkeleton").setup() end
-			},
+			-- {
+			-- 	"vim-skk/skkeleton",
+			-- 	config = function() require("rc.plugins.skkeleton").setup() end
+			-- },
 			-- ddc補完のための設定
 			-- {
 			-- 	"Shougo/pum.vim",
