@@ -104,7 +104,7 @@ lazy.setup({
 		config = function()
 			vim.g.rainbow_active = 1
 		end,
-	}, --
+	},               --
 	-- dot repeat
 	"tpope/vim-repeat", --
 	-- utility
@@ -125,7 +125,7 @@ lazy.setup({
 			require("rc.plugins.treesitter").setup()
 		end,
 	},
-	{ "yioneko/nvim-yati", dependencies = "nvim-treesitter/nvim-treesitter" },
+	{ "yioneko/nvim-yati",   dependencies = "nvim-treesitter/nvim-treesitter" },
 	-- bufferline
 	{
 		"akinsho/nvim-bufferline.lua",
