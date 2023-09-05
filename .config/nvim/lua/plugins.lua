@@ -34,6 +34,8 @@ if vim.g.vscode then
 	return nil
 end
 
+-- lazy.setup("rc.plugins",opts)
+
 lazy.setup({
 	-- color scheme
 	"folke/tokyonight.nvim",
@@ -134,7 +136,10 @@ lazy.setup({
 			require("rc.plugins.treesitter").setup()
 		end,
 	},
-	{ "yioneko/nvim-yati",       dependencies = "nvim-treesitter/nvim-treesitter" },
+	{
+		"yioneko/nvim-yati",
+		dependencies = "nvim-treesitter/nvim-treesitter"
+	},
 	-- bufferline
 	{
 		"akinsho/nvim-bufferline.lua",
@@ -217,8 +222,7 @@ lazy.setup({
 		end,
 		ft = { "markdown" },
 	},
-	{ "mattn/vim-maketable", ft = { "markdown" } },
-	"BurntSushi/ripgrep",
+	{ "mattn/vim-maketable",     ft = { "markdown" } },
 	-- terminal setting
 	{
 		"akinsho/toggleterm.nvim",
@@ -242,22 +246,6 @@ lazy.setup({
 		config = function()
 			require("rc.plugins.vsnip").setup()
 		end,
-	},
-	--copilot
-	{
-		"github/copilot.vim",
-		cmd = "Copilot enable",
-		config = function()
-			vim.g.copilot_no_maps = true
-			vim.g.copilot_no_tab_map = true
-			vim.g.copilot_enabled = false
-			vim.keymap.set(
-				"i",
-				"<C-g>",
-				'copilot#Accept("<CR>")',
-				{ silent = true, expr = true, script = true, replace_keycodes = false }
-			)
-		end
 	},
 	-- telescope
 	{
@@ -289,7 +277,6 @@ lazy.setup({
 			"hrsh7th/cmp-cmdline",
 			"ray-x/cmp-treesitter",
 			"hrsh7th/cmp-vsnip",
-			-- "rinx/cmp-skkeleton"
 		},
 		config = function()
 			require("rc.plugins.cmp").cmp_setup()
