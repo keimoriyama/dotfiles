@@ -88,7 +88,12 @@ lazy.setup({
 			require("rc.plugins.git_conflict").setup()
 		end,
 	},
-	"airblade/vim-gitgutter",
+	{
+		"airblade/vim-gitgutter",
+		config = function()
+			vim.g.gitgutter_map_keys = 0
+		end
+	},
 	{
 		'APZelos/blamer.nvim',
 		config = function()
@@ -203,7 +208,7 @@ lazy.setup({
 				vim.g.sonictemplate_postfix_key = 0
 			end
 	},
-	-- -- markdown
+	-- markdown
 	{
 		"iamcco/markdown-preview.nvim",
 		build = "cd app && npm install",
@@ -253,6 +258,16 @@ lazy.setup({
 				{ silent = true, expr = true, script = true, replace_keycodes = false }
 			)
 		end
+	},
+	-- telescope
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"nvim-telescope/telescope-file-browser.nvim",
+		},
+		config = function()
+			require("rc.plugins.telescope").setup()
+		end,
 	},
 	--obsidian
 	{
@@ -337,30 +352,30 @@ lazy.setup({
 			-- 	config = function() require("rc.plugins.ddc").setup() end,
 			-- },
 			--ddu
-			{
-				"Shougo/ddu.vim",
-				dependencies = {
-					"Shougo/ddu-kind-file",
-					"Shougo/ddu-ui-filer",
-					"Shougo/ddu-ui-ff",
-					"uga-rosa/ddu-source-lsp",
-					"Shougo/ddu-source-file",
-					"matsui54/ddu-source-help",
-					"Shougo/ddu-source-file_rec",
-					"Shougo/ddu-source-action",
-					"shun/ddu-source-rg",
-					"Shougo/ddu-column-filename",
-					"ryota2357/ddu-column-icon_filename",
-					"Shougo/ddu-filter-matcher_substring",
-					"Shougo/ddu-filter-sorter_alpha",
-					"yuki-yano/ddu-filter-fzf",
-					"uga-rosa/ddu-filter-converter_devicon"
-				},
-				config = function()
-					require("rc.plugins.ddu").setup()
-					require("rc.plugins.ddu_filer").setup()
-				end,
-			},
+			-- {
+			-- 	"Shougo/ddu.vim",
+			-- 	dependencies = {
+			-- 		"Shougo/ddu-kind-file",
+			-- 		"Shougo/ddu-ui-filer",
+			-- 		"Shougo/ddu-ui-ff",
+			-- 		"uga-rosa/ddu-source-lsp",
+			-- 		"Shougo/ddu-source-file",
+			-- 		"matsui54/ddu-source-help",
+			-- 		"Shougo/ddu-source-file_rec",
+			-- 		"Shougo/ddu-source-action",
+			-- 		"shun/ddu-source-rg",
+			-- 		"Shougo/ddu-column-filename",
+			-- 		"ryota2357/ddu-column-icon_filename",
+			-- 		"Shougo/ddu-filter-matcher_substring",
+			-- 		"Shougo/ddu-filter-sorter_alpha",
+			-- 		"yuki-yano/ddu-filter-fzf",
+			-- 		"uga-rosa/ddu-filter-converter_devicon"
+			-- 	},
+			-- 	config = function()
+			-- 		require("rc.plugins.ddu").setup()
+			-- 		require("rc.plugins.ddu_filer").setup()
+			-- 	end,
+			-- },
 		},
 	},
 	-- smart wards
