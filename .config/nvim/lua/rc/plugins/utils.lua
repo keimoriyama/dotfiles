@@ -7,6 +7,9 @@ local spec = {
 	-- surround
 	{
 		"kylechui/nvim-surround",
+		config = function()
+			require("nvim-surround").setup()
+		end
 	},
 	{
 		"APZelos/blamer.nvim",
@@ -21,7 +24,7 @@ local spec = {
 		config = function()
 			vim.g.rainbow_active = 1
 		end,
-	}, --
+	},               --
 	-- dot repeat
 	"tpope/vim-repeat", --
 	-- utility
@@ -32,7 +35,12 @@ local spec = {
 	-- show diff from recover file
 	"chrisbra/Recover.vim",
 	-- keep lastest cursor position
-	"ethanholz/nvim-lastplace",
+	{
+		"ethanholz/nvim-lastplace",
+		config = function()
+			require("nvim-lastplace").setup()
+		end
+	},
 	-- mkdir
 	"jghauser/mkdir.nvim",
 	{
