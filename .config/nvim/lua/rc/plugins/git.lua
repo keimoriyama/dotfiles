@@ -27,9 +27,9 @@ local spec = {
 		"airblade/vim-gitgutter",
 		config = function()
 			vim.g.gitgutter_map_keys = 0
-		end
+		end,
 	},
-		{
+	{
 		"vim-denops/denops.vim",
 		dependencies = {
 			-- git
@@ -42,7 +42,7 @@ local spec = {
 					vim.keymap.set("n", "<leader>gd", ":GinDiff<CR>", opts)
 					vim.keymap.set("n", "<leader>gb", ":GinBranch<CR>", opts)
 					vim.keymap.set("n", "<leader>gl", ":GinLog<CR>", opts)
-				end
+				end,
 			},
 		},
 	},

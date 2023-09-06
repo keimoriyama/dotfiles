@@ -224,7 +224,9 @@ local spec = {
 				end,
 			})
 			vim.api.nvim_create_autocmd("CursorHold", {
-				callback = function() vim.diagnostic.open_float({ focus = false }) end,
+				callback = function()
+					vim.diagnostic.open_float({ focus = false })
+				end,
 			})
 			-- LSP handlers
 			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -233,7 +235,7 @@ local spec = {
 			Setup_formatter()
 			Setup_linter()
 		end,
-	}
+	},
 }
 
 return spec

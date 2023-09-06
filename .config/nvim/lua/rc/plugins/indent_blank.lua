@@ -18,7 +18,7 @@
 --
 -- return M
 local spec = {
-{
+	{
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
 			vim.opt.list = true
@@ -35,6 +35,6 @@ local spec = {
 				how_end_of_line = true,
 			})
 		end,
-	}
+	},
 }
 return spec

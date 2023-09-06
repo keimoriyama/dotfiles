@@ -16,6 +16,6 @@ local spec = {
 				default = true,
 			})
 		end,
-	}
+	},
 }
 return spec

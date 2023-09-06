@@ -23,7 +23,8 @@ local spec = {
 					return false
 				end
 				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+				return col ~= 0
+					and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
 			end
 
 			cmp.setup({
@@ -64,7 +65,7 @@ local spec = {
 					{ name = "path" },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "treesitter" },
-					{ name = 'skkeleton' }
+					{ name = "skkeleton" },
 					-- { name = "omni", eyword_length = 0 },
 				}),
 				formatting = {
@@ -104,8 +105,7 @@ local spec = {
 
 			vim.cmd([[highlight! default link CmpItemKind CmpItemMenuDefault]])
 		end,
-	}
+	},
 }
 
 return spec
-

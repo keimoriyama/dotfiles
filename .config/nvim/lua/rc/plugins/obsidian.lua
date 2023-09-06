@@ -12,18 +12,17 @@ local spec = {
 					-- Optional, if you keep daily notes in a separate directory.
 					folder = "Notes/daily",
 					-- Optional, if you want to change the date format for daily notes.
-					date_format = "%Y-%m-%d"
+					date_format = "%Y-%m-%d",
 				},
 				completion = {
 					-- If using nvim-cmp, otherwise set to false
-					nvim_cmp = true
+					nvim_cmp = true,
 				},
 				mappings = {
-					["ol"] = require("obsidian.mapping").gf_passthrough(),
+					["gf"] = require("obsidian.mapping").gf_passthrough(),
 				},
 			})
-		end
-
-	}
+		end,
+	},
 }
 return spec

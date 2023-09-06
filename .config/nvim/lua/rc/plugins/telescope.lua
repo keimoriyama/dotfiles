@@ -86,7 +86,7 @@ local spec = {
 				builtin.keymaps()
 			end)
 		end,
-	}
+	},
 }
 return spec
 -- function M.setup()

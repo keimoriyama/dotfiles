@@ -21,6 +21,6 @@ local spec = {
 				-- add an alone title
 			})
 		end,
-	}
+	},
 }
 return spec

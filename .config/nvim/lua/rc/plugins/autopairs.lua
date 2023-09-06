@@ -1,4 +1,3 @@
-
 local spec = {
 	{
 		"windwp/nvim-autopairs",
@@ -12,6 +11,6 @@ local spec = {
 				disable_filetype = { "TelescopePrompt", "vim" },
 			})
 		end,
-	}
+	},
 }
 return spec

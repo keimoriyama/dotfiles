@@ -9,7 +9,7 @@ local spec = {
 		"kylechui/nvim-surround",
 	},
 	{
-		'APZelos/blamer.nvim',
+		"APZelos/blamer.nvim",
 		config = function()
 			vim.g.blamer_enabled = 1
 			vim.g.blamer_delay = 200
@@ -21,7 +21,7 @@ local spec = {
 		config = function()
 			vim.g.rainbow_active = 1
 		end,
-	},               --
+	}, --
 	-- dot repeat
 	"tpope/vim-repeat", --
 	-- utility
@@ -55,9 +55,8 @@ local spec = {
 			vim.keymap.set("n", "w", "<Plug>(smartword-w)")
 			vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 			vim.keymap.set("n", "e", "<Plug>(smartword-e)")
-		end
-	}
+		end,
+	},
 }
-
 
 return spec

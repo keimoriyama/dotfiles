@@ -51,6 +51,6 @@ local spec = {
 				},
 			})
 		end,
-	}
+	},
 }
 return spec

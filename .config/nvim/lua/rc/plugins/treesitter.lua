@@ -38,9 +38,9 @@ local spec = {
 			parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 		end,
 	},
-		{
+	{
 		"yioneko/nvim-yati",
-		dependencies = "nvim-treesitter/nvim-treesitter"
+		dependencies = "nvim-treesitter/nvim-treesitter",
 	},
 }
 return spec

@@ -1,5 +1,5 @@
 local spec = {
-		{
+	{
 		"lervag/vimtex",
 		ft = { "tex", "bib" },
 		config = function()
