@@ -1,6 +1,18 @@
 local spec = {
 	-- git
 	{
+		"dinhhuy258/git.nvim",
+		config = function()
+			local status, git = pcall(require, "git")
+			if not status then
+				return
+			end
+			require('git').setup({
+				default_mappings = true
+			})
+		end
+	},
+	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
 			local status, gitsings = pcall(require, "gitsings")
@@ -28,23 +40,6 @@ local spec = {
 		config = function()
 			vim.g.gitgutter_map_keys = 0
 		end,
-	},
-	{
-		"vim-denops/denops.vim",
-		dependencies = {
-			-- git
-			{
-				"lambdalisue/gin.vim",
-				config = function()
-					local opts = { noremap = true, silent = true }
-					vim.keymap.set("n", "<leader>gs", ":GinStatus<CR>", opts)
-					vim.keymap.set("n", "<leader>ga", ":Gin add .<CR>", opts)
-					vim.keymap.set("n", "<leader>gd", ":GinDiff<CR>", opts)
-					vim.keymap.set("n", "<leader>gb", ":GinBranch<CR>", opts)
-					vim.keymap.set("n", "<leader>gl", ":GinLog<CR>", opts)
-				end,
-			},
-		},
 	},
 }
 return spec
