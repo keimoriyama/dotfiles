@@ -22,6 +22,10 @@ local opts = {
 	defaults = {
 		lazy = false,
 	},
+	change_detection = {
+		enabled = false,
+		notify = false
+	},
 	performance = {
 		cache = {
 			enabled = true,

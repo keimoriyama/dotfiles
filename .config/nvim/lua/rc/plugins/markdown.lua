@@ -5,7 +5,7 @@ local spec = {
 		init = function()
 			local opts = { noremap = true, silent = true }
 			vim.g.mkdp_filetypes = { "markdown" }
-			vim.keymap.set("n", "mp", "<cmd>MarkdownPreview<CR>", opts)
+			vim.keymap.set("n", "mp", "<cmd>MarkdownPreviewToggle<CR>", opts)
 		end,
 		ft = { "markdown" },
 	},
