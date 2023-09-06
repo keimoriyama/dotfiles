@@ -1,5 +1,5 @@
 local spec = {
-		{
+	{
 		"akinsho/toggleterm.nvim",
 		keys = { { "<C-t>", ":ToggleTerm<CR>" } },
 		config = function()
@@ -12,7 +12,7 @@ local spec = {
 			toggleterm.setup()
 
 			local option = { noremap = true, silent = true }
-			vim.api.nvim_set_keymap({ "n", "t" }, "<C-t>", "<cmd>ToggleTerm<CR>", option)
+			vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>ToggleTerm<CR>", option)
 		end,
 	},
 }
