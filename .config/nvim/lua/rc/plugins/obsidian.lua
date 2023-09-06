@@ -22,6 +22,8 @@ local spec = {
 					["gf"] = require("obsidian.mapping").gf_passthrough(),
 				},
 			})
+			local opts = { noremap = true, silent = true }
+			vim.keymap.set("n", "<leader>nn", "<cmd>ObsidianToday<cr>", opt)
 		end,
 	},
 }
