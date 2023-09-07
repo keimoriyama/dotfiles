@@ -25,6 +25,7 @@ local spec = {
 					"lua",
 					"python",
 					"cpp",
+					"bash",
 					"markdown",
 					"markdown_inline",
 					"latex",

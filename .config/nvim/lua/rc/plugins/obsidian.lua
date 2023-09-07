@@ -19,11 +19,12 @@ local spec = {
 					nvim_cmp = true,
 				},
 				mappings = {
-					["gf"] = require("obsidian.mapping").gf_passthrough(),
+					--["gf"] = require("obsidian.mapping").gf_passthrough(),
 				},
 			})
 			local opts = { noremap = true, silent = true }
-			vim.keymap.set("n", "<leader>nn", "<cmd>ObsidianToday<cr>", opt)
+			vim.keymap.set("n", "<leader>nn", "<cmd>ObsidianToday<cr>", opts)
+			vim.keymap.set("n", "gf", "<cmd>ObsidianFollowLink<CR>", opts)
 		end,
 	},
 }
