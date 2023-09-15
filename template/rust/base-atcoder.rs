@@ -9,5 +9,7 @@ use proconio::input;
 // use std::collections::VecDeque;
 
 fn main() {
-    input! {}
+    input! {
+        {{_cursor_}}
+    }
 }
