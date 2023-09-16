@@ -1,3 +1,4 @@
+---@type LazySpec
 local spec = {
 	{
 		"nvim-treesitter/nvim-treesitter",

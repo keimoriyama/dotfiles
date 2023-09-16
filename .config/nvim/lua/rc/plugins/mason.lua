@@ -102,6 +102,7 @@ function Setup_formatter()
 	})
 end
 
+---@type LazySpec
 local spec = {
 	{
 		"williamboman/mason.nvim",

@@ -1,3 +1,4 @@
+---@type LazySpec
 local spec = {
 	{
 		"kyazdani42/nvim-web-devicons",

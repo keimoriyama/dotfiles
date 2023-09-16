@@ -1,3 +1,4 @@
+---@type LazySpec
 local spec = {
 	{
 		"Decodetalkers/csv-tools.lua",

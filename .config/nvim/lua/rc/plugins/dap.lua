@@ -1,3 +1,4 @@
+---@type LazySpec
 local spec = {
 	{ "mfussenegger/nvim-dap" },
 	{ "jay-babu/mason-nvim-dap.nvim" },

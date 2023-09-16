@@ -17,6 +17,7 @@
 -- end
 --
 -- return M
+---@type LazySpec
 local spec = {
 	{
 		"lukas-reineke/indent-blankline.nvim",

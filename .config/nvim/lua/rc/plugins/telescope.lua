@@ -1,6 +1,7 @@
 local function telescope_buffer_dir()
 	return vim.fn.expand("%:p:h")
 end
+---@type LazySpec
 local spec = {
 	{
 		"nvim-telescope/telescope.nvim",

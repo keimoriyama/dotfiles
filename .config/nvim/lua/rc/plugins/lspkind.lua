@@ -1,3 +1,4 @@
+---@type LazySpec
 local spec = {
 	{
 		"onsails/lspkind-nvim",

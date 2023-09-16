@@ -1,3 +1,4 @@
+---@type LazySpec
 local spec = {
 	"nvim-lualine/lualine.nvim",
 	config = function()
