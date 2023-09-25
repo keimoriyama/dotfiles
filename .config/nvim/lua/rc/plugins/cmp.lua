@@ -66,7 +66,6 @@ local spec = {
 					{ name = "path" },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "treesitter" },
-					{ name = "skkeleton" },
 					-- { name = "omni", eyword_length = 0 },
 				}),
 				formatting = {
