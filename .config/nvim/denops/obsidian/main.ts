@@ -1,9 +1,8 @@
-import { Denops } from "https://deno.land/x/denops_std@v5.0.0/mod.ts";
-import { ensureString } from "https://deno.land/x/unknownutil@v1.0.0/mod.ts";
-import { execute } from "https://deno.land/x/denops_std@v1.0.0/helper/mod.ts";
+import { Denops } from "./deps.ts";
+import { main as file_main } from "./files.ts"
 // import { Maze } from "https://deno.land/x/maze_generator@v0.4.0/mod.js";
-export async function main(denops: Denops): Promise<void> {
-	console.log("Hello World from", denops.name);
+export async function main(denops: Denops): void {
+	file_main(denops)
 }
 
 // export async function main(denops: Denops): Promise<void> {
