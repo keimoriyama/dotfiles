@@ -120,6 +120,7 @@ local spec = {
 			--print("mason")
 			---@diagnostic disable: redefined-local
 			local status, mason = pcall(require, "mason")
+			local nvim_lsp = require("lspconfig")
 			if not status then
 				return
 			end
@@ -152,7 +153,37 @@ local spec = {
 
 			local handlers = {
 				function(server_name)
-					lspconfig[server_name].setup({})
+					local node_root_dir = nvim_lsp.util.root_pattern("package.json")
+					local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+					local opts = {}
+					if server_name == "tsserver" then
+						if not is_node_repo then
+							return
+						end
+					elseif server_name == "eslint" then
+						if not is_node_repo then
+							return
+						end
+					elseif server_name == "denols" then
+						if is_node_repo then
+							return
+						end
+					end
+					opts.root_dir = nvim_lsp.util.root_pattern("deno.json", 'deno.jsonc', 'deps.ts', 'import_map.json')
+					opts.init_options = {
+						lint = true,
+						unstable = true,
+						suggest = {
+							imports = {
+								hosts = {
+									["https://deno.land"] = true,
+									["https://cdn.nest.land"] = true,
+									["https://crux.land"] = true
+								}
+							}
+						}
+					}
+					lspconfig[server_name].setup(opts)
 				end,
 			}
 			mason_lspconfig.setup_handlers(handlers)
