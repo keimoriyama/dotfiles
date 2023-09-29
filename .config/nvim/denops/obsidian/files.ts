@@ -1,12 +1,13 @@
-import { Denops } from "./deps.ts"
-import { ensure, is } from "./deps.ts"
-import { open } from "./deps.ts"
-import { execute } from "./deps.ts"
+import { Denops, ensure, is, open, execute, globals, join } from "./deps.ts"
 
 export async function main(denops: Denops): Promise<void> {
 	denops.dispatcher = {
-		open_file(path: unknown) {
-			const path2file = ensure(path, is.String);
+		async open_file(path: unknown) {
+			const baseDir = globals.get(denops, "base_dir");
+			const filename = ensure(path, is.String);
+			console.log(baseDir, filename)
+			const path2file = join(baseDir, filename);
+
 			open(denops, path2file)
 		}
 	}

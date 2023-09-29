@@ -1,9 +1,9 @@
-import { Denops } from "./deps.ts";
+import { Denops, ensure } from "./deps.ts";
 import { main as file_main } from "./files.ts"
-// import { Maze } from "https://deno.land/x/maze_generator@v0.4.0/mod.js";
 export async function main(denops: Denops): void {
 	file_main(denops)
 }
+
 
 // export async function main(denops: Denops): Promise<void> {
 //   denops.dispatcher = {
