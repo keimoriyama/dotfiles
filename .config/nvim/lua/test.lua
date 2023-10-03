@@ -1,1 +1,1 @@
-vim.fn["obsidian#set_config"] = "../denops/obsidian/test/"
+vim.g.base_dir = "../denops/obsidian/test/"
