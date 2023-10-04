@@ -13,21 +13,17 @@ export async function main(denops: Denops): Promise<void> {
 			const path2file = join(baseDir, filename);
 			const res = await open(denops, path2file)
 			const bufnr = res['bufnr']
-			const template = await get_template(filename, filename)
+			const template = await get_template(filename)
 			await setbufline(denops, bufnr, 1, template)
 		}
 	}
 	await execute(
 		denops,
-		`command! -nargs=1 Test call denops#request('${denops.name}', 'open_file', [q-args])`,
-	)
-	await execute(
-		denops,
-		`command! TestToday call denops#request('${denops.name}', 'create_today', [])`,
+		`command! ObsidianVimToday call denops#request('${denops.name}', 'create_today', [])`,
 	)
 }
 
-async function get_template(id: string, date: Date): Promise<string[]> {
+async function get_template(id: string): Promise<string[]> {
 	const monthNames = ["January", "February", "March", "April", "May", "June",
 		"July", "August", "September", "October", "November", "December"
 	];
