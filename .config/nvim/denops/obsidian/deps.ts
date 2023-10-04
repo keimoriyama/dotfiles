@@ -5,3 +5,4 @@ export { execute } from "https://deno.land/x/denops_std@v5.0.0/helper/mod.ts";
 export { globals } from "https://deno.land/x/denops_std@v5.0.1/variable/mod.ts"
 export { join } from "https://deno.land/std@0.203.0/path/mod.ts";
 export { DAY, format } from "https://deno.land/std@0.203.0/datetime/mod.ts";
+export { setbufline } from "https://deno.land/x/denops_std@v5.0.1/function/mod.ts";
