@@ -13,7 +13,7 @@ export async function main(denops: Denops): Promise<void> {
 			const path2file = join(baseDir, filename);
 			const res = await open(denops, path2file)
 			const bufnr = res['bufnr']
-			const template = await get_template(filename)
+			const template = await get_template(filename, "daily_note")
 			await setbufline(denops, bufnr, 1, template)
 		}
 	}
@@ -23,7 +23,7 @@ export async function main(denops: Denops): Promise<void> {
 	)
 }
 
-async function get_template(id: string): Promise<string[]> {
+async function get_template(id: string, tag: string): Promise<string[]> {
 	const monthNames = ["January", "February", "March", "April", "May", "June",
 		"July", "August", "September", "October", "November", "December"
 	];
@@ -36,7 +36,7 @@ async function get_template(id: string): Promise<string[]> {
 		"aliases:",
 		date_alias,
 		"tags:",
-		"- \"daily-notes\"",
+		`- \"${tag}\"`,
 		"--- "
 	]
 }
