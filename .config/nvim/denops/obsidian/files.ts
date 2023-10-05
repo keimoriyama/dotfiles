@@ -1,19 +1,19 @@
-import { Denops, open, execute, globals, join, format, setbufline } from "./deps.ts"
+import { Denops, open, execute, globals, join, format, setbufline, OpenResult } from "./deps.ts"
 
 export async function main(denops: Denops): Promise<void> {
 	denops.dispatcher = {
 		async open_file(filename: unknown) {
-			const baseDir = await globals.get(denops, "base_dir");
-			const path2file = join(baseDir, filename);
+			const baseDir: string = await globals.get(denops, "base_dir");
+			const path2file: string = join(baseDir, filename);
 			open(denops, path2file)
 		},
 		async create_today() {
-			const baseDir = await globals.get(denops, "base_dir");
-			const filename = await gen_date_str();
-			const path2file = join(baseDir, filename);
-			const res = await open(denops, path2file)
-			const bufnr = res['bufnr']
-			const template = await get_template(filename, "daily_note")
+			const baseDir: string = await globals.get(denops, "base_dir");
+			const filename: string = await gen_date_str();
+			const path2file: string = join(baseDir, filename);
+			const res: OpenResult = await open(denops, path2file)
+			const bufnr: number = res['bufnr']
+			const template: string[] = await get_template(filename, "daily_note")
 			await setbufline(denops, bufnr, 1, template)
 		}
 	}
