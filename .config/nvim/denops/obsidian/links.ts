@@ -1,4 +1,4 @@
-import { Denops, globals, getcurpos, getline, execute, Position, globpath } from './deps.ts'
+import { Denops, globals, getcurpos, getline, execute, Position, walk, expand, open } from './deps.ts'
 
 export async function main(denops: Denops): Promise<void> {
 	denops.dispatcher = {
@@ -16,13 +16,18 @@ export async function main(denops: Denops): Promise<void> {
 				return
 			}
 			if (begin_parenthesis_pos < col || col < end_parrenthesis_pos) {
-				const baseDir: string = await globals.get(denops, "base_dir");
-				console.log(str_under_cursor.slice(begin_parenthesis_pos + 2, end_parrenthesis_pos))
+				const baseDir: string = await expand(denops, await globals.get(denops, "base_dir"));
 				const file_ailias: string = str_under_cursor.slice(begin_parenthesis_pos + 2, end_parrenthesis_pos)
 				// ファイル名の確定
 				const filename: string = file_ailias.slice(0, file_ailias.indexOf("|")) + ".md"
-				console.log(filename)
-				console.log(await globpath(denops, baseDir, "/**/" + filename))
+				// 絶対パスで指定する
+				let file_paths: strings[] = []
+				for await (const files of walk(baseDir, { includeDirs: false, match: [filename] })) {
+					file_paths.push(files)
+				}
+				if (file_paths.length == 1) {
+					open(denops, file_paths[0].path)
+				}
 			}
 		}
 	}
