@@ -8,3 +8,4 @@ export { DAY, format } from "https://deno.land/std@0.203.0/datetime/mod.ts";
 export { setbufline, getline, getcurpos } from "https://deno.land/x/denops_std@v5.0.1/function/mod.ts";
 export type { Position } from "https://deno.land/x/denops_std@v5.0.1/function/mod.ts";
 export type { OpenResult } from "https://deno.land/x/denops_std@v5.0.1/buffer/mod.ts"
+export { globpath } from "https://deno.land/x/denops_std@v5.0.1/function/mod.ts";

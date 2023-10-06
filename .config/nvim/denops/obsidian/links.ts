@@ -1,9 +1,8 @@
-import { Denops, globals, getcurpos, getline, execute, Position } from './deps.ts'
+import { Denops, globals, getcurpos, getline, execute, Position, globpath } from './deps.ts'
 
 export async function main(denops: Denops): Promise<void> {
 	denops.dispatcher = {
 		async follow_link() {
-			const baseDir: string = await globals.get(denops, "base_dir");
 			// [[]]で囲まれたカーソル下の文字列を取得
 			const cursor_pos: Position = await getcurpos(denops);
 			const lnum: number = cursor_pos[1]
@@ -17,10 +16,13 @@ export async function main(denops: Denops): Promise<void> {
 				return
 			}
 			if (begin_parenthesis_pos < col || col < end_parrenthesis_pos) {
+				const baseDir: string = await globals.get(denops, "base_dir");
 				console.log(str_under_cursor.slice(begin_parenthesis_pos + 2, end_parrenthesis_pos))
 				const file_ailias: string = str_under_cursor.slice(begin_parenthesis_pos + 2, end_parrenthesis_pos)
+				// ファイル名の確定
 				const filename: string = file_ailias.slice(0, file_ailias.indexOf("|")) + ".md"
 				console.log(filename)
+				console.log(await globpath(denops, baseDir, "/**/" + filename))
 			}
 		}
 	}
