@@ -1,1 +1,1 @@
-vim.g.base_dir = "../denops/obsidian/test/"
+vim.g.base_dir = "~/Documents/Notes/"
