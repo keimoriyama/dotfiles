@@ -37,12 +37,6 @@ if vim.g.vscode then
 	return nil
 end
 
--- sonictemplateのキーマップの無効化
-vim.g.sonictemplate_key = 0
-vim.g.sonictemplate_intelligent_key = 0
-vim.g.sonictemplate_postfix_key = 0
-
-
 lazy.setup("rc.plugins", opts)
 
 vim.cmd([[colorscheme gruvbox]])
