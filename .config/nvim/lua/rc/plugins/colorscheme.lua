@@ -1,9 +1,9 @@
 ---@type LazySpec
 local spec = {
-	"folke/tokyonight.nvim",
+	{ "folke/tokyonight.nvim" },
 	{
 		"ellisonleao/gruvbox.nvim",
-		priority = 100
+		priority = 100,
 		config = function()
 			vim.cmd([[colorscheme gruvbox]])
 		end

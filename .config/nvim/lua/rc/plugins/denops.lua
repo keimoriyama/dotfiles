@@ -2,7 +2,8 @@
 local spec = {
 	{
 		'vim-denops/denops.vim',
-		priority = 100
+		priority = 100,
+		lazy = false,
 	}
 }
 
