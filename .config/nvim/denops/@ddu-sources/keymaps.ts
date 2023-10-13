@@ -6,7 +6,7 @@ import {
 } from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
 import { ActionData } from "https://deno.land/x/ddu_kind_file@v0.3.2/file.ts";
-import { nvim_get_keymap } from "https://deno.land/x/denops_std@v5.0.1/function/nvim/mod.ts";
+import { nvim_get_keymap, nvim_buf_get_keymap } from "https://deno.land/x/denops_std@v5.0.1/function/nvim/mod.ts";
 
 type Params = Record<never, never>;
 
@@ -50,6 +50,7 @@ export class Source extends BaseSource<Params> {
 						const keymaps = await neovim_get_keymaps(args.denops, m);
 						items = items.concat(keymaps);
 					}
+
 					return items;
 				};
 				controller.enqueue(
@@ -69,6 +70,7 @@ async function neovim_get_keymaps(
 	mode: string,
 ): Promise<Item<ActionData>[]> {
 	let keymaps = await nvim_get_keymap(denops, mode);
+	// let keymaps = await nvim_buf_get_keymap(denops, 0, mode);
 	let items: Item<ActionData>[] = [];
 	for (const keymap of keymaps) {
 		let words = "";

@@ -17,10 +17,7 @@ local spec = {
 				},
 				completion = {
 					-- If using nvim-cmp, otherwise set to false
-					nvim_cmp = true,
-				},
-				mappings = {
-					--["gf"] = require("obsidian.mapping").gf_passthrough(),
+					nvim_cmp = false,
 				},
 			})
 			local opts = { noremap = true, silent = true }
@@ -29,5 +26,15 @@ local spec = {
 			vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<cr>", opts)
 		end,
 	},
+	{
+		"keimoriyama/dps_obdisian",
+		init = function()
+			vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
+		end,
+		config = function()
+			vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
+			vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
+		end,
+	}
 }
 return spec

@@ -38,5 +38,3 @@ if vim.g.vscode then
 end
 
 lazy.setup("rc.plugins", opts)
-
-vim.cmd([[colorscheme gruvbox]])

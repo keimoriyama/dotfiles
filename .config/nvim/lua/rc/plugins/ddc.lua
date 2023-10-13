@@ -96,6 +96,7 @@ local spec = {
 			}
 			-- -- Use ddc
 			vim.fn["ddc#enable"]()
+			require("ddc_previewer_floating").enable()
 		end
 	},
 	"Shougo/ddc-nvim-lsp",
@@ -119,6 +120,7 @@ local spec = {
 	"uga-rosa/ddc-nvim-lsp-setup",
 	"Shougo/ddc-filter-converter_truncate_abbr",
 	"lambdalisue/guise.vim",
+	"uga-rosa/ddc-previewer-floating"
 }
 
 
