@@ -2,7 +2,7 @@
 local spec = {
 	{
 		"Shougo/ddc.vim",
-		event = { 'InsertEnter', "CmdlineEnter" },
+		-- event = { 'InsertEnter', "CmdlineEnter" },
 		dependencies = {
 			'vim-denops/denops.vim',
 		},
@@ -61,8 +61,8 @@ local spec = {
 					vsnip = { mark = "[vsnip]" },
 					copilot = { mark = "[copilot]", minAutoCompleteLength = 1, isVolatile = true },
 					["cmdline-history"] = { mark = "[cmdline-history]" },
-					obsidian = { mark = "[obsidian]" },
-					obsidian_new = { mark = "[obsidian_new]" },
+					obsidian = { mark = "[obsidian]", keywordPattern = '[[.*?]]' },
+					obsidian_new = { mark = "[obsidian_new]", keywordPattern = '[[.*?]]' },
 				},
 				sourceParams = {
 					buffer = { requireSameFiletype = false, forceCollect = true },

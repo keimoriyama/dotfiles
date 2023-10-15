@@ -66,6 +66,7 @@ local spec = {
 			vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 		end,
 	},
+	"LeafCage/vimhelpgenerator"
 }
 
 return spec
