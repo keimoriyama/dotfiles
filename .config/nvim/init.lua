@@ -11,41 +11,35 @@ for _, plugin in ipairs(plugins) do
 	})
 	end
 	if string.find(plugin, "dpp.vim")~=nil then
+		print(dir)
 		vim.opt.rtp:prepend(dir) 
 	end
 end
 
+vim.opt.compatible = false
 
---vim.cmd([[
---" Ward off unexpected things that your distro might have made, as
---" well as sanely reset options when re-sourcing .vimrc
---set nocompatible
---
---" Set dpp base path (required)
---const s:dpp_base = '~/.cache/dpp/'
---
---" Set dpp source path (required)
---const s:dpp_src = '~/.cache/dpp/repos/github.com/Shougo/dpp.vim'
---const s:denops_src = '~/.cache/dpp/repos/github.com/denops/denops.vim'
---
---" Set dpp runtime path (required)
---execute 'set runtimepath^=' .. s:dpp_src
---
---if dpp#min#load_state(s:dpp_base)
---  " NOTE: dpp#make_state() requires denops.vim
---  execute 'set runtimepath^=' .. s:denops_src
---  autocmd User DenopsReady
---  \ call dpp#make_state(s:dpp_base, '{TypeScript config file path}')
---endif
---
---" Attempt to determine the type of a file based on its name and
---" possibly its " contents. Use this to allow intelligent
---" auto-indenting " for each filetype, and for plugins that are
---" filetype specific.
---filetype indent plugin on
---
---" Enable syntax highlighting
---if has('syntax')
---  syntax on
---endif
---]])
+-- set dpp source path
+local dpp_base = "~/.cache/dpp/"
+-- set dpp runtime path
+local dpp_src = '~/.cache/dpp/repos/github.com/Shougo/dpp.vim'
+local denops_src = '~/.cache/dpp/repos/github.com/denops/denops.vim'
+
+-- Set dpp runtime path (required)
+vim.opt.rtp:prepend(dpp_src)
+
+if vim.fn["dpp#min#load_state"](dpp_base) then
+	vim.opt.rtp:prepend(denops_src)
+	vim.api.nvim_create_autocmd("User", {
+		pattern='DenopsReady',
+		callback = function(ev)
+			vim.fn["dpp#make_state"](dpp_base, "./config")
+		end
+	})
+end
+
+vim.cmd([[
+" Enable syntax highlighting
+if has('syntax')
+  syntax on
+endif
+]])
