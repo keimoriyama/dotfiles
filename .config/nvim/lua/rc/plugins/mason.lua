@@ -117,7 +117,6 @@ local spec = {
 		},
 		config = function()
 			-- linter,formatter,lspの設定が書いてある
-			--print("mason")
 			---@diagnostic disable: redefined-local
 			local status, mason = pcall(require, "mason")
 			local nvim_lsp = require("lspconfig")

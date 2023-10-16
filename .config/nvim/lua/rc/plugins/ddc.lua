@@ -5,6 +5,7 @@ local spec = {
 		-- event = { 'InsertEnter', "CmdlineEnter" },
 		dependencies = {
 			'vim-denops/denops.vim',
+			"neovim/nvim-lspconfig",
 		},
 		init = function()
 			vim.g.dps_obsidian_base_dir = "~/Documents/Notes/"
@@ -15,6 +16,8 @@ local spec = {
 			require("lspconfig").denols.setup({
 				capabilities = capabilities,
 			})
+
+			require("ddc_nvim_lsp_setup").setup()
 
 			-- Use around source.
 			vim.fn["ddc#custom#patch_global"]({
@@ -53,7 +56,7 @@ local spec = {
 					buffer = { mark = "[buffer]" },
 					["nvim-lsp"] = {
 						mark = "[lsp]",
-						forceCompletionPattern = [['\.\w*|:\w*|->\w*']],
+						-- forceCompletionPattern = [['\.\w*|:\w*|->\w*']],
 						keywordPattern = "\\k*",
 						dup = "force",
 					},
@@ -120,7 +123,7 @@ local spec = {
 	"uga-rosa/ddc-nvim-lsp-setup",
 	"Shougo/ddc-filter-converter_truncate_abbr",
 	"lambdalisue/guise.vim",
-	"uga-rosa/ddc-previewer-floating"
+	"uga-rosa/ddc-previewer-floating",
 }
 
 
