@@ -1,34 +1,61 @@
-local CACHE = vim.fn.expand('~/.cache')
-if vim.fn.isdirectory(CACHE) == 0 then
-  vim.fn.mkdir(CACHE, 'p')
-end
+vim.cmd([[
+let $CACHE = expand('~/.cache')
+if !($CACHE->isdirectory())
+  call mkdir($CACHE, 'p')
+endif
 
-local plugins = {
-  'Shougo/dpp.vim',
-  'denops/denops.vim',
-}
+for s:plugin in [
+      \ 'Shougo/dpp.vim',
+      \ 'denops/denops.vim',
+      \ ]->filter({ _, val ->
+      \           &runtimepath !~# '/' .. val->fnamemodify(':t') })
+  " Search from current directory
+  let s:dir = s:plugin->fnamemodify(':t')->fnamemodify(':p')
+  if !(s:dir->isdirectory())
+    " Search from $CACHE directory
+    let s:dir = $CACHE .. '/dpp/repos/github.com/' .. s:plugin
+    if !(s:dir->isdirectory())
+      execute '!git clone https://github.com/' .. s:plugin s:dir
+    endif
+  endif
 
-for _, plugin in pairs(plugins) do
-  if not vim.fn.has('syntax') then
-    return
-  end
+  if s:plugin->fnamemodify(':t') ==# 'dpp.vim'
+    execute 'set runtimepath^='
+          \ .. s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
+  endif
+endfor
+]])
 
-  local repo_name = vim.fn.fnamemodify(plugin, ':t')
-  local repo_path = repo_name
-  if not vim.fn.globpath('&runtimepath', repo_name, 1) then
-    -- Search from the current directory
-    repo_path = vim.fn.fnamemodify(repo_name, ':p')
-    if vim.fn.isdirectory(repo_path) == 0 then
-      -- Search from $CACHE directory
-      repo_path = CACHE .. '/dpp/repos/github.com/' .. plugin
-      if vim.fn.isdirectory(repo_path) == 0 then
-        vim.fn.system('git clone https://github.com/' .. plugin .. ' ' .. repo_path)
-      end
-    end
-  end
+vim.cmd([[
+" Ward off unexpected things that your distro might have made, as
+" well as sanely reset options when re-sourcing .vimrc
+set nocompatible
 
-  if repo_name == 'dpp.vim' then
-    vim.o.runtimepath = repo_path .. ',' .. vim.o.runtimepath
-  end
-end
+" Set dpp base path (required)
+const s:dpp_base = '~/.cache/dpp/'
 
+" Set dpp source path (required)
+const s:dpp_src = '~/.cache/dpp/repos/github.com/Shougo/dpp.vim'
+const s:denops_src = '~/.cache/dpp/repos/github.com/denops/denops.vim'
+
+" Set dpp runtime path (required)
+execute 'set runtimepath^=' .. s:dpp_src
+
+if dpp#min#load_state(s:dpp_base)
+  " NOTE: dpp#make_state() requires denops.vim
+  execute 'set runtimepath^=' .. s:denops_src
+  autocmd User DenopsReady
+  \ call dpp#make_state(s:dpp_base, '{TypeScript config file path}')
+endif
+
+" Attempt to determine the type of a file based on its name and
+" possibly its " contents. Use this to allow intelligent
+" auto-indenting " for each filetype, and for plugins that are
+" filetype specific.
+filetype indent plugin on
+
+" Enable syntax highlighting
+if has('syntax')
+  syntax on
+endif
+]])
