@@ -32,7 +32,7 @@ if vim.fn["dpp#min#load_state"](dpp_base) then
 	vim.api.nvim_create_autocmd("User", {
 		pattern='DenopsReady',
 		callback = function(ev)
-			vim.fn["dpp#make_state"](dpp_base, "./config")
+			vim.fn["dpp#make_state"](dpp_base, vim.fs.expand("./typescript/dpp.ts"))
 		end
 	})
 end
