@@ -1,5 +1,16 @@
 local function rust_dap_config()
 	local dap = require("dap")
+
+	dap.adapters.codelldb = {
+		type = 'server',
+		command = 'codelldb',
+		port = 45635,
+	}
+	dap.configurations.codelldb = {
+		type = 'server',
+		host = '127.0.0.1',
+		port = 45635,
+	}
 	dap.configurations.rust = {
 		{
 			name = 'Rust Debug',
@@ -47,15 +58,19 @@ end
 local spec = {
 	{
 		"mfussenegger/nvim-dap",
+		dependencies = {
+			"williamboman/mason.nvim"
+		},
 		config = function()
 			rust_dap_config()
 			python_dap_config()
 			-- keymapの設定
 			-- TODO:見直す
-			vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
-			vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
-			vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
-			vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+			-- dapの起動
+			vim.keymap.set('n', '<Leader>n', function() require('dap').continue() end)
+			vim.keymap.set('n', '<Leader>so', function() require('dap').step_over() end)
+			vim.keymap.set('n', '<Leader>si', function() require('dap').step_into() end)
+			vim.keymap.set('n', '<Leader>so', function() require('dap').step_out() end)
 			vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
 			vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
 			vim.keymap.set('n', '<Leader>lp',

@@ -12,13 +12,6 @@ local spec = {
 			require("nvim-surround").setup()
 		end
 	},
-	{
-		"APZelos/blamer.nvim",
-		config = function()
-			vim.g.blamer_enabled = 1
-			vim.g.blamer_delay = 200
-		end,
-	},
 	-- auto comment out
 	{
 		"luochen1990/rainbow",
