@@ -1,31 +1,3 @@
-local function rust_dap_config()
-	local dap = require("dap")
-
-	dap.adapters.codelldb = {
-		type = 'server',
-		command = 'codelldb',
-		port = 45635,
-	}
-	dap.configurations.codelldb = {
-		type = 'server',
-		host = '127.0.0.1',
-		port = 45635,
-	}
-	dap.configurations.rust = {
-		{
-			name = 'Rust Debug',
-			type = 'codelldb',
-			request = 'launch',
-			program = function()
-				return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-			end,
-			cwd = '${workspaceFolder}',
-			stopOnEntry = false,
-			args = {}
-		}
-	}
-end
-
 local function python_dap_config()
 	local dap = require("dap")
 	dap.adapters.python = function(cb, config)
@@ -54,22 +26,30 @@ local function python_dap_config()
 		end
 	end
 end
+
+
+local function rust_dap_directory()
+	local mason_registry = require("mason-registry")
+	local codelldb_root = mason_registry.get_package("codelldb"):get_install_path() .. "/extension"
+	local codelldb_path = codelldb_root .. "/adapter/codelldb"
+	local liblldb_path = codelldb_root .. "/lldb/lib/liblldb.dylib"
+	return codelldb_path, liblldb_path
+end
+
+
 ---@type LazySpec
 local spec = {
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
-			"williamboman/mason.nvim"
+			"williamboman/mason.nvim",
 		},
 		config = function()
-			rust_dap_config()
 			python_dap_config()
 			-- keymapの設定
-			-- TODO:見直す
 			-- dapの起動
-			vim.keymap.set('n', '<Leader>n', function() require('dap').continue() end)
-			vim.keymap.set('n', '<Leader>so', function() require('dap').step_over() end)
-			vim.keymap.set('n', '<Leader>si', function() require('dap').step_into() end)
+			vim.keymap.set('n', '<Leader>n', function() require('dap').step_over() end)
+			vim.keymap.set('n', '<Leader>s', function() require('dap').step_into() end)
 			vim.keymap.set('n', '<Leader>so', function() require('dap').step_out() end)
 			vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
 			vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
@@ -77,6 +57,7 @@ local spec = {
 				function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
 			vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
 			vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
+			vim.keymap.set('n', "<Leader>ed", function() require('dap').close() end)
 			vim.keymap.set({ 'n', 'v' }, '<Leader>dh', function()
 				require('dap.ui.widgets').hover()
 			end)
@@ -93,7 +74,15 @@ local spec = {
 			end)
 		end
 	},
-	{ "jay-babu/mason-nvim-dap.nvim" },
+	{
+		"jay-babu/mason-nvim-dap.nvim",
+		config = function()
+			require('mason-nvim-dap').setup({
+				ensure_installed = { "lldb" }
+			}
+			)
+		end
+	},
 	{
 		"rcarriga/nvim-dap-ui",
 		config = function()
@@ -112,22 +101,42 @@ local spec = {
 	},
 	{
 		"simrat39/rust-tools.nvim",
-		ft = { 'rust' },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"mfussenegger/nvim-dap",
+			"neovim/nvim-lspconfig",
+			'nvim-lua/plenary.nvim',
+		},
+		-- ft = { 'rust' },
 		config = function()
+			-- Update this path
 			local rt = require("rust-tools")
-			rt.setup({
+			local codelldb_path, liblldb_path = rust_dap_directory()
+			local opts = {
 				server = {
 					on_attach = function(_, bufnr)
 						-- Hover actions
-						local opt = { nnopremap = true, silent = true, buffer = bufnr }
-						vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, opt)
+						vim.keymap.set("n", "<C-a>", rt.hover_actions.hover_actions, { buffer = bufnr })
+
 						-- Code action groups
-						vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, opt)
+						vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+						vim.keymap.set('n', '<Leader>st', function()
+							rt.cached_commands.execute_last_debuggable()
+						end, { buffer = bufnr })
 					end,
 				},
-			})
+				hover_actions = {
+					auto_focus = true,
+				},
+				dap = {
+					adapter = require('rust-tools.dap').get_codelldb_adapter(
+						codelldb_path, liblldb_path)
+				}
+			}
+			-- Normal setup
+			rt.setup(opts)
 		end
-	},
+	}
 }
 
 return spec
