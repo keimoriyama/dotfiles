@@ -6,9 +6,11 @@ local spec = {
 		dependencies = {
 			'vim-denops/denops.vim',
 			"neovim/nvim-lspconfig",
+			"keimoriyama/dps_obdisian",
 		},
 		init = function()
 			vim.g.dps_obsidian_base_dir = "~/Documents/Notes/"
+			-- vim.opt.rtp:prepend("~/Program/dps_obsidian")
 		end,
 		config = function()
 			local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
@@ -64,8 +66,14 @@ local spec = {
 					vsnip = { mark = "[vsnip]" },
 					copilot = { mark = "[copilot]", minAutoCompleteLength = 1, isVolatile = true },
 					["cmdline-history"] = { mark = "[cmdline-history]" },
-					obsidian = { mark = "[obsidian]", keywordPattern = '[[.*?]]' },
-					obsidian_new = { mark = "[obsidian_new]", keywordPattern = '[[.*?]]' },
+					obsidian = {
+						mark = "[obsidian]",
+						keywordPattern = [[\[\[.*?]]
+					},
+					obsidian_new = {
+						mark = "[obsidian_new]",
+						keywordPattern = [[\[\[.*?]]
+					},
 				},
 				sourceParams = {
 					buffer = { requireSameFiletype = false, forceCollect = true },

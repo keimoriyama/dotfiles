@@ -269,10 +269,10 @@ local spec = {
 					vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
 					vim.keymap.set("n", "o", '<cmd>call ddu#ui#do_action("expandItem", {"mode": "toggle"})<CR>', opt)
 					vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
-					-- vim.keymap.set("n", "N", '<cmd>call ddu#ui#do_action("itemAction", {"name": "newFile"})<cr>', opt)
-					vim.keymap.set("n", "N",
-						'<cmd>call ddu#ui#multi_actions([["itemAction", {"name": "newFile"}], ["itemAction", {"name":"open", "params":{"command": "tabnew"}}])<cr>',
-						opt)
+					vim.keymap.set("n", "N", '<cmd>call ddu#ui#do_action("itemAction", {"name": "newFile"})<cr>', opt)
+					-- vim.keymap.set("n", "N",
+					-- '<cmd>call ddu#ui#multi_actions([["itemAction", {"name": "newFile"}], ["itemAction", {"name":"open", "params":{"command": "tabnew"}}])<cr>',
+					-- opt)
 					vim.keymap.set("n", "d", '<cmd>call ddu#ui#do_action("itemAction", {"name": "delete"})<cr>', opt)
 					vim.keymap.set("n", "r", '<cmd>call ddu#ui#do_action("itemAction", {"name": "rename"})<cr>', opt)
 					vim.keymap.set("n", "y", '<cmd>call ddu#ui#do_action("itemAction", {"name": "yank"})<cr>', opt)
