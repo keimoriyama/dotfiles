@@ -32,7 +32,6 @@ local spec = {
 					"buffer",
 					"around",
 					'obsidian',
-					'obsidian_new',
 				},
 				autoCompleteEvents = {
 					"InsertEnter",
@@ -68,10 +67,6 @@ local spec = {
 					["cmdline-history"] = { mark = "[cmdline-history]" },
 					obsidian = {
 						mark = "[obsidian]",
-						keywordPattern = [[\[\[.*?]]
-					},
-					obsidian_new = {
-						mark = "[obsidian_new]",
 						keywordPattern = [[\[\[.*?]]
 					},
 				},
