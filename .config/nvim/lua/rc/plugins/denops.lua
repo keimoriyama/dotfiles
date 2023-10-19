@@ -2,8 +2,11 @@
 local spec = {
 	{
 		'vim-denops/denops.vim',
-		priority = 100,
-		lazy = false,
+		init = function()
+			vim.cmd([[
+			let g:denops#debug = 1
+			]])
+		end,
 	},
 }
 

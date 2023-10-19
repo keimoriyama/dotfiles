@@ -5,12 +5,10 @@ local spec = {
 		-- event = { 'InsertEnter', "CmdlineEnter" },
 		dependencies = {
 			'vim-denops/denops.vim',
-			"neovim/nvim-lspconfig",
-			"keimoriyama/dps_obdisian",
+			-- "keimoriyama/dps_obdisian",
 		},
 		init = function()
-			vim.g.dps_obsidian_base_dir = "~/Documents/Notes/"
-			-- vim.opt.rtp:prepend("~/Program/dps_obsidian")
+			vim.opt.rtp:prepend("~/Program/dps_obsidian")
 		end,
 		config = function()
 			local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
@@ -32,6 +30,7 @@ local spec = {
 					"buffer",
 					"around",
 					'obsidian',
+					'obsidian_new'
 				},
 				autoCompleteEvents = {
 					"InsertEnter",
@@ -67,6 +66,10 @@ local spec = {
 					["cmdline-history"] = { mark = "[cmdline-history]" },
 					obsidian = {
 						mark = "[obsidian]",
+						keywordPattern = [[\[\[.*?]]
+					},
+					obsidian_new = {
+						mark = "[obsidian+]",
 						keywordPattern = [[\[\[.*?]]
 					},
 				},

@@ -27,10 +27,14 @@ local spec = {
 	-- 	end,
 	-- },
 	{
-		"keimoriyama/dps_obdisian",
-		-- dir = "~/Program/dps_obdisian",
+		-- "keimoriyama/dps_obdisian",
+		dir = "~/Program/dps_obdisian",
+		dependencies = {
+			'vim-denops/denops.vim',
+		},
 		init = function()
 			vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
+			vim.g.dps_obsidian_daily_note_dir = "daily"
 		end,
 		config = function()
 			local opts = { noremap = true, silent = true }

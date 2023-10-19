@@ -2,7 +2,7 @@
 local spec = {
 	{
 		"hrsh7th/vim-vsnip",
-		event = { "InsertEnter" },
+		-- event = { "InsertEnter" },
 		config = function()
 			vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 			vim.g.vsnip_choice_delay = 0
