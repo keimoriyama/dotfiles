@@ -114,7 +114,13 @@ local spec = {
 					{
 						name = "file_rec",
 						params = {
-							ignoredDirectories = { ".git", "node_modules", "vendor", ".mypy_cache", ".hydra", 'mlruns',
+							ignoredDirectories = { ".git",
+								"node_modules",
+								"vendor",
+								".mypy_cache",
+								".hydra",
+								'mlruns',
+								".venv",
 								"logs",
 								'data', "outputs" },
 						},
