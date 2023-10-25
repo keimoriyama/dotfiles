@@ -122,7 +122,8 @@ local spec = {
 								'mlruns',
 								".venv",
 								"logs",
-								'data', "outputs" },
+								'data',
+							}
 						},
 					},
 				},
