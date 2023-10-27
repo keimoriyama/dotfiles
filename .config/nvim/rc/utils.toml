@@ -1,11 +1,228 @@
 [[plugins]]
 repo="windwp/nvim-autopairs"
-# on_lua='''
-# local status, autopairs = pcall(require, "nvim-autopairs")
-# if not status then
-# 	return
-# end
-# autopairs.setup({
-# disable_filetype = { "TelescopePrompt", "vim" },
-# })
-# '''
+on_lua='''
+local status, autopairs = pcall(require, "nvim-autopairs")
+if not status then
+	return
+end
+autopairs.setup({
+disable_filetype = { "TelescopePrompt", "vim" },
+})
+'''
+
+[[pluging]]
+repo = "norcalli/nvim-colorizer.lua"
+on_lua='''
+local status, colorizer = pcall(require, "colorizer")
+if not status then
+	return
+end
+
+vim.opt.termguicolors = true
+colorizer.setup({
+	"*",
+})
+'''
+
+[[plugins]]
+repo="numToStr/Comment.nvim"
+on_lua='''
+local status, comment = pcall(require, "Comment")
+if not status then
+	return
+end
+
+comment.setup({
+	---LHS of toggle mappings in NORMAL mode
+	---@type table
+	toggler = {
+		---Line-comment toggle keymap
+		line = "col",
+		---Block-comment toggle keymap
+		block = "cob",
+	},
+})
+'''
+
+[[plugins]]
+repo="Decodetalkers/csv-tools.lua"
+		# ft = {
+		# 	"csv",
+		# },
+on_lua='''
+local status, csvtools = pcall(require, "csvtools")
+if not status then
+	return
+end
+
+csvtools.setup({
+	before = 10,
+	after = 10,
+	clearafter = true,
+	-- this will clear the highlight of buf after move
+	showoverflow = false,
+	-- this will provide a overflow show
+	titelflow = true,
+	-- add an alone title
+})
+'''
+
+[[plugins]]
+repo="lukas-reineke/indent-blankline.nvim"
+on_lua='''
+require('ibl').setup({})
+'''
+
+[[plugins]]
+repo="nvim-lualine/lualine.nvim"
+on_lua='''
+local status, lualine = pcall(require, "lualine")
+if not status then
+	return
+end
+
+lualine.setup({
+	options = {
+		icons_enabled = true,
+		theme = "auto",
+		section_separators = { left = "", right = "" },
+		component_separators = { left = "", right = "" },
+		disabled_filetypes = {},
+	},
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch" },
+		lualine_c = {
+			{},
+		},
+		lualine_x = {
+			{
+				"diagnostics",
+				sources = { "nvim_diagnostic" },
+				symbols = {
+					error = " ",
+					warn = " ",
+					info = " ",
+					hint = " ",
+				},
+			},
+			"encoding",
+			"filetype",
+		},
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
+	inactive_sections = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = {
+			{
+				"filename",
+				file_status = true, -- displays file status (readonly status, modified status)
+				path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
+			},
+		},
+		lualine_x = { "location" },
+		lualine_y = {},
+		lualine_z = {},
+	},
+	tabline = {},
+})
+'''
+
+[[plugins]]
+repo="nvim-treesitter/nvim-treesitter"
+on_lua='''
+local status, ts = pcall(require, "nvim-treesitter.configs")
+if not status then
+	return
+end
+
+ts.setup({
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = { "markdown" },
+	},
+	indent = { enable = false, disable = { "python" } },
+	ensure_installed = {
+		"tsx",
+		"toml",
+		"gitignore",
+		"json",
+		"yaml",
+		"css",
+		"html",
+		"lua",
+		"python",
+		"cpp",
+		"bash",
+		"markdown",
+		"markdown_inline",
+		"latex",
+	},
+	autotag = { enable = true },
+	yati = { enable = true, indent = { enable = false } },
+	update_strategy = "lockfile",
+})
+
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+end
+'''
+
+# auto pair and tag close
+[[plugins]]
+repo="windwp/nvim-ts-autotag"
+	# event = "InsertEnter",
+# surround
+[[plugins]]
+repo="kylechui/nvim-surround"
+on_lua='''
+require("nvim-surround").setup()
+'''
+# auto comment out
+[[plugins]]
+repo="luochen1990/rainbow"
+on_lua='''
+vim.g.rainbow_active = 1
+'''
+# dot repeat
+[[plugins]]
+repo="tpope/vim-repeat"
+# utility
+repo="nvim-lua/plenary.nvim"
+repo="nvim-lua/popup.nvim"
+# buffer sizer
+repo="simeji/winresizer"
+# show diff from recover file
+repo="chrisbra/Recover.vim"
+repo="jghauser/mkdir.nvim"
+# keep lastest cursor position
+[[plugins]]
+repo="ethanholz/nvim-lastplace"
+on_lua='''
+require("nvim-lastplace").setup()
+'''
+
+[[plugins]]
+repo="folke/todo-comments.nvim"
+on_lua='''
+local status, todocomments = pcall(require, "todo-comments")
+if not status then
+	return
+end
+
+todocomments.setup({})
+local opts = { noremap = true, silent = true }
+vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
+'''
+[[plugins]]
+repo="kana/vim-smartword"
+on_lua='''
+vim.keymap.set("n", "w", "<Plug>(smartword-w)")
+vim.keymap.set("n", "b", "<Plug>(smartword-b)")
+vim.keymap.set("n", "e", "<Plug>(smartword-e)")
+'''
+[[plugins]]
+repo="LeafCage/vimhelpgenerator"
+
