@@ -51,3 +51,16 @@ vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
 end
+
+vim.api.nvim_create_user_command(
+	"DppMakeState",
+	function()
+		vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/denops/dpp_config.ts")
+	end,
+	{}
+)
+vim.cmd([[
+" command DppMakeState :call dpp#make_state(s:dpp_base, '$DPP_CONFIG_BASE/config.ts')
+command DppInstall :call dpp#async_ext_action('installer', 'install')
+command DppUpdate :call dpp#async_ext_action('installer', 'update')
+]])
