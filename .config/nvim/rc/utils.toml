@@ -216,6 +216,7 @@ todocomments.setup({})
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
 '''
+
 [[plugins]]
 repo="kana/vim-smartword"
 on_lua='''
@@ -223,6 +224,50 @@ vim.keymap.set("n", "w", "<Plug>(smartword-w)")
 vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 '''
+
 [[plugins]]
 repo="LeafCage/vimhelpgenerator"
 
+[[plugins]]
+repo="akinsho/nvim-bufferline.lua"
+on_lua = '''
+local status, bufferline = pcall(require, "bufferline")
+if not status then
+	return
+end
+
+bufferline.setup({
+	options = {
+		mode = "buffers",
+		separator_style = "slant",
+		always_show_bufferline = true,
+		show_buffer_close_icons = false,
+		show_close_icon = false,
+		color_icons = true,
+	},
+	highlights = {
+		separator = {
+			fg = "#073642",
+			bg = "#002b36",
+		},
+		separator_selected = {
+			fg = "#073642",
+		},
+		background = {
+			fg = "#657b83",
+			bg = "#002b36",
+		},
+		buffer_selected = {
+			fg = "#fdf6e3",
+			bold = true,
+			italic = false,
+		},
+		fill = {
+			bg = "#073642",
+		},
+	},
+})
+
+vim.keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", {})
+vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
+'''

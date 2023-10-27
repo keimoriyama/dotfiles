@@ -47,12 +47,14 @@ if vim.fn["dpp#min#load_state"](dpp_base) then
 	})
 end
 
-vim.api.nvim_create_autocmd("User", {
-	pattern = "Dpp:makeStatePost",
-	callback = function()
-		vim.cmd("source ~/.cache/dpp/nvim/state.vim")
-	end
-})
+--vim.api.nvim_create_autocmd("User", {
+	--pattern = "Dpp:makeStatePost",
+	--callback = function()
+		--vim.cmd([[
+		--source ~/.cache/dpp/nvim/state.vim
+		--]])
+	--end
+--})
 vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
@@ -65,8 +67,24 @@ vim.api.nvim_create_user_command(
 	end,
 	{}
 )
-vim.cmd([[
-command DppInstall :call dpp#async_ext_action('installer', 'install')
-command DppUpdate :call dpp#async_ext_action('installer', 'update')
-command DppSource :call dpp#source()
-]])
+vim.api.nvim_create_user_command(
+"DppInstall",
+function()
+	vim.fn["dpp#async_ext_action"]('installer','install')
+end,
+{}
+)
+vim.api.nvim_create_user_command(
+"DppUpdate",
+function()
+	vim.fn["dpp#async_ext_action"]('installer','update')
+end,
+{}
+)
+vim.api.nvim_create_user_command(
+"DppSource",
+function()
+	vim.fn["dpp#source"]()
+end,
+{}
+)

@@ -1,0 +1,189 @@
+[[plugins]]
+repo="Shougo/ddc.vim"
+		# -- event = { 'InsertEnter', "CmdlineEnter" },
+		# dependencies = {
+		# 	'vim-denops/denops.vim',
+		# 	-- "keimoriyama/dps_obdisian",
+		# },
+		# init = function()
+		# 	vim.opt.rtp:prepend("~/Program/dps_obsidian")
+		# end,
+on_lua='''
+local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+require("lspconfig").denols.setup({
+	capabilities = capabilities,
+})
+
+require("ddc_nvim_lsp_setup").setup()
+
+-- Use around source.
+vim.fn["ddc#custom#patch_global"]({
+	ui = "pum",
+	sources = {
+		"nvim-lsp",
+		"file",
+		'copilot',
+		"nvim-lua",
+		"buffer",
+		"around",
+		'obsidian',
+		'obsidian_new'
+	},
+	autoCompleteEvents = {
+		"InsertEnter",
+		"TextChangedI",
+		"TextChangedP",
+		"CmdlineEnter",
+		"CmdlineChanged",
+		"TextChangedT",
+	},
+	cmdlineSources = {
+		[":"] = { "cmdline", "cmdline-history", "around" },
+	},
+	sourceOptions = {
+		["_"] = {
+			matchers = { "matcher_head", "matcher_fuzzy" },
+			sorters = { "sorter_rank" },
+			converters = { "converter_fuzzy", "converter_remove_overlap", "converter_truncate_abbr" },
+			minAutoCompleteLength = 1,
+		},
+		around = { mark = "[around]" },
+		file = { mark = "[file]", isVolatile = true, forceCompletionPattern = [['\S/\S*']] },
+		cmdline = { mark = "[cmdline]" },
+		buffer = { mark = "[buffer]" },
+		["nvim-lsp"] = {
+			mark = "[lsp]",
+			-- forceCompletionPattern = [['\.\w*|:\w*|->\w*']],
+			keywordPattern = "\\k*",
+			dup = "force",
+		},
+		["nvim-lua"] = { mark = "[lua]", forceCompletionPattern = "." },
+		vsnip = { mark = "[vsnip]" },
+		copilot = { mark = "[copilot]", minAutoCompleteLength = 1, isVolatile = true },
+		["cmdline-history"] = { mark = "[cmdline-history]" },
+		obsidian = {
+			mark = "[obsidian]",
+			keywordPattern = [[\[\[.*?]]
+		},
+		obsidian_new = {
+			mark = "[obsidian+]",
+			keywordPattern = [[\[\[.*?]]
+		},
+	},
+	sourceParams = {
+		buffer = { requireSameFiletype = false, forceCollect = true },
+		["nvim-lsp"] = {
+			enableResolveItem = true,
+			enableAdditionalTextEdit = true,
+			confirmBehavior = "insert",
+			snippetEngine = vim.fn["denops#callback#register"](function(body)
+				return vim.fn["vsnip#anonymous"](body)
+			end),
+		},
+	},
+})
+-- path completion
+vim.fn["ddc#custom#patch_filetype"]({ "ps1", "dosbatch", "autohotkey", "registry" }, {
+	sourceOptions = {
+		file = {
+			forceCompletionPattern = [['\S\\\S*']],
+			minAutoCompleteLength = 1,
+		},
+	},
+	sourceParams = {
+		file = {
+			mode = [[win32]],
+		},
+	},
+})
+vim.g.signature_help_config = {
+	contentsStyle = "currentLabel",
+	viewStyle = "floating",
+}
+-- -- Use ddc
+vim.fn["ddc#enable"]()
+require("ddc_previewer_floating").enable()
+'''
+
+[[plugins]]
+repo="Shougo/pum.vim"
+on_lua='''
+vim.fn["pum#set_option"]({
+	item_orders = { "abbr", "space", "kind", "space", "menu" },
+	highlight_selected = "CursorLine",
+	horizontal_menu = false,
+	offset_cmdcol = 0,
+	padding = false,
+	use_complete = true,
+	use_setline = false,
+})
+vim.keymap.set({ "i", "c" }, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>")
+vim.keymap.set({ "i", "c" }, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
+vim.keymap.set("i", "<C-y>", "<cmd>call pum#map#confirm()<cr>")
+vim.keymap.set("i", "<C-e>", "<cmd>call pum#map#cancel()<cr>")
+-- コマンドライン補完の設定
+-- CommandlinePost()とCommandlinePre()のキーマップは必ず揃える
+vim.cmd([[
+nnoremap :       <Cmd>call CommandlinePre()<CR>:
+function! CommandlinePre() abort
+	cnoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
+	cnoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
+	cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+	cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+	autocmd User DDCCmdlineLeave ++once call CommandlinePost()
+	" Enable command line completion for the buffer
+	call ddc#enable_cmdline_completion()
+endfunction
+function! CommandlinePost() abort
+	silent! cunmap <C-n>
+	silent! cunmap <C-p>
+	silent! cunmap <C-y>
+	silent! cunmap <C-e>
+endfunction
+]])
+'''
+[[plugins]]
+repo="zbirenbaum/copilot.lua"
+# event = 'InsertEnter'
+on_lua='''
+require("copilot").setup({
+	panel = {
+		enabled = false
+	},
+	suggestion = {
+		enabled = true,
+		auto_trigger = true,
+		keymap = {
+			accept = "<C-j>",
+
+		}
+	}
+})
+vim.keymap.set("i", "<C-c><C-t>", "<cmd>Copilot toggle<cr>")
+'''
+
+[[plugins]]
+repo="Shougo/ddc-nvim-lsp"
+repo="Shougo/ddc-around"
+repo="LumaKernel/ddc-file"
+repo="matsui54/ddc-buffer"
+repo="Shougo/ddc-source-cmdline"
+repo="Shougo/ddc-source-cmdline-history"
+repo="Shougo/ddc-source-nvim-lsp"
+repo="Shougo/ddc-source-copilot"
+repo="uga-rosa/ddc-source-nvim-lua"
+repo="uga-rosa/ddc-source-vsnip"
+repo="LumaKernel/ddc-source-file"
+repo="Shougo/ddc-sorter_rank"
+repo="Shougo/ddc-ui-pum"
+repo="Shougo/ddc-ui-native"
+repo="Shougo/ddc-converter_remove_overlap"
+repo="tani/ddc-fuzzy"
+repo="Shougo/ddc-matcher_head"
+repo="tani/ddc-path"
+repo="uga-rosa/ddc-nvim-lsp-setup"
+repo="Shougo/ddc-filter-converter_truncate_abbr"
+repo="lambdalisue/guise.vim"
+repo="uga-rosa/ddc-previewer-floating"
+
