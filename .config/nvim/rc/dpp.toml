@@ -8,10 +8,10 @@ on_source = 'dpp.vim'
 [[plugins]]
 repo = 'Shougo/dpp-ext-toml'
 on_source = 'dpp.vim'
-hook_add = '''
-" Enable dpp toml syntax.
-autocmd MyAutoCmd CursorHold */rc/*.toml call dpp#ext#toml#syntax()
-'''
+# hook_add = '''
+# " Enable dpp toml syntax.
+# autocmd MyAutoCmd CursorHold */rc/*.toml call dpp#ext#toml#syntax()
+# '''
 
 [[plugins]]
 repo = 'Shougo/dpp-ext-local'
