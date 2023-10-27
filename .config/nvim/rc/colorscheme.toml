@@ -4,8 +4,8 @@ hook_add='''
 colorscheme tokyonight
 '''
 
-# [[plugins]]
-# repo = "ellisonleao/gruvbox.nvim"
+[[plugins]]
+repo = "ellisonleao/gruvbox.nvim"
 # hook_add='''
 # colorscheme gruvbox
 # '''

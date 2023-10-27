@@ -47,6 +47,12 @@ if vim.fn["dpp#min#load_state"](dpp_base) then
 	})
 end
 
+vim.api.nvim_create_autocmd("User", {
+	pattern = "Dpp:makeStatePost",
+	callback = function()
+		vim.cmd("source ~/.cache/dpp/nvim/state.vim")
+	end
+})
 vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
@@ -60,7 +66,7 @@ vim.api.nvim_create_user_command(
 	{}
 )
 vim.cmd([[
-" command DppMakeState :call dpp#make_state(s:dpp_base, '$DPP_CONFIG_BASE/config.ts')
 command DppInstall :call dpp#async_ext_action('installer', 'install')
 command DppUpdate :call dpp#async_ext_action('installer', 'update')
+command DppSource :call dpp#source()
 ]])

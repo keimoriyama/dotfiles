@@ -5,6 +5,7 @@ import {
   Plugin,
 } from "https://deno.land/x/dpp_vim@v0.0.3/types.ts";
 import { Denops, fn } from "https://deno.land/x/dpp_vim@v0.0.3/deps.ts";
+import { walk } from "https://deno.land/std@0.204.0/fs/mod.ts";
 
 type Toml = {
   hooks_file?: string;
@@ -25,8 +26,8 @@ export class Config extends BaseConfig {
     const [context, options] = await args.contextBuilder.get(args.denops);
 
     const tomls: Toml[] = [];
-    const base_dir = "~/.config/nvim/rc";
-    const files = ["dpp.toml", "colorscheme.toml"];
+    const files = ["dpp.toml", "colorscheme.toml", "utils.toml"];
+    const base_dir = "~/.config/nvim/rc/";
     for (const file of files) {
       tomls.push(
         await args.dpp.extAction(
@@ -36,7 +37,7 @@ export class Config extends BaseConfig {
           "toml",
           "load",
           {
-            path: base_dir + "/" + file,
+            path: base_dir + file,
             options: {
               lazy: false,
             },
@@ -75,7 +76,6 @@ export class Config extends BaseConfig {
         plugins: Object.values(recordPlugins),
       },
     ) as LazyMakeStateResult;
-
     return {
       ftplugins,
       hooksFiles,
