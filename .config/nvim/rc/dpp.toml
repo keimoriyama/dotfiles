@@ -1,5 +1,8 @@
 [[plugins]]
 repo = 'vim-denops/denops.vim'
+hook_source='''
+let g:denops#debug=1
+'''
 
 [[plugins]]
 repo = 'Shougo/dpp.vim'
