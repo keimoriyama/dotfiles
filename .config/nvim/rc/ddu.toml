@@ -1,6 +1,7 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-on_lua='''
+depends='vim-denops/denops.vim'
+lua_source='''
 local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
@@ -104,203 +105,246 @@ local function keymaps()
 	]])
 end
 
-	vim.fn["ddu#custom#patch_global"]({
-		ui = "ff",
-		sources = {
-			{
-				name = "file_rec",
-				params = {
-					ignoredDirectories = { ".git",
-						"node_modules",
-						"vendor",
-						".mypy_cache",
-						".hydra",
-						'mlruns',
-						".venv",
-						"logs",
-						'data',
-					}
-				},
+vim.fn["ddu#custom#patch_global"]({
+	ui = "ff",
+	sources = {
+		{
+			name = "file_rec",
+			params = {
+				ignoredDirectories = { ".git",
+					"node_modules",
+					"vendor",
+					".mypy_cache",
+					".hydra",
+					'mlruns',
+					".venv",
+					"logs",
+					'data',
+				}
 			},
 		},
-		sourceOptions = {
-			_ = {
-				matchers = { "matcher_substring" },
-				sorters = { "sorter_alpha" },
-			},
-			file_rec = {
-				matchers = { "matcher_substring" },
-				converters = { "converter_devicon" },
-			},
+	},
+	sourceOptions = {
+		_ = {
+			matchers = { "matcher_substring" },
+			sorters = { "sorter_alpha" },
 		},
-		sourceParams = {
-			rg = {
-				args = { "--column", "--no-heading", "--color", "never" },
-			},
+		file_rec = {
+			matchers = { "matcher_substring" },
+			converters = { "converter_devicon" },
 		},
-		filterParams = {
-			matcher_substring = {
-				highlightMatched = "Title",
-			},
-			matcher_fzf = {
-				highlightMatched = "Search",
-			},
+	},
+	sourceParams = {
+		rg = {
+			args = { "--column", "--no-heading", "--color", "never" },
 		},
-		kindOptions = {
-			file = {
-				defaultAction = "open",
-			},
-			help = {
-				defaultAction = "open",
-			},
-			rg = {
-				defaultAction = "open",
-			},
-			lsp = {
-				defaultAction = "open",
-			},
+	},
+	filterParams = {
+		matcher_substring = {
+			highlightMatched = "Title",
 		},
-		uiParams = {
-			ff = {
-				-- startFilter = true,
-				AutoAction = {
-					name = "preview",
-				},
-				split = "floating",
-				prompt = "> ",
-				floatingBorder = "rounded",
-				floatingTitle = "Ddu ff",
-				floatingTitlePos = "center",
-				highlights = {
-					floating = "Normal",
-					floatingBorder = "Normal",
-				},
-				filterFloatingPosition = "bottom",
-				previewFloating = true,
-				previewSplit = "vertical",
-				previewFloatingBorder = "rounded",
-				previewFloatingTitle = "preview",
-				previewFloatingTitlePos = "center",
-			},
+		matcher_fzf = {
+			highlightMatched = "Search",
 		},
-	})
+	},
+	kindOptions = {
+		file = {
+			defaultAction = "open",
+		},
+		help = {
+			defaultAction = "open",
+		},
+		rg = {
+			defaultAction = "open",
+		},
+		lsp = {
+			defaultAction = "open",
+		},
+	},
+	uiParams = {
+		ff = {
+			-- startFilter = true,
+			AutoAction = {
+				name = "preview",
+			},
+			split = "floating",
+			prompt = "> ",
+			floatingBorder = "rounded",
+			floatingTitle = "Ddu ff",
+			floatingTitlePos = "center",
+			highlights = {
+				floating = "Normal",
+				floatingBorder = "Normal",
+			},
+			filterFloatingPosition = "bottom",
+			previewFloating = true,
+			previewSplit = "vertical",
+			previewFloatingBorder = "rounded",
+			previewFloatingTitle = "preview",
+			previewFloatingTitlePos = "center",
+		},
+	},
+})
 
-	vim.api.nvim_create_autocmd("VimResized", { callback = resize })
-	-- キーマッピングの設定
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = "ddu-ff",
-		callback = function()
-			local opt = { buffer = true, silent = true }
-			vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name": "open"})<CR>', opt)
-			vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
-			vim.keymap.set("n", "i", '<cmd>call ddu#ui#do_action("openFilterWindow")<CR>', opt)
-			vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
-			vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
-			vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
-		end,
-	})
+vim.api.nvim_create_autocmd("VimResized", { callback = resize })
+-- キーマッピングの設定
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "ddu-ff",
+	callback = function()
+		local opt = { buffer = true, silent = true }
+		vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name": "open"})<CR>', opt)
+		vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
+		vim.keymap.set("n", "i", '<cmd>call ddu#ui#do_action("openFilterWindow")<CR>', opt)
+		vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
+		vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
+		vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
+	end,
+})
 
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = "ddu-ff-filter",
-		callback = function()
-			local opt = { buffer = true, silent = true }
-			vim.keymap.set("i", "<CR>", "<esc><cmd>close<CR>", opt)
-			vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
-			vim.keymap.set("n", "q", '<cmd>close<CR><cmd>call ddu#ui#do_action("quit")<CR>', opt)
-			vim.keymap.set("i", "<C-j>", '<cmd>call ddu#ui#do_action("cursorNext")', opt)
-			vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
-		end,
-	})
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "ddu-ff-filter",
+	callback = function()
+		local opt = { buffer = true, silent = true }
+		vim.keymap.set("i", "<CR>", "<esc><cmd>close<CR>", opt)
+		vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
+		vim.keymap.set("n", "q", '<cmd>close<CR><cmd>call ddu#ui#do_action("quit")<CR>', opt)
+		vim.keymap.set("i", "<C-j>", '<cmd>call ddu#ui#do_action("cursorNext")', opt)
+		vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
+	end,
+})
 
-	resize()
-	local opt = { noremap = true, silent = true }
-	-- ff
-	vim.keymap.set("n", "<Leader>ff", "<cmd>call ddu#start()<CR>", opt)
-	-- helper ff
-	vim.keymap.set("n", "<leader>h", "<cmd>call ddu#start({'sources': [{'name':'help'}]})<cr>", opt)
-	-- ripgrep
-	vim.keymap.set("n", "<leader>fr", ddu_rg_live, opt)
-	-- definition
-	vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
-	-- show reference of the values
-	-- lsp related configs(maybe moving to the mason.lua?)
-	vim.keymap.set("n", "<leader>sr", ddu_lsp_references, opt)
-	vim.keymap.set("n", "<leader>ds", ddu_lsp_documentSymbol, opt)
-	vim.keymap.set("n", "<leader>ic", ddu_lsp_incoming_hierarchy, opt)
-	vim.keymap.set("n", "<leader>oc", ddu_lsp_outgoing_hierarchy, opt)
+resize()
+local opt = { noremap = true, silent = true }
+-- ff
+vim.keymap.set("n", "<Leader>ff", "<cmd>call ddu#start()<CR>", opt)
+-- helper ff
+vim.keymap.set("n", "<leader>h", "<cmd>call ddu#start({'sources': [{'name':'help'}]})<cr>", opt)
+-- ripgrep
+vim.keymap.set("n", "<leader>fr", ddu_rg_live, opt)
+-- definition
+vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
+-- show reference of the values
+-- lsp related configs(maybe moving to the mason.lua?)
+vim.keymap.set("n", "<leader>sr", ddu_lsp_references, opt)
+vim.keymap.set("n", "<leader>ds", ddu_lsp_documentSymbol, opt)
+vim.keymap.set("n", "<leader>ic", ddu_lsp_incoming_hierarchy, opt)
+vim.keymap.set("n", "<leader>oc", ddu_lsp_outgoing_hierarchy, opt)
 
-	vim.keymap.set("n", "<leader>k", keymaps, opt)
+vim.keymap.set("n", "<leader>k", keymaps, opt)
 
-	vim.fn["ddu#custom#patch_local"]("filer", {
-		ui = "filer",
-		sources = {
-			{ name = "file", params = {} },
+vim.fn["ddu#custom#patch_local"]("filer", {
+	ui = "filer",
+	sources = {
+		{ name = "file", params = {} },
+	},
+	sourceOptions = {
+		_ = {
+			columns = { "icon_filename" },
+			sorters = { "sorter_alpha" },
 		},
-		sourceOptions = {
-			_ = {
-				columns = { "icon_filename" },
-				sorters = { "sorter_alpha" },
-			},
+	},
+	kindOptions = {
+		file = {
+			defaultAction = "open",
 		},
-		kindOptions = {
-			file = {
-				defaultAction = "open",
-			},
+	},
+	uiParams = {
+		filer = {
+			split = "floating",
+			floatingBorder = "rounded",
+			floatingTitle = "filer",
+			floatingTitlePos = "center",
+			winRow = vim.o.lines / 2 - 15,
+			winHeight = 25,
 		},
-		uiParams = {
-			filer = {
-				split = "floating",
-				floatingBorder = "rounded",
-				floatingTitle = "filer",
-				floatingTitlePos = "center",
-				winRow = vim.o.lines / 2 - 15,
-				winHeight = 25,
-			},
-		},
-	})
+	},
+})
 
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = "ddu-filer",
-		callback = function()
-			local opt = { buffer = true, silent = true }
-			vim.keymap.set(
-				"n",
-				"<CR>",
-				'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"tabnew"}})<CR>',
-				opt
-			)
-			vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
-			vim.keymap.set("n", "o", '<cmd>call ddu#ui#do_action("expandItem", {"mode": "toggle"})<CR>', opt)
-			vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
-			vim.keymap.set("n", "N", '<cmd>call ddu#ui#do_action("itemAction", {"name": "newFile"})<cr>', opt)
-			-- vim.keymap.set("n", "N",
-			-- '<cmd>call ddu#ui#multi_actions([["itemAction", {"name": "newFile"}], ["itemAction", {"name":"open", "params":{"command": "tabnew"}}])<cr>',
-			-- opt)
-			vim.keymap.set("n", "d", '<cmd>call ddu#ui#do_action("itemAction", {"name": "delete"})<cr>', opt)
-			vim.keymap.set("n", "r", '<cmd>call ddu#ui#do_action("itemAction", {"name": "rename"})<cr>', opt)
-			vim.keymap.set("n", "y", '<cmd>call ddu#ui#do_action("itemAction", {"name": "yank"})<cr>', opt)
-			vim.keymap.set("n", "c", '<cmd>call ddu#ui#do_action("itemAction", {"name": "copy"})<cr>', opt)
-			vim.keymap.set("n", "p", '<cmd>call ddu#ui#do_action("itemAction", {"name": "paste"})<cr>', opt)
-		end,
-	})
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "ddu-filer",
+	callback = function()
+		local opt = { buffer = true, silent = true }
+		vim.keymap.set(
+			"n",
+			"<CR>",
+			'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"tabnew"}})<CR>',
+			opt
+		)
+		vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
+		vim.keymap.set("n", "o", '<cmd>call ddu#ui#do_action("expandItem", {"mode": "toggle"})<CR>', opt)
+		vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
+		vim.keymap.set("n", "N", '<cmd>call ddu#ui#do_action("itemAction", {"name": "newFile"})<cr>', opt)
+		-- vim.keymap.set("n", "N",
+		-- '<cmd>call ddu#ui#multi_actions([["itemAction", {"name": "newFile"}], ["itemAction", {"name":"open", "params":{"command": "tabnew"}}])<cr>',
+		-- opt)
+		vim.keymap.set("n", "d", '<cmd>call ddu#ui#do_action("itemAction", {"name": "delete"})<cr>', opt)
+		vim.keymap.set("n", "r", '<cmd>call ddu#ui#do_action("itemAction", {"name": "rename"})<cr>', opt)
+		vim.keymap.set("n", "y", '<cmd>call ddu#ui#do_action("itemAction", {"name": "yank"})<cr>', opt)
+		vim.keymap.set("n", "c", '<cmd>call ddu#ui#do_action("itemAction", {"name": "copy"})<cr>', opt)
+		vim.keymap.set("n", "p", '<cmd>call ddu#ui#do_action("itemAction", {"name": "paste"})<cr>', opt)
+	end,
+})
 
-	vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>',
-		{ noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>',
+	{ noremap = true, silent = true })
 '''
 
 [[plugins]]
 repo="Shougo/ddu-kind-file"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-ui-filer"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-ui-ff"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="uga-rosa/ddu-source-lsp"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-source-file"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="matsui54/ddu-source-help"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-source-file_rec"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-source-action"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="shun/ddu-source-rg"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-column-filename"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="ryota2357/ddu-column-icon_filename"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-filter-matcher_substring"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="Shougo/ddu-filter-sorter_alpha"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="yuki-yano/ddu-filter-fzf"
+on_source="Shougo/ddu.vim"
+
+[[plugins]]
 repo="uga-rosa/ddu-filter-converter_devicon"
+on_source="Shougo/ddu.vim"

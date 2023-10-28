@@ -1,6 +1,6 @@
 [[plugins]]
 repo="lewis6991/gitsigns.nvim"
-on_lua='''
+lua_source='''
 	local status, gitsings = pcall(require, "gitsings")
 	if not status then
 		return
@@ -11,7 +11,7 @@ on_lua='''
 
 [[plugins]]
 repo="akinsho/git-conflict.nvim"
-on_lua='''
+lua_source='''
 local status, gitconflict = pcall(requre, "git-conflict")
 if not status then
 	return
@@ -22,6 +22,6 @@ gitconflict.setup()
 
 [[plugins]]
 repo="airblade/vim-gitgutter"
-on_lua='''
+on_source='''
 vim.g.gitgutter_map_keys = 0
 '''

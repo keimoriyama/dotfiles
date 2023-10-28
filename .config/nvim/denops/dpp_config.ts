@@ -75,6 +75,31 @@ export class Config extends BaseConfig {
         hooksFiles.push(toml.hooks_file);
       }
     }
+	const localPlugins = await args.dpp.extAction(
+		args.denops,
+		context,
+		options,
+		"local",
+		"local",
+		{
+			directory: "~/Program/dps_obsidian",
+			options: {
+				forzen:true,
+				merged:false
+			}
+		}
+	) as Plugin[];
+
+	for (const plugin of localPlugins){
+		if (plugin.name in recordPlugins){
+			recordPlugins[plugin.name] = Object.assign(
+				recordPlugins[plugin.name],
+				plugin
+			)
+		}else{
+			recordPlugins[plugin.name]= plugin;
+		}
+	}
     const lazyResult = await args.dpp.extAction(
       args.denops,
       context,

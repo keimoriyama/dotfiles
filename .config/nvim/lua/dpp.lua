@@ -27,8 +27,8 @@ local plugins = {
 	'Shougo/dpp-ext-toml',
 	"Shougo/dpp-ext-lazy",
 	'Shougo/dpp-ext-installer',
-	"Shougo/dpp-ext-lazy",
 	'Shougo/dpp-protocol-git',
+	"Shougo/dpp-ext-local",
 }
 for _, plugin in ipairs(plugins) do
 	InitPlugin(plugin)

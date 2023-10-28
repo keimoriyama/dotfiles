@@ -23,3 +23,8 @@ on_source = 'dpp.vim'
 [[plugins]]
 repo = 'Shougo/dpp-protocol-git'
 on_source = 'dpp.vim'
+
+[[plugins]]
+repo="Shougo/dpp-ext-local"
+on_source='dpp.vim'
+

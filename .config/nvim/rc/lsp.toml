@@ -1,6 +1,13 @@
 [[plugins]]
+repo="neovim/nvim-lspconfig"
+
+[[repo]]
+repo="williamboman/mason-lspconfig.nvim"
+
+[[plugins]]
 repo="williamboman/mason.nvim"
-on_lua='''
+on_source=["neovim/nvim-lspconfig", "williamboman/mason-lspconfig.nvim"]
+lua_source='''
 ---@diagnostic disable: redefined-local
 local status, mason = pcall(require, "mason")
 local nvim_lsp = require("lspconfig")
@@ -156,7 +163,7 @@ repo="nvimtools/none-ls.nvim"
 # 	"vim-test/vim-test",
 # 	"neovim/nvim-lspconfig",
 # },
-on_lua = '''
+lua_source= '''
 local status, null_ls = pcall(require, "null-ls")
 if not status then
 	return
@@ -208,4 +215,57 @@ for _, package in ipairs(mason_registry.get_installed_packages()) do
 end
 
 null_ls.setup({ debug = false, sources = null_sources, on_attach = on_attach })
+'''
+
+[[plugins]]
+repo="onsails/lspkind-nvim"
+lua_source='''
+	local status, lspkind = pcall(require, "lspkind")
+	if not status then
+		return
+	end
+
+	lspkind.init({
+		-- enables text annotations
+		--
+		-- default: true
+		mode = "symbol_text",
+		-- default symbol map
+		-- can be either 'default' (requires nerd-fonts font) or
+		-- 'codicons' for codicon preset (requires vscode-codicons font)
+		--
+		-- default: 'default'
+		preset = "codicons",
+		-- override preset symbols
+		--
+		-- default: {}
+		symbol_map = {
+			Text = "",
+			Method = "",
+			Function = "",
+			Constructor = "",
+			Field = "ﰠ",
+			Variable = "",
+			Class = "ﴯ",
+			Interface = "",
+			Module = "",
+			Property = "ﰠ",
+			Unit = "塞",
+			Value = "",
+			Enum = "",
+			Keyword = "",
+			Snippet = "",
+			Color = "",
+			File = "",
+			Reference = "",
+			Folder = "",
+			EnumMember = "",
+			Constant = "",
+			Struct = "פּ",
+			Event = "",
+			Operator = "",
+			TypeParameter = "",
+			Copilot = "",
+		},
+	})
 '''

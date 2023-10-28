@@ -1,6 +1,6 @@
 [[plugins]]
 repo="windwp/nvim-autopairs"
-on_lua='''
+lua_add='''
 local status, autopairs = pcall(require, "nvim-autopairs")
 if not status then
 	return
@@ -12,7 +12,7 @@ disable_filetype = { "TelescopePrompt", "vim" },
 
 [[pluging]]
 repo = "norcalli/nvim-colorizer.lua"
-on_lua='''
+lua_add='''
 local status, colorizer = pcall(require, "colorizer")
 if not status then
 	return
@@ -26,7 +26,7 @@ colorizer.setup({
 
 [[plugins]]
 repo="numToStr/Comment.nvim"
-on_lua='''
+lua_add='''
 local status, comment = pcall(require, "Comment")
 if not status then
 	return
@@ -49,7 +49,7 @@ repo="Decodetalkers/csv-tools.lua"
 		# ft = {
 		# 	"csv",
 		# },
-on_lua='''
+lua_add='''
 local status, csvtools = pcall(require, "csvtools")
 if not status then
 	return
@@ -69,13 +69,13 @@ csvtools.setup({
 
 [[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
-on_lua='''
+lua_add='''
 require('ibl').setup({})
 '''
 
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
-on_lua='''
+lua_add='''
 local status, lualine = pcall(require, "lualine")
 if not status then
 	return
@@ -132,7 +132,7 @@ lualine.setup({
 
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter"
-on_lua='''
+lua_add='''
 local status, ts = pcall(require, "nvim-treesitter.configs")
 if not status then
 	return
@@ -143,7 +143,7 @@ ts.setup({
 		enable = true,
 		additional_vim_regex_highlighting = { "markdown" },
 	},
-	indent = { enable = false, disable = { "python" } },
+	indent = { enable = false, disable = { "python" }, 
 	ensure_installed = {
 		"tsx",
 		"toml",
@@ -177,36 +177,43 @@ repo="windwp/nvim-ts-autotag"
 # surround
 [[plugins]]
 repo="kylechui/nvim-surround"
-on_lua='''
+lua_add='''
 require("nvim-surround").setup()
 '''
 # auto comment out
 [[plugins]]
 repo="luochen1990/rainbow"
-on_lua='''
+lua_add='''
 vim.g.rainbow_active = 1
 '''
 # dot repeat
 [[plugins]]
 repo="tpope/vim-repeat"
 # utility
+[[plugins]]
 repo="nvim-lua/plenary.nvim"
+
+[[plugins]]
 repo="nvim-lua/popup.nvim"
 # buffer sizer
+[[plugins]]
 repo="simeji/winresizer"
 # show diff from recover file
+[[plugins]]
 repo="chrisbra/Recover.vim"
+
+[[plugins]]
 repo="jghauser/mkdir.nvim"
 # keep lastest cursor position
 [[plugins]]
 repo="ethanholz/nvim-lastplace"
-on_lua='''
+lua_add='''
 require("nvim-lastplace").setup()
 '''
 
 [[plugins]]
 repo="folke/todo-comments.nvim"
-on_lua='''
+lua_add='''
 local status, todocomments = pcall(require, "todo-comments")
 if not status then
 	return
@@ -219,7 +226,7 @@ vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
 
 [[plugins]]
 repo="kana/vim-smartword"
-on_lua='''
+lua_add='''
 vim.keymap.set("n", "w", "<Plug>(smartword-w)")
 vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 vim.keymap.set("n", "e", "<Plug>(smartword-e)")
@@ -230,7 +237,7 @@ repo="LeafCage/vimhelpgenerator"
 
 [[plugins]]
 repo="akinsho/nvim-bufferline.lua"
-on_lua = '''
+lua_add= '''
 local status, bufferline = pcall(require, "bufferline")
 if not status then
 	return
@@ -270,4 +277,49 @@ bufferline.setup({
 
 vim.keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", {})
 vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
+'''
+
+[[plugins]]
+repo="mattn/vim-sonictemplate"
+on_hook='''
+-- sonictemplateのキーマップの無効化
+vim.g.sonictemplate_key = 0
+vim.g.sonictemplate_intelligent_key = 0
+vim.g.sonictemplate_postfix_key = 0
+vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/template"
+'''
+
+[[plugins]]
+repo="kyazdani42/nvim-web-devicons"
+lua_add='''
+local status, icons = pcall(require, "nvim-web-devicons")
+if not status then
+	return
+end
+
+icons.setup({
+	-- your personnal icons can go here (to override)
+	-- DevIcon will be appended to `name`
+	override = {},
+	-- globally enable default icons (default to false)
+	-- will get overriden by `get_icons` option
+	default = true,
+})
+'''
+
+[[plugsins]]
+repo="hrsh7th/vim-vsnip"
+on_hook='''
+let g:vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
+let g:vsnip_choice_delay = 0
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 '''
