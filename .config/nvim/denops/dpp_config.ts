@@ -5,7 +5,6 @@ import {
   Plugin,
 } from "https://deno.land/x/dpp_vim@v0.0.3/types.ts";
 import { Denops, fn } from "https://deno.land/x/dpp_vim@v0.0.3/deps.ts";
-import { walk } from "https://deno.land/std@0.204.0/fs/mod.ts";
 
 type Toml = {
   hooks_file?: string;
@@ -37,7 +36,6 @@ export class Config extends BaseConfig {
     ];
     const base_dir = "~/.config/nvim/rc/";
     for (const file of files) {
-      // console.log(file);
       tomls.push(
         await args.dpp.extAction(
           args.denops,
@@ -75,31 +73,6 @@ export class Config extends BaseConfig {
         hooksFiles.push(toml.hooks_file);
       }
     }
-	const localPlugins = await args.dpp.extAction(
-		args.denops,
-		context,
-		options,
-		"local",
-		"local",
-		{
-			directory: "~/Program/dps_obsidian",
-			options: {
-				forzen:true,
-				merged:false
-			}
-		}
-	) as Plugin[];
-
-	for (const plugin of localPlugins){
-		if (plugin.name in recordPlugins){
-			recordPlugins[plugin.name] = Object.assign(
-				recordPlugins[plugin.name],
-				plugin
-			)
-		}else{
-			recordPlugins[plugin.name]= plugin;
-		}
-	}
     const lazyResult = await args.dpp.extAction(
       args.denops,
       context,

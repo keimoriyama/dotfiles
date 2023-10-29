@@ -1,7 +1,7 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
 depends='vim-denops/denops.vim'
-lua_source='''
+lua_source="""
 local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
@@ -287,7 +287,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>',
 	{ noremap = true, silent = true })
-'''
+"""
 
 [[plugins]]
 repo="Shougo/ddu-kind-file"

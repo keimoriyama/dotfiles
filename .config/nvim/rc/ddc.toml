@@ -105,13 +105,12 @@ vim.g.signature_help_config = {
 -- -- Use ddc
 vim.fn["ddc#enable"]()
 require("ddc_previewer_floating").enable()
-print("ddc is started")
 '''
 
 [[plugins]]
 repo="Shougo/pum.vim"
 on_souce='Shougo/ddc.vim'
-on_lua='''
+lua_source='''
 vim.fn["pum#set_option"]({
 	item_orders = { "abbr", "space", "kind", "space", "menu" },
 	highlight_selected = "CursorLine",
@@ -150,7 +149,7 @@ endfunction
 repo="zbirenbaum/copilot.lua"
 # event = 'InsertEnter'
 on_source='Shougo/ddc.vim'
-on_lua='''
+lua_source='''
 require("copilot").setup({
 	panel = {
 		enabled = false

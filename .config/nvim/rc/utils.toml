@@ -1,6 +1,6 @@
 [[plugins]]
 repo="windwp/nvim-autopairs"
-lua_add='''
+lua_source='''
 local status, autopairs = pcall(require, "nvim-autopairs")
 if not status then
 	return
@@ -12,7 +12,7 @@ disable_filetype = { "TelescopePrompt", "vim" },
 
 [[pluging]]
 repo = "norcalli/nvim-colorizer.lua"
-lua_add='''
+lua_source='''
 local status, colorizer = pcall(require, "colorizer")
 if not status then
 	return
@@ -26,7 +26,7 @@ colorizer.setup({
 
 [[plugins]]
 repo="numToStr/Comment.nvim"
-lua_add='''
+lua_source='''
 local status, comment = pcall(require, "Comment")
 if not status then
 	return
@@ -49,7 +49,7 @@ repo="Decodetalkers/csv-tools.lua"
 		# ft = {
 		# 	"csv",
 		# },
-lua_add='''
+lua_source='''
 local status, csvtools = pcall(require, "csvtools")
 if not status then
 	return
@@ -69,13 +69,13 @@ csvtools.setup({
 
 [[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
-lua_add='''
+lua_source='''
 require('ibl').setup({})
 '''
 
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
-lua_add='''
+lua_source='''
 local status, lualine = pcall(require, "lualine")
 if not status then
 	return
@@ -132,18 +132,17 @@ lualine.setup({
 
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter"
-lua_add='''
+lua_source='''
 local status, ts = pcall(require, "nvim-treesitter.configs")
 if not status then
 	return
 end
-
 ts.setup({
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = { "markdown" },
 	},
-	indent = { enable = false, disable = { "python" }, 
+	indent = { enable = false, disable = { "python" }}, 
 	ensure_installed = {
 		"tsx",
 		"toml",
@@ -167,7 +166,6 @@ ts.setup({
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
-end
 '''
 
 # auto pair and tag close
@@ -177,13 +175,13 @@ repo="windwp/nvim-ts-autotag"
 # surround
 [[plugins]]
 repo="kylechui/nvim-surround"
-lua_add='''
+lua_source='''
 require("nvim-surround").setup()
 '''
 # auto comment out
 [[plugins]]
 repo="luochen1990/rainbow"
-lua_add='''
+lua_source='''
 vim.g.rainbow_active = 1
 '''
 # dot repeat
@@ -207,13 +205,13 @@ repo="jghauser/mkdir.nvim"
 # keep lastest cursor position
 [[plugins]]
 repo="ethanholz/nvim-lastplace"
-lua_add='''
+lua_source='''
 require("nvim-lastplace").setup()
 '''
 
 [[plugins]]
 repo="folke/todo-comments.nvim"
-lua_add='''
+lua_source='''
 local status, todocomments = pcall(require, "todo-comments")
 if not status then
 	return
@@ -226,7 +224,7 @@ vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
 
 [[plugins]]
 repo="kana/vim-smartword"
-lua_add='''
+lua_source='''
 vim.keymap.set("n", "w", "<Plug>(smartword-w)")
 vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 vim.keymap.set("n", "e", "<Plug>(smartword-e)")
@@ -237,12 +235,12 @@ repo="LeafCage/vimhelpgenerator"
 
 [[plugins]]
 repo="akinsho/nvim-bufferline.lua"
-lua_add= '''
+lua_source= """
+print("Hello")
 local status, bufferline = pcall(require, "bufferline")
 if not status then
 	return
 end
-
 bufferline.setup({
 	options = {
 		mode = "buffers",
@@ -277,7 +275,7 @@ bufferline.setup({
 
 vim.keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", {})
 vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
-'''
+"""
 
 [[plugins]]
 repo="mattn/vim-sonictemplate"
@@ -291,7 +289,7 @@ vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/template"
 
 [[plugins]]
 repo="kyazdani42/nvim-web-devicons"
-lua_add='''
+lua_source='''
 local status, icons = pcall(require, "nvim-web-devicons")
 if not status then
 	return
