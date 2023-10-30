@@ -253,3 +253,15 @@ on_source="Shougo/ddc.vim"
 [[plugins]]
 repo="uga-rosa/ddc-previewer-floating"
 on_source="Shougo/ddc.vim"
+
+[[plugins]]
+repo="dps_obdisian"
+depends='vim-denops/denops.vim'
+on_source="Shougo/ddc.vim"
+lua_source="""
+vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
+vim.g.dps_obsidian_daily_note_dir = "daily"
+local opts = { noremap = true, silent = true }
+vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
+vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
+"""
