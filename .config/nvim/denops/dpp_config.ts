@@ -73,6 +73,23 @@ export class Config extends BaseConfig {
         hooksFiles.push(toml.hooks_file);
       }
     }
+	const localPlugins = await args.dpp.extAction(
+		args.denops,
+		context,
+		options,
+		'local',
+		'local',
+		{
+			directory: "~/Program/vim_plugins/",
+			options: {
+				frozen: true,
+				merged: false,
+			}
+		}
+	) as Plugin[];
+	localPlugins.forEach((plugin: Plugin) =>{
+		recordPlugins[plugin.name] = plugin;
+	})
     const lazyResult = await args.dpp.extAction(
       args.denops,
       context,

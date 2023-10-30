@@ -60,6 +60,9 @@ if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
 end
 
+vim.fn["dpp#source"]()
+
+
 vim.api.nvim_create_user_command(
 	"DppMakeState",
 	function()
