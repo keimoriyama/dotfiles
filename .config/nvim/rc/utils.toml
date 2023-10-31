@@ -236,7 +236,6 @@ repo="LeafCage/vimhelpgenerator"
 [[plugins]]
 repo="akinsho/nvim-bufferline.lua"
 lua_source= """
-print("Hello")
 local status, bufferline = pcall(require, "bufferline")
 if not status then
 	return

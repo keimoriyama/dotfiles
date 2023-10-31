@@ -34,7 +34,7 @@ local function ddu_rg_live()
             \     ff: #{
             \       ignoreEmpty: v:false,
             \       autoResize: v:false,
-            \     }
+            \     },
             \   },
             \ })
 			]])
