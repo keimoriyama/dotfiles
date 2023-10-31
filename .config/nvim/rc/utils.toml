@@ -1,5 +1,6 @@
 [[plugins]]
 repo="windwp/nvim-autopairs"
+on_event = "InsertEnter"
 lua_source='''
 local status, autopairs = pcall(require, "nvim-autopairs")
 if not status then
@@ -46,9 +47,7 @@ comment.setup({
 
 [[plugins]]
 repo="Decodetalkers/csv-tools.lua"
-		# ft = {
-		# 	"csv",
-		# },
+on_ft = "csv"
 lua_source='''
 local status, csvtools = pcall(require, "csvtools")
 if not status then
@@ -171,7 +170,7 @@ parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 # auto pair and tag close
 [[plugins]]
 repo="windwp/nvim-ts-autotag"
-	# event = "InsertEnter",
+on_event = "InsertEnter"
 # surround
 [[plugins]]
 repo="kylechui/nvim-surround"
@@ -278,6 +277,7 @@ vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
 
 [[plugins]]
 repo="mattn/vim-sonictemplate"
+on_cmd="Template"
 lua_source='''
 vim.g.sonictemplate_key = 0
 vim.g.sonictemplate_intelligent_key = 0
@@ -305,6 +305,7 @@ icons.setup({
 
 [[plugsins]]
 repo="hrsh7th/vim-vsnip"
+on_event="InsertEnter"
 on_hook='''
 let g:vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 let g:vsnip_choice_delay = 0
@@ -325,4 +326,12 @@ repo='uga-rosa/ugaterm.nvim'
 lua_source='''
 local option = { noremap = true, silent = true }
 vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", option)
+'''
+
+[[plugins]]
+repo = 'previm/previm'
+on_ft='markdown'
+on_hook='''
+let g:previm_open_cmd = 'open -a Google\ Chrome'
+let g:previm_enable_realtime = 1
 '''
