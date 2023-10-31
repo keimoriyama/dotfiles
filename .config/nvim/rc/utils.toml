@@ -278,8 +278,7 @@ vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
 
 [[plugins]]
 repo="mattn/vim-sonictemplate"
-on_hook='''
--- sonictemplateのキーマップの無効化
+lua_source='''
 vim.g.sonictemplate_key = 0
 vim.g.sonictemplate_intelligent_key = 0
 vim.g.sonictemplate_postfix_key = 0
