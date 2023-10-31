@@ -48,7 +48,7 @@ vim.fn['ddu#start']({
 	sources= {{
 		name = 'lsp_references',
 	}},
-	)
+	})
 end
 
 local function ddu_lsp_documentSymbol()
@@ -57,7 +57,7 @@ vim.fn['ddu#start']({
 	sources= {{
 		name = 'lsp_documentSymbol',
 	}},
-	)
+	})
 end
 
 local function ddu_lsp_incoming_hierarchy()
@@ -69,7 +69,7 @@ vim.fn['ddu#start']({
 			'incomingCalls'
 		}
 	}},
-	)
+	})
 end
 
 local function ddu_lsp_outgoing_hierarchy()
@@ -81,7 +81,7 @@ vim.fn['ddu#start']({
 			'outgoingCalls'
 		}
 	}},
-	)
+	})
 end
 
 local function keymaps()
