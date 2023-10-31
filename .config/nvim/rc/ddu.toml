@@ -38,7 +38,7 @@ local function ddu_rg_live()
             \     ff: #{
             \       ignoreEmpty: v:false,
             \       autoResize: v:false,
-            \     }
+            \     },
             \   },
             \ })
 			]])
@@ -198,7 +198,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
 		vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
 		vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
-	end,
+	end
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -222,15 +222,15 @@ vim.keymap.set("n", "<leader>h", "<cmd>call ddu#start({'sources': [{'name':'help
 -- ripgrep
 vim.keymap.set("n", "<leader>fr", ddu_rg_live, opt)
 -- definition
-vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
+-- vim.keymap.set("n", "<leader>dr", ddu_lsp_references, opt)
 -- show reference of the values
 -- lsp related configs(maybe moving to the mason.lua?)
-vim.keymap.set("n", "<leader>sr", ddu_lsp_references, opt)
-vim.keymap.set("n", "<leader>ds", ddu_lsp_documentSymbol, opt)
-vim.keymap.set("n", "<leader>ic", ddu_lsp_incoming_hierarchy, opt)
-vim.keymap.set("n", "<leader>oc", ddu_lsp_outgoing_hierarchy, opt)
-
-vim.keymap.set("n", "<leader>k", keymaps, opt)
+-- vim.keymap.set("n", "<leader>sr", ddu_lsp_references, opt)
+-- vim.keymap.set("n", "<leader>ds", ddu_lsp_documentSymbol, opt)
+-- vim.keymap.set("n", "<leader>ic", ddu_lsp_incoming_hierarchy, opt)
+-- vim.keymap.set("n", "<leader>oc", ddu_lsp_outgoing_hierarchy, opt)
+--
+-- vim.keymap.set("n", "<leader>k", keymaps, opt)
 
 vim.fn["ddu#custom#patch_local"]("filer", {
 	ui = "filer",
@@ -285,8 +285,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>',
-	{ noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>', { noremap = true, silent = true })
 """
 
 [[plugins]]
