@@ -11,4 +11,4 @@ vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
 
 [[plugins]]
 repo = 'mzlogin/vim-markdown-toc'
-ftplugin='markdown'
+ftplugin=['markdown', 'txt']
