@@ -1,0 +1,14 @@
+[[plugin]]
+repo = 'toppair/peek.nvim'
+build='deno task --quiet build:fast'
+ftplugin='markdown'
+lua_source='''
+require('peek').setup()
+vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
+vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
+ vim.api.nvim_create_user_command('Peek', function() if peek.is_open() then peek.close() else peek.open() end end, {})
+'''
+
+[[plugins]]
+repo = 'mzlogin/vim-markdown-toc'
+ftplugin='markdown'

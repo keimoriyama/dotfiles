@@ -277,7 +277,6 @@ vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
 
 [[plugins]]
 repo="mattn/vim-sonictemplate"
-on_cmd="Template"
 lua_source='''
 vim.g.sonictemplate_key = 0
 vim.g.sonictemplate_intelligent_key = 0
@@ -328,10 +327,3 @@ local option = { noremap = true, silent = true }
 vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", option)
 '''
 
-[[plugins]]
-repo = 'previm/previm'
-on_ft='markdown'
-on_hook='''
-let g:previm_open_cmd = 'open -a Google\ Chrome'
-let g:previm_enable_realtime = 1
-'''

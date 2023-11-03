@@ -33,6 +33,7 @@ export class Config extends BaseConfig {
       "ddc.toml",
       "ddu.toml",
       "lsp.toml",
+	  "ftplugin.toml"
     ];
     const base_dir = "~/.config/nvim/rc/";
     for (const file of files) {
