@@ -13,6 +13,10 @@ local function InitPlugin(plugin)
 	vim.opt.rtp:prepend(dir)
 end
 
+if vim.loader then
+    vim.loader.enable()
+end
+
 vim.opt.compatible = false
 
 -- set dpp source path
