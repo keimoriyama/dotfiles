@@ -1,21 +1,13 @@
 [[plugins]]
 repo="Shougo/ddc.vim"
 depends='vim-denops/denops.vim'
-		# -- event = { 'InsertEnter', "CmdlineEnter" },
-		# dependencies = {
-		# 	'vim-denops/denops.vim',
-		# 	-- "keimoriyama/dps_obdisian",
-		# },
-		# init = function()
-		# 	vim.opt.rtp:prepend("~/Program/dps_obsidian")
-		# end,
+event = [ 'InsertEnter', "CmdlineEnter" ]
 lua_source='''
 local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 require("lspconfig").denols.setup({
 	capabilities = capabilities,
 })
-
 require("ddc_nvim_lsp_setup").setup()
 
 -- Use around source.
@@ -147,9 +139,11 @@ endfunction
 '''
 [[plugins]]
 repo="zbirenbaum/copilot.lua"
-# event = 'InsertEnter'
+event = 'InsertEnter'
 on_source='Shougo/ddc.vim'
 lua_source='''
+local current_dir = vim.fn.getcwd()
+if string.match(current_dir, "Atcoder") == nil then
 require("copilot").setup({
 	panel = {
 		enabled = false
@@ -164,6 +158,7 @@ require("copilot").setup({
 	}
 })
 vim.keymap.set("i", "<C-c><C-t>", "<cmd>Copilot toggle<cr>")
+end
 '''
 
 [[plugins]]
