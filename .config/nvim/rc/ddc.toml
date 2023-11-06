@@ -19,6 +19,7 @@ vim.fn["ddc#custom#patch_global"]({
 		"nvim-lua",
 		"buffer",
 		"around",
+		'vsnip',
 		'obsidian',
 		'obsidian_new'
 	},
