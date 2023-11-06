@@ -1,6 +1,5 @@
 [[plugins]]
 repo="windwp/nvim-autopairs"
-on_event = "InsertEnter"
 lua_source='''
 local status, autopairs = pcall(require, "nvim-autopairs")
 if not status then
@@ -170,7 +169,6 @@ parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 # auto pair and tag close
 [[plugins]]
 repo="windwp/nvim-ts-autotag"
-on_event = "InsertEnter"
 # surround
 [[plugins]]
 repo="kylechui/nvim-surround"
@@ -304,7 +302,6 @@ icons.setup({
 
 [[plugsins]]
 repo="hrsh7th/vim-vsnip"
-on_event="InsertEnter"
 on_hook='''
 let g:vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 let g:vsnip_choice_delay = 0
