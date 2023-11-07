@@ -1,6 +1,7 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
 depends='vim-denops/denops.vim'
+on_func = ['ddu#start']
 lua_source="""
 local function resize()
 	local lines = vim.opt.lines:get()

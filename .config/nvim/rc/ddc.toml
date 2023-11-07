@@ -1,6 +1,7 @@
 [[plugins]]
 repo="Shougo/ddc.vim"
 depends='vim-denops/denops.vim'
+on_event = ['InsertEnter', 'CmdlineEnter']
 lua_source='''
 local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true

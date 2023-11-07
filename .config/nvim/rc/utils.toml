@@ -1,5 +1,6 @@
 [[plugins]]
 repo="windwp/nvim-autopairs"
+on_event = ['InsertEnter']
 lua_source='''
 local status, autopairs = pcall(require, "nvim-autopairs")
 if not status then
@@ -168,9 +169,11 @@ parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 
 # auto pair and tag close
 [[plugins]]
+on_event = ['InsertEnter']
 repo="windwp/nvim-ts-autotag"
 # surround
 [[plugins]]
+on_event = ['InsertEnter']
 repo="kylechui/nvim-surround"
 lua_source='''
 require("nvim-surround").setup()
