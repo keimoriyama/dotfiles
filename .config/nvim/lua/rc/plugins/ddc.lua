@@ -8,7 +8,7 @@ local spec = {
 			-- "keimoriyama/dps_obdisian",
 		},
 		init = function()
-			vim.opt.rtp:prepend("~/Program/dps_obsidian")
+			vim.opt.rtp:prepend("~/Program/vim_plugins/dps_obsidian")
 		end,
 		config = function()
 			local capabilities = require("ddc_nvim_lsp").make_client_capabilities()

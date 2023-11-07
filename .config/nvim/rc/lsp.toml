@@ -1,13 +1,15 @@
 [[plugins]]
 repo="neovim/nvim-lspconfig"
-on_source="williamboman/mason.nvim"
 
-[[repo]]
+[[plugins]]
 repo="williamboman/mason-lspconfig.nvim"
-on_source="williamboman/mason.nvim"
 
 [[plugins]]
 repo="williamboman/mason.nvim"
+dependencies = [
+	"neovim/nvim-lspconfig",
+	"williamboman/mason-lspconfig.nvim",
+]
 lua_source='''
 ---@diagnostic disable: redefined-local
 local status, mason = pcall(require, "mason")

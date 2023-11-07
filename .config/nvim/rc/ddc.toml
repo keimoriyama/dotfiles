@@ -48,9 +48,10 @@ vim.fn["ddc#custom#patch_global"]({
 		buffer = { mark = "[buffer]" },
 		["nvim-lsp"] = {
 			mark = "[lsp]",
-			-- forceCompletionPattern = [['\.\w*|:\w*|->\w*']],
+			forceCompletionPattern = [['\.\w*|:\w*|->\w*']],
 			keywordPattern = "\\k*",
-			dup = "force",
+			dup = "keep",
+			sorters = { "sorter_fuzzy", "sorter_lsp-kind" }
 		},
 		["nvim-lua"] = { mark = "[lua]", forceCompletionPattern = "." },
 		vsnip = { mark = "[vsnip]" },
