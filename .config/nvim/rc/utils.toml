@@ -68,12 +68,14 @@ csvtools.setup({
 
 [[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
+on_event = ['BufNewFile', 'BufRead']
 lua_source='''
 require('ibl').setup({})
 '''
 
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
+on_event = ['BufNewFile', 'BufRead']
 lua_source='''
 local status, lualine = pcall(require, "lualine")
 if not status then
