@@ -64,8 +64,6 @@ if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
 end
 
-vim.fn["dpp#source"]()
-
 
 vim.api.nvim_create_user_command(
 	"DppMakeState",
@@ -124,4 +122,5 @@ vim.g.dps_obsidian_daily_note_dir = "daily"
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
-
+-- pluginの読み込み
+vim.fn["dpp#source"]()
