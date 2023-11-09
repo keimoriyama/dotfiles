@@ -1,15 +1,32 @@
 ---@type LazySpec
 local spec = {
-	{
-		"iamcco/markdown-preview.nvim",
-		build = "cd app && npm install",
-		init = function()
-			local opts = { noremap = true, silent = true }
-			vim.g.mkdp_filetypes = { "markdown" }
-			vim.keymap.set("n", "mp", "<cmd>MarkdownPreviewToggle<CR>", opts)
-		end,
-		ft = { "markdown" },
-	},
 	{ "mattn/vim-maketable", ft = { "markdown" } },
+	{
+		'toppair/peek.nvim',
+		build = 'deno task --quiet build:fast',
+		config = function()
+			require("peek").setup({
+				auto_load = true, -- whether to automatically load preview when
+				-- entering another markdown buffer
+				close_on_bdelete = true, -- close preview window on buffer delete
+				syntax = true, -- enable syntax highlighting, affects performance
+				theme = 'dark', -- 'dark' or 'light'
+				update_on_change = true,
+				app = 'browser', -- 'webview', 'browser', string or a table of strings
+				-- explained below
+				filetype = { 'markdown' }, -- list of filetypes to recognize as markdown
+				-- relevant if update_on_change is true
+				throttle_at = 200000, -- start throttling when file exceeds this
+				-- amount of bytes in size
+				throttle_time = 'auto', -- minimum amount of time in milliseconds
+				-- that has to pass before starting new render
+			})
+			vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
+			vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
+			vim.api.nvim_create_user_command('Peek',
+				function() if require("peek").is_open() then require("peek").close() else require("peek").open() end end,
+				{})
+		end
+	}
 }
 return spec
