@@ -14,7 +14,7 @@ local function InitPlugin(plugin)
 end
 
 if vim.loader then
-    vim.loader.enable()
+	vim.loader.enable()
 end
 
 vim.opt.compatible = false
@@ -51,14 +51,6 @@ if vim.fn["dpp#min#load_state"](dpp_base) then
 	})
 end
 
---vim.api.nvim_create_autocmd("User", {
---pattern = "Dpp:makeStatePost",
---callback = function()
---vim.cmd([[
---source ~/.cache/dpp/nvim/state.vim
---]])
---end
---})
 vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
@@ -84,14 +76,14 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
 	"DppInstall",
 	function()
-		vim.fn["dpp#async_ext_action"]('installer', 'install', {maxProcess=5})
+		vim.fn["dpp#async_ext_action"]('installer', 'install', { maxProcess = 5 })
 	end,
 	{}
 )
 vim.api.nvim_create_user_command(
 	"DppUpdate",
 	function()
-		vim.fn["dpp#async_ext_action"]('installer', 'update', {maxProcess=5})
+		vim.fn["dpp#async_ext_action"]('installer', 'update', { maxProcess = 5 })
 	end,
 	{}
 )
@@ -116,7 +108,6 @@ vim.api.nvim_create_user_command(
 	end,
 	{}
 )
-
 vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
 vim.g.dps_obsidian_daily_note_dir = "daily"
 local opts = { noremap = true, silent = true }
@@ -124,3 +115,7 @@ vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 -- pluginの読み込み
 vim.fn["dpp#source"]()
+vim.cmd([[
+autocmd BufWritePost *.lua,*.vim,*.toml,*.ts,vimrc,.vimrc
+            \ call dpp#check_files()
+]])

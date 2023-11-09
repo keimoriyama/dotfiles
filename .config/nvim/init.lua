@@ -1,4 +1,4 @@
 require("config")
 require("keymap")
--- require("plugins")
-require("dpp")
+require("lazy_config")
+-- require("dpp")

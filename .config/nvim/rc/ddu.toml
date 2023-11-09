@@ -1,6 +1,6 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-depends='vim-denops/denops.vim'
+# depends='vim-denops/denops.vim'
 on_func = ['ddu#start']
 lua_source="""
 local function resize()
@@ -151,6 +151,9 @@ vim.fn["ddu#custom#patch_global"]({
 		lsp = {
 			defaultAction = "open",
 		},
+		dpp = {
+			defaultAction = "open",
+		},
 	},
 	uiParams = {
 		ff = {
@@ -210,6 +213,7 @@ local opt = { noremap = true, silent = true }
 vim.keymap.set("n", "<Leader>ff", "<cmd>call ddu#start()<CR>", opt)
 -- helper ff
 vim.keymap.set("n", "<leader>h", "<cmd>call ddu#start({'sources': [{'name':'help'}]})<cr>", opt)
+vim.keymap.set("n", "<leader>l", "<cmd>call ddu#start({'sources': [{'name':'dpp'}]})<cr>", opt)
 -- ripgrep
 vim.keymap.set("n", "<leader>fr",ddu_rg_live, opt)
 -- definition

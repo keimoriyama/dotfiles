@@ -28,7 +28,7 @@ local spec = {
 	-- },
 	{
 		-- "keimoriyama/dps_obdisian",
-		dir = "~/Program/dps_obdisian",
+		dir = "~/Program/vim_plugins/dps_obsidian",
 		dependencies = {
 			'vim-denops/denops.vim',
 		},

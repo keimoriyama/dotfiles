@@ -1,9 +1,10 @@
 [[plugins]]
 repo = 'vim-denops/denops.vim'
+on_event = ['BufRead', 'CursorHold']
+# on_source = ['Shougo/ddu.vim', 'Shougo/ddc.vim']
 # hook_source='''
-# let g:denops#debug=1
+# let g:denops#debug = 1
 # '''
-
 [[plugins]]
 repo = 'Shougo/dpp.vim'
 
