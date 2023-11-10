@@ -19,7 +19,7 @@ vim.fn["ddc#custom#patch_global"]({
 		"nvim-lua",
 		"buffer",
 		"around",
-		'vsnip',
+		-- 'vsnip',
 		'obsidian',
 		'obsidian_new'
 	},
@@ -58,11 +58,13 @@ vim.fn["ddc#custom#patch_global"]({
 		["cmdline-history"] = { mark = "[cmdline-history]" },
 		obsidian = {
 			mark = "[obsidian]",
-			-- keywordPattern = [[\[\[.*?]]
+			keywordPattern= [[\[\[\k*]]
+			-- keywordPattern = "\\k*"
 		},
 		obsidian_new = {
 			mark = "[obsidian+]",
-			-- keywordPattern = [[\[\[.*?]]
+			keywordPattern= [[\[\[\k*]]
+			-- keywordPattern = "\\k*"
 		},
 	},
 	sourceParams = {

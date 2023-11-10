@@ -66,11 +66,11 @@ local spec = {
 					["cmdline-history"] = { mark = "[cmdline-history]" },
 					obsidian = {
 						mark = "[obsidian]",
-						keywordPattern = [[\[\[.*?]]
+						forceCompletionPattern = [[\[\[.*?]]
 					},
 					obsidian_new = {
 						mark = "[obsidian+]",
-						keywordPattern = [[\[\[.*?]]
+						forceCompletionPattern = [[\[\[.*?]]
 					},
 				},
 				sourceParams = {
