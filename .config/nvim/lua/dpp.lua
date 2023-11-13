@@ -115,7 +115,12 @@ vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 -- pluginの読み込み
 vim.fn["dpp#source"]()
-vim.cmd([[
-autocmd BufWritePost *.lua,*.vim,*.toml,*.ts,vimrc,.vimrc
-            \ call dpp#check_files()
-]])
+vim.api.nvim_create_autocmd(
+	"BufWritePost", {
+		pattern = { "*.lua", "*.vim", "*.toml", "*.ts", "vimrc", ".vimrc" },
+		callback = function()
+			vim.fn["dpp#check_files"]()
+			vim.fn["dpp#source"]()
+		end
+	}
+)
