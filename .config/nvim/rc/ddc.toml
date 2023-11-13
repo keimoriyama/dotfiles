@@ -14,6 +14,7 @@ vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
 	sources = {
 		"nvim-lsp",
+		"skkeleton",
 		"file",
 		'copilot',
 		"nvim-lua",
@@ -63,8 +64,15 @@ vim.fn["ddc#custom#patch_global"]({
 		},
 		obsidian_new = {
 			mark = "[obsidian+]",
-			keywordPattern= [[\[\[\k*]]
+			keywordPattern = [[\[\[\k*]]
 			-- keywordPattern = "\\k*"
+		},
+		skkeleton={
+			mark='[skk]',
+			matchers = { "skkeleton" },
+			sorters = {},
+			minAutoCompleteLength = 1,
+			isVolatile = true
 		},
 	},
 	sourceParams = {
@@ -146,20 +154,19 @@ on_source='Shougo/ddc.vim'
 lua_source='''
 local current_dir = vim.fn.getcwd()
 if string.match(current_dir, "Atcoder") == nil then
-require("copilot").setup({
-	panel = {
-		enabled = false
-	},
-	suggestion = {
-		enabled = true,
-		auto_trigger = true,
-		keymap = {
-			accept = "<C-j>",
-
+	require("copilot").setup({
+		panel = {
+			enabled = false
+		},
+		suggestion = {
+			enabled = true,
+			auto_trigger = true,
+			keymap = {
+				accept = "<C-c>",
+			}
 		}
-	}
-})
-vim.keymap.set("i", "<C-c><C-t>", "<cmd>Copilot toggle<cr>")
+	})
+	vim.keymap.set("i", "<C-c><C-t>", "<cmd>Copilot toggle<cr>")
 end
 '''
 
@@ -251,14 +258,14 @@ on_source="Shougo/ddc.vim"
 repo="uga-rosa/ddc-previewer-floating"
 on_source="Shougo/ddc.vim"
 
-
-# [[plugins]]
-# repo = "keimoriyama/dps_obdisian"
-# on_source='Shougo/ddc.vim'
-# lua_source='''
-# vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
-# vim.g.dps_obsidian_daily_note_dir = "daily"
-# local opts = { noremap = true, silent = true }
-# vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
-# vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
-# '''
+[[plugins]]
+repo="vim-skk/skkeleton"
+on_source='Shougo/ddc.vim'
+lua_source = """
+vim.keymap.set({"i", "c", "t"}, "<C-j>", "<Plug>(skkeleton-toggle)", {noremap =true})
+vim.fn['skkeleton#config']({
+	globalJisyo = "~/.local/skkeleton/SKK-JISYO.L",
+	debug = true,
+	showCandidatesCount = 1
+})
+"""
