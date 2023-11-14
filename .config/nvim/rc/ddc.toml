@@ -37,6 +37,7 @@ vim.fn["ddc#custom#patch_global"]({
 	},
 	sourceOptions = {
 		["_"] = {
+			maxItems=8,
 			matchers = { "matcher_head", "matcher_fuzzy" },
 			sorters = { "sorter_rank" },
 			converters = { "converter_fuzzy", "converter_remove_overlap", "converter_truncate_abbr" },
@@ -122,6 +123,7 @@ vim.fn["pum#set_option"]({
 	padding = false,
 	use_complete = true,
 	use_setline = false,
+	max_height=10
 })
 vim.keymap.set({ "i", "c" }, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>")
 vim.keymap.set({ "i", "c" }, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
