@@ -217,7 +217,6 @@ null_ls.setup({ debug = false, sources = null_sources, on_attach = on_attach })
 
 [[plugins]]
 repo="onsails/lspkind-nvim"
-on_cmd='LspAttach'
 lua_source='''
 	local status, lspkind = pcall(require, "lspkind")
 	if not status then
