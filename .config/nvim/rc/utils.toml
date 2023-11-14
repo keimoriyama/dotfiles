@@ -46,27 +46,6 @@ comment.setup({
 '''
 
 [[plugins]]
-repo="Decodetalkers/csv-tools.lua"
-on_ft = "csv"
-lua_source='''
-local status, csvtools = pcall(require, "csvtools")
-if not status then
-	return
-end
-
-csvtools.setup({
-	before = 10,
-	after = 10,
-	clearafter = true,
-	-- this will clear the highlight of buf after move
-	showoverflow = false,
-	-- this will provide a overflow show
-	titelflow = true,
-	-- add an alone title
-})
-'''
-
-[[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
 on_event = ['BufNewFile', 'BufRead']
 lua_source='''
@@ -305,25 +284,9 @@ icons.setup({
 })
 '''
 
-[[plugsins]]
-repo="hrsh7th/vim-vsnip"
-on_hook='''
-let g:vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
-let g:vsnip_choice_delay = 0
-
-" Expand or jump
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-
-" Jump forward or backward
-imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-'''
-
 [[plugins]]
 repo='uga-rosa/ugaterm.nvim'
+on_cmd='UgatermOpen'
 lua_source='''
 local option = { noremap = true, silent = true }
 vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", option)
@@ -331,6 +294,7 @@ vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", option)
 
 [[plugins]]
 repo='skanehira/denops-silicon.vim'
+on_cmd='Silicon'
 
 [[plugins]]
 repo='phaazon/hop.nvim'
