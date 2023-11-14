@@ -47,7 +47,7 @@ export class Config extends BaseConfig {
 					{
 						path: base_dir + file,
 						options: {
-							lazy: false,
+							lazy:false,
 						},
 					},
 				) as Toml,

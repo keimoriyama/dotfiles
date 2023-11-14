@@ -10,11 +10,7 @@ local function InitPlugin(plugin)
 			dir,
 		})
 	end
-	vim.opt.rtp:prepend(dir)
-end
-
-if vim.loader then
-	vim.loader.enable()
+	vim.opt.rtp:append(dir)
 end
 
 vim.opt.compatible = false
@@ -25,30 +21,41 @@ local dpp_base = vim.fn.expand("~/.cache/dpp")
 local dpp_src = vim.fn.expand('~/.cache/dpp/repos/github.com/Shougo/dpp.vim')
 local denops_src = vim.fn.expand('~/.cache/dpp/repos/github.com/vim-denops/denops.vim')
 
-local plugins = {
-	"Shougo/dpp.vim",
-	'vim-denops/denops.vim',
-	'Shougo/dpp-ext-toml',
-	"Shougo/dpp-ext-lazy",
-	'Shougo/dpp-ext-installer',
-	'Shougo/dpp-protocol-git',
-	"Shougo/dpp-ext-local",
-}
-for _, plugin in ipairs(plugins) do
-	InitPlugin(plugin)
-end
--- Set dpp runtime path (required)
-vim.opt.rtp:prepend(dpp_src)
+InitPlugin('vim-denops/denops.vim')
+InitPlugin("Shougo/dpp.vim")
 
-if vim.fn["dpp#min#load_state"](dpp_base) then
-	vim.opt.rtp:prepend(denops_src)
-	vim.api.nvim_create_augroup("ddp", {})
+-- Set dpp runtime path (required)
+vim.opt.rtp:append(dpp_src)
+vim.opt.rtp:append(denops_src)
+if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
+	local plugins = {
+		"Shougo/dpp.vim",
+		'vim-denops/denops.vim',
+		'Shougo/dpp-ext-toml',
+		"Shougo/dpp-ext-lazy",
+		'Shougo/dpp-ext-installer',
+		'Shougo/dpp-protocol-git',
+		"Shougo/dpp-ext-local",
+	}
+	for _, plugin in ipairs(plugins) do
+		InitPlugin(plugin)
+	end
+	vim.api.nvim_create_augroup("dpp", {})
 	vim.api.nvim_create_autocmd("User", {
 		pattern = 'DenopsReady',
 		callback = function()
 			vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/denops/dpp_config.ts")
 		end
 	})
+else
+	vim.api.nvim_create_autocmd(
+		"BufWritePost", {
+			pattern = { "*.lua", "*.vim", "*.toml", "*.ts", "vimrc", ".vimrc" },
+			callback = function()
+				vim.fn["dpp#check_files"]()
+			end
+		}
+	)
 end
 
 vim.cmd("filetype indent plugin on")
@@ -115,12 +122,3 @@ vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 -- pluginの読み込み
 vim.fn["dpp#source"]()
-vim.api.nvim_create_autocmd(
-	"BufWritePost", {
-		pattern = { "*.lua", "*.vim", "*.toml", "*.ts", "vimrc", ".vimrc" },
-		callback = function()
-			vim.fn["dpp#check_files"]()
-			vim.fn["dpp#source"]()
-		end
-	}
-)

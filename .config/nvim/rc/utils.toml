@@ -60,7 +60,6 @@ local status, lualine = pcall(require, "lualine")
 if not status then
 	return
 end
-
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -216,6 +215,7 @@ repo="LeafCage/vimhelpgenerator"
 
 [[plugins]]
 repo="akinsho/nvim-bufferline.lua"
+on_event = ['BufNewFile', 'BufRead']
 lua_source= """
 local status, bufferline = pcall(require, "bufferline")
 if not status then
@@ -259,6 +259,7 @@ vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
 
 [[plugins]]
 repo="mattn/vim-sonictemplate"
+on_cmd="Template"
 lua_source='''
 vim.g.sonictemplate_key = 0
 vim.g.sonictemplate_intelligent_key = 0
@@ -298,6 +299,7 @@ on_cmd='Silicon'
 
 [[plugins]]
 repo='phaazon/hop.nvim'
+on_event = ['BufNewFile', 'BufRead']
 lua_source='''
 local hop = require('hop')
 hop.setup { keys = 'etovxqpdygfblzhckisuran' }
