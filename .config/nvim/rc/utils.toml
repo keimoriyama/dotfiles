@@ -60,6 +60,47 @@ local status, lualine = pcall(require, "lualine")
 if not status then
 	return
 end
+
+local function skkeleton_mode()
+  if vim.api.nvim_get_mode().mode ~= 'i' then
+    return ''
+  end
+
+  local mode = vim.g['skkeleton#mode']
+  if mode == 'hira' then
+    return 'かな'
+  elseif mode == 'kata' then
+    return 'カナ'
+  elseif mode == 'hankata' then
+    return '半ｶﾅ'
+  elseif mode == 'zenkaku' then
+    return '全英'
+  elseif mode == 'abbrev' then
+    return 'abbrev'
+  else
+    return 'ASCII'
+  end
+end
+
+local function skkeleton_state()
+  if vim.api.nvim_get_mode().mode ~= 'i' then
+    return ''
+  end
+
+  local phase = vim.g['skkeleton#state'].phase
+  if phase == 'input' then
+    return '直接入力'
+  elseif phase == 'input:okurinasi' then
+    return '送りなし入力'
+  elseif phase == 'input:okuriari' then
+    return '送りあり入力'
+  elseif phase == 'henkan' then
+    return '変換'
+  else
+    return ''
+  end
+end
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -72,7 +113,7 @@ lualine.setup({
 		lualine_a = { "mode" },
 		lualine_b = { "branch" },
 		lualine_c = {
-			{},
+			{skkeleton_mode, skkeleton_state},
 		},
 		lualine_x = {
 			{
