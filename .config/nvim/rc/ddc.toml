@@ -2,7 +2,7 @@
 repo="Shougo/ddc.vim"
 on_event = ['InsertEnter', 'CmdlineEnter']
 depends =['denops.vim']
-lua_source='''
+lua_add='''
 local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 require("lspconfig").denols.setup({
@@ -263,7 +263,7 @@ on_source="Shougo/ddc.vim"
 [[plugins]]
 repo="vim-skk/skkeleton"
 on_source='Shougo/ddc.vim'
-lua_source = """
+lua_add= """
 vim.keymap.set({"i", "c", "t"}, "<C-j>", "<Plug>(skkeleton-toggle)", {noremap =true})
 vim.fn['skkeleton#config']({
 	globalJisyo = "~/.local/skkeleton/SKK-JISYO.L",

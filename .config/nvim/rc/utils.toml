@@ -1,7 +1,7 @@
 [[plugins]]
 repo="windwp/nvim-autopairs"
 on_event = ['InsertEnter']
-lua_source='''
+lua_add='''
 local status, autopairs = pcall(require, "nvim-autopairs")
 if not status then
 	return
@@ -13,7 +13,7 @@ disable_filetype = { "TelescopePrompt", "vim" },
 
 [[pluging]]
 repo = "norcalli/nvim-colorizer.lua"
-lua_source='''
+lua_add='''
 local status, colorizer = pcall(require, "colorizer")
 if not status then
 	return
@@ -27,7 +27,7 @@ colorizer.setup({
 
 [[plugins]]
 repo="numToStr/Comment.nvim"
-lua_source='''
+lua_add='''
 local status, comment = pcall(require, "Comment")
 if not status then
 	return
@@ -48,14 +48,14 @@ comment.setup({
 [[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
 on_event = ['BufNewFile', 'BufRead']
-lua_source='''
+lua_add='''
 require('ibl').setup({})
 '''
 
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
 on_event = ['BufNewFile', 'BufRead']
-lua_source='''
+lua_add='''
 local status, lualine = pcall(require, "lualine")
 if not status then
 	return
@@ -152,7 +152,7 @@ lualine.setup({
 
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter"
-lua_source='''
+lua_add='''
 local status, ts = pcall(require, "nvim-treesitter.configs")
 if not status then
 	return
@@ -196,13 +196,13 @@ repo="windwp/nvim-ts-autotag"
 [[plugins]]
 on_event = ['InsertEnter']
 repo="kylechui/nvim-surround"
-lua_source='''
+lua_add='''
 require("nvim-surround").setup()
 '''
 # auto comment out
 [[plugins]]
 repo="luochen1990/rainbow"
-lua_source='''
+lua_add='''
 vim.g.rainbow_active = 1
 '''
 # dot repeat
@@ -226,13 +226,13 @@ repo="jghauser/mkdir.nvim"
 # keep lastest cursor position
 [[plugins]]
 repo="ethanholz/nvim-lastplace"
-lua_source='''
+lua_add='''
 require("nvim-lastplace").setup()
 '''
 
 [[plugins]]
 repo="folke/todo-comments.nvim"
-lua_source='''
+lua_add='''
 local status, todocomments = pcall(require, "todo-comments")
 if not status then
 	return
@@ -245,7 +245,7 @@ vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
 
 [[plugins]]
 repo="kana/vim-smartword"
-lua_source='''
+lua_add='''
 vim.keymap.set("n", "w", "<Plug>(smartword-w)")
 vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 vim.keymap.set("n", "e", "<Plug>(smartword-e)")
@@ -257,7 +257,7 @@ repo="LeafCage/vimhelpgenerator"
 [[plugins]]
 repo="akinsho/nvim-bufferline.lua"
 on_event = ['BufNewFile', 'BufRead']
-lua_source= """
+lua_add= """
 local status, bufferline = pcall(require, "bufferline")
 if not status then
 	return
@@ -300,8 +300,8 @@ vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
 
 [[plugins]]
 repo="mattn/vim-sonictemplate"
-on_cmd="Template"
-lua_source='''
+on_cmd='Template'
+lua_add='''
 vim.g.sonictemplate_key = 0
 vim.g.sonictemplate_intelligent_key = 0
 vim.g.sonictemplate_postfix_key = 0
@@ -310,7 +310,7 @@ vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/template"
 
 [[plugins]]
 repo="kyazdani42/nvim-web-devicons"
-lua_source='''
+lua_add='''
 local status, icons = pcall(require, "nvim-web-devicons")
 if not status then
 	return
@@ -329,7 +329,7 @@ icons.setup({
 [[plugins]]
 repo='uga-rosa/ugaterm.nvim'
 on_cmd='UgatermOpen'
-lua_source='''
+lua_add='''
 local option = { noremap = true, silent = true }
 vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", option)
 '''
@@ -341,7 +341,7 @@ on_cmd='Silicon'
 [[plugins]]
 repo='phaazon/hop.nvim'
 on_event = ['BufNewFile', 'BufRead']
-lua_source='''
+lua_add='''
 local hop = require('hop')
 hop.setup { keys = 'etovxqpdygfblzhckisuran' }
 local directions = require('hop.hint').HintDirection

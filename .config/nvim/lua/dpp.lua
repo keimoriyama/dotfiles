@@ -1,7 +1,7 @@
-local cache = vim.fn.expand("~/.cache/dpp")
+local dpp_base = vim.fn.expand("~/.cache/dpp")
 
 local function InitPlugin(plugin)
-	local dir = cache .. '/repos/github.com/' .. plugin
+	local dir = dpp_base .. '/repos/github.com/' .. plugin
 	if vim.fn.isdirectory(dir) == 0 then
 		vim.fn.system({
 			"git",
@@ -15,8 +15,6 @@ end
 
 vim.opt.compatible = false
 
--- set dpp source path
-local dpp_base = vim.fn.expand("~/.cache/dpp")
 -- set dpp runtime path
 local dpp_src = vim.fn.expand('~/.cache/dpp/repos/github.com/Shougo/dpp.vim')
 local denops_src = vim.fn.expand('~/.cache/dpp/repos/github.com/vim-denops/denops.vim')
@@ -27,7 +25,7 @@ InitPlugin("Shougo/dpp.vim")
 -- Set dpp runtime path (required)
 vim.opt.rtp:append(dpp_src)
 vim.opt.rtp:append(denops_src)
-if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
+if vim.fn["dpp#min#load_state"](dpp_base) then
 	local plugins = {
 		"Shougo/dpp.vim",
 		'vim-denops/denops.vim',
@@ -58,11 +56,20 @@ else
 	)
 end
 
+vim.api.nvim_create_autocmd(
+	"User", {
+		pattern = "Dpp:makeStatepost",
+		callback = function()
+			print(vim.fn["dpp#min#load_state"](dpp_base))
+			print("make state is done")
+		end
+	}
+)
+
 vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
 end
-
 
 vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
 vim.g.dps_obsidian_daily_note_dir = "daily"
@@ -70,7 +77,7 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 -- pluginの読み込み
-vim.fn["dpp#source"]()
+-- vim.fn["dpp#source"]()
 
 vim.api.nvim_create_user_command(
 	"DppMakeState",
@@ -91,7 +98,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
 	"DppInstall",
 	function()
-		vim.fn["dpp#async_ext_action"]('installer', 'getNotInstalled', { maxProcess = 10 })
+		vim.fn["dpp#async_ext_action"]('installer', 'install', { maxProcess = 10 })
 	end,
 	{}
 )
