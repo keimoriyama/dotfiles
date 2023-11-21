@@ -22,10 +22,10 @@ local denops_src = vim.fn.expand('~/.cache/dpp/repos/github.com/vim-denops/denop
 InitPlugin('vim-denops/denops.vim')
 InitPlugin("Shougo/dpp.vim")
 
--- Set dpp runtime path (required)
+--local dpp = require("dpp")
 vim.opt.rtp:append(dpp_src)
 vim.opt.rtp:append(denops_src)
-if vim.fn["dpp#min#load_state"](dpp_base) then
+if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 	local plugins = {
 		"Shougo/dpp.vim",
 		'vim-denops/denops.vim',
@@ -56,15 +56,6 @@ else
 	)
 end
 
-vim.api.nvim_create_autocmd(
-	"User", {
-		pattern = "Dpp:makeStatepost",
-		callback = function()
-			print(vim.fn["dpp#min#load_state"](dpp_base))
-			print("make state is done")
-		end
-	}
-)
 
 vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then
@@ -76,8 +67,6 @@ vim.g.dps_obsidian_daily_note_dir = "daily"
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
--- pluginの読み込み
--- vim.fn["dpp#source"]()
 
 vim.api.nvim_create_user_command(
 	"DppMakeState",
