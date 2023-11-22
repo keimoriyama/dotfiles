@@ -25,6 +25,7 @@ InitPlugin("Shougo/dpp.vim")
 --local dpp = require("dpp")
 vim.opt.rtp:append(dpp_src)
 vim.opt.rtp:append(denops_src)
+
 if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 	local plugins = {
 		"Shougo/dpp.vim",
@@ -38,7 +39,6 @@ if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 	for _, plugin in ipairs(plugins) do
 		InitPlugin(plugin)
 	end
-	vim.api.nvim_create_augroup("dpp", {})
 	vim.api.nvim_create_autocmd("User", {
 		pattern = 'DenopsReady',
 		callback = function()

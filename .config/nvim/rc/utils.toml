@@ -214,15 +214,18 @@ repo="nvim-lua/plenary.nvim"
 
 [[plugins]]
 repo="nvim-lua/popup.nvim"
+
 # buffer sizer
 [[plugins]]
 repo="simeji/winresizer"
+
 # show diff from recover file
 [[plugins]]
 repo="chrisbra/Recover.vim"
 
 [[plugins]]
 repo="jghauser/mkdir.nvim"
+
 # keep lastest cursor position
 [[plugins]]
 repo="ethanholz/nvim-lastplace"
@@ -328,7 +331,7 @@ icons.setup({
 
 [[plugins]]
 repo='uga-rosa/ugaterm.nvim'
-on_cmd='UgatermOpen'
+on_map=["<C-t>"]
 lua_add='''
 local option = { noremap = true, silent = true }
 vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", option)

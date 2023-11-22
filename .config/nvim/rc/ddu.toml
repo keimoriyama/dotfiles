@@ -1,6 +1,6 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-on_func = ['ddu#start']
+on_map=["<leader>"]
 lua_source="""
 local function resize()
 	local lines = vim.opt.lines:get()

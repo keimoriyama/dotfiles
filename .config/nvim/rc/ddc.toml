@@ -1,7 +1,6 @@
 [[plugins]]
 repo="Shougo/ddc.vim"
 on_event = ['InsertEnter', 'CmdlineEnter']
-depends =['denops.vim']
 lua_add='''
 local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -20,17 +19,8 @@ vim.fn["ddc#custom#patch_global"]({
 		"nvim-lua",
 		"buffer",
 		"around",
-		-- 'vsnip',
 		'obsidian',
 		'obsidian_new'
-	},
-	autoCompleteEvents = {
-		"InsertEnter",
-		"TextChangedI",
-		"TextChangedP",
-		"CmdlineEnter",
-		"CmdlineChanged",
-		"TextChangedT",
 	},
 	cmdlineSources = {
 		[":"] = { "cmdline", "cmdline-history", "around" },
@@ -61,12 +51,10 @@ vim.fn["ddc#custom#patch_global"]({
 		obsidian = {
 			mark = "[obsidian]",
 			keywordPattern= [[\[\[\k*]]
-			-- keywordPattern = "\\k*"
 		},
 		obsidian_new = {
 			mark = "[obsidian+]",
 			keywordPattern = [[\[\[\k*]]
-			-- keywordPattern = "\\k*"
 		},
 		skkeleton={
 			mark='[skk]',
@@ -114,7 +102,7 @@ require("ddc_previewer_floating").enable()
 [[plugins]]
 repo="Shougo/pum.vim"
 on_souce='Shougo/ddc.vim'
-lua_source='''
+lua_source="""
 vim.fn["pum#set_option"]({
 	item_orders = { "abbr", "space", "kind", "space", "menu" },
 	highlight_selected = "CursorLine",
@@ -125,31 +113,31 @@ vim.fn["pum#set_option"]({
 	use_setline = false,
 	max_height=10
 })
-vim.keymap.set({ "i", "c" }, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>")
-vim.keymap.set({ "i", "c" }, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
+vim.keymap.set("i" , "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>")
+vim.keymap.set("i", "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
 vim.keymap.set("i", "<C-y>", "<cmd>call pum#map#confirm()<cr>")
 vim.keymap.set("i", "<C-e>", "<cmd>call pum#map#cancel()<cr>")
 -- コマンドライン補完の設定
 -- CommandlinePost()とCommandlinePre()のキーマップは必ず揃える
-vim.cmd([[
-nnoremap :       <Cmd>call CommandlinePre()<CR>:
-function! CommandlinePre() abort
-	cnoremap <C-n>   <Cmd>call pum#map#insert_relative(+1, 'loop')<CR>
-	cnoremap <C-p>   <Cmd>call pum#map#insert_relative(-1, 'loop')<CR>
-	cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-	cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-	autocmd User DDCCmdlineLeave ++once call CommandlinePost()
-	" Enable command line completion for the buffer
-	call ddc#enable_cmdline_completion()
-endfunction
-function! CommandlinePost() abort
-	silent! cunmap <C-n>
-	silent! cunmap <C-p>
-	silent! cunmap <C-y>
-	silent! cunmap <C-e>
-endfunction
-]])
-'''
+vim.keymap.set("n", ":", CommandlinePre())
+local function CommandlinePre()
+	vim.keymap.set("c", "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>")
+	vim.keymap.set("c", "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
+	vim.keymap.set("c", "<C-y>", "<cmd>call pum#map#confirm()<cr>")
+	vim.keymap.set("c", "<C-e>", "<cmd>call pum#map#cancel()<cr>")
+	vim.api.nvim_create_autocmd("User", {
+		pattern="DDCCmdlineLeave",
+		once = true,
+		callback = function()
+			nvim.keymap.nvim_del_keymap("c", "<C-n>")
+			nvim.keymap.nvim_del_keymap("c", "<C-p>")
+			nvim.keymap.nvim_del_keymap("c", "<C-y>")
+			nvim.keymap.nvim_del_keymap("c", "<C-e>")
+		end
+	})
+end
+"""
+
 [[plugins]]
 repo="zbirenbaum/copilot.lua"
 on_source='Shougo/ddc.vim'
