@@ -95,7 +95,7 @@ vim.g.signature_help_config = {
 	contentsStyle = "currentLabel",
 	viewStyle = "floating",
 }
--- -- Use ddc
+-- Use ddc
 vim.fn["ddc#enable"]()
 require("ddc_previewer_floating").enable()
 '''
@@ -119,23 +119,25 @@ vim.keymap.set("i", "<C-y>", "<cmd>call pum#map#confirm()<cr>")
 vim.keymap.set("i", "<C-e>", "<cmd>call pum#map#cancel()<cr>")
 -- コマンドライン補完の設定
 -- CommandlinePost()とCommandlinePre()のキーマップは必ず揃える
-vim.keymap.set("n", ":", CommandlinePre())
-local function CommandlinePre()
-	vim.keymap.set("c", "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>")
-	vim.keymap.set("c", "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
-	vim.keymap.set("c", "<C-y>", "<cmd>call pum#map#confirm()<cr>")
-	vim.keymap.set("c", "<C-e>", "<cmd>call pum#map#cancel()<cr>")
+function CommandlinePre()
+	local opt = { noremap = true, silent = true }
+	vim.keymap.set("c", "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop')<cr>", opt)
+	vim.keymap.set("c", "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>", opt)
+	vim.keymap.set("c", "<C-y>", "<cmd>call pum#map#confirm()<cr>", opt)
+	vim.keymap.set("c", "<C-e>", "<cmd>call pum#map#cancel()<cr>", opt)
 	vim.api.nvim_create_autocmd("User", {
 		pattern="DDCCmdlineLeave",
 		once = true,
 		callback = function()
-			nvim.keymap.nvim_del_keymap("c", "<C-n>")
-			nvim.keymap.nvim_del_keymap("c", "<C-p>")
-			nvim.keymap.nvim_del_keymap("c", "<C-y>")
-			nvim.keymap.nvim_del_keymap("c", "<C-e>")
+			vim.keymap.del("c", "<C-n>")
+			vim.keymap.del("c", "<C-p>")
+			vim.keymap.del("c", "<C-y>")
+			vim.keymap.del("c", "<C-e>")
 		end
 	})
+	vim.fn["ddc#enable_cmdline_completion"]()
 end
+vim.keymap.set("n", ":", [[<Cmd>lua CommandlinePre()<CR>:]])
 """
 
 [[plugins]]
@@ -209,6 +211,7 @@ on_source="Shougo/ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-ui-pum"
+depends = 'pum.vim'
 on_source="Shougo/ddc.vim"
 
 [[plugins]]
