@@ -22,7 +22,6 @@ local denops_src = vim.fn.expand('~/.cache/dpp/repos/github.com/vim-denops/denop
 InitPlugin('vim-denops/denops.vim')
 InitPlugin("Shougo/dpp.vim")
 
---local dpp = require("dpp")
 vim.opt.rtp:append(dpp_src)
 vim.opt.rtp:append(denops_src)
 
