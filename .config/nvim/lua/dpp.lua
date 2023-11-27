@@ -16,8 +16,8 @@ end
 vim.opt.compatible = false
 
 -- set dpp runtime path
-local dpp_src = vim.fn.expand('~/.cache/dpp/repos/github.com/Shougo/dpp.vim')
-local denops_src = vim.fn.expand('~/.cache/dpp/repos/github.com/vim-denops/denops.vim')
+local dpp_src = dpp_base .. '/repos/github.com/Shougo/dpp.vim'
+local denops_src = dpp_base .. '~/.cache/dpp/repos/github.com/vim-denops/denops.vim'
 
 InitPlugin('vim-denops/denops.vim')
 InitPlugin("Shougo/dpp.vim")

@@ -103,8 +103,8 @@ export class Config extends BaseConfig {
 		) as LazyMakeStateResult;
 
 		return {
-			ftplugins,
-			hooksFiles,
+			// ftplugins,
+			// hooksFiles,
 			plugins: lazyResult.plugins,
 			stateLines: lazyResult.stateLines,
 		};
