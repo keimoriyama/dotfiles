@@ -1,6 +1,5 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-on_func = ['ddu#start']
 lua_source="""
 local function resize()
 	local lines = vim.opt.lines:get()
@@ -284,60 +283,60 @@ vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>', {
 
 [[plugins]]
 repo="Shougo/ddu-kind-file"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-ui-filer"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-ui-ff"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="uga-rosa/ddu-source-lsp"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-source-file"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="matsui54/ddu-source-help"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-source-file_rec"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-source-action"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="shun/ddu-source-rg"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-column-filename"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="ryota2357/ddu-column-icon_filename"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-filter-matcher_substring"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="Shougo/ddu-filter-sorter_alpha"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="yuki-yano/ddu-filter-fzf"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"
 
 [[plugins]]
 repo="uga-rosa/ddu-filter-converter_devicon"
-on_source="Shougo/ddu.vim"
+on_source="ddu.vim"

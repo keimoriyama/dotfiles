@@ -6490,3 +6490,1815 @@ times in msec
 002.251  000.424: expanding arguments
 002.269  000.018: inits 2
 002.603  000.335: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.004  000.004: --- NVIM STARTING ---
+000.045  000.041: event init
+000.111  000.067: early init
+000.382  000.271: locale set
+000.416  000.034: init first window
+000.621  000.205: inits 1
+000.632  000.011: window checked
+000.635  000.002: parsing arguments
+000.962  000.029  000.029: require('vim.shared')
+001.018  000.026  000.026: require('vim.inspect')
+001.049  000.022  000.022: require('vim._options')
+001.050  000.086  000.038: require('vim._editor')
+001.052  000.176  000.061: require('vim._init_packages')
+001.053  000.242: init lua interpreter
+002.805  001.752: expanding arguments
+002.829  000.024: inits 2
+003.030  000.201: init highlight
+003.031  000.001: waiting for UI
+003.119  000.088: done waiting for UI
+003.123  000.004: clear screen
+003.137  000.005  000.005: require('vim.keymap')
+003.274  000.146: init default mappings & autocommands
+003.728  000.052  000.052: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+003.807  000.019  000.019: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+004.129  000.182  000.182: require('config')
+004.252  000.121  000.121: require('keymap')
+004.982  000.023  000.023: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+006.585  000.040  000.040: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+007.936  000.945  000.945: require('gruvbox')
+008.224  000.284  000.284: require('vim.version')
+009.723  002.792  001.563: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+010.070  000.297  000.297: require('Comment')
+010.211  000.139  000.139: require('Comment.config')
+011.049  000.226  000.226: require('Comment.ft')
+011.053  000.592  000.366: require('Comment.utils')
+011.246  000.192  000.192: require('Comment.opfunc')
+011.391  000.143  000.143: require('Comment.extra')
+011.393  001.167  000.239: require('Comment.api')
+013.889  000.195  000.195: require('vim.treesitter.language')
+013.902  000.730  000.534: require('vim.treesitter.query')
+014.122  000.218  000.218: require('vim.treesitter._range')
+014.128  001.531  000.584: require('vim.treesitter.languagetree')
+014.133  001.885  000.354: require('vim.treesitter')
+014.136  001.993  000.108: require('nvim-treesitter.compat')
+015.928  001.298  001.298: require('nvim-treesitter.parsers')
+016.206  000.276  000.276: require('nvim-treesitter.utils')
+016.215  001.870  000.296: require('nvim-treesitter.ts_utils')
+016.224  002.086  000.216: require('nvim-treesitter.tsrange')
+016.363  000.138  000.138: require('nvim-treesitter.caching')
+016.377  004.516  000.299: require('nvim-treesitter.query')
+016.398  004.866  000.350: require('nvim-treesitter.configs')
+017.126  000.166  000.166: require('nvim-treesitter.info')
+017.338  000.210  000.210: require('nvim-treesitter.shell_command_selectors')
+017.352  000.906  000.529: require('nvim-treesitter.install')
+020.747  000.248  000.248: require('nvim-lastplace')
+021.209  000.109  000.109: require('todo-comments.util')
+021.215  000.324  000.215: require('todo-comments.config')
+021.596  000.271  000.271: require('todo-comments.highlight')
+021.599  000.382  000.111: require('todo-comments.jump')
+021.600  000.817  000.110: require('todo-comments')
+021.948  000.004  000.004: require('vim.F')
+022.434  000.480  000.480: require('nvim-web-devicons.icons-default')
+022.521  000.867  000.382: require('nvim-web-devicons')
+025.400  000.125  000.125: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+025.768  000.106  000.106: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+026.623  000.059  000.059: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+026.914  000.068  000.068: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+028.846  000.148  000.148: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/pum.vim/autoload/pum.vim
+030.341  000.037  000.037: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/pum.vim/autoload/pum/util.vim
+032.177  000.036  000.036: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+033.229  000.212  000.212: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+034.302  000.006  000.006: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+034.316  000.314  000.307: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+034.336  028.571  015.327: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+035.088  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+035.137  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+035.190  000.017  000.017: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+035.227  000.519  000.482: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+035.439  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+035.522  000.026  000.026: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+035.709  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+036.047  000.046  000.046: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+036.101  000.327  000.281: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+036.248  031.995  002.517: require('dpp')
+036.249  032.316  000.018: sourcing /Users/keimoriyama/.config/nvim/init.lua
+036.259  000.598: sourcing vimrc file(s)
+036.596  000.008  000.008: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+038.979  000.275  000.275: require('vim.lsp.log')
+039.850  000.870  000.870: require('vim.lsp.protocol')
+041.467  000.420  000.420: require('vim.lsp._snippet')
+041.658  000.189  000.189: require('vim.highlight')
+041.671  001.818  001.210: require('vim.lsp.util')
+041.698  003.477  000.514: require('vim.lsp.handlers')
+042.168  000.469  000.469: require('vim.lsp.rpc')
+042.422  000.253  000.253: require('vim.lsp.sync')
+042.819  000.395  000.395: require('vim.lsp.semantic_tokens')
+043.443  000.623  000.623: require('vim.lsp.buf')
+043.802  000.358  000.358: require('vim.lsp.diagnostic')
+044.053  000.250  000.250: require('vim.lsp.codelens')
+044.138  007.213  001.388: require('vim.lsp')
+044.638  007.825  000.612: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/neovim/nvim-lspconfig/plugin/lspconfig.lua
+044.907  000.013  000.013: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/shun/ddu-source-rg/plugin/ddu_rg.vim
+045.520  000.133  000.133: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+045.858  000.078  000.078: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+046.305  001.114  000.903: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+046.498  000.018  000.018: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+046.641  000.026  000.026: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+046.805  000.047  000.047: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+046.926  000.012  000.012: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+047.073  000.020  000.020: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+047.233  000.047  000.047: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+047.496  000.150  000.150: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+047.687  000.015  000.015: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+047.833  000.019  000.019: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+048.210  000.110  000.110: require('nvim-treesitter.statusline')
+048.380  000.169  000.169: require('nvim-treesitter.query_predicates')
+048.382  000.406  000.127: require('nvim-treesitter')
+048.770  000.820  000.415: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+049.034  000.148  000.148: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+049.419  000.036  000.036: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+049.700  000.039  000.039: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+049.739  000.281  000.242: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+049.952  000.008  000.008: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+049.993  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+050.117  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+050.544  000.020  000.020: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+050.586  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+050.626  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+050.668  000.009  000.009: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+050.707  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+050.748  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+050.789  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+050.831  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+050.872  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+050.911  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+050.952  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+051.015  000.028  000.028: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+051.084  000.032  000.032: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+051.179  000.060  000.060: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+051.379  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+051.410  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+051.471  004.384: loading rtp plugins
+051.578  000.107: loading packages
+051.592  000.013: loading after plugins
+051.598  000.006: inits 3
+054.263  002.665: reading ShaDa
+054.561  000.120  000.120: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+054.623  000.239: opening buffers
+055.301  000.068  000.068: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+055.419  000.728: BufEnter autocommands
+055.424  000.005: editing files in windows
+056.455  000.103  000.103: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+057.482  000.064  000.064: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+057.560  000.320  000.256: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+058.299  000.014  000.014: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+059.008  000.029  000.029: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+060.512  004.623: VimEnter autocommands
+060.514  000.002: UIEnter autocommands
+060.848  000.110  000.110: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+060.851  000.227: before starting main loop
+061.270  000.419: first screen update
+061.271  000.001: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.003  000.003: --- NVIM STARTING ---
+000.054  000.052: event init
+000.130  000.076: early init
+000.438  000.308: locale set
+000.471  000.034: init first window
+000.723  000.252: inits 1
+000.728  000.005: window checked
+000.730  000.002: parsing arguments
+001.085  000.027  000.027: require('vim.shared')
+001.141  000.026  000.026: require('vim.inspect')
+001.172  000.023  000.023: require('vim._options')
+001.173  000.087  000.037: require('vim._editor')
+001.175  000.178  000.065: require('vim._init_packages')
+001.176  000.268: init lua interpreter
+001.441  000.265: expanding arguments
+001.451  000.010: inits 2
+001.657  000.206: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.007  000.007: --- NVIM STARTING ---
+000.074  000.067: event init
+000.170  000.096: early init
+000.710  000.540: locale set
+000.820  000.110: init first window
+001.211  000.391: inits 1
+001.233  000.022: window checked
+001.236  000.004: parsing arguments
+001.730  000.035  000.035: require('vim.shared')
+001.852  000.053  000.053: require('vim.inspect')
+001.898  000.032  000.032: require('vim._options')
+001.900  000.167  000.082: require('vim._editor')
+001.901  000.285  000.083: require('vim._init_packages')
+001.903  000.382: init lua interpreter
+004.525  002.622: expanding arguments
+004.564  000.039: inits 2
+004.850  000.286: init highlight
+004.851  000.001: waiting for UI
+004.979  000.128: done waiting for UI
+004.985  000.006: clear screen
+005.002  000.006  000.006: require('vim.keymap')
+005.197  000.206: init default mappings & autocommands
+005.836  000.080  000.080: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+005.947  000.027  000.027: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+006.405  000.277  000.277: require('config')
+006.543  000.136  000.136: require('keymap')
+007.466  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+009.582  000.049  000.049: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+011.102  001.074  001.074: require('gruvbox')
+011.514  000.410  000.410: require('vim.version')
+013.351  003.341  001.857: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+013.569  000.191  000.191: require('Comment')
+013.716  000.146  000.146: require('Comment.config')
+014.460  000.216  000.216: require('Comment.ft')
+014.463  000.494  000.278: require('Comment.utils')
+014.649  000.185  000.185: require('Comment.opfunc')
+014.792  000.142  000.142: require('Comment.extra')
+014.794  001.018  000.197: require('Comment.api')
+017.052  000.156  000.156: require('vim.treesitter.language')
+017.058  000.574  000.418: require('vim.treesitter.query')
+017.221  000.162  000.162: require('vim.treesitter._range')
+017.226  001.194  000.458: require('vim.treesitter.languagetree')
+017.230  001.494  000.300: require('vim.treesitter')
+017.233  001.605  000.111: require('nvim-treesitter.compat')
+019.203  001.468  001.468: require('nvim-treesitter.parsers')
+019.394  000.189  000.189: require('nvim-treesitter.utils')
+019.398  001.983  000.326: require('nvim-treesitter.ts_utils')
+019.402  002.168  000.185: require('nvim-treesitter.tsrange')
+019.530  000.127  000.127: require('nvim-treesitter.caching')
+019.537  004.188  000.289: require('nvim-treesitter.query')
+019.546  004.551  000.363: require('nvim-treesitter.configs')
+020.253  000.187  000.187: require('nvim-treesitter.info')
+020.487  000.232  000.232: require('nvim-treesitter.shell_command_selectors')
+020.501  000.923  000.503: require('nvim-treesitter.install')
+023.627  000.188  000.188: require('nvim-lastplace')
+024.026  000.101  000.101: require('todo-comments.util')
+024.032  000.285  000.184: require('todo-comments.config')
+024.390  000.258  000.258: require('todo-comments.highlight')
+024.392  000.359  000.101: require('todo-comments.jump')
+024.396  000.741  000.097: require('todo-comments')
+024.793  000.005  000.005: require('vim.F')
+025.336  000.537  000.537: require('nvim-web-devicons.icons-default')
+025.440  000.971  000.430: require('nvim-web-devicons')
+028.339  000.111  000.111: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+028.708  000.102  000.102: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+029.526  000.049  000.049: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+029.805  000.057  000.057: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+030.808  000.034  000.034: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+032.254  000.176  000.176: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+033.342  000.006  000.006: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+033.355  000.298  000.292: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+033.722  000.094  000.094: require('mason-core.path')
+034.087  000.177  000.177: require('mason-core.functional')
+034.324  000.071  000.071: require('mason-core.functional.data')
+034.328  000.222  000.151: require('mason-core.functional.function')
+034.412  000.077  000.077: require('mason-core.functional.relation')
+034.502  000.083  000.083: require('mason-core.functional.logic')
+034.515  000.793  000.234: require('mason-core.platform')
+034.622  000.105  000.105: require('mason.settings')
+034.623  001.121  000.129: require('mason')
+037.552  000.288  000.288: require('vim.lsp.log')
+038.187  000.633  000.633: require('vim.lsp.protocol')
+039.389  000.273  000.273: require('vim.lsp._snippet')
+039.533  000.143  000.143: require('vim.highlight')
+039.543  001.355  000.939: require('vim.lsp.util')
+039.562  002.747  000.471: require('vim.lsp.handlers')
+039.919  000.356  000.356: require('vim.lsp.rpc')
+040.124  000.203  000.203: require('vim.lsp.sync')
+040.471  000.346  000.346: require('vim.lsp.semantic_tokens')
+040.840  000.368  000.368: require('vim.lsp.buf')
+041.073  000.232  000.232: require('vim.lsp.diagnostic')
+041.280  000.205  000.205: require('vim.lsp.codelens')
+041.363  006.142  001.684: require('vim.lsp')
+041.402  006.481  000.339: require('lspconfig.util')
+041.496  000.093  000.093: require('lspconfig.async')
+041.498  006.785  000.210: require('lspconfig.configs')
+041.499  006.875  000.091: require('lspconfig')
+041.981  000.152  000.152: require('mason-core.functional.list')
+042.082  000.099  000.099: require('mason-core.functional.string')
+042.102  000.464  000.213: require('mason.api.command')
+042.216  000.111  000.111: require('mason-registry.sources')
+042.516  000.157  000.157: require('mason-core.log')
+042.581  000.064  000.064: require('mason-lspconfig.settings')
+042.584  000.360  000.140: require('mason-lspconfig')
+042.785  000.057  000.057: require('mason-lspconfig.notify')
+042.788  000.162  000.105: require('mason-lspconfig.lspconfig_hook')
+042.992  000.085  000.085: require('mason-core.functional.table')
+043.022  000.234  000.149: require('mason-lspconfig.mappings.server')
+043.243  000.079  000.079: require('mason-core.EventEmitter')
+043.339  000.095  000.095: require('mason-core.optional')
+043.603  000.140  000.140: require('mason-core.async')
+043.662  000.058  000.058: require('mason-core.async.uv')
+043.665  000.326  000.128: require('mason-core.fs')
+043.675  000.651  000.152: require('mason-registry')
+043.731  000.055  000.055: require('mason-lspconfig.server_config_extensions')
+043.821  000.089  000.089: require('lspconfig.server_configurations.omnisharp')
+043.945  000.068  000.068: require('mason-lspconfig.ensure_installed')
+044.186  000.116  000.116: require('mason-core.result')
+044.596  000.237  000.237: require('mason-core.process')
+044.725  000.128  000.128: require('mason-core.spawn')
+044.726  000.434  000.069: require('mason-core.managers.powershell')
+044.779  000.051  000.051: require('mason.version')
+044.781  000.593  000.107: require('mason-core.fetch')
+044.856  000.074  000.074: require('mason-core.providers')
+045.286  000.203  000.203: require('mason-core.purl')
+045.294  000.376  000.174: require('mason-core.package')
+045.738  000.108  000.108: require('mason-core.installer.registry.expr')
+045.746  000.283  000.175: require('mason-core.installer.registry.link')
+046.507  000.115  000.115: require('mason-core.receipt')
+046.522  000.345  000.230: require('mason-core.installer.context')
+046.629  000.106  000.106: require('mason-core.async.control')
+046.753  000.123  000.123: require('mason-core.installer.linker')
+046.757  000.754  000.179: require('mason-core.installer')
+046.794  000.956  000.202: require('mason-core.installer.managers.std')
+046.796  001.049  000.093: require('mason-core.installer.registry.schemas')
+046.887  000.091  000.091: require('mason-core.installer.registry.util')
+046.894  001.599  000.176: require('mason-core.installer.registry')
+046.895  002.038  000.063: require('mason-registry.sources.util')
+046.903  002.954  000.133: require('mason-registry.sources.github')
+050.764  000.065  000.065: require('mason-core.functional.number')
+050.778  000.227  000.161: require('mason-lspconfig.api.command')
+050.994  000.089  000.089: require('lspconfig.server_configurations.pyright')
+051.500  000.191  000.191: require('lspconfig.manager')
+051.664  000.138  000.138: require('lspconfig.server_configurations.texlab')
+052.049  000.088  000.088: require('lspconfig.server_configurations.lua_ls')
+052.388  000.072  000.072: require('lspconfig.server_configurations.html')
+052.719  000.089  000.089: require('lspconfig.server_configurations.clangd')
+053.290  000.239  000.239: require('lspconfig.server_configurations.rust_analyzer')
+054.611  000.843  000.843: require('vim.diagnostic')
+054.623  046.083  018.016: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+055.270  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+055.313  000.011  000.011: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+055.351  000.007  000.007: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+055.376  000.416  000.387: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+055.545  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+055.615  000.025  000.025: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+055.764  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+056.023  000.042  000.042: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+056.071  000.254  000.212: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+056.089  049.545  002.727: require('dpp')
+056.090  049.981  000.023: sourcing /Users/keimoriyama/.config/nvim/init.lua
+056.096  000.812: sourcing vimrc file(s)
+056.399  000.007  000.007: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+056.685  000.096  000.096: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/neovim/nvim-lspconfig/plugin/lspconfig.lua
+056.896  000.008  000.008: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/shun/ddu-source-rg/plugin/ddu_rg.vim
+057.498  000.103  000.103: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+057.806  000.062  000.062: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+058.205  001.010  000.844: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+058.396  000.030  000.030: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+058.528  000.013  000.013: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+058.742  000.051  000.051: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+058.860  000.011  000.011: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+058.999  000.021  000.021: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+059.148  000.045  000.045: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+059.411  000.140  000.140: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+059.558  000.015  000.015: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+059.709  000.030  000.030: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+060.114  000.102  000.102: require('nvim-treesitter.statusline')
+060.275  000.160  000.160: require('nvim-treesitter.query_predicates')
+060.277  000.413  000.151: require('nvim-treesitter')
+060.478  000.643  000.230: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+060.719  000.130  000.130: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+061.065  000.021  000.021: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+061.319  000.033  000.033: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+061.358  000.261  000.228: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+061.559  000.006  000.006: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+061.596  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+061.699  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+062.121  000.019  000.019: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+062.158  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+062.191  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+062.228  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+062.262  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+062.300  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+062.334  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+062.371  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+062.405  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+062.439  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+062.476  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+062.531  000.025  000.025: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+062.588  000.028  000.028: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+062.676  000.058  000.058: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+062.861  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+062.887  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+062.946  004.113: loading rtp plugins
+063.044  000.098: loading packages
+063.056  000.012: loading after plugins
+063.062  000.006: inits 3
+065.532  002.470: reading ShaDa
+065.795  000.110  000.110: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+065.851  000.210: opening buffers
+066.484  000.062  000.062: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+066.595  000.682: BufEnter autocommands
+066.596  000.001: editing files in windows
+067.314  000.064  000.064: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+068.088  000.018  000.018: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+068.157  000.244  000.227: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+068.765  000.013  000.013: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+069.409  000.037  000.037: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+070.867  003.913: VimEnter autocommands
+070.868  000.001: UIEnter autocommands
+071.148  000.090  000.090: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+071.151  000.193: before starting main loop
+071.297  000.146: first screen update
+071.301  000.004: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.009  000.009: --- NVIM STARTING ---
+000.103  000.093: event init
+000.254  000.151: early init
+000.838  000.584: locale set
+000.900  000.062: init first window
+001.324  000.423: inits 1
+001.333  000.009: window checked
+001.337  000.004: parsing arguments
+001.925  000.052  000.052: require('vim.shared')
+002.022  000.048  000.048: require('vim.inspect')
+002.075  000.038  000.038: require('vim._options')
+002.077  000.149  000.063: require('vim._editor')
+002.079  000.308  000.108: require('vim._init_packages')
+002.080  000.436: init lua interpreter
+002.678  000.597: expanding arguments
+002.702  000.025: inits 2
+003.046  000.344: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.008  000.008: --- NVIM STARTING ---
+000.083  000.076: event init
+000.202  000.118: early init
+000.682  000.480: locale set
+000.752  000.071: init first window
+001.086  000.333: inits 1
+001.106  000.021: window checked
+001.110  000.003: parsing arguments
+001.627  000.043  000.043: require('vim.shared')
+001.711  000.040  000.040: require('vim.inspect')
+001.758  000.034  000.034: require('vim._options')
+001.759  000.129  000.055: require('vim._editor')
+001.761  000.263  000.091: require('vim._init_packages')
+001.762  000.389: init lua interpreter
+004.629  002.866: expanding arguments
+004.694  000.066: inits 2
+004.994  000.300: init highlight
+004.995  000.001: waiting for UI
+005.163  000.168: done waiting for UI
+005.169  000.006: clear screen
+005.191  000.006  000.006: require('vim.keymap')
+005.445  000.270: init default mappings & autocommands
+006.195  000.133  000.133: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+006.315  000.028  000.028: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+006.829  000.335  000.335: require('config')
+006.975  000.145  000.145: require('keymap')
+007.924  000.030  000.030: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+010.020  000.060  000.060: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+011.636  001.137  001.137: require('gruvbox')
+011.991  000.353  000.353: require('vim.version')
+013.721  003.241  001.751: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+013.972  000.228  000.228: require('Comment')
+014.213  000.240  000.240: require('Comment.config')
+015.443  000.246  000.246: require('Comment.ft')
+015.448  000.682  000.436: require('Comment.utils')
+015.661  000.211  000.211: require('Comment.opfunc')
+015.819  000.158  000.158: require('Comment.extra')
+015.822  001.563  000.512: require('Comment.api')
+018.317  000.184  000.184: require('vim.treesitter.language')
+018.325  000.646  000.462: require('vim.treesitter.query')
+018.511  000.185  000.185: require('vim.treesitter._range')
+018.515  001.358  000.528: require('vim.treesitter.languagetree')
+018.520  001.739  000.381: require('vim.treesitter')
+018.523  001.862  000.123: require('nvim-treesitter.compat')
+020.888  001.843  001.843: require('nvim-treesitter.parsers')
+021.193  000.302  000.302: require('nvim-treesitter.utils')
+021.206  002.481  000.336: require('nvim-treesitter.ts_utils')
+021.217  002.693  000.213: require('nvim-treesitter.tsrange')
+021.365  000.146  000.146: require('nvim-treesitter.caching')
+021.372  005.007  000.305: require('nvim-treesitter.query')
+021.382  005.398  000.391: require('nvim-treesitter.configs')
+022.193  000.195  000.195: require('nvim-treesitter.info')
+022.440  000.247  000.247: require('nvim-treesitter.shell_command_selectors')
+022.457  000.954  000.513: require('nvim-treesitter.install')
+025.468  000.160  000.160: require('nvim-lastplace')
+025.880  000.105  000.105: require('todo-comments.util')
+025.885  000.289  000.184: require('todo-comments.config')
+026.233  000.250  000.250: require('todo-comments.highlight')
+026.235  000.349  000.099: require('todo-comments.jump')
+026.237  000.735  000.097: require('todo-comments')
+026.549  000.005  000.005: require('vim.F')
+026.999  000.442  000.442: require('nvim-web-devicons.icons-default')
+027.084  000.802  000.355: require('nvim-web-devicons')
+029.872  000.124  000.124: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+030.260  000.112  000.112: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+031.107  000.049  000.049: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+031.385  000.057  000.057: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+032.431  000.034  000.034: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+033.452  000.172  000.172: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+034.432  000.006  000.006: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+034.447  000.288  000.283: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+035.427  000.159  000.159: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/ddu.vim/autoload/ddu/custom.vim
+036.212  000.067  000.067: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/ddu.vim/autoload/ddu.vim
+036.899  000.089  000.089: require('mason-core.path')
+037.200  000.138  000.138: require('mason-core.functional')
+037.388  000.064  000.064: require('mason-core.functional.data')
+037.391  000.176  000.112: require('mason-core.functional.function')
+037.467  000.070  000.070: require('mason-core.functional.relation')
+037.547  000.076  000.076: require('mason-core.functional.logic')
+037.563  000.662  000.203: require('mason-core.platform')
+037.650  000.086  000.086: require('mason.settings')
+037.654  000.947  000.109: require('mason')
+040.005  000.217  000.217: require('vim.lsp.log')
+040.766  000.760  000.760: require('vim.lsp.protocol')
+042.300  000.271  000.271: require('vim.lsp._snippet')
+042.437  000.135  000.135: require('vim.highlight')
+042.447  001.679  001.274: require('vim.lsp.util')
+042.455  003.069  000.412: require('vim.lsp.handlers')
+042.840  000.382  000.382: require('vim.lsp.rpc')
+043.043  000.202  000.202: require('vim.lsp.sync')
+043.388  000.343  000.343: require('vim.lsp.semantic_tokens')
+043.759  000.370  000.370: require('vim.lsp.buf')
+043.995  000.235  000.235: require('vim.lsp.diagnostic')
+044.202  000.206  000.206: require('vim.lsp.codelens')
+044.288  006.073  001.266: require('vim.lsp')
+044.343  006.380  000.307: require('lspconfig.util')
+044.436  000.092  000.092: require('lspconfig.async')
+044.438  006.691  000.219: require('lspconfig.configs')
+044.439  006.784  000.093: require('lspconfig')
+044.929  000.137  000.137: require('mason-core.functional.list')
+045.029  000.099  000.099: require('mason-core.functional.string')
+045.044  000.431  000.195: require('mason.api.command')
+045.150  000.103  000.103: require('mason-registry.sources')
+045.431  000.148  000.148: require('mason-core.log')
+045.490  000.058  000.058: require('mason-lspconfig.settings')
+045.492  000.336  000.130: require('mason-lspconfig')
+045.678  000.052  000.052: require('mason-lspconfig.notify')
+045.681  000.148  000.096: require('mason-lspconfig.lspconfig_hook')
+045.861  000.079  000.079: require('mason-core.functional.table')
+045.889  000.207  000.128: require('mason-lspconfig.mappings.server')
+046.098  000.074  000.074: require('mason-core.EventEmitter')
+046.178  000.078  000.078: require('mason-core.optional')
+046.410  000.126  000.126: require('mason-core.async')
+046.464  000.053  000.053: require('mason-core.async.uv')
+046.468  000.289  000.110: require('mason-core.fs')
+046.476  000.586  000.145: require('mason-registry')
+046.530  000.052  000.052: require('mason-lspconfig.server_config_extensions')
+046.617  000.087  000.087: require('lspconfig.server_configurations.omnisharp')
+046.711  000.068  000.068: require('mason-lspconfig.ensure_installed')
+046.930  000.099  000.099: require('mason-core.result')
+047.245  000.149  000.149: require('mason-core.process')
+047.503  000.257  000.257: require('mason-core.spawn')
+047.504  000.476  000.070: require('mason-core.managers.powershell')
+047.557  000.052  000.052: require('mason.version')
+047.558  000.627  000.100: require('mason-core.fetch')
+047.635  000.076  000.076: require('mason-core.providers')
+048.031  000.169  000.169: require('mason-core.purl')
+048.045  000.349  000.180: require('mason-core.package')
+048.440  000.096  000.096: require('mason-core.installer.registry.expr')
+048.445  000.255  000.159: require('mason-core.installer.registry.link')
+049.122  000.108  000.108: require('mason-core.receipt')
+049.133  000.306  000.198: require('mason-core.installer.context')
+049.263  000.111  000.111: require('mason-core.async.control')
+049.388  000.124  000.124: require('mason-core.installer.linker')
+049.391  000.721  000.180: require('mason-core.installer')
+049.404  000.877  000.156: require('mason-core.installer.managers.std')
+049.406  000.960  000.083: require('mason-core.installer.registry.schemas')
+049.496  000.089  000.089: require('mason-core.installer.registry.util')
+049.503  001.457  000.154: require('mason-core.installer.registry')
+049.504  001.868  000.062: require('mason-registry.sources.util')
+049.512  002.798  000.127: require('mason-registry.sources.github')
+053.350  000.062  000.062: require('mason-core.functional.number')
+053.364  000.211  000.149: require('mason-lspconfig.api.command')
+053.569  000.091  000.091: require('lspconfig.server_configurations.pyright')
+054.056  000.177  000.177: require('lspconfig.manager')
+054.153  000.075  000.075: require('lspconfig.server_configurations.lua_ls')
+054.537  000.103  000.103: require('lspconfig.server_configurations.texlab')
+054.839  000.085  000.085: require('lspconfig.server_configurations.clangd')
+055.203  000.156  000.156: require('lspconfig.server_configurations.rust_analyzer')
+055.809  000.065  000.065: require('lspconfig.server_configurations.html')
+056.733  000.761  000.761: require('vim.diagnostic')
+056.742  047.833  019.116: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+057.371  000.013  000.013: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+057.412  000.011  000.011: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+057.452  000.007  000.007: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+057.480  000.424  000.393: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+057.661  000.013  000.013: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+057.740  000.031  000.031: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+057.894  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+058.162  000.046  000.046: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+058.211  000.259  000.213: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+058.273  051.296  002.702: require('dpp')
+058.274  051.804  000.028: sourcing /Users/keimoriyama/.config/nvim/init.lua
+058.283  000.872: sourcing vimrc file(s)
+058.630  000.021  000.021: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+058.950  000.124  000.124: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/neovim/nvim-lspconfig/plugin/lspconfig.lua
+059.167  000.008  000.008: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/shun/ddu-source-rg/plugin/ddu_rg.vim
+059.697  000.106  000.106: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+059.993  000.059  000.059: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+060.400  000.986  000.821: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+060.558  000.015  000.015: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+060.681  000.012  000.012: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+060.822  000.039  000.039: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+060.932  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+061.070  000.020  000.020: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+061.215  000.043  000.043: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+061.489  000.169  000.169: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+061.671  000.013  000.013: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+061.818  000.016  000.016: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+062.289  000.124  000.124: require('nvim-treesitter.statusline')
+062.462  000.172  000.172: require('nvim-treesitter.query_predicates')
+062.464  000.456  000.161: require('nvim-treesitter')
+062.684  000.707  000.250: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+062.867  000.075  000.075: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+063.210  000.026  000.026: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+063.452  000.030  000.030: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+063.486  000.244  000.214: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+063.682  000.016  000.016: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+063.716  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+063.809  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+064.203  000.018  000.018: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+064.239  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+064.273  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+064.312  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+064.345  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+064.378  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+064.414  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+064.450  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+064.487  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+064.523  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+064.559  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+064.615  000.025  000.025: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+064.678  000.034  000.034: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+064.772  000.063  000.063: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+064.957  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+064.983  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+065.038  003.996: loading rtp plugins
+065.126  000.088: loading packages
+065.138  000.011: loading after plugins
+065.146  000.008: inits 3
+067.538  002.392: reading ShaDa
+067.806  000.111  000.111: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+067.865  000.216: opening buffers
+068.507  000.066  000.066: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+068.620  000.689: BufEnter autocommands
+068.621  000.001: editing files in windows
+069.283  000.062  000.062: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+070.055  000.018  000.018: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+070.125  000.245  000.227: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+070.746  000.012  000.012: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+071.357  000.039  000.039: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+072.716  003.737: VimEnter autocommands
+072.717  000.001: UIEnter autocommands
+072.996  000.092  000.092: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+072.998  000.190: before starting main loop
+073.152  000.154: first screen update
+073.153  000.001: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.005  000.005: --- NVIM STARTING ---
+000.076  000.071: event init
+000.205  000.129: early init
+000.690  000.484: locale set
+000.745  000.055: init first window
+001.137  000.392: inits 1
+001.145  000.008: window checked
+001.149  000.004: parsing arguments
+001.698  000.045  000.045: require('vim.shared')
+001.794  000.046  000.046: require('vim.inspect')
+001.844  000.037  000.037: require('vim._options')
+001.846  000.144  000.062: require('vim._editor')
+001.848  000.293  000.104: require('vim._init_packages')
+001.850  000.407: init lua interpreter
+002.278  000.429: expanding arguments
+002.296  000.018: inits 2
+002.640  000.345: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.005  000.005: --- NVIM STARTING ---
+000.068  000.063: event init
+000.177  000.109: early init
+000.573  000.396: locale set
+000.625  000.052: init first window
+000.958  000.333: inits 1
+000.975  000.016: window checked
+000.978  000.004: parsing arguments
+001.471  000.043  000.043: require('vim.shared')
+001.549  000.036  000.036: require('vim.inspect')
+001.592  000.031  000.031: require('vim._options')
+001.593  000.120  000.053: require('vim._editor')
+001.595  000.247  000.084: require('vim._init_packages')
+001.597  000.371: init lua interpreter
+004.001  002.405: expanding arguments
+004.037  000.035: inits 2
+004.329  000.292: init highlight
+004.330  000.001: waiting for UI
+004.453  000.123: done waiting for UI
+004.459  000.006: clear screen
+004.485  000.009  000.009: require('vim.keymap')
+004.680  000.212: init default mappings & autocommands
+005.293  000.071  000.071: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+005.398  000.027  000.027: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+005.853  000.288  000.288: require('config')
+005.994  000.139  000.139: require('keymap')
+007.003  000.034  000.034: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+009.024  000.049  000.049: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+010.653  001.211  001.211: require('gruvbox')
+011.042  000.386  000.386: require('vim.version')
+012.712  003.287  001.690: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+012.915  000.177  000.177: require('Comment')
+013.059  000.142  000.142: require('Comment.config')
+013.941  000.248  000.248: require('Comment.ft')
+013.946  000.644  000.396: require('Comment.utils')
+014.153  000.206  000.206: require('Comment.opfunc')
+014.309  000.155  000.155: require('Comment.extra')
+014.313  001.241  000.235: require('Comment.api')
+016.682  000.169  000.169: require('vim.treesitter.language')
+016.692  000.643  000.474: require('vim.treesitter.query')
+016.877  000.183  000.183: require('vim.treesitter._range')
+016.882  001.345  000.519: require('vim.treesitter.languagetree')
+016.887  001.653  000.307: require('vim.treesitter')
+016.889  001.775  000.122: require('nvim-treesitter.compat')
+019.020  001.618  001.618: require('nvim-treesitter.parsers')
+019.369  000.347  000.347: require('nvim-treesitter.utils')
+019.380  002.305  000.340: require('nvim-treesitter.ts_utils')
+019.390  002.500  000.195: require('nvim-treesitter.tsrange')
+019.553  000.161  000.161: require('nvim-treesitter.caching')
+019.569  004.763  000.327: require('nvim-treesitter.query')
+019.601  005.164  000.401: require('nvim-treesitter.configs')
+020.531  000.237  000.237: require('nvim-treesitter.info')
+020.772  000.240  000.240: require('nvim-treesitter.shell_command_selectors')
+020.797  001.128  000.651: require('nvim-treesitter.install')
+023.493  000.187  000.187: require('nvim-lastplace')
+023.955  000.114  000.114: require('todo-comments.util')
+023.961  000.318  000.204: require('todo-comments.config')
+024.346  000.276  000.276: require('todo-comments.highlight')
+024.348  000.386  000.110: require('todo-comments.jump')
+024.350  000.807  000.103: require('todo-comments')
+024.706  000.005  000.005: require('vim.F')
+025.204  000.491  000.491: require('nvim-web-devicons.icons-default')
+025.294  000.895  000.399: require('nvim-web-devicons')
+029.165  000.137  000.137: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+029.531  000.116  000.116: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+030.517  000.045  000.045: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+030.775  000.072  000.072: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+031.824  000.038  000.038: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+032.769  000.186  000.186: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+033.923  000.006  000.006: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+033.939  000.273  000.267: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+034.380  000.107  000.107: require('mason-core.path')
+034.759  000.155  000.155: require('mason-core.functional')
+034.978  000.079  000.079: require('mason-core.functional.data')
+034.981  000.203  000.124: require('mason-core.functional.function')
+035.070  000.081  000.081: require('mason-core.functional.relation')
+035.161  000.086  000.086: require('mason-core.functional.logic')
+035.209  000.827  000.302: require('mason-core.platform')
+035.315  000.105  000.105: require('mason.settings')
+035.316  001.208  000.169: require('mason')
+037.950  000.201  000.201: require('vim.lsp.log')
+038.790  000.839  000.839: require('vim.lsp.protocol')
+040.260  000.341  000.341: require('vim.lsp._snippet')
+040.455  000.193  000.193: require('vim.highlight')
+040.490  001.697  001.163: require('vim.lsp.util')
+040.527  003.272  000.535: require('vim.lsp.handlers')
+041.114  000.586  000.586: require('vim.lsp.rpc')
+041.329  000.214  000.214: require('vim.lsp.sync')
+041.676  000.345  000.345: require('vim.lsp.semantic_tokens')
+042.044  000.367  000.367: require('vim.lsp.buf')
+042.291  000.247  000.247: require('vim.lsp.diagnostic')
+042.497  000.205  000.205: require('vim.lsp.codelens')
+042.573  006.652  001.417: require('vim.lsp')
+042.612  006.984  000.331: require('lspconfig.util')
+042.707  000.094  000.094: require('lspconfig.async')
+042.708  007.294  000.216: require('lspconfig.configs')
+042.710  007.393  000.099: require('lspconfig')
+043.221  000.150  000.150: require('mason-core.functional.list')
+043.333  000.110  000.110: require('mason-core.functional.string')
+043.349  000.462  000.203: require('mason.api.command')
+043.465  000.114  000.114: require('mason-registry.sources')
+043.768  000.156  000.156: require('mason-core.log')
+043.834  000.065  000.065: require('mason-lspconfig.settings')
+043.843  000.371  000.151: require('mason-lspconfig')
+044.091  000.083  000.083: require('mason-lspconfig.notify')
+044.094  000.208  000.125: require('mason-lspconfig.lspconfig_hook')
+044.328  000.099  000.099: require('mason-core.functional.table')
+044.364  000.268  000.170: require('mason-lspconfig.mappings.server')
+044.599  000.085  000.085: require('mason-core.EventEmitter')
+044.693  000.092  000.092: require('mason-core.optional')
+044.968  000.152  000.152: require('mason-core.async')
+045.030  000.060  000.060: require('mason-core.async.uv')
+045.034  000.340  000.128: require('mason-core.fs')
+045.051  000.686  000.169: require('mason-registry')
+045.118  000.066  000.066: require('mason-lspconfig.server_config_extensions')
+045.226  000.106  000.106: require('lspconfig.server_configurations.omnisharp')
+045.347  000.078  000.078: require('mason-lspconfig.ensure_installed')
+045.615  000.115  000.115: require('mason-core.result')
+045.977  000.168  000.168: require('mason-core.process')
+046.145  000.167  000.167: require('mason-core.spawn')
+046.147  000.418  000.082: require('mason-core.managers.powershell')
+046.206  000.058  000.058: require('mason.version')
+046.207  000.591  000.116: require('mason-core.fetch')
+046.295  000.086  000.086: require('mason-core.providers')
+046.735  000.195  000.195: require('mason-core.purl')
+046.742  000.376  000.182: require('mason-core.package')
+047.316  000.128  000.128: require('mason-core.installer.registry.expr')
+047.342  000.331  000.203: require('mason-core.installer.registry.link')
+048.103  000.109  000.109: require('mason-core.receipt')
+048.119  000.328  000.219: require('mason-core.installer.context')
+048.222  000.102  000.102: require('mason-core.async.control')
+048.343  000.119  000.119: require('mason-core.installer.linker')
+048.346  000.727  000.177: require('mason-core.installer')
+048.381  000.931  000.204: require('mason-core.installer.managers.std')
+048.383  001.040  000.108: require('mason-core.installer.registry.schemas')
+048.473  000.089  000.089: require('mason-core.installer.registry.util')
+048.479  001.736  000.276: require('mason-core.installer.registry')
+048.481  002.185  000.072: require('mason-registry.sources.util')
+048.485  003.124  000.147: require('mason-registry.sources.github')
+052.307  000.061  000.061: require('mason-core.functional.number')
+052.322  000.204  000.144: require('mason-lspconfig.api.command')
+052.570  000.099  000.099: require('lspconfig.server_configurations.texlab')
+053.044  000.164  000.164: require('lspconfig.manager')
+053.135  000.073  000.073: require('lspconfig.server_configurations.lua_ls')
+053.471  000.066  000.066: require('lspconfig.server_configurations.html')
+053.796  000.086  000.086: require('lspconfig.server_configurations.pyright')
+054.150  000.150  000.150: require('lspconfig.server_configurations.rust_analyzer')
+054.839  000.193  000.193: require('lspconfig.server_configurations.clangd')
+055.885  000.836  000.836: require('vim.diagnostic')
+055.900  047.813  017.915: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+056.493  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+056.538  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+056.576  000.007  000.007: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+056.602  000.396  000.369: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+056.758  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+056.829  000.024  000.024: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+056.951  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+057.185  000.044  000.044: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+057.234  000.224  000.180: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+057.291  051.295  002.792: require('dpp')
+057.292  051.749  000.027: sourcing /Users/keimoriyama/.config/nvim/init.lua
+057.298  000.772: sourcing vimrc file(s)
+057.604  000.007  000.007: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+057.915  000.120  000.120: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/neovim/nvim-lspconfig/plugin/lspconfig.lua
+058.276  000.121  000.121: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+058.544  000.066  000.066: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+058.924  000.901  000.713: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+059.086  000.014  000.014: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+059.219  000.024  000.024: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+059.357  000.038  000.038: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+059.469  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+059.601  000.016  000.016: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+059.776  000.052  000.052: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+060.029  000.139  000.139: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+060.170  000.014  000.014: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+060.313  000.017  000.017: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+060.668  000.100  000.100: require('nvim-treesitter.statusline')
+060.847  000.163  000.163: require('nvim-treesitter.query_predicates')
+060.850  000.380  000.117: require('nvim-treesitter')
+061.018  000.576  000.196: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+061.372  000.155  000.155: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+061.801  000.053  000.053: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+062.056  000.036  000.036: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+062.098  000.261  000.225: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+062.319  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+062.359  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+062.470  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+062.876  000.020  000.020: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+062.913  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+062.951  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+063.006  000.024  000.024: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+063.040  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+063.074  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+063.110  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+063.147  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+063.182  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+063.218  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+063.256  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+063.319  000.032  000.032: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+063.383  000.033  000.033: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+063.514  000.100  000.100: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+063.708  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+063.736  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+063.796  003.816: loading rtp plugins
+063.899  000.103: loading packages
+063.911  000.012: loading after plugins
+063.920  000.009: inits 3
+066.493  002.574: reading ShaDa
+066.726  000.112  000.112: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+066.785  000.180: opening buffers
+067.591  000.069  000.069: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+067.711  000.857: BufEnter autocommands
+067.712  000.001: editing files in windows
+068.607  000.072  000.072: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+069.471  000.019  000.019: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+069.532  000.203  000.184: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+070.296  000.018  000.018: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+071.080  000.039  000.039: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+072.530  004.485: VimEnter autocommands
+072.558  000.028: UIEnter autocommands
+072.796  000.092  000.092: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+072.799  000.148: before starting main loop
+072.964  000.165: first screen update
+072.965  000.001: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.006  000.006: --- NVIM STARTING ---
+000.094  000.088: event init
+000.217  000.124: early init
+000.781  000.563: locale set
+000.832  000.051: init first window
+001.162  000.330: inits 1
+001.170  000.007: window checked
+001.173  000.004: parsing arguments
+001.625  000.036  000.036: require('vim.shared')
+001.703  000.036  000.036: require('vim.inspect')
+001.748  000.033  000.033: require('vim._options')
+001.750  000.121  000.052: require('vim._editor')
+001.751  000.244  000.086: require('vim._init_packages')
+001.753  000.335: init lua interpreter
+002.094  000.341: expanding arguments
+002.109  000.015: inits 2
+002.397  000.288: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.006  000.006: --- NVIM STARTING ---
+000.091  000.085: event init
+000.228  000.137: early init
+000.712  000.484: locale set
+000.775  000.064: init first window
+001.068  000.293: inits 1
+001.088  000.020: window checked
+001.091  000.003: parsing arguments
+001.552  000.039  000.039: require('vim.shared')
+001.640  000.041  000.041: require('vim.inspect')
+001.689  000.036  000.036: require('vim._options')
+001.691  000.136  000.059: require('vim._editor')
+001.692  000.260  000.085: require('vim._init_packages')
+001.693  000.343: init lua interpreter
+005.307  003.614: expanding arguments
+005.399  000.092: inits 2
+005.706  000.307: init highlight
+005.707  000.001: waiting for UI
+005.830  000.123: done waiting for UI
+005.836  000.006: clear screen
+005.864  000.010  000.010: require('vim.keymap')
+006.059  000.213: init default mappings & autocommands
+006.636  000.063  000.063: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+006.739  000.027  000.027: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+007.149  000.262  000.262: require('config')
+007.276  000.125  000.125: require('keymap')
+008.312  000.035  000.035: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+010.483  000.056  000.056: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+012.099  001.151  001.151: require('gruvbox')
+012.470  000.369  000.369: require('vim.version')
+014.100  003.172  001.651: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+014.286  000.166  000.166: require('Comment')
+014.416  000.128  000.128: require('Comment.config')
+015.580  000.304  000.304: require('Comment.ft')
+015.585  000.908  000.604: require('Comment.utils')
+015.798  000.211  000.211: require('Comment.opfunc')
+015.967  000.168  000.168: require('Comment.extra')
+015.970  001.533  000.245: require('Comment.api')
+018.383  000.169  000.169: require('vim.treesitter.language')
+018.395  000.620  000.451: require('vim.treesitter.query')
+018.566  000.169  000.169: require('vim.treesitter._range')
+018.574  001.272  000.482: require('vim.treesitter.languagetree')
+018.578  001.611  000.339: require('vim.treesitter')
+018.580  001.740  000.128: require('nvim-treesitter.compat')
+020.667  001.616  001.616: require('nvim-treesitter.parsers')
+020.951  000.281  000.281: require('nvim-treesitter.utils')
+020.959  002.203  000.307: require('nvim-treesitter.ts_utils')
+020.968  002.387  000.184: require('nvim-treesitter.tsrange')
+021.114  000.145  000.145: require('nvim-treesitter.caching')
+021.129  004.587  000.315: require('nvim-treesitter.query')
+021.183  005.021  000.435: require('nvim-treesitter.configs')
+021.995  000.242  000.242: require('nvim-treesitter.info')
+022.259  000.262  000.262: require('nvim-treesitter.shell_command_selectors')
+022.278  001.073  000.570: require('nvim-treesitter.install')
+025.912  000.254  000.254: require('nvim-lastplace')
+026.345  000.111  000.111: require('todo-comments.util')
+026.350  000.307  000.196: require('todo-comments.config')
+026.734  000.263  000.263: require('todo-comments.highlight')
+026.736  000.385  000.122: require('todo-comments.jump')
+026.738  000.794  000.103: require('todo-comments')
+027.096  000.005  000.005: require('vim.F')
+027.526  000.423  000.423: require('nvim-web-devicons.icons-default')
+027.645  000.830  000.402: require('nvim-web-devicons')
+030.374  000.127  000.127: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+030.787  000.131  000.131: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+031.958  000.072  000.072: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+032.299  000.078  000.078: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+033.398  000.038  000.038: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+034.489  000.184  000.184: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+035.489  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+035.501  000.288  000.278: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+035.940  000.099  000.099: require('mason-core.path')
+036.301  000.173  000.173: require('mason-core.functional')
+036.512  000.068  000.068: require('mason-core.functional.data')
+036.521  000.195  000.127: require('mason-core.functional.function')
+036.608  000.077  000.077: require('mason-core.functional.relation')
+036.690  000.078  000.078: require('mason-core.functional.logic')
+036.702  000.761  000.236: require('mason-core.platform')
+036.803  000.100  000.100: require('mason.settings')
+036.804  001.142  000.182: require('mason')
+039.393  000.235  000.235: require('vim.lsp.log')
+040.133  000.739  000.739: require('vim.lsp.protocol')
+041.748  000.569  000.569: require('vim.lsp._snippet')
+041.949  000.200  000.200: require('vim.highlight')
+041.966  001.832  001.063: require('vim.lsp.util')
+041.995  003.279  000.473: require('vim.lsp.handlers')
+042.384  000.388  000.388: require('vim.lsp.rpc')
+042.600  000.215  000.215: require('vim.lsp.sync')
+042.966  000.364  000.364: require('vim.lsp.semantic_tokens')
+043.347  000.380  000.380: require('vim.lsp.buf')
+043.583  000.233  000.233: require('vim.lsp.diagnostic')
+043.776  000.192  000.192: require('vim.lsp.codelens')
+043.884  006.545  001.495: require('vim.lsp')
+043.913  006.807  000.262: require('lspconfig.util')
+044.010  000.096  000.096: require('lspconfig.async')
+044.011  007.114  000.212: require('lspconfig.configs')
+044.013  007.207  000.093: require('lspconfig')
+044.627  000.165  000.165: require('mason-core.functional.list')
+044.733  000.104  000.104: require('mason-core.functional.string')
+044.754  000.546  000.276: require('mason.api.command')
+044.876  000.119  000.119: require('mason-registry.sources')
+045.173  000.152  000.152: require('mason-core.log')
+045.241  000.067  000.067: require('mason-lspconfig.settings')
+045.243  000.359  000.140: require('mason-lspconfig')
+045.442  000.061  000.061: require('mason-lspconfig.notify')
+045.445  000.164  000.102: require('mason-lspconfig.lspconfig_hook')
+045.653  000.092  000.092: require('mason-core.functional.table')
+045.700  000.254  000.162: require('mason-lspconfig.mappings.server')
+045.910  000.075  000.075: require('mason-core.EventEmitter')
+046.008  000.097  000.097: require('mason-core.optional')
+046.248  000.130  000.130: require('mason-core.async')
+046.303  000.054  000.054: require('mason-core.async.uv')
+046.306  000.297  000.114: require('mason-core.fs')
+046.316  000.615  000.145: require('mason-registry')
+046.372  000.055  000.055: require('mason-lspconfig.server_config_extensions')
+046.463  000.090  000.090: require('lspconfig.server_configurations.omnisharp')
+046.612  000.074  000.074: require('mason-lspconfig.ensure_installed')
+046.840  000.104  000.104: require('mason-core.result')
+047.179  000.168  000.168: require('mason-core.process')
+047.369  000.190  000.190: require('mason-core.spawn')
+047.371  000.431  000.073: require('mason-core.managers.powershell')
+047.422  000.050  000.050: require('mason.version')
+047.424  000.583  000.102: require('mason-core.fetch')
+047.517  000.093  000.093: require('mason-core.providers')
+048.063  000.198  000.198: require('mason-core.purl')
+048.076  000.465  000.267: require('mason-core.package')
+048.636  000.112  000.112: require('mason-core.installer.registry.expr')
+048.640  000.301  000.189: require('mason-core.installer.registry.link')
+049.315  000.099  000.099: require('mason-core.receipt')
+049.327  000.296  000.198: require('mason-core.installer.context')
+049.425  000.097  000.097: require('mason-core.async.control')
+049.534  000.108  000.108: require('mason-core.installer.linker')
+049.537  000.662  000.161: require('mason-core.installer')
+049.574  000.847  000.185: require('mason-core.installer.managers.std')
+049.575  000.934  000.087: require('mason-core.installer.registry.schemas')
+049.657  000.081  000.081: require('mason-core.installer.registry.util')
+049.673  001.596  000.281: require('mason-core.installer.registry')
+049.674  002.156  000.094: require('mason-registry.sources.util')
+049.679  003.063  000.129: require('mason-registry.sources.github')
+053.486  000.056  000.056: require('mason-core.functional.number')
+053.496  000.188  000.132: require('mason-lspconfig.api.command')
+053.698  000.067  000.067: require('lspconfig.server_configurations.html')
+054.248  000.204  000.204: require('lspconfig.manager')
+054.335  000.070  000.070: require('lspconfig.server_configurations.lua_ls')
+054.738  000.074  000.074: require('lspconfig.server_configurations.pyright')
+055.037  000.099  000.099: require('lspconfig.server_configurations.texlab')
+055.432  000.138  000.138: require('lspconfig.server_configurations.rust_analyzer')
+056.125  000.087  000.087: require('lspconfig.server_configurations.clangd')
+057.114  000.782  000.782: require('vim.diagnostic')
+057.129  047.778  018.434: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+057.831  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+057.875  000.011  000.011: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+057.913  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+057.938  000.428  000.398: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+058.122  000.010  000.010: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+058.197  000.026  000.026: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+058.349  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+058.619  000.042  000.042: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+058.670  000.261  000.220: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+058.694  051.416  002.874: require('dpp')
+058.695  051.825  000.022: sourcing /Users/keimoriyama/.config/nvim/init.lua
+058.702  000.729: sourcing vimrc file(s)
+059.001  000.007  000.007: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+059.310  000.124  000.124: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/neovim/nvim-lspconfig/plugin/lspconfig.lua
+059.522  000.007  000.007: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/shun/ddu-source-rg/plugin/ddu_rg.vim
+060.060  000.099  000.099: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+060.360  000.068  000.068: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+060.766  000.994  000.827: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+060.942  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+061.062  000.012  000.012: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+061.248  000.042  000.042: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+061.357  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+061.489  000.016  000.016: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+061.633  000.047  000.047: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+061.855  000.123  000.123: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+061.985  000.012  000.012: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+062.131  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+062.464  000.099  000.099: require('nvim-treesitter.statusline')
+062.622  000.157  000.157: require('nvim-treesitter.query_predicates')
+062.624  000.357  000.100: require('nvim-treesitter')
+062.798  000.556  000.199: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+063.051  000.125  000.125: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+063.416  000.025  000.025: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+063.664  000.038  000.038: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+063.706  000.257  000.219: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+063.893  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+063.927  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+064.021  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+064.414  000.019  000.019: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+064.450  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+064.484  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+064.520  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+064.553  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+064.585  000.003  000.003: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+064.619  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+064.664  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+064.710  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+064.743  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+064.778  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+064.838  000.025  000.025: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+064.901  000.032  000.032: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+065.034  000.101  000.101: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+065.216  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+065.243  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+065.297  003.934: loading rtp plugins
+065.392  000.095: loading packages
+065.404  000.012: loading after plugins
+065.409  000.006: inits 3
+067.924  002.515: reading ShaDa
+068.195  000.106  000.106: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+068.252  000.222: opening buffers
+068.905  000.063  000.063: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+069.013  000.698: BufEnter autocommands
+069.014  000.001: editing files in windows
+069.671  000.061  000.061: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+070.455  000.018  000.018: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+070.523  000.247  000.229: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+071.138  000.012  000.012: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+071.746  000.038  000.038: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+073.091  003.719: VimEnter autocommands
+073.095  000.004: UIEnter autocommands
+073.375  000.093  000.093: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+073.378  000.190: before starting main loop
+073.528  000.150: first screen update
+073.528  000.001: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.007  000.007: --- NVIM STARTING ---
+000.084  000.077: event init
+000.225  000.140: early init
+000.873  000.648: locale set
+000.950  000.077: init first window
+001.416  000.467: inits 1
+001.425  000.009: window checked
+001.430  000.005: parsing arguments
+002.059  000.050  000.050: require('vim.shared')
+002.154  000.045  000.045: require('vim.inspect')
+002.207  000.038  000.038: require('vim._options')
+002.208  000.146  000.063: require('vim._editor')
+002.210  000.306  000.110: require('vim._init_packages')
+002.212  000.476: init lua interpreter
+002.717  000.505: expanding arguments
+002.736  000.019: inits 2
+003.143  000.407: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.008  000.008: --- NVIM STARTING ---
+000.093  000.085: event init
+000.218  000.125: early init
+000.727  000.509: locale set
+000.794  000.067: init first window
+001.153  000.359: inits 1
+001.210  000.057: window checked
+001.219  000.009: parsing arguments
+001.873  000.055  000.055: require('vim.shared')
+001.964  000.044  000.044: require('vim.inspect')
+002.010  000.034  000.034: require('vim._options')
+002.018  000.138  000.061: require('vim._editor')
+002.019  000.326  000.132: require('vim._init_packages')
+002.021  000.476: init lua interpreter
+004.372  002.351: expanding arguments
+004.431  000.058: inits 2
+004.711  000.281: init highlight
+004.712  000.001: waiting for UI
+004.886  000.173: done waiting for UI
+004.891  000.005: clear screen
+004.931  000.011  000.011: require('vim.keymap')
+005.146  000.243: init default mappings & autocommands
+005.721  000.063  000.063: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+005.820  000.025  000.025: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+006.264  000.282  000.282: require('config')
+006.392  000.126  000.126: require('keymap')
+007.375  000.032  000.032: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+009.478  000.054  000.054: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+011.130  001.184  001.184: require('gruvbox')
+011.665  000.532  000.532: require('vim.version')
+013.372  003.451  001.735: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+013.599  000.198  000.198: require('Comment')
+013.762  000.161  000.161: require('Comment.config')
+014.760  000.246  000.246: require('Comment.ft')
+014.764  000.678  000.431: require('Comment.utils')
+014.962  000.197  000.197: require('Comment.opfunc')
+015.111  000.147  000.147: require('Comment.extra')
+015.113  001.296  000.274: require('Comment.api')
+017.448  000.165  000.165: require('vim.treesitter.language')
+017.455  000.588  000.423: require('vim.treesitter.query')
+017.620  000.165  000.165: require('vim.treesitter._range')
+017.625  001.225  000.472: require('vim.treesitter.languagetree')
+017.630  001.535  000.310: require('vim.treesitter')
+017.632  001.648  000.113: require('nvim-treesitter.compat')
+019.547  001.443  001.443: require('nvim-treesitter.parsers')
+019.828  000.279  000.279: require('nvim-treesitter.utils')
+019.838  002.031  000.309: require('nvim-treesitter.ts_utils')
+019.846  002.213  000.181: require('nvim-treesitter.tsrange')
+020.000  000.153  000.153: require('nvim-treesitter.caching')
+020.018  004.322  000.309: require('nvim-treesitter.query')
+020.069  004.727  000.405: require('nvim-treesitter.configs')
+020.941  000.203  000.203: require('nvim-treesitter.info')
+021.165  000.222  000.222: require('nvim-treesitter.shell_command_selectors')
+021.179  000.957  000.532: require('nvim-treesitter.install')
+024.108  000.161  000.161: require('nvim-lastplace')
+024.520  000.103  000.103: require('todo-comments.util')
+024.525  000.284  000.181: require('todo-comments.config')
+024.915  000.290  000.290: require('todo-comments.highlight')
+024.917  000.391  000.101: require('todo-comments.jump')
+024.919  000.782  000.106: require('todo-comments')
+025.317  000.005  000.005: require('vim.F')
+025.749  000.423  000.423: require('nvim-web-devicons.icons-default')
+025.835  000.830  000.402: require('nvim-web-devicons')
+028.651  000.114  000.114: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+029.019  000.103  000.103: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+029.847  000.051  000.051: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+030.125  000.057  000.057: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+031.106  000.031  000.031: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+032.103  000.170  000.170: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+033.097  000.006  000.006: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+033.112  000.296  000.290: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+033.438  000.091  000.091: require('mason-core.path')
+033.747  000.148  000.148: require('mason-core.functional')
+033.943  000.069  000.069: require('mason-core.functional.data')
+033.950  000.185  000.116: require('mason-core.functional.function')
+034.027  000.071  000.071: require('mason-core.functional.relation')
+034.107  000.076  000.076: require('mason-core.functional.logic')
+034.142  000.703  000.223: require('mason-core.platform')
+034.228  000.085  000.085: require('mason.settings')
+034.230  000.993  000.113: require('mason')
+036.510  000.197  000.197: require('vim.lsp.log')
+037.310  000.799  000.799: require('vim.lsp.protocol')
+038.788  000.449  000.449: require('vim.lsp._snippet')
+038.978  000.189  000.189: require('vim.highlight')
+039.018  001.706  001.068: require('vim.lsp.util')
+039.054  003.145  000.444: require('vim.lsp.handlers')
+039.441  000.386  000.386: require('vim.lsp.rpc')
+039.650  000.208  000.208: require('vim.lsp.sync')
+039.989  000.338  000.338: require('vim.lsp.semantic_tokens')
+040.354  000.364  000.364: require('vim.lsp.buf')
+040.587  000.232  000.232: require('vim.lsp.diagnostic')
+040.811  000.223  000.223: require('vim.lsp.codelens')
+040.887  006.152  001.256: require('vim.lsp')
+040.925  006.419  000.267: require('lspconfig.util')
+041.034  000.107  000.107: require('lspconfig.async')
+041.036  006.721  000.195: require('lspconfig.configs')
+041.038  006.807  000.086: require('lspconfig')
+041.592  000.163  000.163: require('mason-core.functional.list')
+041.708  000.115  000.115: require('mason-core.functional.string')
+041.727  000.505  000.228: require('mason.api.command')
+041.841  000.111  000.111: require('mason-registry.sources')
+042.137  000.153  000.153: require('mason-core.log')
+042.203  000.065  000.065: require('mason-lspconfig.settings')
+042.205  000.355  000.137: require('mason-lspconfig')
+042.408  000.059  000.059: require('mason-lspconfig.notify')
+042.411  000.168  000.108: require('mason-lspconfig.lspconfig_hook')
+042.613  000.087  000.087: require('mason-core.functional.table')
+042.640  000.228  000.141: require('mason-lspconfig.mappings.server')
+042.845  000.075  000.075: require('mason-core.EventEmitter')
+042.925  000.079  000.079: require('mason-core.optional')
+043.163  000.134  000.134: require('mason-core.async')
+043.237  000.072  000.072: require('mason-core.async.uv')
+043.240  000.314  000.108: require('mason-core.fs')
+043.249  000.608  000.140: require('mason-registry')
+043.318  000.068  000.068: require('mason-lspconfig.server_config_extensions')
+043.412  000.093  000.093: require('lspconfig.server_configurations.omnisharp')
+043.526  000.074  000.074: require('mason-lspconfig.ensure_installed')
+043.764  000.103  000.103: require('mason-core.result')
+044.086  000.149  000.149: require('mason-core.process')
+044.234  000.147  000.147: require('mason-core.spawn')
+044.235  000.365  000.069: require('mason-core.managers.powershell')
+044.288  000.051  000.051: require('mason.version')
+044.289  000.525  000.109: require('mason-core.fetch')
+044.362  000.072  000.072: require('mason-core.providers')
+044.751  000.165  000.165: require('mason-core.purl')
+044.765  000.343  000.178: require('mason-core.package')
+045.238  000.096  000.096: require('mason-core.installer.registry.expr')
+045.242  000.255  000.159: require('mason-core.installer.registry.link')
+045.905  000.098  000.098: require('mason-core.receipt')
+045.916  000.297  000.199: require('mason-core.installer.context')
+046.012  000.094  000.094: require('mason-core.async.control')
+046.121  000.108  000.108: require('mason-core.installer.linker')
+046.123  000.658  000.158: require('mason-core.installer')
+046.141  000.818  000.160: require('mason-core.installer.managers.std')
+046.142  000.900  000.082: require('mason-core.installer.registry.schemas')
+046.222  000.079  000.079: require('mason-core.installer.registry.util')
+046.230  001.463  000.230: require('mason-core.installer.registry')
+046.231  001.868  000.062: require('mason-registry.sources.util')
+046.235  002.696  000.129: require('mason-registry.sources.github')
+050.025  000.058  000.058: require('mason-core.functional.number')
+050.037  000.204  000.145: require('mason-lspconfig.api.command')
+050.222  000.082  000.082: require('lspconfig.server_configurations.lua_ls')
+050.644  000.163  000.163: require('lspconfig.manager')
+050.772  000.111  000.111: require('lspconfig.server_configurations.texlab')
+051.105  000.076  000.076: require('lspconfig.server_configurations.clangd')
+051.515  000.121  000.121: require('lspconfig.server_configurations.rust_analyzer')
+052.010  000.082  000.082: require('lspconfig.server_configurations.pyright')
+052.279  000.064  000.064: require('lspconfig.server_configurations.html')
+053.214  000.758  000.758: require('vim.diagnostic')
+053.227  044.846  017.042: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+053.840  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+053.877  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+053.913  000.007  000.007: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+053.938  000.401  000.377: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+054.106  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+054.173  000.023  000.023: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+054.321  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+054.581  000.042  000.042: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+054.625  000.249  000.207: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+054.677  048.284  002.721: require('dpp')
+054.678  048.731  000.040: sourcing /Users/keimoriyama/.config/nvim/init.lua
+054.684  000.719: sourcing vimrc file(s)
+054.970  000.007  000.007: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+055.266  000.110  000.110: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/neovim/nvim-lspconfig/plugin/lspconfig.lua
+055.476  000.007  000.007: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/shun/ddu-source-rg/plugin/ddu_rg.vim
+056.012  000.106  000.106: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+056.299  000.063  000.063: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+056.684  000.959  000.789: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+056.875  000.029  000.029: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+056.994  000.012  000.012: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+057.151  000.041  000.041: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+057.264  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+057.415  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+057.576  000.048  000.048: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+057.808  000.127  000.127: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+057.939  000.013  000.013: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+058.083  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+058.420  000.103  000.103: require('nvim-treesitter.statusline')
+058.587  000.166  000.166: require('nvim-treesitter.query_predicates')
+058.589  000.368  000.098: require('nvim-treesitter')
+058.843  000.647  000.279: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+059.048  000.095  000.095: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+059.393  000.019  000.019: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+059.640  000.037  000.037: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+059.682  000.257  000.219: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+059.867  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+059.902  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+059.994  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+060.395  000.019  000.019: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+060.430  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+060.464  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+060.500  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+060.536  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+060.572  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+060.616  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+060.652  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+060.685  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+060.718  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+060.758  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+060.812  000.023  000.023: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+060.870  000.029  000.029: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+060.982  000.082  000.082: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+061.162  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+061.187  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+061.241  003.893: loading rtp plugins
+061.326  000.085: loading packages
+061.337  000.011: loading after plugins
+061.344  000.007: inits 3
+063.771  002.427: reading ShaDa
+064.037  000.109  000.109: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+064.093  000.212: opening buffers
+064.735  000.064  000.064: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+064.847  000.690: BufEnter autocommands
+064.848  000.001: editing files in windows
+065.517  000.062  000.062: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+066.305  000.019  000.019: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+066.487  000.367  000.348: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+067.385  000.022  000.022: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+068.114  000.074  000.074: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+069.577  004.203: VimEnter autocommands
+069.578  000.002: UIEnter autocommands
+069.937  000.121  000.121: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+069.941  000.241: before starting main loop
+070.117  000.176: first screen update
+070.118  000.001: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.006  000.006: --- NVIM STARTING ---
+000.104  000.098: event init
+000.241  000.137: early init
+000.827  000.586: locale set
+000.902  000.075: init first window
+001.420  000.518: inits 1
+001.433  000.012: window checked
+001.438  000.006: parsing arguments
+002.167  000.124  000.124: require('vim.shared')
+002.290  000.054  000.054: require('vim.inspect')
+002.346  000.041  000.041: require('vim._options')
+002.348  000.170  000.074: require('vim._editor')
+002.351  000.417  000.122: require('vim._init_packages')
+002.360  000.504: init lua interpreter
+003.104  000.744: expanding arguments
+003.164  000.060: inits 2
+003.559  000.395: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.007  000.007: --- NVIM STARTING ---
+000.088  000.080: event init
+000.213  000.126: early init
+000.639  000.425: locale set
+000.703  000.064: init first window
+000.994  000.291: inits 1
+001.012  000.019: window checked
+001.016  000.004: parsing arguments
+001.482  000.041  000.041: require('vim.shared')
+001.562  000.038  000.038: require('vim.inspect')
+001.604  000.031  000.031: require('vim._options')
+001.606  000.121  000.052: require('vim._editor')
+001.607  000.247  000.085: require('vim._init_packages')
+001.608  000.346: init lua interpreter
+004.386  002.778: expanding arguments
+004.424  000.038: inits 2
+004.721  000.297: init highlight
+004.722  000.001: waiting for UI
+004.867  000.145: done waiting for UI
+004.873  000.006: clear screen
+004.904  000.009  000.009: require('vim.keymap')
+005.152  000.270: init default mappings & autocommands
+005.852  000.110  000.110: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+005.970  000.028  000.028: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+006.495  000.347  000.347: require('config')
+006.634  000.138  000.138: require('keymap')
+007.753  000.037  000.037: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+009.862  000.061  000.061: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+011.467  001.156  001.156: require('gruvbox')
+011.819  000.350  000.350: require('vim.version')
+013.576  003.283  001.777: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+013.829  000.230  000.230: require('Comment')
+013.993  000.163  000.163: require('Comment.config')
+014.731  000.210  000.210: require('Comment.ft')
+014.735  000.523  000.313: require('Comment.utils')
+014.921  000.185  000.185: require('Comment.opfunc')
+015.061  000.139  000.139: require('Comment.extra')
+015.064  001.048  000.201: require('Comment.api')
+017.191  000.142  000.142: require('vim.treesitter.language')
+017.197  000.541  000.398: require('vim.treesitter.query')
+017.351  000.152  000.152: require('vim.treesitter._range')
+017.356  001.140  000.447: require('vim.treesitter.languagetree')
+017.360  001.413  000.273: require('vim.treesitter')
+017.362  001.516  000.103: require('nvim-treesitter.compat')
+019.273  001.471  001.471: require('nvim-treesitter.parsers')
+019.620  000.343  000.343: require('nvim-treesitter.utils')
+019.629  002.106  000.293: require('nvim-treesitter.ts_utils')
+019.637  002.273  000.167: require('nvim-treesitter.tsrange')
+019.789  000.151  000.151: require('nvim-treesitter.caching')
+019.806  004.232  000.292: require('nvim-treesitter.query')
+019.860  004.614  000.382: require('nvim-treesitter.configs')
+020.665  000.190  000.190: require('nvim-treesitter.info')
+020.901  000.235  000.235: require('nvim-treesitter.shell_command_selectors')
+020.920  000.969  000.544: require('nvim-treesitter.install')
+023.965  000.148  000.148: require('nvim-lastplace')
+024.339  000.091  000.091: require('todo-comments.util')
+024.344  000.267  000.176: require('todo-comments.config')
+024.687  000.242  000.242: require('todo-comments.highlight')
+024.689  000.343  000.101: require('todo-comments.jump')
+024.690  000.695  000.085: require('todo-comments')
+025.024  000.005  000.005: require('vim.F')
+025.431  000.402  000.402: require('nvim-web-devicons.icons-default')
+025.511  000.739  000.333: require('nvim-web-devicons')
+028.193  000.114  000.114: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+028.547  000.102  000.102: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+029.425  000.034  000.034: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+029.690  000.057  000.057: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+030.825  000.033  000.033: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+031.872  000.188  000.188: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+033.003  000.006  000.006: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+033.017  000.303  000.297: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+033.037  024.247  011.465: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+033.731  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+033.775  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+033.821  000.013  000.013: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+033.849  000.479  000.447: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+034.030  000.010  000.010: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+034.106  000.023  000.023: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+034.260  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+034.531  000.042  000.042: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+034.577  000.258  000.216: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+034.653  028.017  002.959: require('dpp')
+034.654  028.530  000.028: sourcing /Users/keimoriyama/.config/nvim/init.lua
+034.660  000.840: sourcing vimrc file(s)
+034.957  000.007  000.007: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+035.202  000.008  000.008: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/shun/ddu-source-rg/plugin/ddu_rg.vim
+035.756  000.126  000.126: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+036.060  000.068  000.068: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+036.487  001.024  000.830: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+036.669  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+036.800  000.014  000.014: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+036.957  000.043  000.043: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+037.079  000.011  000.011: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+037.236  000.020  000.020: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+037.394  000.046  000.046: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+037.657  000.148  000.148: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+037.806  000.015  000.015: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+037.963  000.030  000.030: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+038.356  000.105  000.105: require('nvim-treesitter.statusline')
+038.525  000.168  000.168: require('nvim-treesitter.query_predicates')
+038.526  000.421  000.148: require('nvim-treesitter')
+038.855  000.776  000.355: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+039.112  000.141  000.141: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+039.477  000.021  000.021: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+039.730  000.035  000.035: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+039.768  000.255  000.220: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+039.983  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+040.022  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+040.125  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+040.559  000.021  000.021: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+040.600  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+040.640  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+040.683  000.009  000.009: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+040.721  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+040.758  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+040.798  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+040.842  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+040.882  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+040.920  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+040.961  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+041.023  000.025  000.025: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+041.087  000.029  000.029: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+041.240  000.113  000.113: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+041.438  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+041.469  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+041.529  004.014: loading rtp plugins
+041.627  000.098: loading packages
+041.641  000.013: loading after plugins
+041.648  000.008: inits 3
+044.445  002.797: reading ShaDa
+044.744  000.127  000.127: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+044.805  000.233: opening buffers
+045.577  000.082  000.082: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+045.702  000.815: BufEnter autocommands
+045.703  000.001: editing files in windows
+046.527  000.086  000.086: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+047.422  000.024  000.024: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+047.485  000.246  000.222: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+048.193  000.014  000.014: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+048.922  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+050.421  004.344: VimEnter autocommands
+050.423  000.001: UIEnter autocommands
+050.713  000.100  000.100: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+050.716  000.194: before starting main loop
+050.852  000.137: first screen update
+050.853  000.001: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.013  000.013: --- NVIM STARTING ---
+000.128  000.115: event init
+000.310  000.182: early init
+001.031  000.721: locale set
+001.127  000.095: init first window
+001.647  000.520: inits 1
+001.658  000.011: window checked
+001.664  000.006: parsing arguments
+002.322  000.045  000.045: require('vim.shared')
+002.423  000.047  000.047: require('vim.inspect')
+002.476  000.038  000.038: require('vim._options')
+002.480  000.154  000.068: require('vim._editor')
+002.482  000.292  000.093: require('vim._init_packages')
+002.484  000.529: init lua interpreter
+003.186  000.702: expanding arguments
+003.238  000.053: inits 2
+003.630  000.391: init highlight
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.005  000.005: --- NVIM STARTING ---
+000.081  000.076: event init
+000.188  000.107: early init
+000.623  000.435: locale set
+000.689  000.066: init first window
+001.091  000.402: inits 1
+001.122  000.031: window checked
+001.126  000.004: parsing arguments
+001.632  000.040  000.040: require('vim.shared')
+001.714  000.039  000.039: require('vim.inspect')
+001.759  000.031  000.031: require('vim._options')
+001.761  000.126  000.056: require('vim._editor')
+001.763  000.238  000.072: require('vim._init_packages')
+001.765  000.400: init lua interpreter
+004.172  002.407: expanding arguments
+004.205  000.034: inits 2
+004.492  000.287: init highlight
+004.494  000.001: waiting for UI
+004.647  000.154: done waiting for UI
+004.654  000.006: clear screen
+004.683  000.009  000.009: require('vim.keymap')
+004.912  000.249: init default mappings & autocommands
+005.569  000.077  000.077: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+005.675  000.028  000.028: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+006.066  000.240  000.240: require('config')
+006.197  000.130  000.130: require('keymap')
+007.099  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/min.vim
+009.015  000.049  000.049: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftoff.vim
+010.502  001.033  001.033: require('gruvbox')
+010.839  000.335  000.335: require('vim.version')
+012.709  003.256  001.888: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/ellisonleao/gruvbox.nvim/colors/gruvbox.lua
+012.889  000.159  000.159: require('Comment')
+013.016  000.126  000.126: require('Comment.config')
+013.735  000.213  000.213: require('Comment.ft')
+013.738  000.492  000.279: require('Comment.utils')
+013.917  000.178  000.178: require('Comment.opfunc')
+014.052  000.133  000.133: require('Comment.extra')
+014.054  000.986  000.182: require('Comment.api')
+016.248  000.174  000.174: require('vim.treesitter.language')
+016.255  000.604  000.430: require('vim.treesitter.query')
+016.407  000.151  000.151: require('vim.treesitter._range')
+016.412  001.204  000.449: require('vim.treesitter.languagetree')
+016.417  001.478  000.274: require('vim.treesitter')
+016.419  001.579  000.101: require('nvim-treesitter.compat')
+018.421  001.528  001.528: require('nvim-treesitter.parsers')
+018.600  000.178  000.178: require('nvim-treesitter.utils')
+018.605  002.022  000.316: require('nvim-treesitter.ts_utils')
+018.609  002.188  000.167: require('nvim-treesitter.tsrange')
+018.737  000.127  000.127: require('nvim-treesitter.caching')
+018.744  004.175  000.281: require('nvim-treesitter.query')
+018.752  004.510  000.334: require('nvim-treesitter.configs')
+019.421  000.190  000.190: require('nvim-treesitter.info')
+019.638  000.215  000.215: require('nvim-treesitter.shell_command_selectors')
+019.653  000.882  000.476: require('nvim-treesitter.install')
+022.720  000.200  000.200: require('nvim-lastplace')
+023.119  000.098  000.098: require('todo-comments.util')
+023.126  000.284  000.187: require('todo-comments.config')
+023.470  000.251  000.251: require('todo-comments.highlight')
+023.472  000.345  000.094: require('todo-comments.jump')
+023.474  000.722  000.093: require('todo-comments')
+023.781  000.004  000.004: require('vim.F')
+024.212  000.425  000.425: require('nvim-web-devicons.icons-default')
+024.294  000.779  000.350: require('nvim-web-devicons')
+027.027  000.114  000.114: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy/autoload/dpp/ext/lazy.vim
+027.382  000.106  000.106: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/util.vim
+028.289  000.036  000.036: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp.vim
+028.556  000.058  000.058: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/Shougo/dpp.vim/autoload/dpp/source.vim
+029.593  000.032  000.032: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+031.079  000.198  000.198: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/autoload/skkeleton.vim
+032.140  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/conf.vim
+032.153  000.278  000.269: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/plugin.vim
+032.172  024.103  011.615: sourcing /Users/keimoriyama/.cache/dpp/nvim/state.vim
+032.804  000.010  000.010: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/csv-tools.vim
+032.847  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/markdown.vim
+032.889  000.009  000.009: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/ftdetect/stpl.vim
+032.917  000.437  000.409: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/filetype.lua
+033.095  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/ftplugin.vim
+033.188  000.021  000.021: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/after/ftplugin.vim
+033.343  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/indent.vim
+033.632  000.044  000.044: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/synload.vim
+033.679  000.274  000.230: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/syntax/syntax.vim
+033.705  027.505  002.629: require('dpp')
+033.706  027.898  000.023: sourcing /Users/keimoriyama/.config/nvim/init.lua
+033.711  000.797: sourcing vimrc file(s)
+034.017  000.007  000.007: sourcing /Users/keimoriyama/Program/vim_plugins/dps_obsidian/plugin/dps_obsidian.vim
+034.258  000.008  000.008: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/shun/ddu-source-rg/plugin/ddu_rg.vim
+034.813  000.121  000.121: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/utility.vim
+035.127  000.068  000.068: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter/highlight.vim
+035.578  001.056  000.868: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/plugin/gitgutter.vim
+035.763  000.031  000.031: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kyazdani42/nvim-web-devicons/plugin/nvim-web-devicons.vim
+035.898  000.016  000.016: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/LeafCage/vimhelpgenerator/plugin/vimhelpgenerator.vim
+036.069  000.046  000.046: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/kana/vim-smartword/plugin/smartword.vim
+036.196  000.011  000.011: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/folke/todo-comments.nvim/plugin/todo.vim
+036.342  000.020  000.020: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/jghauser/mkdir.nvim/plugin/mkdir.lua
+036.496  000.044  000.044: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/plugin/recover.vim
+036.757  000.144  000.144: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/simeji/winresizer/plugin/winresizer.vim
+036.903  000.015  000.015: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-lua/plenary.nvim/plugin/plenary.vim
+037.077  000.034  000.034: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/luochen1990/rainbow/plugin/rainbow_main.vim
+037.525  000.117  000.117: require('nvim-treesitter.statusline')
+037.717  000.191  000.191: require('nvim-treesitter.query_predicates')
+037.719  000.482  000.174: require('nvim-treesitter')
+038.037  000.831  000.349: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/nvim-treesitter/nvim-treesitter/plugin/nvim-treesitter.lua
+038.411  000.244  000.244: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/numToStr/Comment.nvim/plugin/Comment.lua
+038.775  000.022  000.022: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+039.025  000.035  000.035: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops.vim
+039.065  000.253  000.218: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+039.276  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops/debug.vim
+039.314  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/nvim/.dpp/plugin/denops.vim
+039.416  000.005  000.005: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-skk/skkeleton/plugin/skkeleton.vim
+039.869  000.023  000.023: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/gzip.vim
+039.917  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchit.vim
+039.957  000.006  000.006: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/matchparen.vim
+040.001  000.009  000.009: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/netrwPlugin.vim
+040.039  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/rplugin.vim
+040.078  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/shada.vim
+040.117  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/spellfile.vim
+040.158  000.007  000.007: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tarPlugin.vim
+040.199  000.005  000.005: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tohtml.vim
+040.237  000.004  000.004: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/tutor.vim
+040.279  000.008  000.008: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/zipPlugin.vim
+040.351  000.037  000.037: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/editorconfig.lua
+040.427  000.036  000.036: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/man.lua
+040.535  000.073  000.073: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/plugin/nvim.lua
+040.745  000.004  000.004: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops/debug.vim
+040.776  000.003  000.003: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+040.838  004.093: loading rtp plugins
+040.937  000.099: loading packages
+040.950  000.013: loading after plugins
+040.957  000.007: inits 3
+043.766  002.809: reading ShaDa
+044.052  000.117  000.117: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/chrisbra/Recover.vim/autoload/recover.vim
+044.124  000.242: opening buffers
+044.849  000.084  000.084: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/airblade/vim-gitgutter/autoload/gitgutter.vim
+044.966  000.758: BufEnter autocommands
+044.968  000.001: editing files in windows
+045.719  000.068  000.068: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/server.vim
+046.583  000.020  000.020: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/path.vim
+046.647  000.243  000.224: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/server/proc.vim
+047.346  000.014  000.014: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/echo.vim
+048.053  000.028  000.028: sourcing /Users/keimoriyama/.cache/dpp/repos/github.com/vim-denops/denops.vim/autoload/denops/_internal/job.vim
+049.491  004.170: VimEnter autocommands
+049.492  000.001: UIEnter autocommands
+049.781  000.098  000.098: sourcing /Users/keimoriyama/.local/nvim/share/nvim/runtime/autoload/provider/clipboard.vim
+049.784  000.193: before starting main loop
+049.927  000.144: first screen update
+049.928  000.001: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.007  000.007: --- NVIM STARTING ---
+000.104  000.097: event init
+000.258  000.154: early init
+000.951  000.693: locale set
+001.022  000.071: init first window
+001.490  000.468: inits 1
+001.498  000.009: window checked
+001.503  000.005: parsing arguments
+002.100  000.041  000.041: require('vim.shared')
+002.198  000.047  000.047: require('vim.inspect')
+002.251  000.039  000.039: require('vim._options')
+002.253  000.148  000.062: require('vim._editor')
+002.255  000.282  000.093: require('vim._init_packages')
+002.257  000.471: init lua interpreter
+002.803  000.546: expanding arguments
+002.847  000.044: inits 2
+003.235  000.388: init highlight

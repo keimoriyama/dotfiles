@@ -1,13 +1,14 @@
 [[plugins]]
-repo="Shougo/ddc.vim"
+repo='Shougo/ddc.vim'
 on_event = ['InsertEnter', 'CmdlineEnter']
-lua_add='''
-local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-require("lspconfig").denols.setup({
-	capabilities = capabilities,
-})
-require("ddc_nvim_lsp_setup").setup()
+depends='denops.vim'
+lua_source='''
+-- local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- require("lspconfig").denols.setup({
+-- 	capabilities = capabilities,
+-- })
+-- require("ddc_nvim_lsp_setup").setup()
 -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
@@ -102,7 +103,8 @@ require("ddc_previewer_floating").enable()
 
 [[plugins]]
 repo="Shougo/pum.vim"
-lua_add="""
+on_source='ddc.vim'
+lua_source="""
 vim.fn["pum#set_option"]({
 	item_orders = { "abbr", "space", "kind", "space", "menu" },
 	highlight_selected = "CursorLine",
@@ -142,7 +144,8 @@ vim.keymap.set("n", ":", [[<Cmd>lua CommandlinePre()<CR>:]])
 
 [[plugins]]
 repo="zbirenbaum/copilot.lua"
-lua_add='''
+on_event="InsertEnter"
+lua_source='''
 local current_dir = vim.fn.getcwd()
 if string.match(current_dir, "Atcoder") == nil then
 	require("copilot").setup({
@@ -163,96 +166,96 @@ end
 
 [[plugins]]
 repo="Shougo/ddc-nvim-lsp"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-around"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="LumaKernel/ddc-file"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="matsui54/ddc-buffer"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-source-cmdline"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-source-cmdline-history"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-source-nvim-lsp"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-source-copilot"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="uga-rosa/ddc-source-nvim-lua"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="uga-rosa/ddc-source-vsnip"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="LumaKernel/ddc-source-file"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-sorter_rank"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-ui-pum"
 depends = 'pum.vim'
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-ui-native"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-converter_remove_overlap"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="tani/ddc-fuzzy"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-matcher_head"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="tani/ddc-path"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="uga-rosa/ddc-nvim-lsp-setup"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-filter-converter_truncate_abbr"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="lambdalisue/guise.vim"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="uga-rosa/ddc-previewer-floating"
-on_source="Shougo/ddc.vim"
+on_source="ddc.vim"
 
 [[plugins]]
 repo="vim-skk/skkeleton"
-on_source='Shougo/ddc.vim'
+on_source='ddc.vim'
 lua_add= """
 vim.keymap.set({"i", "c", "t"}, "<C-j>", "<Plug>(skkeleton-toggle)", {noremap =true})
 vim.fn['skkeleton#config']({
@@ -264,7 +267,7 @@ vim.fn['skkeleton#config']({
 
 [[plugsins]]
 repo="hrsh7th/vim-vsnip"
-on_source='Shougo/ddc.vim'
+on_source='ddc.vim'
 on_hook='''
 let g:vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 let g:vsnip_choice_delay = 0

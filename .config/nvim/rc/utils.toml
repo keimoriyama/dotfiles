@@ -1,16 +1,3 @@
-[[plugins]]
-repo="windwp/nvim-autopairs"
-on_event = ['InsertEnter']
-lua_add='''
-local status, autopairs = pcall(require, "nvim-autopairs")
-if not status then
-	return
-end
-autopairs.setup({
-disable_filetype = { "TelescopePrompt", "vim" },
-})
-'''
-
 [[pluging]]
 repo = "norcalli/nvim-colorizer.lua"
 lua_add='''
@@ -42,111 +29,6 @@ comment.setup({
 		---Block-comment toggle keymap
 		block = "cob",
 	},
-})
-'''
-
-[[plugins]]
-repo="lukas-reineke/indent-blankline.nvim"
-on_event = ['BufNewFile', 'BufRead']
-lua_add='''
-require('ibl').setup({})
-'''
-
-[[plugins]]
-repo="nvim-lualine/lualine.nvim"
-on_event = ['BufNewFile', 'BufRead']
-lua_add='''
-local status, lualine = pcall(require, "lualine")
-if not status then
-	return
-end
-
-local function skkeleton_mode()
-  if vim.api.nvim_get_mode().mode ~= 'i' then
-    return ''
-  end
-
-  local mode = vim.g['skkeleton#mode']
-  if mode == 'hira' then
-    return 'かな'
-  elseif mode == 'kata' then
-    return 'カナ'
-  elseif mode == 'hankata' then
-    return '半ｶﾅ'
-  elseif mode == 'zenkaku' then
-    return '全英'
-  elseif mode == 'abbrev' then
-    return 'abbrev'
-  else
-    return 'ASCII'
-  end
-end
-
-local function skkeleton_state()
-  if vim.api.nvim_get_mode().mode ~= 'i' then
-    return ''
-  end
-
-  local phase = vim.g['skkeleton#state'].phase
-  if phase == 'input' then
-    return '直接入力'
-  elseif phase == 'input:okurinasi' then
-    return '送りなし入力'
-  elseif phase == 'input:okuriari' then
-    return '送りあり入力'
-  elseif phase == 'henkan' then
-    return '変換'
-  else
-    return ''
-  end
-end
-
-lualine.setup({
-	options = {
-		icons_enabled = true,
-		theme = "auto",
-		section_separators = { left = "", right = "" },
-		component_separators = { left = "", right = "" },
-		disabled_filetypes = {},
-	},
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch" },
-		lualine_c = {
-			{skkeleton_mode, skkeleton_state},
-		},
-		lualine_x = {
-			{
-				"diagnostics",
-				sources = { "nvim_diagnostic" },
-				symbols = {
-					error = " ",
-					warn = " ",
-					info = " ",
-					hint = " ",
-				},
-			},
-			"encoding",
-			"filetype",
-		},
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = {
-			{
-				"filename",
-				file_status = true, -- displays file status (readonly status, modified status)
-				path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
-			},
-		},
-		lualine_x = { "location" },
-		lualine_y = {},
-		lualine_z = {},
-	},
-	tabline = {},
 })
 '''
 
@@ -186,18 +68,6 @@ ts.setup({
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
-'''
-
-# auto pair and tag close
-[[plugins]]
-on_event = ['InsertEnter']
-repo="windwp/nvim-ts-autotag"
-# surround
-[[plugins]]
-on_event = ['InsertEnter']
-repo="kylechui/nvim-surround"
-lua_add='''
-require("nvim-surround").setup()
 '''
 # auto comment out
 [[plugins]]
@@ -258,60 +128,6 @@ vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 repo="LeafCage/vimhelpgenerator"
 
 [[plugins]]
-repo="akinsho/nvim-bufferline.lua"
-on_event = ['BufNewFile', 'BufRead']
-lua_add= """
-local status, bufferline = pcall(require, "bufferline")
-if not status then
-	return
-end
-bufferline.setup({
-	options = {
-		mode = "buffers",
-		separator_style = "slant",
-		always_show_bufferline = true,
-		show_buffer_close_icons = false,
-		show_close_icon = false,
-		color_icons = true,
-	},
-	highlights = {
-		separator = {
-			fg = "#073642",
-			bg = "#002b36",
-		},
-		separator_selected = {
-			fg = "#073642",
-		},
-		background = {
-			fg = "#657b83",
-			bg = "#002b36",
-		},
-		buffer_selected = {
-			fg = "#fdf6e3",
-			bold = true,
-			italic = false,
-		},
-		fill = {
-			bg = "#073642",
-		},
-	},
-})
-
-vim.keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", {})
-vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
-"""
-
-[[plugins]]
-repo="mattn/vim-sonictemplate"
-on_cmd='Template'
-lua_add='''
-vim.g.sonictemplate_key = 0
-vim.g.sonictemplate_intelligent_key = 0
-vim.g.sonictemplate_postfix_key = 0
-vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/template"
-'''
-
-[[plugins]]
 repo="kyazdani42/nvim-web-devicons"
 lua_add='''
 local status, icons = pcall(require, "nvim-web-devicons")
@@ -327,37 +143,4 @@ icons.setup({
 	-- will get overriden by `get_icons` option
 	default = true,
 })
-'''
-
-[[plugins]]
-repo='uga-rosa/ugaterm.nvim'
-on_map=["<C-t>"]
-lua_add='''
-local option = { noremap = true, silent = true }
-vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", option)
-'''
-
-[[plugins]]
-repo='skanehira/denops-silicon.vim'
-on_cmd='Silicon'
-
-[[plugins]]
-repo='phaazon/hop.nvim'
-on_event = ['BufNewFile', 'BufRead']
-lua_add='''
-local hop = require('hop')
-hop.setup { keys = 'etovxqpdygfblzhckisuran' }
-local directions = require('hop.hint').HintDirection
-vim.keymap.set('', 'f', function()
-  hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
-end, {remap=true})
-vim.keymap.set('', 'F', function()
-  hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
-end, {remap=true})
-vim.keymap.set('', 't', function()
-  hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
-end, {remap=true})
-vim.keymap.set('', 'T', function()
-  hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
-end, {remap=true})
 '''

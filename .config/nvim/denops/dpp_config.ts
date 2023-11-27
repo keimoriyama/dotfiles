@@ -26,14 +26,15 @@ export class Config extends BaseConfig {
 
 		const tomls: Toml[] = [];
 		const files = [
-			"dpp.toml",
-			"colorscheme.toml",
-			"utils.toml",
-			"git.toml",
-			"ddc.toml",
-			"ddu.toml",
-			"lsp.toml",
-			"ftplugin.toml",
+			["dpp.toml", false],
+			["colorscheme.toml", false],
+			["utils.toml", false],
+			["git.toml", false],
+			["ddc.toml", true],
+			["ddu.toml", false],
+			["lsp.toml", true],
+			["ftplugin.toml", true],
+			["lazy_utils.toml", true]
 		];
 		const base_dir = "~/.config/nvim/rc/";
 		for (const file of files) {
@@ -45,9 +46,9 @@ export class Config extends BaseConfig {
 					"toml",
 					"load",
 					{
-						path: base_dir + file,
+						path: base_dir + file[0],
 						options: {
-							lazy:false,
+							lazy: file[1],
 						},
 					},
 				) as Toml,
@@ -103,8 +104,8 @@ export class Config extends BaseConfig {
 		) as LazyMakeStateResult;
 
 		return {
-			// ftplugins,
-			// hooksFiles,
+			ftplugins,
+			hooksFiles,
 			plugins: lazyResult.plugins,
 			stateLines: lazyResult.stateLines,
 		};

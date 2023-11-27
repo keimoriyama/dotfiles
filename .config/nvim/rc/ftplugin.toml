@@ -2,7 +2,7 @@
 repo = 'toppair/peek.nvim'
 build='deno task --quiet build:fast'
 on_ft="md"
-lua_add='''
+lua_source='''
 require("peek").setup({
     auto_load = true,        -- whether to automatically load preview when
     -- entering another markdown buffer
@@ -25,12 +25,13 @@ vim.api.nvim_create_user_command('Peek', function() if require("peek").is_open()
 '''
 
 [[plugins]]
+on_ft="md"
 repo = 'mzlogin/vim-markdown-toc'
 
 [[plugins]]
 repo="Decodetalkers/csv-tools.lua"
 on_ft = "csv"
-lua_add='''
+lua_source='''
 local status, csvtools = pcall(require, "csvtools")
 if not status then
 	return

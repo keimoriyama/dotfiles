@@ -1,13 +1,17 @@
 [[plugins]]
 repo="neovim/nvim-lspconfig"
-on_source="williamboman/mason.nvim"
+on_cmd="LspInfo"
+on_source="mason.nvim"
 
 [[plugins]]
 repo="williamboman/mason-lspconfig.nvim"
-on_source="williamboman/mason.nvim"
+on_cmd=['LspInstall', 'LspUninstall']
+on_source="mason.nvim"
 
 [[plugins]]
 repo="williamboman/mason.nvim"
+on_event = ['BufNewFile', 'BufRead']
+depends=['mason-lspconfig.nvim', 'nvim-lspconfig']
 lua_source='''
 ---@diagnostic disable: redefined-local
 local status, mason = pcall(require, "mason")
@@ -78,7 +82,6 @@ local handlers = {
 	end,
 }
 mason_lspconfig.setup_handlers(handlers)
-
 -- -- LSP handlers
 vim.diagnostic.config({ virtual_text = false })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
@@ -151,7 +154,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
 		vim.diagnostic.open_float({ focus = false })
 	end,
 })
--- LSP handlers
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single", -- "shadow" , "none", "rounded"
 })
@@ -159,7 +161,8 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 
 [[plugins]]
 repo="nvimtools/none-ls.nvim"
-lua_source= '''
+on_event = ['BufNewFile', 'BufRead']
+lua_source='''
 local status, null_ls = pcall(require, "null-ls")
 if not status then
 	return
@@ -191,7 +194,7 @@ if not status then
 	return
 end
 
-local null_sources = { null_ls.builtins.formatting.clang_format }
+local null_sources = {}
 
 for _, package in ipairs(mason_registry.get_installed_packages()) do
 	local package_categories = package.spec.categories[1]
