@@ -10,7 +10,7 @@ on_source="mason.nvim"
 
 [[plugins]]
 repo="williamboman/mason.nvim"
-# on_event = ['BufNewFile', 'BufRead']
+on_event = ['BufNewFile', 'BufRead']
 on_cmd=["Mason"]
 depends=['mason-lspconfig.nvim', 'nvim-lspconfig']
 lua_source='''
@@ -219,55 +219,55 @@ end
 null_ls.setup({ debug = false, sources = null_sources, on_attach = on_attach })
 '''
 
-[[plugins]]
-repo="onsails/lspkind-nvim"
-lua_source='''
-	local status, lspkind = pcall(require, "lspkind")
-	if not status then
-		return
-	end
-
-	lspkind.init({
-		-- enables text annotations
-		--
-		-- default: true
-		mode = "symbol_text",
-		-- default symbol map
-		-- can be either 'default' (requires nerd-fonts font) or
-		-- 'codicons' for codicon preset (requires vscode-codicons font)
-		--
-		-- default: 'default'
-		preset = "codicons",
-		-- override preset symbols
-		--
-		-- default: {}
-		symbol_map = {
-			Text = "",
-			Method = "",
-			Function = "",
-			Constructor = "",
-			Field = "ﰠ",
-			Variable = "",
-			Class = "ﴯ",
-			Interface = "",
-			Module = "",
-			Property = "ﰠ",
-			Unit = "塞",
-			Value = "",
-			Enum = "",
-			Keyword = "",
-			Snippet = "",
-			Color = "",
-			File = "",
-			Reference = "",
-			Folder = "",
-			EnumMember = "",
-			Constant = "",
-			Struct = "פּ",
-			Event = "",
-			Operator = "",
-			TypeParameter = "",
-			Copilot = "",
-		},
-	})
-'''
+# [[plugins]]
+# repo="onsails/lspkind-nvim"
+# lua_source='''
+# 	local status, lspkind = pcall(require, "lspkind")
+# 	if not status then
+# 		return
+# 	end
+#
+# 	lspkind.init({
+# 		-- enables text annotations
+# 		--
+# 		-- default: true
+# 		mode = "symbol_text",
+# 		-- default symbol map
+# 		-- can be either 'default' (requires nerd-fonts font) or
+# 		-- 'codicons' for codicon preset (requires vscode-codicons font)
+# 		--
+# 		-- default: 'default'
+# 		preset = "codicons",
+# 		-- override preset symbols
+# 		--
+# 		-- default: {}
+# 		symbol_map = {
+# 			Text = "",
+# 			Method = "",
+# 			Function = "",
+# 			Constructor = "",
+# 			Field = "ﰠ",
+# 			Variable = "",
+# 			Class = "ﴯ",
+# 			Interface = "",
+# 			Module = "",
+# 			Property = "ﰠ",
+# 			Unit = "塞",
+# 			Value = "",
+# 			Enum = "",
+# 			Keyword = "",
+# 			Snippet = "",
+# 			Color = "",
+# 			File = "",
+# 			Reference = "",
+# 			Folder = "",
+# 			EnumMember = "",
+# 			Constant = "",
+# 			Struct = "פּ",
+# 			Event = "",
+# 			Operator = "",
+# 			TypeParameter = "",
+# 			Copilot = "",
+# 		},
+# 	})
+# '''
