@@ -5,7 +5,6 @@ local status, colorizer = pcall(require, "colorizer")
 if not status then
 	return
 end
-
 vim.opt.termguicolors = true
 colorizer.setup({
 	"*",
@@ -93,9 +92,6 @@ repo="simeji/winresizer"
 [[plugins]]
 repo="chrisbra/Recover.vim"
 
-[[plugins]]
-repo="jghauser/mkdir.nvim"
-
 # keep lastest cursor position
 [[plugins]]
 repo="ethanholz/nvim-lastplace"
@@ -123,9 +119,6 @@ vim.keymap.set("n", "w", "<Plug>(smartword-w)")
 vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 '''
-
-[[plugins]]
-repo="LeafCage/vimhelpgenerator"
 
 [[plugins]]
 repo="kyazdani42/nvim-web-devicons"

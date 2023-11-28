@@ -1,6 +1,6 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-lua_source="""
+lua_add="""
 local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
@@ -100,7 +100,8 @@ vim.fn["ddu#custom#patch_global"]({
 		{
 			name = "file_rec",
 			params = {
-				ignoredDirectories = { ".git",
+				ignoredDirectories = { 
+					".git",
 					"node_modules",
 					"vendor",
 					".mypy_cache",
@@ -147,9 +148,6 @@ vim.fn["ddu#custom#patch_global"]({
 			defaultAction = "open",
 		},
 		lsp = {
-			defaultAction = "open",
-		},
-		dpp = {
 			defaultAction = "open",
 		},
 	},
