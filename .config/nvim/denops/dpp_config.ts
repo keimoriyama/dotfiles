@@ -34,7 +34,7 @@ export class Config extends BaseConfig {
 			["ddu.toml", false],
 			["lsp.toml", true],
 			["ftplugin.toml", true],
-			["lazy_utils.toml", true]
+			["lazy_utils.toml", true],
 		];
 		const base_dir = "~/.config/nvim/rc/";
 		for (const file of files) {
