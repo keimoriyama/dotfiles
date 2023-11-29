@@ -1,5 +1,6 @@
 [[plugins]]
 repo="lewis6991/gitsigns.nvim"
-lua_add='''
+on_event = ['BufNewFile', 'BufRead']
+lua_source='''
 require('gitsigns').setup()
 '''
