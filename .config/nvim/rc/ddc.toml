@@ -1,14 +1,14 @@
 [[plugins]]
 repo='Shougo/ddc.vim'
 on_event = ['InsertEnter', 'CmdlineEnter']
-depends='denops.vim'
+depends=['denops.vim', 'nvim-lspconfig']
 lua_source='''
--- local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
--- require("lspconfig").denols.setup({
--- 	capabilities = capabilities,
--- })
--- require("ddc_nvim_lsp_setup").setup()
+local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+require("lspconfig").denols.setup({
+	capabilities = capabilities,
+})
+require("ddc_nvim_lsp_setup").setup()
 -- Use around source.
 vim.fn["ddc#custom#patch_global"]({
 	ui = "pum",
@@ -16,7 +16,7 @@ vim.fn["ddc#custom#patch_global"]({
 		"nvim-lsp",
 		"skkeleton",
 		"file",
-		'copilot',
+		'vsnip',
 		"nvim-lua",
 		"buffer",
 		"around",
@@ -73,7 +73,7 @@ vim.fn["ddc#custom#patch_global"]({
 			enableAdditionalTextEdit = true,
 			confirmBehavior = "insert",
 			snippetEngine = vim.fn["denops#callback#register"](function(body)
-				return vim.fn["vsnip#anonymous"](body)
+				vim.fn["vsnip#anonymous"](body)
 			end),
 		},
 	},
