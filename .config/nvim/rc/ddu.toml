@@ -17,7 +17,7 @@ vim.keymap.set("n", "<leader>ds","<cmd>Ddu lsp_documentSymbol -sync=true<cr>", o
 vim.keymap.set("n", "<leader>ic","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outGoingCalls<cr>", opt)
 vim.keymap.set("n", "<leader>oc","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outgoingCalls<cr>", opt)
 
-vim.keymap.set("n", "<Leader>sf",'<cmd>Ddu filer<cr>', opt)
+vim.keymap.set("n", "<Leader>sf",'<cmd>Ddu file -name=filer<cr>', opt)
 -- vim.keymap.set("n", "<leader>k", keymaps, opt)
 """
 lua_source="""
