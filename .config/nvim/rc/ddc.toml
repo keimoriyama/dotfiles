@@ -47,8 +47,8 @@ vim.fn["ddc#custom#patch_global"]({
 			sorters = { "sorter_fuzzy", "sorter_lsp-kind" }
 		},
 		["nvim-lua"] = { mark = "[lua]", forceCompletionPattern = "." },
-		vsnip = { mark = "[vsnip]" },
 		copilot = { mark = "[copilot]", minAutoCompleteLength = 1, isVolatile = true },
+		vsnip={mark='[vsnip]'},
 		["cmdline-history"] = { mark = "[cmdline-history]" },
 		obsidian = {
 			mark = "[obsidian]",
