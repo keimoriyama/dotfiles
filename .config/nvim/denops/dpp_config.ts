@@ -31,7 +31,7 @@ export class Config extends BaseConfig {
 			["utils.toml", false],
 			["git.toml", false],
 			["ddc.toml", true],
-			["ddu.toml", false],
+			["ddu.toml",true],
 			["lsp.toml", true],
 			["ftplugin.toml", true],
 			["lazy_utils.toml", true],

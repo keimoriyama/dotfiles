@@ -1,6 +1,26 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
+on_cmd='Ddu'
 lua_add="""
+local opt = { noremap = true, silent = true }
+-- ff
+vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu<cr>", opt)
+-- helper 
+vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
+-- ripgrep
+-- rgの設定
+vim.keymap.set("n", "<leader>fr","<cmd>Ddu rg -source-option-rg-machers=[] -source-option-rg-volatile=v:true -ui-param-ff-ignoreEmpty=v:false -ui-param-ff-autoResize=v:false<cr>", opt)
+-- definition
+-- lsp related configs(maybe moving to the mason.lua?)
+vim.keymap.set("n", "<leader>sr","<cmd>Ddu lsp_references -sync=true<cr>", opt)
+vim.keymap.set("n", "<leader>ds","<cmd>Ddu lsp_documentSymbol -sync=true<cr>", opt)
+vim.keymap.set("n", "<leader>ic","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outGoingCalls<cr>", opt)
+vim.keymap.set("n", "<leader>oc","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outgoingCalls<cr>", opt)
+
+vim.keymap.set("n", "<Leader>sf",'<cmd>Ddu filer<cr>', opt)
+-- vim.keymap.set("n", "<leader>k", keymaps, opt)
+"""
+lua_source="""
 local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
@@ -21,9 +41,6 @@ local function resize()
 		},
 	})
 end
-
-
-
 
 local function keymaps()
 	vim.cmd([[
@@ -146,40 +163,6 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 resize()
-local opt = { noremap = true, silent = true }
--- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu<cr>", opt)
--- helper 
-vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
--- ripgrep
--- rgの設定
-local function ddu_rg_live()
-vim.fn['ddu#start']({
-	sources= {{
-		name = 'rg',
-		options = {
-			matchers = {},
-			volatile = true,
-		},
-	}},
-	uiParams = {
-		ff = {
-			ignoreEmpty = false,
-			autoResize = false,
-		}
-	}
-})
-end
-
-vim.keymap.set("n", "<leader>fr",ddu_rg_live, opt)
--- definition
--- lsp related configs(maybe moving to the mason.lua?)
-vim.keymap.set("n", "<leader>sr","<cmd>Ddu lsp_references -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>ds","<cmd>Ddu lsp_documentSymbol -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>ic","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outGoingCalls<cr>", opt)
-vim.keymap.set("n", "<leader>oc","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outgoingCalls<cr>", opt)
-
-vim.keymap.set("n", "<leader>k", keymaps, opt)
 
 vim.fn["ddu#custom#patch_local"]("filer", {
 	ui = "filer",
@@ -233,8 +216,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "p", '<cmd>call ddu#ui#do_action("itemAction", {"name": "paste"})<cr>', opt)
 	end,
 })
-
-vim.keymap.set("n", "<Leader>sf", '<cmd>call ddu#start({"name":"filer"})<cr>', { noremap = true, silent = true })
 """
 
 [[plugins]]
