@@ -83,8 +83,6 @@ local handlers = {
 	end,
 }
 mason_lspconfig.setup_handlers(handlers)
-'''
-lua_add='''
 -- -- LSP handlers
 vim.diagnostic.config({ virtual_text = false })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
