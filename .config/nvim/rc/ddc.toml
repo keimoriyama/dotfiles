@@ -71,10 +71,10 @@ vim.fn["ddc#custom#patch_global"]({
 		["nvim-lsp"] = {
 			enableResolveItem = true,
 			enableAdditionalTextEdit = true,
-			confirmBehavior = "insert",
 			snippetEngine = vim.fn["denops#callback#register"](function(body)
 				vim.fn["vsnip#anonymous"](body)
 			end),
+			lspEngine='nvim-lsp'
 		},
 	},
 })

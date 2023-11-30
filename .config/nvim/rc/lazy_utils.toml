@@ -197,7 +197,8 @@ on_cmd='Silicon'
 
 [[plugins]]
 repo='phaazon/hop.nvim'
-on_event = ['BufNewFile', 'BufRead']
+# on_event = ['BufNewFile', 'BufRead']
+on_map=["f", "F", "t", "T"]
 lua_source='''
 local hop = require('hop')
 hop.setup { keys = 'etovxqpdygfblzhckisuran' }
@@ -295,7 +296,7 @@ vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
 [[plugins]]
 repo="kana/vim-smartword"
 on_event = ['BufNewFile', 'BufRead']
-lua_add='''
+lua_source='''
 vim.keymap.set("n", "w", "<Plug>(smartword-w)")
 vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 vim.keymap.set("n", "e", "<Plug>(smartword-e)")
