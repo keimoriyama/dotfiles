@@ -4,7 +4,7 @@ on_cmd='Ddu'
 lua_add="""
 local opt = { noremap = true, silent = true }
 -- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu<cr>", opt)
+vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec<cr>", opt)
 -- helper 
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
 -- ripgrep
@@ -53,87 +53,6 @@ local function keymaps()
 	]])
 end
 
-vim.fn["ddu#custom#patch_global"]({
-	ui = "ff",
-	sources = {
-		{
-			name = "file_rec",
-			params = {
-				ignoredDirectories = { 
-					".git",
-					"node_modules",
-					"vendor",
-					".mypy_cache",
-					".hydra",
-					'mlruns',
-					".venv",
-					"logs",
-					'data',
-				}
-			},
-		},
-	},
-	sourceOptions = {
-		_ = {
-			matchers = { "matcher_substring" },
-			sorters = { "sorter_alpha" },
-		},
-		file_rec = {
-			matchers = { "matcher_substring" },
-			converters = { "converter_devicon" },
-		},
-	},
-	sourceParams = {
-		rg = {
-			args = { "--column", "--no-heading", "--color", "never" },
-		},
-	},
-	filterParams = {
-		matcher_substring = {
-			highlightMatched = "Title",
-		},
-		matcher_fzf = {
-			highlightMatched = "Search",
-		},
-	},
-	kindOptions = {
-		file = {
-			defaultAction = "open",
-		},
-		help = {
-			defaultAction = "open",
-		},
-		rg = {
-			defaultAction = "open",
-		},
-		lsp = {
-			defaultAction = "open",
-		},
-	},
-	uiParams = {
-		ff = {
-			-- startFilter = true,
-			AutoAction = {
-				name = "preview",
-			},
-			split = "floating",
-			prompt = "> ",
-			floatingBorder = "rounded",
-			floatingTitle = "Ddu ff",
-			floatingTitlePos = "center",
-			highlights = {
-				floating = "Normal",
-				floatingBorder = "Normal",
-			},
-			filterFloatingPosition = "bottom",
-			previewFloating = true,
-			previewSplit = "vertical",
-			previewFloatingBorder = "rounded",
-			previewFloatingTitle = "preview",
-			previewFloatingTitlePos = "center",
-		},
-	},
-})
 
 vim.api.nvim_create_autocmd("VimResized", { callback = resize })
 -- キーマッピングの設定
@@ -164,34 +83,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
 resize()
 
-vim.fn["ddu#custom#patch_local"]("filer", {
-	ui = "filer",
-	sources = {
-		{ name = "file", params = {} },
-	},
-	sourceOptions = {
-		_ = {
-			columns = { "icon_filename" },
-			sorters = { "sorter_alpha" },
-		},
-	},
-	kindOptions = {
-		file = {
-			defaultAction = "open",
-		},
-	},
-	uiParams = {
-		filer = {
-			split = "floating",
-			floatingBorder = "rounded",
-			floatingTitle = "filer",
-			floatingTitlePos = "center",
-			winRow = vim.o.lines / 2 - 15,
-			winHeight = 25,
-		},
-	},
-})
-
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-filer",
 	callback = function()
@@ -206,9 +97,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "o", '<cmd>call ddu#ui#do_action("expandItem", {"mode": "toggle"})<CR>', opt)
 		vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
 		vim.keymap.set("n", "N", '<cmd>call ddu#ui#do_action("itemAction", {"name": "newFile"})<cr>', opt)
-		-- vim.keymap.set("n", "N",
-		-- '<cmd>call ddu#ui#multi_actions([["itemAction", {"name": "newFile"}], ["itemAction", {"name":"open", "params":{"command": "tabnew"}}])<cr>',
-		-- opt)
 		vim.keymap.set("n", "d", '<cmd>call ddu#ui#do_action("itemAction", {"name": "delete"})<cr>', opt)
 		vim.keymap.set("n", "r", '<cmd>call ddu#ui#do_action("itemAction", {"name": "rename"})<cr>', opt)
 		vim.keymap.set("n", "y", '<cmd>call ddu#ui#do_action("itemAction", {"name": "yank"})<cr>', opt)
@@ -216,6 +104,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "p", '<cmd>call ddu#ui#do_action("itemAction", {"name": "paste"})<cr>', opt)
 	end,
 })
+vim.fn["ddu#custom#load_config"](vim.fn.expand("~/.config/nvim/rc/ddu.ts"))
 """
 
 [[plugins]]
