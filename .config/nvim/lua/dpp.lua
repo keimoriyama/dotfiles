@@ -41,7 +41,7 @@ if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 	vim.api.nvim_create_autocmd("User", {
 		pattern = 'DenopsReady',
 		callback = function()
-			vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/denops/dpp_config.ts")
+			vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/rc/dpp_config.ts")
 		end
 	})
 else
@@ -70,7 +70,7 @@ vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 vim.api.nvim_create_user_command(
 	"DppMakeState",
 	function()
-		vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/denops/dpp_config.ts")
+		vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/rc/dpp_config.ts")
 	end,
 	{}
 )
