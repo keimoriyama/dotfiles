@@ -24,7 +24,9 @@ InitPlugin("Shougo/dpp.vim")
 vim.opt.rtp:append(dpp_src)
 vim.opt.rtp:append(denops_src)
 
-if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
+local dpp = require("dpp")
+
+if dpp.load_state(dpp_base) == 1 then
 	local plugins = {
 		"Shougo/dpp.vim",
 		'vim-denops/denops.vim',
@@ -40,7 +42,7 @@ if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 	vim.api.nvim_create_autocmd("User", {
 		pattern = 'DenopsReady',
 		callback = function()
-			vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/rc/dpp_config.ts")
+			dpp.make_state(dpp_base, "~/.config/nvim/rc/dpp_config.ts")
 		end
 	})
 else
@@ -69,7 +71,7 @@ vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 vim.api.nvim_create_user_command(
 	"DppMakeState",
 	function()
-		vim.fn["dpp#make_state"](dpp_base, "~/.config/nvim/rc/dpp_config.ts")
+		dpp.make_state(dpp_base, "~/.config/nvim/rc/dpp_config.ts")
 	end,
 	{}
 )
@@ -77,7 +79,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
 	"DppLoad",
 	function()
-		vim.fn["dpp#min#load_state"](dpp_base)
+		dpp.load_state(dpp_base)
 	end,
 	{}
 )
@@ -85,35 +87,35 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
 	"DppInstall",
 	function()
-		vim.fn["dpp#async_ext_action"]('installer', 'install', { maxProcess = 10 })
+		dpp.async_ext_action('installer', 'install', { maxProcess = 10 })
 	end,
 	{}
 )
 vim.api.nvim_create_user_command(
 	"DppUpdate",
 	function()
-		vim.fn["dpp#async_ext_action"]('installer', 'update', { maxProcess = 10 })
+		dpp.async_ext_action('installer', 'update', { maxProcess = 10 })
 	end,
 	{}
 )
 vim.api.nvim_create_user_command(
 	"DppSource",
 	function()
-		vim.fn["dpp#source"]()
+		dpp.source()
 	end,
 	{}
 )
 vim.api.nvim_create_user_command(
 	"DppClear",
 	function()
-		vim.fn["dpp#clear_state"]()
+		dpp.clear_state()
 	end,
 	{}
 )
 vim.api.nvim_create_user_command(
 	"DppGet",
 	function()
-		vim.fn['dpp#get']()
+		dpp.get()
 	end,
 	{}
 )
