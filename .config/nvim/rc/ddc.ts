@@ -81,7 +81,7 @@ export class Config extends BaseConfig {
       sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
-      sources: ["around", "nvim-lua", "nvim-lsp"],
+      sources: ["around", "nvim-lua", "lsp"],
     });
     for (const filetype of ["ps1", "dosbatch", "autohotkey", "registry"]) {
       args.contextBuilder.patchFiletype(filetype, {

@@ -1,5 +1,4 @@
 local dpp_base = vim.fn.expand("~/.cache/dpp")
-
 local function InitPlugin(plugin)
 	local dir = dpp_base .. '/repos/github.com/' .. plugin
 	if vim.fn.isdirectory(dir) == 0 then
@@ -17,7 +16,7 @@ vim.opt.compatible = false
 
 -- set dpp runtime path
 local dpp_src = dpp_base .. '/repos/github.com/Shougo/dpp.vim'
-local denops_src = dpp_base .. '~/.cache/dpp/repos/github.com/vim-denops/denops.vim'
+local denops_src = dpp_base .. '/.cache/dpp/repos/github.com/vim-denops/denops.vim'
 
 InitPlugin('vim-denops/denops.vim')
 InitPlugin("Shougo/dpp.vim")
