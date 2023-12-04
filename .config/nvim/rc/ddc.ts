@@ -1,5 +1,4 @@
 import { BaseConfig } from "https://deno.land/x/ddc_vim@v4.0.4/types.ts";
-import { fn } from "https://deno.land/x/ddc_vim@v4.0.4/deps.ts";
 import { ConfigArguments } from "https://deno.land/x/ddc_vim@v4.0.4/base/config.ts";
 
 export class Config extends BaseConfig {
@@ -65,23 +64,21 @@ export class Config extends BaseConfig {
           minAutoCompleteLength: 1,
           isVolatile: true,
         },
+        obsidian: {
+          mark: "[obsidian]",
+          // keywordPattern: "\[\[\w*",
+        },
+        obsidian_new: {
+          mark: "[obsidian+]",
+          // keywordPattern: "\[\[\w*",
+        },
       },
       sourceParams: {
         buffer: { requireSameFiletype: false, forceCollect: true },
       },
     });
     args.contextBuilder.patchFiletype("markdown", {
-      sources: ["around", "obsidian", "obsidian_new"],
-      sourceOptions: {
-        obsidian: {
-          mark: "[obsidian]",
-          keywordPattern: "\[\[\k*",
-        },
-        obsidian_new: {
-          mark: "[obsidian+]",
-          keywordPattern: "\[\[\k*",
-        },
-      },
+      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
       sources: ["around", "nvim-lua", "nvim-lsp"],

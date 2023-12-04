@@ -165,3 +165,24 @@ end, function()
 		hs.application.frontmostApplication():kill()
 	end
 end)
+
+function ToggleKeymethod()
+	print(hs.keycodes.currentMethod())
+	if hs.keycodes.currentMethod() == 'AquaSKK 統合' then
+		hs.keycodes.setLayout('ABC')
+		hs.alert.show("ABC", hs.styledtext, hs.screen.mainScreen(), 0.2)
+	elseif hs.keycodes.currentLayout() == 'ABC' then
+		hs.keycodes.setMethod('AquaSKK 統合')
+		hs.alert.show("SKK", hs.styledtext, hs.screen.mainScreen(), 0.2)
+	end
+end
+
+hs.hotkey.bind({ "ctrl" }, "j", ToggleKeymethod)
+
+hs.hotkey.bind({ "ctrl", "cmd" }, "down", function()
+	local method = hs.keycodes.currentMethod()
+	local layout = hs.keycodes.currentLayout()
+	print(method)
+	hs.alert.show(method)
+	hs.alert.show(layout)
+end)

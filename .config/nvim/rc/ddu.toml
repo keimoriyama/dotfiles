@@ -18,6 +18,7 @@ vim.keymap.set("n", "<leader>ic","<cmd>Ddu lsp_callHierarchy -sync=true -source-
 vim.keymap.set("n", "<leader>oc","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outgoingCalls<cr>", opt)
 
 vim.keymap.set("n", "<Leader>sf",'<cmd>Ddu file -name=filer<cr>', opt)
+vim.keymap.set("n", "<leader>bd", "<cmd>Ddu nvim_lsp_diagnostic_buffer<cr>", opt)
 -- vim.keymap.set("n", "<leader>k", keymaps, opt)
 """
 lua_source="""
@@ -125,6 +126,10 @@ on_source="ddu.vim"
 
 [[plugins]]
 repo="uga-rosa/ddu-source-lsp"
+on_source="ddu.vim"
+
+[[plugins]]
+repo="gamoutatsumi/ddu-source-nvim-lsp"
 on_source="ddu.vim"
 
 [[plugins]]
