@@ -19,13 +19,6 @@ repo="tpope/vim-repeat"
 [[plugins]]
 repo="nvim-lua/plenary.nvim"
 
-[[plugins]]
-repo="nvim-lua/popup.nvim"
-
-# buffer sizer
-[[plugins]]
-repo="simeji/winresizer"
-
 # show diff from recover file
 [[plugins]]
 repo="chrisbra/Recover.vim"
