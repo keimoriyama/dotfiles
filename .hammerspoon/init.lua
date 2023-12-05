@@ -210,6 +210,10 @@ local function test(appName, event, appObject)
 	if appName == "WezTerm" then
 		if event == 5 then
 			-- disable key binding
+			if hs.keycodes.currentMethod() == 'AquaSKK 統合' then
+				hs.keycodes.setLayout('ABC')
+				hs.alert.show("ABC", hs.styledtext, hs.screen.mainScreen(), 0.2)
+			end
 			hotkeys:disable()
 		elseif event == 6 then
 			-- enable key binding
