@@ -181,26 +181,42 @@ function ToggleKeymethod()
 	end
 end
 
-impleCmd = false
-function EikanaEvent(event)
-	Map = hs.keycodes.map
-	KeyCode = event:getKeyCode()
-	Flag = event:getFlags()
-	if event:getType() == hs.eventtap.event.types.keyUp then
-		if Flag['cmd'] then
-			SimpleCmd = true
-		end
-	elseif event:getType() == hs.eventtap.event.types.flagsChanged then
-		if not Flag['cmd'] then
-			if SimpleCmd == false then
-				if KeyCode == Map['cmd'] or KeyCode == Map['rightcmd'] then
-					ToggleKeymethod()
-				end
-			end
-			SimpleCmd = false
+-- impleCmd = false
+-- function EikanaEvent(event)
+-- 	Map = hs.keycodes.map
+-- 	KeyCode = event:getKeyCode()
+-- 	Flag = event:getFlags()
+-- 	if event:getType() == hs.eventtap.event.types.keyUp then
+-- 		if Flag['cmd'] then
+-- 			SimpleCmd = true
+-- 		end
+-- 	elseif event:getType() == hs.eventtap.event.types.flagsChanged then
+-- 		if not Flag['cmd'] then
+-- 			if SimpleCmd == false then
+-- 				if KeyCode == Map['cmd'] or KeyCode == Map['rightcmd'] then
+-- 					ToggleKeymethod()
+-- 				end
+-- 			end
+-- 			SimpleCmd = false
+-- 		end
+-- 	end
+-- end
+--
+-- Eikana = hs.eventtap.new({ hs.eventtap.event.types.keyUp, hs.eventtap.event.types.flagsChanged }, EikanaEvent)
+-- Eikana:start()
+
+local hotkeys = hs.hotkey.new({ "ctrl" }, "j", ToggleKeymethod, nil, nil)
+local function test(appName, event, appObject)
+	if appName == "WezTerm" then
+		if event == 5 then
+			-- disable key binding
+			hotkeys:disable()
+		elseif event == 6 then
+			-- enable key binding
+			hotkeys:enable()
 		end
 	end
 end
 
-Eikana = hs.eventtap.new({ hs.eventtap.event.types.keyUp, hs.eventtap.event.types.flagsChanged }, EikanaEvent)
-Eikana:start()
+watcher = hs.application.watcher.new(test)
+watcher:start()
