@@ -166,8 +166,12 @@ end, function()
 	end
 end)
 
+if hs.usb.attachedDevices ~= nil then
+	hs.hotkey.bind({}, "capslock", function() hs.eventtap.keyStroke({}, "ctrl") end)
+	hs.hotkey.bind({}, "alt", function() hs.eventtap.keyStroke({}, "cmd") end)
+end
+
 function ToggleKeymethod()
-	print(hs.keycodes.currentMethod())
 	if hs.keycodes.currentMethod() == 'AquaSKK 統合' then
 		hs.keycodes.setLayout('ABC')
 		hs.alert.show("ABC", hs.styledtext, hs.screen.mainScreen(), 0.2)
@@ -177,12 +181,26 @@ function ToggleKeymethod()
 	end
 end
 
-hs.hotkey.bind({ "ctrl" }, "j", ToggleKeymethod)
+impleCmd = false
+function EikanaEvent(event)
+	Map = hs.keycodes.map
+	KeyCode = event:getKeyCode()
+	Flag = event:getFlags()
+	if event:getType() == hs.eventtap.event.types.keyUp then
+		if Flag['cmd'] then
+			SimpleCmd = true
+		end
+	elseif event:getType() == hs.eventtap.event.types.flagsChanged then
+		if not Flag['cmd'] then
+			if SimpleCmd == false then
+				if KeyCode == Map['cmd'] or KeyCode == Map['rightcmd'] then
+					ToggleKeymethod()
+				end
+			end
+			SimpleCmd = false
+		end
+	end
+end
 
-hs.hotkey.bind({ "ctrl", "cmd" }, "down", function()
-	local method = hs.keycodes.currentMethod()
-	local layout = hs.keycodes.currentLayout()
-	print(method)
-	hs.alert.show(method)
-	hs.alert.show(layout)
-end)
+Eikana = hs.eventtap.new({ hs.eventtap.event.types.keyUp, hs.eventtap.event.types.flagsChanged }, EikanaEvent)
+Eikana:start()
