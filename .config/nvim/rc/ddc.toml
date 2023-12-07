@@ -14,7 +14,7 @@ vim.fn["pum#set_option"]({
 	horizontal_menu = false,
 	offset_cmdcol = 0,
 	padding = false,
-	use_complete = true,
+	-- use_complete = true,
 	use_setline = false,
 	max_height=10
 })
@@ -42,6 +42,7 @@ function _G.CommandlinePre(mode)
 end
 vim.keymap.set({"n", 'x'}, ":", "<Cmd>call v:lua.CommandlinePre(':')<CR>:")
 vim.keymap.set({"n"}, "?", "<Cmd>call v:lua.CommandlinePre('/')<CR>?")
+vim.fn["ddc#set_static_import_path"]()
 -- Use ddc
 local capabilities = require("ddc_source_lsp").make_client_capabilities()
 require("ddc_source_lsp_setup").setup()
