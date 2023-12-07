@@ -104,6 +104,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "p", '<cmd>call ddu#ui#do_action("itemAction", {"name": "paste"})<cr>', opt)
 	end,
 })
+vim.fn['ddu#set_static_import_path']()
 vim.fn["ddu#custom#load_config"](vim.fn.expand("~/.config/nvim/rc/ddu.ts"))
 """
 
