@@ -14,7 +14,6 @@ vim.fn["pum#set_option"]({
 	horizontal_menu = false,
 	offset_cmdcol = 0,
 	padding = false,
-	-- use_complete = true,
 	use_setline = false,
 	max_height=10
 })
@@ -115,9 +114,6 @@ on_source="ddc.vim"
 repo="uga-rosa/ddc-source-nvim-lua"
 on_source="ddc.vim"
 
-[[plugins]]
-repo="uga-rosa/ddc-source-vsnip"
-on_source="ddc.vim"
 
 [[plugins]]
 repo="LumaKernel/ddc-source-file"
@@ -180,20 +176,28 @@ vim.fn['skkeleton#config']({
 })
 """
 
-[[plugsins]]
-repo="hrsh7th/vim-vsnip"
-on_source='ddc.vim'
-on_hook='''
-let g:vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
-let g:vsnip_choice_delay = 0
-
-" Expand or jump
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-
-" Jump forward or backward
-imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-'''
+[[plugins]]
+repo = "uga-rosa/denippet.vim"
+on_source = "ddc.vim"
+lua_add="""
+local snip_dir = vim.fn.expand("$HOME/.config/nvim/snippets")
+for _, file in ipairs(vim.fn.glob(snip_dir .. "/*.toml", false, true)) do
+	vim.fn["denippet#load"](file)
+end
+local opt = {noremap = true, silent = true, expr = true}
+vim.keymap.set({"n", "i"}, "<C-l>", "<Plug>(denippet-expand)", opt)
+vim.keymap.set({"n", "i", "s"}, "<Tab>", function ()
+	if vim.fn["denippet#jumpable"]() then
+		vim.fn["denippet#jump_next"]()
+	else
+		vim.keymap.feed("<Tab>")
+	end
+end, opt)
+vim.keymap.set({"n", "i", "s"}, "<S-Tab>", function ()
+	if vim.fn["denippet#jumpable"](-1) then
+		vim.fn["denippet#jump_prev"]()
+	else
+		vim.keymap.feed("<Tab>")
+	end
+end, opt)
+"""

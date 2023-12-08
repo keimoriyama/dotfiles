@@ -1,0 +1,5 @@
+[ip]
+prefix = 'ip'
+body = """
+import ipdb; ipdb.set_trace()
+"""
