@@ -179,7 +179,7 @@ vim.fn['skkeleton#config']({
 [[plugins]]
 repo = "uga-rosa/denippet.vim"
 on_source = "ddc.vim"
-lua_add="""
+lua_source="""
 local snip_dir = vim.fn.expand("$HOME/.config/nvim/snippets")
 for _, file in ipairs(vim.fn.glob(snip_dir .. "/*.toml", false, true)) do
 	vim.fn["denippet#load"](file)
@@ -189,15 +189,18 @@ vim.keymap.set({"n", "i"}, "<C-l>", "<Plug>(denippet-expand)", opt)
 vim.keymap.set({"n", "i", "s"}, "<Tab>", function ()
 	if vim.fn["denippet#jumpable"]() then
 		vim.fn["denippet#jump_next"]()
-	else
-		vim.keymap.feed("<Tab>")
 	end
 end, opt)
 vim.keymap.set({"n", "i", "s"}, "<S-Tab>", function ()
 	if vim.fn["denippet#jumpable"](-1) then
 		vim.fn["denippet#jump_prev"]()
-	else
-		vim.keymap.feed("<Tab>")
 	end
 end, opt)
+"""
+
+[[plugins]]
+repo="delphinus/skkeleton_indicator.nvim"
+on_source="ddc.vim"
+lua_source="""
+require("skkeleton_indicator").setup()
 """
