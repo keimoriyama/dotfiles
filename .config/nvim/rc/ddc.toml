@@ -18,7 +18,12 @@ vim.keymap.set({"i", "c"}, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop
 vim.keymap.set({"i", "c"}, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
 vim.keymap.set({"i", "c"}, "<C-y>", "<cmd>call pum#map#confirm()<cr>")
 vim.keymap.set({"i", "c"}, "<C-e>", "<cmd>call pum#map#cancel()<cr>")
--- コマンドライン補完の設定
+vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
+require("ddc_source_lsp_setup").setup()
+require("lspconfig").denols.setup({})
+'''
+lua_source='''
+-- Use ddc
 function _G.CommandlinePre(mode)
 	vim.b["prev_buffer_config"] = vim.fn["ddc#custom#get_buffer"]()
 	if mode == ":" then
@@ -36,13 +41,8 @@ function _G.CommandlinePre(mode)
 	})
 	vim.fn["ddc#enable_cmdline_completion"]()
 end
+-- コマンドライン補完の設定
 vim.keymap.set({"n", 'x'}, ":", "<Cmd>call v:lua.CommandlinePre(':')<CR>:")
-vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
-require("ddc_source_lsp_setup").setup()
-require("lspconfig").denols.setup({})
-'''
-lua_source='''
--- Use ddc
 vim.fn["ddc#enable"]({context_filetype='treesitter'})
 require("ddc_previewer_floating").enable()
 '''
