@@ -1,8 +1,9 @@
 [[plugins]]
 repo='Shougo/ddc.vim'
 on_event = ['InsertEnter', 'CmdlineEnter']
-# depends=['denops.vim', 'nvim-lspconfig']
+depends=['denops.vim', 'nvim-lspconfig']
 lua_source='''
+vim.fn["ddc#set_static_import_path"]()
 vim.g.signature_help_config = {
 	contentsStyle = "currentLabel",
 	viewStyle = "floating",
@@ -40,10 +41,8 @@ function _G.CommandlinePre(mode)
 	vim.fn["ddc#enable_cmdline_completion"]()
 end
 vim.keymap.set({"n", 'x'}, ":", "<Cmd>call v:lua.CommandlinePre(':')<CR>:")
-vim.keymap.set({"n"}, "?", "<Cmd>call v:lua.CommandlinePre('/')<CR>?")
-vim.fn["ddc#set_static_import_path"]()
 -- Use ddc
-local capabilities = require("ddc_source_lsp").make_client_capabilities()
+-- local capabilities
 require("ddc_source_lsp_setup").setup()
 require("lspconfig").denols.setup({})
 vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
@@ -171,7 +170,7 @@ lua_source= """
 vim.keymap.set({"i", "c", "t"}, "<C-j>", "<Plug>(skkeleton-toggle)", {noremap =true})
 vim.fn['skkeleton#config']({
 	globalJisyo = "~/.local/skkeleton/SKK-JISYO.L",
-	debug = true,
+	debug =false,
 	showCandidatesCount = 1
 })
 """
