@@ -45,5 +45,4 @@ set -gx NEOVIM_HOME $HOME/.local/nvim
 fish_add_path $HOME/.local/nvim/bin
 
 set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
-
-
+source ~/.config/fish/env.fish
