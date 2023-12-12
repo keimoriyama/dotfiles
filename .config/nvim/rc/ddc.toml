@@ -2,12 +2,8 @@
 repo='Shougo/ddc.vim'
 on_event = ['InsertEnter', 'CmdlineEnter']
 depends=['denops.vim', 'nvim-lspconfig']
-lua_source='''
+lua_add='''
 vim.fn["ddc#set_static_import_path"]()
-vim.g.signature_help_config = {
-	contentsStyle = "currentLabel",
-	viewStyle = "floating",
-}
 -- config of pum
 vim.fn["pum#set_option"]({
 	item_orders = { "abbr", "space", "kind", "space", "menu" },
@@ -41,13 +37,13 @@ function _G.CommandlinePre(mode)
 	vim.fn["ddc#enable_cmdline_completion"]()
 end
 vim.keymap.set({"n", 'x'}, ":", "<Cmd>call v:lua.CommandlinePre(':')<CR>:")
--- Use ddc
--- local capabilities
+vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
 require("ddc_source_lsp_setup").setup()
 require("lspconfig").denols.setup({})
-vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
+'''
+lua_source='''
+-- Use ddc
 vim.fn["ddc#enable"]({context_filetype='treesitter'})
-vim.fn["ddc#enable_terminal_completion"]()
 require("ddc_previewer_floating").enable()
 '''
 
