@@ -46,10 +46,4 @@ fish_add_path $HOME/.local/nvim/bin
 
 set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
 
-set -gx GITHUB_USER keimoriyama
-set -gx GITHUB_ACCESS_TOKEN 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
-
-set -gx OPENAI_API_KEY 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
-set -gx OPENAI_ORG_KEY org-72Zir3ce8563QX7AVgOysMF6
-
 
