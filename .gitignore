@@ -20,9 +20,7 @@ lib*
 
 !.config/nvim/*.lua
 !.config/nvim/
-!.config/fish
-.config/fish/*
-!.config/fish/config.fish
+!.config/nvim/fish/config.fish
 !.config/nvim/after/plugin/*.lua
 !.config/wezterm
 
