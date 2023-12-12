@@ -194,5 +194,6 @@ local function test(appName, event, appObject)
 	end
 end
 
+hotkeys:enable()
 watcher = hs.application.watcher.new(test)
 watcher:start()

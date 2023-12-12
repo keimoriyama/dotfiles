@@ -29,7 +29,7 @@ export class Config extends BaseConfig {
       ["dpp.toml", false],
       ["colorscheme.toml", false],
       ["utils.toml", false],
-      ["ddc.toml", true],
+      ["ddc.toml", false],
       ["ddu.toml", true],
       ["lsp.toml", true],
       ["ftplugin.toml", true],
