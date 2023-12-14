@@ -61,11 +61,11 @@ export class Config extends BaseConfig {
         },
         obsidian: {
           mark: "[obsidian]",
-          keywordPattern: "[\\k*",
+          // keywordPattern: "\\[\\[\\k*",
         },
         obsidian_new: {
           mark: "[obsidian+]",
-          keywordPattern: "[\\k*",
+          // keywordPattern: "[\\k*",
         },
       },
       sourceParams: {
