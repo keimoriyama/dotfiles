@@ -10,7 +10,6 @@ export class Config extends BaseConfig {
         "skkeleton",
         "file",
         "denippet",
-        "nvim-lua",
         "buffer",
         "around",
       ],
@@ -62,11 +61,11 @@ export class Config extends BaseConfig {
         },
         obsidian: {
           mark: "[obsidian]",
-          // keywordPattern: "\[\[\w*",
+          keywordPattern: "[\\k*",
         },
         obsidian_new: {
           mark: "[obsidian+]",
-          // keywordPattern: "\[\[\w*",
+          keywordPattern: "[\\k*",
         },
       },
       sourceParams: {
@@ -76,9 +75,13 @@ export class Config extends BaseConfig {
     args.contextBuilder.patchFiletype("markdown", {
       sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
     });
+    args.contextBuilder.patchFiletype("markdown_inline", {
+      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
+    });
     args.contextBuilder.patchFiletype("lua", {
       sources: ["around", "nvim-lua", "lsp"],
     });
+
     for (const filetype of ["ps1", "dosbatch", "autohotkey", "registry"]) {
       args.contextBuilder.patchFiletype(filetype, {
         sources: ["around", "file"],

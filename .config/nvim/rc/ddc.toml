@@ -3,7 +3,6 @@ repo='Shougo/ddc.vim'
 on_event = ['InsertEnter', 'CmdlineEnter']
 depends=['denops.vim', 'nvim-lspconfig']
 lua_add='''
-vim.fn["ddc#set_static_import_path"]()
 -- config of pum
 vim.fn["pum#set_option"]({
 	item_orders = { "abbr", "space", "kind", "space", "menu" },
@@ -18,11 +17,12 @@ vim.keymap.set({"i", "c"}, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'loop
 vim.keymap.set({"i", "c"}, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
 vim.keymap.set({"i", "c"}, "<C-y>", "<cmd>call pum#map#confirm()<cr>")
 vim.keymap.set({"i", "c"}, "<C-e>", "<cmd>call pum#map#cancel()<cr>")
+'''
+lua_source='''
+vim.fn["ddc#set_static_import_path"]()
 vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
 require("ddc_source_lsp_setup").setup()
 require("lspconfig").denols.setup({})
-'''
-lua_source='''
 -- Use ddc
 function _G.CommandlinePre(mode)
 	vim.b["prev_buffer_config"] = vim.fn["ddc#custom#get_buffer"]()
