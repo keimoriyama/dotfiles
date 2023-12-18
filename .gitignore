@@ -28,4 +28,5 @@ lib*
 
 .zshenv
 .config/github-copilot/hosts.json
+*.log
 

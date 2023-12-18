@@ -1,25 +1,20 @@
 [[plugins]]
-repo="neovim/nvim-lspconfig"
-on_cmd="LspInfo"
-on_source="mason.nvim"
+repo = "neovim/nvim-lspconfig"
+on_cmd = "LspInfo"
+on_source = "mason.nvim"
 
 [[plugins]]
-repo="williamboman/mason-lspconfig.nvim"
-on_cmd=['LspInstall', 'LspUninstall']
-on_source="mason.nvim"
+repo = "williamboman/mason-lspconfig.nvim"
+on_cmd = ['LspInstall', 'LspUninstall']
+on_source = "mason.nvim"
 
 [[plugins]]
-repo="williamboman/mason.nvim"
+repo = "williamboman/mason.nvim"
 on_event = ['BufNewFile', 'BufRead']
-on_cmd=["Mason"]
-depends=['mason-lspconfig.nvim', 'nvim-lspconfig']
-lua_source='''
+depends = ['mason-lspconfig.nvim', 'nvim-lspconfig']
+lua_source = '''
 ---@diagnostic disable: redefined-local
-local status, mason = pcall(require, "mason")
-local nvim_lsp = require("lspconfig")
-if not status then
-	return
-end
+local mason = require("mason")
 
 mason.setup({
 	ui = {
@@ -34,58 +29,21 @@ mason.setup({
 local opts = { noremap = true, silent = true }
 
 -- add lsp
-local servers = { "pyright", "lua_ls", "texlab", "clangd", "html", "rust_analyzer" }
 local status, mason_lspconfig = pcall(require, "mason-lspconfig")
 if not status then
 	return
 end
 
-mason_lspconfig.setup({ ensure_installed = servers })
-
-local status, lspconfig = pcall(require, "lspconfig")
-if not status then
-	return
-end
-
+-- mason_lspconfig.setup()
+local nvim_lsp = require("lspconfig")
 local handlers = {
 	function(server_name)
-		local node_root_dir = nvim_lsp.util.root_pattern("package.json")
-		local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
-		local opts = {}
-		if server_name == "tsserver" then
-			if not is_node_repo then
-				return
-			end
-		elseif server_name == "eslint" then
-			if not is_node_repo then
-				return
-			end
-		elseif server_name == "denols" then
-			if is_node_repo then
-				return
-			end
-		end
-		opts.root_dir = nvim_lsp.util.root_pattern("deno.json", 'deno.jsonc', 'deps.ts', 'import_map.json')
-		opts.init_options = {
-			lint = true,
-			unstable = true,
-			suggest = {
-				imports = {
-					hosts = {
-						["https://deno.land"] = true,
-						["https://cdn.nest.land"] = true,
-						["https://crux.land"] = true
-					}
-				}
-			}
-		}
-		lspconfig[server_name].setup(opts)
+		nvim_lsp[server_name].setup(opts)
 	end,
 }
 mason_lspconfig.setup_handlers(handlers)
--- -- LSP handlers
-vim.diagnostic.config({ virtual_text = false })
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
+-- LSP handlers
+vim.diagnostic.config({ virtual_text = false }) vim.lsp.handlers["textDocument/publishDiagnostics"] =
 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -161,9 +119,10 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 '''
 
 [[plugins]]
-repo="nvimtools/none-ls.nvim"
+repo = "nvimtools/none-ls.nvim"
 on_event = ['BufNewFile', 'BufRead']
-lua_source='''
+depends = ['mason.nvim']
+lua_source = '''
 local status, null_ls = pcall(require, "null-ls")
 if not status then
 	return
@@ -216,56 +175,3 @@ end
 
 null_ls.setup({ debug = false, sources = null_sources, on_attach = on_attach })
 '''
-
-# [[plugins]]
-# repo="onsails/lspkind-nvim"
-# lua_source='''
-# 	local status, lspkind = pcall(require, "lspkind")
-# 	if not status then
-# 		return
-# 	end
-#
-# 	lspkind.init({
-# 		-- enables text annotations
-# 		--
-# 		-- default: true
-# 		mode = "symbol_text",
-# 		-- default symbol map
-# 		-- can be either 'default' (requires nerd-fonts font) or
-# 		-- 'codicons' for codicon preset (requires vscode-codicons font)
-# 		--
-# 		-- default: 'default'
-# 		preset = "codicons",
-# 		-- override preset symbols
-# 		--
-# 		-- default: {}
-# 		symbol_map = {
-# 			Text = "",
-# 			Method = "",
-# 			Function = "",
-# 			Constructor = "",
-# 			Field = "ﰠ",
-# 			Variable = "",
-# 			Class = "ﴯ",
-# 			Interface = "",
-# 			Module = "",
-# 			Property = "ﰠ",
-# 			Unit = "塞",
-# 			Value = "",
-# 			Enum = "",
-# 			Keyword = "",
-# 			Snippet = "",
-# 			Color = "",
-# 			File = "",
-# 			Reference = "",
-# 			Folder = "",
-# 			EnumMember = "",
-# 			Constant = "",
-# 			Struct = "פּ",
-# 			Event = "",
-# 			Operator = "",
-# 			TypeParameter = "",
-# 			Copilot = "",
-# 		},
-# 	})
-# '''
