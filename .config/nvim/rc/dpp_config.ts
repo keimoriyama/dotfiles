@@ -23,7 +23,6 @@ export class Config extends BaseConfig {
       protocols: ["git"],
     });
     const [context, options] = await args.contextBuilder.get(args.denops);
-
     const tomls: Toml[] = [];
     const files = [
       ["dpp.toml", false],
@@ -37,6 +36,7 @@ export class Config extends BaseConfig {
     ];
     const base_dir = "~/.config/nvim/rc/";
     for (const file of files) {
+      console.log(base_dir + file[0]);
       tomls.push(
         await args.dpp.extAction(
           args.denops,

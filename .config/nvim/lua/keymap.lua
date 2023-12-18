@@ -1,20 +1,17 @@
-local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-
-
 -- ESC*2 でハイライトやめる
-keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
-keymap("n", "<Leader>bd", ":bd<CR>", opts)
-keymap("n", "<Leader>w", ":w<CR>", opts)
-keymap("n", "<Leader>q", ":wq<CR>", opts)
-keymap("n", "<Leader>Q", ":q!<CR>", opts)
-keymap("n", "+", "<C-a>", opts)
-keymap("n", "-", "<C-x>", opts)
-keymap("n", "n", "nzz", opts)
-keymap("n", "N", "Nzz", opts)
-keymap("n", "*", "*zz", opts)
-keymap("n", "g*", "g*zz", opts)
-keymap("n", "g#", "g#zz", opts)
+vim.api.nvim_set_keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>q", ":wq<CR>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>Q", ":q!<CR>", opts)
+vim.api.nvim_set_keymap("n", "+", "<C-a>", opts)
+vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
+vim.api.nvim_set_keymap("n", "n", "nzz", opts)
+vim.api.nvim_set_keymap("n", "N", "Nzz", opts)
+vim.api.nvim_set_keymap("n", "*", "*zz", opts)
+vim.api.nvim_set_keymap("n", "g*", "g*zz", opts)
+vim.api.nvim_set_keymap("n", "g#", "g#zz", opts)
 
 vim.api.nvim_set_keymap("t", "<C-h>", "<cmd>wincmd h<CR>", opts)
 vim.api.nvim_set_keymap("t", "<C-l>", "<cmd>wincmd l<CR>", opts)

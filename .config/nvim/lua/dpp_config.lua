@@ -25,6 +25,7 @@ vim.opt.rtp:append(dpp_src)
 vim.opt.rtp:append(denops_src)
 
 local dpp = require("dpp")
+local config_file = vim.fn.expand("~/.config/nvim/rc/dpp_config.ts")
 
 if dpp.load_state(dpp_base) == 1 then
 	local plugins = {
@@ -42,7 +43,7 @@ if dpp.load_state(dpp_base) == 1 then
 	vim.api.nvim_create_autocmd("User", {
 		pattern = 'DenopsReady',
 		callback = function()
-			dpp.make_state(dpp_base, "~/.config/nvim/rc/dpp_config.ts")
+			dpp.make_state(dpp_base, config_file)
 		end
 	})
 else
@@ -71,7 +72,7 @@ vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 vim.api.nvim_create_user_command(
 	"DppMakeState",
 	function()
-		dpp.make_state(dpp_base, "~/.config/nvim/rc/dpp_config.ts")
+		dpp.make_state(dpp_base, config_file)
 	end,
 	{}
 )
@@ -87,14 +88,14 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
 	"DppInstall",
 	function()
-		dpp.async_ext_action('installer', 'install', { maxProcess = 10 })
+		dpp.async_ext_action('installer', 'install')
 	end,
 	{}
 )
 vim.api.nvim_create_user_command(
 	"DppUpdate",
 	function()
-		dpp.async_ext_action('installer', 'update', { maxProcess = 10 })
+		dpp.async_ext_action('installer', 'update')
 	end,
 	{}
 )
