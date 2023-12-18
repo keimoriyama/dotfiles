@@ -1,7 +1,7 @@
 [[plugins]]
 repo = "neovim/nvim-lspconfig"
 on_cmd = "LspInfo"
-on_source = "mason.nvim"
+on_source = ["mason.nvim", "ddc.vim"]
 
 [[plugins]]
 repo = "williamboman/mason-lspconfig.nvim"
@@ -12,7 +12,7 @@ on_source = "mason.nvim"
 repo = "williamboman/mason.nvim"
 on_event = ['BufNewFile', 'BufRead']
 depends = ['mason-lspconfig.nvim', 'nvim-lspconfig']
-lua_source = '''
+lua_source='''
 ---@diagnostic disable: redefined-local
 local mason = require("mason")
 
@@ -121,6 +121,7 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 [[plugins]]
 repo = "nvimtools/none-ls.nvim"
 on_event = ['BufNewFile', 'BufRead']
+depends='mason.nvim'
 lua_source = '''
 local status, null_ls = pcall(require, "null-ls")
 if not status then

@@ -15,19 +15,15 @@ end
 vim.opt.compatible = false
 
 -- set dpp runtime path
-local dpp_src = dpp_base .. '/repos/github.com/Shougo/dpp.vim'
-local denops_src = dpp_base .. '/.cache/dpp/repos/github.com/vim-denops/denops.vim'
 
 InitPlugin('vim-denops/denops.vim')
 InitPlugin("Shougo/dpp.vim")
 
-vim.opt.rtp:append(dpp_src)
-vim.opt.rtp:append(denops_src)
-
 local dpp = require("dpp")
 local config_file = vim.fn.expand("~/.config/nvim/rc/dpp_config.ts")
+print(dpp.load_state(dpp_base))
 
-if dpp.load_state(dpp_base) then
+if vim.fn['dpp#min#load_state'](dpp_base) == 1 then
 	local plugins = {
 		'Shougo/dpp-ext-toml',
 		"Shougo/dpp-ext-lazy",
@@ -122,6 +118,14 @@ vim.api.nvim_create_user_command(
 	"DppGet",
 	function()
 		dpp.get()
+	end,
+	{}
+)
+
+vim.api.nvim_create_user_command(
+	"DppGetNotInstalled",
+	function()
+		print(dpp.async_ext_action('installer', 'getNotInstalled'))
 	end,
 	{}
 )
