@@ -27,10 +27,8 @@ vim.opt.rtp:append(denops_src)
 local dpp = require("dpp")
 local config_file = vim.fn.expand("~/.config/nvim/rc/dpp_config.ts")
 
-if dpp.load_state(dpp_base) == 1 then
+if dpp.load_state(dpp_base) then
 	local plugins = {
-		"Shougo/dpp.vim",
-		'vim-denops/denops.vim',
 		'Shougo/dpp-ext-toml',
 		"Shougo/dpp-ext-lazy",
 		'Shougo/dpp-ext-installer',
@@ -43,6 +41,7 @@ if dpp.load_state(dpp_base) == 1 then
 	vim.api.nvim_create_autocmd("User", {
 		pattern = 'DenopsReady',
 		callback = function()
+			vim.notify("dpp load_state() is failed")
 			dpp.make_state(dpp_base, config_file)
 		end
 	})
@@ -57,6 +56,12 @@ else
 	)
 end
 
+vim.api.nvim_create_autocmd("User", {
+	pattern = "Dpp:makeStatePost",
+	callback = function()
+		vim.notify("dpp make_state() is done")
+	end,
+})
 
 vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then

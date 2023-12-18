@@ -48,18 +48,6 @@ local function resize()
 	})
 end
 
-local function keymaps()
-	vim.cmd([[
-	call ddu#start(#{
-      \   ui: 'ff',
-      \   sources: [#{
-	  \ 		name: 'keymaps'
-      \ }],
-      \})
-	]])
-end
-
-
 vim.api.nvim_create_autocmd("VimResized", { callback = resize })
 -- キーマッピングの設定
 vim.api.nvim_create_autocmd("FileType", {
@@ -112,59 +100,6 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 vim.fn['ddu#set_static_import_path']()
 vim.fn["ddu#custom#load_config"](vim.fn.expand("~/.config/nvim/rc/ddu.ts"))
-"""repo = "Shougo/ddu.vim"
-repo = "Shougo/ddu.vim"
-on_cmd = 'Ddu'
-lua_add = """
-local opt = { noremap = true, silent = true }
--- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec<cr>", opt)
--- helper 
-vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
-local path = vim.fn.getcwd()
--- rgの設定
-vim.keymap.set("n", "<leader>fr",string.format("<cmd>Ddu rg -source-option-rg-machers=[] \
-	-source-option-rg-volatile=v:true \
-	-source-option-rg-path=%s \
-	-ui-param-ff-ignoreEmpty=v:false \
-	-ui-param-ff-autoResize=v:false<cr>", path), opt)
--- definition
--- lsp related configs(maybe moving to the mason.lua?)
-vim.keymap.set("n", "<leader>sr","<cmd>Ddu lsp_references -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>ds","<cmd>Ddu lsp_documentSymbol -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>ic","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outGoingCalls<cr>", opt)
-vim.keymap.set("n", "<leader>oc","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outgoingCalls<cr>", opt)
-
-vim.keymap.set("n", "<Leader>sf",'<cmd>Ddu file -name=filer<cr>', opt)
-vim.keymap.set("n", "<Leader>sb",'<cmd>Ddu buffer <cr>', opt)
-vim.keymap.set("n", "<Leader>sl",'<cmd>Ddu line<cr>', opt)
-vim.keymap.set("n", "<leader>k", keymaps, opt)
-"""
-on_cmd = 'Ddu'
-lua_add = """
-local opt = { noremap = true, silent = true }
--- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec<cr>", opt)
--- helper 
-vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
-local path = vim.fn.getcwd()
--- rgの設定
-vim.keymap.set("n", "<leader>fr",string.format("<cmd>Ddu rg -source-option-rg-machers=[] \
-	-source-option-rg-volatile=v:true \
-	-source-option-rg-path=%s \
-	-ui-param-ff-ignoreEmpty=v:false \
-	-ui-param-ff-autoResize=v:false<cr>", path), opt)
--- definition
--- lsp related configs(maybe moving to the mason.lua?)
-vim.keymap.set("n", "<leader>sr","<cmd>Ddu lsp_references -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>ds","<cmd>Ddu lsp_documentSymbol -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>ic","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outGoingCalls<cr>", opt)
-vim.keymap.set("n", "<leader>oc","<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outgoingCalls<cr>", opt)
-
-vim.keymap.set("n", "<Leader>sf",'<cmd>Ddu file -name=filer<cr>', opt)
-vim.keymap.set("n", "<Leader>sb",'<cmd>Ddu buffer <cr>', opt)
-vim.keymap.set("n", "<Leader>sl",'<cmd>Ddu line<cr>', opt)
-vim.keymap.set("n", "<leader>k", keymaps, opt)
 """
 
 [[plugins]]
