@@ -21,7 +21,6 @@ InitPlugin("Shougo/dpp.vim")
 
 local dpp = require("dpp")
 local config_file = vim.fn.expand("~/.config/nvim/rc/dpp_config.ts")
-print(dpp.load_state(dpp_base))
 
 if vim.fn['dpp#min#load_state'](dpp_base) == 1 then
 	local plugins = {

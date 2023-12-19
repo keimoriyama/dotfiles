@@ -35,6 +35,7 @@ export class Config extends BaseConfig {
     ];
     const base_dir = "~/.config/nvim/rc/";
     for (const file of files) {
+	  console.log(file)
       tomls.push(
         await args.dpp.extAction(
           args.denops,

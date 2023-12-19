@@ -2,7 +2,6 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-alias vim='nvim'
 alias g='git'
 alias ga='git add'
 alias gd='git diff'
