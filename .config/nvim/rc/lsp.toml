@@ -121,7 +121,7 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 [[plugins]]
 repo = "nvimtools/none-ls.nvim"
 on_event = ['BufNewFile', 'BufRead']
-depends='mason.nvim'
+depends=['mason.nvim', 'plenary.nvim']
 lua_source = '''
 local status, null_ls = pcall(require, "null-ls")
 if not status then
