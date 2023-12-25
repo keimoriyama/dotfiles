@@ -35,7 +35,7 @@ export class Config extends BaseConfig {
     ];
     const base_dir = "~/.config/nvim/rc/";
     for (const file of files) {
-	  console.log(file)
+      console.log(file);
       tomls.push(
         await args.dpp.extAction(
           args.denops,
@@ -88,6 +88,7 @@ export class Config extends BaseConfig {
       },
     ) as Plugin[];
     localPlugins.forEach((plugin: Plugin) => {
+      console.log(plugin);
       recordPlugins[plugin.name] = plugin;
     });
     const lazyResult = await args.dpp.extAction(

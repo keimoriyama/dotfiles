@@ -42,6 +42,7 @@ export class Config extends BaseConfig {
           isVolatile: true,
           forceCompletionPattern: "\S/\S*",
         },
+        omni: { mark: "[omni]" },
         cmdline: { mark: "[cmdline]" },
         denippet: { mark: "[denippet]" },
         buffer: { mark: "[buffer]" },
