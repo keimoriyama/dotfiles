@@ -282,7 +282,7 @@ repo="chrisbra/Recover.vim"
 
 [[plugins]]
 repo='phaazon/hop.nvim'
-on_key=['f', 'F', 't', 'T']
+on_event = ['BufNewFile', 'BufRead']
 lua_source='''
 local hop = require('hop')
 hop.setup { keys = 'etovxqpdygfblzhckisuran' }

@@ -62,3 +62,5 @@ vim.g.loaded_tarPlugin          = 1
 vim.g.loaded_tutor_mode_plugin  = 1
 vim.g.loaded_zipPlugin          = 1
 vim.g.skip_loading_mswin        = 1
+
+vim.opt.mouse                   = ""

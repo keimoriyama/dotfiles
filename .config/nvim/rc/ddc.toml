@@ -166,7 +166,8 @@ vim.keymap.set({"i", "c", "t"}, "<C-j>", "<Plug>(skkeleton-toggle)", {noremap =t
 vim.fn['skkeleton#config']({
 	globalJisyo = "~/.local/skkeleton/SKK-JISYO.L",
 	debug =false,
-	showCandidatesCount = 1
+	showCandidatesCount = 1,
+	useSkkServer=true
 })
 """
 
