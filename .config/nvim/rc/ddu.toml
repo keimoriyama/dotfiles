@@ -1,6 +1,5 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-on_cmd='Ddu'
 lua_add="""
 local opt = { noremap = true, silent = true }
 -- ff
@@ -23,10 +22,9 @@ vim.keymap.set("n", "<leader>oc","<cmd>Ddu lsp_callHierarchy -sync=true -source-
 
 vim.keymap.set("n", "<Leader>sf",'<cmd>Ddu file -name=filer<cr>', opt)
 vim.keymap.set("n", "<Leader>sb",'<cmd>Ddu buffer <cr>', opt)
-vim.keymap.set("n", "<Leader>sl",'<cmd>Ddu line<cr>', opt)
+vim.keymap.set("n", "/",'<cmd>Ddu -name=search line -ui-param-ff-startFilter=v:true<cr>', opt)
+vim.keymap.set("n", "*", "<cmd>Ddu -name=search line -resume=v:false -input=`expand('<cword>')` -ui-param-ff-startFilter=v:false<cr>", opt)
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
-"""
-lua_source="""
 local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)

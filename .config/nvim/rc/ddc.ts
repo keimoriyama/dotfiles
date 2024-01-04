@@ -42,7 +42,6 @@ export class Config extends BaseConfig {
           isVolatile: true,
           forceCompletionPattern: "\S/\S*",
         },
-        omni: { mark: "[omni]" },
         cmdline: { mark: "[cmdline]" },
         denippet: { mark: "[denippet]" },
         buffer: { mark: "[buffer]" },
@@ -83,6 +82,12 @@ export class Config extends BaseConfig {
       sources: ["around", "nvim-lua", "lsp"],
     });
 
+    args.contextBuilder.patchFiletype("tex", {
+      sources: ["around", "skkeleton", "lsp", "buffer"],
+    });
+    args.contextBuilder.patchFiletype("bib", {
+      sources: ["around", "skkeleton", "lsp", "buffer"],
+    });
     for (const filetype of ["ps1", "dosbatch", "autohotkey", "registry"]) {
       args.contextBuilder.patchFiletype(filetype, {
         sources: ["around", "file"],
