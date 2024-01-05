@@ -1,4 +1,5 @@
-local dpp_base = vim.fn.expand("~/.cache/dpp")
+local dpp_base = vim.fn.expand(os.getenv("DPP_PATH"))
+
 local function InitPlugin(plugin)
 	local dir = dpp_base .. '/repos/github.com/' .. plugin
 	if vim.fn.isdirectory(dir) == 0 then
@@ -62,6 +63,8 @@ vim.cmd("filetype indent plugin on")
 if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
 end
+
+vim.opt.path:append(dpp_base .. "repos/github.com/high-moctane/mocword-data/")
 
 vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
 vim.g.dps_obsidian_daily_note_dir = "daily"

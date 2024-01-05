@@ -8,6 +8,7 @@ export class Config extends BaseConfig {
       sources: [
         "lsp",
         "skkeleton",
+        "mocword",
         "file",
         "denippet",
         "buffer",
@@ -35,6 +36,11 @@ export class Config extends BaseConfig {
             "converter_truncate_abbr",
           ],
           minAutoCompleteLength: 1,
+        },
+        mocword: {
+          mark: "[mocword]",
+          isVolatile: true,
+          minAutoCompleteLength: 3,
         },
         around: { mark: "[around]" },
         file: {
