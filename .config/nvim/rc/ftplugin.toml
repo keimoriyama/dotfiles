@@ -82,6 +82,7 @@ let g:vimtex_compiler_latexmk = {
       \],
       \}
 '''
+
 [ftplugin]
 toml_markdown = '''
  setl foldmethod=expr
