@@ -8,7 +8,6 @@ export class Config extends BaseConfig {
       sources: [
         "lsp",
         "skkeleton",
-        "mocword",
         "file",
         "denippet",
         "buffer",
@@ -79,20 +78,20 @@ export class Config extends BaseConfig {
       },
     });
     args.contextBuilder.patchFiletype("markdown", {
-      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("markdown_inline", {
-      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
       sources: ["around", "nvim-lua", "lsp"],
     });
 
     args.contextBuilder.patchFiletype("tex", {
-      sources: ["around", "skkeleton", "lsp", "buffer"],
+      sources: ["around", "skkeleton", "mocword", "lsp", "buffer"],
     });
     args.contextBuilder.patchFiletype("bib", {
-      sources: ["around", "skkeleton", "lsp", "buffer"],
+      sources: ["around", "skkeleton", "mocword", "lsp", "buffer"],
     });
     for (const filetype of ["ps1", "dosbatch", "autohotkey", "registry"]) {
       args.contextBuilder.patchFiletype(filetype, {
