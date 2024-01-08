@@ -1,6 +1,6 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-hooks_file="rc/ddu.lua"
+hooks_file="$HOME/.config/nvim/rc/hooks/ddu.lua"
 
 [[plugins]]
 repo = "Shougo/ddu-commands.vim"

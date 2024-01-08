@@ -1,5 +1,9 @@
 local dpp_base = vim.fn.expand(os.getenv("DPP_PATH"))
 
+vim.cmd([[
+let $BASE_DIR = '<sfile>'->expand()->fnamemodify(':h')
+]])
+
 local function InitPlugin(plugin)
 	local dir = dpp_base .. '/repos/github.com/' .. plugin
 	if vim.fn.isdirectory(dir) == 0 then

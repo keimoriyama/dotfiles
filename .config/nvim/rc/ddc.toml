@@ -2,7 +2,7 @@
 repo='Shougo/ddc.vim'
 on_event = ['InsertEnter', 'CmdlineEnter']
 depends=['denops.vim', 'nvim-lspconfig']
-hooks_file="rc/ddc.lua"
+hooks_file="$HOME/.config/nvim/rc/hooks/ddc.lua"
 
 [[plugins]]
 repo="Shougo/pum.vim"
