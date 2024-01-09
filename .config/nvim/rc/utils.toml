@@ -140,3 +140,6 @@ repo="chrisbra/Recover.vim"
 repo='phaazon/hop.nvim'
 on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/hop.lua"
+
+[[plugins]]
+repo="dstein64/vim-startuptime"

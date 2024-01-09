@@ -1,4 +1,4 @@
---lua_source={{{
+-- lua_source {{{
 require('lualine').setup({
 	options = {
 		icons_enabled = true,
