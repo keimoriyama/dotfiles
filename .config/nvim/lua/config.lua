@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 -- エンコーディングの指定
-vim.opt.fileencodings = "iso-2022-jp,euc-jp,sjis,utf-8"
+vim.opt.fileencodings = "utf-8,iso-2022-jp,euc-jp,sjis"
 -- indexを相対表記にする
 vim.opt.relativenumber = true
 -- リアルタイム検索にする

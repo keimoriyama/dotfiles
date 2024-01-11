@@ -42,5 +42,5 @@ end
 -- コマンドライン補完の設定
 vim.keymap.set({ "n", 'x' }, ":", "<Cmd>call v:lua.CommandlinePre(':')<CR>:")
 vim.fn["ddc#enable"]()
-require("ddc_previewer_floating").enable()
+-- require("ddc_previewer_floating").enable()
 -- }}}

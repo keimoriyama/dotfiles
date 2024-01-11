@@ -1,17 +1,15 @@
 -- lua_add {{{
 local opt = { noremap = true, silent = true }
 -- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec<cr>", opt)
+vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec -ui-param-f-startFilter=v:true<cr>", opt)
 -- helper
-vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
+vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-f-startFilter=v:true<cr>", opt)
 local path = vim.fn.getcwd()
 -- rgの設定
-vim.keymap.set("n", "<leader>fr", string.format("<cmd>Ddu rg -source-option-rg-machers=[] \
+vim.keymap.set("n", "<leader>fr", "<cmd>Ddu rg -source-option-rg-machers=[] \
 	-source-option-rg-volatile=v:true \
-	-source-option-rg-path=%s \
 	-ui-param-ff-ignoreEmpty=v:false \
-	-ui-param-ff-autoResize=v:false<cr>", path), opt)
--- definition
+	-ui-param-ff-autoResize=v:false<cr>", opt)
 -- lsp related configs(maybe moving to the mason.lua?)
 vim.keymap.set("n", "<leader>sr", "<cmd>Ddu lsp_references -sync=true<cr>", opt)
 vim.keymap.set("n", "<leader>ds", "<cmd>Ddu lsp_documentSymbol -sync=true<cr>", opt)
