@@ -142,4 +142,6 @@ on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/hop.lua"
 
 [[plugins]]
+on_cmd = ["StartupTimeTime"]
 repo="dstein64/vim-startuptime"
+
