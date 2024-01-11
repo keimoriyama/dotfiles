@@ -1,4 +1,4 @@
--- {{{lua_source
+-- lua_source {{{
 vim.keymap.set({ 'n' }, '<leader>gs', '<Cmd>GinStatus<Cr>', {})
 vim.keymap.set({ 'n' }, '<leader>gl', '<Cmd>GinLog --graph --oneline<Cr>', {})
 vim.api.nvim_create_autocmd({ 'FileType' }, {
