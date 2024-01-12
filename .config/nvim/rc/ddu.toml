@@ -47,12 +47,32 @@ repo = "shun/ddu-source-rg"
 on_source = "ddu.vim"
 
 [[plugins]]
+repo = 'shun/ddu-source-buffer'
+on_source = 'ddu.vim'
+
+[[plugins]]
+repo = 'Shougo/ddu-source-line'
+on_source = 'ddu.vim'
+
+[[plugins]]
 repo = "Shougo/ddu-column-filename"
 on_source = "ddu.vim"
 
 [[plugins]]
 repo = "ryota2357/ddu-column-icon_filename"
 on_source = "ddu.vim"
+
+[[plugins]]
+repo = "yuki-yano/ddu-filter-fzf"
+on_source = "ddu.vim"
+
+[[plugins]]
+repo = "Milly/ddu-filter-kensaku"
+on_source = "ddu.vim"
+
+[[plugins]]
+repo = "lambdalisue/kensaku.vim"
+on_source = "ddu-filter-kensaku"
 
 [[plugins]]
 repo = "Shougo/ddu-filter-matcher_substring"
@@ -63,17 +83,6 @@ repo = "Shougo/ddu-filter-sorter_alpha"
 on_source = "ddu.vim"
 
 [[plugins]]
-repo = "yuki-yano/ddu-filter-fzf"
-on_source = "ddu.vim"
-
-[[plugins]]
 repo = "uga-rosa/ddu-filter-converter_devicon"
 on_source = "ddu.vim"
 
-[[plugins]]
-repo = 'shun/ddu-source-buffer'
-on_source = 'ddu.vim'
-
-[[plugins]]
-repo = 'Shougo/ddu-source-line'
-on_source = 'ddu.vim'
