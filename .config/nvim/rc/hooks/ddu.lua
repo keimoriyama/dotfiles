@@ -6,11 +6,10 @@ vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec -ui-param-f-startFilter=v:t
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-f-startFilter=v:true<cr>", opt)
 local path = vim.fn.getcwd()
 -- rgの設定
-vim.keymap.set("n", "<leader>fr", "<cmd>Ddu rg -source-option-rg-machers=[] \
+vim.keymap.set("n", "<leader>fr", "<cmd>Ddu rg \
 	-source-option-rg-volatile=v:true \
 	-ui-param-ff-ignoreEmpty=v:false \
 	-ui-param-ff-autoResize=v:false<cr>", opt)
--- lsp related configs(maybe moving to the mason.lua?)
 vim.keymap.set("n", "<leader>sr", "<cmd>Ddu lsp_references -sync=true<cr>", opt)
 vim.keymap.set("n", "<leader>ds", "<cmd>Ddu lsp_documentSymbol -sync=true<cr>", opt)
 vim.keymap.set("n", "<leader>ic", "<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outGoingCalls<cr>", opt)
@@ -95,4 +94,17 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 vim.fn['ddu#set_static_import_path']()
 vim.fn["ddu#custom#load_config"](vim.fn.expand("~/.config/nvim/rc/ddu.ts"))
+
+local path = vim.fn.expand('%:p')
+if (vim.fn.isdirectory(path) == 1) then
+	vim.api.nvim_create_autocmd({ "BufEnter" },
+		{
+			once = true,
+			callback = function()
+				-- Dduの設定を読み込む
+				vim.cmd("Ddu file -name=filer")
+			end
+		})
+	return
+end
 -- }}}

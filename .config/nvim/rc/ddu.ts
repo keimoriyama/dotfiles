@@ -39,7 +39,7 @@ export class Config extends BaseConfig {
       },
       sourceOptions: {
         _: {
-          matchers: ["matcher_substring"],
+          matchers: ["matcher_substring", "matcher_kensaku"],
           sorters: ["sorter_alpha"],
         },
         file_rec: {
@@ -57,6 +57,9 @@ export class Config extends BaseConfig {
           highlightMatched: "Title",
         },
         matcher_fzf: {
+          highlightMatched: "Search",
+        },
+        matcher_kensaku: {
           highlightMatched: "Search",
         },
       },
