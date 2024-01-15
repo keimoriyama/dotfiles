@@ -66,22 +66,62 @@ export class Config extends BaseConfig {
         },
         obsidian: {
           mark: "[obsidian]",
-          // keywordPattern: "\\[\\[\\k*",
+          keywordPattern: "\\[\\[\\w*",
         },
         obsidian_new: {
           mark: "[obsidian+]",
-          // keywordPattern: "[\\k*",
+          keywordPattern: "\\[\\[\\w*",
         },
       },
       sourceParams: {
         buffer: { requireSameFiletype: false, forceCollect: true },
       },
+      filterParams: {
+        converter_kind_labels: {
+          kindLabels: {
+            Text: "",
+            Method: "",
+            Function: "",
+            Constructor: "",
+            Field: "",
+            Variable: "",
+            Class: "",
+            Interface: "",
+            Module: "",
+            Property: "",
+            Unit: "",
+            Value: "",
+            Enum: "",
+            Keyword: "",
+            Snippet: "",
+            Color: "",
+            File: "",
+            Reference: "",
+            Folder: "",
+            EnumMember: "",
+            Constant: "",
+            Struct: "",
+            Event: "",
+            Operator: "",
+            TypeParameter: "",
+          },
+          kindHlGroups: {
+            Method: "Function",
+            Function: "Function",
+            Constructor: "Function",
+            Field: "Identifier",
+            Variable: "Identifier",
+            Class: "Structure",
+            Interface: "Structure",
+          },
+        },
+      },
     });
     args.contextBuilder.patchFiletype("markdown", {
-      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("markdown_inline", {
-      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
       sources: ["around", "nvim-lua", "lsp"],
