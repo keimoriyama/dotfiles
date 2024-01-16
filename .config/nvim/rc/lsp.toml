@@ -20,10 +20,3 @@ on_event = ['BufNewFile', 'BufRead']
 depends=['mason.nvim', 'plenary.nvim']
 hooks_file="$BASE_DIR/rc/hooks/none_ls.lua"
 
-[[plugins]]
-repo = "ryoppippi/lsp_lines.nvim"
-on_event = ['BufNewFile', 'BufRead']
-lua_source = """
-vim.keymap.set({"n", "v"}, "<leader>l", "<cmd>lua require('lsp_lines').toggle()<CR>")
-require("lsp_lines").setup()
-"""

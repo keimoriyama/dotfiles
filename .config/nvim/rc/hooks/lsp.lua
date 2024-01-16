@@ -22,12 +22,24 @@ end
 
 -- mason_lspconfig.setup()
 local nvim_lsp = require("lspconfig")
-local handlers = {
-	function(server_name)
-		nvim_lsp[server_name].setup(opts)
+mason_lspconfig.setup_handlers {
+	function(server_name) -- default handler (optional)
+		nvim_lsp[server_name].setup {
+			on_attach = on_attach
+		}
+		require("lspconfig").pyright.setup {
+			settings = {
+				python = {
+					venvPath = ".",
+					pythonPath = "./.venv/bin/python",
+					analysis = {
+						extraPaths = { "." }
+					}
+				}
+			}
+		}
 	end,
 }
-mason_lspconfig.setup_handlers(handlers)
 -- LSP handlers
 vim.diagnostic.config({ virtual_text = false })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
