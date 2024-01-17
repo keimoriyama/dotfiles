@@ -1,3 +1,14 @@
+[[plugins]]
+repo = "folke/tokyonight.nvim"
+
+[[plugins]]
+repo = "ellisonleao/gruvbox.nvim"
+on_event = ['BufNewFile', 'BufRead']
+hook_source='''
+set background=dark
+colorscheme gruvbox
+'''
+
 [[pluging]]
 repo = "norcalli/nvim-colorizer.lua"
 lua_add='''
@@ -22,7 +33,7 @@ repo="nvim-lua/plenary.nvim"
 # keep lastest cursor position
 [[plugins]]
 repo="ethanholz/nvim-lastplace"
-on_event = ['BufRead']
+on_event = ['BufRead', 'BufEnter']
 lua_source='''
 require("nvim-lastplace").setup()
 '''
@@ -144,5 +155,4 @@ hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 [[plugins]]
 on_cmd = ["StartupTimeTime"]
 repo ="dstein64/vim-startuptime"
-
 

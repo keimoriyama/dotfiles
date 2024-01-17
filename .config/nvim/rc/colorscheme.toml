@@ -1,9 +1,0 @@
-[[plugins]]
-repo = "folke/tokyonight.nvim"
-
-[[plugins]]
-repo = "ellisonleao/gruvbox.nvim"
-hook_add='''
-set background=dark
-colorscheme gruvbox
-'''

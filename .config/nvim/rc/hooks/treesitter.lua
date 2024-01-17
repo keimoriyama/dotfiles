@@ -17,13 +17,13 @@ require("nvim-treesitter.configs").setup({
 		"python",
 		"cpp",
 		"bash",
+		"vimdoc",
 		"markdown",
 		"markdown_inline",
 		"latex",
 	},
 	autotag = { enable = true },
 	yati = { enable = true, indent = { enable = false } },
-	update_strategy = "lockfile",
 })
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
