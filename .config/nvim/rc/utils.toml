@@ -49,7 +49,7 @@ repo="windwp/nvim-autopairs"
 on_event = ['InsertEnter']
 lua_source='''
 require("nvim-autopairs").setup({
-disable_filetype = { "TelescopePrompt", "vim" },
+disable_filetype = { "vim" },
 })
 '''
 

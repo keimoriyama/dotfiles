@@ -2,27 +2,7 @@
 repo = 'toppair/peek.nvim'
 build='deno task --quiet build:fast'
 on_ft="md"
-lua_source='''
-require("peek").setup({
-    auto_load = true,        -- whether to automatically load preview when
-    -- entering another markdown buffer
-    close_on_bdelete = true, -- close preview window on buffer delete
-    syntax = true,           -- enable syntax highlighting, affects performance
-    theme = 'dark',          -- 'dark' or 'light'
-    update_on_change = true,
-    app = 'browser', -- 'webview', 'browser', string or a table of strings
-    -- explained below
-    filetype = { 'markdown' }, -- list of filetypes to recognize as markdown
-    -- relevant if update_on_change is true
-    throttle_at = 200000,   -- start throttling when file exceeds this
-    -- amount of bytes in size
-    throttle_time = 'auto', -- minimum amount of time in milliseconds
-    -- that has to pass before starting new render
-  })
-vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
-vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
-vim.api.nvim_create_user_command('Peek', function() if require("peek").is_open() then require("peek").close() else require("peek").open() end end, {})
-'''
+hooks_file='$BASE_DIR/rc/hooks/peek.lua'
 
 [[plugins]]
 on_ft="md"
@@ -31,23 +11,7 @@ repo = 'mzlogin/vim-markdown-toc'
 [[plugins]]
 repo="Decodetalkers/csv-tools.lua"
 on_ft = "csv"
-lua_source='''
-local status, csvtools = pcall(require, "csvtools")
-if not status then
-	return
-end
-
-csvtools.setup({
-	before = 10,
-	after = 10,
-	clearafter = true,
-	-- this will clear the highlight of buf after move
-	showoverflow = false,
-	-- this will provide a overflow show
-	titelflow = true,
-	-- add an alone title
-})
-'''
+hooks_file = "$BASE_DIR/rc/hooks/csv_tools.lua"
 
 [[plugins]]
 repo = 'thinca/vim-partedit'
@@ -62,26 +26,7 @@ hook_add = '''
 repo = "lervag/vimtex"
 on_ft=['tex', 'bib']
 depends=['ddc.vim']
-hook_source='''
-let g:vimtex_view_method = "skim"
-let g:vimtex_view_general_viewer = "skim"
-let g:vimtex_compiler_method = "latexmk"
-let g:vimtex_view_compiler_latexmk_engines = [ "-", "-pdf" ]
-let g:latex_latexmk_options = "-pdf"
-let g:vimtex_syntax_enabled = 0
-let g:vimtex_compiler_latexmk = {
-      \ 'background': 1,
-      \ 'build_dir': '',
-      \ 'continuous': 1,
-      \ 'options': [
-      \    '-pdfdvi', 
-      \    '-verbose',
-      \    '-file-line-error',
-      \    '-synctex=1',
-      \    '-interaction=nonstopmode',
-      \],
-      \}
-'''
+hooks_file="$BASE_DIR/rc/hooks/vimtex.vim"
 
 [ftplugin]
 toml_markdown = '''

@@ -11,24 +11,7 @@ on_source='ddc.vim'
 [[plugins]]
 repo="zbirenbaum/copilot.lua"
 on_event="InsertEnter"
-lua_source='''
-local current_dir = vim.fn.getcwd()
-if string.match(current_dir, "Atcoder") == nil then
-	require("copilot").setup({
-		panel = {
-			enabled = false
-		},
-		suggestion = {
-			enabled = true,
-			auto_trigger = true,
-			keymap = {
-				accept = "<C-c>",
-			}
-		}
-	})
-	vim.keymap.set("i", "<C-c><C-t>", "<cmd>Copilot toggle<cr>")
-end
-'''
+hooks_file="$BASE_DIR/rc/hooks/ddc.lua"
 
 [[plugins]]
 repo="Shougo/ddc-nvim-lsp"
@@ -60,10 +43,6 @@ on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-source-lsp"
-on_source="ddc.vim"
-
-[[plugins]]
-repo="Shougo/ddc-source-copilot"
 on_source="ddc.vim"
 
 [[plugins]]
@@ -131,19 +110,7 @@ on_source="skkeleton"
 [[plugins]]
 repo = "uga-rosa/denippet.vim"
 on_source = "ddc.vim"
-lua_source="""
-local snip_dir = vim.fn.expand("$HOME/.config/nvim/snippets")
-for _, file in ipairs(vim.fn.glob(snip_dir .. "/*.toml", false, true)) do
-	vim.fn["denippet#load"](file)
-end
-vim.cmd([[
-inoremap <C-l> <Plug>(denippet-expand)
-inoremap <expr> <Tab> denippet#jumpable() ? '<Plug>(denippet-jump-next)' : '<Tab>'
-snoremap <expr> <Tab> denippet#jumpable() ? '<Plug>(denippet-jump-next)' : '<Tab>'
-inoremap <expr> <S-Tab> denippet#jumpable(-1) ? '<Plug>(denippet-jump-prev)' : '<S-Tab>'
-snoremap <expr> <S-Tab> denippet#jumpable(-1) ? '<Plug>(denippet-jump-prev)' : '<S-Tab>'
-]])
-"""
+hooks_file="$BASE_DIR/rc/hooks/denippet.lua"
 
 [[plugins]]
 repo="delphinus/skkeleton_indicator.nvim"
