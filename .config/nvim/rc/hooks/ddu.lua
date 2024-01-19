@@ -66,6 +66,7 @@ local function resize()
 end
 
 resize()
+
 vim.api.nvim_create_autocmd("VimResized", { callback = resize })
 -- キーマッピングの設定
 vim.api.nvim_create_autocmd("FileType", {
@@ -75,6 +76,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name": "open"})<CR>', opt)
 		vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
 		vim.keymap.set("n", "i", '<cmd>call ddu#ui#do_action("openFilterWindow")<CR>', opt)
+		vim.keymap.set("n", ":q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
 		vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
 		vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
 		vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
