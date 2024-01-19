@@ -47,11 +47,6 @@ export class Config extends BaseConfig {
           converters: ["converter_devicon"],
         },
       },
-      sourceParams: {
-        rg: {
-          args: ["--column", "--no-heading", "--color", "never"],
-        },
-      },
       filterParams: {
         matcher_substring: {
           highlightMatched: "Title",
@@ -104,6 +99,20 @@ export class Config extends BaseConfig {
         },
       },
     });
+    // args.contextBuilder.patchLocal("rg", {
+    //   sources: {
+    //     name: "rg",
+    //   },
+    //   sourceOptions: {
+    //     volatile: true,
+    //     matchers: [],
+    //   },
+    //   uiParams: {
+    //     ff: {
+    //       ignoreEmpty: false,
+    //     },
+    //   },
+    // });
     args.contextBuilder.patchLocal("file_rec", {
       sources: {
         name: "file_rec",

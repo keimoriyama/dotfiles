@@ -6,10 +6,27 @@ vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec -ui-param-f-startFilter=v:t
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-f-startFilter=v:true<cr>", opt)
 local path = vim.fn.getcwd()
 -- rgの設定
-vim.keymap.set("n", "<leader>fr", "<cmd>Ddu rg \
-	-source-option-rg-volatile=v:true \
-	-ui-param-ff-ignoreEmpty=v:false \
-	-ui-param-ff-autoResize=v:false<cr>", opt)
+vim.keymap.set('n', '<leader>fr', function()
+	vim.fn["ddu#start"](
+		{
+			sources = {
+				{
+					name = 'rg',
+					options = {
+						matchers = {},
+						volatile = true,
+						path = path,
+					},
+				},
+			},
+			uiParams = {
+				ff = {
+					ignoreEmpty = false
+				}
+			}
+		}
+	)
+end, opt)
 vim.keymap.set("n", "<leader>sr", "<cmd>Ddu lsp_references -sync=true<cr>", opt)
 vim.keymap.set("n", "<leader>ds", "<cmd>Ddu lsp_documentSymbol -sync=true<cr>", opt)
 vim.keymap.set("n", "<leader>ic", "<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outGoingCalls<cr>", opt)
@@ -21,6 +38,8 @@ vim.keymap.set("n", "/", '<cmd>Ddu -name=search line -ui-param-ff-startFilter=v:
 vim.keymap.set("n", "*",
 	"<cmd>Ddu -name=search line -resume=v:false -input=`expand('<cword>')` -ui-param-ff-startFilter=v:false<cr>", opt)
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
+vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)
+
 local function resize()
 	local lines = vim.opt.lines:get()
 	local height, row = math.floor(lines * 0.7), math.floor(lines * 0.05)
