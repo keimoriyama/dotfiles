@@ -9,9 +9,10 @@ export class Config extends BaseConfig {
       ui: "ff",
       uiParams: {
         ff: {
-          AutoAction: {
+          autoAction: {
             name: "preview",
           },
+		  startAutoAction:true,
           split: "floating",
           prompt: "> ",
           floatingBorder: "rounded",
@@ -23,7 +24,7 @@ export class Config extends BaseConfig {
           },
           filterFloatingPosition: "bottom",
           previewFloating: true,
-          previewSplit: "vertical",
+          previewSplit: "horizontal",
           previewFloatingBorder: "rounded",
           previewFloatingTitle: "preview",
           previewFloatingTitlePos: "center",
@@ -99,20 +100,21 @@ export class Config extends BaseConfig {
         },
       },
     });
-    // args.contextBuilder.patchLocal("rg", {
-    //   sources: {
-    //     name: "rg",
-    //   },
-    //   sourceOptions: {
-    //     volatile: true,
-    //     matchers: [],
-    //   },
-    //   uiParams: {
-    //     ff: {
-    //       ignoreEmpty: false,
-    //     },
-    //   },
-    // });
+
+	args.contextBuilder.patchLocal("lsp:hierarchy" ,{
+		sourceOptions:{
+			_:{
+				converters:['converter_lsp_symbol']
+			}
+		},
+		uiParams: {
+			ff:{
+				displayTree:true,
+				startFilter:false
+			}
+		}
+	})
+
     args.contextBuilder.patchLocal("file_rec", {
       sources: {
         name: "file_rec",

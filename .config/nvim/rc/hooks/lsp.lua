@@ -68,14 +68,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		if client.server_capabilities.documentFormattingProvider then
-			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.buf.format({ timeout_ms = 2500 })
-				end,
-			})
-		end
+		-- if client.server_capabilities.documentFormattingProvider then
+		-- 	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+		-- 		buffer = bufnr,
+		-- 		callback = function()
+		-- 			vim.lsp.buf.format({ timeout_ms = 2500 })
+		-- 		end,
+		-- 	})
+		-- end
 		if client.server_capabilities.documentHighlightProvider then
 			vim.api.nvim_command(
 				"highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040"
