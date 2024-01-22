@@ -4,8 +4,8 @@ local opt = { noremap = true, silent = true }
 vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec -ui-param-ff-startFilter=v:true<cr>", opt)
 -- helper
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-ff-startFilter=v:true<cr>", opt)
-local path = vim.fn.getcwd()
 -- rgの設定
+local path = vim.fn.getcwd()
 vim.keymap.set("n", "<leader>fr", function()
 	vim.fn["ddu#start"]({
 		sources = {
