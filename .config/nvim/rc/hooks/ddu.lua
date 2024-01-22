@@ -40,6 +40,7 @@ vim.keymap.set(
 	opt
 )
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
+vim.keymap.set("n", "<leader>dp", "<cmd>Ddu dpp<cr>", opt)
 vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)
 
 local function resize()
