@@ -60,7 +60,6 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-ff-filter",
 	callback = function()
-		print(vim.inspect(vim.fn["ddu#custom#get_global"]()))
 		local opt = { buffer = true, silent = true }
 		vim.keymap.set("i", "<CR>", "<esc><cmd>close<CR>", opt)
 		vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
@@ -113,7 +112,6 @@ local function resize()
 	local winRow = math.floor(lines / 2) - 2
 	local winWidth = math.floor(columns - (columns / 4))
 	local winHeight = math.floor(lines - (lines / 4))
-	print(winRow, math.floor(lines / 2))
 	vim.fn["ddu#custom#patch_global"]({
 		uiParams = {
 			ff = {
