@@ -56,17 +56,17 @@ local mouse_binding = {
 
 	{
 		event = { Down = { streak = 1, button = { WheelDown = 1 } } },
-		mods = 'NONE',
+		mods = "NONE",
 		action = wezterm.action.Nop,
 	},
 }
 return {
 	font = wezterm.font_with_fallback({ "Hack Nerd Font", "Source Han Code JP" }),
 	font_size = 22,
-	color_scheme = "Gruvbox Dark (Gogh)",
+	color_scheme = "iceberg-dark",
 	hyperlink_rules = hyperlink_rules,
 	mouse_bindings = mouse_binding,
 	hide_tab_bar_if_only_one_tab = true,
 	disable_default_mouse_bindings = true,
-	hide_mouse_cursor_when_typing = true
+	hide_mouse_cursor_when_typing = true,
 }

@@ -1,12 +1,9 @@
 [[plugins]]
-repo = "folke/tokyonight.nvim"
-
-[[plugins]]
-repo = "ellisonleao/gruvbox.nvim"
+repo = "cocopon/iceberg.vim"
 on_event = ['BufNewFile', 'BufRead']
 hook_source='''
 set background=dark
-colorscheme gruvbox
+colorscheme iceberg
 '''
 
 [[pluging]]
@@ -164,3 +161,18 @@ repo = "folke/noice.nvim"
 on_event = ['BufNewFile', 'BufRead']
 depends="nui.nvim"
 hooks_file="$BASE_DIR/rc/hooks/noice.lua"
+
+[[plugins]]
+repo = "hrsh7th/nvim-insx.git"
+on_event=["InsertEnter"]
+lua_source = """
+require('insx.preset.standard').setup()
+"""
+
+[[plugins]]
+repo = "tyru/open-browser.vim"
+on_event = ['BufNewFile', 'BufRead']
+hook_source="""
+	nmap gx <Plug>(openbrowser-smart-search)
+	vmap gx <Plug>(openbrowser-smart-search)
+"""
