@@ -1,7 +1,7 @@
 -- lua_add {{{
 local opt = { noremap = true, silent = true }
 -- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec -ui-param-f-startFilter=v:true<cr>", opt)
+vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec -ui-param-ff-startFilter=v:true<cr>", opt)
 -- helper
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-ff-startFilter=v:true<cr>", opt)
 local path = vim.fn.getcwd()
@@ -42,33 +42,6 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
 vim.keymap.set("n", "<leader>dp", "<cmd>Ddu dpp<cr>", opt)
 vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)
-
-local function resize()
-	local lines = vim.api.nvim_get_option("lines")
-	local columns = vim.api.nvim_get_option("columns")
-	local winCol = math.floor(columns / 8)
-	local winRow = math.floor(lines / 8)
-	local winWidth = math.floor(columns - (columns / 4))
-	local winHeight = math.floor(lines - (lines / 4))
-	vim.fn["ddu#custom#patch_global"]({
-		uiParams = {
-			ff = {
-				winCol = winCol,
-				winRow = math.floor(lines / 2),
-				winWidth = winWidth,
-				winHeight = math.floor(winHeight / 2),
-				previewCol = winCol,
-				previewRow = 0,
-				previewWidth = winWidth,
-				previewHeight = math.floor(winHeight / 2),
-			},
-		},
-	})
-end
-
-resize()
-
-vim.api.nvim_create_autocmd("VimResized", { callback = resize })
 -- キーマッピングの設定
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-ff",
@@ -87,6 +60,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-ff-filter",
 	callback = function()
+		print(vim.inspect(vim.fn["ddu#custom#get_global"]()))
 		local opt = { buffer = true, silent = true }
 		vim.keymap.set("i", "<CR>", "<esc><cmd>close<CR>", opt)
 		vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
@@ -131,4 +105,31 @@ if vim.fn.isdirectory(path) == 1 then
 	})
 	return
 end
+
+local function resize()
+	local lines = vim.api.nvim_get_option("lines")
+	local columns = vim.api.nvim_get_option("columns")
+	local winCol = math.floor(columns / 8)
+	local winRow = math.floor(lines / 2) - 2
+	local winWidth = math.floor(columns - (columns / 4))
+	local winHeight = math.floor(lines - (lines / 4))
+	print(winRow, math.floor(lines / 2))
+	vim.fn["ddu#custom#patch_global"]({
+		uiParams = {
+			ff = {
+				winCol = winCol,
+				winRow = winRow,
+				winWidth = winWidth,
+				winHeight = math.floor(winHeight / 2),
+				previewCol = winCol,
+				previewRow = 0,
+				previewWidth = winWidth,
+				previewHeight = math.floor(winHeight / 2),
+			},
+		},
+	})
+end
+
+resize()
+vim.api.nvim_create_autocmd("VimResized", { callback = resize })
 -- }}}
