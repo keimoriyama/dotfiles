@@ -1,7 +1,6 @@
--- lua_source{{{
----@diagnostic disable: redefined-local
+-- lua_source {{{
+---@disable: redefined-local
 local mason = require("mason")
-
 mason.setup({
 	ui = {
 		icons = {
@@ -22,24 +21,45 @@ end
 
 -- mason_lspconfig.setup()
 local nvim_lsp = require("lspconfig")
-mason_lspconfig.setup_handlers {
+
+mason_lspconfig.setup_handlers({
 	function(server_name) -- default handler (optional)
-		nvim_lsp[server_name].setup {
-			on_attach = on_attach
-		}
-		require("lspconfig").pyright.setup {
-			settings = {
-				python = {
-					venvPath = ".",
-					pythonPath = "./.venv/bin/python",
-					analysis = {
-						extraPaths = { "." }
-					}
-				}
-			}
-		}
+		nvim_lsp[server_name].setup({
+			on_attach = on_attach,
+		})
 	end,
-}
+})
+nvim_lsp.pyright.setup({
+	settings = {
+		python = {
+			venvPath = ".",
+			pythonPath = "./.venv/bin/python",
+			analysis = {
+				extraPaths = { "." },
+			},
+		},
+	},
+})
+
+nvim_lsp.denols.setup({
+	root_dir = nvim_lsp.util.root_pattern("deno.json"),
+	init_options = {
+		lint = true,
+		unstable = true,
+		suggest = {
+			imports = {
+				hosts = {
+					["https://deno.land"] = true,
+					["https://cdn.nest.land"] = true,
+					["https://crux.land"] = true,
+				},
+			},
+		},
+	},
+})
+nvim_lsp.tsserver.setup({
+	root_dir =nvim_lsp.util.root_pattern("package.json"),
+})
 -- LSP handlers
 vim.diagnostic.config({ virtual_text = false })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
@@ -77,15 +97,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- 	})
 		-- end
 		if client.server_capabilities.documentHighlightProvider then
-			vim.api.nvim_command(
-				"highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040"
-			)
-			vim.api.nvim_command(
-				"highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040"
-			)
-			vim.api.nvim_command(
-				"highlight LspReferenceWrite cterm=underline ctermbg=8 gui=underline guibg=#104040"
-			)
+			vim.api.nvim_command("highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040")
+			vim.api.nvim_command("highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040")
+			vim.api.nvim_command("highlight LspReferenceWrite cterm=underline ctermbg=8 gui=underline guibg=#104040")
 			vim.api.nvim_command("set updatetime=100")
 			vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
 			vim.api.nvim_clear_autocmds({

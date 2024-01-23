@@ -1,7 +1,7 @@
 [[plugins]]
 repo = "neovim/nvim-lspconfig"
 on_cmd = "LspInfo"
-on_source = ["mason.nvim", "ddc.vim"]
+on_source = ["mason.nvim", "ddc.vim", "ddu.vim"]
 
 [[plugins]]
 repo = "williamboman/mason-lspconfig.nvim"
@@ -11,12 +11,10 @@ on_source = "mason.nvim"
 [[plugins]]
 repo = "williamboman/mason.nvim"
 on_event = ['BufNewFile', 'BufRead']
-depends = ['mason-lspconfig.nvim', 'nvim-lspconfig']
 hooks_file='$BASE_DIR/rc/hooks/lsp.lua'
 
 [[plugins]]
 repo = "nvimtools/none-ls.nvim"
 on_event = ['BufNewFile', 'BufRead']
-depends=['mason.nvim', 'plenary.nvim']
 hooks_file="$BASE_DIR/rc/hooks/none_ls.lua"
 
