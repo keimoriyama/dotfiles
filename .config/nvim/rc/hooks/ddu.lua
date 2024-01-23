@@ -42,6 +42,9 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
 vim.keymap.set("n", "<leader>dp", "<cmd>Ddu dpp<cr>", opt)
 vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)
+-- }}}
+
+-- lua_source {{{
 -- キーマッピングの設定
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "ddu-ff",

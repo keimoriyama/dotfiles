@@ -1,9 +1,9 @@
 [[plugins]]
-repo = "cocopon/iceberg.vim"
+repo = "ellisonleao/gruvbox.nvim"
 on_event = ['BufNewFile', 'BufRead']
 hook_source='''
 set background=dark
-colorscheme iceberg
+colorscheme gruvbox
 '''
 
 [[pluging]]
@@ -23,9 +23,10 @@ vim.g.rainbow_active = 1
 # dot repeat
 [[plugins]]
 repo="tpope/vim-repeat"
-# utility
+ # utility
 [[plugins]]
 repo="nvim-lua/plenary.nvim"
+on_source=['none-ls.nvim']
 
 # keep lastest cursor position
 [[plugins]]
@@ -127,19 +128,19 @@ vim.keymap.set("n", "b", "<Plug>(smartword-b)")
 vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 '''
 
-[[plugins]]
-repo="lewis6991/gitsigns.nvim"
-on_event = ['BufNewFile', 'BufRead']
-lua_source='''
-require('gitsigns').setup()
-'''
+#[[plugins]]
+#repo="lewis6991/gitsigns.nvim"
+#on_event = ['BufNewFile', 'BufRead']
+#lua_source='''
+#require('gitsigns').setup()
+#'''
 
 [[plugins]]
 repo='lambdalisue/gin.vim'
 on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/gin.lua"
 
-# show diff from recover file
+show diff from recover file
 [[plugins]]
 on_event=['SwapExists']
 repo="chrisbra/Recover.vim"
@@ -175,4 +176,13 @@ on_event = ['BufNewFile', 'BufRead']
 hook_source="""
 	nmap gx <Plug>(openbrowser-smart-search)
 	vmap gx <Plug>(openbrowser-smart-search)
+"""
+
+[[plugins]]
+repo = "j-hui/fidget.nvim"
+on_event = ['BufNewFile', 'BufRead']
+lua_source = """
+print('load')
+require("fidget").setup({})
+print("fidged loaded")
 """

@@ -19,6 +19,32 @@ if not status then
 	return
 end
 
+-- add lsp
+local servers = {
+	'lua_ls',
+	'bashls',
+	'html',
+	'clangd',
+	'rust_analyzer',
+	'quick_lint_js',
+	-- 'tsserver',
+	'jsonls',
+	'pyright',
+	'svelte',
+}
+
+mason_lspconfig.setup({ ensure_installed = servers })
+-- https://github.com/neovim/neovim/issues/23291#issuecomment-1523243069
+-- https://github.com/neovim/neovim/pull/23500#issuecomment-1585986913
+-- pyright asks for every file in every directory to be watched,
+-- so for large projects that will necessarily turn into a lot of polling handles being created.
+-- sigh
+local ok, wf = pcall(require, "vim.lsp._watchfiles")
+if ok then
+	wf._watchfunc = function()
+	  return function() end
+	end
+end
 -- mason_lspconfig.setup()
 local nvim_lsp = require("lspconfig")
 
@@ -57,6 +83,7 @@ nvim_lsp.denols.setup({
 		},
 	},
 })
+
 nvim_lsp.tsserver.setup({
 	root_dir =nvim_lsp.util.root_pattern("package.json"),
 })
@@ -88,14 +115,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		-- if client.server_capabilities.documentFormattingProvider then
-		-- 	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-		-- 		buffer = bufnr,
-		-- 		callback = function()
-		-- 			vim.lsp.buf.format({ timeout_ms = 2500 })
-		-- 		end,
-		-- 	})
-		-- end
 		if client.server_capabilities.documentHighlightProvider then
 			vim.api.nvim_command("highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040")
 			vim.api.nvim_command("highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040")

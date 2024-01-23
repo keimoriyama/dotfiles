@@ -1,17 +1,17 @@
 -- lua_source {{{
-local hop = require('hop')
-hop.setup { keys = 'etovxqpdygfblzhckisuran' }
-local directions = require('hop.hint').HintDirection
-vim.keymap.set('', 'f', function()
+local hop = require("hop")
+hop.setup({ keys = "etovxqpdygfblzhckisuran" })
+local directions = require("hop.hint").HintDirection
+vim.keymap.set("", "f", function()
 	hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
 end, { noremap = true })
-vim.keymap.set('', 'F', function()
+vim.keymap.set("", "F", function()
 	hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
 end, { noremap = true })
-vim.keymap.set('', 't', function()
+vim.keymap.set("", "t", function()
 	hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
 end, { noremap = true })
-vim.keymap.set('', 'T', function()
+vim.keymap.set("", "T", function()
 	hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
 end, { noremap = true })
 -- }}}
