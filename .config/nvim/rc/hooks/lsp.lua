@@ -41,19 +41,22 @@ mason_lspconfig.setup({ ensure_installed = servers })
 local ok, wf = pcall(require, "vim.lsp._watchfiles")
 if ok then
 	wf._watchfunc = function()
-	  return function() end
+		return function() end
 	end
 end
 -- mason_lspconfig.setup()
 local nvim_lsp = require("lspconfig")
 
-mason_lspconfig.setup_handlers({
-	function(server_name) -- default handler (optional)
-		nvim_lsp[server_name].setup({
-			on_attach = on_attach,
-		})
-	end,
-})
+nvim_lsp.lua_ls.setup {
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { 'vim', 'hs', 'wez' }
+        }
+      }
+    },
+  }
+
 nvim_lsp.pyright.setup({
 	settings = {
 		python = {
@@ -84,7 +87,7 @@ nvim_lsp.denols.setup({
 })
 
 nvim_lsp.tsserver.setup({
-	root_dir =nvim_lsp.util.root_pattern("package.json"),
+	root_dir = nvim_lsp.util.root_pattern("package.json"),
 })
 -- LSP handlers
 vim.diagnostic.config({ virtual_text = false })
