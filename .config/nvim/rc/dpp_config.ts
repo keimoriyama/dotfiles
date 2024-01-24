@@ -26,11 +26,11 @@ export class Config extends BaseConfig {
 		const tomls: Toml[] = [];
 		const files = [
 			["dpp.toml", false],
-			["lsp.toml", true],
-			["utils.toml", true],
-			["ddc.toml", true],
-			["ddu.toml", true],
-			["ftplugin.toml", true],
+			 ["lsp.toml", true],
+			 ["utils.toml", true],
+			 ["ddc.toml", true],
+			 ["ddu.toml", true],
+			 ["ftplugin.toml", true],
 		];
 		const base_dir = "~/.config/nvim/rc/";
 		for (const file of files) {

@@ -1,11 +1,12 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-on_event=["BufRead", "BufNewFile"]
+depends='denops.vim'
 hooks_file="$BASE_DIR/rc/hooks/ddu.lua"
 
 [[plugins]]
 repo = "Shougo/ddu-commands.vim"
-on_source = "ddu.vim"
+depends = 'ddu.vim'
+on_cmd=["Ddu"]
 
 [[plugins]]
 repo = "Shougo/ddu-kind-file"
@@ -14,10 +15,12 @@ on_source = "ddu.vim"
 [[plugins]]
 repo = "Shougo/ddu-ui-filer"
 on_source = "ddu.vim"
+hooks_file="$BASE_DIR/rc/hooks/ddu-ui-filer.lua"
 
 [[plugins]]
 repo = "Shougo/ddu-ui-ff"
 on_source = "ddu.vim"
+hooks_file="$BASE_DIR/rc/hooks/ddu-ui-ff.lua"
 
 [[plugins]]
 repo = "uga-rosa/ddu-source-lsp"

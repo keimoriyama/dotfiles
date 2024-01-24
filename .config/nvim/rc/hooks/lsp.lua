@@ -22,15 +22,14 @@ end
 -- add lsp
 local servers = {
 	'lua_ls',
-	'bashls',
+	'denols',
 	'html',
 	'clangd',
 	'rust_analyzer',
 	'quick_lint_js',
-	-- 'tsserver',
+	'tsserver',
 	'jsonls',
 	'pyright',
-	'svelte',
 }
 
 mason_lspconfig.setup({ ensure_installed = servers })
@@ -71,7 +70,7 @@ nvim_lsp.denols.setup({
 	root_dir = nvim_lsp.util.root_pattern("deno.json"),
 	init_options = {
 		lint = true,
-		unstable = true,
+		unstable = false,
 		suggest = {
 			imports = {
 				hosts = {
