@@ -170,3 +170,10 @@ hook_source="""
 	nmap gx <Plug>(openbrowser-smart-search)
 	vmap gx <Plug>(openbrowser-smart-search)
 """
+
+[[plugins]]
+repo = "j-hui/fidget.nvim"
+on_event = "LspAttatch"
+on_source="""
+require("fidget").setup()
+"""
