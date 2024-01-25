@@ -1,5 +1,6 @@
 -- lua_source {{{
 ---@disable: redefined-local
+vim.keymap.set("n", "<leader>ll", "<cmd>LspInfo<cr>")
 local mason = require("mason")
 mason.setup({
 	ui = {
@@ -21,13 +22,13 @@ end
 
 -- add lsp
 local servers = {
+	-- 'denols',
 	'lua_ls',
-	'denols',
 	'html',
 	'clangd',
 	'rust_analyzer',
 	'quick_lint_js',
-	'tsserver',
+	-- 'tsserver',
 	'jsonls',
 	'pyright',
 }
@@ -44,7 +45,7 @@ if ok then
 		return function() end
 	end
 end
--- mason_lspconfig.setup()
+
 local nvim_lsp = require("lspconfig")
 
 nvim_lsp.lua_ls.setup {
@@ -86,9 +87,9 @@ nvim_lsp.denols.setup({
 	},
 })
 
-nvim_lsp.tsserver.setup({
-	root_dir = nvim_lsp.util.root_pattern("package.json"),
-})
+-- nvim_lsp.tsserver.setup({
+-- 	root_dir = nvim_lsp.util.root_pattern("package.json"),
+-- })
 -- LSP handlers
 vim.diagnostic.config({ virtual_text = false })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =

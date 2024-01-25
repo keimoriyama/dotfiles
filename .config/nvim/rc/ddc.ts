@@ -118,10 +118,10 @@ export class Config extends BaseConfig {
       },
     });
     args.contextBuilder.patchFiletype("markdown", {
-      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton","mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("markdown_inline", {
-      sources: ["around", "skkeleton", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton","mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
       sources: ["around", "nvim-lua", "lsp"],
