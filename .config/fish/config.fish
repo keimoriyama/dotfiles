@@ -32,6 +32,7 @@ fish_add_path $HOME/.local/share/nvim/mason/bin
 fish_add_path $HOME/.cargo/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path $HOME/.local/nvim/bin
+fish_add_path $HOME/.local/vim-startuptime
 
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
 

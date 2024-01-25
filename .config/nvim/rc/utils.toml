@@ -14,19 +14,17 @@ require("colorizer").setup({
 	"*",
 })
 '''
-# auto comment out
-[[plugins]]
-repo="luochen1990/rainbow"
-lua_add='''
-vim.g.rainbow_active = 1
-'''
 # dot repeat
 [[plugins]]
 repo="tpope/vim-repeat"
- # utility
+
+# utility
 [[plugins]]
 repo="nvim-lua/plenary.nvim"
 on_source=['none-ls.nvim']
+
+[[plugins]]
+repo = "MunifTanjim/nui.nvim"
 
 # keep lastest cursor position
 [[plugins]]
@@ -67,6 +65,7 @@ hooks_file="$BASE_DIR/rc/hooks/lualine.lua"
 [[plugins]]
 repo="windwp/nvim-ts-autotag"
 on_event = ['InsertEnter']
+
 # surround
 [[plugins]]
 repo="kylechui/nvim-surround"
@@ -143,12 +142,6 @@ repo='phaazon/hop.nvim'
 on_event = ['BufNewFile', 'BufRead']
 hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 
-[[plugins]]
-on_cmd = ["StartupTimeTime"]
-repo ="dstein64/vim-startuptime"
-
-[[plugins]]
-repo = "MunifTanjim/nui.nvim"
 
 [[plugins]]
 repo = "folke/noice.nvim"
@@ -171,9 +164,3 @@ hook_source="""
 	vmap gx <Plug>(openbrowser-smart-search)
 """
 
-[[plugins]]
-repo = "j-hui/fidget.nvim"
-on_event = "LspAttatch"
-on_source="""
-require("fidget").setup()
-"""
