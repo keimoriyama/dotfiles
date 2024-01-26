@@ -26,9 +26,21 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 -- ファイルの変更評価
 vim.opt.modifiable = true
+vim.opt.cmdheight = 0
 -- コピペの共通化
-vim.opt.clipboard:append({ unnamedplus = true })
-
+vim.g.clipboard = {
+  name = 'tmux',
+  copy = {
+    ["+"] = { 'tmux', 'load-buffer', '-w', '-' },
+    ["*"] = { 'tmux', 'load-buffer', '-w', '-' },
+  },
+  paste = {
+    ["+"] = { 'tmux', 'save-buffer', '-' },
+    ["*"] = { 'tmux', 'save-buffer', '-' },
+  },
+  cache_enabled = false,
+}
+vim.opt.scrolloff = 0
 if vim.fn.has("mac") == 1 then
 	vim.cmd([[set clipboard+=unnamed]])
 else

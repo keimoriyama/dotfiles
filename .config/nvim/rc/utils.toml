@@ -25,6 +25,7 @@ on_source=['none-ls.nvim']
 
 [[plugins]]
 repo = "MunifTanjim/nui.nvim"
+on_source = [ 'noice.nvim' ]
 
 # keep lastest cursor position
 [[plugins]]
@@ -164,3 +165,18 @@ hook_source="""
 	vmap gx <Plug>(openbrowser-smart-search)
 """
 
+[[plugins]]
+repo="lewis6991/gitsigns.nvim"
+on_event = ['BufNewFile', 'BufRead']
+lua_source="""
+require('gitsigns').setup({
+        signs = {
+          add          = { text = '+' },
+          change       = { text = '│' },
+          delete       = { text = '-' },
+          topdelete    = { text = '‾' },
+          changedelete = { text = '~' },
+          untracked    = { text = '┆' },
+        },
+      })
+"""

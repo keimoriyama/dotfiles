@@ -38,7 +38,7 @@ export class Config extends BaseConfig {
         },
         mocword: {
           mark: "[mocword]",
-          isVolatile: true,
+          isVolatile: false,
           minAutoCompleteLength: 3,
         },
         around: { mark: "[around]" },
