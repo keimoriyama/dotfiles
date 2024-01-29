@@ -28,7 +28,7 @@ local servers = {
 	'clangd',
 	'rust_analyzer',
 	'quick_lint_js',
-	-- 'tsserver',
+	'tsserver',
 	'jsonls',
 	'pyright',
 }
@@ -87,9 +87,9 @@ nvim_lsp.denols.setup({
 	},
 })
 
--- nvim_lsp.tsserver.setup({
--- 	root_dir = nvim_lsp.util.root_pattern("package.json"),
--- })
+nvim_lsp.tsserver.setup({
+	root_dir = nvim_lsp.util.root_pattern("package.json"),
+})
 -- LSP handlers
 vim.diagnostic.config({ virtual_text = false })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
