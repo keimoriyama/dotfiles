@@ -12,10 +12,6 @@ vim.keymap.set({ "i", "c" }, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'lo
 vim.keymap.set({ "i", "c" }, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
 vim.keymap.set({ "i", "c" }, "<C-y>", "<cmd>call pum#map#confirm()<cr>")
 vim.keymap.set({ "i", "c" }, "<C-e>", "<cmd>call pum#map#cancel()<cr>")
-vim.fn["ddc#set_static_import_path"]()
-vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
-require("ddc_source_lsp_setup").setup()
-require("lspconfig").denols.setup({})
 -- }}}
 
 -- lua_source {{{
@@ -39,8 +35,13 @@ function _G.CommandlinePre(mode)
 	vim.fn["ddc#enable_cmdline_completion"]()
 end
 
+vim.fn['ddc#custom#load_config'](vim.fn.expand("$HOME/.config/nvim/rc/ddc.ts"))
+require("ddc_source_lsp_setup").setup()
+require("lspconfig").denols.setup({})
 -- コマンドライン補完の設定
 vim.keymap.set({ "n", 'x' }, ":", "<Cmd>call v:lua.CommandlinePre(':')<CR>:")
 vim.fn["ddc#enable"]()
--- require("ddc_previewer_floating").enable()
+-- }}}
+-- lua_post_upadte{{{
+vim.fn["ddc#set_static_import_path"]()
 -- }}}

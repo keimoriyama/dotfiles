@@ -12,7 +12,7 @@ export class Config extends BaseConfig {
           autoAction: {
             name: "preview",
           },
-		  startAutoAction:true,
+          startAutoAction: true,
           split: "floating",
           prompt: "> ",
           floatingBorder: "rounded",
@@ -101,19 +101,19 @@ export class Config extends BaseConfig {
       },
     });
 
-	args.contextBuilder.patchLocal("lsp:hierarchy" ,{
-		sourceOptions:{
-			_:{
-				converters:['converter_lsp_symbol']
-			}
-		},
-		uiParams: {
-			ff:{
-				displayTree:true,
-				startFilter:false
-			}
-		}
-	})
+    args.contextBuilder.patchLocal("lsp:hierarchy", {
+      sourceOptions: {
+        _: {
+          converters: ["converter_lsp_symbol"],
+        },
+      },
+      uiParams: {
+        ff: {
+          displayTree: true,
+          startFilter: false,
+        },
+      },
+    });
 
     args.contextBuilder.patchLocal("file_rec", {
       sources: {
