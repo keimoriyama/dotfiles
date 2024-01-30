@@ -5,14 +5,7 @@ export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
     args.contextBuilder.patchGlobal({
       ui: "pum",
-      sources: [
-        "lsp",
-        "skkeleton",
-        "file",
-        "denippet",
-        "buffer",
-        "around",
-      ],
+      sources: ["lsp", "skkeleton", "file", "denippet", "buffer", "around"],
       autoCompleteEvents: [
         "InsertEnter",
         "TextChangedI",
@@ -45,7 +38,7 @@ export class Config extends BaseConfig {
         file: {
           mark: "[file]",
           isVolatile: true,
-          forceCompletionPattern: "\S/\S*",
+          forceCompletionPattern: "S/S*",
         },
         cmdline: { mark: "[cmdline]" },
         denippet: { mark: "[denippet]" },
@@ -118,10 +111,10 @@ export class Config extends BaseConfig {
       },
     });
     args.contextBuilder.patchFiletype("markdown", {
-      sources: ["around", "skkeleton","mocword", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("markdown_inline", {
-      sources: ["around", "skkeleton","mocword", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
       sources: ["around", "nvim-lua", "lsp"],
@@ -138,7 +131,7 @@ export class Config extends BaseConfig {
         sources: ["around", "file"],
         sourceOptions: {
           file: {
-            forceCompletionPattern: "\S\\\S*",
+            forceCompletionPattern: "S\\S*",
             minAutoCompleteLength: 1,
           },
         },
