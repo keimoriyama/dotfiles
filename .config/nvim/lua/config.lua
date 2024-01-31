@@ -82,5 +82,5 @@ vim.g.loaded_netrwFileHandlers = 1
 vim.g.loaded_getscript = 1
 vim.g.loaded_getscriptPlugin = 1
 
-vim.g.python3_host_prog = '/opt/homebrew/bin/python3'
+-- vim.g.python3_host_prog = '/opt/homebrew/bin/python3'
 vim.opt.mouse                   = ""
