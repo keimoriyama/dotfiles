@@ -28,24 +28,25 @@ fish_add_path /Users/keimoriyama/.local/bin
 fish_add_path /Users/keimoriyama/Applications
 fish_add_path /opt/homebrew/bin
 fish_add_path $HOME/Library/Python/3.11/bin
-fish_add_path $HOME/.local/share/nvim/mason/bin
 fish_add_path $HOME/.cargo/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path $HOME/.local/nvim/bin
 fish_add_path $HOME/.local/vim-startuptime
+fish_add_path $HOME/.local/share/aquaproj-aqua/bin
 
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
 
 set -gx DPP_PATH $HOME/.cache/dpp
 
 set -gx PYENV_ROOT $HOME/.pyenv
-set -gx  LDFLAGS /opt/homebrew/opt/openssl@3/lib
-set -gx  CPPFLAGS /opt/homebrew/opt/openssl@3/include
+set -gx LDFLAGS /opt/homebrew/opt/openssl@3/lib
+set -gx CPPFLAGS /opt/homebrew/opt/openssl@3/include
 
 set -gx LDFLAGS /opt/homebrew/opt/llvm/lib
 set -gx CPPFLAGS /opt/homebrew/opt/llvm/include
 
 set -gx NEOVIM_HOME $HOME/.local/nvim
+set -gx AQUA_GLOBAL_CONFIG $HOME/.dotfiles/aqua/aqua.yaml
 
 set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
 source ~/.config/fish/env.fish

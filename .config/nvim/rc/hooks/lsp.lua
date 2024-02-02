@@ -1,39 +1,8 @@
 -- lua_source {{{
 ---@disable: redefined-local
 vim.keymap.set("n", "<leader>ll", "<cmd>LspInfo<cr>")
-local mason = require("mason")
-mason.setup({
-	ui = {
-		icons = {
-			package_installed = "✓",
-			package_pending = "➜",
-			package_uninstalled = "✗",
-		},
-	},
-})
-
 local opts = { noremap = true, silent = true }
 
--- add lsp
-local status, mason_lspconfig = pcall(require, "mason-lspconfig")
-if not status then
-	return
-end
-
--- add lsp
-local servers = {
-	-- 'denols',
-	'lua_ls',
-	'html',
-	'clangd',
-	'rust_analyzer',
-	'quick_lint_js',
-	'tsserver',
-	'jsonls',
-	'pyright',
-}
-
-mason_lspconfig.setup({ ensure_installed = servers })
 -- https://github.com/neovim/neovim/issues/23291#issuecomment-1523243069
 -- https://github.com/neovim/neovim/pull/23500#issuecomment-1585986913
 -- pyright asks for every file in every directory to be watched,
@@ -48,15 +17,15 @@ end
 
 local nvim_lsp = require("lspconfig")
 
-nvim_lsp.lua_ls.setup {
-    settings = {
-      Lua = {
-        diagnostics = {
-          globals = { 'vim', 'hs', 'wez' }
-        }
-      }
-    },
-  }
+nvim_lsp.lua_ls.setup({
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim", "hs", "wez" },
+			},
+		},
+	},
+})
 
 nvim_lsp.pyright.setup({
 	settings = {
@@ -151,4 +120,14 @@ vim.api.nvim_create_autocmd("CursorHold", {
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single", -- "shadow" , "none", "rounded"
 })
+-- }}}
+
+-- lua_python {{{
+local cli_path = os.getenv("BASE_DIR") .. "/rc/hooks/python/.venv/bin"
+vim.env.PATH = cli_path .. ":" .. vim.env.PATH
+-- }}}
+
+-- lua_post_update {{{
+print("updating python hooks")
+vim.fn.system("cd $HOME/.config/nvim/rc/hooks/python && rye sync")
 -- }}}

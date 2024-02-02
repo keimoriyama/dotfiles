@@ -117,7 +117,7 @@ export class Config extends BaseConfig {
       sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
-      sources: ["around", "nvim-lua", "lsp"],
+      sources: [ "nvim-lua", "lsp","around"],
     });
 
     args.contextBuilder.patchFiletype("tex", {

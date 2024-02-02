@@ -69,6 +69,7 @@ vim.opt.path:append(dpp_base .. "repos/github.com/high-moctane/mocword-data/")
 
 vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
 vim.g.dps_obsidian_daily_note_dir = "daily"
+vim.g.dps_obsidian_format_enable=true
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
