@@ -124,10 +124,18 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 
 -- lua_python {{{
 local cli_path = os.getenv("BASE_DIR") .. "/rc/hooks/python/.venv/bin"
-vim.env.PATH = cli_path .. ":" .. vim.env.PATH
+vim.env.PATH = vim.env.PATH .. ":" .. cli_path
+-- }}}
+
+-- lua_typescript{{{
+local dir = os.getenv("BASE_DIR") .. "/rc/hooks/node/node_modules/.bin"
+vim.env.PATH = vim.env.PATH .. ":" .. dir
+vim.system({ "bun", "i" }, { cwd = dir, text = true })
 -- }}}
 
 -- lua_post_update {{{
 print("updating python hooks")
-vim.fn.system("cd $HOME/.config/nvim/rc/hooks/python && rye sync")
+vim.system("rye sync", { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/python" })
+print("updating typescript hooks")
+vim.system("bun install", { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/node" })
 -- }}}
