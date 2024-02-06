@@ -9,6 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "prettier": "^3.2.5",
     "typescript-language-server": "^4.3.2",
     "yaml-language-server": "^1.14.0"
   }
