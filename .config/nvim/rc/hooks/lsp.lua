@@ -127,7 +127,7 @@ local cli_path = os.getenv("BASE_DIR") .. "/rc/hooks/python/.venv/bin"
 vim.env.PATH = vim.env.PATH .. ":" .. cli_path
 -- }}}
 
--- lua_typescript{{{
+-- lua_typescript_javascript{{{
 local dir = os.getenv("BASE_DIR") .. "/rc/hooks/node/node_modules/.bin"
 vim.env.PATH = vim.env.PATH .. ":" .. dir
 vim.system({ "bun", "i" }, { cwd = dir, text = true })
