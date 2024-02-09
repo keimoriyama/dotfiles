@@ -15,12 +15,7 @@ vim.keymap.set("n", "<leader>oc", "<cmd>Ddu lsp_callHierarchy -sync=true -source
 
 vim.keymap.set("n", "<Leader>sb", "<cmd>Ddu buffer<cr>", opt)
 vim.keymap.set("n", "/", "<cmd>Ddu line -resume=v:false -ui-param-ff-startFilter=v:true<cr>", opt)
-vim.keymap.set(
-	"n",
-	"*",
-	"<cmd>Ddu line -input=`expand('<cword>')` -ui-param-ff-startFilter=v:false<cr>",
-	opt
-)
+vim.keymap.set("n", "*", "<cmd>Ddu line -input=`expand('<cword>')` -ui-param-ff-startFilter=v:false<cr>", opt)
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
 vim.keymap.set("n", "<leader>dp", "<cmd>Ddu dpp<cr>", opt)
 vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)

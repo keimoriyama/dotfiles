@@ -112,11 +112,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
-vim.api.nvim_create_autocmd("CursorHold", {
-	callback = function()
-		vim.diagnostic.open_float({ focus = false })
-	end,
-})
+-- vim.api.nvim_create_autocmd("CursorHold", {
+-- 	callback = function()
+-- 		vim.diagnostic.open_float({ focus = false })
+-- 	end,
+-- })
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single", -- "shadow" , "none", "rounded"
 })
