@@ -72,10 +72,13 @@ on_source = "ddu.vim"
 
 [[plugins]]
 repo = "Milly/ddu-filter-kensaku"
+depends = 'kensaku.vim'
 on_source = "ddu.vim"
 
 [[plugins]]
 repo = "lambdalisue/kensaku.vim"
+depends = 'denops.vim'
+denops_wait = false
 on_source = "ddu-filter-kensaku"
 
 [[plugins]]

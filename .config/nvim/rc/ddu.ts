@@ -1,5 +1,10 @@
-import { BaseConfig } from "https://deno.land/x/ddu_vim@v3.7.0/types.ts";
+import {
+  ActionFlags,
+  BaseConfig,
+  Ddu,
+} from "https://deno.land/x/ddu_vim@v3.7.0/types.ts";
 import { ConfigArguments } from "https://deno.land/x/ddu_vim@v3.7.0/base/config.ts";
+import { Denops } from "https://deno.land/x/ddu_vim@v3.7.0/deps.ts";
 import { Params as FfParams } from "https://deno.land/x/ddu_ui_ff@v1.1.0/ff.ts";
 import { Params as FilerParams } from "https://deno.land/x/ddu_ui_filer@v1.1.0/filer.ts";
 
@@ -46,6 +51,9 @@ export class Config extends BaseConfig {
         file_rec: {
           matchers: ["matcher_substring"],
           converters: ["converter_devicon"],
+        },
+        line: {
+          matchers: ["matcher_kensaku"],
         },
       },
       filterParams: {

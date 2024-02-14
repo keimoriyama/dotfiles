@@ -12,32 +12,8 @@ if vim.fn.isdirectory(path) == 1 then
 end
 
 -- }}}
+
 -- lua_source{{{
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "ddu-ff",
-	callback = function()
-		local opt = { buffer = true, silent = true }
-		vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name": "open"})<CR>', opt)
-		vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
-		vim.keymap.set("n", "i", '<cmd>call ddu#ui#do_action("openFilterWindow")<CR>', opt)
-		vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
-		vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
-		vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "ddu-ff-filter",
-	callback = function()
-		local opt = { buffer = true, silent = true }
-		vim.keymap.set("i", "<CR>", "<esc><cmd>close<CR>", opt)
-		vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
-		vim.keymap.set("n", "q", '<cmd>close<CR><cmd>call ddu#ui#do_action("quit")<CR>', opt)
-		vim.keymap.set("i", "<C-j>", '<cmd>call ddu#ui#do_action("cursorNext")', opt)
-		vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
-	end,
-})
-
 local function resize()
 	local lines = vim.api.nvim_get_option("lines")
 	local columns = vim.api.nvim_get_option("columns")
@@ -62,4 +38,24 @@ local function resize()
 end
 
 resize()
+-- }}}
+
+-- lua_ddu-ff-filter {{{
+local opt = { buffer = true, silent = true }
+vim.keymap.set("i", "<CR>", "<esc><cmd>close<CR>", opt)
+vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
+vim.keymap.set("n", "q", '<cmd>close<CR><cmd>call ddu#ui#do_action("quit")<CR>', opt)
+vim.keymap.set("i", "<C-j>", '<cmd>call ddu#ui#do_action("cursorNext")', opt)
+vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
+-- }}}
+
+-- lua_ddu-ff {{{
+local opt = { buffer = true, silent = true }
+vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name": "open"})<CR>', opt)
+vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
+vim.keymap.set("n", "i", '<cmd>call ddu#ui#do_action("openFilterWindow")<CR>', opt)
+vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
+vim.keymap.set("n", "K", '<cmd>call ddu#ui#do_action("kensaku")<CR>', opt)
+vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
+vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
 -- }}}
