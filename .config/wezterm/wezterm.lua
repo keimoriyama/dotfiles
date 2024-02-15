@@ -67,6 +67,7 @@ return {
 	hyperlink_rules = hyperlink_rules,
 	mouse_bindings = mouse_binding,
 	hide_tab_bar_if_only_one_tab = true,
+	use_ime = false,
 	disable_default_mouse_bindings = true,
 	hide_mouse_cursor_when_typing = true,
 }
