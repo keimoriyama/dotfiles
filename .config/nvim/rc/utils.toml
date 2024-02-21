@@ -111,20 +111,6 @@ on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
 
 [[plugins]]
-repo = "nvim-treesitter/nvim-treesitter-context"
-on_event = ['BufNewFile', 'BufRead']
-depends='nvim-treesitter'
-lua_source='''
-require('treesitter-context').setup({})
-'''
-
-[[plugins]]
-repo="andersevenrud/nvim_context_vt"
-on_event = ['BufNewFile', 'BufRead']
-depends='nvim-treesitter'
-
-
-[[plugins]]
 repo="folke/todo-comments.nvim"
 on_event = ['BufNewFile', 'BufRead']
 lua_source='''
