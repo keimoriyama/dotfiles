@@ -1,4 +1,4 @@
-[[plugins]]
+t[[plugins]]
 repo = "ellisonleao/gruvbox.nvim"
 on_event = ['BufNewFile', 'BufRead']
 hook_source='''
@@ -163,22 +163,6 @@ on_event = ['BufNewFile', 'BufRead']
 hook_source="""
 	nmap gx <Plug>(openbrowser-smart-search)
 	vmap gx <Plug>(openbrowser-smart-search)
-"""
-
-[[plugins]]
-repo="lewis6991/gitsigns.nvim"
-on_event = ['BufNewFile', 'BufRead']
-lua_source="""
-require('gitsigns').setup({
-        signs = {
-          add          = { text = '+' },
-          change       = { text = '│' },
-          delete       = { text = '-' },
-          topdelete    = { text = '‾' },
-          changedelete = { text = '~' },
-          untracked    = { text = '┆' },
-        },
-      })
 """
 
 [[plugins]]

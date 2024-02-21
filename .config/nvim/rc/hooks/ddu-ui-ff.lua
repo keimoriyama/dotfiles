@@ -47,11 +47,17 @@ vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
 vim.keymap.set("n", "q", '<cmd>close<CR><cmd>call ddu#ui#do_action("quit")<CR>', opt)
 vim.keymap.set("i", "<C-j>", '<cmd>call ddu#ui#do_action("cursorNext")', opt)
 vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
+vim.keymap.set("n", "<C-r>", '<cmd>call ddu#ui#do_action("redraw")<CR>', opt)
 -- }}}
 
 -- lua_ddu-ff {{{
 local opt = { buffer = true, silent = true }
-vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name": "open"})<CR>', opt)
+vim.keymap.set(
+	"n",
+	"<CR>",
+	'<cmd>call ddu#ui#do_action("itemAction", {"name": "open","params":{"command":"tabnew"}})<CR>',
+	opt
+)
 vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)
 vim.keymap.set("n", "i", '<cmd>call ddu#ui#do_action("openFilterWindow")<CR>', opt)
 vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
