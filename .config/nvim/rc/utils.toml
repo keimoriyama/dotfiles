@@ -62,10 +62,6 @@ repo="nvim-lualine/lualine.nvim"
 on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/lualine.lua"
 
-# auto pair and tag close
-# [[plugins]]
-# repo="windwp/nvim-ts-autotag"
-# on_event = ['InsertEnter']
 
 # surround
 [[plugins]]
@@ -174,11 +170,4 @@ repo = "andymass/vim-matchup"
 on_event = ['BufNewFile', 'BufRead']
 lua_source="""
 vim.g.matchup_matchparen_offscreen = { method = 'popup' }
-"""
-
-[[plugins]]
-repo="klen/nvim-test"
-on_cmd=["TestNearest", "TestFile", "TestSuite", "TestLast", "TestVisit"]
-lua_source="""
-require("nvim-test").setup()
 """
