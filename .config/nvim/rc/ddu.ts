@@ -80,8 +80,12 @@ export class Config extends BaseConfig {
         lsp: {
           defaultAction: "open",
         },
+        lsp_codeAction: {
+          defaultAction: "apply",
+        },
       },
     });
+
     args.contextBuilder.patchLocal("filer", {
       ui: "filer",
       sources: {
@@ -105,6 +109,14 @@ export class Config extends BaseConfig {
           floatingBorder: "rounded",
           floatingTitle: "filer",
           floatingTitlePos: "center",
+        },
+      },
+    });
+
+    args.contextBuilder.patchLocal("lsp", {
+      sourceOptions: {
+        _: {
+          converters: ["converter_lsp_symbol"],
         },
       },
     });

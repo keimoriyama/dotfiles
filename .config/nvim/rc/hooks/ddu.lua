@@ -8,11 +8,21 @@ vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-ff-startFilter=v:true<
 local path = vim.fn.getcwd()
 
 vim.keymap.set("n", "<leader>fr", "<cmd>Ddu rg -source-option-rg-volatile<cr>", opt)
-vim.keymap.set("n", "<leader>sr", "<cmd>Ddu lsp_references -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>dd", "<cmd>Ddu lsp_diagnostic -sync=true<cr>", opt)
+vim.keymap.set("n", "<leader>sr", "<cmd>Ddu -name=lsp lsp_references -sync=true<cr>", opt)
+vim.keymap.set("n", "<leader>dd", "<cmd>Ddu -name=lsp lsp_diagnostic -sync=true<cr>", opt)
 vim.keymap.set("n", "<leader>ds", "<cmd>Ddu lsp_documentSymbol -name=lsp:hierarchy<cr>", opt)
-vim.keymap.set("n", "<leader>ic", "<cmd>Ddu lsp_callHierarchy -sync=true -source-params=inComingCalls<cr>", opt)
-vim.keymap.set("n", "<leader>oc", "<cmd>Ddu lsp_callHierarchy -sync=true -source-params=outgoingCalls<cr>", opt)
+vim.keymap.set(
+	"n",
+	"<leader>ic",
+	"<cmd>Ddu lsp_callHierarchy -sync=true -source-param-lsp-method=callHierarchy/incomingCalls<cr>",
+	opt
+)
+vim.keymap.set(
+	"n",
+	"<leader>oc",
+	"<cmd>Ddu lsp_callHierarchy -sync=true -source-param-lsp-method=callHierarchy/outgoingCalls<cr>",
+	opt
+)
 
 vim.keymap.set("n", "<Leader>sb", "<cmd>Ddu buffer<cr>", opt)
 vim.keymap.set("n", "/", "<cmd>Ddu line -resume=v:false -ui-param-ff-startFilter=v:true<cr>", opt)
