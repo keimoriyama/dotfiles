@@ -1,5 +1,5 @@
 local opts = { noremap = true, silent = true }
-local function exit_buffer() 
+local function exit_buffer()
 	if vim.api.nvim_buf_get_name(0) == "" then
 		vim.api.nvim_command("q")
 	else
@@ -9,7 +9,9 @@ end
 vim.api.nvim_set_keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", opts)
 vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", opts)
-vim.keymap.set("n", "<Leader>q", function() exit_buffer() end, opts)
+vim.keymap.set("n", "<Leader>q", function()
+	exit_buffer()
+end, opts)
 vim.api.nvim_set_keymap("n", "<Leader>Q", ":q!<CR>", opts)
 vim.api.nvim_set_keymap("n", "+", "<C-a>", opts)
 vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
@@ -28,7 +30,6 @@ vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", opts)
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j", opts)
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", opts)
 vim.api.nvim_set_keymap("n", "<C-m>", "<cmd>messages<cr>", opts)
-
 
 vim.api.nvim_set_keymap("n", "<leader>ss", "<C-w>s", opts)
 vim.api.nvim_set_keymap("n", "<leader>sv", "<C-w>v", opts)
