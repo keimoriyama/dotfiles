@@ -32,7 +32,7 @@ if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 		"Shougo/dpp-ext-lazy",
 		"Shougo/dpp-ext-installer",
 		"Shougo/dpp-protocol-git",
-		"Shougo/dpp-ext-local",
+		-- "Shougo/dpp-ext-local",
 	}
 	for _, plugin in ipairs(plugins) do
 		InitPlugin(plugin)
