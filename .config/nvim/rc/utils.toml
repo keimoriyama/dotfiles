@@ -1,4 +1,4 @@
-t[[plugins]]
+[[plugins]]
 repo = "ellisonleao/gruvbox.nvim"
 on_event = ['BufNewFile', 'BufRead']
 hook_source='''

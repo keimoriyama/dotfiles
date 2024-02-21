@@ -123,7 +123,7 @@ export class Config extends BaseConfig {
       },
     });
 
-    args.contextBuilder.patchLocal("file_rec", {
+    args.contextBuilder.patchLocal("ff", {
       sources: {
         name: "file_rec",
         params: {

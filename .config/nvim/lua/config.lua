@@ -29,6 +29,7 @@ vim.opt.modifiable = true
 vim.opt.cmdheight = 0
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
+vim.opt.splitright = true
 
 vim.opt.scrolloff = 0
 if vim.fn.has("mac") == 1 then

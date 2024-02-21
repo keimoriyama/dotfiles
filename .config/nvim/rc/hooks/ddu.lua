@@ -1,7 +1,7 @@
 -- lua_add {{{
 local opt = { noremap = true, silent = true }
 -- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu file_rec -ui-param-ff-startFilter=v:true<cr>", opt)
+vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu -name=ff file_rec -ui-param-ff-startFilter=v:true<cr>", opt)
 -- helper
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-ff-startFilter=v:true<cr>", opt)
 -- rgの設定
