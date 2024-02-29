@@ -167,13 +167,12 @@ end, function()
 end)
 
 function ToggleKeymethod()
-	print(hs.keycodes.currentMethod())
-	if hs.keycodes.currentMethod() == "ひらがな (macSKK)" then
-		hs.keycodes.setMethod("ABC (macSKK)")
+	if hs.keycodes.currentMethod() == "AquaSKK 統合" then
+		hs.keycodes.setLayout("ABC")
 		hs.alert.show("ABC", hs.styledtext, hs.screen.mainScreen(), 0.2)
-	elseif hs.keycodes.currentMethod() == "ABC (macSKK)" then
-		hs.keycodes.setMethod("ひらがな (macSKK)")
-		hs.alert.show("ひらがな", hs.styledtext, hs.screen.mainScreen(), 0.2)
+	elseif hs.keycodes.currentLayout() == "ABC" then
+		hs.keycodes.setMethod("AquaSKK 統合")
+		hs.alert.show("SKK", hs.styledtext, hs.screen.mainScreen(), 0.2)
 	end
 end
 
@@ -182,8 +181,8 @@ local function test(appName, event, appObject)
 	if appName == "WezTerm" then
 		if event == 5 then
 			-- disable key binding
-			if hs.keycodes.currentMethod() == "ひらがな (macSKK)" then
-				hs.keycodes.setMethod("ABC (macSKK)")
+			if hs.keycodes.currentMethod() == "AquaSKK 統合" then
+				hs.keycodes.setLayout("ABC")
 				hs.alert.show("ABC", hs.styledtext, hs.screen.mainScreen(), 0.2)
 			end
 			hotkeys:disable()

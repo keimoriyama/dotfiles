@@ -5,7 +5,7 @@ export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
     args.contextBuilder.patchGlobal({
       ui: "pum",
-      sources: ["lsp", "skkeleton", "file", "denippet", "buffer", "around"],
+      sources: ["denippet", "lsp", "skkeleton", "file", "buffer", "around"],
       autoCompleteEvents: [
         "InsertEnter",
         "TextChangedI",
@@ -117,7 +117,7 @@ export class Config extends BaseConfig {
       sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
     });
     args.contextBuilder.patchFiletype("lua", {
-      sources: [ "nvim-lua", "lsp","around"],
+      sources: ["nvim-lua", "lsp", "around"],
     });
 
     args.contextBuilder.patchFiletype("tex", {

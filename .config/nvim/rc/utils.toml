@@ -83,6 +83,7 @@ vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
 
 [[plugins]]
 repo='skanehira/denops-silicon.vim'
+depends='denops.vim'
 on_cmd='Silicon'
 
 [[plugins]]

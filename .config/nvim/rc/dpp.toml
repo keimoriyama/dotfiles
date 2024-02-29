@@ -1,7 +1,7 @@
 [[plugins]]
 repo = 'vim-denops/denops.vim'
 # hook_add='''
-# # let g:denops_server_addr = '127.0.0.1:32123'
+# let g:denops#debug = 1
 # '''
 
 [[plugins]]
@@ -18,9 +18,6 @@ on_source = 'dpp.vim'
 repo = 'Shougo/dpp-ext-toml'
 on_source = 'dpp.vim'
 
-# [[plugins]]
-# repo = 'Shougo/dpp-ext-local'
-# on_source = 'dpp.vim'
 
 [[plugins]]
 repo = 'Shougo/dpp-ext-installer'
