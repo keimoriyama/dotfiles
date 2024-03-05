@@ -27,17 +27,20 @@ nvim_lsp.lua_ls.setup({
 	},
 })
 
--- nvim_lsp.pyright.setup({
--- 	settings = {
--- 		python = {
--- 			venvPath = ".",
--- 			pythonPath = "./.venv/bin/python",
--- 			analysis = {
--- 				extraPaths = { "." },
--- 			},
--- 		},
--- 	},
--- })
+nvim_lsp.pyright.setup({
+	settings = {
+		python = {
+			venvPath = ".",
+			pythonPath = "./.venv/bin/python",
+			analysis = {
+				extraPaths = { "." },
+				diagnosticMode = "off",
+				typeCheckingMode = "off",
+			},
+		},
+	},
+})
+
 local function ruff_lsp_on_attatch()
 	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		buffer = bufnr,
