@@ -24,8 +24,8 @@ null_ls.setup({
 	debug = false,
 	sources = {
 		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.black,
-		null_ls.builtins.formatting.isort,
+		-- null_ls.builtins.formatting.black,
+		-- null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.prettier,
 	},
 	on_attach = on_attach,

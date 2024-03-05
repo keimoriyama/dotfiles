@@ -27,14 +27,23 @@ nvim_lsp.lua_ls.setup({
 	},
 })
 
-nvim_lsp.pyright.setup({
-	settings = {
-		python = {
-			venvPath = ".",
-			pythonPath = "./.venv/bin/python",
-			analysis = {
-				extraPaths = { "." },
-			},
+-- nvim_lsp.pyright.setup({
+-- 	settings = {
+-- 		python = {
+-- 			venvPath = ".",
+-- 			pythonPath = "./.venv/bin/python",
+-- 			analysis = {
+-- 				extraPaths = { "." },
+-- 			},
+-- 		},
+-- 	},
+-- })
+
+nvim_lsp.ruff_lsp.setup({
+	init_options = {
+		settings = {
+			-- Any extra CLI arguments for `ruff` go here.
+			args = {},
 		},
 	},
 })
@@ -85,7 +94,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
-		-- Reference highlight
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		-- print(client.name)
+		-- print(vim.inspect(client))
+		if client.name == "ruff_ls" then
+			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({ timeout_ms = 2500 })
+				end,
+			})
+		end -- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client.server_capabilities.documentHighlightProvider then
 			vim.api.nvim_command("highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040")

@@ -42,8 +42,7 @@ resize()
 
 -- lua_ddu-ff-filter {{{
 local opt = { buffer = true, silent = true }
-vim.keymap.set("i", "<CR>", "<esc><cmd>close<CR>", opt)
-vim.keymap.set("n", "<CR>", "<cmd>close<CR>", opt)
+vim.keymap.set({ "i", "n" }, "<CR>", '<cmd>call ddu#ui#do_action("closeFilterWindow")<CR><esc>', opt)
 vim.keymap.set("n", "q", '<cmd>close<CR><cmd>call ddu#ui#do_action("quit")<CR>', opt)
 vim.keymap.set("i", "<C-j>", '<cmd>call ddu#ui#do_action("cursorNext")', opt)
 vim.keymap.set("i", "<C-p>", '<cmd>call ddu#ui#do_action("cursorPrevious")', opt)
