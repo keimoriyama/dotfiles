@@ -95,9 +95,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		-- print(client.name)
-		-- print(vim.inspect(client))
-		if client.name == "ruff_ls" then
+		if client.name == "ruff_lsp" then
 			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 				buffer = bufnr,
 				callback = function()
