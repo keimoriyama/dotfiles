@@ -157,7 +157,7 @@ vim.system({ "bun", "i" }, { cwd = dir, text = true })
 
 -- lua_post_update {{{
 -- print("updating python hooks")
-vim.system({ "rye", "sync" }, { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/python" })
+vim.system({ "rye", "sync" }, { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/python", stdout = false })
 -- print("updating typescript hooks")
-vim.system({ "bun", "install" }, { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/node" })
+vim.system({ "bun", "install" }, { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/node", stdout = false })
 -- }}}
