@@ -1,9 +1,9 @@
 -- lua_add {{{
 local opt = { noremap = true, silent = true }
 -- ff
-vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu -name=ff file_rec -ui-param-ff-startFilter=v:true<cr>", opt)
+vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu -name=ff file_rec<cr>", opt)
 -- helper
-vim.keymap.set("n", "<leader>h", "<cmd>Ddu help -ui-param-ff-startFilter=v:true<cr>", opt)
+vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
 -- rgの設定
 local path = vim.fn.getcwd()
 
@@ -25,8 +25,8 @@ vim.keymap.set(
 )
 
 vim.keymap.set("n", "<Leader>sb", "<cmd>Ddu buffer<cr>", opt)
-vim.keymap.set("n", "/", "<cmd>Ddu line -resume=v:false -ui-param-ff-startFilter=v:true<cr>", opt)
-vim.keymap.set("n", "*", "<cmd>Ddu line -input=`expand('<cword>')` -ui-param-ff-startFilter=v:false<cr>", opt)
+vim.keymap.set("n", "/", "<cmd>Ddu line -resume=v:false<cr>", opt)
+vim.keymap.set("n", "*", "<cmd>Ddu line -input=`expand('<cword>')`<cr>", opt)
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
 vim.keymap.set("n", "<leader>dp", "<cmd>Ddu dpp<cr>", opt)
 vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)
