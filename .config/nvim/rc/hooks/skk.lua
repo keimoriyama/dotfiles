@@ -5,6 +5,21 @@ vim.keymap.set({ "i", "c" }, "<C-l>", "<Plug>(skkeleton-disable)", { noremap = t
 
 local userDict = vim.fn.expand("$HOME") .. "/.local/skkeleton/SKK-JISYO.L"
 
+vim.fn["skkeleton#azik#add_table"]("us")
+
+vim.fn["skkeleton#config"]({
+	kanaTable = "azik",
+})
+
+vim.cmd([[
+call skkeleton#register_kanatable('azik', {
+  \  " ": "henkanFirst",
+  \  "^": "henkanPoint",
+  \  "[": "katakana",
+  \  "/": "abbrev",
+  \ })
+]])
+
 vim.fn["skkeleton#config"]({
 	globalDictionaries = {
 		vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
