@@ -75,8 +75,8 @@ vim.g.dps_obsidian_format_enable = true
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
 vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
-vim.opt.rtp:append(base_dir .. "overleaf.vim")
-vim.g.overleaf_project_name = "イラレ用数式"
+-- vim.opt.rtp:append(base_dir .. "overleaf.vim")
+-- vim.g.overleaf_project_name = "イラレ用数式"
 vim.opt.rtp:append(base_dir .. "ddu-source-keymap")
 
 vim.api.nvim_create_user_command("DppMakeState", function()

@@ -15,8 +15,14 @@ vim.api.nvim_create_autocmd("FileType", {
 		)
 		vim.keymap.set(
 			"n",
-			"<C-o>",
+			"<C-v>",
 			'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"vnew"}})<CR>',
+			opt
+		)
+		vim.keymap.set(
+			"n",
+			"<C-h>",
+			'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"split"}})<CR>',
 			opt
 		)
 		vim.keymap.set("n", "<Space>", '<cmd>call ddu#ui#do_action("toggleSelectItem")<CR>', opt)

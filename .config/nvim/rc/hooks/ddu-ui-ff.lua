@@ -54,8 +54,14 @@ local opt = { buffer = true, silent = true }
 vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name": "open"})<CR>', opt)
 vim.keymap.set(
 	"n",
-	"<C-o>",
+	"<C-v>",
 	'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"vnew"}})<CR>',
+	opt
+)
+vim.keymap.set(
+	"n",
+	"<C-h>",
+	'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"split"}})<CR>',
 	opt
 )
 -- vim.keymap.set(
