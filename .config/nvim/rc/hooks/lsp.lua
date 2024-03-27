@@ -41,7 +41,7 @@ nvim_lsp.pyright.setup({
 	},
 })
 
-local function ruff_lsp_on_attatch()
+local function ruff_lsp_on_attatch(client, bufnr)
 	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		buffer = bufnr,
 		callback = function()
