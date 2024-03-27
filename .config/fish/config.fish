@@ -20,7 +20,7 @@ alias ls='lsd -G'
 alias c='clear'
 alias g++='g++-13'
 alias vim='nvim'
-alias python='python3'
+# alias python='python3'
 alias msl='mutagen sync list'
 
 fish_add_path $HOME/.pyenv/bin

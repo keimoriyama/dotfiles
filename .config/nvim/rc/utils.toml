@@ -53,9 +53,8 @@ disable_filetype = { "vim" },
 [[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
 on_event = ['BufNewFile', 'BufRead']
-lua_source='''
-require('ibl').setup({})
-'''
+hooks_file="$BASE_DIR/rc/hooks/ibl.lua"
+
 
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
@@ -108,6 +107,29 @@ on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
 
 [[plugins]]
+repo='HiPhish/rainbow-delimiters.nvim'
+on_event = ['BufNewFile', 'BufRead']
+depends='nvim-treesitter'
+# lua_source='''
+# require('rainbow-delimiters').setup()
+# '''
+
+[[plugins]]
+repo='nvim-treesitter/nvim-treesitter-context'
+on_event = ['BufNewFile', 'BufRead']
+depends='nvim-treesitter'
+lua_source='''
+require('treesitter-context').setup()
+'''
+
+[[plugins]]
+repo='klen/nvim-test'
+on_cmd = ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']
+lua_source='''
+reuquire('nvim-test').setup()
+'''
+
+[[plugins]]
 repo="folke/todo-comments.nvim"
 on_event = ['BufNewFile', 'BufRead']
 lua_source='''
@@ -118,7 +140,6 @@ vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", { noremap = true, sil
 [[plugins]]
 repo="JoosepAlviste/nvim-ts-context-commentstring"
 on_event = ['BufNewFile', 'BufRead']
-
 
 [[plugins]]
 repo="kana/vim-smartword"
