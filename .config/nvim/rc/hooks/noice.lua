@@ -1,7 +1,8 @@
 -- lua_source {{{
-require('noice').setup({
+require("noice").setup({
 	lsp = {
 		signature = {
+			enabled = false,
 			auto_open = {
 				enabled = false,
 				-- throttle = 0, -- Debounce lsp signature help request by 50ms
@@ -49,6 +50,5 @@ require('noice').setup({
 			},
 		},
 	},
-}
-)
+})
 -- }}}

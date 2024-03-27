@@ -202,3 +202,7 @@ on_event = ['BufNewFile', 'BufRead']
 lua_source="""
 vim.g.matchup_matchparen_offscreen = { method = 'popup' }
 """
+
+[[plugins]]
+repo = 'shortcuts/no-neck-pain.nvim'
+on_event = ['BufNewFile', 'BufRead']
