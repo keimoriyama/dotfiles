@@ -3,9 +3,9 @@ local width = vim.fn.winwidth(0)
 if width >= 100 then
 	require("no-neck-pain").enable()
 end
-vim.api.nvim_craete_autocmd("VimResized", {
+vim.api.nvim_create_autocmd("VimResized", {
 	callback = function()
-		local width = vim.fn.winwidth(0)
+		width = vim.fn.winwidth(0)
 		if width >= 100 then
 			require("no-neck-pain").enable()
 		else
