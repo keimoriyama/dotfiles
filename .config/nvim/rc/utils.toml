@@ -206,3 +206,4 @@ vim.g.matchup_matchparen_offscreen = { method = 'popup' }
 [[plugins]]
 repo = 'shortcuts/no-neck-pain.nvim'
 on_event = ['BufNewFile', 'BufRead']
+hooks_file = "$BASE_DIR/rc/hooks/no_neck.lua"
