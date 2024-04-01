@@ -207,3 +207,12 @@ vim.g.matchup_matchparen_offscreen = { method = 'popup' }
 repo = 'shortcuts/no-neck-pain.nvim'
 on_event = ['BufNewFile', 'BufRead']
 hooks_file = "$BASE_DIR/rc/hooks/no_neck.lua"
+
+[[plugins]]
+repo='tani/dmacro.nvim'
+on_event = ['BufNewFile', 'BufRead']
+lua_source='''
+require('dmacro').setup({
+    dmacro_key = '<C-p>' --  you need to set the dmacro_key
+})
+'''
