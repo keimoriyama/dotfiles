@@ -184,9 +184,9 @@ on_source = [ 'noice.nvim' ]
 [[plugins]]
 repo = "hrsh7th/nvim-insx.git"
 on_event=["InsertEnter"]
-lua_source = """
-require('insx.preset.standard').setup()
-"""
+hooks_file="$BASE_DIR/rc/hooks/insx.lua"
+
+[[plugins]]
 
 [[plugins]]
 repo = "tyru/open-browser.vim"
