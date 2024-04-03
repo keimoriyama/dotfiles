@@ -186,7 +186,6 @@ repo = "hrsh7th/nvim-insx.git"
 on_event=["InsertEnter"]
 hooks_file="$BASE_DIR/rc/hooks/insx.lua"
 
-[[plugins]]
 
 [[plugins]]
 repo = "tyru/open-browser.vim"
@@ -215,4 +214,11 @@ lua_source='''
 require('dmacro').setup({
     dmacro_key = '<C-p>' --  you need to set the dmacro_key
 })
+'''
+
+[[plugins]]
+repo='echasnovski/mini.diff'
+on_event = ['BufNewFile', 'BufRead']
+lua_source='''
+require('mini.diff').setup()
 '''
