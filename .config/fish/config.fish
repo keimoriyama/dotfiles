@@ -34,6 +34,8 @@ fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path $HOME/.local/nvim/bin
 fish_add_path $HOME/.local/vim-startuptime
 fish_add_path $HOME/.local/share/aquaproj-aqua/bin
+fish_add_path $HOME/.juliaup/bin
+
 
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
 

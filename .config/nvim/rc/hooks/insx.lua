@@ -1,6 +1,6 @@
 --- lua_source {{{
 local insx = require("insx")
-insx.preset.standard.setup()
+require("insx.preset.standard").setup()
 -- auto html tags.
 require("insx").add(
 	">",

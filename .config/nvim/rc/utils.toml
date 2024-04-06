@@ -78,27 +78,6 @@ vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
 '''
 
 [[plugins]]
-repo='skanehira/denops-silicon.vim'
-depends='denops.vim'
-on_cmd='Silicon'
-
-[[plugins]]
-repo="numToStr/Comment.nvim"
-on_event = ['BufNewFile', 'BufRead']
-lua_source='''
-require("Comment").setup({
- ---LHS of toggle mappings in NORMAL mode
- ---@type table
- toggler = {
- 	---Line-comment toggle keymap
- 	line = "col",
-  	---Block-comment toggle keymap
-  	block = "cob",
- 	},
- })
-'''
-
-[[plugins]]
 repo="nvim-treesitter/nvim-treesitter"
 on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
@@ -107,9 +86,6 @@ hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
 repo='HiPhish/rainbow-delimiters.nvim'
 on_event = ['BufNewFile', 'BufRead']
 depends='nvim-treesitter'
-# lua_source='''
-# require('rainbow-delimiters').setup()
-# '''
 
 [[plugins]]
 repo='nvim-treesitter/nvim-treesitter-context'
@@ -117,21 +93,6 @@ on_event = ['BufNewFile', 'BufRead']
 depends='nvim-treesitter'
 lua_source='''
 require('treesitter-context').setup()
-'''
-
-[[plugins]]
-repo='klen/nvim-test'
-on_cmd = ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']
-lua_source='''
-reuquire('nvim-test').setup()
-'''
-
-[[plugins]]
-repo="folke/todo-comments.nvim"
-on_event = ['BufNewFile', 'BufRead']
-lua_source='''
-require("todo-comments").setup({})
-vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", { noremap = true, silent = true })
 '''
 
 [[plugins]]
