@@ -80,11 +80,10 @@ nvim_lsp.denols.setup({
 nvim_lsp.tsserver.setup({
 	root_dir = nvim_lsp.util.root_pattern("package.json"),
 })
--- LSP handlers
-vim.diagnostic.config({ virtual_text = false })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
-	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
-
+	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
+vim.diagnostics.config({ severity_sort = true })
+-- LSP handlers
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
@@ -106,7 +105,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
-		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client.server_capabilities.documentHighlightProvider then
@@ -133,14 +131,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			})
 		end
 	end,
-})
-vim.api.nvim_create_autocmd("CursorHold", {
-	callback = function()
-		vim.diagnostic.open_float({ focus = false })
-	end,
-})
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "single", -- "shadow" , "none", "rounded"
 })
 -- }}}
 
