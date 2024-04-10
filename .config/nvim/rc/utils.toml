@@ -125,7 +125,8 @@ hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 
 # [[plugins]]
 # repo='Shougo/cmdline.vim'
-# hook_add='''
+# on_event = ['BufNewFile', 'BufRead']
+# hook_source='''
 # call cmdline#set_option(#{
 #   \   highlight_prompt: 'Statement',
 #   \   highlight_window: 'None',
