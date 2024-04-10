@@ -124,13 +124,15 @@ on_event = ['BufNewFile', 'BufRead']
 hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 
 # [[plugins]]
-# repo='Shougo/cmdline.vim'
-# on_event = ['BufNewFile', 'BufRead']
-# hook_source='''
-# call cmdline#set_option(#{
-#   \   highlight_prompt: 'Statement',
-#   \   highlight_window: 'None',
-#   \ })
+# repo = 'Shougo/cmdline.vim'
+# on_event = ['CmdlineEnter']
+# on_func = ['cmdline#input', 'cmdline#enable']
+# lua_source='''
+# vim.fn['cmdline#set_option']({
+#     blend = 0,
+#     border = "double",
+#     highlight_window = "Pmenu",
+# })
 # '''
 
 [[plugins]]
