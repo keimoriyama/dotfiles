@@ -1,5 +1,5 @@
 -- lua_source {{{
-require('lualine').setup({
+require("lualine").setup({
 	options = {
 		icons_enabled = true,
 		theme = "auto",
@@ -11,16 +11,17 @@ require('lualine').setup({
 		lualine_a = { "mode" },
 		lualine_b = { "branch" },
 		lualine_c = {},
-		lualine_x = { {
-			"diagnostics",
-			sources = { "nvim_diagnostic" },
-			symbols = {
-				error = " ",
-				warn = " ",
-				info = " ",
-				hint = " ",
+		lualine_x = {
+			{
+				"diagnostics",
+				sources = { "nvim_diagnostic" },
+				symbols = {
+					error = " ",
+					warn = " ",
+					info = " ",
+					hint = " ",
+				},
 			},
-		},
 			"encoding",
 			"filetype",
 		},
