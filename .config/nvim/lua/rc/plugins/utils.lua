@@ -1,65 +1,48 @@
----@type LazySpec
 local spec = {
-	-- auto pair and tag close
 	{
-		"windwp/nvim-ts-autotag",
-		event = "InsertEnter",
-	},
-	-- surround
-	{
-		"kylechui/nvim-surround",
+		"ellisonleao/gruvbox.nvim",
+		event = { "BufNewFile", "BufRead" },
 		config = function()
-			require("nvim-surround").setup()
-		end
-	},
-	-- auto comment out
-	{
-		"luochen1990/rainbow",
-		config = function()
-			vim.g.rainbow_active = 1
+			vim.cmd([[
+			set background=dark
+			colorscheme gruvbox
+			]])
 		end,
-	},               --
-	-- dot repeat
-	"tpope/vim-repeat", --
-	-- utility
-	"nvim-lua/plenary.nvim",
-	"nvim-lua/popup.nvim",
-	-- buffer sizer
-	"simeji/winresizer",
-	-- show diff from recover file
-	"chrisbra/Recover.vim",
-	-- keep lastest cursor position
+	},
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			vim.opt.termguicolors = true
+			require("colorizer").setup({
+				"*",
+			})
+		end,
+	},
+	{
+		"nvim-lua/plenary.nvim",
+	},
 	{
 		"ethanholz/nvim-lastplace",
+		event = { "BufNewFile", "BufRead" },
 		config = function()
-			require("nvim-lastplace").setup()
+		require("nvim-lastplace").setup()
 		end
 	},
-	-- mkdir
-	"jghauser/mkdir.nvim",
 	{
-		"folke/todo-comments.nvim",
+		'uga-rosa/ugaterm.nvim',
 		config = function()
-			local status, todocomments = pcall(require, "todo-comments")
-			if not status then
-				return
-			end
-
-			todocomments.setup({})
-			local opts = { noremap = true, silent = true }
-			vim.keymap.set("n", "<Leader>tq", "<cmd>TodoQuickFix<cr>", opts)
-		end,
+			vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", { noremap = true, silent = true })
+		end
 	},
-	-- smart wards
 	{
-		"kana/vim-smartword",
-		config = function()
-			vim.keymap.set("n", "w", "<Plug>(smartword-w)")
-			vim.keymap.set("n", "b", "<Plug>(smartword-b)")
-			vim.keymap.set("n", "e", "<Plug>(smartword-e)")
-		end,
-	},
-	"LeafCage/vimhelpgenerator"
+		"windwp/nvim-autopairs",
+			event= {'InsertEnter'},
+			config = function()
+			require("nvim-autopairs").setup({
+			disable_filetype = { "vim" },
+			})
+		end
+	}
 }
 
 return spec

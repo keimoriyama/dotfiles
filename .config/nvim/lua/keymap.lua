@@ -1,56 +1,25 @@
-local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-
-vim.g.mapleader = " "
-
--- エンコーディングの指定
-vim.opt.fileencoding = "utf-8"
--- indexを相対表記にする
-vim.opt.relativenumber = true
--- リアルタイム検索にする
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
--- 最下ウィンドウにいつステータス行を表示するか
-vim.opt.laststatus = 2
--- コマンドライン補完の有効化
-vim.opt.wildmenu = true
--- 直前の行から新しいインデントを指定する
-vim.opt.autoindent = true
--- vim以外でファイルを編集した時
-vim.opt.autoread = true
--- バックアップファイルを作成しない
-vim.b.noswapfile = true
-vim.b.nobackup = true
-vim.b.nowritebackup = true
--- カレントバッファの強調表示
-vim.opt.syntax = "enable"
--- tabの表示幅の修正
-vim.opt.tabstop = 4
--- インデントに使うshift幅
-vim.opt.shiftwidth = 4
--- ファイルの変更評価
-vim.opt.modifiable = true
--- コピペの共通化
-vim.opt.clipboard:append({ unnamedplus = true })
-if vim.fn.has("mac") == 1 then
-	vim.cmd([[set clipboard+=unnamed]])
-else
-	vim.cmd([[set clipboard^=unnamedplus]])
+local function exit_buffer()
+	if vim.api.nvim_buf_get_name(0) == "" then
+		vim.api.nvim_command("q")
+	else
+		vim.api.nvim_command("wq")
+	end
 end
-
--- ESC*2 でハイライトやめる
-keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
-keymap("n", "<Leader>bd", ":bd<CR>", opts)
-keymap("n", "<Leader>w", ":w<CR>", opts)
-keymap("n", "<Leader>q", ":wq<CR>", opts)
-keymap("n", "<Leader>Q", ":q!<CR>", opts)
-keymap("n", "+", "<C-a>", opts)
-keymap("n", "-", "<C-x>", opts)
-keymap("n", "n", "nzz", opts)
-keymap("n", "N", "Nzz", opts)
-keymap("n", "*", "*zz", opts)
-keymap("n", "g*", "g*zz", opts)
-keymap("n", "g#", "g#zz", opts)
+vim.api.nvim_set_keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", opts)
+vim.keymap.set("n", "<Leader>q", function()
+	exit_buffer()
+end, opts)
+vim.api.nvim_set_keymap("n", "<Leader>Q", ":q!<CR>", opts)
+vim.api.nvim_set_keymap("n", "+", "<C-a>", opts)
+vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
+vim.api.nvim_set_keymap("n", "n", "nzz", opts)
+vim.api.nvim_set_keymap("n", "N", "Nzz", opts)
+vim.api.nvim_set_keymap("n", "*", "*zz", opts)
+vim.api.nvim_set_keymap("n", "g*", "g*zz", opts)
+vim.api.nvim_set_keymap("n", "g#", "g#zz", opts)
 
 vim.api.nvim_set_keymap("t", "<C-h>", "<cmd>wincmd h<CR>", opts)
 vim.api.nvim_set_keymap("t", "<C-l>", "<cmd>wincmd l<CR>", opts)
@@ -60,7 +29,7 @@ vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h", opts)
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", opts)
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j", opts)
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", opts)
-
+vim.api.nvim_set_keymap("n", "<C-m>", "<cmd>messages<cr>", opts)
 
 vim.api.nvim_set_keymap("n", "<leader>ss", "<C-w>s", opts)
 vim.api.nvim_set_keymap("n", "<leader>sv", "<C-w>v", opts)

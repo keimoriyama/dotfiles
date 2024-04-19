@@ -1,0 +1,29 @@
+[[plugins]]
+repo = 'toppair/peek.nvim'
+build='deno task --quiet build:fast'
+on_ft="md"
+hooks_file='$BASE_DIR/rc/hooks/peek.lua'
+
+[[plugins]]
+on_ft="md"
+repo = 'mzlogin/vim-markdown-toc'
+
+[[plugins]]
+repo="Decodetalkers/csv-tools.lua"
+on_ft = "csv"
+hooks_file = "$BASE_DIR/rc/hooks/csv_tools.lua"
+
+[[plugins]]
+repo = 'thinca/vim-partedit'
+on_cmd = 'Partedit'
+on_func = 'partedit#start'
+hook_add = '''
+    let g:partedit#prefix_pattern = '\s*'
+    let g:partedit#auto_prefix = 0
+'''
+
+# [[plugins]]
+# repo = "lervag/vimtex"
+# on_ft=['tex', 'bib']
+# depends=['ddc.vim']
+# hooks_file="$BASE_DIR/rc/hooks/vimtex.vim"
