@@ -1,6 +1,6 @@
 local spec = {
 {"nvim-treesitter/nvim-treesitter",
-event = { 'BufNewFile', 'BufRead' },
+event = {'BufRead', 'BufEnter'},
     build = { ':TSInstall! vim', ':TSUpdate' },
 config = function()
 	treesitter_config()
@@ -38,4 +38,5 @@ require("nvim-treesitter.configs").setup({
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 end
+
 return spec
