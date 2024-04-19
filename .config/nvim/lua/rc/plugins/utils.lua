@@ -1,5 +1,14 @@
 ---@type LazySpec
 local spec = {
+	{
+		 "ellisonleao/gruvbox.nvim",
+		 config = function()
+vim.cmd([[
+set background=dark
+colorscheme gruvbox
+]])
+		 end
+	},
 	-- auto pair and tag close
 	{
 		"windwp/nvim-ts-autotag",
@@ -59,7 +68,6 @@ local spec = {
 			vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 		end,
 	},
-	"LeafCage/vimhelpgenerator",
 }
 
 return spec

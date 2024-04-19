@@ -2,14 +2,6 @@
 local spec = {
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			-- lsp
-			"williamboman/mason-lspconfig.nvim",
-			-- linter
-			"mfussenegger/nvim-lint",
-			-- formatter
-			"mhartington/formatter.nvim",
-		},
 		config = function()
 			---@disable: redefined-local
 			vim.keymap.set("n", "<leader>ll", "<cmd>LspInfo<cr>")
