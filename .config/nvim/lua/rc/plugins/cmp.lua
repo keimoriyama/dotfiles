@@ -13,8 +13,6 @@ local spec = {
 	{ "yutkat/cmp-mocword", event = "InsertEnter" },
 	{ "hrsh7th/cmp-cmdline", event = "ModeChanged" },
 	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
-	{ "andersevenrud/cmp-tmux", event = "InsertEnter" },
-	{ "bydlw98/cmp-env", event = "InsertEnter" },
 	{ "rinx/cmp-skkeleton", event = "InsertEnter" },
 }
 
@@ -41,14 +39,17 @@ function cmp_setup()
 		}),
 		sources = cmp.config.sources({
 			{ name = "buffer" },
-			{ name = "mocword" },
 			{ name = "nvim_lsp" },
 			{ name = "path" },
 			{ name = "nvim_lsp_signature_help" },
 			{ name = "treesitter" },
-			{ name = "tmux" },
-			{ name = "env" },
+		}),
+	})
+	cmp.setup.filetype("markdown", {
+		sources = cmp.config.sources({
 			{ name = "skkeleton" },
+			{ name = "mocword" },
+			{ name = "buffer" },
 		}),
 	})
 end
