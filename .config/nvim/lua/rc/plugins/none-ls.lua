@@ -1,7 +1,7 @@
 local spec = {
 	{
 	"nvimtools/none-ls.nvim", 
-	evnet = {'BufNewFile', 'BufRead'},
+	event= {'BufNewFile', 'BufRead'},
 	config = function() none_ls_config() end
 	}
 }
