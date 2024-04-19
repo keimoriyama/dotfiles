@@ -1,0 +1,20 @@
+---
+# aqua - Declarative CLI Version Manager
+# https://aquaproj.github.io/
+# checksum:
+#   enabled: true
+#   require_checksum: true
+#   supported_envs:
+#   - all
+registries:
+- type: standard
+  ref: v4.128.0 # renovate: depName=aquaproj/aqua-registry
+packages:
+- name: LuaLS/lua-language-server@3.7.4
+- name: denoland/deno@v1.40.3
+- name: astral-sh/ruff@v0.2.0
+- name: mitsuhiko/rye@0.20.0
+- name: JohnnyMorganz/StyLua@v0.20.0
+- name: oven-sh/bun@bun-v1.0.25
+- name: mutagen-io/mutagen@v0.17.5
+- name: junegunn/fzf@0.46.1
