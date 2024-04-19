@@ -86,7 +86,15 @@ function telescope_setup()
 	local fb_actions = require("telescope").extensions.file_browser.actions
 
 	telescope.setup({
-		defaults = { mappings = { n = { ["q"] = actions.close } } },
+		defaults = {
+			mappings = { n = { ["q"] = actions.close } },
+			-- layout_config = {
+			-- 	vertical = { width = 0.8 },
+			-- 	prompt_position = "bottom",
+			-- 	preview_cutoff = 1,
+			-- },
+			-- layout_strategy = "vertical",
+		},
 		extensions = {
 			file_browser = {
 				theme = "dropdown",
