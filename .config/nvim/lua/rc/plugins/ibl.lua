@@ -1,6 +1,7 @@
 local spec = {
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		event = { "BufNewFile", "BufRead" },
 		config = function()
 			local highlight = {
 				"RainbowRed",

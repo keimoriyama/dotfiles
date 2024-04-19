@@ -1,6 +1,7 @@
 local spec = {
 	{
 		"nvim-lualine/lualine.nvim",
+		event = { "BufNewFile", "BufRead" },
 		config = function()
 			require("lualine").setup({
 				options = {
