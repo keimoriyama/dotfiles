@@ -2,7 +2,11 @@ local spec = {
 	{
 		"vim-skk/skkeleton",
 		event = { "InsertEnter" },
-		dependencies = { "skkeleton_indicator", "skkeleton-azik-kanatable", "vim-denops/denops.vim" },
+		dependencies = {
+			"vim-denops/denops.vim",
+			"delphinus/skkeleton_indicator.nvim",
+			"NI57721/skkeleton-azik-kanatable",
+		},
 		config = function()
 			local dictdir = vim.fn.expand("$HOME") .. "/.cache/lazy/dict"
 			vim.keymap.set({ "i", "c" }, "<C-j>", "<Plug>(skkeleton-enable)", { noremap = true })

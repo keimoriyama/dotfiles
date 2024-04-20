@@ -20,7 +20,7 @@ end
 local opts = {
 	root = vim.fn.expand("$HOME") .. "/.cache/lazy",
 	defaults = {
-		lazy = false,
+		lazy = true,
 	},
 	change_detection = {
 		enabled = false,

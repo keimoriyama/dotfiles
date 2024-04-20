@@ -12,6 +12,7 @@ local spec = {
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
+		event = { "BufRead", "BufEnter" },
 		config = function()
 			vim.opt.termguicolors = true
 			require("colorizer").setup({

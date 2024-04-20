@@ -50,7 +50,7 @@ function cmp_setup()
 			{ name = "path" },
 			{ name = "nvim_lsp_signature_help" },
 			{ name = "treesitter" },
-			{ name = "skkeleton" },
+			-- { name = "skkeleton" },
 		}),
 		formatting = {
 			format = lspkind.cmp_format({ with_text = false, maxwidth = 50 }),

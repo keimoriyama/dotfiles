@@ -2,7 +2,7 @@ local spec = {
 	{
 		"toppair/peek.nvim",
 		build = "deno task --quiet build:fast",
-
+		ft = "markdown",
 		config = function()
 			require("peek").setup({
 				auto_load = true, -- whether to automatically load preview when

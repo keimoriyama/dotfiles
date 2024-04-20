@@ -14,11 +14,13 @@ local spec = {
 	},
 	{
 		"HiPhish/rainbow-delimiters.nvim",
+		event = { "BufNewFile", "BufRead" },
 		dependencies = "nvim-treesitter/nvim-treesitter",
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		dependencies = "nvim-treesitter/nvim-treesitter",
+		event = { "BufNewFile", "BufRead" },
 		config = function()
 			require("treesitter-context").setup()
 		end,
