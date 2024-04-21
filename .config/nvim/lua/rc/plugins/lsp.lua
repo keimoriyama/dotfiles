@@ -1,5 +1,5 @@
 local spec = {
-	{ "neovim/nvim-lspconfig",             cmd = { "LspInstall", "LspUninstall" } },
+	{ "neovim/nvim-lspconfig", cmd = { "LspInstall", "LspUninstall" } },
 	{
 		"williamboman/mason.nvim",
 		event = { "BufNewFile", "BufRead" },
@@ -169,7 +169,10 @@ function mason_setup()
 			-- Mappings.
 			-- See `:help vim.lsp.*` for documentation on any of the below functions
 			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
+			vim.keymap.set("n", "gd", function()
+				vim.lsp.buf.definition()
+				vim.api.nvim_feedkeys("zz", "n", false)
+			end, opt)
 			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
 			vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
 			vim.keymap.set("n", "H", vim.lsp.buf.hover, opt)

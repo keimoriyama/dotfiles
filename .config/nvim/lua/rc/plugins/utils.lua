@@ -25,7 +25,7 @@ local spec = {
 		event = { "BufRead", "BufEnter" },
 		config = function()
 			require("nvim-lastplace").setup()
-			vim.api.nvim_feedkeys("zz", "m", false)
+			vim.api.nvim_feedkeys("zz", "n", false)
 		end,
 	},
 	{
