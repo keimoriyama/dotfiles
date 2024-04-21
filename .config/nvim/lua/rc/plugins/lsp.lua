@@ -1,5 +1,5 @@
 local spec = {
-	{ "neovim/nvim-lspconfig", cmd = { "LspInstall", "LspUninstall" } },
+	{ "neovim/nvim-lspconfig",             cmd = { "LspInstall", "LspUninstall" } },
 	{
 		"williamboman/mason.nvim",
 		event = { "BufNewFile", "BufRead" },
@@ -37,6 +37,7 @@ function mason_setup()
 		"jsonls",
 		"pyright",
 		"ruff",
+		"ruff_lsp",
 	}
 
 	local status, mason_lspconfig = pcall(require, "mason-lspconfig")

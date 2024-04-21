@@ -6,15 +6,15 @@ local spec = {
 			cmp_setup()
 		end,
 	},
-	{ "hrsh7th/cmp-nvim-lsp",                event = "InsertEnter" },
-	{ "hrsh7th/cmp-buffer",                  event = "InsertEnter" },
-	{ "hrsh7th/cmp-path",                    event = "InsertEnter" },
+	{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+	{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
+	{ "hrsh7th/cmp-path", event = "InsertEnter" },
 	{ "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
-	{ "yutkat/cmp-mocword",                  event = "InsertEnter" },
-	{ "hrsh7th/cmp-cmdline",                 event = "ModeChanged" },
-	{ "ray-x/cmp-treesitter",                event = "InsertEnter" },
-	{ "rinx/cmp-skkeleton",                  event = "insertenter" },
-	{ "saadparwaiz1/cmp_luasnip",            event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
+	{ "yutkat/cmp-mocword", event = "InsertEnter" },
+	{ "hrsh7th/cmp-cmdline", event = "ModeChanged" },
+	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
+	{ "rinx/cmp-skkeleton", event = "insertenter" },
+	{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
 	{
 		"onsails/lspkind-nvim", -- vscode-like pictograms
 		config = function()
@@ -72,10 +72,10 @@ function cmp_setup()
 				select = true,
 				behavior = cmp.ConfirmBehavior.Insert,
 			}),
-			["<CR>"] = cmp.mapping.confirm({
-				select = true,
-				behavior = cmp.ConfirmBehavior.Insert,
-			}),
+			-- ["<CR>"] = cmp.mapping.confirm({
+			-- 	select = true,
+			-- 	behavior = cmp.ConfirmBehavior.Insert,
+			-- }),
 		}),
 		sources = cmp.config.sources({
 			{ name = "buffer" },

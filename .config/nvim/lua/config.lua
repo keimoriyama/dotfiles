@@ -30,8 +30,8 @@ vim.opt.cmdheight = 0
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
 vim.opt.splitright = true
+-- vim.opt_local.scrolloff = 9999
 
-vim.opt.scrolloff = 0
 if vim.fn.has("mac") == 1 then
 	vim.cmd([[set clipboard+=unnamed]])
 else

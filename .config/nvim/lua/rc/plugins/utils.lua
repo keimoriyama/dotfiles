@@ -25,6 +25,7 @@ local spec = {
 		event = { "BufRead", "BufEnter" },
 		config = function()
 			require("nvim-lastplace").setup()
+			vim.api.nvim_feedkeys("zz", "m", false)
 		end,
 	},
 	{
@@ -55,9 +56,9 @@ local spec = {
 		"kana/vim-smartword",
 		event = { "BufRead", "BufEnter" },
 		config = function()
-			vim.keymap.set("n", "w", "<Plug>(smartword-w)")
-			vim.keymap.set("n", "b", "<Plug>(smartword-b)")
-			vim.keymap.set("n", "e", "<Plug>(smartword-e)")
+			vim.keymap.set("n", "w", "<Plug>(smartword-w)zz")
+			vim.keymap.set("n", "b", "<Plug>(smartword-b)zz")
+			vim.keymap.set("n", "e", "<Plug>(smartword-e)zz")
 		end,
 	},
 	{
