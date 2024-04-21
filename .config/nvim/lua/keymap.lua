@@ -40,6 +40,8 @@ vim.api.nvim_set_keymap("n", "h", "hzz", opts)
 vim.api.nvim_set_keymap("n", "n", "nzz", opts)
 vim.api.nvim_set_keymap("n", "N", "Nzz", opts)
 vim.api.nvim_set_keymap("n", "dd", "ddzz", opts)
+vim.api.nvim_set_keymap("n", "G", "Gzz", opts)
+vim.api.nvim_set_keymap("n", "gg", "ggzz", opts)
 
 vim.api.nvim_create_autocmd("InsertLeave", {
 	callback = function()
