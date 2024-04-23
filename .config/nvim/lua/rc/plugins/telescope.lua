@@ -87,7 +87,13 @@ function telescope_setup()
 
 	telescope.setup({
 		defaults = {
-			mappings = { n = { ["q"] = actions.close } },
+			mappings = {
+				n = {
+					["q"] = actions.close,
+					["<C-j>"] = actions.move_selection_next,
+					["<C-k>"] = actions.move_selection_previous,
+				},
+			},
 			-- layout_config = {
 			-- 	vertical = { width = 0.8 },
 			-- 	prompt_position = "bottom",

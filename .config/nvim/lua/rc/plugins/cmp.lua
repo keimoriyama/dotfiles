@@ -13,7 +13,8 @@ local spec = {
 	{ "yutkat/cmp-mocword", event = "InsertEnter" },
 	{ "hrsh7th/cmp-cmdline", event = "ModeChanged" },
 	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
-	{ "rinx/cmp-skkeleton", event = "insertenter" },
+	{ "rinx/cmp-skkeleton", event = "insertenter", dependencies = { "vim-skk/skkeleton" } },
+	{ "micangl/cmp-vimtex", event = "InsertEnter", dependencies = { "lervag/vimtex" } },
 	{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
 	{
 		"onsails/lspkind-nvim", -- vscode-like pictograms
@@ -93,9 +94,18 @@ function cmp_setup()
 	cmp.setup.filetype("markdown", {
 		sources = cmp.config.sources({
 			{ name = "skkeleton" },
-			{ name = "buffer" },
 			{ name = "mocword" },
 			{ name = "buffer" },
+			{ name = "path" },
+		}),
+	})
+	cmp.setup.filetype("tex", {
+		sources = cmp.config.sources({
+			{ name = "vimtex" },
+			{ name = "skkeleton" },
+			{ name = "mocword" },
+			{ name = "buffer" },
+			{ name = "path" },
 		}),
 	})
 end
