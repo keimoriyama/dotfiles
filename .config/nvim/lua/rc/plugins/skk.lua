@@ -20,7 +20,7 @@ local spec = {
 			vim.fn["skkeleton#config"]({
 				kanaTable = "azik",
 			})
-			vim.fn["skkleton#register_keymap"]("henkan", "X", "")
+			vim.fn["skkeleton#register_keymap"]("henkan", "X", "")
 
 			vim.fn["skkeleton#config"]({
 				globalDictionaries = {

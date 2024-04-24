@@ -6,16 +6,16 @@ local spec = {
 			cmp_setup()
 		end,
 	},
-	{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-	{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
-	{ "hrsh7th/cmp-path", event = "InsertEnter" },
+	{ "hrsh7th/cmp-nvim-lsp",                event = "InsertEnter" },
+	{ "hrsh7th/cmp-buffer",                  event = "InsertEnter" },
+	{ "hrsh7th/cmp-path",                    event = "InsertEnter" },
 	{ "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
-	{ "yutkat/cmp-mocword", event = "InsertEnter" },
-	{ "hrsh7th/cmp-cmdline", event = "ModeChanged" },
-	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
-	{ "rinx/cmp-skkeleton", event = "insertenter", dependencies = { "vim-skk/skkeleton" } },
-	{ "micangl/cmp-vimtex", event = "InsertEnter", dependencies = { "lervag/vimtex" } },
-	{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
+	{ "yutkat/cmp-mocword",                  event = "InsertEnter" },
+	{ "hrsh7th/cmp-cmdline",                 event = "ModeChanged" },
+	{ "ray-x/cmp-treesitter",                event = "InsertEnter" },
+	{ "rinx/cmp-skkeleton",                  event = "insertenter", dependencies = { "vim-skk/skkeleton" } },
+	{ "micangl/cmp-vimtex",                  event = "InsertEnter", dependencies = { "lervag/vimtex" } },
+	{ "saadparwaiz1/cmp_luasnip",            event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
 	{
 		"onsails/lspkind-nvim", -- vscode-like pictograms
 		config = function()
@@ -47,6 +47,7 @@ function cmp_setup()
 		window = {
 			completion = cmp.config.window.bordered(),
 			documentation = cmp.config.window.bordered(),
+			scrollbar = true,
 		},
 		mapping = cmp.mapping.preset.insert({
 			["<C-p>"] = cmp.mapping(function(fallback)
