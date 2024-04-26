@@ -35,6 +35,8 @@ vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 
 vim.api.nvim_set_keymap("n", "j", "jzz", opts)
 vim.api.nvim_set_keymap("n", "k", "kzz", opts)
+vim.api.nvim_set_keymap("n", "gk", "gkzz", opts)
+vim.api.nvim_set_keymap("n", "gj", "gjzz", opts)
 vim.api.nvim_set_keymap("n", "l", "lzz", opts)
 vim.api.nvim_set_keymap("n", "h", "hzz", opts)
 vim.api.nvim_set_keymap("n", "n", "nzz", opts)
