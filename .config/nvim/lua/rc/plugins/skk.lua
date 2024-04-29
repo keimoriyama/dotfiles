@@ -9,7 +9,7 @@ local spec = {
 		},
 		config = function()
 			local dictdir = vim.fn.expand("$HOME") .. "/.cache/lazy/dict"
-			vim.keymap.set({ "i", "c" }, "<C-j>", "<Plug>(skkeleton-enable)", { noremap = true })
+			vim.keymap.set({ "i", "c" }, "<C-s>", "<Plug>(skkeleton-enable)", { noremap = true })
 
 			vim.keymap.set({ "i", "c" }, "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
 
