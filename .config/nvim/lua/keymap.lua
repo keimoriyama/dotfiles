@@ -6,6 +6,16 @@ local function exit_buffer()
 		vim.api.nvim_command("wq")
 	end
 end
+
+vim.keymap.set("i", "<Enter>", function()
+	print("You can <CR> with <C-J>!!!!")
+end, opts)
+vim.keymap.set("i", "<BS>", function()
+	print("You can <BS> with <C-H>!!!!")
+end, opts)
+vim.keymap.set("i", "<Tab>", function()
+	print("You can <Tab> with <C-I>!!!!")
+end, opts)
 vim.api.nvim_set_keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", opts)
 vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", opts)

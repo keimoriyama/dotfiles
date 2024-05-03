@@ -4,7 +4,6 @@ local spec = {
 		dependencies = {
 			-- Required.
 			"nvim-lua/plenary.nvim",
-			-- see below for full list of optional dependencies 👇
 			"telescope.nvim",
 			"hrsh7th/nvim-cmp",
 		},
@@ -26,7 +25,7 @@ local spec = {
 		end,
 		keys = {
 			{
-				"Leader>gf",
+				"<Leader>gf",
 				function()
 					if require("obsidian").util.cursor_on_markdown_link() then
 						return "<CMD>ObsidianFollowLink<CR>"
@@ -38,6 +37,7 @@ local spec = {
 				{ noremap = false, expr = true },
 			},
 			{ "<Leader>nn", "<CMD>ObsidianToday<CR>" },
+			{ "<leader>fn", "<cmd>ObsidianSearch<CR>" },
 		},
 	},
 }
