@@ -17,7 +17,7 @@ end
 
 -- Set up 'mini.deps' (customize to your liking)
 require("mini.deps").setup({ path = { package = path_package } })
-
+require("rc.plugins").setup()
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 -- Safely execute immediately
 now(function()
@@ -36,31 +36,8 @@ later(function() require('mini.comment').setup() end)
 later(function() require('mini.pick').setup() end)
 later(function() require('mini.surround').setup() end)
 
-later(function() require('mini.completion').setup({})end)
+later(function()	require("mini.diff").setup()end)
+later(function() require('mini.completion').setup()end)
 
--- Use external plugins with `add()`
-now(function()
-  -- Add to current session (install if absent)
-  add('nvim-tree/nvim-web-devicons')
-  require('nvim-web-devicons').setup()
-end)
-
-now(function()
-  -- Supply dependencies near target plugin
-  add({ source = 'neovim/nvim-lspconfig', depends = { 'williamboman/mason.nvim' } })
-end)
-
-later(function()
-  add({
-    source = 'nvim-treesitter/nvim-treesitter',
-    -- Use 'master' while monitoring updates in 'main'
-    checkout = 'master',
-    monitor = 'main',
-    -- Perform action after every checkout
-    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
-  })
-  require('nvim-treesitter.configs').setup({
-    ensure_installed = { 'lua', 'vimdoc' },
-    highlight = { enable = true },
-  })
-end)
+require("rc.plugins.lsp").setup()
+require("rc.plugins.none-ls").setup()

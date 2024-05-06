@@ -1,15 +1,21 @@
-local spec = {
-	{ "neovim/nvim-lspconfig", cmd = { "LspInstall", "LspUninstall" } },
-	{
-		"williamboman/mason.nvim",
-		event = { "BufNewFile", "BufRead" },
-		config = function()
+local M = {}
+local add, later  = MiniDeps.add, MiniDeps.later
+
+function M.setup()
+	later(function()
+		add({source= "neovim/nvim-lspconfig"})
+		end
+		)
+	later(
+		function()
+			add({
+				source="williamboman/mason.nvim", 
+				depends = {"williamboman/mason-lspconfig.nvim", "ray-x/lsp_signature.nvim"}
+			})
 			mason_setup()
-		end,
-	},
-	{ "williamboman/mason-lspconfig.nvim", cmd = { "LspInstall", "LspUninstall" } },
-	{ "ray-x/lsp_signature.nvim" },
-}
+		end
+		)
+end
 
 function mason_setup()
 	---@diagnostic disable: redefined-local
@@ -222,4 +228,5 @@ function mason_setup()
 	vim.diagnostic.config({ severity_sort = true })
 end
 
-return spec
+return M
+-- return spec
