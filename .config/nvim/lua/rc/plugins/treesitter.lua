@@ -1,35 +1,34 @@
-local spec = {
-	{
-		"nvim-treesitter/nvim-treesitter",
-		event = { "BufNewFile", "BufRead" },
-		build = { ":TSInstall! vim", ":TSUpdate" },
-		config = function()
-			treesitter_setup()
-		end,
-	},
-	{
-		"yioneko/nvim-yati",
-		event = { "BufNewFile", "BufRead" },
-		dependencies = "nvim-treesitter/nvim-treesitter",
-	},
-	{
-		"HiPhish/rainbow-delimiters.nvim",
-		event = { "BufNewFile", "BufRead" },
-		dependencies = "nvim-treesitter/nvim-treesitter",
-	},
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		dependencies = "nvim-treesitter/nvim-treesitter",
-		event = { "BufNewFile", "BufRead" },
-		config = function()
-			require("treesitter-context").setup()
-		end,
-	},
-	{
-		"JoosepAlviste/nvim-ts-context-commentstring",
-		event = { "BufNewFile", "BufRead" },
-	},
-}
+local M = {}
+
+local add, later = MiniDeps.add, MiniDeps.later
+
+function M.setup()
+	later(function()
+		add({
+			source = "nvim-treesitter/nvim-treesitter",
+			-- Use 'master' while monitoring updates in 'main'
+			checkout = "master",
+			monitor = "main",
+			-- Perform action after every checkout
+			hooks = {
+				post_checkout = function()
+					vim.cmd("TSUpdate")
+				end,
+			},
+		})
+		treesitter_setup()
+	end)
+	later(function()
+		add({ source = "yioneko/nvim-yati", depends = { "nvim-treesitter/nvim-treesitter" } })
+	end)
+	later(function()
+		add({ source = "HiPhish/rainbow-delimiters.nvim", depends = { "nvim-treesitter/nvim-treesitter" } })
+	end)
+	later(function()
+		add({ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } })
+		require("treesitter-context").setup()
+	end)
+end
 
 function treesitter_setup()
 	local status, ts = pcall(require, "nvim-treesitter.configs")
@@ -80,4 +79,4 @@ function treesitter_setup()
 	parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 end
 
-return spec
+return M

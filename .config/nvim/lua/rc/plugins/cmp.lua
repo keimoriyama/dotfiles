@@ -1,28 +1,32 @@
-local spec = {
-	{
-		"hrsh7th/nvim-cmp",
-		event = { "InsertEnter", "CmdlineEnter" },
-		config = function()
-			cmp_setup()
-		end,
-	},
-	{ "hrsh7th/cmp-nvim-lsp",                event = "InsertEnter" },
-	{ "hrsh7th/cmp-buffer",                  event = "InsertEnter" },
-	{ "hrsh7th/cmp-path",                    event = "InsertEnter" },
-	{ "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
-	{ "yutkat/cmp-mocword",                  event = "InsertEnter" },
-	{ "hrsh7th/cmp-cmdline",                 event = "ModeChanged" },
-	{ "ray-x/cmp-treesitter",                event = "InsertEnter" },
-	{ "rinx/cmp-skkeleton",                  event = "insertenter", dependencies = { "vim-skk/skkeleton" } },
-	{ "micangl/cmp-vimtex",                  event = "InsertEnter", dependencies = { "lervag/vimtex" } },
-	{ "saadparwaiz1/cmp_luasnip",            event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
-	{
-		"onsails/lspkind-nvim", -- vscode-like pictograms
-		config = function()
-			lspkind_setup()
-		end,
-	},
-}
+local M = {}
+
+local add, later = MiniDeps.add, MiniDeps.later
+
+function M.setup()
+	later(function()
+		add("onsails/lspkind-nvim") -- vscode-like pictograms
+		lspkind_setup()
+	end)
+	later(function()
+		add({
+			source = "hrsh7th/nvim-cmp",
+			depends = {
+				"hrsh7th/cmp-nvim-lsp",
+				"hrsh7th/cmp-buffer",
+				"hrsh7th/cmp-path",
+				"hrsh7th/cmp-nvim-lsp-signature-help",
+				"yutkat/cmp-mocword",
+				"hrsh7th/cmp-cmdline",
+				"ray-x/cmp-treesitter",
+				"rinx/cmp-skkeleton",
+				"L3MON4D3/LuaSnip",
+				"micangl/cmp-vimtex",
+				"saadparwaiz1/cmp_luasnip",
+			},
+		})
+		cmp_setup()
+	end)
+end
 
 function cmp_setup()
 	local cmp = require("cmp")
@@ -165,4 +169,4 @@ function lspkind_setup()
 	})
 end
 
-return spec
+return M

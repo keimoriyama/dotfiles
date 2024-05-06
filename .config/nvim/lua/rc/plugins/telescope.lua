@@ -1,50 +1,32 @@
-local spec = {
-	{
-		"nvim-telescope/telescope.nvim",
-		config = function()
-			telescope_setup()
-		end,
-		keys = {
-			{
-				"<leader>ff",
-				function()
+local M = {}
+
+local add, later = MiniDeps.add, MiniDeps.later
+function M.setup()
+	later(function()
+		add({
+			source = "nvim-telescope/telescope.nvim",
+			depends = { "nvim-telescope/telescope-file-browser.nvim", "nvim-telescope/telescope-ui-select.nvim" },
+		})
+		telescope_setup()
+		vim.keymap.set("n", "<leader>ff",function()
 					require("telescope.builtin").find_files({ hidden = true, initial_mode = "normal" })
-				end,
-			},
-			{
-				"<leader>sb",
-				function()
+				end)
+		vim.keymap.set("n", "<leader>sb", function()
 					require("telescope.builtin").buffers()
-				end,
-			},
-			{
-				"<leader>h",
-				function()
+		end)
+		vim.keymap.set("n", "<leader>h", function()
 					require("telescope.builtin").help_tags()
-				end,
-			},
-			{
-				"<leader>q",
-				function()
+		end)
+		vim.keymap.set("n", "<leader>q", function()
 					require("telescope.builtin").quickfix()
-				end,
-			},
-			-- set('n', ';;', function() builtin.resume() end)
-			{
-				"<leader>e",
-				function()
+		end)
+		vim.keymap.set("n", "<leader>e", function()
 					require("telescope.builtin").diagnostics()
-				end,
-			},
-			{
-				"<leader>fr",
-				function()
+		end)
+		vim.keymap.set('n', "<leader>fr",function()
 					require("telescope.builtin").live_grep()
-				end,
-			},
-			{
-				"<leader>sf",
-				function()
+				end)
+		vim.keymap.set('n', "<leader>sf", function()
 					require("telescope").extensions.file_browser.file_browser({
 						path = "%:p:h",
 						cwd = vim.fn.expand("%:p:h"),
@@ -55,21 +37,15 @@ local spec = {
 						initial_mode = "normal",
 						layout_config = { height = 40 },
 					})
-				end,
-			},
-			{
-				"<leader>k",
+				end)
+		vim.keymap.set('n',	"<leader>k",
 				function()
 					require("telescope.builtin").keymaps()
-				end,
-			},
-		},
-		dependencies = {
-			{ "nvim-telescope/telescope-file-browser.nvim" },
-			{ "nvim-telescope/telescope-ui-select.nvim" },
-		},
-	},
-}
+				end)
+
+	end)
+end
+
 
 function telescope_setup()
 	local status, telescope = pcall(require, "telescope")
@@ -133,4 +109,4 @@ function telescope_setup()
 	telescope.load_extension("ui-select")
 end
 
-return spec
+return M

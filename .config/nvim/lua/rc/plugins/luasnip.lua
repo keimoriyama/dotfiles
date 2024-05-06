@@ -1,11 +1,12 @@
-local spec = {
-	{
-		"L3MON4D3/LuaSnip",
-		config = function()
-			luasnip_config()
-		end,
-	},
-}
+local M = {}
+
+local add, later = MiniDeps.add, MiniDeps.later
+function M.setup()
+	later(function()
+		add({ source = "L3MON4D3/LuaSnip" })
+		luasnip_config()
+	end)
+end
 
 function luasnip_config()
 	local status, ls = pcall(require, "luasnip")
@@ -70,4 +71,4 @@ function luasnip_config()
 	set({ "i", "s" }, "<C-k>", "<Plug>luasnip-prev-choice")
 end
 
-return spec
+return M

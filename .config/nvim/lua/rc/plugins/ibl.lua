@@ -1,8 +1,10 @@
-local spec = {
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = { "BufNewFile", "BufRead" },
-		config = function()
+local M = {}
+local add, later  = MiniDeps.add, MiniDeps.later
+
+function M.setup()
+	later(function()
+		add({source="lukas-reineke/indent-blankline.nvim"})
+
 			local highlight = {
 				"RainbowRed",
 				"RainbowYellow",
@@ -30,8 +32,8 @@ local spec = {
 					highlight = highlight,
 				},
 			})
-		end,
-	},
-}
+		end
+	)
+end
 
-return spec
+return M
