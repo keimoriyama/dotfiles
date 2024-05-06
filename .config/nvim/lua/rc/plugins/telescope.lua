@@ -67,7 +67,6 @@ local spec = {
 		dependencies = {
 			{ "nvim-telescope/telescope-file-browser.nvim" },
 			{ "nvim-telescope/telescope-ui-select.nvim" },
-			{ "nvim-telescope/telescope-dap.nvim" },
 		},
 	},
 }
@@ -94,12 +93,12 @@ function telescope_setup()
 					["<C-k>"] = actions.move_selection_previous,
 				},
 			},
-			-- layout_config = {
-			-- 	vertical = { width = 0.8 },
-			-- 	prompt_position = "bottom",
-			-- 	preview_cutoff = 1,
-			-- },
-			-- layout_strategy = "vertical",
+			layout_config = {
+				vertical = { width = 0.8 },
+				prompt_position = "bottom",
+				preview_cutoff = 1,
+			},
+			layout_strategy = "vertical",
 		},
 		extensions = {
 			file_browser = {
