@@ -1,20 +1,17 @@
 local M = {}
-local add, later  = MiniDeps.add, MiniDeps.later
+local add, later = MiniDeps.add, MiniDeps.later
 
 function M.setup()
 	later(function()
-		add({source= "neovim/nvim-lspconfig"})
-		end
-		)
-	later(
-		function()
-			add({
-				source="williamboman/mason.nvim", 
-				depends = {"williamboman/mason-lspconfig.nvim", "ray-x/lsp_signature.nvim"}
-			})
-			mason_setup()
-		end
-		)
+		add({ source = "neovim/nvim-lspconfig" })
+	end)
+	later(function()
+		add({
+			source = "williamboman/mason.nvim",
+			depends = { "williamboman/mason-lspconfig.nvim", "ray-x/lsp_signature.nvim", "hrsh7th/cmp-nvim-lsp" },
+		})
+		mason_setup()
+	end)
 end
 
 function mason_setup()

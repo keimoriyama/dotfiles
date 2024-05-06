@@ -18,6 +18,7 @@ end
 -- Set up 'mini.deps' (customize to your liking)
 require("mini.deps").setup({ path = { package = path_package } })
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+
 -- Safely execute immediately
 now(function()
 	vim.o.termguicolors = true
@@ -51,5 +52,4 @@ later(function()
 	require("mini.diff").setup()
 end)
 -- later(function() require('mini.completion').setup()end)
-
 require("rc.plugins").setup()
