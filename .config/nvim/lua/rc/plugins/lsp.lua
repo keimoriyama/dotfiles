@@ -79,7 +79,6 @@ function mason_setup()
 
 	-- settings for specific LSP
 	---@disable: redefined-local
-	vim.keymap.set("n", "<leader>ll", "<cmd>LspInfo<cr>")
 	local opts = { noremap = true, silent = true }
 
 	-- https://github.com/neovim/neovim/issues/23291#issuecomment-1523243069

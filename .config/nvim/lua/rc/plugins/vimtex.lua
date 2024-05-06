@@ -1,7 +1,8 @@
 local M = {}
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+local add, later, now = MiniDeps.add, MiniDeps.later, MiniDeps.now
 function M.setup()
-	vim.cmd([[
+	now(function()
+		vim.cmd([[
 		let g:vimtex_view_method = "skim"
 		let g:vimtex_view_general_viewer = "skim"
 		let g:vimtex_view_skim_activate = 1
@@ -23,7 +24,7 @@ function M.setup()
 			  \],
 			  \}
 	  ]])
-	later(function()
+		vim.keymap.set("n", "<leader>ll", "<plug>(vimtex-compile)<cr>")
 		add({ source = "lervag/vimtex" })
 	end)
 end
