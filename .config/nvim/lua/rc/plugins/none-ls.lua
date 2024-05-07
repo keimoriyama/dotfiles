@@ -7,13 +7,6 @@ function M.setup()
 		none_ls_config()
 	end)
 end
--- local spec = {
--- 	{
--- 	"nvimtools/none-ls.nvim",
--- 	event= {'BufNewFile', 'BufRead'},
--- 	config = function() none_ls_config() end
--- 	}
--- }
 
 function none_ls_config()
 	-- lua_source {{{

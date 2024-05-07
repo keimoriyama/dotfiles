@@ -8,44 +8,41 @@ function M.setup()
 			depends = { "nvim-telescope/telescope-file-browser.nvim", "nvim-telescope/telescope-ui-select.nvim" },
 		})
 		telescope_setup()
-		vim.keymap.set("n", "<leader>ff",function()
-					require("telescope.builtin").find_files({ hidden = true, initial_mode = "normal" })
-				end)
+		vim.keymap.set("n", "<leader>ff", function()
+			require("telescope.builtin").find_files({ hidden = true, initial_mode = "normal" })
+		end)
 		vim.keymap.set("n", "<leader>sb", function()
-					require("telescope.builtin").buffers()
+			require("telescope.builtin").buffers()
 		end)
 		vim.keymap.set("n", "<leader>h", function()
-					require("telescope.builtin").help_tags()
+			require("telescope.builtin").help_tags()
 		end)
 		vim.keymap.set("n", "<leader>q", function()
-					require("telescope.builtin").quickfix()
+			require("telescope.builtin").quickfix()
 		end)
 		vim.keymap.set("n", "<leader>e", function()
-					require("telescope.builtin").diagnostics()
+			require("telescope.builtin").diagnostics()
 		end)
-		vim.keymap.set('n', "<leader>fr",function()
-					require("telescope.builtin").live_grep()
-				end)
-		vim.keymap.set('n', "<leader>sf", function()
-					require("telescope").extensions.file_browser.file_browser({
-						path = "%:p:h",
-						cwd = vim.fn.expand("%:p:h"),
-						respect_gitignore = false,
-						hidden = true,
-						grouped = true,
-						previewer = false,
-						initial_mode = "normal",
-						layout_config = { height = 40 },
-					})
-				end)
-		vim.keymap.set('n',	"<leader>k",
-				function()
-					require("telescope.builtin").keymaps()
-				end)
-
+		vim.keymap.set("n", "<leader>fr", function()
+			require("telescope.builtin").live_grep()
+		end)
+		vim.keymap.set("n", "<leader>sf", function()
+			require("telescope").extensions.file_browser.file_browser({
+				path = "%:p:h",
+				cwd = vim.fn.expand("%:p:h"),
+				respect_gitignore = false,
+				hidden = true,
+				grouped = true,
+				previewer = false,
+				initial_mode = "normal",
+				layout_config = { height = 40 },
+			})
+		end)
+		vim.keymap.set("n", "<leader>k", function()
+			require("telescope.builtin").keymaps()
+		end)
 	end)
 end
-
 
 function telescope_setup()
 	local status, telescope = pcall(require, "telescope")

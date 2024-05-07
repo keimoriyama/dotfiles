@@ -17,41 +17,25 @@ end
 
 -- Set up 'mini.deps' (customize to your liking)
 require("mini.deps").setup({ path = { package = path_package } })
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+local now, later = MiniDeps.now, MiniDeps.later
 
 -- Safely execute immediately
 now(function()
 	vim.o.termguicolors = true
 	vim.cmd("colorscheme randomhue")
-end)
-now(function()
 	require("mini.notify").setup()
 	vim.notify = require("mini.notify").make_notify()
-end)
-now(function()
 	require("mini.tabline").setup()
-end)
-now(function()
 	require("mini.statusline").setup()
-end)
-now(function()
 	require("mini.surround").setup()
+	require("mini.indentscope").setup()
 end)
 
 later(function()
 	require("mini.ai").setup()
-end)
-later(function()
 	require("mini.comment").setup()
-end)
-later(function()
 	require("mini.pick").setup()
-end)
-
-later(function()
 	require("mini.diff").setup()
-end)
-later(function()
 	require("mini.jump").setup()
 end)
 -- later(function() require('mini.completion').setup()end)

@@ -6,8 +6,6 @@ function M.setup()
 	later(function()
 		add("onsails/lspkind-nvim") -- vscode-like pictograms
 		lspkind_setup()
-	end)
-	later(function()
 		add({
 			source = "hrsh7th/nvim-cmp",
 			depends = {
