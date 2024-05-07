@@ -33,6 +33,9 @@ end)
 
 later(function()
 	require("mini.ai").setup()
+	require("mini.files").setup({
+		windows = { preview = true },
+	})
 	require("mini.comment").setup()
 	require("mini.pick").setup()
 	require("mini.diff").setup()
