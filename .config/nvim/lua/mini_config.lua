@@ -28,7 +28,12 @@ now(function()
 	require("mini.tabline").setup()
 	require("mini.statusline").setup()
 	require("mini.surround").setup()
-	require("mini.indentscope").setup()
+	require("mini.indentscope").setup({
+		draw = {
+			delay = 0,
+		},
+	})
+	require("mini.pairs").setup()
 end)
 
 later(function()
@@ -36,8 +41,8 @@ later(function()
 	require("mini.files").setup({
 		windows = { preview = true },
 	})
+	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
 	require("mini.comment").setup()
-	require("mini.pick").setup()
 	require("mini.diff").setup()
 	require("mini.jump").setup()
 end)

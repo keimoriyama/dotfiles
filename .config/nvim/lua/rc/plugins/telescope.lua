@@ -5,7 +5,7 @@ function M.setup()
 	later(function()
 		add({
 			source = "nvim-telescope/telescope.nvim",
-			depends = { "nvim-telescope/telescope-file-browser.nvim", "nvim-telescope/telescope-ui-select.nvim" },
+			depends = { "nvim-telescope/telescope-ui-select.nvim" },
 		})
 		telescope_setup()
 		vim.keymap.set("n", "<leader>ff", function()
@@ -26,18 +26,6 @@ function M.setup()
 		vim.keymap.set("n", "<leader>fr", function()
 			require("telescope.builtin").live_grep()
 		end)
-		vim.keymap.set("n", "<leader>sf", function()
-			require("telescope").extensions.file_browser.file_browser({
-				path = "%:p:h",
-				cwd = vim.fn.expand("%:p:h"),
-				respect_gitignore = false,
-				hidden = true,
-				grouped = true,
-				previewer = false,
-				initial_mode = "normal",
-				layout_config = { height = 40 },
-			})
-		end)
 		vim.keymap.set("n", "<leader>k", function()
 			require("telescope.builtin").keymaps()
 		end)
@@ -49,13 +37,7 @@ function telescope_setup()
 	if not status then
 		return
 	end
-
 	local actions = require("telescope.actions")
-	-- local builtin = require("telescope.builtin")
-	--
-	-- local function telescope_buffer_dir() return vim.fn.expand('%:p:h') end
-
-	local fb_actions = require("telescope").extensions.file_browser.actions
 
 	telescope.setup({
 		defaults = {
@@ -73,36 +55,8 @@ function telescope_setup()
 			},
 			layout_strategy = "vertical",
 		},
-		extensions = {
-			file_browser = {
-				theme = "dropdown",
-				-- disables netrw and use telescope-file-browser in its place
-				hijack_netrw = true,
-				initial_mode = "normal",
-				mappings = {
-					-- your custom insert mode mappings
-					["i"] = {
-						["<C-w>"] = function()
-							vim.cmd("normal vbd")
-						end,
-					},
-					["n"] = {
-						-- your custom normal mode mappings
-						["N"] = fb_actions.create,
-						["h"] = fb_actions.goto_parent_dir,
-						["/"] = function()
-							vim.cmd("startinsert")
-						end,
-					},
-				},
-			},
-			["ui-select"] = {
-				require("telescope.themes").get_dropdown({}),
-			},
-		},
 	})
 
-	telescope.load_extension("file_browser")
 	telescope.load_extension("ui-select")
 end
 
