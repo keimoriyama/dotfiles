@@ -11,8 +11,7 @@ function M.setup()
 			},
 		})
 		local dictdir = vim.fn.expand("$HOME") .. "/.cache/lazy/dict"
-		vim.keymap.set({ "i", "c" }, "<C-s>", "<Plug>(skkeleton-enable)", { noremap = true })
-
+		vim.keymap.set({ "i", "c" }, "<C-j>", "<Plug>(skkeleton-enable)", { noremap = true })
 		vim.keymap.set({ "i", "c" }, "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
 
 		local userDict = vim.fn.expand("$HOME") .. "/.local/skkeleton/SKK-JISYO.L"
