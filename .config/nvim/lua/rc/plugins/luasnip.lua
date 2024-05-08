@@ -64,11 +64,6 @@ function luasnip_config()
 			t("import ipdb;ipdb.set_trace()"),
 		}),
 	})
-
-	-- set keybinds for both INSERT and VISUAL.
-	local set = vim.keymap.set
-	set({ "i", "s" }, "<C-m>", "<Plug>luasnip-next-choice")
-	set({ "i", "s" }, "<C-k>", "<Plug>luasnip-prev-choice")
 end
 
 return M
