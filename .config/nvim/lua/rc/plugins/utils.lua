@@ -34,6 +34,11 @@ function M.setup()
 		add("chrisbra/Recover.vim")
 		add({ source = "folke/noice.nvim", depends = { "MunifTanjim/nui.nvim" } })
 		noice_setup()
+
+		add({ source = "tani/dmacro.nvim" })
+		require("dmacro").setup({
+			dmacro_key = "<C-g>",
+		})
 	end)
 end
 
