@@ -8,6 +8,7 @@ function M.setup()
 				"vim-denops/denops.vim",
 				"delphinus/skkeleton_indicator.nvim",
 				"keimoriyama/skkeleton-azik-kanatable",
+				"skk-dev/dict",
 			},
 		})
 		skk_setup()
@@ -15,7 +16,8 @@ function M.setup()
 end
 
 function skk_setup()
-	local dictdir = vim.fn.expand("$HOME") .. "/.cache/lazy/dict"
+	local path_package = vim.fn.stdpath("data") .. "/site/"
+	local dictdir = path_package .. "pack/deps/opt/dict"
 	vim.keymap.set({ "i", "c" }, "<C-s>", "<Plug>(skkeleton-enable)", { noremap = true })
 	vim.keymap.set({ "i", "c" }, "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
 
