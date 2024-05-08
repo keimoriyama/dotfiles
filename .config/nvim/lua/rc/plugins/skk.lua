@@ -7,7 +7,7 @@ function M.setup()
 			depends = {
 				"vim-denops/denops.vim",
 				"delphinus/skkeleton_indicator.nvim",
-				"NI57721/skkeleton-azik-kanatable",
+				"keimoriyama/skkeleton-azik-kanatable",
 			},
 		})
 		skk_setup()
