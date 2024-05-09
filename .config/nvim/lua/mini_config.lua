@@ -26,8 +26,20 @@ now(function()
 	require("mini.notify").setup()
 	vim.notify = require("mini.notify").make_notify()
 	require("mini.tabline").setup()
-	require("mini.statusline").setup()
-	require("mini.surround").setup()
+	require("mini.statusline").setup({
+		set_vim_settings = false,
+	})
+	require("mini.surround").setup({
+		mappings = {
+			add = "ya", -- Add surrounding in Normal and Visual modes
+			delete = "yd", -- Delete surrounding
+			find = "yf", -- Find surrounding (to the right)
+			find_left = "yF", -- Find surrounding (to the left)
+			highlight = "yh", -- Highlight surrounding
+			replace = "yr", -- Replace surrounding
+			update_n_lines = "yn", -- Update `n_lines`
+		},
+	})
 	require("mini.indentscope").setup({
 		draw = {
 			delay = 0,
