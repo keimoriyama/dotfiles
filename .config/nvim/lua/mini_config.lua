@@ -46,6 +46,7 @@ now(function()
 		},
 	})
 	require("mini.pairs").setup()
+	require("mini.cursorword").setup()
 end)
 
 later(function()
