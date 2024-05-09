@@ -24,7 +24,6 @@ function M.setup()
 			  \],
 			  \}
 	  ]])
-		vim.keymap.set("n", "<leader>ll", "<plug>(vimtex-compile)<cr>")
 		add({ source = "lervag/vimtex" })
 	end)
 end
