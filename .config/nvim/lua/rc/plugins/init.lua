@@ -11,6 +11,7 @@ function M.setup()
 	require("rc.plugins.obsidian").setup()
 	require("rc.plugins.skk").setup()
 	require("rc.plugins.vimtex").setup()
+	require("rc.plugins.peek").setup()
 end
 
 return M

@@ -32,8 +32,8 @@ function M.setup()
 		vim.keymap.set("n", "e", "<Plug>(smartword-e)zz")
 
 		add("chrisbra/Recover.vim")
-		add({ source = "folke/noice.nvim", depends = { "MunifTanjim/nui.nvim" } })
-		noice_setup()
+		-- add({ source = "folke/noice.nvim", depends = { "MunifTanjim/nui.nvim" } })
+		-- noice_setup()
 
 		add({ source = "tani/dmacro.nvim" })
 		require("dmacro").setup({
