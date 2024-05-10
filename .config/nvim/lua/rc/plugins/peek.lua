@@ -8,12 +8,26 @@ function M.setup()
 			source = "toppair/peek.nvim",
 			hooks = {
 				post_install = function()
-					vim.cmd("!deno task --quiet build:fast")
+					vim.fn.system("deno", "task", "--quiet", "build:fast")
 				end,
 				post_update = function()
-					vim.cmd("!deno task --quiet build:fast")
+					vim.fn.system("deno", "task", "--quiet", "build:fast")
 				end,
 			},
+		})
+		vim.opt.conceallevel = 0
+		local status, obsidian = pcall(require, "obsidian")
+		if not status then
+			return
+		end
+
+		obsidian.setup({
+			dir = "~/Documents/Notes/",
+			completion = {
+				nvim_cmp = true,
+			},
+			daily_notes = { folder = "daily" },
+			ui = { enable = false },
 		})
 		vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
 		vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
