@@ -28,6 +28,7 @@ function M.setup()
 			},
 			daily_notes = { folder = "daily" },
 			ui = { enable = false },
+			app = "chromium",
 		})
 		vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
 		vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
