@@ -12,6 +12,7 @@ function M.setup()
 	require("rc.plugins.skk").setup()
 	require("rc.plugins.vimtex").setup()
 	require("rc.plugins.peek").setup()
+	require("rc.plugins.git").setup()
 end
 
 return M
