@@ -3,33 +3,26 @@ local M = {}
 local add, later = MiniDeps.add, MiniDeps.later
 
 function M.setup()
+	local build = function(args)
+		vim.system({ "deno", "task", "--cwd", args.path, "--quiet", "build:fast" })
+	end
 	later(function()
 		add({
 			source = "toppair/peek.nvim",
 			hooks = {
-				post_install = function()
-					vim.fn.system("deno", "task", "--quiet", "build:fast")
+				post_install = function(args)
+					-- print(args.path)
+					later(function()
+						build(args)
+					end)
 				end,
-				post_update = function()
-					vim.fn.system("deno", "task", "--quiet", "build:fast")
+				post_update = function(args)
+					build(args)
 				end,
 			},
 		})
 		vim.opt.conceallevel = 0
-		local status, obsidian = pcall(require, "obsidian")
-		if not status then
-			return
-		end
 
-		obsidian.setup({
-			dir = "~/Documents/Notes/",
-			completion = {
-				nvim_cmp = true,
-			},
-			daily_notes = { folder = "daily" },
-			ui = { enable = false },
-			app = "chromium",
-		})
 		vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
 		vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
 		vim.api.nvim_create_user_command("Peek", function()
