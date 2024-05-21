@@ -39,6 +39,8 @@ function M.setup()
 		require("dmacro").setup({
 			dmacro_key = "<C-g>",
 		})
+
+		add({ source = "MeanderingProgrammer/markdown.nvim" })
 	end)
 end
 

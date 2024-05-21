@@ -24,6 +24,13 @@ now(function()
 	vim.o.termguicolors = true
 	vim.cmd("colorscheme randomhue")
 	require("mini.notify").setup()
+	vim.api.nvim_create_user_command("NotifyLog", function()
+		-- local logs = vim.inspect(MiniNotify.get_all())
+		local logs = MiniNotify.get_all()
+		for i, log in ipairs(logs) do
+			print(log.msg)
+		end
+	end, {})
 	vim.notify = require("mini.notify").make_notify()
 	require("mini.tabline").setup()
 	require("mini.statusline").setup({

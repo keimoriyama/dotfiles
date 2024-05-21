@@ -7,6 +7,10 @@ function M.setup()
 			source = "nvim-telescope/telescope.nvim",
 			depends = { "nvim-telescope/telescope-ui-select.nvim" },
 		})
+		add({
+			source = "nvim-telescope/telescope-file-browser.nvim",
+			depends = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+		})
 		telescope_setup()
 		vim.keymap.set("n", "<leader>ff", function()
 			require("telescope.builtin").find_files({ hidden = true })
@@ -29,6 +33,9 @@ function M.setup()
 		vim.keymap.set("n", "<leader>k", function()
 			require("telescope.builtin").keymaps()
 		end)
+		vim.keymap.set("n", "<leader>sf", function()
+			require("telescope").extensions.file_browser.file_browser()
+		end)
 	end)
 end
 
@@ -38,7 +45,7 @@ function telescope_setup()
 		return
 	end
 	local actions = require("telescope.actions")
-
+	local fb_actions = require("telescope").extensions.file_browser.actions
 	telescope.setup({
 		defaults = {
 			mappings = {
@@ -55,9 +62,34 @@ function telescope_setup()
 			},
 			layout_strategy = "vertical",
 		},
+		extensions = {
+			file_browser = {
+				theme = "dropdown",
+				-- disables netrw and use telescope-file-browser in its place
+				initial_mode = "normal",
+				hijack_netrw = true,
+				mappings = {
+					["i"] = {
+						-- your custom insert mode mappings
+					},
+					["n"] = {
+						-- your custom normal mode mappings
+						["N"] = fb_actions.create,
+						["h"] = fb_actions.goto_parent_dir,
+						["/"] = function()
+							vim.cmd("startinsert")
+						end,
+					},
+				},
+			},
+			-- ["ui-select"] = {
+			-- 	require("telescope.themes").get_dropdown({}),
+			-- },
+		},
 	})
 
 	telescope.load_extension("ui-select")
+	telescope.load_extension("file_browser")
 end
 
 return M

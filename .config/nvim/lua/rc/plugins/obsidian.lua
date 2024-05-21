@@ -13,6 +13,9 @@ function M.setup()
 				"hrsh7th/nvim-cmp",
 			},
 		})
+
+		-- local base_dir = vim.fn.expand("$HOME/Program/vim_plugins/")
+		-- vim.opt.rtp:append(base_dir .. "obsidian.nvim")
 		vim.opt.conceallevel = 0
 		local status, obsidian = pcall(require, "obsidian")
 		if not status then
