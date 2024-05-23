@@ -5,7 +5,7 @@ local add, later = MiniDeps.add, MiniDeps.later
 function M.setup()
 	later(function()
 		add({
-			source = "epwalsh/obsidian.nvim",
+			source = "keimoriyama/obsidian.nvim",
 			depends = {
 				-- Required.
 				"nvim-lua/plenary.nvim",

@@ -58,10 +58,10 @@ end)
 
 later(function()
 	require("mini.ai").setup()
-	-- require("mini.files").setup({
-	-- 	windows = { preview = true },
-	-- })
-	-- vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
+	require("mini.files").setup({
+		windows = { preview = true },
+	})
+	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
 	require("mini.comment").setup()
 	require("mini.diff").setup()
 	require("mini.jump").setup()

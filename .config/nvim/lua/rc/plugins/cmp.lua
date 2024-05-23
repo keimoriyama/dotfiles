@@ -1,10 +1,14 @@
 local M = {}
 
-local add, later = MiniDeps.add, MiniDeps.later
+local add, later, now = MiniDeps.add, MiniDeps.later, MiniDeps.now
 
 function M.setup()
 	later(function()
 		add("onsails/lspkind-nvim") -- vscode-like pictograms
+		-- add({
+		-- 	source = "micangl/cmp-vimtex",
+		-- 	depends = { "lervag/vimtex" },
+		-- })
 		lspkind_setup()
 		add({
 			source = "hrsh7th/nvim-cmp",
@@ -14,11 +18,12 @@ function M.setup()
 				"hrsh7th/cmp-path",
 				"uga-rosa/cmp-skkeleton",
 				"hrsh7th/cmp-nvim-lsp-signature-help",
+				"hrsh7th/cmp-omni",
 				"yutkat/cmp-mocword",
 				"hrsh7th/cmp-cmdline",
 				"ray-x/cmp-treesitter",
+				-- "micangl/cmp-vimtex",
 				"L3MON4D3/LuaSnip",
-				"micangl/cmp-vimtex",
 				"saadparwaiz1/cmp_luasnip",
 			},
 		})
@@ -94,6 +99,22 @@ function cmp_setup()
 			format = lspkind.cmp_format({ with_text = false, maxwidth = 50 }),
 		},
 	})
+
+	cmp.setup.cmdline("/", {
+		mapping = cmp.mapping.preset.cmdline(),
+		sources = {
+			{ name = "buffer" },
+		},
+	})
+
+	cmp.setup.cmdline(":", {
+		mapping = cmp.mapping.preset.cmdline(),
+		sources = {
+			{ name = "path" },
+			{ name = "cmdline" },
+		},
+	})
+
 	cmp.setup.filetype("markdown", {
 		sources = cmp.config.sources({
 			{ name = "skkeleton" },
@@ -104,7 +125,8 @@ function cmp_setup()
 	})
 	cmp.setup.filetype("tex", {
 		sources = cmp.config.sources({
-			{ name = "vimtex" },
+			-- { name = "vimtex" },
+			{ name = "omni", keyword_length = 0 },
 			{ name = "skkeleton" },
 			{ name = "mocword" },
 			{ name = "buffer" },
