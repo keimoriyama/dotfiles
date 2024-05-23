@@ -22,7 +22,7 @@ lib*
 !.config/nvim/
 !.config/nvim/after/plugin/*.lua
 !.config/wezterm
-!.config/fish/config.fish
+!.config/fish/*.fish
 
 .zshenv
 .config/github-copilot/hosts.json
