@@ -20,7 +20,7 @@ function M.setup()
 				"hrsh7th/cmp-nvim-lsp-signature-help",
 				"hrsh7th/cmp-omni",
 				"yutkat/cmp-mocword",
-				"hrsh7th/cmp-cmdline",
+				-- "hrsh7th/cmp-cmdline",
 				"ray-x/cmp-treesitter",
 				-- "micangl/cmp-vimtex",
 				"L3MON4D3/LuaSnip",
@@ -100,20 +100,20 @@ function cmp_setup()
 		},
 	})
 
-	cmp.setup.cmdline("/", {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = "buffer" },
-		},
-	})
-
-	cmp.setup.cmdline(":", {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = "path" },
-			{ name = "cmdline" },
-		},
-	})
+	-- cmp.setup.cmdline("/", {
+	-- 	mapping = cmp.mapping.preset.cmdline(),
+	-- 	sources = {
+	-- 		{ name = "buffer" },
+	-- 	},
+	-- })
+	--
+	-- cmp.setup.cmdline(":", {
+	-- 	mapping = cmp.mapping.preset.cmdline(),
+	-- 	sources = {
+	-- 		{ name = "path" },
+	-- 		{ name = "cmdline" },
+	-- 	},
+	-- })
 
 	cmp.setup.filetype("markdown", {
 		sources = cmp.config.sources({
