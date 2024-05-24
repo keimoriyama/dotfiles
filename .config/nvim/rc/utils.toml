@@ -32,10 +32,17 @@ lua_source='''
 require("nvim-lastplace").setup()
 '''
 
+# [[plugins]]
+# repo='uga-rosa/ugaterm.nvim'
+# lua_add='''
+# vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", { noremap = true, silent = true })
+# '''
 [[plugins]]
-repo='uga-rosa/ugaterm.nvim'
-lua_add='''
-vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", { noremap = true, silent = true })
+repo = 'akinsho/toggleterm.nvim'
+on_event = ['BufNewFile', 'BufRead']
+lua_source= '''
+require("toggleterm").setup()
+vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>ToggleTerm<cr>", { noremap = true, silent = true })
 '''
 
 [[plugins]]
@@ -135,15 +142,15 @@ hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 # })
 # '''
 
-[[plugins]]
-repo = "folke/noice.nvim"
-on_event = ['BufNewFile', 'BufRead']
-depends="nui.nvim"
-hooks_file="$BASE_DIR/rc/hooks/noice.lua"
+# [[plugins]]
+# repo = "folke/noice.nvim"
+# on_event = ['BufNewFile', 'BufRead']
+# depends="nui.nvim"
+# hooks_file="$BASE_DIR/rc/hooks/noice.lua"
 
-[[plugins]]
-repo = "MunifTanjim/nui.nvim"
-on_source = [ 'noice.nvim' ]
+# [[plugins]]
+# repo = "MunifTanjim/nui.nvim"
+# on_source = [ 'noice.nvim' ]
 
 [[plugins]]
 repo = "hrsh7th/nvim-insx.git"
