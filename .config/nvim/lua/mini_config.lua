@@ -61,7 +61,7 @@ later(function()
 	require("mini.files").setup({
 		windows = { preview = true },
 	})
-	vim.keymap.set("n", "<leader>sk", "<cmd>lua MiniFiles.open()<cr>")
+	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
 	require("mini.git").setup()
 	local rhs = "<Cmd>lua MiniGit.show_at_cursor()<CR>"
 	vim.keymap.set({ "n", "x" }, "<Leader>gs", rhs, { desc = "Show at cursor" })

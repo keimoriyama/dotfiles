@@ -126,9 +126,9 @@ function cmp_setup()
 	cmp.setup.filetype("tex", {
 		sources = cmp.config.sources({
 			-- { name = "vimtex" },
-			{ name = "omni", keyword_length = 0 },
+			{ name = "omni", keyword_length = 1 },
 			{ name = "skkeleton" },
-			{ name = "mocword" },
+			{ name = "mocword", keyword_length = 1 },
 			{ name = "buffer" },
 			{ name = "path" },
 		}),
