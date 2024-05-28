@@ -58,6 +58,7 @@ end)
 
 later(function()
 	require("mini.ai").setup()
+	require("mini.comment").setup()
 	require("mini.files").setup({
 		windows = { preview = true },
 	})
@@ -68,12 +69,11 @@ later(function()
 	vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
 	vim.keymap.set({ "n", "x" }, "<Leader>ga", "<CMD>Git add .<CR>", { desc = "Show at cursor" })
 
-	require("mini.comment").setup()
 	require("mini.diff").setup()
 	require("mini.jump").setup()
 	require("mini.trailspace").setup()
 	-- require("mini.bufremove").setup()
 	-- require("mini.map").setup()
 end)
--- later(function() require('mini.completion').setup()end)
+
 require("rc.plugins").setup()
