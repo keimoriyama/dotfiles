@@ -34,3 +34,21 @@ vim.api.nvim_set_keymap("n", "<C-m>", "<cmd>messages<cr>", opts)
 vim.api.nvim_set_keymap("n", "<leader>ss", "<C-w>s", opts)
 vim.api.nvim_set_keymap("n", "<leader>sv", "<C-w>v", opts)
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", opts)
+
+vim.api.nvim_set_keymap("n", "j", "gjzz", opts)
+vim.api.nvim_set_keymap("n", "k", "gkzz", opts)
+vim.api.nvim_set_keymap("n", "gk", "gkzz", opts)
+vim.api.nvim_set_keymap("n", "gj", "gjzz", opts)
+vim.api.nvim_set_keymap("n", "l", "lzz", opts)
+vim.api.nvim_set_keymap("n", "h", "hzz", opts)
+vim.api.nvim_set_keymap("n", "n", "nzz", opts)
+vim.api.nvim_set_keymap("n", "N", "Nzz", opts)
+vim.api.nvim_set_keymap("n", "dd", "ddzz", opts)
+vim.api.nvim_set_keymap("n", "G", "Gzz", opts)
+vim.api.nvim_set_keymap("n", "gg", "ggzz", opts)
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+	callback = function()
+		vim.api.nvim_feedkeys("zz", "n", false)
+	end,
+})

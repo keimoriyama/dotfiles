@@ -7,7 +7,7 @@ vim.opt.relativenumber = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 -- 最下ウィンドウにいつステータス行を表示するか
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 -- コマンドライン補完の有効化
 vim.opt.wildmenu = true
 -- 直前の行から新しいインデントを指定する

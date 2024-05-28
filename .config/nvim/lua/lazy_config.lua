@@ -1,3 +1,5 @@
+vim.fn.setenv("BASE_DIR", vim.fn.expand("<sfile>:h"))
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -10,20 +12,19 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
-
 local status, lazy = pcall(require, "lazy")
 if not status then
 	print("lazy is not installed")
 	return
 end
-
 local opts = {
+	root = vim.fn.expand("$HOME") .. "/.cache/lazy",
 	defaults = {
-		lazy = false,
+		lazy = true,
 	},
 	change_detection = {
 		enabled = false,
-		notify = false
+		notify = false,
 	},
 	performance = {
 		cache = {
@@ -31,9 +32,5 @@ local opts = {
 		},
 	},
 }
-
-if vim.g.vscode then
-	return nil
-end
 
 lazy.setup("rc.plugins", opts)
