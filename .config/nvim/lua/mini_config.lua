@@ -56,6 +56,21 @@ now(function()
 	require("mini.cursorword").setup()
 end)
 
+local function git_setup()
+	vim.keymap.set({ "n", "x" }, "<Leader>gs", "<CMD>Git status<cr>", { desc = "Show at cursor" })
+	vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
+	vim.keymap.set({ "n", "x" }, "<Leader>ga", "<CMD>Git add .<CR>", { desc = "Show at cursor" })
+end
+
+local function bufremove_setup()
+	local function delete_buf()
+		local bufnr = vim.api.nvim_get_current_buf()
+		MiniBufremove.delete(bufnr)
+	end
+	vim.keymap.set("n", "<leader>bd", function()
+		delete_buf()
+	end)
+end
 later(function()
 	require("mini.ai").setup()
 	require("mini.comment").setup()
@@ -64,22 +79,12 @@ later(function()
 	})
 	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
 	require("mini.git").setup()
-	local rhs = "<Cmd>lua MiniGit.show_at_cursor()<CR>"
-	vim.keymap.set({ "n", "x" }, "<Leader>gs", rhs, { desc = "Show at cursor" })
-	vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
-	vim.keymap.set({ "n", "x" }, "<Leader>ga", "<CMD>Git add .<CR>", { desc = "Show at cursor" })
-
+	git_setup()
 	require("mini.diff").setup()
 	require("mini.jump").setup()
 	require("mini.trailspace").setup()
 	require("mini.bufremove").setup()
-	local function delete_buf()
-		local bufnr = vim.api.nvim_get_current_buf()
-		MiniBufremove.delete(bufnr)
-	end
-	vim.keymap.set("n", "<leader>bd", function()
-		delete_buf()
-	end)
+	bufremove_setup()
 	-- require("mini.map").setup()
 end)
 
