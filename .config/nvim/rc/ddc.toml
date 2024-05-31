@@ -8,10 +8,10 @@ hooks_file="$BASE_DIR/rc/hooks/ddc.lua"
 repo="Shougo/pum.vim"
 on_source='ddc.vim'
 
-[[plugins]]
-repo="zbirenbaum/copilot.lua"
-on_event="InsertEnter"
-hooks_file="$BASE_DIR/rc/hooks/copilot.lua"
+# [[plugins]]
+# repo="zbirenbaum/copilot.lua"
+# on_event="InsertEnter"
+# hooks_file="$BASE_DIR/rc/hooks/copilot.lua"
 
 [[plugins]]
 repo="Shougo/ddc-nvim-lsp"
@@ -52,6 +52,10 @@ on_source="ddc.vim"
 [[plugins]]
 repo="LumaKernel/ddc-source-file"
 on_source="ddc.vim"
+
+[[plugins]]
+repo='Shougo/ddc-source-omni'
+on_source = ["ddc.vim", 'vimtex']
 
 [[plugins]]
 repo="Shougo/ddc-sorter_rank"

@@ -57,6 +57,9 @@ export class Config extends BaseConfig {
           minAutoCompleteLength: 1,
           isVolatile: true,
         },
+        omni: {
+          mark: "[omni]",
+        },
       },
       sourceParams: {
         buffer: { requireSameFiletype: false, forceCollect: true },
@@ -103,7 +106,7 @@ export class Config extends BaseConfig {
       },
     });
     args.contextBuilder.patchFiletype("markdown", {
-      sources: ["around", "skkeleton", "mocword" ],
+      sources: ["around", "skkeleton", "mocword"],
     });
     args.contextBuilder.patchFiletype("markdown_inline", {
       sources: ["around", "skkeleton", "mocword"],
@@ -113,10 +116,10 @@ export class Config extends BaseConfig {
     });
 
     args.contextBuilder.patchFiletype("tex", {
-      sources: ["around", "skkeleton", "mocword", "lsp", "buffer"],
+      sources: ["omni", "around", "skkeleton", "mocword", "lsp", "buffer"],
     });
     args.contextBuilder.patchFiletype("bib", {
-      sources: ["around", "skkeleton", "mocword", "lsp", "buffer"],
+      sources: ["omni", "around", "skkeleton", "mocword", "lsp", "buffer"],
     });
     for (const filetype of ["ps1", "dosbatch", "autohotkey", "registry"]) {
       args.contextBuilder.patchFiletype(filetype, {

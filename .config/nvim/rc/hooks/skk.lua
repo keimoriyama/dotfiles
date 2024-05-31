@@ -11,6 +11,7 @@ vim.fn["skkeleton#config"]({
 	kanaTable = "azik",
 })
 
+vim.fn["skkeleton#register_keymap"]("henkan", "X", "")
 vim.fn["skkeleton#config"]({
 	globalDictionaries = {
 		vim.fs.joinpath(dictdir, "SKK-JISYO.L"),

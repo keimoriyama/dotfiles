@@ -22,8 +22,7 @@ hook_add = '''
     let g:partedit#auto_prefix = 0
 '''
 
-# [[plugins]]
-# repo = "lervag/vimtex"
-# on_ft=['tex', 'bib']
-# depends=['ddc.vim']
-# hooks_file="$BASE_DIR/rc/hooks/vimtex.vim"
+[[plugins]]
+repo = "lervag/vimtex"
+on_ft = ['tex', 'bib']
+hooks_file="$BASE_DIR/rc/hooks/vimtex.vim"

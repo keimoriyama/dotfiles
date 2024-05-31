@@ -1,4 +1,11 @@
 "hook_source {{{
+
+call ddc#custom#patch_filetype(['tex'], 'sourceOptions', {
+      \ 'omni': {'mark': 'O', 'forceCompletionPattern': g:vimtex#re#deoplete},
+      \ })
+call ddc#custom#patch_filetype(['tex'], 'sourceParams', {
+      \ 'omni': {'omnifunc': 'vimtex#complete#omnifunc'},
+      \ })
 let g:vimtex_view_method = "skim"
 let g:vimtex_view_general_viewer = "skim"
 let g:vimtex_view_skim_activate = 1
