@@ -1,5 +1,4 @@
-"hook_source {{{
-
+" hook_source{{{
 call ddc#custom#patch_filetype(['tex'], 'sourceOptions', {
       \ 'omni': {'mark': 'O', 'forceCompletionPattern': g:vimtex#re#deoplete},
       \ })
