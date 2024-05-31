@@ -57,14 +57,6 @@ export class Config extends BaseConfig {
           minAutoCompleteLength: 1,
           isVolatile: true,
         },
-        obsidian: {
-          mark: "[obsidian]",
-          keywordPattern: "\\[\\[\\w*",
-        },
-        obsidian_new: {
-          mark: "[obsidian+]",
-          keywordPattern: "\\[\\[\\w*",
-        },
       },
       sourceParams: {
         buffer: { requireSameFiletype: false, forceCollect: true },
@@ -111,10 +103,10 @@ export class Config extends BaseConfig {
       },
     });
     args.contextBuilder.patchFiletype("markdown", {
-      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "mocword" ],
     });
     args.contextBuilder.patchFiletype("markdown_inline", {
-      sources: ["around", "skkeleton", "mocword", "obsidian", "obsidian_new"],
+      sources: ["around", "skkeleton", "mocword"],
     });
     args.contextBuilder.patchFiletype("lua", {
       sources: ["nvim-lua", "lsp", "around"],

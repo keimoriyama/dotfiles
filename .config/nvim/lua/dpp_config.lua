@@ -77,7 +77,7 @@ vim.opt.path:append(dpp_base .. "repos/github.com/high-moctane/mocword-data/")
 -- vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 -- vim.opt.rtp:append(base_dir .. "overleaf.vim")
 -- vim.g.overleaf_project_name = "イラレ用数式"
-vim.opt.rtp:append(base_dir .. "ddu-source-keymap")
+-- vim.opt.rtp:append(base_dir .. "ddu-source-keymap")
 
 vim.api.nvim_create_user_command("DppMakeState", function()
 	dpp.make_state(dpp_base, config_file)
