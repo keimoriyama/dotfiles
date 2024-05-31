@@ -89,10 +89,10 @@ repo="nvim-treesitter/nvim-treesitter"
 on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
 
-[[plugins]]
-repo='HiPhish/rainbow-delimiters.nvim'
-on_event = ['BufNewFile', 'BufRead']
-depends='nvim-treesitter'
+# [[plugins]]
+# repo='HiPhish/rainbow-delimiters.nvim'
+# on_event = ['BufNewFile', 'BufRead']
+# depends='nvim-treesitter'
 
 [[plugins]]
 repo='nvim-treesitter/nvim-treesitter-context'
@@ -103,7 +103,7 @@ require('treesitter-context').setup()
 '''
 
 [[plugins]]
-repo="JoosepAlviste/nvim-ts-context-commentstring"
+rapo="JoosepAlviste/nvim-ts-context-commentstring"
 on_event = ['BufNewFile', 'BufRead']
 
 [[plugins]]
