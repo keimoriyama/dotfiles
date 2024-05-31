@@ -67,14 +67,14 @@ end
 
 vim.opt.path:append(dpp_base .. "repos/github.com/high-moctane/mocword-data/")
 ---ローカルプラグインの読み込み
-local base_dir = vim.fn.expand("$HOME/Program/vim_plugins/")
-vim.opt.rtp:append(base_dir .. "dps_obsidian")
-vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
-vim.g.dps_obsidian_daily_note_dir = "daily"
-vim.g.dps_obsidian_format_enable = true
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
-vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
+-- local base_dir = vim.fn.expand("$HOME/Program/vim_plugins/")
+-- vim.opt.rtp:append(base_dir .. "dps_obsidian")
+-- vim.g.dps_obsidian_base_dir = "~/Documents/Notes"
+-- vim.g.dps_obsidian_daily_note_dir = "daily"
+-- vim.g.dps_obsidian_format_enable = true
+-- local opts = { noremap = true, silent = true }
+-- vim.keymap.set("n", "<leader>nn", "<cmd>DpsObsidianToday<cr>", opts)
+-- vim.keymap.set("n", "gf", "<cmd>DpsObsidianFollowLink<CR>", opts)
 -- vim.opt.rtp:append(base_dir .. "overleaf.vim")
 -- vim.g.overleaf_project_name = "イラレ用数式"
 vim.opt.rtp:append(base_dir .. "ddu-source-keymap")
