@@ -25,12 +25,7 @@ lib*
 !.config/fish/config.fish
 !.config/nvim/after/plugin/*.lua
 !.config/wezterm
-.config/nvim/rc/hooks/python/*
-!.config/nvim/rc/hooks/python/pyproject.toml
-!.config/nvim/rc/hooks/python/requirements.lock
-.config/nvim/rc/hooks/node/*
-!.config/nvim/rc/hooks/node/package.json
-!.config/nvim/rc/hooks/node/bun.lockb
+!.config/fish/config.fish
 
 .zshenv
 .config/github-copilot/hosts.json
