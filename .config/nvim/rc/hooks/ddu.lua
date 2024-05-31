@@ -4,9 +4,6 @@ local opt = { noremap = true, silent = true }
 vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu -name=ff file_rec<cr>", opt)
 -- helper
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
--- rgの設定
-local path = vim.fn.getcwd()
-
 vim.keymap.set("n", "<leader>fr", "<cmd>Ddu rg -source-option-rg-volatile<cr>", opt)
 vim.keymap.set("n", "<leader>sr", "<cmd>Ddu -name=lsp lsp_references -sync=true<cr>", opt)
 vim.keymap.set("n", "<leader>dd", "<cmd>Ddu -name=lsp lsp_diagnostic -sync=true<cr>", opt)
