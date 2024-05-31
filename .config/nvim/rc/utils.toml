@@ -32,11 +32,6 @@ lua_source='''
 require("nvim-lastplace").setup()
 '''
 
-# [[plugins]]
-# repo='uga-rosa/ugaterm.nvim'
-# lua_add='''
-# vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", { noremap = true, silent = true })
-# '''
 [[plugins]]
 repo = 'akinsho/toggleterm.nvim'
 on_event = ['BufNewFile', 'BufRead']
@@ -103,7 +98,7 @@ require('treesitter-context').setup()
 '''
 
 [[plugins]]
-rapo="JoosepAlviste/nvim-ts-context-commentstring"
+repo="JoosepAlviste/nvim-ts-context-commentstring"
 on_event = ['BufNewFile', 'BufRead']
 
 [[plugins]]
