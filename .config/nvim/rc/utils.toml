@@ -24,3 +24,13 @@ on_source=['none-ls.nvim']
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
 hooks_file="$BASE_DIR/rc/hooks/lualine.lua"
+# keep lastest cursor position
+[[plugins]]
+repo="ethanholz/nvim-lastplace"
+lua_source='''
+require("nvim-lastplace").setup()
+'''
+
+[[plugins]]
+repo="nvim-treesitter/nvim-treesitter"
+hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"

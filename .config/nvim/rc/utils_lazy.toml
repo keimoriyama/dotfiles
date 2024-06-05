@@ -1,11 +1,3 @@
-# keep lastest cursor position
-[[plugins]]
-repo="ethanholz/nvim-lastplace"
-on_event = ['BufRead', 'BufEnter']
-lua_source='''
-require("nvim-lastplace").setup()
-'''
-
 [[plugins]]
 repo = 'akinsho/toggleterm.nvim'
 on_event = ['BufNewFile', 'BufRead']
@@ -46,11 +38,6 @@ vim.g.sonictemplate_intelligent_key = 0
 vim.g.sonictemplate_postfix_key = 0
 vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
 '''
-
-[[plugins]]
-repo="nvim-treesitter/nvim-treesitter"
-on_event = ['BufNewFile', 'BufRead']
-hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
 
 [[plugins]]
 repo='nvim-treesitter/nvim-treesitter-context'
