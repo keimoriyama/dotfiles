@@ -1,0 +1,32 @@
+[begin]
+prefix='be'
+body="""
+\\begin{$1}
+	$0
+\\end{$1}
+"""
+
+[item]
+prefix='it'
+body="""\\item"""
+
+
+[frame]
+prefix='fr'
+body="""
+\\begin{frame}[t]{$1}
+	$0
+\\end{frame}
+"""
+
+[section]
+prefix='sec'
+body="""\\section{$1}"""
+
+[block]
+prefix='br'
+body = """
+\\begin{block}{$1}
+	$0
+\\end{block}
+"""

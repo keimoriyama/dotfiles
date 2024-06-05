@@ -13,7 +13,7 @@ export class Config extends BaseConfig {
             name: "preview",
           },
           startAutoAction: true,
-          split: "horizontal",
+          split: "tab",
           prompt: "> ",
           floatingBorder: "rounded",
           floatingTitle: "ff",

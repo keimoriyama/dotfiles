@@ -1,11 +1,3 @@
-[[plugins]]
-repo = "ellisonleao/gruvbox.nvim"
-on_event = ['BufNewFile', 'BufRead']
-hook_source='''
-set background=dark
-colorscheme gruvbox
-'''
-
 [[pluging]]
 repo = "norcalli/nvim-colorizer.lua"
 lua_add='''
@@ -13,6 +5,12 @@ vim.opt.termguicolors = true
 require("colorizer").setup({
 	"*",
 })
+'''
+[[plugins]]
+repo = "ellisonleao/gruvbox.nvim"
+hook_add='''
+set background=dark
+colorscheme gruvbox
 '''
 # dot repeat
 [[plugins]]
@@ -23,147 +21,6 @@ repo="tpope/vim-repeat"
 repo="nvim-lua/plenary.nvim"
 on_source=['none-ls.nvim']
 
-
-# keep lastest cursor position
-[[plugins]]
-repo="ethanholz/nvim-lastplace"
-on_event = ['BufRead', 'BufEnter']
-lua_source='''
-require("nvim-lastplace").setup()
-'''
-
-[[plugins]]
-repo = 'akinsho/toggleterm.nvim'
-on_event = ['BufNewFile', 'BufRead']
-lua_source= '''
-require("toggleterm").setup()
-vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>ToggleTerm<cr>", { noremap = true, silent = true })
-'''
-
-[[plugins]]
-repo="windwp/nvim-autopairs"
-on_event = ['InsertEnter']
-lua_source='''
-require("nvim-autopairs").setup({
-disable_filetype = { "vim" },
-})
-'''
-
-[[plugins]]
-repo="lukas-reineke/indent-blankline.nvim"
-on_event = ['BufNewFile', 'BufRead']
-hooks_file="$BASE_DIR/rc/hooks/ibl.lua"
-
-
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
-on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/lualine.lua"
-
-
-# surround
-[[plugins]]
-repo="kylechui/nvim-surround"
-on_map = ['y', 'd']
-lua_source='''
-require("nvim-surround").setup()
-'''
-
-[[plugins]]
-repo="mattn/vim-sonictemplate"
-on_cmd='Template'
-lua_source='''
-vim.g.sonictemplate_key = 0
-vim.g.sonictemplate_intelligent_key = 0
-vim.g.sonictemplate_postfix_key = 0
-vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
-'''
-
-[[plugins]]
-repo="nvim-treesitter/nvim-treesitter"
-on_event = ['BufNewFile', 'BufRead']
-hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
-
-# [[plugins]]
-# repo='HiPhish/rainbow-delimiters.nvim'
-# on_event = ['BufNewFile', 'BufRead']
-# depends='nvim-treesitter'
-
-[[plugins]]
-repo='nvim-treesitter/nvim-treesitter-context'
-on_event = ['BufNewFile', 'BufRead']
-depends='nvim-treesitter'
-lua_source='''
-require('treesitter-context').setup()
-'''
-
-[[plugins]]
-repo="JoosepAlviste/nvim-ts-context-commentstring"
-on_event = ['BufNewFile', 'BufRead']
-
-[[plugins]]
-repo="kana/vim-smartword"
-on_map = ['w', 'b', 'e']
-lua_source='''
-vim.keymap.set("n", "w", "<Plug>(smartword-w)")
-vim.keymap.set("n", "b", "<Plug>(smartword-b)")
-vim.keymap.set("n", "e", "<Plug>(smartword-e)")
-'''
-
-[[plugins]]
-repo='lambdalisue/gin.vim'
-on_cmd = ["GinStatus", "GinLog"]
-hooks_file="$BASE_DIR/rc/hooks/gin.lua"
-
-# show diff from recover file
-[[plugins]]
-on_event=['SwapExists']
-repo="chrisbra/Recover.vim"
-
-[[plugins]]
-repo='phaazon/hop.nvim'
-on_event = ['BufNewFile', 'BufRead']
-hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
-
-
-[[plugins]]
-repo = "hrsh7th/nvim-insx.git"
-on_event=["InsertEnter"]
-hooks_file="$BASE_DIR/rc/hooks/insx.lua"
-
-
-[[plugins]]
-repo = "tyru/open-browser.vim"
-on_event = ['BufNewFile', 'BufRead']
-hook_source="""
-	nmap gx <Plug>(openbrowser-smart-search)
-	vmap gx <Plug>(openbrowser-smart-search)
-"""
-
-[[plugins]]
-repo = "andymass/vim-matchup"
-on_event = ['BufNewFile', 'BufRead']
-lua_source="""
-vim.g.matchup_matchparen_offscreen = { method = 'popup' }
-"""
-
-[[plugins]]
-repo = 'shortcuts/no-neck-pain.nvim'
-on_event = ['BufNewFile', 'BufRead']
-hooks_file = "$BASE_DIR/rc/hooks/no_neck.lua"
-
-[[plugins]]
-repo='tani/dmacro.nvim'
-on_event = ['BufNewFile', 'BufRead']
-lua_source='''
-require('dmacro').setup({
-    dmacro_key = '<C-p>' --  you need to set the dmacro_key
-})
-'''
-
-[[plugins]]
-repo='echasnovski/mini.diff'
-on_event = ['BufNewFile', 'BufRead']
-lua_source='''
-require('mini.diff').setup()
-'''

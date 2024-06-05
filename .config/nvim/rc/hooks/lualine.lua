@@ -1,5 +1,5 @@
 -- lua_source {{{
-require('lualine').setup({
+require("lualine").setup({
 	options = {
 		icons_enabled = true,
 		theme = "auto",
@@ -10,17 +10,8 @@ require('lualine').setup({
 	sections = {
 		lualine_a = { "mode" },
 		lualine_b = { "branch" },
-		lualine_c = {},
-		lualine_x = { {
-			"diagnostics",
-			sources = { "nvim_diagnostic" },
-			symbols = {
-				error = " ",
-				warn = " ",
-				info = " ",
-				hint = " ",
-			},
-		},
+		lualine_c = { { "filename", path = 1 } },
+		lualine_x = {
 			"encoding",
 			"filetype",
 		},
@@ -31,11 +22,7 @@ require('lualine').setup({
 		lualine_a = {},
 		lualine_b = {},
 		lualine_c = {
-			{
-				"filename",
-				file_status = true, -- displays file status (readonly status, modified status)
-				path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
-			},
+			"filename",
 		},
 		lualine_x = { "location" },
 		lualine_y = {},

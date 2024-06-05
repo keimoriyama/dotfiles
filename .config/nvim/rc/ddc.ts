@@ -32,7 +32,7 @@ export class Config extends BaseConfig {
         mocword: {
           mark: "[mocword]",
           isVolatile: false,
-          minAutoCompleteLength: 3,
+          minAutoCompleteLength: 2,
         },
         around: { mark: "[around]" },
         file: {
@@ -116,10 +116,26 @@ export class Config extends BaseConfig {
     });
 
     args.contextBuilder.patchFiletype("tex", {
-      sources: ["omni", "around", "skkeleton", "mocword", "lsp", "buffer"],
+      sources: [
+        "omni",
+        "denippet",
+        "around",
+        "skkeleton",
+        "mocword",
+        "lsp",
+        "buffer",
+      ],
     });
     args.contextBuilder.patchFiletype("bib", {
-      sources: ["omni", "around", "skkeleton", "mocword", "lsp", "buffer"],
+      sources: [
+        "omni",
+        "denippet",
+        "around",
+        "skkeleton",
+        "mocword",
+        "lsp",
+        "buffer",
+      ],
     });
     for (const filetype of ["ps1", "dosbatch", "autohotkey", "registry"]) {
       args.contextBuilder.patchFiletype(filetype, {

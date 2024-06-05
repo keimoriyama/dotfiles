@@ -15,11 +15,11 @@ end, opts)
 vim.api.nvim_set_keymap("n", "<Leader>Q", ":q!<CR>", opts)
 vim.api.nvim_set_keymap("n", "+", "<C-a>", opts)
 vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
-vim.api.nvim_set_keymap("n", "n", "nzz", opts)
-vim.api.nvim_set_keymap("n", "N", "Nzz", opts)
-vim.api.nvim_set_keymap("n", "*", "*zz", opts)
-vim.api.nvim_set_keymap("n", "g*", "g*zz", opts)
-vim.api.nvim_set_keymap("n", "g#", "g#zz", opts)
+-- vim.api.nvim_set_keymap("n", "n", "nzz", opts)
+-- vim.api.nvim_set_keymap("n", "N", "Nzz", opts)
+-- vim.api.nvim_set_keymap("n", "*", "*zz", opts)
+-- vim.api.nvim_set_keymap("n", "g*", "g*zz", opts)
+-- vim.api.nvim_set_keymap("n", "g#", "g#zz", opts)
 
 vim.api.nvim_set_keymap("t", "<C-h>", "<cmd>wincmd h<CR>", opts)
 vim.api.nvim_set_keymap("t", "<C-l>", "<cmd>wincmd l<CR>", opts)
@@ -48,8 +48,8 @@ vim.api.nvim_set_keymap("n", "H", "H<Plug>(H)", opts)
 vim.api.nvim_set_keymap("n", "L", "<PageDown>L<Plug>(L)", opts)
 vim.api.nvim_set_keymap("n", "H", "<PageUp>H<Plug>(H)", opts)
 
-vim.api.nvim_create_autocmd("InsertLeave", {
-	callback = function()
-		vim.api.nvim_feedkeys("zz", "n", false)
-	end,
-})
+-- vim.api.nvim_create_autocmd("InsertLeave", {
+-- 	callback = function()
+-- 		vim.api.nvim_feedkeys("zz", "n", false)
+-- 	end,
+-- })
