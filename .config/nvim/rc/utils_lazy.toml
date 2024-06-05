@@ -1,6 +1,6 @@
 [[plugins]]
 repo = 'akinsho/toggleterm.nvim'
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 lua_source= '''
 require("toggleterm").setup()
 vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>ToggleTerm<cr>", { noremap = true, silent = true })
@@ -17,7 +17,7 @@ disable_filetype = { "vim" },
 
 [[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 hooks_file="$BASE_DIR/rc/hooks/ibl.lua"
 
 
@@ -41,7 +41,7 @@ vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
 
 [[plugins]]
 repo='nvim-treesitter/nvim-treesitter-context'
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 depends='nvim-treesitter'
 lua_source='''
 require('treesitter-context').setup()
@@ -49,7 +49,7 @@ require('treesitter-context').setup()
 
 [[plugins]]
 repo="JoosepAlviste/nvim-ts-context-commentstring"
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 
 [[plugins]]
 repo="kana/vim-smartword"
@@ -72,7 +72,7 @@ repo="chrisbra/Recover.vim"
 
 [[plugins]]
 repo='phaazon/hop.nvim'
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 
 
@@ -84,7 +84,7 @@ hooks_file="$BASE_DIR/rc/hooks/insx.lua"
 
 [[plugins]]
 repo = "tyru/open-browser.vim"
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 hook_source="""
 	nmap gx <Plug>(openbrowser-smart-search)
 	vmap gx <Plug>(openbrowser-smart-search)
@@ -92,19 +92,19 @@ hook_source="""
 
 [[plugins]]
 repo = "andymass/vim-matchup"
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 lua_source="""
 vim.g.matchup_matchparen_offscreen = { method = 'popup' }
 """
 
 [[plugins]]
 repo = 'shortcuts/no-neck-pain.nvim'
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 hooks_file = "$BASE_DIR/rc/hooks/no_neck.lua"
 
 [[plugins]]
 repo='tani/dmacro.nvim'
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 lua_source='''
 require('dmacro').setup({
     dmacro_key = '<C-p>' --  you need to set the dmacro_key
@@ -113,7 +113,7 @@ require('dmacro').setup({
 
 [[plugins]]
 repo='echasnovski/mini.diff'
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["VimEnter"]
 lua_source='''
 require('mini.diff').setup()
 '''
