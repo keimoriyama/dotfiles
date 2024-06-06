@@ -13,7 +13,7 @@ export class Config extends BaseConfig {
             name: "preview",
           },
           startAutoAction: true,
-          split: "tab",
+          split: "horizontal",
           prompt: "> ",
           floatingBorder: "rounded",
           floatingTitle: "ff",
@@ -132,7 +132,6 @@ export class Config extends BaseConfig {
 
     args.contextBuilder.patchLocal("ff", {
       sources: {
-        name: "file_rec",
         params: {
           ignoreDirectories: [
             ".git",
