@@ -30,7 +30,3 @@ repo="ethanholz/nvim-lastplace"
 lua_source='''
 require("nvim-lastplace").setup()
 '''
-
-[[plugins]]
-repo="nvim-treesitter/nvim-treesitter"
-hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"

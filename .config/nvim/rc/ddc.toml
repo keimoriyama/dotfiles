@@ -108,8 +108,8 @@ on_source='ddc.vim'
 hooks_file="$BASE_DIR/rc/hooks/skk.lua"
 
 [[plugins]]
-repo = 'NI57721/skkeleton-azik-kanatable'
-rev = 'feature/delete-some-mappings'
+repo = 'keimoriyama/skkeleton-azik-kanatable'
+# rev = 'feature/delete-some-mappings'
 on_source = 'skkeleton'
 
 

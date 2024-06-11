@@ -117,3 +117,13 @@ on_event = ["VimEnter"]
 lua_source='''
 require('mini.diff').setup()
 '''
+
+[[plugins]]
+repo="nvim-treesitter/nvim-treesitter"
+on_event = ["VimEnter"]
+hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
+
+[[plugins]]
+repo="glidenote/memolist.vim"
+on_event = ["VimEnter"]
+hooks_file="$BASE_DIR/rc/hooks/memolist.lua"
