@@ -15,8 +15,9 @@ export class Source extends BaseSource<Params> {
     input: string;
   }): ReadableStream<Item<ActionData>[]> {
     return new ReadableStream({
-      async start(controller) {},
+      async start(controller) {
+        const memos = async () => {};
+      },
     });
   }
 }
-
