@@ -38,13 +38,13 @@ else
 	vim.cmd([[set clipboard^=unnamedplus]])
 end
 
-local notify = vim.notify
-vim.notify = function(msg, ...)
-	if msg:match("warning: multiple different client offset_encodings") then
-		return
-	end
-	notify(msg, ...)
-end
+-- local notify = vim.notify
+-- vim.notify = function(msg, ...)
+-- 	if msg:match("warning: multiple different client offset_encodings") then
+-- 		return
+-- 	end
+-- 	notify(msg, ...)
+-- end
 
 -- vim.g.loaded_man = 1
 -- vim.g.did_install_default_menus = 1
