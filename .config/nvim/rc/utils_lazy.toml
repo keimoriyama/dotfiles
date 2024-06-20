@@ -10,8 +10,7 @@ vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>ToggleTerm<cr>", { noremap = true, s
 repo="windwp/nvim-autopairs"
 on_event = ['InsertEnter']
 lua_source='''
-require("nvim-autopairs").setup({
-disable_filetype = { "vim" },
+require("nvim-autopairs").setup({ disable_filetype = { "vim" },
 })
 '''
 
@@ -123,7 +122,3 @@ repo="nvim-treesitter/nvim-treesitter"
 on_event = ["VimEnter"]
 hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
 
-[[plugins]]
-repo="glidenote/memolist.vim"
-on_event = ["VimEnter"]
-hooks_file="$BASE_DIR/rc/hooks/memolist.lua"

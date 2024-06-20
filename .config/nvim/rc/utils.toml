@@ -34,3 +34,7 @@ require("nvim-lastplace").setup()
 [[plugins]]
 repo="Shougo/deol.nvim"
 hooks_file='$BASE_DIR/rc/hooks/deol.lua'
+
+[[plugins]]
+repo="glidenote/memolist.vim"
+hooks_file="$BASE_DIR/rc/hooks/memolist.lua"
