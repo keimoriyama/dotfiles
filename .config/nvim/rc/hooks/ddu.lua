@@ -27,6 +27,7 @@ vim.keymap.set("n", "*", "<cmd>Ddu line -input=`expand('<cword>')`<cr>", opt)
 vim.keymap.set("n", "<leader>k", "<cmd>Ddu keymaps<cr>", opt)
 vim.keymap.set("n", "<leader>dp", "<cmd>Ddu dpp<cr>", opt)
 vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)
+vim.keymap.set("n", "<leader>mn", "<cmd>Ddu memolist<cr>", opt)
 -- }}}
 
 -- lua_source {{{

@@ -58,6 +58,7 @@ export class Source extends BaseSource<Params> {
           );
           return items;
         };
+        // console.log(await keymapItems());
         controller.enqueue(await keymapItems());
         controller.close();
       },
@@ -75,8 +76,8 @@ async function neovim_get_keymaps(
   const keymaps = await nvim_get_keymap(denops, mode);
   const items: Item<ActionData>[] = [];
   for (const keymap of keymaps) {
-    const words = keymap.mode + " " + keymap.lhs + " " + keymap.rhs + " " +
-      keymap.desc;
+    const words =
+      keymap.mode + " " + keymap.lhs + " " + keymap.rhs + " " + keymap.desc;
     items.push({
       word: words,
     });
