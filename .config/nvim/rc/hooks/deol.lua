@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd({ "Bufenter" }, {
 
 local opts = { buffer = true, noremap = true }
 vim.fn["deol#set_option"]({
-	split = "floating",
+	split = "horizontal",
 })
-vim.keymap.set({ "n", "t" }, "<C-d>", "<cmd>call deol#start()<CR>", opts)
+vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>call deol#start()<CR>", opts)
 -- }}}

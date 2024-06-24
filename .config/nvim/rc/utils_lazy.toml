@@ -1,12 +1,4 @@
 [[plugins]]
-repo = 'akinsho/toggleterm.nvim'
-on_event = ["VimEnter"]
-lua_source= '''
-require("toggleterm").setup()
-vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>ToggleTerm<cr>", { noremap = true, silent = true })
-'''
-
-[[plugins]]
 repo="windwp/nvim-autopairs"
 on_event = ['InsertEnter']
 lua_source='''
