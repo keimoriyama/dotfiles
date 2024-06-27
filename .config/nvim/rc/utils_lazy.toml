@@ -114,3 +114,10 @@ repo="nvim-treesitter/nvim-treesitter"
 on_event = ["VimEnter"]
 hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
 
+[[plugins]]
+repo='echasnovski/mini.bufremove'
+on_event = ["VimEnter"]
+lua_source='''
+require('mini.bufremove').setup()
+vim.keymap.set("n", "<leader>bd", function()MiniBufremove.delete() end)
+'''
