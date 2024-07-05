@@ -29,7 +29,7 @@ vim.keymap.set("n", "<leader>dp", "<cmd>Ddu dpp<cr>", opt)
 vim.keymap.set("n", "n", "<cmd>Ddu -resume=v:true<cr>", opt)
 -- vim.keymap.set("n", "<leader>mn", "<cmd>Ddu memolist<cr>", opt)
 local memolistPath = vim.fn.expand(vim.g.memolist_path)
-vim.keymap.set("n", "<leader>mn", "<cmd>Ddu file_rec -source-option-file_rec-path=" .. memolistPath .. "<CR>")
+vim.keymap.set("n", "<leader>ml", "<cmd>Ddu file_rec -source-option-file_rec-path=" .. memolistPath .. "<CR>")
 -- }}}
 
 -- lua_source {{{
