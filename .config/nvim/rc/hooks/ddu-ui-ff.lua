@@ -13,33 +13,6 @@ end
 
 -- }}}
 
--- lua_source{{{
--- local function resize()
--- 	local lines = vim.api.nvim_get_option("lines")
--- 	local columns = vim.api.nvim_get_option("columns")
--- 	local winCol = math.floor(columns / 8)
--- 	local winRow = math.floor(lines / 2) - 2
--- 	local winWidth = math.floor(columns - (columns / 4))
--- 	local winHeight = math.floor(lines - (lines / 4))
--- 	vim.fn["ddu#custom#patch_global"]({
--- 		uiParams = {
--- 			ff = {
--- 				winCol = winCol,
--- 				winRow = winRow,
--- 				winWidth = winWidth,
--- 				winHeight = math.floor(winHeight / 2),
--- 				previewCol = winCol,
--- 				previewRow = 0,
--- 				previewWidth = winWidth,
--- 				previewHeight = math.floor(winHeight / 2),
--- 			},
--- 		},
--- 	})
--- end
---
--- resize()
--- }}}
-
 -- lua_ddu-ff-filter {{{
 local opt = { buffer = true, silent = true }
 vim.keymap.set({ "i", "n" }, "<CR>", '<cmd>call ddu#ui#do_action("closeFilterWindow")<CR><esc>', opt)
