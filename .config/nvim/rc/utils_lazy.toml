@@ -66,41 +66,15 @@ repo='phaazon/hop.nvim'
 on_event = ["VimEnter"]
 hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 
-
-[[plugins]]
-repo = "hrsh7th/nvim-insx.git"
-on_event=["InsertEnter"]
-hooks_file="$BASE_DIR/rc/hooks/insx.lua"
-
-
-[[plugins]]
-repo = "tyru/open-browser.vim"
-on_event = ["VimEnter"]
-hook_source="""
-	nmap gx <Plug>(openbrowser-smart-search)
-	vmap gx <Plug>(openbrowser-smart-search)
-"""
-
-[[plugins]]
-repo = "andymass/vim-matchup"
-on_event = ["VimEnter"]
-lua_source="""
-vim.g.matchup_matchparen_offscreen = { method = 'popup' }
-"""
+# [[plugins]]
+# repo = "hrsh7th/nvim-insx.git"
+# on_event=["InsertEnter"]
+# hooks_file="$BASE_DIR/rc/hooks/insx.lua"
 
 [[plugins]]
 repo = 'shortcuts/no-neck-pain.nvim'
 on_event = ["VimEnter"]
 hooks_file = "$BASE_DIR/rc/hooks/no_neck.lua"
-
-[[plugins]]
-repo='tani/dmacro.nvim'
-on_event = ["VimEnter"]
-lua_source='''
-require('dmacro').setup({
-    dmacro_key = '<C-p>' --  you need to set the dmacro_key
-})
-'''
 
 [[plugins]]
 repo='echasnovski/mini.diff'
@@ -121,3 +95,9 @@ lua_source='''
 require('mini.bufremove').setup()
 vim.keymap.set("n", "<leader>bd", function()MiniBufremove.delete() end)
 '''
+
+
+[[plugins]]
+repo="glidenote/memolist.vim"
+on_event = ["VimEnter"]
+hooks_file="$BASE_DIR/rc/hooks/memolist.lua"
