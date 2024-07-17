@@ -23,9 +23,7 @@ alias vim='nvim'
 alias python='python3'
 alias msl='mutagen sync list'
 
-fish_add_path $HOME/.pyenv/bin
-fish_add_path /opt/homebrew/opt/llvm/bin
-fish_add_path /Users/keimoriyama/.local/bin
+fish_add_path $HOME/.pyenv/bin fish_add_path /opt/homebrew/opt/llvm/bin fish_add_path /Users/keimoriyama/.local/bin
 fish_add_path /Users/keimoriyama/Applications
 fish_add_path /opt/homebrew/bin
 fish_add_path $HOME/Library/Python/3.11/bin
@@ -53,6 +51,8 @@ set -gx AQUA_GLOBAL_CONFIG $HOME/.dotfiles/aqua/aqua.yaml
 
 set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
 source ~/.config/fish/env.fish
+
+set -gx HYDRA_FULL_ERROR 1
 
 function attach_tmux_session_if_needed
     set ID (tmux list-sessions)
