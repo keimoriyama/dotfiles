@@ -3,3 +3,10 @@ prefix = 'ip'
 body = """
 import ipdb; ipdb.set_trace()
 """
+
+[range]
+prefix= 'range'
+body = """
+for ${1:index} in range(${2:range}):
+	{$0}
+"""
