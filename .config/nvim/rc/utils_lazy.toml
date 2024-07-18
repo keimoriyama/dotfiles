@@ -96,8 +96,16 @@ require('mini.bufremove').setup()
 vim.keymap.set("n", "<leader>bd", function()MiniBufremove.delete() end)
 '''
 
-
 [[plugins]]
 repo="glidenote/memolist.vim"
 on_event = ["VimEnter"]
 hooks_file="$BASE_DIR/rc/hooks/memolist.lua"
+
+[[plugins]]
+repo = 'tani/dmacro.nvim'
+on_event = ["VimEnter"]
+lua_source='''
+require('dmacro').setup({
+    dmacro_key = '<C-p>' --  you need to set the dmacro_key
+})
+'''
