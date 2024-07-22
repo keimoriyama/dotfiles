@@ -106,6 +106,6 @@ repo = 'tani/dmacro.nvim'
 on_event = ["VimEnter"]
 lua_source='''
 require('dmacro').setup({
-    dmacro_key = '<C-p>' --  you need to set the dmacro_key
+    dmacro_key = '<C-b>' --  you need to set the dmacro_key
 })
 '''
