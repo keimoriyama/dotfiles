@@ -29,7 +29,7 @@ export class Config extends BaseConfig {
       ["lsp.toml", true],
       ["utils.toml", false],
       ["utils_lazy.toml", true],
-      ["ddc.toml", true],
+      ["ddc.toml", false],
       ["ddu.toml", true],
       ["ftplugin.toml", true],
     ];

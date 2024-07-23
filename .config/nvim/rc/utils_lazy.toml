@@ -101,11 +101,11 @@ repo="glidenote/memolist.vim"
 on_event = ["VimEnter"]
 hooks_file="$BASE_DIR/rc/hooks/memolist.lua"
 
-[[plugins]]
-repo = 'tani/dmacro.nvim'
-on_event = ["VimEnter"]
-lua_source='''
-require('dmacro').setup({
-    dmacro_key = '<C-b>' --  you need to set the dmacro_key
-})
-'''
+# [[plugins]]
+# repo = 'tani/dmacro.nvim'
+# on_event = ["VimEnter"]
+# lua_source='''
+# require('dmacro').setup({
+#     dmacro_key = '<C-b>' --  you need to set the dmacro_key
+# })
+# '''
