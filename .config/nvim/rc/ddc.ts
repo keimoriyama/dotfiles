@@ -5,7 +5,15 @@ export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
     args.contextBuilder.patchGlobal({
       ui: "pum",
-      sources: ["denippet", "lsp", "skkeleton", "file", "buffer", "around"],
+      sources: [
+        "denippet",
+        "lsp",
+        "skkeleton",
+        "copilot",
+        "file",
+        "buffer",
+        "around",
+      ],
       autoCompleteEvents: [
         "InsertEnter",
         "TextChangedI",
@@ -43,6 +51,10 @@ export class Config extends BaseConfig {
         cmdline: { mark: "[cmdline]" },
         denippet: { mark: "[denippet]" },
         buffer: { mark: "[buffer]" },
+        copilot: {
+          mark: "[copilot]",
+          minAutoCompleteLength: 0,
+        },
         lsp: {
           mark: "[lsp]",
           keywordPattern: "\\k*",

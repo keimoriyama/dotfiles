@@ -5,12 +5,14 @@ hooks_file="$BASE_DIR/rc/hooks/ddc.lua"
 
 [[plugins]]
 repo="Shougo/pum.vim"
-on_source='ddc.vim'
 
-# [[plugins]]
-# repo="zbirenbaum/copilot.lua"
-# on_event="InsertEnter"
-# hooks_file="$BASE_DIR/rc/hooks/copilot.lua"
+[[plugins]]
+repo="github/copilot.vim"
+on_event="InsertEnter"
+on_source="ddc.vim"
+hook_source='''
+let g:copilot_no_maps = v:true
+'''
 
 [[plugins]]
 repo="Shougo/ddc-nvim-lsp"
@@ -42,6 +44,10 @@ on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-source-lsp"
+on_source="ddc.vim"
+
+[[plugins]]
+repo='Shougo/ddc-source-copilot'
 on_source="ddc.vim"
 
 [[plugins]]
