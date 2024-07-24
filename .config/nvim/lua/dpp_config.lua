@@ -68,6 +68,7 @@ end
 vim.opt.path:append(dpp_base .. "repos/github.com/high-moctane/mocword-data/")
 ---ローカルプラグインの読み込み
 vim.opt.rtp:append(os.getenv("BASE_DIR") .. "/denops/")
+vim.opt.rtp:append(os.getenv("HOME") .. "/Program/vim_plugins/denops_markdown_previewer")
 
 vim.api.nvim_create_user_command("DppMakeState", function()
 	dpp.make_state(dpp_base, config_file)

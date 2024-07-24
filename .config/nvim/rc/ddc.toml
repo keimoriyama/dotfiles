@@ -1,6 +1,6 @@
 [[plugins]]
 repo='Shougo/ddc.vim'
-depends='denops.vim'
+depends=['denops.vim', 'nvim-lspconfig']
 hooks_file="$BASE_DIR/rc/hooks/ddc.lua"
 
 [[plugins]]
