@@ -32,6 +32,7 @@ vim.api.nvim_create_autocmd({ "Bufenter" }, {
 
 local opts = { buffer = true, noremap = true }
 vim.fn["deol#set_option"]({
+	split = "horizontal",
 	internal_history_path = vim.fn.expand("~/.cache/deol-history"),
 })
 vim.keymap.set({ "n", "t" }, "<C-d>", "<cmd>call deol#start()<CR>", opts)

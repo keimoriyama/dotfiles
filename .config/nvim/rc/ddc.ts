@@ -7,9 +7,9 @@ export class Config extends BaseConfig {
       ui: "pum",
       sources: [
         "denippet",
+        "copilot",
         "lsp",
         "skkeleton",
-        "copilot",
         "file",
         "buffer",
         "around",
@@ -53,7 +53,7 @@ export class Config extends BaseConfig {
         buffer: { mark: "[buffer]" },
         copilot: {
           mark: "[copilot]",
-          minAutoCompleteLength: 0,
+          minAutoCompleteLength: 2,
         },
         lsp: {
           mark: "[lsp]",
