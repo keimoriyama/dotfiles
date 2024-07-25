@@ -21,7 +21,6 @@ alias c='clear'
 alias g++='g++-13'
 alias vim='nvim'
 alias python='python3'
-alias msl='mutagen sync list'
 
 fish_add_path $HOME/.pyenv/bin fish_add_path /opt/homebrew/opt/llvm/bin fish_add_path /Users/keimoriyama/.local/bin
 fish_add_path /Users/keimoriyama/Applications
