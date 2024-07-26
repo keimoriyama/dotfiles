@@ -1,18 +1,3 @@
--- lua_add {{{
-local path = vim.fn.expand("%:p")
-if vim.fn.isdirectory(path) == 1 then
-	vim.api.nvim_create_autocmd({ "BufEnter" }, {
-		once = true,
-		callback = function()
-			-- Dduの設定を読み込む
-			vim.cmd("Ddu file -name=filer")
-		end,
-	})
-	return
-end
-
--- }}}
-
 -- lua_ddu-ff-filter {{{
 local opt = { buffer = true, silent = true }
 vim.keymap.set({ "i", "n" }, "<CR>", '<cmd>call ddu#ui#do_action("closeFilterWindow")<CR><esc>', opt)
