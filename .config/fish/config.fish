@@ -14,15 +14,15 @@ alias gf='git fetch'
 alias gc='git commit'
 alias gt='git log --graph --pretty=format:'\''%x09%C(auto) %h %Cgreen %ar %Creset%x09by\"%C(cyan ul)%an%Creset\" %x09%C(auto)%s %d'\'''
 
-alias rm='trash-put'
-
 alias ls='lsd -G'
 alias c='clear'
 alias g++='g++-13'
 alias vim='nvim'
 alias python='python3'
 
-fish_add_path $HOME/.pyenv/bin fish_add_path /opt/homebrew/opt/llvm/bin fish_add_path /Users/keimoriyama/.local/bin
+fish_add_path $HOME/.pyenv/bin 
+fish_add_path /opt/homebrew/opt/llvm/bin 
+fish_add_path /Users/keimoriyama/.local/bin
 fish_add_path /Users/keimoriyama/Applications
 fish_add_path /opt/homebrew/bin
 fish_add_path $HOME/Library/Python/3.11/bin
@@ -73,3 +73,9 @@ if test -z $TMUX && status --is-login
     attach_tmux_session_if_needed
 end
 
+#view
+set -g theme_display_date yes
+set -g theme_date_format "+%F %H:%M"
+set -g theme_display_git_default_branch yes
+set -g theme_color_scheme dark
+set fish_plugins theme peco

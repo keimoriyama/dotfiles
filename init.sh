@@ -12,3 +12,8 @@ brew bundle
 
 ln -snfv $HOME/.dotfiles/.config/aquaskk/keymap.conf $HOME/Library/Application\ Support/AquaSKK/keymap.conf
 
+
+curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
+fisher install jethrokuan/z
+fisher install oh-my-fish/plugin-peco
+fisher install IlanCosman/tide@v6
