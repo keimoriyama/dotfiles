@@ -26,8 +26,8 @@ lib*
 !.config/nvim/after/plugin/*.lua
 !.config/wezterm
 !.config/fish/config.fish
-!.config/aquaskk/keymap.conf
-!.config/aquaskk/skk-jisyo.utf-8
+!.config/aquaskk
+!.config/karabiner/karabiner.json
 
 .zshenv
 .config/github-copilot/hosts.json
