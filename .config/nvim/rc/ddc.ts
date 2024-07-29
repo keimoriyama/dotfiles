@@ -65,7 +65,9 @@ export class Config extends BaseConfig {
 				"cmdline-history": { mark: "[cmdline-history]" },
 				skkeleton: {
 					mark: "[skk]",
-					matchers: ["skkeleton"],
+					matchers: [],
+					sorters: [],
+					converters: [],
 					minAutoCompleteLength: 1,
 					isVolatile: true,
 				},
