@@ -17,3 +17,5 @@ curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fi
 fisher install jethrokuan/z
 fisher install oh-my-fish/plugin-peco
 fisher install IlanCosman/tide@v6
+
+cargo install mocword
