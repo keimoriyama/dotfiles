@@ -12,7 +12,7 @@ registries:
 packages:
 - name: LuaLS/lua-language-server@3.9.3
 - name: denoland/deno@v1.40.3
-- name: astral-sh/ruff@v0.2.0
+- name: astral-sh/ruff@0.5.5
 - name: mitsuhiko/rye@0.20.0
 - name: JohnnyMorganz/StyLua@v0.20.0
 - name: oven-sh/bun@bun-v1.0.25
