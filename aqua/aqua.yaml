@@ -16,5 +16,5 @@ packages:
 - name: mitsuhiko/rye@0.20.0
 - name: JohnnyMorganz/StyLua@v0.20.0
 - name: oven-sh/bun@bun-v1.0.25
-- name: mutagen-io/mutagen@v0.17.5
+- name: mutagen-io/mutagen@v0.17.6
 - name: junegunn/fzf@0.46.1
