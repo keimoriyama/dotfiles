@@ -7,12 +7,10 @@ local userDict = vim.fn.expand("$HOME") .. "/.config/aquaskk/skk-jisyo.utf-8"
 
 vim.fn["skkeleton#azik#add_table"]("us")
 
-vim.fn["skkeleton#config"]({
-	kanaTable = "azik",
-})
-
 vim.fn["skkeleton#register_keymap"]("henkan", "X", "")
 vim.fn["skkeleton#config"]({
+	kanaTable          = "azik",
+	userDictionary     = userDict,
 	globalDictionaries = {
 		vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
 		vim.fs.joinpath(dictdir, "SKK-JISYO.edict"),
@@ -20,7 +18,6 @@ vim.fn["skkeleton#config"]({
 		vim.fs.joinpath(dictdir, "SKK-JISYO.fullname"),
 		vim.fs.joinpath(dictdir, "SKK-JISYO.propernoun"),
 	},
-	userDictionary = userDict,
-	debug = false,
+	debug              = false,
 })
 --}}}

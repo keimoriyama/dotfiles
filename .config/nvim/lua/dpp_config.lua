@@ -65,8 +65,8 @@ if vim.fn.has("syntax") then
 	vim.cmd("syntax on")
 end
 
-vim.opt.path:append(dpp_base .. "/repos/github.com/high-moctane/mocword-data/")
-vim.fn.setenv("MOCWORD_DATA", dpp_base .. "/repos/github.com/high-moctane/mocword-data/")
+-- vim.opt.path:append(dpp_base .. "/repos/github.com/high-moctane/mocword-data/")
+vim.fn.setenv("MOCWORD_DATA", os.getenv("HOME") .. "/.mocword/mocword.sqlite")
 ---ローカルプラグインの読み込み
 vim.opt.rtp:append(os.getenv("BASE_DIR") .. "/denops/")
 vim.opt.rtp:append(os.getenv("HOME") .. "/Program/vim_plugins/denops_markdown_previewer")
