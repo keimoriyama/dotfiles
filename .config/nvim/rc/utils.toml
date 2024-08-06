@@ -39,5 +39,5 @@ hooks_file='$BASE_DIR/rc/hooks/deol.lua'
 [[plugins]]
 repo = 'tani/dmacro.nvim'
 lua_add='''
-vim.keymap.set({ "i", "n" }, '<C-t>', '<Plug>(dmacro-play-macro)')
+vim.keymap.set({ "i", "n" }, '<C-t>', '<Plug>(dmacro-play-macro)<CR>')
 '''

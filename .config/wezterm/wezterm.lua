@@ -61,7 +61,7 @@ local mouse_binding = {
 	},
 }
 return {
-	font = wezterm.font_with_fallback({ "Hack Nerd Font", "Source Han Code JP" }),
+	font = wezterm.font_with_fallback({ "Hack Nerd Font", "BIZ UDGothic" }),
 	font_size = 22,
 	color_scheme = "Gruvbox Dark (Gogh)",
 	hyperlink_rules = hyperlink_rules,
