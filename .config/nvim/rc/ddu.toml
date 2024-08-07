@@ -6,7 +6,6 @@ hooks_file="$BASE_DIR/rc/hooks/ddu.lua"
 [[plugins]]
 repo = "Shougo/ddu-commands.vim"
 depends = 'ddu.vim'
-on_cmd=["Ddu"]
 
 [[plugins]]
 repo = "Shougo/ddu-kind-file"
