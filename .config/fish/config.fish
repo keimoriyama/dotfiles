@@ -1,7 +1,3 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
 alias g='git'
 alias ga='git add'
 alias gd='git diff'
@@ -14,42 +10,50 @@ alias gf='git fetch'
 alias gc='git commit'
 alias gt='git log --graph --pretty=format:'\''%x09%C(auto) %h %Cgreen %ar %Creset%x09by\"%C(cyan ul)%an%Creset\" %x09%C(auto)%s %d'\'''
 
-alias ls='lsd -G'
 alias c='clear'
 alias g++='g++-13'
 alias vim='nvim'
 alias python='python3'
 
 fish_add_path $HOME/.pyenv/bin 
-fish_add_path /opt/homebrew/opt/llvm/bin 
-fish_add_path /Users/keimoriyama/.local/bin
-fish_add_path /Users/keimoriyama/Applications
-fish_add_path /opt/homebrew/bin
 fish_add_path $HOME/Library/Python/3.11/bin
 fish_add_path $HOME/.cargo/bin
-fish_add_path /opt/homebrew/opt/llvm/bin
 fish_add_path $HOME/.local/nvim/bin
 fish_add_path $HOME/.local/vim-startuptime
 fish_add_path $HOME/.local/share/aquaproj-aqua/bin
-fish_add_path $HOME/.juliaup/bin
 
+
+switch (uname)
+    case Linux
+		echo Hi Tux!
+		fish_add_path /home/kei/.deno/bin
+		fish_add_path $HOME/.cargo/bin
+    case Darwin
+      fish_add_path /opt/homebrew/opt/llvm/bin 
+	fish_add_path /Users/keimoriyama/.local/bin
+	fish_add_path /Users/keimoriyama/Applications
+	fish_add_path /opt/homebrew/bin
+	fish_add_path /opt/homebrew/opt/llvm/bin
+	set -gx LDFLAGS /opt/homebrew/opt/openssl@3/lib
+	set -gx CPPFLAGS /opt/homebrew/opt/openssl@3/include
+	set -gx LDFLAGS /opt/homebrew/opt/llvm/lib
+	set -gx CPPFLAGS /opt/homebrew/opt/llvm/include
+	set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
+            echo Hi Hexley!
+    case FreeBSD NetBSD DragonFly
+            echo Hi Beastie!
+    case '*'
+            echo Hi, stranger!
+end
 
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
 
 set -gx DPP_PATH $HOME/.cache/dpp
 
 set -gx PYENV_ROOT $HOME/.pyenv
-set -gx LDFLAGS /opt/homebrew/opt/openssl@3/lib
-set -gx CPPFLAGS /opt/homebrew/opt/openssl@3/include
-
-set -gx LDFLAGS /opt/homebrew/opt/llvm/lib
-set -gx CPPFLAGS /opt/homebrew/opt/llvm/include
 
 set -gx NEOVIM_HOME $HOME/.local/nvim
 set -gx AQUA_GLOBAL_CONFIG $HOME/.dotfiles/aqua/aqua.yaml
-
-set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
-source ~/.config/fish/env.fish
 
 set -gx HYDRA_FULL_ERROR 1
 
