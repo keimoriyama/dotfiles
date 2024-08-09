@@ -8,10 +8,9 @@ repo="Shougo/pum.vim"
 
 [[plugins]]
 repo="github/copilot.vim"
-on_event="InsertEnter"
 on_source="ddc.vim"
-hook_source='''
-let g:copilot_no_maps = v:true
+lua_add='''
+vim.g.copilot_no_maps = true
 '''
 
 [[plugins]]
