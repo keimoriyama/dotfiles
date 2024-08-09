@@ -7,7 +7,7 @@ local opt = { buffer = true, silent = true }
 vim.keymap.set(
 	"n",
 	"<CR>",
-	'<cmd>call ddu#ui#do_action("itemAction", {"name":"open", "params":{"command":"tabnew"}})<CR>',
+	'<cmd>call ddu#ui#do_action("itemAction", {"name":"open"})<CR>',
 	opt
 )
 vim.keymap.set(
