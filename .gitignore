@@ -33,3 +33,4 @@ lib*
 .config/github-copilot/hosts.json
 *.log
 
+Brewfile.lock.json

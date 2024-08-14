@@ -11,8 +11,9 @@ done
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew bundle
 
-ln -snfv $HOME/.dotfiles/.config/aquaskk/keymap.conf $HOME/Library/Application\ Support/AquaSKK/keymap.conf
+mkdir $HOME/Library/Application\ Support/AquaSKK/
 
+ln -snfv $HOME/.dotfiles/.config/aquaskk/keymap.conf $HOME/Library/Application\ Support/AquaSKK/keymap.conf
 
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 fisher install jethrokuan/z
