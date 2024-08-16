@@ -15,6 +15,6 @@ packages:
 - name: astral-sh/ruff@0.5.7
 - name: mitsuhiko/rye@0.38.0
 - name: JohnnyMorganz/StyLua@v0.20.0
-- name: oven-sh/bun@bun-v1.1.21
+- name: oven-sh/bun@bun-v1.1.22
 - name: mutagen-io/mutagen@v0.17.6
 - name: junegunn/fzf@v0.54.3
