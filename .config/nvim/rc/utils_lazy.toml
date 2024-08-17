@@ -101,3 +101,30 @@ repo="glidenote/memolist.vim"
 on_event = ["VimEnter"]
 hooks_file="$BASE_DIR/rc/hooks/memolist.lua"
 
+
+[[plugins]]
+repo='akinsho/toggleterm.nvim'
+on_event = ["VimEnter"]
+lua_source='''
+require("toggleterm").setup({  
+  size = 100,
+  open_mapping = [[<c-t>]],
+  hide_numbers = true,
+  shade_filetypes = {},
+  shade_terminals = true,
+  shading_factor = 2,
+  start_in_insert = true,
+  insert_mappings = true,
+  persist_size = true,
+  direction = 'float',
+  close_on_exit = true,})
+'''
+
+[[plugins]]
+repo='sindrets/diffview.nvim'
+on_event = ["VimEnter"]
+lua_source='''
+require("diffview").setup()
+vim.keymap.set('n', '<leader>df', ':DiffviewOpen<CR>', { noremap = true, silent = true })
+'''
+
