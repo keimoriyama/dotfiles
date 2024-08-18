@@ -19,10 +19,8 @@ end
 vim.opt.compatible = false
 
 -- set dpp runtime path
-
 InitPlugin("vim-denops/denops.vim")
 InitPlugin("Shougo/dpp.vim")
-
 local dpp = require("dpp")
 local config_file = vim.fn.expand("~/.config/nvim/rc/dpp_config.ts")
 
