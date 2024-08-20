@@ -71,10 +71,10 @@ hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
 # on_event=["InsertEnter"]
 # hooks_file="$BASE_DIR/rc/hooks/insx.lua"
 
-[[plugins]]
-repo = 'shortcuts/no-neck-pain.nvim'
-on_event = ["VimEnter"]
-hooks_file = "$BASE_DIR/rc/hooks/no_neck.lua"
+# [[plugins]]
+# repo = 'shortcuts/no-neck-pain.nvim'
+# on_event = ["VimEnter"]
+# hooks_file = "$BASE_DIR/rc/hooks/no_neck.lua"
 
 [[plugins]]
 repo='echasnovski/mini.diff'

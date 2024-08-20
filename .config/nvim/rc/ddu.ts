@@ -137,9 +137,9 @@ export class Config extends BaseConfig {
 		});
 
 		args.contextBuilder.patchLocal("ff", {
-			sources: {
-				params: {
-					ignoreDirectories: [
+			sourceParams: {
+				file_rec: {
+					ignoredDirectories: [
 						".git",
 						"node_modules",
 						"vendor",

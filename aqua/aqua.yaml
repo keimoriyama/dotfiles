@@ -8,14 +8,14 @@
 #   - all
 registries:
 - type: standard
-  ref: v4.212.0 # renovate: depName=aquaproj/aqua-registry
+  ref: v4.213.1 # renovate: depName=aquaproj/aqua-registry
 packages:
-- name: LuaLS/lua-language-server@3.10.3
+- name: LuaLS/lua-language-server@3.10.4
 - name: denoland/deno@v1.45.5
-- name: astral-sh/ruff@0.5.7
+- name: astral-sh/ruff@0.6.1
 - name: mitsuhiko/rye@0.38.0
 - name: JohnnyMorganz/StyLua@v0.20.0
-- name: oven-sh/bun@bun-v1.1.22
+- name: oven-sh/bun@bun-v1.1.24
 - name: mutagen-io/mutagen@v0.17.6
 - name: junegunn/fzf@v0.54.3
 - name: mrjackwills/oxker@v0.7.0
