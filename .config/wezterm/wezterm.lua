@@ -63,7 +63,7 @@ local mouse_binding = {
 return {
 	font = wezterm.font_with_fallback({ "Hack Nerd Font", "HackGen35" }),
 	font_size = 22,
-	color_scheme = "Gruvbox Dark (Gogh)",
+	color_scheme = "Tokyo Night",
 	hyperlink_rules = hyperlink_rules,
 	mouse_bindings = mouse_binding,
 	hide_tab_bar_if_only_one_tab = true,

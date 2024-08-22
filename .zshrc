@@ -26,3 +26,5 @@ chpwd() {
 	fi
 }
 
+
+. "$HOME/.cargo/env"

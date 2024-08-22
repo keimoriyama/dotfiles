@@ -10,7 +10,6 @@ on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/rc/hooks/mason.lua"
 
 
-
 [[plugins]]
 repo = "williamboman/mason-lspconfig.nvim"
 on_event = ['BufNewFile', 'BufRead']

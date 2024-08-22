@@ -1,17 +1,9 @@
-[[pluging]]
-repo = "norcalli/nvim-colorizer.lua"
-lua_add='''
-vim.opt.termguicolors = true
-require("colorizer").setup({
-	"*",
-})
-'''
 [[plugins]]
-repo = "ellisonleao/gruvbox.nvim"
+repo="folke/tokyonight.nvim"
 hook_add='''
-set background=dark
-colorscheme gruvbox
+colorscheme tokyonight-moon
 '''
+
 # dot repeat
 [[plugins]]
 repo="tpope/vim-repeat"
