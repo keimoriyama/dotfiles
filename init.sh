@@ -1,4 +1,4 @@
-FILES=(.zshrc .zshenv .config .tmux.conf .tigrc .vimrc .hammerspoon .p10k.zsh)
+FILES=(.zshrc .zshenv .config .tmux.conf .tigrc .vimrc .hammerspoon .p10k.zsh .emacs.d)
 # 移動できたらリンクを実行する
 for f in ${FILES[@]}; do
 	ln -snfv $HOME/.dotfiles/$f $HOME/$f
@@ -16,6 +16,8 @@ mkdir $HOME/Library/Application\ Support/AquaSKK/
 ln -snfv $HOME/.dotfiles/.config/aquaskk/keymap.conf $HOME/Library/Application\ Support/AquaSKK/keymap.conf
 
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
+
+source ~/.config/fish/functions/fisher.fish
 fisher install jethrokuan/z
 fisher install oh-my-fish/plugin-peco
 fisher install IlanCosman/tide@v6
