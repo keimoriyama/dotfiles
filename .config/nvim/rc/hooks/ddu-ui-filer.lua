@@ -4,12 +4,7 @@ vim.keymap.set("n", "<Leader>sf", "<cmd>Ddu file -name=filer<cr>")
 
 -- lua_ddu-filer{{{
 local opt = { buffer = true, silent = true }
-vim.keymap.set(
-	"n",
-	"<CR>",
-	'<cmd>call ddu#ui#do_action("itemAction", {"name":"open"})<CR>',
-	opt
-)
+vim.keymap.set("n", "<CR>", '<cmd>call ddu#ui#do_action("itemAction", {"name":"open"})<CR>', opt)
 vim.keymap.set(
 	"n",
 	"<C-v>",
