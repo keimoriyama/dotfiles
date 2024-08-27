@@ -1,5 +1,4 @@
-;; load_pathの追加
-
+;;; load_pathの追加
 (when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
 
@@ -42,7 +41,7 @@
 
 (set-face-attribute 'default nil
                     :family "Menlo"
-                    :height 140)
+                    :height 200)
 (setq show-paren-delay 0)
 (show-paren-mode t)
 (setq show-paren-style 'expression)
@@ -91,11 +90,14 @@
   (add-to-list 'dmoccur-exclusion-mask "\\.DS_Store")
   (add-to-list 'dmoccur-exclusion-mask "^#.+#$"))
 
-(require 'moccur-edit nil t)
+
+;(require 'moccur-edit nil t)
+
+
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
-(require 'wgrep nil t):
+(require 'wgrep nil t)
 (when (require 'undohist nil t)
   (undohist-initialize))
 (when (require 'elscreen nil t)
@@ -109,43 +111,38 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
-(when (require 'web-mode nil t)
-  (add-to-list 'auto-mode-alist '("\\.html\\" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.css\\" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.js\\" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx\\" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.ts\\" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\" . web-mode)))
 
 (setq python-check-command "black")
-
+ 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (with-eval-after-load 'flycheck(flycheck-pos-tip-mode))
-
-
+ 
+(when (require 'projectile nil t)
+      (projectile-mode))
+ 
 ;; 画像をインラインで表示
 (setq org-startup-with-inline-images t)
-
+ 
 ;; 見出しの余分な*を消す
 (setq org-hide-leading-stars t)
-
+ 
 ;; LOGBOOK drawerに時間を格納する
 (setq org-clock-into-drawer t)
-
+ 
 ;; .orgファイルは自動的にorg-mode
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-
+ 
 ;; org-directory内のファイルすべてからagendaを作成する
 (setq my-org-agenda-dir "~/org/")
 (setq org-agenda-files (list my-org-agenda-dir))
-
+ 
 ;; TODO状態
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w)" "NOTE(n)"  "|" "DONE(d)" "SOMEDAY(s)" "CANCEL(c)")))
-
+ 
 ;; DONEの時刻を記録
 (setq org-log-done 'time)
-
+ 
 ;; ショートカットキー
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)

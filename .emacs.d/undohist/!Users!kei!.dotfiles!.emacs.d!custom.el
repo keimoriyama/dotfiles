@@ -1,5 +1,53 @@
 
-((digest . "36fa8f7d3e2cba1c8a31d41fc99c5323") (undo-list (440 . 679) ("(custom-set-faces
+((digest . "0d9c51b0c49777f46dfb7c6f02a8098a") (undo-list (457 . 696) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -457) (454 . 456) ("
+" . -454) (274 . 455) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(yaml-mode wgrep web-mode undohist undo-tree quickrun projectile multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 23014 672932 585000) (451 . 451) (451 . 690) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -451) (448 . 450) ("
+" . -448) (274 . 449) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(projectile yaml-mode wgrep web-mode undohist undo-tree quickrun multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 11899 72231 576000) (451 . 451) (451 . 690) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -451) (448 . 450) ("
+" . -448) (274 . 449) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(yaml-mode wgrep web-mode undohist undo-tree quickrun multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 11899 16654 353000) (440 . 440) (440 . 679) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -440) (437 . 439) ("
+" . -437) (274 . 438) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(quickrun yaml-mode wgrep web-mode undohist undo-tree multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 6856 221298 2000) (440 . 440) (440 . 679) ("(custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
