@@ -66,47 +66,68 @@
     (turn-on-eldoc-mode)))
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 
-(require 'package)
-(add-to-list
- 'package-archives
- '("marmalade" . "https://marmalade-repo.org/packages/"))
-(add-to-list
- 'package-archives
- '("melpa" . "https://melpa.org/packages/"))
+;; <leaf-install-code>
+(eval-and-compile
+  (customize-set-variable
+   'package-archives '(("org" . "https://orgmode.org/elpa/")
+                       ("melpa" . "https://melpa.org/packages/")
+                       ("gnu" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (unless (package-installed-p 'leaf)
+    (package-refresh-contents)
+    (package-install 'leaf))
 
-(package-initialize)
+  (leaf leaf-keywords
+    :ensure t
+    :init
+    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+    (leaf hydra :ensure t)
+    (leaf el-get :ensure t)
+    (leaf blackout :ensure t)
 
-(require 'helm)
+    :config
+    ;; initialize leaf-keywords.el
+    (leaf-keywords-init)))
+;; </leaf-install-code>
 
-(when (require 'auto-complete-config nil t)
-  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+(leaf helm)
+;;
+(leaf auto-complete-config
+  :config
   (ac-config-default)
-  (setq ac-use-menu-map t)
-  (setq ac-ignore-case nil))
-
-(when (require 'color-moccur nil t)
-  (define-key global-map (kbd "M-o") 'occur-by-moccur)
-  (setq moccur-split-word t)
-  (add-to-list 'dmoccur-exclusion-mask "\\.DS_Store")
-  (add-to-list 'dmoccur-exclusion-mask "^#.+#$"))
-
-
+  :bind (("M-TAB" . auto-complete))
+  :custom
+  ((ac-use-menu-map . t)(ac-ignore-case . nil))
+  )
+(leaf color-moccur
+  :bind (("M-o" . occur-by-moccur))
+  :custom
+  ((dmoccur-exclusion-mask . "\\.DS_Store")(dmoccur-exclusion-mask . "^#.+#$"))
+  )
 ;(require 'moccur-edit nil t)
 
 
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
-(require 'wgrep nil t)
-(when (require 'undohist nil t)
+
+(leaf wgrep)
+(leaf undohist
+  :config
   (undohist-initialize))
-(when (require 'elscreen nil t)
+(leaf elscreen
+  :config
   (elscreen-start)
-  (if window-system
-      (define-key elscreen-map (kbd "C-z")
-                  'iconify-or-deinconify-frame)
-    (define-key elscreen-map (kbd "C-z")
-                'suspend-emacs)))
+  :if
+  (window-system)
+  :bind (("C-z" . iconify-or-deiconify-frame)("C-z" . suspend-emacs)))
+;(when (require 'elscreen nil t)
+;  (elscreen-start)
+;  (if window-system
+;      (define-key elscreen-map (kbd "C-z")
+;                  'iconify-or-deinconify-frame)
+;    (define-key elscreen-map (kbd "C-z")
+;                'suspend-emacs)))
 
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
@@ -116,10 +137,13 @@
  
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (with-eval-after-load 'flycheck(flycheck-pos-tip-mode))
- 
-(when (require 'projectile nil t)
-      (projectile-mode))
- 
+
+(leaf projectile
+  :config projectile-mode)
+(leaf git-gutter
+  :custom
+  (global-git-gutter-mode . t))
+
 ;; 画像をインラインで表示
 (setq org-startup-with-inline-images t)
  
