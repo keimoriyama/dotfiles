@@ -11,15 +11,12 @@ alias gc='git commit'
 alias gt='git log --graph --pretty=format:'\''%x09%C(auto) %h %Cgreen %ar %Creset%x09by\"%C(cyan ul)%an%Creset\" %x09%C(auto)%s %d'\'''
 
 alias c='clear'
-alias g++='g++-13'
 alias vim='nvim'
 alias python='python3'
 
-fish_add_path $HOME/.pyenv/bin 
 fish_add_path $HOME/Library/Python/3.11/bin
 fish_add_path $HOME/.cargo/bin
 fish_add_path $HOME/.local/nvim/bin
-fish_add_path $HOME/.local/vim-startuptime
 fish_add_path $HOME/.local/share/aquaproj-aqua/bin
 
 
@@ -33,10 +30,10 @@ switch (uname)
 		fish_add_path /Users/keimoriyama/Applications
 		fish_add_path /opt/homebrew/bin
 		fish_add_path /opt/homebrew/opt/llvm/bin
+		alias gcc='gcc-14'
+		set -gx LD_LIBRARY_PATH /opt/homebrew/Cellar/libgccjit/14.2.0/lib/gcc/14
 		set -gx LDFLAGS /opt/homebrew/opt/openssl@3/lib
 		set -gx CPPFLAGS /opt/homebrew/opt/openssl@3/include
-		set -gx LDFLAGS /opt/homebrew/opt/llvm/lib
-		set -gx CPPFLAGS /opt/homebrew/opt/llvm/include
 		set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
     case FreeBSD NetBSD DragonFly
             echo Hi Beastie!
