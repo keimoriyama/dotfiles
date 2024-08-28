@@ -1,5 +1,64 @@
 
-((digest . "0d9c51b0c49777f46dfb7c6f02a8098a") (undo-list (457 . 696) ("(custom-set-faces
+((digest . "4e4d03d0c240d3c97f0dc25ee858dd1b") (undo-list (272 . 511) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -272) (1 . 271) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(init-loader whitespace rainbow-delimiters highlight-indent-guides blackout el-get hydra leaf-keywords)))" . -1) (t 26317 32151 48070 143000) (385 . 385) (385 . 624) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -385) (382 . 384) ("
+" . -382) (274 . 383) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(multi-vterm package-utils git-gutter magit yaml-mode wgrep web-mode undohist undo-tree quickrun projectile multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 23770 775798 857000) (494 . 494) (494 . 733) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -494) (491 . 493) ("
+" . -491) (274 . 492) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(package-utils git-gutter magit yaml-mode wgrep web-mode undohist undo-tree quickrun projectile multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 23671 756147 867000) (482 . 482) (482 . 721) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -482) (479 . 481) ("
+" . -479) (274 . 480) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(git-gutter magit yaml-mode wgrep web-mode undohist undo-tree quickrun projectile multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 23195 612195 212000) (468 . 468) (468 . 707) ("(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )" . -468) (465 . 467) ("
+" . -465) (274 . 466) (" " . 274) (1 . 275) ("(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(magit yaml-mode wgrep web-mode undohist undo-tree quickrun projectile multi-term htmlize helm-descbinds helm-bundle-show flycheck-pos-tip elscreen color-moccur auto-complete)))" . -1) (t 26317 23014 730426 65000) (457 . 457) (457 . 696) ("(custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.

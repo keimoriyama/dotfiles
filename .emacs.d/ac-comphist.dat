@@ -1,17 +1,51 @@
-((("require-theme" .
+((("global-git-gutter-mode" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("git-gutter" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("projectile-mode" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("projectile" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("iconify-or-deiconify-frame" .
+   [0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  (":if" .
+   [1 0 0])
+  ("elscreen-start" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("elscreen" .
+   [1 0 0 0 0 0 0 0])
+  ("undohist-initialize" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  (":config" .
+   [4 0 0 0 0 0 0])
+  ("undohist" .
+   [1 0 0 0 0 0 0 0])
+  ("wgrep" .
+   [1 0 0 0 0])
+  (":custom" .
+   [2 0 0 0 0 0 0])
+  ("occur-by-moccur" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  (":bind" .
+   [2 0 0 0 0])
+  ("color-moccur" .
+   [1 0 0 0 0 0 0 0 0 0 0 0])
+  ("leaf" .
+   [6 0 0 0])
+  ("require-theme" .
    [0 0 0 1 0 0 0 0 0 0 0 0 0])
   ("suspend-emacs" .
-   [1 0 0 0 0 0 0 0 0 0 0 0 0])
+   [2 0 0 0 0 0 0 0 0 0 0 0 0])
   ("elscreen-map" .
-   [1 0 0 0 0 0 0 0 0 0 0 0])
+   [1 0 0 0 1 0 0 0 0 0 0 0])
   ("window-system" .
-   [1 0 0 0 0 0 0 0 0 0 0 0 0])
+   [2 0 0 0 0 0 0 0 0 0 0 0 0])
   ("if" .
    [1 0])
   ("nil" .
    [2 0 0])
   ("dmoccur-exclusion-mask" .
-   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+   [1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
   ("add-to-list" .
    [1 0 0 0 0 0 1 0 0 0 0])
   ("setq" .
