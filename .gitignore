@@ -34,9 +34,12 @@ lib*
 *.log
 
 Brewfile.lock.json
-.emacs.d/*
+.emacs.d/
 .emacs.d/elpa/*
 !emacs.d/init.el
 !emacs.d/inits/*.el
+!emacs.d/public_repos
+!emacs.d/config
+!emacs.d/elisp
 # Compiled
 *.elc

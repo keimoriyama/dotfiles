@@ -9,6 +9,11 @@
   :ensure t
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode)
   )
-(use-package python
+(leaf python
   :custom (python-indent-guess-indent-offset-verbose . nil)
   :hook (python-ts-mode-hook . eglot-ensure))
+(leaf lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))

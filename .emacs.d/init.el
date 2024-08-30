@@ -120,30 +120,30 @@
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
 
-(leaf wgrep)
 (leaf undohist
   :config
   (undohist-initialize))
-(leaf elscreen
-  :config
-  (elscreen-start)
-  :if
-  (window-system)
-  :bind (("C-z" . iconify-or-deiconify-frame)("C-z" . suspend-emacs)))
-;(when (require 'elscreen nil t)
-;  (elscreen-start)
-;  (if window-system
-;      (define-key elscreen-map (kbd "C-z")
-;                  'iconify-or-deinconify-frame)
-;    (define-key elscreen-map (kbd "C-z")
-;                'suspend-emacs)))
-
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
 (with-eval-after-load 'flycheck(flycheck-pos-tip-mode))
 
+(leaf flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+
+(leaf flycheck-aspell
+  :ensure t
+  :config
+  ;; If you want to check TeX/LaTeX/ConTeXt buffers
+  (add-to-list 'flycheck-checkers 'tex-aspell-dynamic)
+  ;; If you want to check Markdown/GFM buffers
+  (add-to-list 'flycheck-checkers 'markdown-aspell-dynamic)
+  ;; If you want to check HTML buffers
+  (add-to-list 'flycheck-checkers 'html-aspell-dynamic))
+  
 (leaf projectile
   :config projectile-mode)
 (leaf git-gutter
@@ -216,7 +216,7 @@
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line)    ; M-g g
          ([remap imenu] . consult-imenu)            ; M-g i
-         ("M-g f" . consult-flymake)
+         ("Mf-g f" . consult-flymake)
 
          ;; C-M-s bindings
          ("C-s" . c/consult-line)       ; isearch-forward
@@ -284,10 +284,14 @@
   :global-minor-mode global-corfu-mode corfu-popupinfo-mode
   :custom ((corfu-auto . t)
            (corfu-auto-delay . 0)
-           (corfu-auto-prefix . 1)
-           (corfu-popupinfo-delay . nil)) ; manual
+           (corfu-cycle . t)
+           (corfu-auto-prefix . 1))
   :bind ((corfu-map
-          ("C-s" . corfu-insert-separator))))
+          ("C-s" . corfu-insert-separator)))
+  :config
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-completion-provider :none)))
+
 
 (leaf corfu-popupinfo
   :after corfu
@@ -301,7 +305,11 @@
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'tempel-complete)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword))
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+(leaf kind-icon
+  :ensure t
+  :after corfu)
 
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
@@ -361,18 +369,18 @@
     (setq YaTeX-inhibit-prefix-letter t))
 
 (leaf reftex
-    :ensure nil
+    :ensure t
     :hook (yatex-mode . reftex-mode)
     :bind (reftex-mode-map
                 ("C-c (" . reftex-reference)
                 ("C-c )" . nil)
                 ("C-c >" . YaTeX-comment-region)
-                ("C-c <" . YaTeX-uncomment-region))
-    )
+                ("C-c <" . YaTeX-uncomment-region)))
 
 (leaf biblio)
 
 (leaf ispell
+    :ensure t
     :init
     ;; スペルチェッカとしてaspellを使う
     (setq ispell-program-name "/usr/local/bin/aspell")
@@ -394,7 +402,8 @@
   :init
   (setq org-directory "~/Documents/org-mode/"
         org-daily-tasks-file (format "%s/tasks.org" org-directory)
-        org-memo-file (format "%s/memo.org" org-directory))
+        org-memo-file (format "%s/memo.org" org-directory)
+        org-main-file (format "%s/main.org" org-directory))
   :bind
   (("C-c e" . create-daily-org-file)
    ("C-c p" . org-agenda-list)
@@ -406,7 +415,7 @@
       ("m" "memo" entry (file org-memo-file)
            "* %U\n%?\n%i\n"
            :empty-lines 1)
-          ))
+      ("t" "Tasks" entry (file org-main-file "inbox") "** TODO %?\n CREATED: %U\n")))
   (setq org-agenda-files
         (let* ((current-day (format-time-string "%Y-%m-%d"))
                (org-file (expand-file-name (concat org-directory current-day ".org"))))
@@ -421,3 +430,31 @@
       (setq org-agenda-files (list path))))
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)"))))
+(leaf org-agenda
+  :commands org-agenda
+  :config
+  (setq org-agenda-custom-commands
+        '(("x" "Unscheduled Tasks" tags-todo
+           "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
+          ("d" "Daily Tasks" agenda ""
+           ((org-agenda-span 1)))))
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-return-follows-link t)  ;; RET to follow link
+  (setq org-agenda-columns-add-appointments-to-effort-sum t)
+  (setq org-agenda-time-grid
+        '((daily today require-timed)
+          (0900 1200 1300 1800) "......" "----------------"))
+  (setq org-columns-default-format
+        "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
+  (defadvice org-agenda-switch-to (after org-agenda-close)
+    "Close a org-agenda window when RET is hit on the window."
+    (progn (delete-other-windows)
+           (recenter-top-bottom)))
+  (ad-activate 'org-agenda-switch-to)
+  :bind
+  (org-agenda-mode-map
+        ("s" . org-agenda-schedule)
+        ("S" . org-save-all-org-buffers)))
+
+(leaf vterm
+  :ensure t)
