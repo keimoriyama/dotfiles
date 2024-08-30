@@ -1,16 +1,14 @@
 (leaf py-isort :ensure t)
-
-(leaf elpy
+(leaf flymake-ruff
   :ensure t
-  :init
-  (elpy-enable)
-  :config
-  (remove-hook 'elpy-modules 'elpy-module-highlight-indentation) ;; インデントハイライトの無効化
-  (remove-hook 'elpy-modules 'elpy-module-flymake) ;; flymakeの無効化
-  :custom
-  (elpy-rpc-python-command . "python3") ;; https://mako-note.com/ja/elpy-rpc-python-version/の問題を回避するための設定
-  (flycheck-python-flake8-executable . "flake8")
-  :bind (elpy-mode-map
-         ("C-c C-r f" . elpy-format-code))
-  :hook ((elpy-mode-hook . flycheck-mode))
-)
+  :hook (eglot-managed-mode-hook .(lambda ()
+                                    (when (derived-mode-p 'python-mode 'python-ts-mode)
+                                      (flymake-ruff-load)))))
+
+(leaf highlight-indent-guides
+  :ensure t
+  :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode)
+  )
+(use-package python
+  :custom (python-indent-guess-indent-offset-verbose . nil)
+  :hook (python-ts-mode-hook . eglot-ensure))

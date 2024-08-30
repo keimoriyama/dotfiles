@@ -135,15 +135,7 @@ function open(name)
 end
 
 appHotKey = { "ctrl", "cmd" }
-hs.hotkey.bind(appHotKey, "i", open("iTerm"))
 hs.hotkey.bind(appHotKey, "w", open("wezterm"))
-
-hs.hotkey.bind(appHotKey, "s", open("slack"))
-hs.hotkey.bind(appHotKey, "c", open("Google Chrome"))
-hs.hotkey.bind(appHotKey, "n", open("Notion"))
-hs.hotkey.bind(appHotKey, "d", open("Discord"))
-hs.hotkey.bind(appHotKey, "a", open("safari"))
-hs.hotkey.bind(appHotKey, "v", open("Visual Studio Code"))
 
 switcher = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter({}))
 hs.hotkey.bind("alt", "tab", function()

@@ -34,8 +34,9 @@ lib*
 *.log
 
 Brewfile.lock.json
+.emacs.d/*
+.emacs.d/elpa/*
+!emacs.d/init.el
+!emacs.d/inits/*.el
 # Compiled
-*.elc
-# ignore elpa
-.emacs.d/elpa/
 *.elc

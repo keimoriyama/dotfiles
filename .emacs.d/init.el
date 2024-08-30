@@ -15,6 +15,11 @@
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
+;; システムに装飾キー渡さない
+(setq mac-pass-control-to-system nil)
+(setq mac-pass-command-to-system nil)
+(setq mac-pass-option-to-system nil)
+
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
 
@@ -53,6 +58,10 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory)))
 
+(with-eval-after-load 'simple
+  (setq kill-whole-line t))
+
+
 (global-auto-revert-mode t)
 
 (add-hook 'after-save-hook
@@ -90,15 +99,15 @@
     (leaf-keywords-init)))
 ;; </leaf-install-code>
 
-(leaf helm)
+;(leaf helm)
 ;;
-(leaf auto-complete-config
-  :config
-  (ac-config-default)
-  :bind (("M-TAB" . auto-complete))
-  :custom
-  ((ac-use-menu-map . t)(ac-ignore-case . nil))
-  )
+;(leaf auto-complete-config
+; :config
+; (ac-config-default)
+; :bind (("M-TAB" . auto-complete))
+; :custom
+; ((ac-use-menu-map . t)(ac-ignore-case . nil))
+; )
 (leaf color-moccur
   :bind (("M-o" . occur-by-moccur))
   :custom
@@ -132,8 +141,6 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
-(setq python-check-command "black")
-
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (with-eval-after-load 'flycheck(flycheck-pos-tip-mode))
 
@@ -142,55 +149,11 @@
 (leaf git-gutter
   :custom
   (global-git-gutter-mode))
-(leaf highlight-indent-guides
-  :ensure t
-  :blackout t
-  :hook (((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
-  :custom (
-           (highlight-indent-guides-method . 'character)
-           (highlight-indent-guides-auto-enabled . t)
-           (highlight-indent-guides-responsive . t)
-           (highlight-indent-guides-character . ?\|)))
-
 (leaf rainbow-delimiters
   :ensure t
   :hook
   ((prog-mode-hook . rainbow-delimiters-mode)))
 
-
-(leaf whitespace
-  :ensure t
-  :commands whitespace-mode
-  :bind ("C-c W" . whitespace-cleanup)
-  :custom ((whitespace-style . '(face
-                                trailing
-                                tabs
-                                spaces
-                                empty
-                                space-mark
-                                tab-mark))
-           (whitespace-display-mappings . '((space-mark ?　 [?□])
-                                            (tab-mark ?	 [?» ?	] [?\ ?	])))
-           (whitespace-space-regexp . "\(　+\)")
-           (whitespace-global-modes . '(emacs-lisp-mode shell-script-mode sh-mode python-mode org-mode))
-           (global-whitespace-mode . t))
-
-  :config
-  (set-face-attribute 'whitespace-trailing nil
-                      :background "Black"
-                      :foreground "DeepPink"
-                      :underline t)
-  (set-face-attribute 'whitespace-tab nil
-                      :background "Black"
-                      :foreground "LightSkyBlue"
-                      :underline t)
-  (set-face-attribute 'whitespace-space nil
-                      :background "Black"
-                      :foreground "GreenYellow"
-                      :weight 'bold)
-    (set-face-attribute 'whitespace-empty nil
-                      :background "Black")
-  )
 
 (leaf autorevert
   :doc "revert buffers when files on disk change"
@@ -289,6 +252,32 @@
           ("M-." . embark-dwim)
           ("C-." . embark-act))))
 
+(leaf tempel
+  :ensure t
+  :doc "template engine"
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-complete
+                      completion-at-point-functions)))
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+  (add-hook 'org-mode-hook 'tempel-setup-capf))
+
+(leaf yasnippet
+  :ensure t
+  :doc "snippet engine"
+  :init
+  (yas-global-mode +1)
+  :bind ((
+         yas-keymap
+         ("<tab>" . nil)
+         ("TAB" . nil)
+         ("<backtab>" . nil)
+         ("S-TAB" . nil)
+         ("M-}" . yas-next-field-or-maybe-expand)
+         ("M-{" . yas-prev-field))))
+
 (leaf corfu
   :doc "COmpletion in Region FUnction"
   :ensure t
@@ -299,49 +288,136 @@
            (corfu-popupinfo-delay . nil)) ; manual
   :bind ((corfu-map
           ("C-s" . corfu-insert-separator))))
+
+(leaf corfu-popupinfo
+  :after corfu
+  :hook (corfu-mode. corfu-popupinfo-mode))
+
 (leaf cape
   :doc "Completion At Point Extensions"
   :ensure t
   :config
-  (add-to-list 'completion-at-point-functions #'cape-file))
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'tempel-complete)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-keyword))
 
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
-  :hook ((clojure-mode-hook . eglot-ensure))
+  :hook ((python-mode . eglot-ensure))
   :custom ((eldoc-echo-area-use-multiline-p . nil)
-           (eglot-connect-timeout . 600)))
-
+           (eglot-connect-timeout . 600))
+  :config
+  (defun my/eglot-capf ()
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'tempel-complete
+                       #'eglot-completion-at-point)
+                      #'cape-keyword
+                      #'cape-dabbrev
+                      #'cape-file)
+                ))
+  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+  )
+ 
+ 
 (leaf eglot-booster
   :when (executable-find "emacs-lsp-booster")
   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
   :global-minor-mode t)
 
+(leaf treesit-auto
+  :ensure t
+  :config
+  (setq treesit-auto-install 'prompt)
+  )
 
-;; 画像をインラインで表示
-(setq org-startup-with-inline-images t)
+(leaf reformatter
+  :hook
+  (python-ts-mode-hook . ruff-format-on-save-mode)
+  :config
+  (reformatter-define ruff-format
+                      :program "ruff"
+                      :args `("format" "--stdin-filename" ,buffer-file-name "-")))
 
-;; 見出しの余分な*を消す
-(setq org-hide-leading-stars t)
+(leaf flyspell
+  ;; flyspellをインストールする
+  :ensure t
+  ;; YaTeXモードでflyspellを使う
+  :hook (yatex-mode . flyspell-mode))
 
-;; LOGBOOK drawerに時間を格納する
-(setq org-clock-into-drawer t)
+(leaf yatex
+  :doc "new latex mode"
+  :ensure t
+  :commands (yatex-mode)
+  :mode (("\\.tex$" . yatex-mode)
+           ("\\.ltx$" . yatex-mode)
+           ("\\.cls$" . yatex-mode)
+           ("\\.sty$" . yatex-mode)
+           ("\\.clo$" . yatex-mode)
+           ("\\.bbl$" . yatex-mode))
+    :init
+    (setq YaTeX-inhibit-prefix-letter t))
 
-;; .orgファイルは自動的にorg-mode
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(leaf reftex
+    :ensure nil
+    :hook (yatex-mode . reftex-mode)
+    :bind (reftex-mode-map
+                ("C-c (" . reftex-reference)
+                ("C-c )" . nil)
+                ("C-c >" . YaTeX-comment-region)
+                ("C-c <" . YaTeX-uncomment-region))
+    )
 
-;; org-directory内のファイルすべてからagendaを作成する
-(setq my-org-agenda-dir "~/org/")
-(setq org-agenda-files (list my-org-agenda-dir))
+(leaf biblio)
 
-;; TODO状態
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT(w)" "NOTE(n)"  "|" "DONE(d)" "SOMEDAY(s)" "CANCEL(c)")))
+(leaf ispell
+    :init
+    ;; スペルチェッカとしてaspellを使う
+    (setq ispell-program-name "/usr/local/bin/aspell")
+    :config
+    ;; 日本語の部分を飛ばす
+    (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
-;; DONEの時刻を記録
-(setq org-log-done 'time)
+(leaf ddskk
+:doc "japanese IME works in emacs"
+:bind (("C-x C-j" . skk-mode))
+:init
+ (setq skk-server-host "localhost")
+ (setq skk-server-portnum 1178)
+ (setq skk-use-azik t)
+ (setq skk-search-katakana t))
 
-;; ショートカットキー
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+ 
+(leaf org
+  :init
+  (setq org-directory "~/Documents/org-mode/"
+        org-daily-tasks-file (format "%s/tasks.org" org-directory)
+        org-memo-file (format "%s/memo.org" org-directory))
+  :bind
+  (("C-c e" . create-daily-org-file)
+   ("C-c p" . org-agenda-list)
+   ("C-c a" . org-agenda)
+   ("C-c c" . org-capture))
+  :config
+  (setq org-capture-templates
+    '(("t" "Weekdays TODO" entry (file org-daily-tasks-file) "* TODO %i")
+      ("m" "memo" entry (file org-memo-file)
+           "* %U\n%?\n%i\n"
+           :empty-lines 1)
+          ))
+  (setq org-agenda-files
+        (let* ((current-day (format-time-string "%Y-%m-%d"))
+               (org-file (expand-file-name (concat org-directory current-day ".org"))))
+          (when (file-exists-p org-file)
+            (list org-file))))
+  (defun create-daily-org-file ()
+    "Create an org file"
+    (interactive)
+    (let* ((path (concat org-directory (format-time-string "%Y-%m-%d.org"))))
+      (find-file path)
+      (save-buffer)
+      (setq org-agenda-files (list path))))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)"))))

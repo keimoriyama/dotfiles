@@ -40,3 +40,5 @@ tap "railwaycat/emacsmacport"   # brew tap railwaycat/emacsmacport
 cask "emacs-mac-spacemacs-icon" # brew install --cask emacs-mac-spacemacs-icon
 tap "wtsnjp/tex2img"
 brew "tex2img"
+brew "deno"
+brew "ruff"
