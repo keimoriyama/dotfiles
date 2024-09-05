@@ -77,8 +77,8 @@
     (setq eldoc-echo-area-use-multiline-p t)
     (turn-on-eldoc-mode)))
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
-
 (tab-bar-mode +1)
+
 (tab-bar-history-mode +1)
 (setq tab-bar-show t)
 (setq tab-bar-new-button-show nil)
@@ -108,22 +108,11 @@
     (leaf-keywords-init)))
 ;; </leaf-install-code>
 
-;(leaf helm)
-;;
-;(leaf auto-complete-config
-; :config
-; (ac-config-default)
-; :bind (("M-TAB" . auto-complete))
-; :custom
-; ((ac-use-menu-map . t)(ac-ignore-case . nil))
-; )
 (leaf color-moccur
   :bind (("M-o" . occur-by-moccur))
   :custom
   ((dmoccur-exclusion-mask . "\\.DS_Store")(dmoccur-exclusion-mask . "^#.+#$"))
   )
-;(require 'moccur-edit nil t)
-
 
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
@@ -141,23 +130,6 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
-;(with-eval-after-load 'flycheck(flycheck-pos-tip-mode))
-
-;(leaf flycheck
-;  :ensure t
-;  :config
-;  (add-hook 'after-init-hook #'global-flycheck-mode))
-
-;(leaf flycheck-aspell
-;  :ensure t
-;  :config
-;  ;; If you want to check TeX/LaTeX/ConTeXt buffers
-;  (add-to-list 'flycheck-checkers 'tex-aspell-dynamic)
-;  ;; If you want to check Markdown/GFM buffers
-;  (add-to-list 'flycheck-checkers 'markdown-aspell-dynamic)
-;  ;; If you want to check HTML buffers
-;  (add-to-list 'flycheck-checkers 'html-aspell-dynamic))
-  
 (leaf projectile
   :ensure t
   :config projectile-mode
@@ -172,11 +144,11 @@
   :hook
   ((prog-mode-hook . rainbow-delimiters-mode)))
 
-(use-package hl-line
+(leaf hl-line
   :init
   (global-hl-line-mode +1))
 
-(use-package elec-pair
+(leaf elec-pair
   :config
   (electric-pair-mode +1))
 
@@ -196,6 +168,11 @@
            (kill-whole-line . t)
            (eval-expression-print-length . nil)
            (eval-expression-print-level . nil)))
+
+(leaf spaceline
+  :ensure t
+  :config (spaceline-spacemacs-theme))
+
 
 (leaf startup
   :doc "process Emacs shell arguments"
@@ -279,7 +256,9 @@
   :doc "Consult integration for Embark"
   :ensure t
   :bind ((minibuffer-mode-map
-          :package emacs
+     
+
+     :package emacs
           ("M-." . embark-dwim)
           ("C-." . embark-act))))
 
@@ -323,14 +302,14 @@
 (leaf nerd-icons
   :ensure t)
 
-(leaf nerd-icons-corfu
-  :vc ( :url "https://github.com/LuigiPiucco/nerd-icons-corfu")
-  :after corfu nerd-icons
+(leaf kind-icon
+  :ensure t
   :config
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (leaf corfu-popupinfo
   :ensure nil
+  :after corfu
   :hook (corfu-mode . corfu-popupinfo-mode))
 
 
@@ -350,11 +329,6 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
-
-
-(leaf kind-icon
-  :ensure t
-  :after corfu)
 
 
 (leaf eglot
@@ -526,9 +500,14 @@
 
 (leaf lsp-pyright
   :ensure t
-  :init
-  (setq lsp-pyright-venv-path "./.venv/bin/python")
+;  :init
+;  (setq lsp-pyright-locate-python (format "%s/.venv/bin/python" buffer-file-name))
   :hook ((python-mode . (lambda ()
                           (require 'lsp-pyright)
                           (lsp)))
          (python-ts-mode-hook . eglot-ensure)))
+
+(leaf pet
+  :ensure t
+  :config
+  (add-hook 'python-ts-mode-hook 'pet-mode -10))
