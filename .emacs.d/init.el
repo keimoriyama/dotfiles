@@ -1,5 +1,5 @@
 ;;; load_pathの追加
-(when (< emacs-major-version 23)
+n(when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
 
 (defun add-to-load-path (&rest paths)
@@ -114,6 +114,8 @@
   ((dmoccur-exclusion-mask . "\\.DS_Store")(dmoccur-exclusion-mask . "^#.+#$"))
   )
 
+(leaf dash
+  :ensure t)
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
@@ -182,6 +184,9 @@
   :doc "Display available keybindings in popup"
   :ensure t
   :global-minor-mode t)
+
+(leaf magit
+  :ensure t)
 
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
@@ -331,39 +336,43 @@
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
 
-(leaf eglot
-  :doc "The Emacs Client for LSP servers"
-  :hook ((python-mode-hook . eglot-ensure))
-  :custom ((eldoc-echo-area-use-multiline-p . nil)
-           (eglot-connect-timeout . 600))
-  :config
-  (defun my/eglot-capf ()
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'tempel-complete
-                       #'eglot-completion-at-point)
-                      #'cape-keyword
-                      #'cape-dabbrev
-                      #'cape-file)
-                ))
-  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-  )
- 
-
-(leaf eglot-booster
-  :when (executable-find "emacs-lsp-booster")
-  :vc ( :url "https://github.com/jdtsmith/eglot-booster")
-  :global-minor-mode t)
-
 (leaf treesit-auto
   :ensure t
   :config
-  (setq treesit-auto-install 'prompt)
+  (setq treesit-auto-install t)
+  (setq treesit-language-source-alist
+  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+    (c "https://github.com/tree-sitter/tree-sitter-c")
+    (cmake "https://github.com/uyha/tree-sitter-cmake")
+    (common-lisp "https://github.com/theHamsta/tree-sitter-commonlisp")
+    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+    (css "https://github.com/tree-sitter/tree-sitter-css")
+    (csharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+    (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+    (go "https://github.com/tree-sitter/tree-sitter-go")
+    (go-mod "https://github.com/camdencheek/tree-sitter-go-mod")
+    (html "https://github.com/tree-sitter/tree-sitter-html")
+    (js . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
+    (json "https://github.com/tree-sitter/tree-sitter-json")
+    (lua "https://github.com/Azganoth/tree-sitter-lua")
+    (make "https://github.com/alemuller/tree-sitter-make")
+    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+    (python "https://github.com/tree-sitter/tree-sitter-python")
+    (r "https://github.com/r-lib/tree-sitter-r")
+    (rust "https://github.com/tree-sitter/tree-sitter-rust")
+    (toml "https://github.com/tree-sitter/tree-sitter-toml")
+    (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
+    (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
+    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
   )
+
+(leaf treesit
+  :config
+  (setq treesit-font-lock-level 4))
 
 (leaf reformatter
   :hook
-  (python-ts-mode-hook . ruff-format-on-save-mode)
+  (python-ts-mode . ruff-format-on-save-mode)
   :config
   (reformatter-define ruff-format
                       :program "ruff"
@@ -480,6 +489,29 @@
   :hook ((after-init . flymake-collections-hook-setup)
          ((eglot-managed-mode . (lambda () (add-to-list 'flymake-diagnostic-functions #'eglot-flymake-backend))))))
 
+(leaf eglot
+  :doc "The Emacs Client for LSP servers"
+  :hook ((python-ts-mode . eglot-ensure))
+  :custom ((eldoc-echo-area-use-multiline-p . nil)
+           (eglot-connect-timeout . 600))
+  :config
+  (defun my/eglot-capf ()
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'tempel-complete
+                       #'eglot-completion-at-point)
+                      #'cape-keyword
+                      #'cape-dabbrev
+                      #'cape-file)
+                ))
+  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
+
+
+(leaf eglot-booster
+  :when (executable-find "emacs-lsp-booster")
+  :vc ( :url "https://github.com/jdtsmith/eglot-booster")
+  :global-minor-mode t)
+
 
 (leaf py-isort :ensure t)
 
@@ -491,23 +523,24 @@
 
 (leaf highlight-indent-guides
   :ensure t
-  :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode)
-  )
+  :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 
 (leaf python
   :custom (python-indent-guess-indent-offset-verbose . nil)
-  :hook (python-ts-mode-hook . eglot-ensure))
+  :hook (python-ts-mode . eglot-ensure))
 
 (leaf lsp-pyright
   :ensure t
-;  :init
-;  (setq lsp-pyright-locate-python (format "%s/.venv/bin/python" buffer-file-name))
-  :hook ((python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp)))
-         (python-ts-mode-hook . eglot-ensure)))
+  :hook ((python-ts-mode . (lambda ()
+                          (require 'lsp-pyright)))))
 
 (leaf pet
   :ensure t
-  :config
-  (add-hook 'python-ts-mode-hook 'pet-mode -10))
+  :hook
+  ((python-ts-mode . pet-mode)
+   (python-ts-mode . (lambda ()
+              (setq-local python-shell-interpreter (pet-executable-find "python")
+                          python-shell-virtualenv-root (pet-virtualenv-root))
+              (setq-local lsp-pyright-locate-python python-shell-interpreter
+                          lsp-pyright-venv-path python-shell-virtualenv-root)
+              (lsp)))))
