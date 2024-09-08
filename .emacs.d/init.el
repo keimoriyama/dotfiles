@@ -1,5 +1,5 @@
 ;;; load_pathの追加
-n(when (< emacs-major-version 23)
+(when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
 
 (defun add-to-load-path (&rest paths)
@@ -138,7 +138,8 @@ n(when (< emacs-major-version 23)
   :bind (("C-c p" . projectile-command-map)))
 
 (leaf git-gutter
-  :custom
+  :ensure t
+  :init
   (global-git-gutter-mode))
 
 (leaf rainbow-delimiters
@@ -304,14 +305,6 @@ n(when (< emacs-major-version 23)
   :bind ((corfu-map
           ("C-s" . corfu-insert-separator))))
 
-(leaf nerd-icons
-  :ensure t)
-
-(leaf kind-icon
-  :ensure t
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
 (leaf corfu-popupinfo
   :ensure nil
   :after corfu
@@ -333,7 +326,8 @@ n(when (< emacs-major-version 23)
   (add-to-list 'completion-at-point-functions #'tempel-complete)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+  ;(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  )
 
 
 (leaf treesit-auto
@@ -372,7 +366,7 @@ n(when (< emacs-major-version 23)
 
 (leaf reformatter
   :hook
-  (python-ts-mode . ruff-format-on-save-mode)
+  (python-mode . ruff-format-on-save-mode)
   :config
   (reformatter-define ruff-format
                       :program "ruff"
@@ -393,7 +387,8 @@ n(when (< emacs-major-version 23)
            ("\\.cls$" . yatex-mode)
            ("\\.sty$" . yatex-mode)
            ("\\.clo$" . yatex-mode)
-           ("\\.bbl$" . yatex-mode))
+           ("\\.bbl$" . yatex-mode)
+           ("\\.bib$" . yatex-mode))
     :init
     (setq YaTeX-inhibit-prefix-letter t))
 
@@ -405,8 +400,6 @@ n(when (< emacs-major-version 23)
                 ("C-c )" . nil)
                 ("C-c >" . YaTeX-comment-region)
                 ("C-c <" . YaTeX-uncomment-region)))
-
-(leaf biblio)
 
 (leaf ispell
     :ensure t
@@ -489,9 +482,10 @@ n(when (< emacs-major-version 23)
   :hook ((after-init . flymake-collections-hook-setup)
          ((eglot-managed-mode . (lambda () (add-to-list 'flymake-diagnostic-functions #'eglot-flymake-backend))))))
 
+(add-hook 'python-mode-hook #'python-ts-mode)
+
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
-  :hook ((python-ts-mode . eglot-ensure))
   :custom ((eldoc-echo-area-use-multiline-p . nil)
            (eglot-connect-timeout . 600))
   :config
@@ -526,21 +520,25 @@ n(when (< emacs-major-version 23)
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 
 (leaf python
-  :custom (python-indent-guess-indent-offset-verbose . nil)
-  :hook (python-ts-mode . eglot-ensure))
+  :custom (python-indent-guess-indent-offset-verbose . nil))
+
 
 (leaf lsp-pyright
   :ensure t
   :hook ((python-ts-mode . (lambda ()
                           (require 'lsp-pyright)))))
 
+(add-hook 'python-ts-mode-hook 'pet-mode -10)
+
 (leaf pet
   :ensure t
   :hook
-  ((python-ts-mode . pet-mode)
-   (python-ts-mode . (lambda ()
+  ((python-ts-mode . (lambda ()
               (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
               (setq-local lsp-pyright-locate-python python-shell-interpreter
                           lsp-pyright-venv-path python-shell-virtualenv-root)
               (lsp)))))
+
+(add-hook 'python-ts-mode 'eglot-ensure)
+
