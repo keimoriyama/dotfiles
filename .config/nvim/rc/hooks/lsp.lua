@@ -77,7 +77,7 @@ nvim_lsp.denols.setup({
 	},
 })
 
-nvim_lsp.tsserver.setup({
+nvim_lsp.ts_ls.setup({
 	root_dir = nvim_lsp.util.root_pattern("package.json"),
 })
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
