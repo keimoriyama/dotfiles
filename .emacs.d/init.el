@@ -137,6 +137,8 @@
   :config projectile-mode
   :bind (("C-c p" . projectile-command-map)))
 
+(projectile-mode)
+
 (leaf git-gutter
   :ensure t
   :init
@@ -319,7 +321,8 @@
      text-mode
      conf-mode
      eglot-managed-mode
-     lsp-completion-mode))
+     lsp-completion-mode
+     yatex-mode))
   :config
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
@@ -364,51 +367,6 @@
   :config
   (setq treesit-font-lock-level 4))
 
-(leaf reformatter
-  :hook
-  (python-mode . ruff-format-on-save-mode)
-  :config
-  (reformatter-define ruff-format
-                      :program "ruff"
-                      :args `("format" "--stdin-filename" ,buffer-file-name "-")))
-
-(leaf flyspell
-  ;; flyspellをインストールする
-  :ensure t
-  ;; YaTeXモードでflyspellを使う
-  :hook (yatex-mode . flyspell-mode))
-
-(leaf yatex
-  :doc "new latex mode"
-  :ensure t
-  :commands (yatex-mode)
-  :mode (("\\.tex$" . yatex-mode)
-           ("\\.ltx$" . yatex-mode)
-           ("\\.cls$" . yatex-mode)
-           ("\\.sty$" . yatex-mode)
-           ("\\.clo$" . yatex-mode)
-           ("\\.bbl$" . yatex-mode)
-           ("\\.bib$" . yatex-mode))
-    :init
-    (setq YaTeX-inhibit-prefix-letter t))
-
-(leaf reftex
-    :ensure t
-    :hook (yatex-mode . reftex-mode)
-    :bind (reftex-mode-map
-                ("C-c (" . reftex-reference)
-                ("C-c )" . nil)
-                ("C-c >" . YaTeX-comment-region)
-                ("C-c <" . YaTeX-uncomment-region)))
-
-(leaf ispell
-    :ensure t
-    :init
-    ;; スペルチェッカとしてaspellを使う
-    (setq ispell-program-name "/usr/local/bin/aspell")
-    :config
-    ;; 日本語の部分を飛ばす
-    (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
 (leaf ddskk
 :doc "japanese IME works in emacs"
@@ -542,3 +500,47 @@
 
 (add-hook 'python-ts-mode 'eglot-ensure)
 
+(leaf yatex
+  :doc "new latex mode"
+  :ensure t
+  :commands (yatex-mode)
+  :mode (("\\.tex$" . yatex-mode)
+           ("\\.ltx$" . yatex-mode)
+           ("\\.cls$" . yatex-mode)
+           ("\\.sty$" . yatex-mode)
+           ("\\.clo$" . yatex-mode)
+           ("\\.bbl$" . yatex-mode)
+           ("\\.bib$" . yatex-mode))
+    :init
+    (setq YaTeX-inhibit-prefix-letter t))
+
+(leaf flyspell
+  ;; flyspellをインストールする
+  :ensure t
+  :after ispell)
+  ;; YaTeXモードでflyspellを使う
+;  :hook (yatex-mode . flyspell-mode))
+
+(leaf 
+    :ensure t
+    :after yatex
+;    :hook (yatex-mode . reftex-mode)
+    :bind (reftex-mode-map
+                ("C-c (" . reftex-reference)
+                ("C-c )" . nil)
+                ("C-c >" . YaTeX-comment-region)
+                ("C-c <" . YaTeX-uncomment-region)))
+
+(leaf ispell
+    :ensure t
+    :after yatex
+    :init
+    (setq ispell-local-dictionary "en_US")
+    ;; スペルチェッカとしてaspellを使う
+    (setq ispell-program-name "aspell")
+    :config
+    ;; 日本語の部分を飛ばす
+    (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+
+(add-hook 'yatex-mode 'flyspell-mode)
+(add-hook 'yatex-mode 'reftex-mode)

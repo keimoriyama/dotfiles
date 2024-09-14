@@ -11,6 +11,9 @@ vim.fn["skkeleton#register_keymap"]("henkan", "X", "")
 local dictdir = vim.fn.getenv("DPP_BASE") .. "/repos/github.com/skk-dev/dict"
 vim.fn["skkeleton#config"]({
 	kanaTable = "azik",
+	-- sources = {
+	-- 	"skk_server"
+	-- },
 	userDictionary = userDict,
 	globalDictionaries = {
 		vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
