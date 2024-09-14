@@ -483,7 +483,7 @@
 
 (leaf lsp-pyright
   :ensure t
-  :hook ((python-ts-mode . (lambda ()
+  :hook ((python-ts-mode-hook . (lambda ()
                           (require 'lsp-pyright)))))
 
 (add-hook 'python-ts-mode-hook 'pet-mode -10)
@@ -512,19 +512,22 @@
            ("\\.bbl$" . yatex-mode)
            ("\\.bib$" . yatex-mode))
     :init
-    (setq YaTeX-inhibit-prefix-letter t))
+    (setq YaTeX-inhibit-prefix-letter t)
+    (setq YaTeX-dvi2-command-ext-alist
+    '(("Skim" . ".pdf")))
+  (setq dvi2-command "open -a Skim")
+  (setq tex-pdfview-command "open -a Skim"))
 
 (leaf flyspell
   ;; flyspellをインストールする
   :ensure t
-  :after ispell)
   ;; YaTeXモードでflyspellを使う
-;  :hook (yatex-mode . flyspell-mode))
+  :hook (yatex-mode-hook . flyspell-mode))
 
 (leaf 
     :ensure t
     :after yatex
-;    :hook (yatex-mode . reftex-mode)
+    :hook (yatex-mode-hook . reftex-mode)
     :bind (reftex-mode-map
                 ("C-c (" . reftex-reference)
                 ("C-c )" . nil)
@@ -541,6 +544,3 @@
     :config
     ;; 日本語の部分を飛ばす
     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
-
-(add-hook 'yatex-mode 'flyspell-mode)
-(add-hook 'yatex-mode 'reftex-mode)
