@@ -1,7 +1,7 @@
 [[plugins]]
-repo="folke/tokyonight.nvim"
+repo="rebelot/kanagawa.nvim"
 hook_add='''
-colorscheme tokyonight-moon
+colorscheme kanagawa
 '''
 
 # dot repeat
