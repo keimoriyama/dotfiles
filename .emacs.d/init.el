@@ -524,12 +524,6 @@
   ;; YaTeXモードでflyspellを使う
   :hook (yatex-mode-hook . flyspell-mode))
 
-
-(directory-files-recursively
- (file-name-directory (or load-file-name (buffer-file-name)))
- "\\.el$")
-
-
 (leaf reftex
     :ensure t
     :after yatex
@@ -540,9 +534,9 @@
                 ("C-c >" . YaTeX-comment-region)
                 ("C-c <" . YaTeX-uncomment-region))
     :config
+    (print (projectile-project-root))
     (setq reftex-default-bibliography (directory-files-recursively
-                                       (file-name-directory (or load-file-name (buffer-file-name)))
-                                                            "\\.bib$")))
+                                       (projectile-project-root) "\\.bib$")))
 
 (leaf ispell
     :ensure t
