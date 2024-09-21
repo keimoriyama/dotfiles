@@ -15,8 +15,7 @@
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
-
-;; システムに装飾キー渡さない
+; システムに装飾キー渡さない
 (setq mac-pass-control-to-system nil)
 (setq mac-pass-command-to-system nil)
 (setq mac-pass-option-to-system nil)
@@ -59,16 +58,26 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory)))
 
-(with-eval-after-load 'simple
-  (setq kill-whole-line t))
-
-
 (global-auto-revert-mode t)
 
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 
 (setq mac-command-modifier 'meta)
+
+(add-hook 'emacs-startup-hook
+          #'(lambda ()
+              (fset 'yes-or-no-p 'y-or-n-p)))
+
+(with-eval-after-load 'comp-run
+  ;; config
+  (setopt native-comp-async-jobs-number 8)
+  (setopt native-comp-speed 3)
+  (setopt native-comp-always-compile t))
+
+(with-eval-after-load 'warnings
+  ;; config
+  (setopt warning-suppress-types '((comp))))
 
 (defun elisp-mode-hooks ()
   "list-mode-hooks"
@@ -77,11 +86,10 @@
     (setq eldoc-echo-area-use-multiline-p t)
     (turn-on-eldoc-mode)))
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
-(tab-bar-mode +1)
 
+(tab-bar-mode +1)
 (tab-bar-history-mode +1)
 (setq tab-bar-show t)
-(setq tab-bar-new-button-show nil)
 (setq tab-bar-close-button-show nil)
 
 ;; <leaf-install-code>
@@ -135,9 +143,13 @@
 (leaf projectile
   :ensure t
   :config projectile-mode
-  :bind (("C-c p" . projectile-command-map)))
+  :init (projectile-mode +1)
+  :bind (("C-c p" . projectile-command-map))
+  :defer-config
+  (customize-set-variable 'projectile-globally-ignored-modes
+                          (let ((newlist projectile-globally-ignored-modes))
+                            (add-to-list 'newlist "vterm-mode"))))
 
-(projectile-mode)
 
 (leaf git-gutter
   :ensure t
@@ -204,12 +216,12 @@
   :doc "VERTical Interactive COmpletion"
   :ensure t
   :global-minor-mode t)
- 
+
 (leaf marginalia
   :doc "Enrich existing commands with completion annotations"
   :ensure t
   :global-minor-mode t)
- 
+
 (leaf consult
   :doc "Consulting completing-read"
   :ensure t
@@ -228,19 +240,19 @@
   :bind (;; C-c bindings (mode-specific-map)
          ([remap switch-to-buffer] . consult-buffer) ; C-x b
          ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
- 
+
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line)    ; M-g g
          ([remap imenu] . consult-imenu)            ; M-g i
          ("M-g f" . consult-flymake) 
- 
+
          ;; C-M-s bindings
          ("C-s" . c/consult-line)       ; isearch-forward
          ("C-M-s" . nil)                ; isearch-forward-regexp
          ("C-M-s s" . isearch-forward)
          ("C-M-s C-s" . isearch-forward-regexp)
          ("C-M-s r" . consult-ripgrep)
- 
+
          (minibuffer-local-map
           :package emacs
           ("C-r" . consult-history))))
@@ -264,7 +276,7 @@
   :doc "Consult integration for Embark"
   :ensure t
   :bind ((minibuffer-mode-map
-     
+
 
      :package emacs
           ("M-." . embark-dwim)
@@ -295,6 +307,32 @@
          ("S-TAB" . nil)
          ("M-}" . yas-next-field-or-maybe-expand)
          ("M-{" . yas-prev-field))))
+(leaf vterm
+  ;; requirements: brew install cmake libvterm libtool
+  :ensure t
+  :custom
+  (vterm-max-scrollback . 10000)
+  (vterm-buffer-name-string . "vterm: %s"))
+
+(leaf vterm-toggle
+  :ensure t
+  :custom
+  (vterm-toggle-scope . 'project)
+  :config
+  ;; Show vterm buffer in the window located at bottom
+  (add-to-list 'display-buffer-alist
+               '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+                 (display-buffer-reuse-window display-buffer-in-direction)
+                 (direction . bottom)
+                 (reusable-frames . visible)
+                 (window-height . 0.4)))
+  ;; Above display config affects all vterm command, not only vterm-toggle
+  (defun my/vterm-new-buffer-in-current-window()
+    (interactive)
+    (let ((display-buffer-alist nil))
+            (vterm)))
+  )
+
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
@@ -308,10 +346,11 @@
           ("C-s" . corfu-insert-separator))))
 
 (leaf corfu-popupinfo
-  :ensure nil
+  :ensure 
   :after corfu
-  :hook (corfu-mode . corfu-popupinfo-mode))
-
+  :hook (corfu-mode-hook . corfu-popupinfo-mode))
+  :config
+  (setq-local corfu-popupinfo-delay 0.1)
 
 (leaf cape
   :doc "Completion At Point Extensions"
@@ -331,7 +370,6 @@
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   ;(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
   )
-
 
 (leaf treesit-auto
   :ensure t
@@ -377,7 +415,7 @@
  (setq skk-use-azik t)
  (setq skk-search-katakana t))
 
- 
+
 (leaf org
   :init
   (setq org-directory "~/Documents/org-mode/"
@@ -394,11 +432,12 @@
    ("C-c c" . org-capture)
    ("C-c i" . my:org-goto-inbox))
   :config
+  (setq org-startup-folded "fold")
   (setq org-capture-templates
     '(("m" "memo" entry (file org-memo-file)
-           "* %U\n%?\n%i\n"
+           "- %U\n%?\n%i\n"
            :empty-lines 1)
-      ("t" "Tasks" entry (file+headline org-main-file "inbox") "** TODO %?\n CREATED: %U\n")))
+      ("t" "Tasks" entry (file+headline org-main-file "inbox") "** TODO %?")))
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
@@ -432,15 +471,13 @@
 
 (leaf flymake
   :ensure t
-  :hook ((prog-mode
-          conf-mode). flymake-mode))
+  :hook ((prog-mode-hook
+          conf-mode-hook) . flymake-mode))
 
 (leaf flymake-collection
   :ensure t
   :hook ((after-init . flymake-collections-hook-setup)
          ((eglot-managed-mode . (lambda () (add-to-list 'flymake-diagnostic-functions #'eglot-flymake-backend))))))
-
-(add-hook 'python-mode-hook #'python-ts-mode)
 
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
@@ -477,28 +514,33 @@
   :ensure t
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 
+
 (leaf python
   :custom (python-indent-guess-indent-offset-verbose . nil))
 
-
 (leaf lsp-pyright
   :ensure t
-  :hook ((python-ts-mode-hook . (lambda ()
+  :hook ((python-mode-hook . (lambda ()
                           (require 'lsp-pyright)))))
 
-(add-hook 'python-ts-mode-hook 'pet-mode -10)
-
+; (add-hook 'python-mode-hook 'pet-mode -10)
 (leaf pet
   :ensure t
   :hook
-  ((python-ts-mode . (lambda ()
+  ((python-mode-hook . pet-mode)
+   (python-mode-hook . (lambda ()
               (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
               (setq-local lsp-pyright-locate-python python-shell-interpreter
                           lsp-pyright-venv-path python-shell-virtualenv-root)
               (lsp)))))
 
-(add-hook 'python-ts-mode 'eglot-ensure)
+;(leaf ein
+;  :ensure t
+;  :custom
+;  ((setq ein:worksheet-enable-undo t)
+;  (setq ein:output-are-inlined-images t)))
+
 
 (leaf yatex
   :doc "new latex mode"
