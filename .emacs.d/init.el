@@ -312,7 +312,19 @@
   :ensure t
   :custom
   (vterm-max-scrollback . 10000)
-  (vterm-buffer-name-string . "vterm: %s"))
+  (vterm-buffer-name-string . "vterm: %s")
+  :config
+  ;; Workaround of not working counsel-yank-pop
+  ;; https://github.com/akermu/emacs-libvterm#counsel-yank-pop-doesnt-work
+  (defun my/vterm-counsel-yank-pop-action (orig-fun &rest args)
+    (if (equal major-mode 'vterm-mode)
+        (let ((inhibit-read-only t)
+              (yank-undo-function (lambda (_start _end) (vterm-undo))))
+          (cl-letf (((symbol-function 'insert-for-yank)
+                     (lambda (str) (vterm-send-string str t))))
+            (apply orig-fun args)))
+      (apply orig-fun args)))
+  (advice-add 'counsel-yank-pop-action :around #'my/vterm-counsel-yank-pop-action))
 
 (leaf vterm-toggle
   :ensure t
@@ -332,7 +344,6 @@
     (let ((display-buffer-alist nil))
             (vterm)))
   )
-
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
@@ -415,6 +426,9 @@
  (setq skk-use-azik t)
  (setq skk-search-katakana t))
 
+(leaf org-bullets
+  :vc (:url https://github.com/sabof/org-bullets)
+  :hook (org-mode-hook . (lambda () (org-bullets-mode t))))
 
 (leaf org
   :init
@@ -436,7 +450,8 @@
    ("C-c i" . my:org-goto-inbox)
    ("C-c m" . my:org-goto-memo))
   :config
-  (setq org-startup-folded 'content)
+  (setq org-startup-folded "fold")
+  (setq org-startup-indented "indent")
   (setq org-capture-templates
     '(("m" "memo" entry (file org-memo-file)
            "- %U\n%?\n%i\n"
@@ -447,7 +462,7 @@
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)"))))
 
-(leaf org-agenda
+  (leaf org-agenda
   :commands org-agenda
   :config
   (setq org-agenda-custom-commands
