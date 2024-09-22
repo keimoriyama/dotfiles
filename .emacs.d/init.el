@@ -426,13 +426,17 @@
   (defun my:org-goto-inbox ()
     (interactive)
     (find-file org-main-file))
+  (defun my:org-goto-memo ()
+    (interactive)
+    (find-file org-memo-file))
   :bind
   (("C-c e" . create-daily-org-file)
    ("C-c a" . org-agenda)
    ("C-c c" . org-capture)
-   ("C-c i" . my:org-goto-inbox))
+   ("C-c i" . my:org-goto-inbox)
+   ("C-c m" . my:org-goto-memo))
   :config
-  (setq org-startup-folded "fold")
+  (setq org-startup-folded 'content)
   (setq org-capture-templates
     '(("m" "memo" entry (file org-memo-file)
            "- %U\n%?\n%i\n"
@@ -590,3 +594,9 @@
     :config
     ;; 日本語の部分を飛ばす
     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+
+
+(leaf oj
+  :vc(:url "https://github.com/ROCKTAKEY/emacs-online-judge")
+  :config
+  (setq online-judge-directories '("~/Program/Atcoder")))
