@@ -1,4 +1,4 @@
-FILES=(.zshrc .zshenv .config .tmux.conf .tigrc .vimrc .hammerspoon .p10k.zsh .emacs.d)
+FILES=(.zshrc .zshenv .config .tmux.conf .tigrc .vimrc .hammerspoon .p10k.zsh .emacs.d .textlintrc)
 # 移動できたらリンクを実行する
 for f in ${FILES[@]}; do
 	ln -snfv $HOME/.dotfiles/$f $HOME/$f

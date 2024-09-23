@@ -1,4 +1,4 @@
-;;; load_pathの追加
+;;; init.el:
 (when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
 
@@ -244,7 +244,6 @@
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line)    ; M-g g
          ([remap imenu] . consult-imenu)            ; M-g i
-         ("M-g f" . consult-flymake) 
 
          ;; C-M-s bindings
          ("C-s" . c/consult-line)       ; isearch-forward
@@ -488,15 +487,24 @@
         ("s" . org-agenda-schedule)
         ("S" . org-save-all-org-buffers)))
 
-(leaf flymake
+(leaf flycheck
   :ensure t
-  :hook ((prog-mode-hook
-          conf-mode-hook) . flymake-mode))
+  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
 
-(leaf flymake-collection
+(leaf flycheck-eglot
   :ensure t
-  :hook ((after-init . flymake-collections-hook-setup)
-         ((eglot-managed-mode . (lambda () (add-to-list 'flymake-diagnostic-functions #'eglot-flymake-backend))))))
+  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
+
+(leaf dap-mode
+  :ensure t
+  :hook (prog-mode-hook . dap-mode)
+  :config
+  (dap-ui-mode 1))
+
+(leaf dap-python
+  :after dap-mode
+  :init
+  (setq dap-python-debugger 'debugpy))
 
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
@@ -520,15 +528,6 @@
   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
   :global-minor-mode t)
 
-
-(leaf py-isort :ensure t)
-
-(leaf flymake-ruff
-  :ensure t
-  :hook (eglot-managed-mode-hook .(lambda ()
-                                    (when (derived-mode-p 'python-mode 'python-ts-mode)
-                                      (flymake-ruff-load)))))
-
 (leaf highlight-indent-guides
   :ensure t
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
@@ -542,11 +541,10 @@
   :hook ((python-mode-hook . (lambda ()
                           (require 'lsp-pyright)))))
 
-; (add-hook 'python-mode-hook 'pet-mode -10)
 (leaf pet
   :ensure t
   :hook
-  ((python-mode-hook . pet-mode)
+  ((python-mode-hook . (lambda () (pet-mode -10)))
    (python-mode-hook . (lambda ()
               (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
@@ -554,11 +552,14 @@
                           lsp-pyright-venv-path python-shell-virtualenv-root)
               (lsp)))))
 
-;(leaf ein
-;  :ensure t
-;  :custom
-;  ((setq ein:worksheet-enable-undo t)
-;  (setq ein:output-are-inlined-images t)))
+(leaf ein
+  :ensure t)
+;; undoを有効化 (customizeから設定しておいたほうが良さげ)
+(setq ein:worksheet-enable-undo t)
+;; 画像をインライン表示 (customizeから設定しておいたほうが良さげ)
+(setq ein:output-area-inlined-images t)
+(declare-function ein:format-time-string "ein-utils")
+(declare-function smartrep-define-key "smartrep")
 
 
 (leaf yatex
