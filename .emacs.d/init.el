@@ -128,12 +128,13 @@
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
 
-(leaf kanagawa-theme
+(leaf kanagawa-themes
   :ensure t
   :config
-  (load-theme 'kanagawa t))
+  (load-theme 'kanagawa-wave t))
 
 (leaf undohist
+  :ensure t
   :config
   (undohist-initialize))
 
@@ -356,7 +357,7 @@
           ("C-s" . corfu-insert-separator))))
 
 (leaf corfu-popupinfo
-  :ensure 
+  :ensure nil
   :after corfu
   :hook (corfu-mode-hook . corfu-popupinfo-mode))
   :config
@@ -381,42 +382,17 @@
   ;(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
   )
 
-(leaf treesit-auto
-  :ensure t
-  :config
-  (setq treesit-auto-install t)
-  (setq treesit-language-source-alist
-  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-    (c "https://github.com/tree-sitter/tree-sitter-c")
-    (cmake "https://github.com/uyha/tree-sitter-cmake")
-    (common-lisp "https://github.com/theHamsta/tree-sitter-commonlisp")
-    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-    (css "https://github.com/tree-sitter/tree-sitter-css")
-    (csharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-    (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-    (go "https://github.com/tree-sitter/tree-sitter-go")
-    (go-mod "https://github.com/camdencheek/tree-sitter-go-mod")
-    (html "https://github.com/tree-sitter/tree-sitter-html")
-    (js . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
-    (json "https://github.com/tree-sitter/tree-sitter-json")
-    (lua "https://github.com/Azganoth/tree-sitter-lua")
-    (make "https://github.com/alemuller/tree-sitter-make")
-    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-    (python "https://github.com/tree-sitter/tree-sitter-python")
-    (r "https://github.com/r-lib/tree-sitter-r")
-    (rust "https://github.com/tree-sitter/tree-sitter-rust")
-    (toml "https://github.com/tree-sitter/tree-sitter-toml")
-    (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
-    (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
-    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-  )
-
 (leaf treesit
   :config
   (setq treesit-font-lock-level 4))
 
+(leaf treesit-auto
+  :ensure t
+  :config
+  (setq treesit-auto-install t))
 
 (leaf ddskk
+  :ensure t
 :doc "japanese IME works in emacs"
 :bind (("C-x C-j" . skk-mode))
 :init
@@ -426,7 +402,7 @@
  (setq skk-search-katakana t))
 
 (leaf org-bullets
-  :vc (:url https://github.com/sabof/org-bullets)
+  :vc (:url "https://github.com/sabof/org-bullets")
   :hook (org-mode-hook . (lambda () (org-bullets-mode t))))
 
 (leaf org
@@ -459,7 +435,7 @@
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)"))))
+        '((sequence "TODO" "DOING" "WAIT" "|" "DONE"))))
 
   (leaf org-agenda
   :commands org-agenda
@@ -487,27 +463,12 @@
         ("s" . org-agenda-schedule)
         ("S" . org-save-all-org-buffers)))
 
-(leaf flycheck
-  :ensure t
-  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
-
-(leaf flycheck-eglot
-  :ensure t
-  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
-
-(leaf dap-mode
-  :ensure t
-  :hook (prog-mode-hook . dap-mode)
-  :config
-  (dap-ui-mode 1))
-
-(leaf dap-python
-  :after dap-mode
-  :init
-  (setq dap-python-debugger 'debugpy))
-
+; lsp client
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
+  :hook
+  ((python-mode-hook
+    js-mode-hook) . eglot-ensure)
   :custom ((eldoc-echo-area-use-multiline-p . nil)
            (eglot-connect-timeout . 600))
   :config
@@ -528,11 +489,32 @@
   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
   :global-minor-mode t)
 
+; grammar check
+(leaf flycheck
+  :ensure t
+  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
+
+(leaf flycheck-eglot
+  :ensure t
+  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
+
+; dap mode
+(leaf dap-mode
+  :ensure t
+  :hook (prog-mode-hook . dap-mode)
+  :config
+  (dap-ui-mode 1))
+
+(leaf dap-python
+  :after dap-mode
+  :init
+  (setq dap-python-debugger 'debugpy))
+
 (leaf highlight-indent-guides
   :ensure t
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 
-
+; Python
 (leaf python
   :custom (python-indent-guess-indent-offset-verbose . nil))
 
@@ -561,7 +543,9 @@
 (declare-function ein:format-time-string "ein-utils")
 (declare-function smartrep-define-key "smartrep")
 
+; javascript
 
+; Latex
 (leaf yatex
   :doc "new latex mode"
   :ensure t
