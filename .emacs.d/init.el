@@ -29,6 +29,15 @@
 
 (define-key global-map (kbd "C-t") 'other-window)
 
+;; 好きなコマンドを割り振ろう
+(global-set-key (kbd "C-x C-c") 'magit) ;; 私は helm-M-xにしています
+
+;; C-x C-z(suspend)も変更するのもありでしょう.
+(global-set-key (kbd "C-x C-z") 'your-favorite-command)
+;; I never use C-x C-c
+(defalias 'exit 'save-buffers-kill-emacs)
+
+
 (column-number-mode t)
 (size-indication-mode t)
 (setq display-time-24hr-format t)
@@ -124,6 +133,10 @@
 
 (leaf dash
   :ensure t)
+
+(leaf f
+  :ensure t)
+
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
@@ -150,7 +163,6 @@
   (customize-set-variable 'projectile-globally-ignored-modes
                           (let ((newlist projectile-globally-ignored-modes))
                             (add-to-list 'newlist "vterm-mode"))))
-
 
 (leaf git-gutter
   :ensure t
@@ -310,12 +322,15 @@
 (leaf vterm
   ;; requirements: brew install cmake libvterm libtool
   :ensure t
+  :bind
+  (("C-c t" . vterm-toggle))
   :custom
   (vterm-max-scrollback . 10000)
   (vterm-buffer-name-string . "vterm: %s")
   :config
   ;; Workaround of not working counsel-yank-pop
   ;; https://github.com/akermu/emacs-libvterm#counsel-yank-pop-doesnt-work
+  (global-set-key (kbd "C-v") 'vterm-yank)
   (defun my/vterm-counsel-yank-pop-action (orig-fun &rest args)
     (if (equal major-mode 'vterm-mode)
         (let ((inhibit-read-only t)
@@ -594,9 +609,3 @@
     :config
     ;; 日本語の部分を飛ばす
     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
-
-
-(leaf oj
-  :vc(:url "https://github.com/ROCKTAKEY/emacs-online-judge")
-  :config
-  (setq online-judge-directories '("~/Program/Atcoder")))
