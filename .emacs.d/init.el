@@ -7,8 +7,6 @@
 (setq mac-pass-command-to-system nil)
 (setq mac-pass-option-to-system nil)
 
-(unless (file-exists-p custom-file)
-  (write-region "" nil custom-file))
 
 (define-key global-map (kbd "C-m") 'newline-and-indent)
 
@@ -16,7 +14,7 @@
 
 (define-key global-map (kbd "C-t") 'other-window)
 
-;; 好きなコマンドを割り振ろう
+; 好きなコマンドを割り振ろう
 (global-set-key (kbd "C-x C-c") 'magit) ;; 私は helm-M-xにしています
 
 ;; C-x C-z(suspend)も変更するのもありでしょう.
@@ -88,7 +86,7 @@
 (setq tab-bar-show t)
 (setq tab-bar-close-button-show nil)
 
-;; <leaf-install-code>
+; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
    'package-archives '(("org" . "https://orgmode.org/elpa/")
@@ -203,6 +201,14 @@
 (leaf magit
   :ensure t)
 
+(leaf treemacs
+  :bind ("C-c C-t" . treemacs)
+  :ensure t)
+
+(leaf treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
   :ensure t
@@ -306,46 +312,9 @@
          ("S-TAB" . nil)
          ("M-}" . yas-next-field-or-maybe-expand)
          ("M-{" . yas-prev-field))))
-(leaf vterm
-  ;; requirements: brew install cmake libvterm libtool
-  :ensure t
-  :bind
-  (("C-c t" . vterm-toggle))
-  :custom
-  (vterm-max-scrollback . 10000)
-  (vterm-buffer-name-string . "vterm: %s")
-  :config
-  ;; Workaround of not working counsel-yank-pop
-  ;; https://github.com/akermu/emacs-libvterm#counsel-yank-pop-doesnt-work
-  (global-set-key (kbd "C-v") 'vterm-yank)
-  (defun my/vterm-counsel-yank-pop-action (orig-fun &rest args)
-    (if (equal major-mode 'vterm-mode)
-        (let ((inhibit-read-only t)
-              (yank-undo-function (lambda (_start _end) (vterm-undo))))
-          (cl-letf (((symbol-function 'insert-for-yank)
-                     (lambda (str) (vterm-send-string str t))))
-            (apply orig-fun args)))
-      (apply orig-fun args)))
-  (advice-add 'counsel-yank-pop-action :around #'my/vterm-counsel-yank-pop-action))
 
-(leaf vterm-toggle
-  :ensure t
-  :custom
-  (vterm-toggle-scope . 'project)
-  :config
-  ;; Show vterm buffer in the window located at bottom
-  (add-to-list 'display-buffer-alist
-               '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
-                 (display-buffer-reuse-window display-buffer-in-direction)
-                 (direction . bottom)
-                 (reusable-frames . visible)
-                 (window-height . 0.4)))
-  ;; Above display config affects all vterm command, not only vterm-toggle
-  (defun my/vterm-new-buffer-in-current-window()
-    (interactive)
-    (let ((display-buffer-alist nil))
-            (vterm)))
-  )
+(leaf aweshell
+  :vc(:url "https://github.com/manateelazycat/aweshell"))
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
@@ -553,8 +522,6 @@
 (declare-function ein:format-time-string "ein-utils")
 (declare-function smartrep-define-key "smartrep")
 
-; javascript
-
 ; Latex
 (leaf yatex
   :doc "new latex mode"
@@ -604,3 +571,16 @@
     :config
     ;; 日本語の部分を飛ばす
     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-vc-selected-packages
+   '((aweshell :url "https://github.com/manateelazycat/aweshell"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
