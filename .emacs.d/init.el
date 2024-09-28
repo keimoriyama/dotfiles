@@ -314,7 +314,8 @@
          ("M-{" . yas-prev-field))))
 
 (leaf aweshell
-  :vc(:url "https://github.com/manateelazycat/aweshell"))
+  :vc (:url "https://github.com/manateelazycat/aweshell")
+  :bind ("C-c C-t" . aweshell-dedicated-open))
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
@@ -571,16 +572,3 @@
     :config
     ;; 日本語の部分を飛ばす
     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-vc-selected-packages
-   '((aweshell :url "https://github.com/manateelazycat/aweshell"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
