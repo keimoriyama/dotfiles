@@ -11,7 +11,7 @@
       (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
 	  (normal-top-level-add-subdirs-to-load-path))))))
 
-(add-to-load-path "elisp" "conf" "public_repos" "elpa")
+;(add-to-load-path "elisp" "conf" "public_repos" "elpa")
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
@@ -397,14 +397,21 @@
   ;(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
   )
 
-(leaf treesit
+(leaf tree-sitter
+  :ensure (t tree-sitter-langs)
+  :hook ((tree-sitter-after-on-hook . tree-sitter-hl-mode))
   :config
-  (setq treesit-font-lock-level 4))
+  (global-tree-sitter-mode +1))
 
-(leaf treesit-auto
+(leaf tree-sitter-langs
   :ensure t
+  :after tree-sitter)
+
+(leaf ts-foldp
+  :vc (:url "https://github.com/emacs-tree-sitter/ts-fold")
+  :after tree-sitter
   :config
-  (setq treesit-auto-install t))
+  (ts-fold-mode +1))
 
 (leaf ddskk
   :ensure t
