@@ -407,7 +407,7 @@
   :ensure t
   :after tree-sitter)
 
-(leaf ts-foldp
+(leaf ts-fold
   :vc (:url "https://github.com/emacs-tree-sitter/ts-fold")
   :after tree-sitter
   :config
