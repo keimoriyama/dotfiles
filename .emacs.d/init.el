@@ -2,19 +2,6 @@
 (when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
 
-(defun add-to-load-path (&rest paths)
-  (let (path)
-    (dolist (path paths paths)
-      (let ((default-directory
-	   (expand-file-name(concat user-emacs-directory path))))
-      (add-to-list 'load-path default-directory)
-      (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-	  (normal-top-level-add-subdirs-to-load-path))))))
-
-;(add-to-load-path "elisp" "conf" "public_repos" "elpa")
-
-(setq custom-file (locate-user-emacs-file "custom.el"))
-
 ; システムに装飾キー渡さない
 (setq mac-pass-control-to-system nil)
 (setq mac-pass-command-to-system nil)
@@ -401,7 +388,8 @@
   :ensure (t tree-sitter-langs)
   :hook ((tree-sitter-after-on-hook . tree-sitter-hl-mode))
   :config
-  (global-tree-sitter-mode +1))
+  (global-tree-sitter-mode +1)
+  (tree-sitter-require 'elisp))
 
 (leaf tree-sitter-langs
   :ensure t
@@ -411,7 +399,7 @@
   :vc (:url "https://github.com/emacs-tree-sitter/ts-fold")
   :after tree-sitter
   :config
-  (ts-fold-mode +1))
+  (global-ts-fold-mode +1))
 
 (leaf ddskk
   :ensure t
