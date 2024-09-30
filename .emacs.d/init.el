@@ -315,7 +315,7 @@
 
 (leaf aweshell
   :vc (:url "https://github.com/manateelazycat/aweshell")
-  :bind ("C-c C-t" . aweshell-dedicated-open))
+  :bind ("C-c t" . aweshell-dedicated-open))
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
@@ -387,10 +387,11 @@
 
 (leaf org
   :init
-  (setq org-directory "~/Documents/org-mode/"
+  (setq org-directory "~/Documents/org-mode"
         org-daily-tasks-file (format "%s/tasks.org" org-directory)
         org-memo-file (format "%s/memo.org" org-directory)
-        org-main-file (format "%s/main.org" org-directory))
+        org-main-file (format "%s/main.org" org-directory)
+        org-exp-file (format "%s/exp.org" org-directory))
   (setq org-agenda-files (list org-directory))
   (defun my:org-goto-inbox ()
     (interactive)
@@ -398,8 +399,11 @@
   (defun my:org-goto-memo ()
     (interactive)
     (find-file org-memo-file))
+  (defun my:org-goto-exp ()
+    (interactive)
+    (find-file org-exp-file))
   :bind
-  (("C-c e" . create-daily-org-file)
+  (("C-c e" . my:org-goto-exp)
    ("C-c a" . org-agenda)
    ("C-c c" . org-capture)
    ("C-c i" . my:org-goto-inbox)
@@ -411,7 +415,8 @@
     '(("m" "memo" entry (file org-memo-file)
            "- %U\n%?\n%i\n"
            :empty-lines 1)
-      ("t" "Tasks" entry (file+headline org-main-file "inbox") "** TODO %?")))
+      ("t" "Tasks" entry (file+headline org-main-file "inbox") "** TODO %?")
+      ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** 結果\n")))
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
@@ -495,6 +500,7 @@
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 
 ; Python
+
 (leaf python
   :custom (python-indent-guess-indent-offset-verbose . nil))
 
@@ -513,6 +519,10 @@
               (setq-local lsp-pyright-locate-python python-shell-interpreter
                           lsp-pyright-venv-path python-shell-virtualenv-root)
               (lsp)))))
+
+(leaf python-black
+  :ensure t
+  :hook (python-mode-hook . python-black-on-save-mode-enable-dwim))
 
 (leaf ein
   :ensure t)
