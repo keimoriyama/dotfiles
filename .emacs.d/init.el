@@ -449,6 +449,8 @@
 
 (leaf org-journal
   :ensure t
+  :bind
+  (("C-c C-t" . org-journal-new-entry))
   :config
   (setq org-journal-dir "~/Document/org-mode/journal"))
 
