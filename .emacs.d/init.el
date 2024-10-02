@@ -246,7 +246,6 @@
   :bind (;; C-c bindings (mode-specific-map)
          ([remap switch-to-buffer] . consult-buffer) ; C-x b
          ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
-
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line)    ; M-g g
          ([remap imenu] . consult-imenu)            ; M-g i
@@ -409,18 +408,18 @@
    ("C-c i" . my:org-goto-inbox)
    ("C-c m" . my:org-goto-memo))
   :config
-  (setq org-startup-folded "fold")
+  (setq org-startup-folded 'content)
   (setq org-startup-indented "indent")
   (setq org-capture-templates
     '(("m" "memo" entry (file org-memo-file)
            "- %U\n%?\n%i\n"
            :empty-lines 1)
       ("t" "Tasks" entry (file+headline org-main-file "inbox") "** TODO %?")
-      ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** 結果\n")))
+      ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** やり方\n- \n** 結果\n-")))
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
-        '((sequence "TODO" "DOING" "WAIT" "|" "DONE"))))
+        '((sequence "TODO" "DOING" "|" "DONE" "WAIT"))))
 
   (leaf org-agenda
   :commands org-agenda
@@ -447,6 +446,14 @@
   (org-agenda-mode-map
         ("s" . org-agenda-schedule)
         ("S" . org-save-all-org-buffers)))
+
+(leaf org-journal
+  :ensure t
+  :config
+  (setq org-journal-dir "~/Document/org-mode/journal"))
+
+(leaf ox-gfm
+  :ensure t)
 
 ; lsp client
 (leaf eglot
