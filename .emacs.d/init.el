@@ -415,7 +415,7 @@
            "- %U\n%?\n%i\n"
            :empty-lines 1)
       ("t" "Tasks" entry (file+headline org-main-file "inbox") "** TODO %?")
-      ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** やり方\n- \n** 結果\n-")))
+      ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
