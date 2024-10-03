@@ -450,9 +450,9 @@
 (leaf org-journal
   :ensure t
   :bind
-  (("C-c C-t" . org-journal-new-entry))
+  (("C-c C-j" . org-journal-new-entry))
   :config
-  (setq org-journal-dir "~/Document/org-mode/journal"))
+  (setq org-journal-dir "~/Documents/org-mode/journal"))
 
 (leaf ox-gfm
   :ensure t)
