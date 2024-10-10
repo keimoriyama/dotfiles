@@ -467,8 +467,7 @@
   :hook
   ((python-mode-hook
     js-mode-hook) . eglot-ensure)
-  :custom ((eldoc-echo-area-use-multiline-p . nil)
-           (eglot-connect-timeout . 600))
+  :custom ((eglot-connect-timeout . 600))
   :config
   (defun my/eglot-capf ()
     (setq-local completion-at-point-functions
@@ -485,6 +484,7 @@
 (leaf eglot-booster
   :when (executable-find "emacs-lsp-booster")
   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
+  :after eglot
   :global-minor-mode t)
 
 ; grammar check
