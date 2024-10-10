@@ -452,7 +452,7 @@
   :ensure t
   :bind
   ("C-c j" . org-journal-new-entry)
-  :config
+  :init
   (setq org-journal-dir "~/Documents/org-mode/journal"))
 
 (leaf ox-gfm
@@ -461,6 +461,9 @@
 ; lsp client
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
+  :bind
+  (("M-d" . xref-find-definitions)
+   ("M-r" . xref-find-references))
   :hook
   ((python-mode-hook
     js-mode-hook) . eglot-ensure)
@@ -510,25 +513,24 @@
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 
 ; Python
-
-(leaf python
+(leaf python-mode
+  :ensure t
   :custom (python-indent-guess-indent-offset-verbose . nil))
 
 (leaf lsp-pyright
   :ensure t
   :hook ((python-mode-hook . (lambda ()
-                          (require 'lsp-pyright)))))
-
+                          (require 'lsp-pyright)
+                           (lsp)))))
 (leaf pet
   :ensure t
   :hook
-  ((python-mode-hook . (lambda () (pet-mode -10)))
-   (python-mode-hook . (lambda ()
-              (setq-local python-shell-interpreter (pet-executable-find "python")
+  (python-mode-hook . (lambda ()
+                   (pet-mode)
+                   (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
-              (setq-local lsp-pyright-locate-python python-shell-interpreter
-                          lsp-pyright-venv-path python-shell-virtualenv-root)
-              (lsp)))))
+                   (setq-local lsp-pyright-locate-python python-shell-interpreter
+                          lsp-pyright-venv-path python-shell-virtualenv-root))))
 
 (leaf python-black
   :ensure t
@@ -592,3 +594,20 @@
     :config
     ;; 日本語の部分を飛ばす
     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(ispell reftex flyspell yatex ein python-black pet lsp-pyright highlight-indent-guides dap-mode flycheck-eglot flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu aweshell yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell treemacs-projectile treemacs magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
+ '(package-vc-selected-packages
+   '((org-bullets :url "https://github.com/sabof/org-bullets")
+     (ts-fold :url "https://github.com/emacs-tree-sitter/ts-fold")
+     (aweshell :url "https://github.com/manateelazycat/aweshell"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
