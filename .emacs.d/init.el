@@ -280,8 +280,6 @@
   :doc "Consult integration for Embark"
   :ensure t
   :bind ((minibuffer-mode-map
-
-
      :package emacs
           ("M-." . embark-dwim)
           ("C-." . embark-act))))
@@ -373,7 +371,10 @@
 (leaf ddskk
   :ensure t
 :doc "japanese IME works in emacs"
-:bind (("C-x C-j" . skk-mode))
+:bind (("C-x C-j" . skk-mode)
+       (:skk-mode-map
+        :package ddskk
+        ("L" . skk-latin-mode)))
 :init
  (setq skk-server-host "localhost")
  (setq skk-server-portnum 1178)
@@ -414,7 +415,7 @@
     '(("m" "memo" entry (file org-memo-file)
            "- %U\n%?\n%i\n"
            :empty-lines 1)
-      ("t" "Tasks" entry (file+headline org-main-file "inbox") "** TODO %?")
+      ("t" "Tasks" entry (file org-main-file) "** TODO %?")
       ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
@@ -450,7 +451,7 @@
 (leaf org-journal
   :ensure t
   :bind
-  (("C-c C-j" . org-journal-new-entry))
+  ("C-c j" . org-journal-new-entry)
   :config
   (setq org-journal-dir "~/Documents/org-mode/journal"))
 
