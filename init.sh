@@ -17,10 +17,12 @@ ln -snfv $HOME/.dotfiles/.config/aquaskk/keymap.conf $HOME/Library/Application\ 
 
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 
-source ~/.config/fish/functions/fisher.fish
-fisher install jethrokuan/z
-fisher install oh-my-fish/plugin-peco
-fisher install IlanCosman/tide@v6
+git clone https://github.com/skk-dev/dict.git ~/.cache/skk
+
+# source ~/.config/fish/functions/fisher.fish
+# fisher install jethrokuan/z
+# fisher install oh-my-fish/plugin-peco
+# fisher install IlanCosman/tide@v6
 
 cargo install mocword
 

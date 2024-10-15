@@ -91,7 +91,8 @@
   (customize-set-variable
    'package-archives '(("org" . "https://orgmode.org/elpa/")
                        ("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")))
+                       ("gnu" . "https://elpa.gnu.org/packages/")
+                       ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
   (package-initialize)
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
@@ -310,9 +311,9 @@
          ("M-}" . yas-next-field-or-maybe-expand)
          ("M-{" . yas-prev-field))))
 
-(leaf aweshell
-  :vc (:url "https://github.com/manateelazycat/aweshell")
-  :bind ("C-c t" . aweshell-dedicated-open))
+(leaf eat
+  :ensure t
+  :bind ("C-c t" . eat))
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
@@ -352,15 +353,19 @@
   )
 
 (leaf tree-sitter
-  :ensure (t tree-sitter-langs)
   :hook ((tree-sitter-after-on-hook . tree-sitter-hl-mode))
-  :config
+  :init
   (global-tree-sitter-mode +1)
   (tree-sitter-require 'elisp))
 
 (leaf tree-sitter-langs
   :ensure t
-  :after tree-sitter)
+  :after tree-sitter
+  :config
+  (tree-sitter-require 'yaml))
+
+(add-hook 'python-mode 'python-ts-mode)
+(add-hook 'yaml-mode 'yaml-ts-mode)
 
 (leaf ts-fold
   :vc (:url "https://github.com/emacs-tree-sitter/ts-fold")
@@ -370,16 +375,20 @@
 
 (leaf ddskk
   :ensure t
-:doc "japanese IME works in emacs"
-:bind (("C-x C-j" . skk-mode)
+  :doc "japanese IME works in emacs"
+  :bind (("C-x C-j" . skk-mode)
        (:skk-mode-map
         :package ddskk
         ("L" . skk-latin-mode)))
-:init
- (setq skk-server-host "localhost")
- (setq skk-server-portnum 1178)
- (setq skk-use-azik t)
- (setq skk-search-katakana t))
+  :init
+    ;(setq skk-server-host "localhost")
+    ;(setq skk-server-portnum 1178)
+    (setq skk-preload t)
+    (setq skk-jisyo "~/Google Drive/マイドライブ/skk-jisyo.utf-8")
+    (setq skk-user-directory "~/.cache/skk")
+    (setq skk-use-azik t)
+    (setq skk-search-katakana t)
+    (setq default-input-method "japanese-skk"))
 
 (leaf org-bullets
   :vc (:url "https://github.com/sabof/org-bullets")
@@ -465,8 +474,8 @@
   (("M-d" . xref-find-definitions)
    ("M-r" . xref-find-references))
   :hook
-  ((python-mode-hook
-    js-mode-hook) . eglot-ensure)
+  ((python-ts-mode-hook
+    js-ts-mode-hook) . eglot-ensure)
   :custom ((eglot-connect-timeout . 600))
   :config
   (defun my/eglot-capf ()
@@ -520,12 +529,12 @@
 (leaf lsp-pyright
   :ensure t
   :hook ((python-mode-hook . (lambda ()
-                          (require 'lsp-pyright)
+                         (require 'lsp-pyright)
                            (lsp)))))
 (leaf pet
   :ensure t
   :hook
-  (python-mode-hook . (lambda ()
+  (python-ts-mode-hook . (lambda ()
                    (pet-mode)
                    (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
@@ -534,7 +543,7 @@
 
 (leaf python-black
   :ensure t
-  :hook (python-mode-hook . python-black-on-save-mode-enable-dwim))
+  :hook (python-ts-mode-hook . python-black-on-save-mode-enable-dwim))
 
 (leaf ein
   :ensure t)
@@ -544,7 +553,16 @@
 (setq ein:output-area-inlined-images t)
 (declare-function ein:format-time-string "ein-utils")
 (declare-function smartrep-define-key "smartrep")
+; yaml
+(leaf yaml-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 
+;docker
+(leaf dockerfile-mode
+  :ensure t)
 ; Latex
 (leaf yatex
   :doc "new latex mode"
@@ -600,9 +618,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ispell reftex flyspell yatex ein python-black pet lsp-pyright highlight-indent-guides dap-mode flycheck-eglot flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu aweshell yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell treemacs-projectile treemacs magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
+   '(terminal-here eat ispell reftex flyspell yatex ein python-black pet lsp-pyright highlight-indent-guides dap-mode flycheck-eglot flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell treemacs-projectile treemacs magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
  '(package-vc-selected-packages
-   '((org-bullets :url "https://github.com/sabof/org-bullets")
+   '((skk-dict :url "https://github.com/skk-dev/dict.git")
+     (org-bullets :url "https://github.com/sabof/org-bullets")
      (ts-fold :url "https://github.com/emacs-tree-sitter/ts-fold")
      (aweshell :url "https://github.com/manateelazycat/aweshell"))))
 (custom-set-faces
