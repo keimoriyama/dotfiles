@@ -81,11 +81,6 @@
     (turn-on-eldoc-mode)))
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 
-(tab-bar-mode +1)
-(tab-bar-history-mode +1)
-(setq tab-bar-show t)
-(setq tab-bar-close-button-show nil)
-
 ; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
@@ -202,14 +197,6 @@
 (leaf magit
   :ensure t)
 
-(leaf treemacs
-  :bind ("C-c C-t" . treemacs)
-  :ensure t)
-
-(leaf treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
-
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
   :ensure t
@@ -247,6 +234,7 @@
   :bind (;; C-c bindings (mode-specific-map)
          ([remap switch-to-buffer] . consult-buffer) ; C-x b
          ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
+         ("C-x C-b" . consult-buffer-other-tab)
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line)    ; M-g g
          ([remap imenu] . consult-imenu)            ; M-g i
@@ -280,9 +268,7 @@
 (leaf embark-consult
   :doc "Consult integration for Embark"
   :ensure t
-  :bind ((minibuffer-mode-map
-     :package emacs
-          ("M-." . embark-dwim)
+  :bind ((("M-." . embark-dwim)
           ("C-." . embark-act))))
 
 (leaf tempel
@@ -313,12 +299,12 @@
 
 (leaf eat
   :ensure t
-  :bind ("C-c t" . eat))
+  :bind ("C-c C-t" . eat))
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
   :ensure t
-  :global-minor-mode global-corfu-mode corfu-popupinfo-mode
+  :global-minor-mode global-corfu-mode
   :custom ((corfu-auto . t)
            (corfu-auto-delay . 0)
            (corfu-cycle . t)
@@ -349,7 +335,6 @@
   (add-to-list 'completion-at-point-functions #'tempel-complete)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
   )
 
 (leaf tree-sitter
@@ -362,10 +347,9 @@
   :ensure t
   :after tree-sitter
   :config
-  (tree-sitter-require 'yaml))
+  (add-hook 'python-mode-hook 'python-ts-mode)
+  (add-hook 'yaml-mode-hook 'yaml-ts-mode))
 
-(add-hook 'python-mode 'python-ts-mode)
-(add-hook 'yaml-mode 'yaml-ts-mode)
 
 (leaf ts-fold
   :vc (:url "https://github.com/emacs-tree-sitter/ts-fold")
@@ -384,6 +368,7 @@
     ;(setq skk-server-host "localhost")
     ;(setq skk-server-portnum 1178)
     (setq skk-preload t)
+    (setq skk-jisyo-code 'utf-8)
     (setq skk-jisyo "~/Google Drive/マイドライブ/skk-jisyo.utf-8")
     (setq skk-user-directory "~/.cache/skk")
     (setq skk-use-azik t)
@@ -421,9 +406,7 @@
   (setq org-startup-folded 'content)
   (setq org-startup-indented "indent")
   (setq org-capture-templates
-    '(("m" "memo" entry (file org-memo-file)
-           "- %U\n%?\n%i\n"
-           :empty-lines 1)
+    '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file org-main-file) "** TODO %?")
       ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
   (setq org-startup-folded nil)
@@ -468,33 +451,50 @@
   :ensure t)
 
 ; lsp client
-(leaf eglot
-  :doc "The Emacs Client for LSP servers"
+;;(leaf eglot
+;  :doc "The Emacs Client for LSP servers"
+;  :bind
+;  (("M-d" . xref-find-definitions)
+;   ("M-r" . xref-find-references))
+;  :hook
+;  ((python-ts-mode-hook js-ts-mode-hook) . eglot-ensure)
+;  :custom ((eglot-connect-timeout . 600))
+;  :config
+;  (fset #'jsonrpc--log-event #'ignore)
+;  ;(setf (plist-get eglot-events-buffer-config :size) 0)
+;  (setq eglot-events-buffer-size 0
+;        eglot-ignored-server-capabilities '(:hoverProvider
+;                                            :documentHighlightProvider)
+;        eglot-autoshutdown t)
+;  (defun my/eglot-capf ()
+;    (setq-local completion-at-point-functions
+;                (list (cape-capf-super
+;                       #'tempel-complete
+;                       #'eglot-completion-at-point)
+;                       #'cape-keyword
+;                       #'cape-dabbrev
+;                       #'cape-file)))
+;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
+; 
+; 
+;(leaf eglot-booster
+;  :when (executable-find "emacs-lsp-booster")
+;  :vc ( :url "https://github.com/jdtsmith/eglot-booster")
+;  :after eglot
+;  :config (eglot-booster-mode))
+
+(leaf lsp-mode
+  :ensure t
+  :init
+  (custom-set-variables '(lsp-completion-provider :none))
   :bind
   (("M-d" . xref-find-definitions)
    ("M-r" . xref-find-references))
-  :hook
-  ((python-ts-mode-hook
-    js-ts-mode-hook) . eglot-ensure)
-  :custom ((eglot-connect-timeout . 600))
   :config
-  (defun my/eglot-capf ()
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'tempel-complete
-                       #'eglot-completion-at-point)
-                      #'cape-keyword
-                      #'cape-dabbrev
-                      #'cape-file)
-                ))
-  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
+  (setq lsp-ruff-server-command '("ruff" "server")))
 
-
-(leaf eglot-booster
-  :when (executable-find "emacs-lsp-booster")
-  :vc ( :url "https://github.com/jdtsmith/eglot-booster")
-  :after eglot
-  :global-minor-mode t)
+(leaf lsp-ui
+  :ensure t)
 
 ; grammar check
 (leaf flycheck
@@ -502,57 +502,45 @@
   :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
 
 (leaf flycheck-eglot
-  :ensure t
-  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
-
-; dap mode
-(leaf dap-mode
-  :ensure t
-  :hook (prog-mode-hook . dap-mode)
-  :config
-  (dap-ui-mode 1))
-
-(leaf dap-python
-  :after dap-mode
-  :init
-  (setq dap-python-debugger 'debugpy))
+  :ensure t)
 
 (leaf highlight-indent-guides
   :ensure t
-  :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
+  :hook ((prog-ts-mode-hook yaml-ts-mode-hook) . highlight-indent-guides-mode))
 
 ; Python
 (leaf python-mode
-  :ensure t
-  :custom (python-indent-guess-indent-offset-verbose . nil))
+  :ensure t)
 
-(leaf lsp-pyright
-  :ensure t
-  :hook ((python-mode-hook . (lambda ()
-                         (require 'lsp-pyright)
-                           (lsp)))))
 (leaf pet
   :ensure t
   :hook
-  (python-ts-mode-hook . (lambda ()
-                   (pet-mode)
-                   (setq-local python-shell-interpreter (pet-executable-find "python")
-                          python-shell-virtualenv-root (pet-virtualenv-root))
-                   (setq-local lsp-pyright-locate-python python-shell-interpreter
-                          lsp-pyright-venv-path python-shell-virtualenv-root))))
+  (python-ts-mode-hook . (lambda () (pet-mode -10)
+  (setq-local python-shell-interpreter (pet-executable-find "python"))
+  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
+  (pet-flycheck-setup)
+  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
+  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+  (setq-local python-black-command (pet-executable-find "black"))
+  (setq-local blacken-executable python-black-command)
+  (pet-lsp-setup))))
+
+(leaf lsp-pyright
+  :ensure t
+  :hook (python-ts-mode-hook . lsp))
 
 (leaf python-black
   :ensure t
   :hook (python-ts-mode-hook . python-black-on-save-mode-enable-dwim))
 
-(leaf ein
-  :ensure t)
-;; undoを有効化 (customizeから設定しておいたほうが良さげ)
-(setq ein:worksheet-enable-undo t)
-;; 画像をインライン表示 (customizeから設定しておいたほうが良さげ)
-(setq ein:output-area-inlined-images t)
-(declare-function ein:format-time-string "ein-utils")
-(declare-function smartrep-define-key "smartrep")
+;(leaf ein
+;  :ensure t)
+;;; undoを有効化 (customizeから設定しておいたほうが良さげ)
+;(setq ein:worksheet-enable-undo t)
+;;; 画像をインライン表示 (customizeから設定しておいたほうが良さげ)
+;(setq ein:output-area-inlined-images t)
+;(declare-function ein:format-time-string "ein-utils")
+;(declare-function smartrep-define-key "smartrep")
 ; yaml
 (leaf yaml-mode
   :ensure t
@@ -618,7 +606,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(terminal-here eat ispell reftex flyspell yatex ein python-black pet lsp-pyright highlight-indent-guides dap-mode flycheck-eglot flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell treemacs-projectile treemacs magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
+   '(pet eglot skk-dict terminal-here eat ispell reftex flyspell yatex ein python-black highlight-indent-guides flycheck-eglot flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
  '(package-vc-selected-packages
    '((skk-dict :url "https://github.com/skk-dev/dict.git")
      (org-bullets :url "https://github.com/sabof/org-bullets")
