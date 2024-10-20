@@ -263,7 +263,9 @@
   :ensure t
   :custom ((completion-styles . '(orderless))
            (completion-category-defaults . nil)
-           (completion-category-overrides . '((file (styles partial-completion))))))
+           (completion-category-overrides .  '((file (styles partial-completion))))))
+;  :hook (corfu-mode-hook . (lambda ()
+;                            (setq-local orderless-matching-styles '(orderless-flex)))))
 
 (leaf embark-consult
   :doc "Consult integration for Embark"
@@ -297,14 +299,14 @@
          ("M-}" . yas-next-field-or-maybe-expand)
          ("M-{" . yas-prev-field))))
 
-(leaf eat
+(leaf shell-pop
   :ensure t
-  :bind ("C-c C-t" . eat))
+  :bind ("C-c C-t" . shell-pop))
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
   :ensure t
-  :global-minor-mode global-corfu-mode
+  :global-minor-mode global-corfu-mode corfu-popupinfo-mode
   :custom ((corfu-auto . t)
            (corfu-auto-delay . 0)
            (corfu-cycle . t)
@@ -315,9 +317,9 @@
 (leaf corfu-popupinfo
   :ensure nil
   :after corfu
-  :hook (corfu-mode-hook . corfu-popupinfo-mode))
+  :hook (corfu-mode-hook . corfu-popupinfo-mode)
   :config
-  (setq-local corfu-popupinfo-delay 0.1)
+  (setq-local corfu-popupinfo-delay 0.1))
 
 (leaf cape
   :doc "Completion At Point Extensions"
@@ -326,7 +328,6 @@
   ((prog-mode
      text-mode
      conf-mode
-     eglot-managed-mode
      lsp-completion-mode
      yatex-mode))
   :config
@@ -493,16 +494,17 @@
   :config
   (setq lsp-ruff-server-command '("ruff" "server")))
 
+(leaf lsp-completion
+  hook (lsp-mode . lsp-completion-mode))
+
 (leaf lsp-ui
-  :ensure t)
+  :ensure t
+  :hook (lsp-mode-hook . lsp-ui-mode))
 
 ; grammar check
 (leaf flycheck
   :ensure t
   :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
-
-(leaf flycheck-eglot
-  :ensure t)
 
 (leaf highlight-indent-guides
   :ensure t
@@ -521,13 +523,14 @@
   (pet-flycheck-setup)
   (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
   (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+  (setq-local lsp-ruff-python-path python-shell-interpreter)
   (setq-local python-black-command (pet-executable-find "black"))
   (setq-local blacken-executable python-black-command)
-  (pet-lsp-setup))))
+  (lsp))))
 
 (leaf lsp-pyright
-  :ensure t
-  :hook (python-ts-mode-hook . lsp))
+  :ensure t)
+;  :hook (python-ts-mode-hook . lsp))
 
 (leaf python-black
   :ensure t
@@ -605,8 +608,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(lsp-completion-provider :none)
  '(package-selected-packages
-   '(pet eglot skk-dict terminal-here eat ispell reftex flyspell yatex ein python-black highlight-indent-guides flycheck-eglot flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
+   '(shell-pop lsp-pyright lsp-mode-hook hook lsp-ui pet skk-dict terminal-here ispell reftex flyspell yatex ein python-black highlight-indent-guides flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
  '(package-vc-selected-packages
    '((skk-dict :url "https://github.com/skk-dev/dict.git")
      (org-bullets :url "https://github.com/sabof/org-bullets")
