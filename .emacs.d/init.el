@@ -163,6 +163,10 @@
   :config
   (electric-pair-mode +1))
 
+(leaf puni
+  :ensure t
+  :init (puni-global-mode))
+
 (leaf iflipb
   :ensure t
   :bind
@@ -261,11 +265,10 @@
 (leaf orderless
   :doc "Completion style for matching regexps in any order"
   :ensure t
-  :custom ((completion-styles . '(orderless))
+  :custom ((completion-styles . '(orderless partial-completion basic))
            (completion-category-defaults . nil)
-           (completion-category-overrides .  '((file (styles partial-completion))))))
-;  :hook (corfu-mode-hook . (lambda ()
-;                            (setq-local orderless-matching-styles '(orderless-flex)))))
+           (completion-category-overrides . nil)))
+
 
 (leaf embark-consult
   :doc "Consult integration for Embark"
@@ -319,7 +322,7 @@
   :after corfu
   :hook (corfu-mode-hook . corfu-popupinfo-mode)
   :config
-  (setq-local corfu-popupinfo-delay 0.1))
+  (setq-local corfu-popupinfo-delay 0))
 
 (leaf cape
   :doc "Completion At Point Extensions"
@@ -335,8 +338,7 @@
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'tempel-complete)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  )
+  (add-to-list 'completion-at-point-functions #'cape-keyword))
 
 (leaf tree-sitter
   :hook ((tree-sitter-after-on-hook . tree-sitter-hl-mode))
@@ -484,18 +486,20 @@
 ;  :after eglot
 ;  :config (eglot-booster-mode))
 
+
+(defun my/lsp-mode-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
 (leaf lsp-mode
   :ensure t
-  :init
-  (custom-set-variables '(lsp-completion-provider :none))
   :bind
   (("M-d" . xref-find-definitions)
    ("M-r" . xref-find-references))
+  :hook
+  (lsp-completion-mode-hook . my/lsp-mode-completion)
   :config
+  (setq lsp-completion-provider :none)
   (setq lsp-ruff-server-command '("ruff" "server")))
-
-(leaf lsp-completion
-  hook (lsp-mode . lsp-completion-mode))
 
 (leaf lsp-ui
   :ensure t
@@ -504,7 +508,7 @@
 ; grammar check
 (leaf flycheck
   :ensure t
-  :hook (after-init-hook . (lambda () (global-flycheck-mode 1))))
+  :global-minor-mode global-flycheck-mode)
 
 (leaf highlight-indent-guides
   :ensure t
@@ -610,12 +614,10 @@
  ;; If there is more than one, they won't work right.
  '(lsp-completion-provider :none)
  '(package-selected-packages
-   '(shell-pop lsp-pyright lsp-mode-hook hook lsp-ui pet skk-dict terminal-here ispell reftex flyspell yatex ein python-black highlight-indent-guides flycheck ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs tree-sitter cape corfu yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell magit which-key spaceline iflipb rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
+   '(ispell reftex flyspell yatex dockerfile-mode yaml-mode python-black lsp-pyright pet python-mode highlight-indent-guides flycheck lsp-ui lsp-mode ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs cape corfu shell-pop yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell magit which-key spaceline iflipb puni rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
  '(package-vc-selected-packages
-   '((skk-dict :url "https://github.com/skk-dev/dict.git")
-     (org-bullets :url "https://github.com/sabof/org-bullets")
-     (ts-fold :url "https://github.com/emacs-tree-sitter/ts-fold")
-     (aweshell :url "https://github.com/manateelazycat/aweshell"))))
+   '((org-bullets :url "https://github.com/sabof/org-bullets")
+     (ts-fold :url "https://github.com/emacs-tree-sitter/ts-fold"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
