@@ -100,7 +100,6 @@
     (leaf hydra :ensure t)
     (leaf el-get :ensure t)
     (leaf blackout :ensure t)
-
     :config
     ;; initialize leaf-keywords.el
     (leaf-keywords-init)))
@@ -145,23 +144,6 @@
                           (let ((newlist projectile-globally-ignored-modes))
                             (add-to-list 'newlist "vterm-mode"))))
 
-(leaf hydra
-  :bind ("M-g" . hydra-git/body)
-  :hydra
-  (hydra-git
-   (:color red :hint nil)
-   "
-_m_agit  _b_lame  _d_ispatch  _t_imemachine  |  hunk: _p_revious  _n_ext  _s_tage  _r_evert  pop_u_p  _SPC_:toggle"
-   ("m" magit-status :exit t)
-   ("b" magit-blame :exit t)
-   ("t" git-timemachine :exit t)
-   ("d" magit-dispatch :exit t)
-   ("p" git-gutter:previous-hunk)
-   ("n" git-gutter:next-hunk)
-   ("s" git-gutter:stage-hunk)
-   ("r" git-gutter:revert-hunk)
-   ("u" git-gutter:popup-hunk)
-   ("SPC" git-gutter:toggle-popup-hunk))))
 
 (leaf git-gutter
   :ensure t
@@ -227,6 +209,38 @@ move parenthes _f_orward  _b_ackward"
 (leaf magit
   :ensure t)
 
+(leaf smerge-mode
+  :doc "Manage git confliction"
+  :ensure t
+  :preface
+  (defun start-smerge-mode-with-hydra ()
+    (interactive)
+    (progn
+      (smerge-mode 1)
+      (smerge-mode/body)))
+  :pretty-hydra
+  ((:color blue :quit-key "q" :foreign-keys warn)
+   ("Move"
+    (("n" smerge-next "next")
+     ("p" smerge-prev "preview"))
+    "Keep"
+    (("b" smerge-keep-base "base")
+     ("u" smerge-keep-upper "upper")
+     ("l" smerge-keep-lower "lower")
+     ("a" smerge-keep-all "both")
+     ("\C-m" smerge-keep-current "current"))
+    "Others"
+    (("C" smerge-combine-with-next "combine with next")
+     ("r" smerge-resolve "resolve")
+     ("k" smerge-kill-current "kill current"))
+    "End"
+    (("ZZ" (lambda ()
+             (interactive)
+             (save-buffer)
+             (bury-buffer))
+      "Save and bury buffer" :color blue)
+     ("q" nil "cancel" :color blue)))))
+
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
   :ensure t
@@ -245,6 +259,16 @@ move parenthes _f_orward  _b_ackward"
   :doc "Enrich existing commands with completion annotations"
   :ensure t
   :global-minor-mode t)
+
+(leaf avy
+  :doc "Jump to things in tree-style"
+  :url "https://github.com/abo-abo/avy"
+  :ensure t)
+
+(leaf avy-zap
+  :doc "Zap to char using avy"
+  :url "https://github.com/cute-jumper/avy-zap"
+  :ensure t)
 
 (leaf consult
   :doc "Consulting completing-read"
@@ -265,12 +289,11 @@ move parenthes _f_orward  _b_ackward"
          ([remap switch-to-buffer] . consult-buffer) ; C-x b
          ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
          ("C-x C-b" . consult-buffer-other-tab)
-         ;; M-g bindings (goto-map)
+         ;; M-g bindings (goto-map)i
          ([remap goto-line] . consult-goto-line)    ; M-g g
          ([remap imenu] . consult-imenu)            ; M-g i
 
          ;; C-M-s bindings
-         ("C-s" . c/consult-line)       ; isearch-forward
          ("C-M-s" . nil)                ; isearch-forward-regexp
          ("C-M-s s" . isearch-forward)
          ("C-M-s C-s" . isearch-forward-regexp)
@@ -284,22 +307,7 @@ move parenthes _f_orward  _b_ackward"
   :doc "Asynchronous Fuzzy Finder for Emacs"
   :ensure t
   :custom ((affe-highlight-function . 'orderless-highlight-matches)
-           (affe-regexp-function . 'orderless-pattern-compiler))
-  :bind ("C-s" . hydra-affe/body)
-  :hydra
-  (hydra-affe
-   (:color red :hint nil)
-   "
-search |   file     | buffer                              | line  |
-------------------------------------------------------------------------
-       |  _r_ipgrep   |  _b_uffer                             |  _l_ine
-       |  _f_f        |  _B_uffer(open in other tab)          |
-" 
-   ("r" affe-grep)
-   ("f" affe-find)
-   ("l" c/consult-line)
-   ("b" consult-buffer)
-   ("B" consult-buffer-other-tab)))
+           (affe-regexp-function . 'orderless-pattern-compiler)))
 
 (leaf orderless
   :doc "Completion style for matching regexps in any order"
@@ -332,8 +340,7 @@ search |   file     | buffer                              | line  |
   :doc "snippet engine"
   :init
   (yas-global-mode +1)
-  :bind ((
-         yas-keymap
+  :bind ((yas-keymap
          ("<tab>" . nil)
          ("TAB" . nil)
          ("<backtab>" . nil)
@@ -343,7 +350,7 @@ search |   file     | buffer                              | line  |
 
 (leaf shell-pop
   :ensure t
-  :bind ("C-c C-t" . shell-pop))
+  :bind (("C-c s" . shell-pop)))
 
 (leaf corfu
   :doc "COmpletion in Region FUnction"
@@ -361,7 +368,7 @@ search |   file     | buffer                              | line  |
   :after corfu
   :hook (corfu-mode-hook . corfu-popupinfo-mode)
   :config
-  (setq-local corfu-popupinfo-delay 0))
+  (setq-local corfu-popupinfo-delay 0.5))
 
 (leaf cape
   :doc "Completion At Point Extensions"
@@ -380,24 +387,11 @@ search |   file     | buffer                              | line  |
   (add-to-list 'completion-at-point-functions #'cape-keyword))
 
 (leaf tree-sitter
-  :hook ((tree-sitter-after-on-hook . tree-sitter-hl-mode))
-  :init
-  (global-tree-sitter-mode +1)
-  (tree-sitter-require 'elisp))
+  :hook ((tree-sitter-after-on-hook . tree-sitter-hl-mode)))
 
 (leaf tree-sitter-langs
   :ensure t
-  :after tree-sitter
-  :config
-  (add-hook 'python-mode-hook 'python-ts-mode)
-  (add-hook 'yaml-mode-hook 'yaml-ts-mode))
-
-
-(leaf ts-fold
-  :vc (:url "https://github.com/emacs-tree-sitter/ts-fold")
-  :after tree-sitter
-  :config
-  (global-ts-fold-mode +1))
+  :after tree-sitter)
 
 (leaf ddskk
   :ensure t
@@ -407,15 +401,16 @@ search |   file     | buffer                              | line  |
         :package ddskk
         ("L" . skk-latin-mode)))
   :init
-    ;(setq skk-server-host "localhost")
-    ;(setq skk-server-portnum 1178)
+    (setq skk-server-host "localhost")
+    (setq skk-server-portnum 1178)
     (setq skk-preload t)
     (setq skk-jisyo-code 'utf-8)
-    (setq skk-jisyo "~/Google Drive/マイドライブ/skk-jisyo.utf-8")
-    (setq skk-user-directory "~/.cache/skk")
+    ;(setq skk-jisyo "~/Google Drive/マイドライブ/skk-jisyo.utf-8")
+    ;(setq skk-user-directory "~/.cache/skk")
     (setq skk-use-azik t)
     (setq skk-search-katakana t)
-    (setq default-input-method "japanese-skk"))
+    (setq default-input-method "japanese-skk")
+    (setq skk-share-private-jisyo t))
 
 (leaf org-bullets
   :vc (:url "https://github.com/sabof/org-bullets")
@@ -450,7 +445,7 @@ search |   file     | buffer                              | line  |
   (setq org-capture-templates
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file org-main-file) "** TODO %?")
-      ("e" "Experiment" entry (file org-exp-file)"* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
+      ("e" "Experiment" entry (file org-exp-file)"\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
@@ -487,62 +482,45 @@ search |   file     | buffer                              | line  |
   :bind
   ("C-c j" . org-journal-new-entry)
   :init
-  (setq org-journal-dir "~/Documents/org-mode/journal"))
+  (setq org-journal-dir "~/Documents/org-mode/journal")
+  (setq org-journal-file-type 'daily)
+  (setq org-journal-file-format "%Y%m%d.org"))
 
 (leaf ox-gfm
   :ensure t)
 
 ; lsp client
-;;(leaf eglot
-;  :doc "The Emacs Client for LSP servers"
-;  :bind
-;  (("M-d" . xref-find-definitions)
-;   ("M-r" . xref-find-references))
-;  :hook
-;  ((python-ts-mode-hook js-ts-mode-hook) . eglot-ensure)
-;  :custom ((eglot-connect-timeout . 600))
-;  :config
-;  (fset #'jsonrpc--log-event #'ignore)
-;  ;(setf (plist-get eglot-events-buffer-config :size) 0)
-;  (setq eglot-events-buffer-size 0
-;        eglot-ignored-server-capabilities '(:hoverProvider
-;                                            :documentHighlightProvider)
-;        eglot-autoshutdown t)
-;  (defun my/eglot-capf ()
-;    (setq-local completion-at-point-functions
-;                (list (cape-capf-super
-;                       #'tempel-complete
-;                       #'eglot-completion-at-point)
-;                       #'cape-keyword
-;                       #'cape-dabbrev
-;                       #'cape-file)))
-;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
-; 
-; 
-;(leaf eglot-booster
-;  :when (executable-find "emacs-lsp-booster")
-;  :vc ( :url "https://github.com/jdtsmith/eglot-booster")
-;  :after eglot
-;  :config (eglot-booster-mode))
-
-
 (defun my/lsp-mode-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+	(setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
           '(orderless)))
+
 (leaf lsp-mode
   :ensure t
+  :hook
+  (python-ts-mode-hook . lsp-mode)
   :bind
-  (("M-d" . xref-find-definitions)
-   ("M-r" . xref-find-references))
+  (("C-c d" . xref-find-definitions)
+   ("C-c r" . xref-find-references))
   :hook
   (lsp-completion-mode-hook . my/lsp-mode-completion)
   :config
+  (setq lsp-enable-file-watchers nil)
+  (setq lsp-file-watch-threshold 500)
   (setq lsp-completion-provider :none)
   (setq lsp-ruff-server-command '("ruff" "server")))
 
 (leaf lsp-ui
   :ensure t
   :hook (lsp-mode-hook . lsp-ui-mode))
+
+;(leaf dap-mode
+;  :ensure t
+;  :init
+;  (dap-mode t))
+;
+;(leaf dap-ui
+;  :hook
+;  (dap-mode-hook . dap-ui-mode))
 
 ; grammar check
 (leaf flycheck
@@ -555,7 +533,8 @@ search |   file     | buffer                              | line  |
 
 ; Python
 (leaf python-mode
-  :ensure t)
+  :ensure t
+  :hook (python-mode-hook . python-ts-mode))
 
 (leaf pet
   :ensure t
@@ -568,12 +547,10 @@ search |   file     | buffer                              | line  |
   (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
   (setq-local lsp-ruff-python-path python-shell-interpreter)
   (setq-local python-black-command (pet-executable-find "black"))
-  (setq-local blacken-executable python-black-command)
-  (lsp))))
+  (setq-local blacken-executable python-black-command))))
 
 (leaf lsp-pyright
   :ensure t)
-;  :hook (python-ts-mode-hook . lsp))
 
 (leaf python-black
   :ensure t
@@ -597,6 +574,7 @@ search |   file     | buffer                              | line  |
 ;docker
 (leaf dockerfile-mode
   :ensure t)
+
 ; Latex
 (leaf yatex
   :doc "new latex mode"
@@ -786,8 +764,7 @@ search |   file     | buffer                              | line  |
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(lsp-completion-provider :none)
- '(package-selected-packages
-   '(ispell reftex flyspell yatex dockerfile-mode yaml-mode python-black lsp-pyright pet python-mode highlight-indent-guides flycheck lsp-ui lsp-mode ox-gfm org-journal org-bullets ddskk ts-fold tree-sitter-langs cape corfu shell-pop yasnippet tempel embark-consult orderless affe consult marginalia vertico exec-path-from-shell magit which-key spaceline iflipb puni rainbow-delimiters git-gutter projectile undohist kanagawa-themes f dash blackout el-get hydra leaf-keywords leaf))
+ '(package-selected-packages '(org-bullets))
  '(package-vc-selected-packages
    '((org-bullets :url "https://github.com/sabof/org-bullets")
      (ts-fold :url "https://github.com/emacs-tree-sitter/ts-fold"))))
