@@ -145,6 +145,24 @@
                           (let ((newlist projectile-globally-ignored-modes))
                             (add-to-list 'newlist "vterm-mode"))))
 
+(leaf hydra
+  :bind ("M-g" . hydra-git/body)
+  :hydra
+  (hydra-git
+   (:color red :hint nil)
+   "
+_m_agit  _b_lame  _d_ispatch  _t_imemachine  |  hunk: _p_revious  _n_ext  _s_tage  _r_evert  pop_u_p  _SPC_:toggle"
+   ("m" magit-status :exit t)
+   ("b" magit-blame :exit t)
+   ("t" git-timemachine :exit t)
+   ("d" magit-dispatch :exit t)
+   ("p" git-gutter:previous-hunk)
+   ("n" git-gutter:next-hunk)
+   ("s" git-gutter:stage-hunk)
+   ("r" git-gutter:revert-hunk)
+   ("u" git-gutter:popup-hunk)
+   ("SPC" git-gutter:toggle-popup-hunk))))
+
 (leaf git-gutter
   :ensure t
   :init
@@ -165,7 +183,15 @@
 
 (leaf puni
   :ensure t
-  :init (puni-global-mode))
+  :init (puni-global-mode)
+  :bind ("C-c b" . hydra-puni/body)
+  :hydra
+  (hydra-puni
+   (:color red :hint nil)
+   "
+move parenthes _f_orward  _b_ackward"
+   ("f" puni-slurp-forward)
+   ("b" puni-slurp-backward)))
 
 (leaf iflipb
   :ensure t
@@ -259,8 +285,21 @@
   :ensure t
   :custom ((affe-highlight-function . 'orderless-highlight-matches)
            (affe-regexp-function . 'orderless-pattern-compiler))
-  :bind (("M-s r" . affe-grep)
-         ("M-s f" . affe-find)))
+  :bind ("C-s" . hydra-affe/body)
+  :hydra
+  (hydra-affe
+   (:color red :hint nil)
+   "
+search |   file     | buffer                              | line  |
+------------------------------------------------------------------------
+       |  _r_ipgrep   |  _b_uffer                             |  _l_ine
+       |  _f_f        |  _B_uffer(open in other tab)          |
+" 
+   ("r" affe-grep)
+   ("f" affe-find)
+   ("l" c/consult-line)
+   ("b" consult-buffer)
+   ("B" consult-buffer-other-tab)))
 
 (leaf orderless
   :doc "Completion style for matching regexps in any order"
