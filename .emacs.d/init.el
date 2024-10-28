@@ -646,6 +646,140 @@ search |   file     | buffer                              | line  |
     :config
     ;; 日本語の部分を飛ばす
     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+
+
+(leaf *hydra-goto2
+  :doc "Search and move cursor"
+  :bind ("M-j" . *hydra-goto2/body)
+  :pretty-hydra
+  ((:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("Got"
+    (("i" avy-goto-char       "char")
+     ("t" avy-goto-char-timer "timer")
+     ("l" avy-goto-line       "line")
+     ("j" avy-resume          "resume"))
+    "Line"
+    (("h" avy-goto-line        "head")
+     ("e" avy-goto-end-of-line "end")
+     ("n" consult-goto-line    "number"))
+    "Topic"
+    (("o"  consult-outline      "outline")
+     ("m"  consult-imenu        "imenu")
+     ("gm" consult-global-imenu "global imenu"))
+    "Error"
+    ((","  lsp-bridge-diagnostic-jump-prev "previous")
+     ("."  lsp-bridge-diagnostic-jump-next "next")
+     ("L"  lsp-bridge-diagnostic-list "list"))
+    "Spell"
+    ((">"  flyspell-goto-next-error "next" :exit nil)
+     ("cc" flyspell-correct-at-point "correct" :exit nil)))))
+
+(leaf *hydra-toggle2
+  :doc "Toggle functions"
+  :bind ("M-t" . *hydra-toggle2/body)
+  :pretty-hydra
+  ((:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
+   ("Basic"
+    (("v" view-mode "view mode" :toggle t)
+     ("w" whitespace-mode "whitespace" :toggle t)
+     ("W" whitespace-cleanup "whitespace cleanup")
+     ("r" rainbow-mode "rainbow" :toggle t)
+     ("b" beacon-mode "beacon" :toggle t))
+    "Line & Column"
+    (("l" toggle-truncate-lines "truncate line" :toggle t)
+     ("n" display-line-numbers-mode "line number" :toggle t)
+     ("F" display-fill-column-indicator-mode "column indicator" :toggle t)
+     ("f" visual-fill-column-mode "visual column" :toggle t)
+     ("c" toggle-visual-fill-column-center "fill center"))
+    "Highlight"
+    (("h" highlight-symbol "highligh symbol" :toggle t)
+     ("L" hl-line-mode "line" :toggle t)
+     ("t" hl-todo-mode "todo" :toggle t)
+     ("g" git-gutter-mode "git gutter" :toggle t)
+     ("i" highlight-indent-guides-mode "indent guide" :toggle t))
+    "Window"
+    (("t" toggle-window-transparency "transparency" :toggle t)
+     ("m" toggle-window-maximize "maximize" :toggle t)
+     ("p" presentation-mode "presentation" :toggle t)))))
+(leaf *hydra-toggle-markdown1
+  :doc "Toggle functions for Markdown"
+  :bind
+  (:markdown-mode-map
+   :package markdown-mode
+   ("M-t" . *hydra-toggle-markdown1/body))
+  :pretty-hydra
+  ((:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("Basic"
+    (("w" whitespace-mode "whitespace" :toggle t)
+     ("W" whitespace-cleanup "whitespace cleanup")
+     ("l" hl-line-mode "line" :toggle t)
+     ("g" git-gutter-mode "git gutter" :toggle t))
+    "Markdown"
+    (("v" markdown-view-mode "view mode")
+     ("u" markdown-toggle-markup-hiding "markup hiding" :toggle t)
+     ("l" markdown-toggle-url-hiding "url hiding" :toggle t))
+    "Line & Column"
+    (("l" toggle-truncate-lines "truncate line" :toggle t)
+     ("i" display-fill-column-indicator-mode "column indicator" :toggle t)
+     ("c" visual-fill-column-mode "visual column" :toggle t))
+    "Window"
+    (("t" toggle-window-transparency "transparency" :toggle t)
+     ("m" toggle-window-maximize "maximize" :toggle t)
+     ("p" presentation-mode "presentation" :toggle t)))))
+
+(leaf *hydra-search
+  :doc "Search functions"
+  :bind
+  ("M-s" . *hydra-search/body)
+  :pretty-hydra
+  ((:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("Buffer"
+    (("l" consult-line "line")
+     ("o" consult-outline "outline")
+     ("m" consult-imenu "imenu"))
+    "Project"
+    (("f" affe-find "find")
+     ("r" consult-ripgrep "grep")
+     ("R" affe-grep "affe"))
+    "Document"
+    (("df" consult-find-doc "find")
+     ("dd" consult-grep-doc "grep")))))
+
+(leaf *hydra-git
+  :bind
+  ("M-g" . *hydra-git/body)
+  :pretty-hydra
+  ((:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("Basic"
+    (("w" magit-checkout "checkout")
+     ("s" magit-status "status")
+     ("b" magit-branch "branch")
+     ("F" magit-pull "pull")
+     ("f" magit-fetch "fetch")
+     ("A" magit-apply "apply")
+     ("c" magit-commit "commit")
+     ("P" magit-push "push"))
+    ""
+    (("d" magit-diff "diff")
+     ("l" magit-log "log")
+     ("r" magit-rebase "rebase")
+     ("z" magit-stash "stash")
+     ("!" magit-run "run shell command")
+     ("y" magit-show-refs "references"))
+    "Hunk"
+    (("," git-gutter:previous-hunk "previous" :exit nil)
+     ("." git-gutter:next-hunk "next" :exit nil)
+     ("g" git-gutter:stage-hunk "stage")
+     ("v" git-gutter:revert-hunk "revert")
+     ("p" git-gutter:popup-hunk "popup"))
+    " GitHub"
+    (("C" checkout-gh-pr "checkout PR")
+     ("o" browse-at-remote-or-copy"browse at point")
+     ("k" browse-at-remote-kill "copy url")
+     ("O" (shell-command "hub browse") "browse repository")))))
+
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
