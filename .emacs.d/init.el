@@ -98,12 +98,12 @@
     :init
     ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
     (leaf hydra :ensure t)
+    (leaf pretty-hydra :ensure t)
     (leaf el-get :ensure t)
     (leaf blackout :ensure t)
     :config
     ;; initialize leaf-keywords.el
-    (leaf-keywords-init)))
-;; </leaf-install-code>
+    (leaf-keywords-init))
 
 (leaf color-moccur
   :bind (("M-o" . occur-by-moccur))
@@ -126,6 +126,10 @@
   :config
   (load-theme 'kanagawa-wave t))
 
+(leaf volatile-highlights
+  :ensure t
+  :global-minor-mode t)
+
 (leaf undohist
   :ensure t
   :config
@@ -144,6 +148,44 @@
                           (let ((newlist projectile-globally-ignored-modes))
                             (add-to-list 'newlist "vterm-mode"))))
 
+(leaf expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region))
+
+(leaf multiple-cursors
+  :ensure t
+  :bind ("M-m" . hydra-multiple-cursors/body)
+  :hydra
+  (hydra-multiple-cursors (:color pink :hint nil)
+"
+                                                                        ╔════════╗
+    Point^^^^^^             Misc^^            Insert                            ║ Cursor ║
+  ──────────────────────────────────────────────────────────────────────╨────────╜
+     _k_    _K_    _M-k_    [_l_] edit lines  [_i_] 0...
+     ^↑^    ^↑^     ^↑^     [_m_] mark all    [_a_] letters
+    mark^^ skip^^^ un-mk^   [_s_] sort        [_n_] numbers
+     ^↓^    ^↓^     ^↓^
+     _j_    _J_    _M-j_
+  ╭──────────────────────────────────────────────────────────────────────────────╯
+                           [_q_]: quit, [Click]: point
+"
+          ("l" mc/edit-lines :exit t)
+          ("m" mc/mark-all-like-this :exit t)
+          ("j" mc/mark-next-like-this)
+          ("J" mc/skip-to-next-like-this)
+          ("M-j" mc/unmark-next-like-this)
+          ("k" mc/mark-previous-like-this)
+          ("K" mc/skip-to-previous-like-this)
+          ("M-k" mc/unmark-previous-like-this)
+          ("s" mc/mark-all-in-region-regexp :exit t)
+          ("i" mc/insert-numbers :exit t)
+          ("a" mc/insert-letters :exit t)
+          ("n" ladicle/mc/insert-numbers :exit t)
+          ("<mouse-1>" mc/add-cursor-on-click)
+          ;; Help with click recognition in this hydra
+          ("<down-mouse-1>" ignore)
+          ("<drag-mouse-1>" ignore)
+          ("q" nil)))
 
 (leaf git-gutter
   :ensure t
@@ -249,6 +291,12 @@ move parenthes _f_orward  _b_ackward"
            (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME")))
   :config
   (exec-path-from-shell-initialize))
+
+
+(leaf dmacro
+  :ensure t
+  :custom `((dmacro-key . ,(kbd "C-M-e")))
+  :global-minor-mode global-dmacro-mode)
 
 (leaf vertico
   :doc "VERTical Interactive COmpletion"
@@ -386,12 +434,6 @@ move parenthes _f_orward  _b_ackward"
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword))
 
-(leaf tree-sitter
-  :hook ((tree-sitter-after-on-hook . tree-sitter-hl-mode)))
-
-(leaf tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
 
 (leaf ddskk
   :ensure t
@@ -490,28 +532,86 @@ move parenthes _f_orward  _b_ackward"
   :ensure t)
 
 ; lsp client
-(defun my/lsp-mode-completion ()
-	(setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
-
-(leaf lsp-mode
-  :ensure t
-  :hook
-  (python-ts-mode-hook . lsp-mode)
+(leaf eglot
+  :doc "The Emacs Client for LSP servers"
   :bind
   (("C-c d" . xref-find-definitions)
-   ("C-c r" . xref-find-references))
+   ("C-c r" . xref-find-references)
+   ("C-c b" . xref-go-back))
   :hook
-  (lsp-completion-mode-hook . my/lsp-mode-completion)
+  ((python-mode-hook
+    js-mode-hook) . eglot-ensure)
+  :custom ((eldoc-echo-area-use-multiline-p . nil)
+           (eglot-connect-timeout . 600))
   :config
-  (setq lsp-enable-file-watchers nil)
-  (setq lsp-file-watch-threshold 500)
-  (setq lsp-completion-provider :none)
-  (setq lsp-ruff-server-command '("ruff" "server")))
+  (defun my/eglot-capf ()
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'tempel-complete
+                       #'eglot-completion-at-point)
+                      #'cape-keyword
+                      #'cape-dabbrev
+                      #'cape-file)
+                ))
+  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
 
-(leaf lsp-ui
-  :ensure t
-  :hook (lsp-mode-hook . lsp-ui-mode))
+
+(leaf emacs-lsp-booster
+  :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
+  :ensure t)
+
+(leaf eglot-booster ;
+  :when (executable-find "emacs-lsp-booster")
+  :vc ( :url "https://github.com/jdtsmith/eglot-booster")
+  :global-minor-mode t)
+
+;(defun my/lsp-mode-completion ()
+;    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+;          '(orderless)))
+
+;(leaf lsp-mode
+;  :ensure t
+;  :hook
+;  (python-mode-hook . lsp-mode)
+;  :bind
+;  (("C-c d" . xref-find-definitions)
+;   ("C-c r" . xref-find-references))
+;  :hook
+;  (lsp-completion-mode-hook . my/lsp-mode-completion)
+;  :config
+;  (setq lsp-enable-file-watchers nil)
+;  (setq lsp-file-watch-threshold 500)
+;  (setq lsp-completion-provider :none))
+; 
+;(leaf lsp-ui
+;  :ensure t
+;  :hook (lsp-mode-hook . lsp-ui-mode)
+;  :config
+;  (setq lsp-ui-doc-enable nil)
+;  (setq lsp-ui-doc-include-signature nil)
+;  (setq lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
+;  (setq lsp-ui-doc-max-width 120)
+;  (setq lsp-ui-doc-max-height 30)
+;  (setq lsp-ui-doc-use-childframe t)
+;  (setq lsp-ui-doc-use-webkit t)
+;;setq ; lsp-ui-flycheck
+;  (setq lsp-ui-flycheck-enable nil)
+;;setq ; lsp-ui-sideline
+;  (setq lsp-ui-sideline-enable nil)
+;  (setq lsp-ui-sideline-ignore-duplicate t)
+;  (setq lsp-ui-sideline-show-symbol t)
+;  (setq lsp-ui-sideline-show-hover t)
+;  (setq lsp-ui-sideline-show-diagnostics nil)
+;  (setq lsp-ui-sideline-show-code-actions t)
+;  (setq lsp-ui-sideline-code-actions-prefix "")
+;;setq ; lsp-ui-imenu
+;  (setq lsp-ui-imenu-enable t)
+;  (setq lsp-ui-imenu-kind-position 'top)
+;;setq ; lsp-ui-peek
+;  (setq lsp-ui-peek-enable t)
+;  (setq lsp-ui-peek-peek-height 20)
+;  (setq lsp-ui-peek-list-width 50)
+;  (setq lsp-ui-peek-fontify 'on-demand))
 
 ;(leaf dap-mode
 ;  :ensure t
@@ -529,32 +629,31 @@ move parenthes _f_orward  _b_ackward"
 
 (leaf highlight-indent-guides
   :ensure t
-  :hook ((prog-ts-mode-hook yaml-ts-mode-hook) . highlight-indent-guides-mode))
+  :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 
 ; Python
 (leaf python-mode
-  :ensure t
-  :hook (python-mode-hook . python-ts-mode))
+  :ensure t)
 
 (leaf pet
   :ensure t
   :hook
-  (python-ts-mode-hook . (lambda () (pet-mode -10)
+  (python-mode-hook . (lambda () (pet-mode -10)
   (setq-local python-shell-interpreter (pet-executable-find "python"))
   (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
   (pet-flycheck-setup)
   (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
   (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-  (setq-local lsp-ruff-python-path python-shell-interpreter)
   (setq-local python-black-command (pet-executable-find "black"))
-  (setq-local blacken-executable python-black-command))))
+  (setq-local blacken-executable python-black-command)
+  (pet-eglot-setup))))
 
 (leaf lsp-pyright
   :ensure t)
 
 (leaf python-black
   :ensure t
-  :hook (python-ts-mode-hook . python-black-on-save-mode-enable-dwim))
+  :hook (python-mode-hook . python-black-on-save-mode-enable-dwim))
 
 ;(leaf ein
 ;  :ensure t)
@@ -573,6 +672,9 @@ move parenthes _f_orward  _b_ackward"
 
 ;docker
 (leaf dockerfile-mode
+  :ensure t)
+
+(leaf git-modes
   :ensure t)
 
 ; Latex
@@ -708,7 +810,7 @@ move parenthes _f_orward  _b_ackward"
 (leaf *hydra-search
   :doc "Search functions"
   :bind
-  ("M-s" . *hydra-search/body)
+  ("C-s" . *hydra-search/body)
   :pretty-hydra
   ((:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Buffer"
@@ -756,6 +858,8 @@ move parenthes _f_orward  _b_ackward"
      ("k" browse-at-remote-kill "copy url")
      ("O" (shell-command "hub browse") "browse repository")))))
 
+)
+;; </leaf-install-code>
 
 
 (custom-set-variables
@@ -764,10 +868,12 @@ move parenthes _f_orward  _b_ackward"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(lsp-completion-provider :none)
- '(package-selected-packages '(org-bullets))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((org-bullets :url "https://github.com/sabof/org-bullets")
-     (ts-fold :url "https://github.com/emacs-tree-sitter/ts-fold"))))
+   '((emacs-lsp-booster :url
+                        "https://github.com/blahgeek/emacs-lsp-booster")
+     (eglot-booster :url "https://github.com/jdtsmith/eglot-booster")
+     (org-bullets :url "https://github.com/sabof/org-bullets"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
