@@ -117,6 +117,10 @@
 (leaf f
   :ensure t)
 
+(leaf nerd-icons-completion
+  :ensure t
+  :global-minor-mode t)
+
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
@@ -418,6 +422,11 @@ move parenthes _f_orward  _b_ackward"
   :config
   (setq-local corfu-popupinfo-delay 0.5))
 
+(leaf nerd-icons-corfu
+  :ensure t
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 (leaf cape
   :doc "Completion At Point Extensions"
   :ensure t
@@ -434,14 +443,10 @@ move parenthes _f_orward  _b_ackward"
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword))
 
-
 (leaf ddskk
   :ensure t
   :doc "japanese IME works in emacs"
-  :bind (("C-x C-j" . skk-mode)
-       (:skk-mode-map
-        :package ddskk
-        ("L" . skk-latin-mode)))
+  :bind (("C-x C-j" . skk-mode))
   :init
     (setq skk-server-host "localhost")
     (setq skk-server-portnum 1178)
@@ -453,6 +458,7 @@ move parenthes _f_orward  _b_ackward"
     (setq skk-search-katakana t)
     (setq default-input-method "japanese-skk")
     (setq skk-share-private-jisyo t))
+
 
 (leaf org-bullets
   :vc (:url "https://github.com/sabof/org-bullets")
@@ -857,7 +863,6 @@ move parenthes _f_orward  _b_ackward"
      ("o" browse-at-remote-or-copy"browse at point")
      ("k" browse-at-remote-kill "copy url")
      ("O" (shell-command "hub browse") "browse repository")))))
-
 )
 ;; </leaf-install-code>
 
