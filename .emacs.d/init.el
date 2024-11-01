@@ -8,8 +8,6 @@
 (setq mac-pass-option-to-system nil)
 
 
-(define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
-
 (define-key global-map (kbd "C-t") 'other-window)
 
 ; 好きなコマンドを割り振ろう
@@ -97,12 +95,6 @@
     :config
     ;; initialize leaf-keywords.el
     (leaf-keywords-init))
-
-(leaf color-moccur
-  :ensure t
-  :bind (("M-o" . occur-by-moccur))
-  :custom
-  ((dmoccur-exclusion-mask . "\\.DS_Store")(dmoccur-exclusion-mask . "^#.+#$")))
 
 (leaf dash
   :ensure t)
@@ -468,7 +460,7 @@ move parenthes _f_orward  _b_ackward"
   (setq org-capture-templates
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file org-main-file) "** TODO %?")
-      ("e" "Experiment" entry (file org-exp-file) "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")
+      ("e" "Experiment" entry (file org-exp-file) "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
