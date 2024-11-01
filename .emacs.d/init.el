@@ -8,8 +8,6 @@
 (setq mac-pass-option-to-system nil)
 
 
-(define-key global-map (kbd "C-m") 'newline-and-indent)
-
 (define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
 
 (define-key global-map (kbd "C-t") 'other-window)
@@ -41,11 +39,6 @@
 (set-face-attribute 'default nil
                     :family "Menlo"
                     :height 200)
-(setq show-paren-delay 0)
-(show-paren-mode t)
-(setq show-paren-style 'expression)
-(set-face-background 'show-paren-match nil)
-(set-face-underline 'show-paren-match "darkgreen")
 
 (setq backup-directory-alist
       `((".*".,temporary-file-directory)))
@@ -106,10 +99,10 @@
     (leaf-keywords-init))
 
 (leaf color-moccur
+  :ensure t
   :bind (("M-o" . occur-by-moccur))
   :custom
-  ((dmoccur-exclusion-mask . "\\.DS_Store")(dmoccur-exclusion-mask . "^#.+#$"))
-  )
+  ((dmoccur-exclusion-mask . "\\.DS_Store")(dmoccur-exclusion-mask . "^#.+#$")))
 
 (leaf dash
   :ensure t)
@@ -146,11 +139,13 @@
   :ensure t
   :config projectile-mode
   :init (projectile-mode +1)
-  :bind (("C-c p" . projectile-command-map))
-  :defer-config
-  (customize-set-variable 'projectile-globally-ignored-modes
-                          (let ((newlist projectile-globally-ignored-modes))
-                            (add-to-list 'newlist "vterm-mode"))))
+  :bind (("C-c p" . projectile-command-map)))
+
+(leaf otpp
+  :ensure t
+  :after project
+  :vc (:url "https://github.com/abougouffa/one-tab-per-project")
+  :global-minor-mode t)
 
 (leaf expand-region
   :ensure t
@@ -211,7 +206,7 @@
 
 (leaf puni
   :ensure t
-  :init (puni-global-mode)
+  :global-minor-mode t
   :bind ("C-c b" . hydra-puni/body)
   :hydra
   (hydra-puni
@@ -296,11 +291,6 @@ move parenthes _f_orward  _b_ackward"
   :config
   (exec-path-from-shell-initialize))
 
-
-(leaf dmacro
-  :ensure t
-  :custom `((dmacro-key . ,(kbd "C-M-e")))
-  :global-minor-mode global-dmacro-mode)
 
 (leaf vertico
   :doc "VERTical Interactive COmpletion"
@@ -411,7 +401,8 @@ move parenthes _f_orward  _b_ackward"
   :custom ((corfu-auto . t)
            (corfu-auto-delay . 0)
            (corfu-cycle . t)
-           (corfu-auto-prefix . 1))
+           (corfu-auto-prefix . 3)
+           (text-mode-ispell-word-completion . nil))
   :bind ((corfu-map
           ("C-s" . corfu-insert-separator))))
 
@@ -420,7 +411,7 @@ move parenthes _f_orward  _b_ackward"
   :after corfu
   :hook (corfu-mode-hook . corfu-popupinfo-mode)
   :config
-  (setq-local corfu-popupinfo-delay 0.5))
+  (setq-local corfu-popupinfo-delay 0.2))
 
 (leaf nerd-icons-corfu
   :ensure t
@@ -443,23 +434,6 @@ move parenthes _f_orward  _b_ackward"
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword))
 
-(leaf ddskk
-  :ensure t
-  :doc "japanese IME works in emacs"
-  :bind (("C-x C-j" . skk-mode))
-  :init
-    (setq skk-server-host "localhost")
-    (setq skk-server-portnum 1178)
-    (setq skk-preload t)
-    (setq skk-jisyo-code 'utf-8)
-    ;(setq skk-jisyo "~/Google Drive/マイドライブ/skk-jisyo.utf-8")
-    ;(setq skk-user-directory "~/.cache/skk")
-    (setq skk-use-azik t)
-    (setq skk-search-katakana t)
-    (setq default-input-method "japanese-skk")
-    (setq skk-share-private-jisyo t))
-
-
 (leaf org-bullets
   :vc (:url "https://github.com/sabof/org-bullets")
   :hook (org-mode-hook . (lambda () (org-bullets-mode t))))
@@ -470,7 +444,8 @@ move parenthes _f_orward  _b_ackward"
         org-daily-tasks-file (format "%s/tasks.org" org-directory)
         org-memo-file (format "%s/memo.org" org-directory)
         org-main-file (format "%s/main.org" org-directory)
-        org-exp-file (format "%s/exp.org" org-directory))
+        org-exp-file (format "%s/exp.org" org-directory)
+        org-memo-dir (format "%s/memo/" org-directory))
   (setq org-agenda-files (list org-directory))
   (defun my:org-goto-inbox ()
     (interactive)
@@ -493,7 +468,7 @@ move parenthes _f_orward  _b_ackward"
   (setq org-capture-templates
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file org-main-file) "** TODO %?")
-      ("e" "Experiment" entry (file org-exp-file)"\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
+      ("e" "Experiment" entry (file org-exp-file) "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")
   (setq org-startup-folded nil)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
   (setq org-todo-keywords
@@ -531,8 +506,9 @@ move parenthes _f_orward  _b_ackward"
   ("C-c j" . org-journal-new-entry)
   :init
   (setq org-journal-dir "~/Documents/org-mode/journal")
-  (setq org-journal-file-type 'daily)
-  (setq org-journal-file-format "%Y%m%d.org"))
+  (setq org-journal-file-format "week-%V-%Y%m%d.org")
+  (setq org-journal-file-type 'weekly)
+  (setq org-journal-start-on-weekday 3))
 
 (leaf ox-gfm
   :ensure t)
@@ -540,10 +516,14 @@ move parenthes _f_orward  _b_ackward"
 ; lsp client
 (leaf eglot
   :doc "The Emacs Client for LSP servers"
+  :pretty-hydra
+  ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("ref"
+    (("d" xref-find-definitions "goto definitions")
+     ("r" xref-find-references "find references")
+     ("b" xref-go-back "go back to previous location"))))
   :bind
-  (("C-c d" . xref-find-definitions)
-   ("C-c r" . xref-find-references)
-   ("C-c b" . xref-go-back))
+  (("C-c l" . eglot/body))
   :hook
   ((python-mode-hook
     js-mode-hook) . eglot-ensure)
@@ -566,8 +546,9 @@ move parenthes _f_orward  _b_ackward"
   :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
   :ensure t)
 
-(leaf eglot-booster ;
+(leaf eglot-booster
   :when (executable-find "emacs-lsp-booster")
+  :ensure t
   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
   :global-minor-mode t)
 
@@ -863,8 +844,24 @@ move parenthes _f_orward  _b_ackward"
      ("o" browse-at-remote-or-copy"browse at point")
      ("k" browse-at-remote-kill "copy url")
      ("O" (shell-command "hub browse") "browse repository")))))
-)
+
+(leaf ddskk
+  :ensure t
+  :doc "japanese IME works in emacs"
+  :bind (("C-x C-j" . skk-mode))
+  :hook (skk-load-hook . (lambda () (corfu-mode -1)))
+  :init
+    ;(setq skk-server-portnum 1178)
+    ;(setq skk-server-host "localhost")
+    (setq skk-jisyo "~/Google Drive/マイドライブ/skk-jisyo.utf-8")
+    ;(setq skk-user-directory "~/.cache/skk")
+    (setq skk-large-jisyo "~/.cache/skk/SKK-JISYO.L")
+    (setq skk-use-azik t)
+    (setq skk-search-katakana t)
+    (setq skk-preload t)
+    (setq skk-share-private-jisyo t))
 ;; </leaf-install-code>
+)
 
 
 (custom-set-variables
@@ -873,12 +870,27 @@ move parenthes _f_orward  _b_ackward"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(lsp-completion-provider :none)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(affe avy avy-zap cape consult corfu ddskk dockerfile-mode
+          eglot-booster emacs-lsp-booster embark-consult
+          exec-path-from-shell expand-region flycheck flyspell
+          git-gutter git-modes highlight-indent-guides iflipb ispell
+          lsp-booster lsp-pyright magit marginalia multiple-cursors
+          nerd-icons-corfu one-tab-per-project orderless org-bullets
+          org-journal otpp ox-gfm pet puni python-black python-mode
+          rainbow-delimiters reftex shell-pop smerge-mode spaceline
+          tempel undohist vertico volatile-highlights which-key
+          yaml-mode yasnippet yatex))
  '(package-vc-selected-packages
-   '((emacs-lsp-booster :url
-                        "https://github.com/blahgeek/emacs-lsp-booster")
+   '((one-tab-per-project :url
+                          "https://github.com/abougouffa/one-tab-per-project")
+     (lsp-booster :vc-backend Git :url
+                  "https://github.com/blahgeek/emacs-lsp-booster")
      (eglot-booster :url "https://github.com/jdtsmith/eglot-booster")
-     (org-bullets :url "https://github.com/sabof/org-bullets"))))
+     (emacs-lsp-booster :url
+                        "https://github.com/blahgeek/emacs-lsp-booster")
+     (org-bullets :url "https://github.com/sabof/org-bullets")))
+ '(skk-jisyo-edit-user-accepts-editing t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
