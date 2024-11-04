@@ -18,7 +18,7 @@
 ;; I never use C-x C-c
 (defalias 'exit 'save-buffers-kill-emacs)
 
-
+(server-start)
 (column-number-mode t)
 (size-indication-mode t)
 (setq display-time-24hr-format t)
@@ -83,7 +83,7 @@
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
-
+)
   (leaf leaf-keywords
     :ensure t
     :init
@@ -138,6 +138,8 @@
   :after project
   :vc (:url "https://github.com/abougouffa/one-tab-per-project")
   :global-minor-mode t)
+
+
 
 (leaf expand-region
   :ensure t
@@ -198,8 +200,8 @@
 
 (leaf puni
   :ensure t
-  :global-minor-mode t
   :bind ("C-c b" . hydra-puni/body)
+  :global-minor-mode puni-global-mode
   :hydra
   (hydra-puni
    (:color red :hint nil)
@@ -279,10 +281,49 @@ move parenthes _f_orward  _b_ackward"
   :ensure t
   :defun (exec-path-from-shell-initialize)
   :custom ((exec-path-from-shell-check-startup-files)
-           (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME")))
+           (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME" "PKG_CONFIG_PATH" "CPPFLAGS" "LDFLAGS")))
   :config
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "PATH"))
 
+(leaf corfu
+  :doc "COmpletion in Region FUnction"
+  :ensure t
+  :global-minor-mode global-corfu-mode corfu-popupinfo-mode
+  :custom ((corfu-auto . t)
+           (corfu-auto-delay . 0.1)
+           (corfu-cycle . t)
+           (corfu-auto-prefix . 3)
+           (text-mode-ispell-word-completion . nil))
+  :bind ((corfu-map
+          ("C-s" . corfu-insert-separator))))
+
+(leaf corfu-popupinfo
+  :ensure nil
+  :after corfu
+  :config
+  (setq-local corfu-popupinfo-delay 0))
+
+(leaf nerd-icons-corfu
+  :ensure t
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+(leaf cape
+  :doc "Completion At Point Extensions"
+  :ensure t
+  :hook
+  ((prog-mode
+     text-mode
+     conf-mode
+     lsp-completion-mode
+     yatex-mode))
+  :config
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'tempel-complete)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-keyword))
 
 (leaf vertico
   :doc "VERTical Interactive COmpletion"
@@ -318,24 +359,7 @@ move parenthes _f_orward  _b_ackward"
       (consult-line)))
   :custom ((xref-show-xrefs-function . #'consult-xref)
            (xref-show-definitions-function . #'consult-xref)
-           (consult-line-start-from-top . t))
-  :bind (;; C-c bindings (mode-specific-map)
-         ([remap switch-to-buffer] . consult-buffer) ; C-x b
-         ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
-         ("C-x C-b" . consult-buffer-other-tab)
-         ;; M-g bindings (goto-map)i
-         ([remap goto-line] . consult-goto-line)    ; M-g g
-         ([remap imenu] . consult-imenu)            ; M-g i
-
-         ;; C-M-s bindings
-         ("C-M-s" . nil)                ; isearch-forward-regexp
-         ("C-M-s s" . isearch-forward)
-         ("C-M-s C-s" . isearch-forward-regexp)
-         ("C-M-s r" . consult-ripgrep)
-
-         (minibuffer-local-map
-          :package emacs
-          ("C-r" . consult-history))))
+           (consult-line-start-from-top . t)))
 
 (leaf affe
   :doc "Asynchronous Fuzzy Finder for Emacs"
@@ -349,7 +373,6 @@ move parenthes _f_orward  _b_ackward"
   :custom ((completion-styles . '(orderless partial-completion basic))
            (completion-category-defaults . nil)
            (completion-category-overrides . nil)))
-
 
 (leaf embark-consult
   :doc "Consult integration for Embark"
@@ -385,46 +408,6 @@ move parenthes _f_orward  _b_ackward"
 (leaf shell-pop
   :ensure t
   :bind (("C-c s" . shell-pop)))
-
-(leaf corfu
-  :doc "COmpletion in Region FUnction"
-  :ensure t
-  :global-minor-mode global-corfu-mode corfu-popupinfo-mode
-  :custom ((corfu-auto . t)
-           (corfu-auto-delay . 0)
-           (corfu-cycle . t)
-           (corfu-auto-prefix . 3)
-           (text-mode-ispell-word-completion . nil))
-  :bind ((corfu-map
-          ("C-s" . corfu-insert-separator))))
-
-(leaf corfu-popupinfo
-  :ensure nil
-  :after corfu
-  :hook (corfu-mode-hook . corfu-popupinfo-mode)
-  :config
-  (setq-local corfu-popupinfo-delay 0.2))
-
-(leaf nerd-icons-corfu
-  :ensure t
-  :config
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
-(leaf cape
-  :doc "Completion At Point Extensions"
-  :ensure t
-  :hook
-  ((prog-mode
-     text-mode
-     conf-mode
-     lsp-completion-mode
-     yatex-mode))
-  :config
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'tempel-complete)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword))
 
 (leaf org-bullets
   :vc (:url "https://github.com/sabof/org-bullets")
@@ -503,7 +486,8 @@ move parenthes _f_orward  _b_ackward"
   (setq org-journal-start-on-weekday 3))
 
 (leaf ox-gfm
-  :ensure t)
+  :ensure t
+  :after org)
 
 ; lsp client
 (leaf eglot
@@ -517,13 +501,12 @@ move parenthes _f_orward  _b_ackward"
   :bind
   (("C-c l" . eglot/body))
   :hook
-  ((python-mode-hook
-    js-mode-hook) . eglot-ensure)
+  ((js-mode-hook) . eglot-ensure)
   :custom ((eldoc-echo-area-use-multiline-p . nil)
            (eglot-connect-timeout . 600))
   :config
   (defun my/eglot-capf ()
-    (setq-local completion-at-point-functions
+n    (setq-local completion-at-point-functions
                 (list (cape-capf-super
                        #'tempel-complete
                        #'eglot-completion-at-point)
@@ -617,7 +600,7 @@ move parenthes _f_orward  _b_ackward"
 (leaf pet
   :ensure t
   :hook
-  (python-mode-hook . (lambda () (pet-mode -10)
+  (python-mode-hook . (lambda () (pet-mode)
   (setq-local python-shell-interpreter (pet-executable-find "python"))
   (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
   (pet-flycheck-setup)
@@ -625,10 +608,11 @@ move parenthes _f_orward  _b_ackward"
   (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
   (setq-local python-black-command (pet-executable-find "black"))
   (setq-local blacken-executable python-black-command)
-  (pet-eglot-setup))))
+  (pet-eglot-setup)
+  (eglot-ensure))))
 
-(leaf lsp-pyright
-  :ensure t)
+;(leaf lsp-pyright
+;  :ensure t)
 
 (leaf python-black
   :ensure t
@@ -651,9 +635,6 @@ move parenthes _f_orward  _b_ackward"
 
 ;docker
 (leaf dockerfile-mode
-  :ensure t)
-
-(leaf git-modes
   :ensure t)
 
 ; Latex
@@ -695,17 +676,16 @@ move parenthes _f_orward  _b_ackward"
     (setq reftex-default-bibliography (directory-files-recursively
                                        (projectile-project-root) "\\.bib$")))
 
-(leaf ispell
-    :ensure t
-    :after yatex
-    :init
-    (setq ispell-local-dictionary "en_US")
-    ;; スペルチェッカとしてaspellを使う
-    (setq ispell-program-name "aspell")
-    :config
-    ;; 日本語の部分を飛ばす
-    (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
-
+;; (leaf ispell
+;;     :ensure t
+;;     :after yatex
+;;     :init
+;;     (setq ispell-local-dictionary "en_US")
+;;     ;; スペルチェッカとしてaspellを使う
+;;     (setq ispell-program-name "aspell")
+;;     :config
+;;     ;; 日本語の部分を飛ばす
+;;     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
 (leaf *hydra-goto2
   :doc "Search and move cursor"
@@ -841,7 +821,7 @@ move parenthes _f_orward  _b_ackward"
   :ensure t
   :doc "japanese IME works in emacs"
   :bind (("C-x C-j" . skk-mode))
-  :hook (skk-load-hook . (lambda () (corfu-mode -1)))
+;  :hook (skk-load-hook . (lambda () (corfu-mode -1)))
   :init
     ;(setq skk-server-portnum 1178)
     ;(setq skk-server-host "localhost")
@@ -852,40 +832,8 @@ move parenthes _f_orward  _b_ackward"
     (setq skk-search-katakana t)
     (setq skk-preload t)
     (setq skk-share-private-jisyo t))
-;; </leaf-install-code>
-)
+;; </leaf-install-code>)
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(lsp-completion-provider :none)
- '(package-selected-packages
-   '(affe avy avy-zap cape consult corfu ddskk dockerfile-mode
-          eglot-booster emacs-lsp-booster embark-consult
-          exec-path-from-shell expand-region flycheck flyspell
-          git-gutter git-modes highlight-indent-guides iflipb ispell
-          lsp-booster lsp-pyright magit marginalia multiple-cursors
-          nerd-icons-corfu one-tab-per-project orderless org-bullets
-          org-journal otpp ox-gfm pet puni python-black python-mode
-          rainbow-delimiters reftex shell-pop smerge-mode spaceline
-          tempel undohist vertico volatile-highlights which-key
-          yaml-mode yasnippet yatex))
- '(package-vc-selected-packages
-   '((one-tab-per-project :url
-                          "https://github.com/abougouffa/one-tab-per-project")
-     (lsp-booster :vc-backend Git :url
-                  "https://github.com/blahgeek/emacs-lsp-booster")
-     (eglot-booster :url "https://github.com/jdtsmith/eglot-booster")
-     (emacs-lsp-booster :url
-                        "https://github.com/blahgeek/emacs-lsp-booster")
-     (org-bullets :url "https://github.com/sabof/org-bullets")))
- '(skk-jisyo-edit-user-accepts-editing t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+

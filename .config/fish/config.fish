@@ -34,7 +34,8 @@ switch (uname)
 		set -gx LD_LIBRARY_PATH /opt/homebrew/Cellar/libgccjit/14.2.0/lib/gcc/14
 		set -gx LDFLAGS /opt/homebrew/opt/openssl/lib
 		set -gx CPPFLAGS /opt/homebrew/opt/openssl/include
-		set -gx PKG_CONFIG_PATH /opt/homebrew/opt/libpq/lib/pkgconfig
+		set -gx PKG_CONFIG_PATH /opt/homebrew/Cellar/libffi/3.4.6/lib/pkgconfig/
+
     case FreeBSD NetBSD DragonFly
             echo Hi Beastie!
     case '*'
