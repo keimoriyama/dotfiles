@@ -95,7 +95,12 @@
     :config
     ;; initialize leaf-keywords.el
     (leaf-keywords-init))
-)
+  )
+
+(leaf tab-bar-mode
+  :custom
+  ((tab-bar-new-button-show . nil)
+   (tab-bar-close-button-show . nil)))
 (leaf dash
   :ensure t)
 
@@ -121,12 +126,12 @@
   :bind ("C-c t" . centaur-tabs/body)
   :custom
   ((centaur-tabs-set-icons . t)
-   (centaur-tabs-cycle-scope . 'groubs))
+   (centaur-tabs-cycle-scope . 'tabs))
   :pretty-hydra
   ((:title "buffer moves":color blue :quit-key "q":foreign-keys warn :separator "╌" )
    ("Move"
-    (("b" centaur-tabs-backward "backward" :exit nil)
-     ("f" centaur-tabs-forward "forward" :exit nil)))))
+    (("f" centaur-tabs-forward "forward" :exit nil)
+     ("b" centaur-tabs-backward "backward" :exit nil)))))
 
 (leaf volatile-highlights
   :ensure t
@@ -517,7 +522,7 @@ move parenthes _f_orward  _b_ackward"
            (eglot-connect-timeout . 600))
   :config
   (defun my/eglot-capf ()
-n    (setq-local completion-at-point-functions
+    (setq-local completion-at-point-functions
                 (list (cape-capf-super
                        #'tempel-complete
                        #'eglot-completion-at-point)
@@ -843,4 +848,7 @@ n    (setq-local completion-at-point-functions
     (setq skk-search-katakana t)
     (setq skk-preload t)
     (setq skk-share-private-jisyo t))
+
 ;; </leaf-install-code>)
+
+
