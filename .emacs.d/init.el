@@ -83,7 +83,7 @@
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
-)
+
   (leaf leaf-keywords
     :ensure t
     :init
@@ -95,7 +95,7 @@
     :config
     ;; initialize leaf-keywords.el
     (leaf-keywords-init))
-
+)
 (leaf dash
   :ensure t)
 
@@ -114,6 +114,19 @@
   :ensure t
   :config
   (load-theme 'kanagawa-wave t))
+
+(leaf centaur-tabs
+  :ensure t
+  :global-minor-mode centaur-tabs-mode
+  :bind ("C-c t" . centaur-tabs/body)
+  :custom
+  ((centaur-tabs-set-icons . t)
+   (centaur-tabs-cycle-scope . 'groubs))
+  :pretty-hydra
+  ((:title "buffer moves":color blue :quit-key "q":foreign-keys warn :separator "╌" )
+   ("Move"
+    (("b" centaur-tabs-backward "backward" :exit nil)
+     ("f" centaur-tabs-forward "forward" :exit nil)))))
 
 (leaf volatile-highlights
   :ensure t
@@ -138,8 +151,6 @@
   :after project
   :vc (:url "https://github.com/abougouffa/one-tab-per-project")
   :global-minor-mode t)
-
-
 
 (leaf expand-region
   :ensure t
@@ -437,39 +448,39 @@ move parenthes _f_orward  _b_ackward"
    ("C-c c" . org-capture)
    ("C-c i" . my:org-goto-inbox)
    ("C-c m" . my:org-goto-memo))
-  :config
-  (setq org-startup-folded 'content)
-  (setq org-startup-indented "indent")
-  (setq org-capture-templates
+  :custom
+  (org-startup-folded . 'content)
+  (org-startup-indented . "indent")
+  (org-capture-templates .
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file org-main-file) "** TODO %?")
       ("e" "Experiment" entry (file org-exp-file) "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
-  (setq org-startup-folded nil)
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
-  (setq org-todo-keywords
+  (org-startup-folded . nil)
+  (org-refile-targets . '((org-agenda-files :maxlevel . 1)))
+  (org-todo-keywords .
         '((sequence "TODO" "DOING" "|" "DONE" "WAIT"))))
 
   (leaf org-agenda
   :commands org-agenda
-  :config
-  (setq org-agenda-custom-commands
+  :custom
+  ((org-agenda-custom-commands .
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ("d" "Daily Tasks" agenda ""
            ((org-agenda-span 1)))))
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-return-follows-link t)  ;; RET to follow link
-  (setq org-agenda-columns-add-appointments-to-effort-sum t)
-  (setq org-agenda-time-grid
-        '((daily today require-timed)
-          (0900 1200 1300 1800) "......" "----------------"))
-  (setq org-columns-default-format
-        "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
-  (defadvice org-agenda-switch-to (after org-agenda-close)
-    "Close a org-agenda window when RET is hit on the window."
-    (progn (delete-other-windows)
-           (recenter-top-bottom)))
-  (ad-activate 'org-agenda-switch-to)
+  (org-agenda-start-on-weekday . 3)
+  (org-agenda-span . 'week)
+  (org-agenda-skip-scheduled-if-done . t)
+  (org-return-follows-link . t)  ;; RET to follow link
+  (org-agenda-columns-add-appointments-to-effort-sum . t)
+  (org-agenda-time-grid .
+                        '((daily today require-timed)
+                          (0900 1200 1300 1800) "......" "----------------"))
+  (org-columns-default-format . 
+                              "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
+  (org-clock-out-remove-zero-time-clocks . t)
+  (org-clock-clocked-in-display          . 'both)
+  (org-agenda-start-with-log-mode        . t))
   :bind
   (org-agenda-mode-map
         ("s" . org-agenda-schedule)
@@ -479,11 +490,11 @@ move parenthes _f_orward  _b_ackward"
   :ensure t
   :bind
   ("C-c j" . org-journal-new-entry)
-  :init
-  (setq org-journal-dir "~/Documents/org-mode/journal")
-  (setq org-journal-file-format "week-%V-%Y%m%d.org")
-  (setq org-journal-file-type 'weekly)
-  (setq org-journal-start-on-weekday 3))
+  :custom
+  ((org-journal-dir . "~/Documents/org-mode/journal")
+  (org-journal-file-format . "week-%V-%Y%m%d.org")
+  (org-journal-file-type . 'weekly)
+  (org-journal-start-on-weekday . 3)))
 
 (leaf ox-gfm
   :ensure t
@@ -649,12 +660,12 @@ n    (setq-local completion-at-point-functions
            ("\\.clo$" . yatex-mode)
            ("\\.bbl$" . yatex-mode)
            ("\\.bib$" . yatex-mode))
-    :init
-    (setq YaTeX-inhibit-prefix-letter t)
-    (setq YaTeX-dvi2-command-ext-alist
-    '(("Skim" . ".pdf")))
-  (setq dvi2-command "open -a Skim")
-  (setq tex-pdfview-command "open -a Skim"))
+  :custom
+    (( YaTeX-inhibit-prefix-letter . t)
+     ( YaTeX-dvi2-command-ext-alist .
+     '(("Skim" . ".pdf")))
+     ( dvi2-command . "open -a Skim")
+     ( tex-pdfview-command . "open -a Skim")))
 
 (leaf flyspell
   ;; flyspellをインストールする
@@ -673,16 +684,16 @@ n    (setq-local completion-at-point-functions
                 ("C-c <" . YaTeX-uncomment-region))
     :config
     (print (projectile-project-root))
-    (setq reftex-default-bibliography (directory-files-recursively
+    ( reftex-default-bibliography (directory-files-recursively
                                        (projectile-project-root) "\\.bib$")))
 
 ;; (leaf ispell
 ;;     :ensure t
 ;;     :after yatex
 ;;     :init
-;;     (setq ispell-local-dictionary "en_US")
+;;     ( ispell-local-dictionary "en_US")
 ;;     ;; スペルチェッカとしてaspellを使う
-;;     (setq ispell-program-name "aspell")
+;;     ( ispell-program-name "aspell")
 ;;     :config
 ;;     ;; 日本語の部分を飛ばす
 ;;     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
@@ -833,7 +844,3 @@ n    (setq-local completion-at-point-functions
     (setq skk-preload t)
     (setq skk-share-private-jisyo t))
 ;; </leaf-install-code>)
-
-
-
-
