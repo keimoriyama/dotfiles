@@ -19,7 +19,8 @@
 (defalias 'exit 'save-buffers-kill-emacs)
 
 (server-start)
-(column-number-mode t)
+(column-number-mode -1)
+(scroll-bar-mode -1)
 (size-indication-mode t)
 (setq display-time-24hr-format t)
 (display-time-mode t)
@@ -29,7 +30,6 @@
 
 (setq frame-title-format "%f")
 
-(global-display-line-numbers-mode 1)
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
@@ -95,12 +95,17 @@
     :config
     ;; initialize leaf-keywords.el
     (leaf-keywords-init))
-  )
+)
 
 (leaf tab-bar-mode
   :custom
   ((tab-bar-new-button-show . nil)
    (tab-bar-close-button-show . nil)))
+
+(leaf bufferlo
+  :ensure t
+  :global-minor-mode bufferlo-mode t)
+
 (leaf dash
   :ensure t)
 
@@ -123,15 +128,20 @@
 (leaf centaur-tabs
   :ensure t
   :global-minor-mode centaur-tabs-mode
-  :bind ("C-c t" . centaur-tabs/body)
   :custom
   ((centaur-tabs-set-icons . t)
-   (centaur-tabs-cycle-scope . 'tabs))
+   (centaur-tabs-cycle-scope . 'tabs)))
+
+(leaf *hydra-moves
+  :bind ("C-c m" . *hydra-moves/body)
   :pretty-hydra
-  ((:title "buffer moves":color blue :quit-key "q":foreign-keys warn :separator "╌" )
-   ("Move"
+  ((:title "Moves":color blue :quit-key "q":foreign-keys warn :separator "╌" )
+   ("Buffer"
     (("f" centaur-tabs-forward "forward" :exit nil)
-     ("b" centaur-tabs-backward "backward" :exit nil)))))
+     ("b" centaur-tabs-backward "backward" :exit nil))
+    "Tabs"
+    (("n" tab-next "next" :exit nil)
+     ("p" tab-previous "previous" :exit nil)))))
 
 (leaf volatile-highlights
   :ensure t
@@ -149,13 +159,9 @@
   :ensure t
   :config projectile-mode
   :init (projectile-mode +1)
+  :custom
+  ((projectile-sort-order . 'recently-active))
   :bind (("C-c p" . projectile-command-map)))
-
-(leaf otpp
-  :ensure t
-  :after project
-  :vc (:url "https://github.com/abougouffa/one-tab-per-project")
-  :global-minor-mode t)
 
 (leaf expand-region
   :ensure t
@@ -172,7 +178,7 @@
   ──────────────────────────────────────────────────────────────────────╨────────╜
      _k_    _K_    _M-k_    [_l_] edit lines  [_i_] 0...
      ^↑^    ^↑^     ^↑^     [_m_] mark all    [_a_] letters
-    mark^^ skip^^^ un-mk^   [_s_] sort        [_n_] numbers
+    mark^^ skip^^^ un-mk^   [_s_] sort
      ^↓^    ^↓^     ^↓^
      _j_    _J_    _M-j_
   ╭──────────────────────────────────────────────────────────────────────────────╯
@@ -180,16 +186,15 @@
 "
           ("l" mc/edit-lines :exit t)
           ("m" mc/mark-all-like-this :exit t)
-          ("j" mc/mark-next-like-this)
+          ("j" mc/mark-next-symbol-like-this)
           ("J" mc/skip-to-next-like-this)
           ("M-j" mc/unmark-next-like-this)
-          ("k" mc/mark-previous-like-this)
+          ("k" mc/mark-previous-symbol-like-this)
           ("K" mc/skip-to-previous-like-this)
           ("M-k" mc/unmark-previous-like-this)
           ("s" mc/mark-all-in-region-regexp :exit t)
           ("i" mc/insert-numbers :exit t)
           ("a" mc/insert-letters :exit t)
-          ("n" ladicle/mc/insert-numbers :exit t)
           ("<mouse-1>" mc/add-cursor-on-click)
           ;; Help with click recognition in this hydra
           ("<down-mouse-1>" ignore)
@@ -361,11 +366,26 @@ move parenthes _f_orward  _b_ackward"
   :url "https://github.com/cute-jumper/avy-zap"
   :ensure t)
 
+(defvar my-consult--source-local-buffer
+  `(:name "Local Buffers"
+    :narrow   ?l
+    :category buffer
+    :face     consult-buffer
+    :history  buffer-name-history
+    :state    ,#'consult--buffer-state
+    :default  t
+    :items ,(lambda () (consult--buffer-query
+                        :predicate #'bufferlo-local-buffer-p
+                        :sort 'visibility
+                        :as #'buffer-name)))
+  "Local buffer candidate source for `consult-buffer'.")
+
 (leaf consult
   :doc "Consulting completing-read"
   :ensure t
   :hook (completion-list-mode-hook . consult-preview-at-point-mode)
   :defun consult-line
+  :bind ("C-x b" . consult-buffer)
   :preface
   (defun c/consult-line (&optional at-point)
     "Consult-line uses things-at-point if set C-u prefix."
@@ -375,7 +395,10 @@ move parenthes _f_orward  _b_ackward"
       (consult-line)))
   :custom ((xref-show-xrefs-function . #'consult-xref)
            (xref-show-definitions-function . #'consult-xref)
-           (consult-line-start-from-top . t)))
+           (consult-line-start-from-top . t))
+  :config
+  (setq consult-buffer-sources '(consult--source-hidden-buffer
+                                 my-consult--source-local-buffer)))
 
 (leaf affe
   :doc "Asynchronous Fuzzy Finder for Emacs"
@@ -419,40 +442,50 @@ move parenthes _f_orward  _b_ackward"
          ("<backtab>" . nil)
          ("S-TAB" . nil)
          ("M-}" . yas-next-field-or-maybe-expand)
-         ("M-{" . yas-prev-field))))
+         ("M-{" . yas-prev-field)))
+  :bind
+  ("C-c y" . yasnippet/body)
+  :pretty-hydra
+  ((:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("Basic"
+    (("a" yas-new-snippet "add new snippet")
+     ("i" yas-insert-snippet "insert snippet")
+     ("e" yas-visit-snippet-file "edit snippet")))))
 
 (leaf shell-pop
   :ensure t
   :bind (("C-c s" . shell-pop)))
 
-(leaf org-bullets
-  :vc (:url "https://github.com/sabof/org-bullets")
-  :hook (org-mode-hook . (lambda () (org-bullets-mode t))))
+;; (leaf org-bullets
+;;   :vc (:url "https://github.com/sabof/org-bullets")
+;;   :hook (org-mode-hook . (lambda () (org-bullets-mode t))))
+(leaf org-modern
+  :vc (:url "https://github.com/jdtsmith/org-modern-indent")
+  :ensure t
+  :hook (org-mode-hook . org-modern-mode))
 
-(leaf org
-  :init
-  (setq org-directory "~/Documents/org-mode"
-        org-daily-tasks-file (format "%s/tasks.org" org-directory)
+(leaf org-pomodoro
+  :ensure t)
+
+(setq org-directory "~/Documents/org-mode"
         org-memo-file (format "%s/memo.org" org-directory)
         org-main-file (format "%s/main.org" org-directory)
         org-exp-file (format "%s/exp.org" org-directory)
         org-memo-dir (format "%s/memo/" org-directory))
-  (setq org-agenda-files (list org-directory))
-  (defun my:org-goto-inbox ()
+
+(defun my:org-goto-inbox ()
     (interactive)
     (find-file org-main-file))
-  (defun my:org-goto-memo ()
+(defun my:org-goto-memo ()
     (interactive)
     (find-file org-memo-file))
-  (defun my:org-goto-exp ()
+(defun my:org-goto-exp ()
     (interactive)
     (find-file org-exp-file))
-  :bind
-  (("C-c e" . my:org-goto-exp)
-   ("C-c a" . org-agenda)
-   ("C-c c" . org-capture)
-   ("C-c i" . my:org-goto-inbox)
-   ("C-c m" . my:org-goto-memo))
+
+(leaf org
+  :init
+  (setq org-agenda-files (list org-directory))
   :custom
   (org-startup-folded . 'content)
   (org-startup-indented . "indent")
@@ -463,8 +496,8 @@ move parenthes _f_orward  _b_ackward"
   (org-startup-folded . nil)
   (org-refile-targets . '((org-agenda-files :maxlevel . 1)))
   (org-todo-keywords .
-        '((sequence "TODO" "DOING" "|" "DONE" "WAIT"))))
-
+                     '((sequence "TODO" "DOING" "|" "DONE" "WAIT"))))
+  
   (leaf org-agenda
   :commands org-agenda
   :custom
@@ -505,91 +538,90 @@ move parenthes _f_orward  _b_ackward"
   :ensure t
   :after org)
 
-; lsp client
-(leaf eglot
-  :doc "The Emacs Client for LSP servers"
+(leaf *hydra-org
+  :bind ("C-c o". *hydra-org/body)
   :pretty-hydra
-  ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("ref"
-    (("d" xref-find-definitions "goto definitions")
-     ("r" xref-find-references "find references")
-     ("b" xref-go-back "go back to previous location"))))
-  :bind
-  (("C-c l" . eglot/body))
-  :hook
-  ((js-mode-hook) . eglot-ensure)
-  :custom ((eldoc-echo-area-use-multiline-p . nil)
-           (eglot-connect-timeout . 600))
-  :config
-  (defun my/eglot-capf ()
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'tempel-complete
-                       #'eglot-completion-at-point)
-                      #'cape-keyword
-                      #'cape-dabbrev
-                      #'cape-file)
-                ))
-  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
+  ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("visit file"
+    (("e" my:org-goto-exp "experiment")
+     ("i" my:org-goto-main "inbox")
+     ("m" my:org-goto-memo "memo")
+     ("j" org-journal-open-current-journal-file "current journal"))
+    "agenda"
+    (("a" org-agenda "open agenda")
+     ("c" org-capture "capture")))))
+
+; lsp client
+;; (leaf eglot
+;;   :doc "The Emacs Client for LSP servers"
+;;   :hook
+;;   ((js-mode-hook) . eglot-ensure)
+;;   :custom ((eldoc-echo-area-use-multiline-p . nil)
+;;            (eglot-connect-timeout . 600))
+;;   :config
+;;   (defun my/eglot-capf ()
+;;     (setq-local completion-at-point-functions
+;;                 (list (cape-capf-super
+;;                        #'tempel-complete
+;;                        #'eglot-completion-at-point)
+;;                       #'cape-keyword
+;;                       #'cape-dabbrev
+;;                       #'cape-file)))
+;;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
+
+;; (leaf *hydra-eglot
+;;   :bind
+;;   (("C-c l" . hydra-eglot/body))
+;;   :pretty-hydra
+;;   ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;    ("ref"
+;;     (("d" xref-find-definitions "goto definitions")
+;;      ("r" xref-find-references "find references")
+;;      ("b" xref-go-back "go back to previous location")))))
 
 
 (leaf emacs-lsp-booster
   :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
   :ensure t)
 
-(leaf eglot-booster
-  :when (executable-find "emacs-lsp-booster")
-  :ensure t
-  :vc ( :url "https://github.com/jdtsmith/eglot-booster")
-  :global-minor-mode t)
+;; (leaf eglot-booster
+;;   :when (executable-find "emacs-lsp-booster")
+;;   :ensure t
+;;   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
+;;   :global-minor-mode t)
 
-;(defun my/lsp-mode-completion ()
-;    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-;          '(orderless)))
+(defun my/lsp-mode-completion ()
+   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+         '(orderless)))
 
-;(leaf lsp-mode
-;  :ensure t
-;  :hook
-;  (python-mode-hook . lsp-mode)
-;  :bind
-;  (("C-c d" . xref-find-definitions)
-;   ("C-c r" . xref-find-references))
-;  :hook
-;  (lsp-completion-mode-hook . my/lsp-mode-completion)
-;  :config
-;  (setq lsp-enable-file-watchers nil)
-;  (setq lsp-file-watch-threshold 500)
-;  (setq lsp-completion-provider :none))
-; 
-;(leaf lsp-ui
-;  :ensure t
-;  :hook (lsp-mode-hook . lsp-ui-mode)
-;  :config
-;  (setq lsp-ui-doc-enable nil)
-;  (setq lsp-ui-doc-include-signature nil)
-;  (setq lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
-;  (setq lsp-ui-doc-max-width 120)
-;  (setq lsp-ui-doc-max-height 30)
-;  (setq lsp-ui-doc-use-childframe t)
-;  (setq lsp-ui-doc-use-webkit t)
-;;setq ; lsp-ui-flycheck
-;  (setq lsp-ui-flycheck-enable nil)
-;;setq ; lsp-ui-sideline
-;  (setq lsp-ui-sideline-enable nil)
-;  (setq lsp-ui-sideline-ignore-duplicate t)
-;  (setq lsp-ui-sideline-show-symbol t)
-;  (setq lsp-ui-sideline-show-hover t)
-;  (setq lsp-ui-sideline-show-diagnostics nil)
-;  (setq lsp-ui-sideline-show-code-actions t)
-;  (setq lsp-ui-sideline-code-actions-prefix "")
-;;setq ; lsp-ui-imenu
-;  (setq lsp-ui-imenu-enable t)
-;  (setq lsp-ui-imenu-kind-position 'top)
-;;setq ; lsp-ui-peek
-;  (setq lsp-ui-peek-enable t)
-;  (setq lsp-ui-peek-peek-height 20)
-;  (setq lsp-ui-peek-list-width 50)
-;  (setq lsp-ui-peek-fontify 'on-demand))
+(leaf lsp-mode
+ :ensure t
+ :hook
+ (python-mode-hook . lsp-mode)
+ :hook
+ (lsp-completion-mode-hook . my/lsp-mode-completion)
+ :custom
+ (lsp-enable-file-watchers . nil)
+ (lsp-file-watch-threshold . 500)
+ (lsp-completion-provider . :none))
+
+(leaf lsp-ui
+ :ensure t
+ :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-imenu-mode))
+ :bind
+ ("C-c l" . lsp-ui/body)
+ :pretty-hydra
+  ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("peek"
+    (("d" lsp-ui-peek-find-definitions "definitions")
+     ("r" lsp-ui-peek-find-references "references")
+     ("b" xref-go-back "go back to previous location"))))
+ :custom
+ (lsp-ui-sideline-show-diagnostics . t)
+ (lsp-ui-sideline-show-code-actions . t)
+ (lsp-ui-sideline-update-mode . t)
+ (lsp-ui-doc-enable . nil)
+ (lsp-ui-imenu-auto-refresh . t))
 
 ;(leaf dap-mode
 ;  :ensure t
@@ -617,18 +649,19 @@ move parenthes _f_orward  _b_ackward"
   :ensure t
   :hook
   (python-mode-hook . (lambda () (pet-mode)
-  (setq-local python-shell-interpreter (pet-executable-find "python"))
-  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
-  (pet-flycheck-setup)
-  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
-  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-  (setq-local python-black-command (pet-executable-find "black"))
-  (setq-local blacken-executable python-black-command)
-  (pet-eglot-setup)
-  (eglot-ensure))))
-
-;(leaf lsp-pyright
-;  :ensure t)
+                       (setq-local python-shell-interpreter (pet-executable-find "python"))
+                       (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
+                       (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
+                       (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+                       (setq-local python-black-command (pet-executable-find "black"))
+                       (setq-local blacken-executable python-black-command)
+                       (pet-flycheck-setup)
+                       ;(eglot-ensure)
+                       ;(pet-eglot-setup)
+                       )))
+                        
+(leaf lsp-pyright
+  :ensure t)
 
 (leaf python-black
   :ensure t
@@ -756,31 +789,7 @@ move parenthes _f_orward  _b_ackward"
     (("t" toggle-window-transparency "transparency" :toggle t)
      ("m" toggle-window-maximize "maximize" :toggle t)
      ("p" presentation-mode "presentation" :toggle t)))))
-(leaf *hydra-toggle-markdown1
-  :doc "Toggle functions for Markdown"
-  :bind
-  (:markdown-mode-map
-   :package markdown-mode
-   ("M-t" . *hydra-toggle-markdown1/body))
-  :pretty-hydra
-  ((:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("Basic"
-    (("w" whitespace-mode "whitespace" :toggle t)
-     ("W" whitespace-cleanup "whitespace cleanup")
-     ("l" hl-line-mode "line" :toggle t)
-     ("g" git-gutter-mode "git gutter" :toggle t))
-    "Markdown"
-    (("v" markdown-view-mode "view mode")
-     ("u" markdown-toggle-markup-hiding "markup hiding" :toggle t)
-     ("l" markdown-toggle-url-hiding "url hiding" :toggle t))
-    "Line & Column"
-    (("l" toggle-truncate-lines "truncate line" :toggle t)
-     ("i" display-fill-column-indicator-mode "column indicator" :toggle t)
-     ("c" visual-fill-column-mode "visual column" :toggle t))
-    "Window"
-    (("t" toggle-window-transparency "transparency" :toggle t)
-     ("m" toggle-window-maximize "maximize" :toggle t)
-     ("p" presentation-mode "presentation" :toggle t)))))
+
 
 (leaf *hydra-search
   :doc "Search functions"
@@ -841,7 +850,7 @@ move parenthes _f_orward  _b_ackward"
   :init
     ;(setq skk-server-portnum 1178)
     ;(setq skk-server-host "localhost")
-    (setq skk-jisyo "~/Google Drive/マイドライブ/skk-jisyo.utf-8")
+    (setq skk-jisyo "~/Documents/skk-jisyo.utf-8")
     ;(setq skk-user-directory "~/.cache/skk")
     (setq skk-large-jisyo "~/.cache/skk/SKK-JISYO.L")
     (setq skk-use-azik t)
@@ -852,3 +861,20 @@ move parenthes _f_orward  _b_ackward"
 ;; </leaf-install-code>)
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(org-modern-indent ddskk reftex flyspell yatex dockerfile-mode yaml-mode python-black lsp-pyright pet python-mode highlight-indent-guides flycheck eglot-booster emacs-lsp-booster ox-gfm org-journal org-bullets shell-pop yasnippet tempel embark-consult orderless affe consult avy-zap avy marginalia vertico cape nerd-icons-corfu corfu exec-path-from-shell smerge-mode magit which-key spaceline iflipb puni rainbow-delimiters git-gutter multiple-cursors expand-region projectile undohist volatile-highlights centaur-tabs kanagawa-themes nerd-icons-completion f dash blackout el-get pretty-hydra hydra leaf-keywords leaf))
+ '(package-vc-selected-packages
+   '((eglot-booster :url "https://github.com/jdtsmith/eglot-booster")
+     (emacs-lsp-booster :url "https://github.com/blahgeek/emacs-lsp-booster")
+     (org-bullets :url "https://github.com/sabof/org-bullets"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

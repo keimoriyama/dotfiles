@@ -41,25 +41,6 @@ nvim_lsp.pyright.setup({
 	},
 })
 
-local function ruff_lsp_on_attatch(client, bufnr)
-	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-		buffer = bufnr,
-		callback = function()
-			vim.lsp.buf.format({ timeout_ms = 2500 })
-		end,
-	})
-end
-
-nvim_lsp.ruff_lsp.setup({
-	on_attach = ruff_lsp_on_attatch,
-	init_options = {
-		settings = {
-			-- Any extra CLI arguments for `ruff` go here.
-			args = {},
-		},
-	},
-})
-
 nvim_lsp.denols.setup({
 	root_dir = nvim_lsp.util.root_pattern("deno.json"),
 	init_options = {
