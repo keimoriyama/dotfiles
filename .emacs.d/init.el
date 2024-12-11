@@ -6,7 +6,10 @@
 (setq mac-pass-control-to-system nil)
 (setq mac-pass-command-to-system nil)
 (setq mac-pass-option-to-system nil)
-
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq auto-save-list-file-prefix nil)
+(setq create-lockfiles nil)
 
 (define-key global-map (kbd "C-t") 'other-window)
 
@@ -97,15 +100,6 @@
     (leaf-keywords-init))
 )
 
-(leaf tab-bar-mode
-  :custom
-  ((tab-bar-new-button-show . nil)
-   (tab-bar-close-button-show . nil)))
-
-(leaf bufferlo
-  :ensure t
-  :global-minor-mode bufferlo-mode t)
-
 (leaf dash
   :ensure t)
 
@@ -120,28 +114,11 @@
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
 
-(leaf kanagawa-themes
+(leaf iceberg-theme
   :ensure t
   :config
-  (load-theme 'kanagawa-wave t))
-
-(leaf centaur-tabs
-  :ensure t
-  :global-minor-mode centaur-tabs-mode
-  :custom
-  ((centaur-tabs-set-icons . t)
-   (centaur-tabs-cycle-scope . 'tabs)))
-
-(leaf *hydra-moves
-  :bind ("C-c m" . *hydra-moves/body)
-  :pretty-hydra
-  ((:title "Moves":color blue :quit-key "q":foreign-keys warn :separator "╌" )
-   ("Buffer"
-    (("f" centaur-tabs-forward "forward" :exit nil)
-     ("b" centaur-tabs-backward "backward" :exit nil))
-    "Tabs"
-    (("n" tab-next "next" :exit nil)
-     ("p" tab-previous "previous" :exit nil)))))
+  (iceberg-theme-create-theme-file)
+  (load-theme 'solarized-iceberg-dark t))
 
 (leaf volatile-highlights
   :ensure t
@@ -215,13 +192,12 @@
   :init
   (global-hl-line-mode +1))
 
-(leaf elec-pair
-  :config
-  (electric-pair-mode +1))
+(leaf free-keys
+  :ensure t)
 
 (leaf puni
   :ensure t
-  :bind ("C-c b" . hydra-puni/body)
+  :bind ("C-c )" . hydra-puni/body)
   :global-minor-mode puni-global-mode
   :hydra
   (hydra-puni
@@ -337,8 +313,7 @@ move parenthes _f_orward  _b_ackward"
   ((prog-mode
      text-mode
      conf-mode
-     lsp-completion-mode
-     yatex-mode))
+     lsp-completion-mode))
   :config
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
@@ -399,6 +374,13 @@ move parenthes _f_orward  _b_ackward"
   :config
   (setq consult-buffer-sources '(consult--source-hidden-buffer
                                  my-consult--source-local-buffer)))
+(leaf embark-consult
+  :doc "Consult integration for Embark"
+  :ensure t
+  :bind ((minibuffer-mode-map
+          :package emacs
+          ("M-." . embark-dwim)
+          ("C-." . embark-act))))
 
 (leaf affe
   :doc "Asynchronous Fuzzy Finder for Emacs"
@@ -452,20 +434,6 @@ move parenthes _f_orward  _b_ackward"
      ("i" yas-insert-snippet "insert snippet")
      ("e" yas-visit-snippet-file "edit snippet")))))
 
-(leaf shell-pop
-  :ensure t
-  :bind (("C-c s" . shell-pop)))
-
-;; (leaf org-bullets
-;;   :vc (:url "https://github.com/sabof/org-bullets")
-;;   :hook (org-mode-hook . (lambda () (org-bullets-mode t))))
-(leaf org-modern
-  :vc (:url "https://github.com/jdtsmith/org-modern-indent")
-  :ensure t
-  :hook (org-mode-hook . org-modern-mode))
-
-(leaf org-pomodoro
-  :ensure t)
 
 (setq org-directory "~/Documents/org-mode"
         org-memo-file (format "%s/memo.org" org-directory)
@@ -537,6 +505,7 @@ move parenthes _f_orward  _b_ackward"
 (leaf ox-gfm
   :ensure t
   :after org)
+
 
 (leaf *hydra-org
   :bind ("C-c o". *hydra-org/body)
@@ -699,7 +668,8 @@ move parenthes _f_orward  _b_ackward"
            ("\\.bbl$" . yatex-mode)
            ("\\.bib$" . yatex-mode))
   :custom
-    (( YaTeX-inhibit-prefix-letter . t)
+  (( YaTeX-inhibit-prefix-letter . t)
+   (tex-command . "uplatex -kanji=utf8")
      ( YaTeX-dvi2-command-ext-alist .
      '(("Skim" . ".pdf")))
      ( dvi2-command . "open -a Skim")
@@ -711,20 +681,15 @@ move parenthes _f_orward  _b_ackward"
   ;; YaTeXモードでflyspellを使う
   :hook (yatex-mode-hook . flyspell-mode))
 
+
 (leaf reftex
     :ensure t
-    :after yatex
-    :hook (yatex-mode-hook . reftex-mode)
-    :bind (reftex-mode-map
-                ("C-c (" . reftex-reference)
-                ("C-c )" . nil)
-                ("C-c >" . YaTeX-comment-region)
-                ("C-c <" . YaTeX-uncomment-region))
-    :config
-    (print (projectile-project-root))
-    ( reftex-default-bibliography (directory-files-recursively
-                                       (projectile-project-root) "\\.bib$")))
+    :hook (yatex-mode-hook . (lambda () (reftex-mode))))
+    ;; :custom
+    ;; (reftex-bibpath-environment-variables . (projectile-project-root)))
 
+(add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
+                                             (directory-files-recursively (projectile-project-root) "\\.bib$"))))
 ;; (leaf ispell
 ;;     :ensure t
 ;;     :after yatex
@@ -856,7 +821,8 @@ move parenthes _f_orward  _b_ackward"
     (setq skk-use-azik t)
     (setq skk-search-katakana t)
     (setq skk-preload t)
-    (setq skk-share-private-jisyo t))
+    (setq skk-share-private-jisyo t)
+    (setq skk-kutouten-type 'en))
 
 ;; </leaf-install-code>)
 
@@ -867,11 +833,10 @@ move parenthes _f_orward  _b_ackward"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-modern-indent ddskk reftex flyspell yatex dockerfile-mode yaml-mode python-black lsp-pyright pet python-mode highlight-indent-guides flycheck eglot-booster emacs-lsp-booster ox-gfm org-journal org-bullets shell-pop yasnippet tempel embark-consult orderless affe consult avy-zap avy marginalia vertico cape nerd-icons-corfu corfu exec-path-from-shell smerge-mode magit which-key spaceline iflipb puni rainbow-delimiters git-gutter multiple-cursors expand-region projectile undohist volatile-highlights centaur-tabs kanagawa-themes nerd-icons-completion f dash blackout el-get pretty-hydra hydra leaf-keywords leaf))
+   '(ddskk reftex flyspell yatex dockerfile-mode yaml-mode python-black lsp-pyright pet python-mode highlight-indent-guides flycheck eglot-booster emacs-lsp-booster ox-gfm org-journal org-bullets shell-pop yasnippet tempel embark-consult orderless affe consult avy-zap avy marginalia vertico cape nerd-icons-corfu corfu exec-path-from-shell smerge-mode magit which-key spaceline iflipb puni rainbow-delimiters git-gutter multiple-cursors expand-region projectile undohist volatile-highlights centaur-tabs kanagawa-themes nerd-icons-completion f dash blackout el-get pretty-hydra hydra leaf-keywords leaf))
  '(package-vc-selected-packages
    '((eglot-booster :url "https://github.com/jdtsmith/eglot-booster")
-     (emacs-lsp-booster :url "https://github.com/blahgeek/emacs-lsp-booster")
-     (org-bullets :url "https://github.com/sabof/org-bullets"))))
+     (emacs-lsp-booster :url "https://github.com/blahgeek/emacs-lsp-booster"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1,7 +1,7 @@
 [[plugins]]
-repo="rebelot/kanagawa.nvim"
+repo="cocopon/iceberg.vim"
 hook_add='''
-colorscheme kanagawa
+colorscheme iceberg
 '''
 
 # dot repeat
