@@ -38,7 +38,6 @@ function mason_setup()
 		"jsonls",
 		"pyright",
 		"ruff",
-		"ruff_lsp",
 	}
 
 	local status, mason_lspconfig = pcall(require, "mason-lspconfig")
@@ -126,15 +125,15 @@ function mason_setup()
 		})
 	end
 
-	nvim_lsp.ruff_lsp.setup({
-		on_attach = ruff_lsp_on_attatch,
-		init_options = {
-			settings = {
-				-- Any extra CLI arguments for `ruff` go here.
-				args = {},
-			},
-		},
-	})
+	-- nvim_lsp.ruff_lsp.setup({
+	-- 	on_attach = ruff_lsp_on_attatch,
+	-- 	init_options = {
+	-- 		settings = {
+	-- 			-- Any extra CLI arguments for `ruff` go here.
+	-- 			args = {},
+	-- 		},
+	-- 	},
+	-- })
 
 	nvim_lsp.denols.setup({
 		root_dir = nvim_lsp.util.root_pattern("deno.json"),

@@ -22,7 +22,6 @@ local servers = {
 	"jsonls",
 	"pyright",
 	"ruff",
-	"ruff_lsp",
 }
 
 local status, mason_lspconfig = pcall(require, "mason-lspconfig")
