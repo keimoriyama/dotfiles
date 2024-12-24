@@ -23,6 +23,7 @@ lua_source='''
 require("nvim-lastplace").setup()
 '''
 
+
 # [[plugins]]
 # repo="Shougo/deol.nvim"
 # hooks_file='$BASE_DIR/rc/hooks/deol.lua'
