@@ -246,9 +246,27 @@ now(function()
 	add({ source = "hrsh7th/nvim-insx" })
 	require("insx.preset.standard").setup()
 	require("insx").add(
-		"<C-]>",
+		"<C-)>",
 		require("insx.recipe.fast_wrap")({
 			close = ")",
+		})
+	)
+	require("insx").add(
+		"<C-]>",
+		require("insx.recipe.fast_wrap")({
+			close = "]",
+		})
+	)
+	require("insx").add(
+		'<C-">',
+		require("insx.recipe.fast_wrap")({
+			close = '"',
+		})
+	)
+	require("insx").add(
+		"<C-'>",
+		require("insx.recipe.fast_wrap")({
+			close = "'",
 		})
 	)
 end)
