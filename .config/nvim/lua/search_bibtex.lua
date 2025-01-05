@@ -16,7 +16,7 @@ M.search_files = function()
 			if from_idx == nil and to_idx == nil then
 				goto continue
 			end
-			print(vim.inspect(line))
+			-- print(vim.inspect(line))
 			::continue::
 		end
 	end
