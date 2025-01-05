@@ -9,7 +9,17 @@ M.search_files = function()
 			return read_file(v)
 		end)
 		:totable()
-	print(vim.inspect(contents))
+	local regex = vim.regex("local .*")
+	for i, content in ipairs(contents) do
+		for j, line in ipairs(content) do
+			local from_idx, to_idx = regex:match_str(line["content"])
+			if from_idx == nil and to_idx == nil then
+				goto continue
+			end
+			print(vim.inspect(line))
+			::continue::
+		end
+	end
 	return files
 end
 
@@ -20,8 +30,9 @@ function read_file(path)
 	io.input(file)
 	local i = 0
 	for line in io.lines() do
-		contents[i] = line
-		i = i + 1
+		-- contents[i] = line
+		-- i = i + 1
+		table.insert(contents, { content = line, path = path })
 	end
 	return contents
 end
