@@ -1,6 +1,6 @@
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath("data") .. "/site/"
-print(path_package)
+-- print(path_package)
 local mini_path = path_package .. "pack/deps/start/mini.nvim"
 if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installing `mini.nvim`" | redraw')
@@ -245,26 +245,15 @@ end)
 now(function()
 	add({ source = "hrsh7th/nvim-insx" })
 	require("insx.preset.standard").setup()
-	require("insx").add(
-		"<C-)>",
-		require("insx.recipe.fast_wrap")({
-			close = ")",
-		})
-	)
-	require("insx").add(
+	local insx = require("insx")
+	insx.add(
 		"<C-]>",
-		require("insx.recipe.fast_wrap")({
-			close = "]",
-		})
-	)
-	require("insx").add(
-		'<C-">',
 		require("insx.recipe.fast_wrap")({
 			close = '"',
 		})
 	)
-	require("insx").add(
-		"<C-'>",
+	insx.add(
+		"<C-]>",
 		require("insx.recipe.fast_wrap")({
 			close = "'",
 		})

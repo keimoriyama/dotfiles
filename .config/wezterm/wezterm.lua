@@ -62,7 +62,7 @@ local mouse_binding = {
 }
 return {
 	font = wezterm.font_with_fallback({ "Hack Nerd Font", "HackGen35" }),
-	font_size = 22,
+	font_size = 18,
 	color_scheme = "iceberg-dark",
 	hyperlink_rules = hyperlink_rules,
 	mouse_bindings = mouse_binding,
@@ -71,4 +71,19 @@ return {
 	disable_default_mouse_bindings = true,
 	hide_mouse_cursor_when_typing = true,
 	force_reverse_video_cursor = true,
+	keys = {
+		{
+			key = "v",
+			mods = "CTRL",
+			action = wezterm.action.SplitPane({
+				direction = "Left",
+				size = { Percent = 50 },
+			}),
+		},
+		{
+			key = "w",
+			mods = "CMD",
+			action = wezterm.action.CloseCurrentPane({ confirm = true }),
+		},
+	},
 }
