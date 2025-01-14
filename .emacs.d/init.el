@@ -75,6 +75,10 @@
     (turn-on-eldoc-mode)))
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 
+;; load environment value
+(dolist (path (reverse (split-string (getenv "PATH") ":")))
+  (add-to-list 'exec-path path))
+
 ; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
@@ -114,11 +118,10 @@
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
 
-(leaf iceberg-theme
+(leaf solarized-theme
   :ensure t
   :config
-  (iceberg-theme-create-theme-file)
-  (load-theme 'solarized-iceberg-dark t))
+  (load-theme 'solarized-light t))
 
 (leaf volatile-highlights
   :ensure t
@@ -197,15 +200,15 @@
 
 (leaf puni
   :ensure t
-  :bind ("C-c )" . hydra-puni/body)
+  :bind ("C-c )" . puni/body)
   :global-minor-mode puni-global-mode
-  :hydra
-  (hydra-puni
-   (:color red :hint nil)
-   "
-move parenthes _f_orward  _b_ackward"
-   ("f" puni-slurp-forward)
-   ("b" puni-slurp-backward)))
+  :pretty-hydra
+  ((:color blue :quit-key "q" :foreign-keys warn)
+   ("Move Parenthesis"
+    (("f" puni-slurp-forward "forward next")
+     ("F" puni-barf-forward "back next")
+     ("b" puni-slurp-backward "back back")
+     ("B" puni-barf-backward "back forward")))))
 
 (leaf iflipb
   :ensure t
@@ -341,26 +344,12 @@ move parenthes _f_orward  _b_ackward"
   :url "https://github.com/cute-jumper/avy-zap"
   :ensure t)
 
-(defvar my-consult--source-local-buffer
-  `(:name "Local Buffers"
-    :narrow   ?l
-    :category buffer
-    :face     consult-buffer
-    :history  buffer-name-history
-    :state    ,#'consult--buffer-state
-    :default  t
-    :items ,(lambda () (consult--buffer-query
-                        :predicate #'bufferlo-local-buffer-p
-                        :sort 'visibility
-                        :as #'buffer-name)))
-  "Local buffer candidate source for `consult-buffer'.")
 
 (leaf consult
   :doc "Consulting completing-read"
   :ensure t
   :hook (completion-list-mode-hook . consult-preview-at-point-mode)
   :defun consult-line
-  :bind ("C-x b" . consult-buffer)
   :preface
   (defun c/consult-line (&optional at-point)
     "Consult-line uses things-at-point if set C-u prefix."
@@ -371,9 +360,19 @@ move parenthes _f_orward  _b_ackward"
   :custom ((xref-show-xrefs-function . #'consult-xref)
            (xref-show-definitions-function . #'consult-xref)
            (consult-line-start-from-top . t))
-  :config
-  (setq consult-buffer-sources '(consult--source-hidden-buffer
-                                 my-consult--source-local-buffer)))
+  :bind (;; C-c bindings (mode-specific-map)
+         ([remap switch-to-buffer] . consult-buffer) ; C-x b
+         ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
+
+         ;; M-g bindings (goto-map)
+         ([remap goto-line] . consult-goto-line)    ; M-g g
+         ([remap imenu] . consult-imenu)            ; M-g i
+         
+         (minibuffer-local-map
+          :package emacs
+          ("C-r" . consult-history))))
+
+
 (leaf embark-consult
   :doc "Consult integration for Embark"
   :ensure t
@@ -437,34 +436,32 @@ move parenthes _f_orward  _b_ackward"
 
 (setq org-directory "~/Documents/org-mode"
         org-memo-file (format "%s/memo.org" org-directory)
-        org-main-file (format "%s/main.org" org-directory)
+        org-project-file (format "%s/project.org" org-directory)
         org-exp-file (format "%s/exp.org" org-directory)
+        org-daily-todo-file (format "%s/daily_todo.org" org-directory)
         org-memo-dir (format "%s/memo/" org-directory))
 
-(defun my:org-goto-inbox ()
-    (interactive)
-    (find-file org-main-file))
-(defun my:org-goto-memo ()
-    (interactive)
-    (find-file org-memo-file))
-(defun my:org-goto-exp ()
-    (interactive)
-    (find-file org-exp-file))
+(defun create-new-org-file (path)
+  (let ((name (read-string "Name: ")))
+    (expand-file-name (format "%s.org"
+                              name) path)))
 
 (leaf org
   :init
   (setq org-agenda-files (list org-directory))
   :custom
-  (org-startup-folded . 'content)
-  (org-startup-indented . "indent")
-  (org-capture-templates .
+  ((org-startup-folded . 'content)
+   (org-startup-indented . "indent")
+   (org-capture-templates .
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
-      ("t" "Tasks" entry (file org-main-file) "** TODO %?")
-      ("e" "Experiment" entry (file org-exp-file) "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
-  (org-startup-folded . nil)
-  (org-refile-targets . '((org-agenda-files :maxlevel . 1)))
-  (org-todo-keywords .
-                     '((sequence "TODO" "DOING" "|" "DONE" "WAIT"))))
+      ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
+      ("e" "Experiment" entry (file
+                               (lambda () (create-new-org-file
+                                     (format "%s/experiments/" org-directory))))
+       "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
+   (org-refile-targets . '((org-agenda-files :maxlevel . 1)))
+   (org-todo-keywords .
+                     '((sequence "TODO" "DOING" "|" "DONE" "WAIT")))))
   
   (leaf org-agenda
   :commands org-agenda
@@ -506,6 +503,33 @@ move parenthes _f_orward  _b_ackward"
   :ensure t
   :after org)
 
+(leaf org-roam
+  :ensure t
+  :custom
+  ((org-roam-db-location . '(format "%s/roam.db" org-directory))
+   (org-roam-directory . org-directory)
+   (org-roam-index-file . '(format "%s/roam.org" org-directory))))
+
+(leaf org-roam-ui
+  :ensure t
+  :custom
+  ((org-roam-ui-sync-theme . t)
+   (org-roam-ui-follow . t)
+   (org-roam-ui-update-on-save . t)
+   (org-roam-open-on-start . t)))
+
+(defun my:org-goto-project ()
+    (interactive)
+    (find-file org-project-file))
+(defun my:org-goto-memo ()
+    (interactive)
+    (find-file org-memo-file))
+(defun my:org-goto-exp ()
+    (interactive)
+    (find-file org-exp-file))
+(defun my:org-goto-daily-todo ()
+  (interactive)
+  (find-file org-daily-todo-file))
 
 (leaf *hydra-org
   :bind ("C-c o". *hydra-org/body)
@@ -513,9 +537,9 @@ move parenthes _f_orward  _b_ackward"
   ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("visit file"
     (("e" my:org-goto-exp "experiment")
-     ("i" my:org-goto-main "inbox")
+     ("p" my:org-goto-project "projects")
      ("m" my:org-goto-memo "memo")
-     ("j" org-journal-open-current-journal-file "current journal"))
+     ("t" my:org-goto-daily-todo "todo"))
     "agenda"
     (("a" org-agenda "open agenda")
      ("c" org-capture "capture")))))
