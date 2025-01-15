@@ -446,24 +446,27 @@
     (expand-file-name (format "%s.org"
                               name) path)))
 
+
+
 (leaf org
   :init
-  (setq org-agenda-files (list org-directory))
+  (setq org-agenda-files (directory-files-recursively org-directory "\\.org$"))
   :custom
   ((org-startup-folded . 'content)
    (org-startup-indented . "indent")
+   (org-deadline-warning-days . 30)
    (org-capture-templates .
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
-      ("e" "Experiment" entry (file
+      ("p" "Projects" entry (file
                                (lambda () (create-new-org-file
-                                     (format "%s/experiments/" org-directory))))
+                                     (format "%s/projects/" org-directory))))
        "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
    (org-refile-targets . '((org-agenda-files :maxlevel . 1)))
    (org-todo-keywords .
                      '((sequence "TODO" "DOING" "|" "DONE" "WAIT")))))
   
-  (leaf org-agenda
+(leaf org-agenda
   :commands org-agenda
   :custom
   ((org-agenda-custom-commands .
@@ -499,16 +502,28 @@
   (org-journal-file-type . 'weekly)
   (org-journal-start-on-weekday . 3)))
 
-(leaf ox-gfm
+(leaf ox-gfmpp
   :ensure t
   :after org)
 
+(setq org-roam-db (format "%s/roam.db" org-directory)
+      org-roam-index-file (format "%s/roam.org" org-directory))
+
 (leaf org-roam
   :ensure t
+  :hook
+  (after-init . org-roam-mode)
+  :bind
+  (("C-c n l" . org-roam)
+   ("C-c n f" . org-roam-find-file)
+   ("C-c n g" . org-roam-graph-show)
+   ("C-c n i" . org-roam-insert))
   :custom
-  ((org-roam-db-location . '(format "%s/roam.db" org-directory))
+  ((org-roam-db-location . org-roam-db)
    (org-roam-directory . org-directory)
-   (org-roam-index-file . '(format "%s/roam.org" org-directory))))
+   (org-roam-index-file . org-roam-index-file))
+  :config
+  (org-roam-db-autosync-mode))
 
 (leaf org-roam-ui
   :ensure t
@@ -714,6 +729,7 @@
 
 (add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
                                              (directory-files-recursively (projectile-project-root) "\\.bib$"))))
+
 ;; (leaf ispell
 ;;     :ensure t
 ;;     :after yatex
@@ -845,10 +861,7 @@
     (setq skk-use-azik t)
     (setq skk-search-katakana t)
     (setq skk-preload t)
-    (setq skk-share-private-jisyo t)
-    (setq skk-kutouten-type 'en))
-
-;; </leaf-install-code>)
+    (setq skk-share-private-jisyo t))
 
 
 (custom-set-variables
