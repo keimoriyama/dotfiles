@@ -513,17 +513,17 @@
   :ensure t
   :hook
   (after-init . org-roam-mode)
+  :init
+  (org-roam-db-autosync-mode)
   :bind
   (("C-c n l" . org-roam)
    ("C-c n f" . org-roam-find-file)
    ("C-c n g" . org-roam-graph-show)
-   ("C-c n i" . org-roam-insert))
+   ("C-c n i" . org-roam-node-insert))
   :custom
   ((org-roam-db-location . org-roam-db)
    (org-roam-directory . org-directory)
-   (org-roam-index-file . org-roam-index-file))
-  :config
-  (org-roam-db-autosync-mode))
+   (org-roam-index-file . org-roam-index-file)))
 
 (leaf org-roam-ui
   :ensure t

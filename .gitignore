@@ -37,8 +37,6 @@ Brewfile.lock.json
 
 .emacs.d/*
 !.emacs.d/init.el
-!.emacs.d/public_repos/*
-!.emacs.d/config/*
-!.emacs.d/elisp/*
+!.emacs.d/snippets/*
 # Compiled
 *.elc

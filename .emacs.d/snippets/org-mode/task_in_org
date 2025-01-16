@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: task_in_org
+# key: task
+# --
+
+*** TODO $0
+

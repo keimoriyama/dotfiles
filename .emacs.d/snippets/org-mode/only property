@@ -1,0 +1,6 @@
+# key: only
+# name: only property
+# --
+:PROPERTIES:
+:EFFORT: ${1: estimeted time}
+:END:
