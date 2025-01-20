@@ -502,7 +502,7 @@
   (org-journal-file-type . 'weekly)
   (org-journal-start-on-weekday . 3)))
 
-(leaf ox-gfmpp
+(leaf ox-gfm
   :ensure t
   :after org)
 
@@ -517,7 +517,7 @@
   (org-roam-db-autosync-mode)
   :bind
   (("C-c n l" . org-roam)
-   ("C-c n f" . org-roam-find-file)
+   ("C-c n f" . org-roam-node-find)
    ("C-c n g" . org-roam-graph-show)
    ("C-c n i" . org-roam-node-insert))
   :custom
@@ -623,13 +623,16 @@
    ("peek"
     (("d" lsp-ui-peek-find-definitions "definitions")
      ("r" lsp-ui-peek-find-references "references")
-     ("b" xref-go-back "go back to previous location"))))
+     ("b" xref-go-back "go back to previous location"))
+    "code action"
+    (("n" lsp-rename "rename")
+     ("c" lsp-execute-code-action "code action"))))
  :custom
- (lsp-ui-sideline-show-diagnostics . t)
- (lsp-ui-sideline-show-code-actions . t)
- (lsp-ui-sideline-update-mode . t)
- (lsp-ui-doc-enable . nil)
- (lsp-ui-imenu-auto-refresh . t))
+ ((lsp-ui-sideline-show-diagnostics . t)
+  (lsp-ui-sideline-show-code-actions . t)
+  (lsp-ui-sideline-update-mode . t)
+  (lsp-ui-doc-enable . nil)
+  (lsp-ui-imenu-auto-refresh . t)))
 
 ;(leaf dap-mode
 ;  :ensure t
@@ -869,6 +872,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   '("/Users/kei/Documents/org-mode/journal/20241025.org" "/Users/kei/Documents/org-mode/journal/20241028.org" "/Users/kei/Documents/org-mode/journal/20241029.org" "/Users/kei/Documents/org-mode/journal/20241030.org" "/Users/kei/Documents/org-mode/journal/20241031.org" "/Users/kei/Documents/org-mode/journal/20241101.org" "/Users/kei/Documents/org-mode/journal/week-20241030.org" "/Users/kei/Documents/org-mode/journal/week-44-20241030.org" "/Users/kei/Documents/org-mode/journal/week-45-20241106.org" "/Users/kei/Documents/org-mode/journal/week-46-20241113.org" "/Users/kei/Documents/org-mode/journal/week-47-20241120.org" "/Users/kei/Documents/org-mode/projects/ACL2024.org" "/Users/kei/Documents/org-mode/projects/LLMのデータ拡張.org" "/Users/kei/Documents/org-mode/projects/修論発表と博士入試.org" "/Users/kei/Documents/org-mode/projects/研究計画書_SPRINGGX.org" "/Users/kei/Documents/org-mode/daily_doto.org" "/Users/kei/Documents/org-mode/daily_todo.org" "/Users/kei/Documents/org-mode/exp.org" "/Users/kei/Documents/org-mode/main.org" "/Users/kei/Documents/org-mode/memo.org" "/Users/kei/Documents/org-mode/project.org" "/Users/kei/Documents/org-mode/roam.org" "/Users/kei/Documents/org-mode/tasks.org"))
  '(package-selected-packages
    '(ddskk reftex flyspell yatex dockerfile-mode yaml-mode python-black lsp-pyright pet python-mode highlight-indent-guides flycheck eglot-booster emacs-lsp-booster ox-gfm org-journal org-bullets shell-pop yasnippet tempel embark-consult orderless affe consult avy-zap avy marginalia vertico cape nerd-icons-corfu corfu exec-path-from-shell smerge-mode magit which-key spaceline iflipb puni rainbow-delimiters git-gutter multiple-cursors expand-region projectile undohist volatile-highlights centaur-tabs kanagawa-themes nerd-icons-completion f dash blackout el-get pretty-hydra hydra leaf-keywords leaf))
  '(package-vc-selected-packages
