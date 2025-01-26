@@ -63,12 +63,12 @@ local mouse_binding = {
 return {
 	font = wezterm.font_with_fallback({ "Hack Nerd Font", "HackGen35" }),
 	font_size = 18,
-	color_scheme = "iceberg-dark",
+	color_scheme = "Solarized (light) (terminal.sexy)",
 	hyperlink_rules = hyperlink_rules,
-	mouse_bindings = mouse_binding,
+	-- mouse_bindings = mouse_binding,
 	hide_tab_bar_if_only_one_tab = true,
 	use_ime = false,
-	disable_default_mouse_bindings = true,
+	-- disable_default_mouse_bindings = true,
 	hide_mouse_cursor_when_typing = true,
 	force_reverse_video_cursor = true,
 	keys = {

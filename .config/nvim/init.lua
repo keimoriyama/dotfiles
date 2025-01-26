@@ -87,7 +87,6 @@ local now, later, add = MiniDeps.now, MiniDeps.later, MiniDeps.add
 -- Safely execute immediately
 now(function()
 	vim.o.termguicolors = true
-	vim.cmd("colorscheme randomhue")
 	require("mini.notify").setup()
 	vim.api.nvim_create_user_command("NotifyLog", function()
 		-- local logs = vim.inspect(MiniNotify.get_all())
@@ -151,6 +150,11 @@ now(function()
 			end
 		end,
 	})
+end)
+
+now(function()
+	add({ source = "maxmx03/solarized.nvim" })
+	vim.cmd("colorscheme solarized")
 end)
 
 now(function()

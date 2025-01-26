@@ -127,21 +127,34 @@
   :ensure t
   :global-minor-mode t)
 
-(leaf undohist
-  :ensure t
-  :config
-  (undohist-initialize))
-
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
 (leaf projectile
   :ensure t
-  :config projectile-mode
-  :init (projectile-mode +1)
+  :global-minor-mode projectile-mode
   :custom
   ((projectile-sort-order . 'recently-active))
   :bind (("C-c p" . projectile-command-map)))
+
+(leaf centaur-tabs
+  :ensure t
+  :bind ("M-c" . centaur-tabs/body)
+  :custom
+  ((centaur-tabs--buffer-show-groups . t)
+   (centaur-tabs-set-icons . t)
+   (entaur-tabs-icon-type . 'all-the-icons))
+  :global-minor-mode centaur-tabs-mode
+  :pretty-hydra
+  ((:color blue :quit-key "q" :foreign-keys warn)
+   ("Move Buffer"
+    (("n" centaur-tabs-forward "forward next" :exit nil)
+     ("p" centaur-tabs-backward "back forward" :exit nil)
+     ("g" centaur-tabs-switch-group "move group" :exit nil)))))
+
+(leaf bufferlo
+  :ensure t
+  :global-minor-mode bufferlo-mode)
 
 (leaf expand-region
   :ensure t
@@ -205,10 +218,10 @@
   :pretty-hydra
   ((:color blue :quit-key "q" :foreign-keys warn)
    ("Move Parenthesis"
-    (("f" puni-slurp-forward "forward next")
-     ("F" puni-barf-forward "back next")
-     ("b" puni-slurp-backward "back back")
-     ("B" puni-barf-backward "back forward")))))
+    (("f" puni-slurp-forward "forward next" :exit nil)
+     ("F" puni-barf-forward "back next" :exit nil)
+     ("b" puni-slurp-backward "back back" :exit nil)
+     ("B" puni-barf-backward "back forward" :exit nil)))))
 
 (leaf iflipb
   :ensure t
@@ -344,6 +357,32 @@
   :url "https://github.com/cute-jumper/avy-zap"
   :ensure t)
 
+(defvar my-consult--source-buffer
+  `(:name "Other Buffers"
+    :narrow   ?b
+    :category buffer
+    :face     consult-buffer
+    :history  buffer-name-history
+    :state    ,#'consult--buffer-state
+    :items ,(lambda () (consult--buffer-query
+                        :predicate #'bufferlo-non-local-buffer-p
+                        :sort 'visibility
+                        :as #'buffer-name)))
+    "Non-local buffer candidate source for `consult-buffer'.")
+
+(defvar my-consult--source-local-buffer
+  `(:name "Local Buffers"
+    :narrow   ?l
+    :category buffer
+    :face     consult-buffer
+    :history  buffer-name-history
+    :state    ,#'consult--buffer-state
+    :default  t
+    :items ,(lambda () (consult--buffer-query
+                        :predicate #'bufferlo-local-buffer-p
+                        :sort 'visibility
+                        :as #'buffer-name)))
+    "Local buffer candidate source for `consult-buffer'.")
 
 (leaf consult
   :doc "Consulting completing-read"
@@ -359,7 +398,10 @@
       (consult-line)))
   :custom ((xref-show-xrefs-function . #'consult-xref)
            (xref-show-definitions-function . #'consult-xref)
-           (consult-line-start-from-top . t))
+           (consult-line-start-from-top . t)
+           (consult-buffer-sources . '(consult--source-hidden-buffer
+                                       my-consult--source-local-buffer
+                                       my-consult--source-buffer)))
   :bind (;; C-c bindings (mode-specific-map)
          ([remap switch-to-buffer] . consult-buffer) ; C-x b
          ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
@@ -854,18 +896,17 @@
   :ensure t
   :doc "japanese IME works in emacs"
   :bind (("C-x C-j" . skk-mode))
-;  :hook (skk-load-hook . (lambda () (corfu-mode -1)))
-  :init
-    ;(setq skk-server-portnum 1178)
-    ;(setq skk-server-host "localhost")
-    (setq skk-jisyo "~/Documents/skk-jisyo.utf-8")
-    ;(setq skk-user-directory "~/.cache/skk")
-    (setq skk-large-jisyo "~/.cache/skk/SKK-JISYO.L")
-    (setq skk-use-azik t)
-    (setq skk-search-katakana t)
-    (setq skk-preload t)
-    (setq skk-share-private-jisyo t))
-
+  :hook (skk-load-hook . (lambda () (require 'context-skk)))
+  :custom
+  ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
+   (skk-large-jisyo . "~/.cache/skk/SKK-JISYO.L")
+   (skk-use-azik . t)
+   (skk-search-katakana . t)
+   (skk-preload . t)
+   (skk-share-private-jisyo . t)
+   (skk.show-inline . t)
+   (default-input-method . "japanese-skk")))
+    
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
