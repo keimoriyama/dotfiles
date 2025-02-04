@@ -34,6 +34,7 @@
 (setq frame-title-format "%f")
 
 
+
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 
@@ -115,8 +116,8 @@
   :global-minor-mode t)
 
 (defadvice moccur-edit-change-file
-    (after save-after-moccur-edit-buffer activate)
-  (save-buffer))
+    (after save-after-moccur-edit;-buffer activate)
+  (save-buffer)))
 
 (leaf solarized-theme
   :ensure t
@@ -139,18 +140,21 @@
 
 (leaf centaur-tabs
   :ensure t
+  :global-minor-mode centaur-tabs-mode
   :bind ("M-c" . centaur-tabs/body)
   :custom
   ((centaur-tabs--buffer-show-groups . t)
    (centaur-tabs-set-icons . t)
-   (entaur-tabs-icon-type . 'all-the-icons))
-  :global-minor-mode centaur-tabs-mode
+   (entaur-tabs-icon-type . 'nerd-icons))
   :pretty-hydra
   ((:color blue :quit-key "q" :foreign-keys warn)
    ("Move Buffer"
     (("n" centaur-tabs-forward "forward next" :exit nil)
      ("p" centaur-tabs-backward "back forward" :exit nil)
-     ("g" centaur-tabs-switch-group "move group" :exit nil)))))
+     ("g" centaur-tabs-switch-group "move group" :exit nil))
+    "Kill Buffer"
+    (("k" centaur-tabs-kill-all-buffers-in-current-group "kill all buffer in group" :exit nil)
+     ("K" centaur-tabs-kill-other-buffers-in-current-group "kill other buffer in group" :exit nil)))))
 
 (leaf bufferlo
   :ensure t
@@ -414,7 +418,6 @@
           :package emacs
           ("C-r" . consult-history))))
 
-
 (leaf embark-consult
   :doc "Consult integration for Embark"
   :ensure t
@@ -435,12 +438,6 @@
   :custom ((completion-styles . '(orderless partial-completion basic))
            (completion-category-defaults . nil)
            (completion-category-overrides . nil)))
-
-(leaf embark-consult
-  :doc "Consult integration for Embark"
-  :ensure t
-  :bind ((("M-." . embark-dwim)
-          ("C-." . embark-act))))
 
 (leaf tempel
   :ensure t
@@ -491,8 +488,6 @@
 
 
 (leaf org
-  :init
-  (setq org-agenda-files (directory-files-recursively org-directory "\\.org$"))
   :custom
   ((org-startup-folded . 'content)
    (org-startup-indented . "indent")
@@ -506,16 +501,18 @@
        "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
    (org-refile-targets . '((org-agenda-files :maxlevel . 1)))
    (org-todo-keywords .
-                     '((sequence "TODO" "DOING" "|" "DONE" "WAIT")))))
+                      '((sequence "TODO" "DOING" "|" "TODAY" "WEEK" "|"  "DONE" "WAIT"))))
+  :config
+  (setq org-agenda-files (directory-files-recursively org-directory "\\.org$")))
   
 (leaf org-agenda
-  :commands org-agenda
+  ; :commands org-agenda
   :custom
   ((org-agenda-custom-commands .
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
-          ("d" "Daily Tasks" agenda ""
-           ((org-agenda-span 1)))))
+          ("w" "Weekly" todo "WEEK" nil)
+          ("d" "Today" todo "TODAY" nil)))
   (org-agenda-start-on-weekday . 3)
   (org-agenda-span . 'week)
   (org-agenda-skip-scheduled-if-done . t)
@@ -533,6 +530,7 @@
   (org-agenda-mode-map
         ("s" . org-agenda-schedule)
         ("S" . org-save-all-org-buffers)))
+
 
 (leaf org-journal
   :ensure t
@@ -558,14 +556,22 @@
   :init
   (org-roam-db-autosync-mode)
   :bind
-  (("C-c n l" . org-roam)
-   ("C-c n f" . org-roam-node-find)
-   ("C-c n g" . org-roam-graph-show)
+  (("C-c n f" . org-roam-node-find)
    ("C-c n i" . org-roam-node-insert))
   :custom
   ((org-roam-db-location . org-roam-db)
    (org-roam-directory . org-directory)
    (org-roam-index-file . org-roam-index-file)))
+
+
+(leaf org-roam-capture
+   :custom
+   ((org-roam-capture-templates . '(("p" "Project" plain "%?"
+                                     :target (file+head (lambda ()
+                                                          (format "%s/projects/${slug}.org" org-directory))
+                                                        "#+TITLE: ${title}\n")
+                                     :unnarrowed t))))
+   )
 
 (leaf org-roam-ui
   :ensure t
@@ -599,7 +605,13 @@
      ("t" my:org-goto-daily-todo "todo"))
     "agenda"
     (("a" org-agenda "open agenda")
-     ("c" org-capture "capture")))))
+     ("c" org-capture "capture"))
+    "roam"
+    (("f" org-roam-node-find "create or search")
+     ("i" org-roam-node-insert "insert node"))
+    )
+   )
+  )
 
 ; lsp client
 ;; (leaf eglot
@@ -653,7 +665,8 @@
  :custom
  (lsp-enable-file-watchers . nil)
  (lsp-file-watch-threshold . 500)
- (lsp-completion-provider . :none))
+ (lsp-completion-provider . :none)
+ (lsp-ruff-lsp-server-command . '("ruff" "server")))
 
 (leaf lsp-ui
  :ensure t
@@ -698,6 +711,9 @@
 (leaf python-mode
   :ensure t)
 
+(leaf ruff-format
+  :ensure t)
+
 (leaf pet
   :ensure t
   :hook
@@ -706,19 +722,15 @@
                        (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
                        (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
                        (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-                       (setq-local python-black-command (pet-executable-find "black"))
-                       (setq-local blacken-executable python-black-command)
+                       (setq-local lsp-ruff-server-command (list (pet-executable-find "ruff") "server"))
+                       (setq-local lsp-ruff-python-path python-shell-interpreter)
+                       (setq-local ruff-format-command (pet-executable-find "ruff"))
                        (pet-flycheck-setup)
-                       ;(eglot-ensure)
-                       ;(pet-eglot-setup)
                        )))
-                        
+
 (leaf lsp-pyright
   :ensure t)
-
-(leaf python-black
-  :ensure t
-  :hook (python-mode-hook . python-black-on-save-mode-enable-dwim))
+   
 
 ;(leaf ein
 ;  :ensure t)
@@ -895,8 +907,9 @@
 (leaf ddskk
   :ensure t
   :doc "japanese IME works in emacs"
+  :hook (skk-load-hook . (lambda()
+                           (require 'context-skk)))
   :bind (("C-x C-j" . skk-mode))
-  :hook (skk-load-hook . (lambda () (require 'context-skk)))
   :custom
   ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
    (skk-large-jisyo . "~/.cache/skk/SKK-JISYO.L")
@@ -904,25 +917,7 @@
    (skk-search-katakana . t)
    (skk-preload . t)
    (skk-share-private-jisyo . t)
-   (skk.show-inline . t)
-   (default-input-method . "japanese-skk")))
-    
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   '("/Users/kei/Documents/org-mode/journal/20241025.org" "/Users/kei/Documents/org-mode/journal/20241028.org" "/Users/kei/Documents/org-mode/journal/20241029.org" "/Users/kei/Documents/org-mode/journal/20241030.org" "/Users/kei/Documents/org-mode/journal/20241031.org" "/Users/kei/Documents/org-mode/journal/20241101.org" "/Users/kei/Documents/org-mode/journal/week-20241030.org" "/Users/kei/Documents/org-mode/journal/week-44-20241030.org" "/Users/kei/Documents/org-mode/journal/week-45-20241106.org" "/Users/kei/Documents/org-mode/journal/week-46-20241113.org" "/Users/kei/Documents/org-mode/journal/week-47-20241120.org" "/Users/kei/Documents/org-mode/projects/ACL2024.org" "/Users/kei/Documents/org-mode/projects/LLMのデータ拡張.org" "/Users/kei/Documents/org-mode/projects/修論発表と博士入試.org" "/Users/kei/Documents/org-mode/projects/研究計画書_SPRINGGX.org" "/Users/kei/Documents/org-mode/daily_doto.org" "/Users/kei/Documents/org-mode/daily_todo.org" "/Users/kei/Documents/org-mode/exp.org" "/Users/kei/Documents/org-mode/main.org" "/Users/kei/Documents/org-mode/memo.org" "/Users/kei/Documents/org-mode/project.org" "/Users/kei/Documents/org-mode/roam.org" "/Users/kei/Documents/org-mode/tasks.org"))
- '(package-selected-packages
-   '(ddskk reftex flyspell yatex dockerfile-mode yaml-mode python-black lsp-pyright pet python-mode highlight-indent-guides flycheck eglot-booster emacs-lsp-booster ox-gfm org-journal org-bullets shell-pop yasnippet tempel embark-consult orderless affe consult avy-zap avy marginalia vertico cape nerd-icons-corfu corfu exec-path-from-shell smerge-mode magit which-key spaceline iflipb puni rainbow-delimiters git-gutter multiple-cursors expand-region projectile undohist volatile-highlights centaur-tabs kanagawa-themes nerd-icons-completion f dash blackout el-get pretty-hydra hydra leaf-keywords leaf))
- '(package-vc-selected-packages
-   '((eglot-booster :url "https://github.com/jdtsmith/eglot-booster")
-     (emacs-lsp-booster :url "https://github.com/blahgeek/emacs-lsp-booster"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+   ;(skk-show-inline . t)
+   (default-input-method . "japanese-skk")
+   (skk-server-host . "localhost")
+   (skk-server-portnum . 1178)))
