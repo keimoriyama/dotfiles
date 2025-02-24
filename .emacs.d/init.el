@@ -336,10 +336,11 @@
      lsp-completion-mode))
   :config
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'tempel-complete)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword))
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-tex))
 
 (leaf vertico
   :doc "VERTical Interactive COmpletion"
@@ -449,7 +450,7 @@
                       completion-at-point-functions)))
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
   (add-hook 'text-mode-hook 'tempel-setup-capf)
-  (add-hook 'org-mode-hook 'tempel-setup-capf))
+  )
 
 (leaf yasnippet
   :ensure t
@@ -475,8 +476,6 @@
 
 (setq org-directory "~/Documents/org-mode"
         org-memo-file (format "%s/memo.org" org-directory)
-        org-project-file (format "%s/project.org" org-directory)
-        org-exp-file (format "%s/exp.org" org-directory)
         org-daily-todo-file (format "%s/daily_todo.org" org-directory)
         org-memo-dir (format "%s/memo/" org-directory))
 
@@ -484,8 +483,6 @@
   (let ((name (read-string "Name: ")))
     (expand-file-name (format "%s.org"
                               name) path)))
-
-
 
 (leaf org
   :custom
@@ -499,14 +496,12 @@
                                (lambda () (create-new-org-file
                                      (format "%s/projects/" org-directory))))
        "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
-   (org-refile-targets . '((org-agenda-files :maxlevel . 1)))
    (org-todo-keywords .
-                      '((sequence "TODO" "DOING" "|" "TODAY" "WEEK" "|"  "DONE" "WAIT"))))
-  :config
-  (setq org-agenda-files (directory-files-recursively org-directory "\\.org$")))
+                      '((sequence "TODO" "DOING" "TODAY" "WEEK" "|"  "DONE" "WAIT"))))
+  )
   
 (leaf org-agenda
-  ; :commands org-agenda
+  :commands org-agenda
   :custom
   ((org-agenda-custom-commands .
         '(("x" "Unscheduled Tasks" tags-todo
@@ -525,61 +520,26 @@
                               "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
   (org-clock-out-remove-zero-time-clocks . t)
   (org-clock-clocked-in-display          . 'both)
-  (org-agenda-start-with-log-mode        . t))
+  (org-agenda-start-with-log-mode        . t)
+  (org-agenda-files . '("~/Documents/org-mode/projects")))
   :bind
-  (org-agenda-mode-map
+  ((org-agenda-mode-map
         ("s" . org-agenda-schedule)
-        ("S" . org-save-all-org-buffers)))
+        ("S" . org-save-all-org-buffers))
+   ("C-c C-c" . org-agenda))
+  )
+(plist-put org-format-latex-options :scale 2)
 
-
-(leaf org-journal
+(leaf org-download
   :ensure t
-  :bind
-  ("C-c j" . org-journal-new-entry)
   :custom
-  ((org-journal-dir . "~/Documents/org-mode/journal")
-  (org-journal-file-format . "week-%V-%Y%m%d.org")
-  (org-journal-file-type . 'weekly)
-  (org-journal-start-on-weekday . 3)))
+  ((org-download-image-dir . "~/Documents/org-mode/imgs"))
+  )
 
 (leaf ox-gfm
   :ensure t
   :after org)
 
-(setq org-roam-db (format "%s/roam.db" org-directory)
-      org-roam-index-file (format "%s/roam.org" org-directory))
-
-(leaf org-roam
-  :ensure t
-  :hook
-  (after-init . org-roam-mode)
-  :init
-  (org-roam-db-autosync-mode)
-  :bind
-  (("C-c n f" . org-roam-node-find)
-   ("C-c n i" . org-roam-node-insert))
-  :custom
-  ((org-roam-db-location . org-roam-db)
-   (org-roam-directory . org-directory)
-   (org-roam-index-file . org-roam-index-file)))
-
-
-(leaf org-roam-capture
-   :custom
-   ((org-roam-capture-templates . '(("p" "Project" plain "%?"
-                                     :target (file+head (lambda ()
-                                                          (format "%s/projects/${slug}.org" org-directory))
-                                                        "#+TITLE: ${title}\n")
-                                     :unnarrowed t))))
-   )
-
-(leaf org-roam-ui
-  :ensure t
-  :custom
-  ((org-roam-ui-sync-theme . t)
-   (org-roam-ui-follow . t)
-   (org-roam-ui-update-on-save . t)
-   (org-roam-open-on-start . t)))
 
 (defun my:org-goto-project ()
     (interactive)
@@ -599,16 +559,11 @@
   :pretty-hydra
   ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("visit file"
-    (("e" my:org-goto-exp "experiment")
-     ("p" my:org-goto-project "projects")
-     ("m" my:org-goto-memo "memo")
+    (("m" my:org-goto-memo "memo")
      ("t" my:org-goto-daily-todo "todo"))
     "agenda"
     (("a" org-agenda "open agenda")
      ("c" org-capture "capture"))
-    "roam"
-    (("f" org-roam-node-find "create or search")
-     ("i" org-roam-node-insert "insert node"))
     )
    )
   )
@@ -765,7 +720,7 @@
            ("\\.bib$" . yatex-mode))
   :custom
   (( YaTeX-inhibit-prefix-letter . t)
-   (tex-command . "uplatex -kanji=utf8")
+   (tex-command . "platex -kanji=utf8")
      ( YaTeX-dvi2-command-ext-alist .
      '(("Skim" . ".pdf")))
      ( dvi2-command . "open -a Skim")
@@ -921,3 +876,48 @@
    (default-input-method . "japanese-skk")
    (skk-server-host . "localhost")
    (skk-server-portnum . 1178)))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   '("~/Documents/org-mode/projects/LLMのデータ拡張.org" "/Users/kei/Documents/org-mode/projects/ACL2024.org" "/Users/kei/Documents/org-mode/projects/修論発表と博士入試.org" "/Users/kei/Documents/org-mode/projects/研究計画書_SPRINGGX.org"))
+ '(org-preview-latex-process-alist
+   '((dvipng :programs
+             ("latex" "dvipng")
+             :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
+             (2.0 . 2.0)
+             :latex-compiler
+             ("latex -interaction nonstopmode -output-directory %o %f")
+             :image-converter
+             ("dvipng -D %D -T tight -o %O %f")
+             :transparent-image-converter
+             ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
+     (dvisvgm :programs
+              ("latex" "dvisvgm")
+              :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :image-input-type "dvi" :image-output-type "svg" :image-size-adjust
+              (1.7 . 1.5)
+              :latex-compiler
+              ("latex -interaction nonstopmode -output-directory %o %f")
+              :image-converter
+              ("dvisvgm %f --no-fonts --exact-bbox --scale=%S --output=%O"))
+     (imagemagick :programs
+                  ("latex" "convert")
+                  :description "pdf > png" :message "you need to install the programs: latex and imagemagick." :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+                  (1.0 . 1.0)
+                  :latex-compiler
+                  ("pdflatex -interaction nonstopmode -output-directory %o %f")
+                  :image-converter
+                  ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+ '(package-selected-packages
+   '(ddskk reftex flyspell yatex dockerfile-mode yaml-mode lsp-pyright pet ruff-format python-mode highlight-indent-guides flycheck lsp-ui lsp-mode emacs-lsp-booster ox-gfm yasnippet tempel orderless affe embark-consult consult avy-zap avy marginalia vertico cape nerd-icons-corfu corfu exec-path-from-shell smerge-mode magit which-key spaceline iflipb puni free-keys rainbow-delimiters git-gutter multiple-cursors expand-region bufferlo centaur-tabs projectile volatile-highlights solarized-theme nerd-icons-completion f dash blackout el-get pretty-hydra hydra leaf-keywords leaf))
+ '(package-vc-selected-packages
+   '((emacs-lsp-booster :url "https://github.com/blahgeek/emacs-lsp-booster"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
