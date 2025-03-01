@@ -1,64 +1,90 @@
+* Emacsの設定ファイル
+** 基本設定
+*** 本当の基本設定
 #+BEGIN_SRC emacs-lisp
-  ;;; init.el:
-  (when (< emacs-major-version 23)
-    (defvar user-emacs-directory "~/.emacs.d/"))
+   ;;; init.el:
+   (when (< emacs-major-version 23)
+     (defvar user-emacs-directory "~/.emacs.d/"))
 
-  ; システムに装飾キー渡さない
-  (setq mac-pass-control-to-system nil)
-  (setq mac-pass-command-to-system nil)
-  (setq mac-pass-option-to-system nil)
-  (setq make-backup-files nil)
-  (setq auto-save-default nil)
-  (setq auto-save-list-file-prefix nil)
-  (setq create-lockfiles nil)
-
-  (define-key global-map (kbd "C-t") 'other-window)
-
+   ; システムに装飾キー渡さない
+   (setq mac-pass-control-to-system nil)
+   (setq mac-pass-command-to-system nil)
+   (setq mac-pass-option-to-system nil)
+   (setq make-backup-files nil)
+   (setq auto-save-default nil)
+   (setq auto-save-list-file-prefix nil)
+   (setq create-lockfiles nil)
+#+end_src
+*** C-tでバッファを切り変える
+#+begin_src elisp
+   (define-key global-map (kbd "C-t") 'other-window)
+#+end_src
+*** C-x C-cでEmacsを終了しない
+#+begin_src elisp
   ; 好きなコマンドを割り振ろう
-  (global-set-key (kbd "C-x C-c") 'magit) ;; 私は helm-M-xにしています
-
-  ;; C-x C-z(suspend)も変更するのもありでしょう.
+  (global-set-key (kbd "C-x C-c") 'magit)
   (global-set-key (kbd "C-x C-z") 'your-favorite-command)
   ;; I never use C-x C-c
   (defalias 'exit 'save-buffers-kill-emacs)
-
-  (server-start)
-  (column-number-mode -1)
-  (scroll-bar-mode -1)
-  (size-indication-mode t)
-  (setq display-time-24hr-format t)
-  (display-time-mode t)
-
+#+end_src
+*** 何かサーバーが動くらしい
+行番号を表示しない、スクロールバーを表示しない、時間を24時間フォーマットで表示する
+#+begin_src elisp
+   (server-start)
+   (column-number-mode -1)
+   (scroll-bar-mode -1)
+   (size-indication-mode t)
+   (setq display-time-24hr-format t)
+   (display-time-mode t)
+#+end_src
+*** 日本語にする
+文字コードはutf-8
+#+begin_src elisp
   (set-language-environment "Japanese")
   (prefer-coding-system 'utf-8)
 
   (setq frame-title-format "%f")
-
-
-
+#+end_src
+*** タブは4文字
+#+begin_src elisp
   (setq-default tab-width 4)
   (setq-default indent-tabs-mode nil)
-
+#+end_src
+*** フォントはMenloを使用する
+#+begin_src elisp
   (set-face-attribute 'default nil
                       :family "Menlo"
                       :height 200)
-
+#+end_src
+*** 中間ファイルを生成しない(はず)
+#+begin_src elisp
   (setq backup-directory-alist
         `((".*".,temporary-file-directory)))
   (setq auto-save-file-name-transforms
         `((".*" ,temporary-file-directory)))
+#+end_src
 
+#+begin_src elisp
   (global-auto-revert-mode t)
 
   (add-hook 'after-save-hook
             'executable-make-buffer-file-executable-if-script-p)
+#+end_src
 
+*** M-*をmacのcommandキーにマップする
+#+begin_src elisp
   (setq mac-command-modifier 'meta)
+#+end_src
 
+*** yes or noをy、nにする
+#+begin_src elisp
   (add-hook 'emacs-startup-hook
             #'(lambda ()
                 (fset 'yes-or-no-p 'y-or-n-p)))
+#+end_src
 
+*** Native Comp周りの設定
+#+begin_src elisp
   (with-eval-after-load 'comp-run
     ;; config
     (setopt native-comp-async-jobs-number 8)
@@ -76,593 +102,703 @@
       (setq eldoc-echo-area-use-multiline-p t)
       (turn-on-eldoc-mode)))
   (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
+#+end_src
 
+#+begin_src elisp
   ;; load environment value
   (dolist (path (reverse (split-string (getenv "PATH") ":")))
     (add-to-list 'exec-path path))
+#+end_src
 
-  ; <leaf-install-code>
-  (eval-and-compile
-    (customize-set-variable
-     'package-archives '(("org" . "https://orgmode.org/elpa/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-    (package-initialize)
-    (unless (package-installed-p 'leaf)
-      (package-refresh-contents)
-      (package-install 'leaf))
+#+begin_src elisp
+   ; <leaf-install-code>
+   (eval-and-compile
+     (customize-set-variable
+      'package-archives '(("org" . "https://orgmode.org/elpa/")
+                          ("melpa" . "https://melpa.org/packages/")
+                          ("gnu" . "https://elpa.gnu.org/packages/")
+                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+     (package-initialize)
+     (unless (package-installed-p 'leaf)
+       (package-refresh-contents)
+       (package-install 'leaf))
 
-    (leaf leaf-keywords
-      :ensure t
-      :init
-      ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-      (leaf hydra :ensure t)
-      (leaf pretty-hydra :ensure t)
-      (leaf el-get :ensure t)
-      (leaf blackout :ensure t)
-      :config
-      ;; initialize leaf-keywords.el
-      (leaf-keywords-init))
-  )
-
-  (leaf dash
-    :ensure t)
-
-  (leaf f
-    :ensure t)
-
-  (leaf nerd-icons-completion
-    :ensure t
-    :global-minor-mode t)
-
-  (defadvice moccur-edit-change-file
-      (after save-after-moccur-edit;-buffer activate)
-    (save-buffer)))
-
-  (leaf solarized-theme
-    :ensure t
-    :config
-    (load-theme 'solarized-light t))
-
-  (leaf volatile-highlights
-    :ensure t
-    :global-minor-mode t)
-
-  (cua-mode t)
-  (setq cua-enable-cua-keys nil)
-
-  (leaf projectile
-    :ensure t
-    :global-minor-mode projectile-mode
-    :custom
-    ((projectile-sort-order . 'recently-active))
-    :bind (("C-c p" . projectile-command-map)))
-
-  (leaf centaur-tabs
-    :ensure t
-    :global-minor-mode centaur-tabs-mode
-    :bind ("M-c" . centaur-tabs/body)
-    :custom
-    ((centaur-tabs--buffer-show-groups . t)
-     (centaur-tabs-set-icons . t)
-     (entaur-tabs-icon-type . 'nerd-icons))
-    :pretty-hydra
-    ((:color blue :quit-key "q" :foreign-keys warn)
-     ("Move Buffer"
-      (("n" centaur-tabs-forward "forward next" :exit nil)
-       ("p" centaur-tabs-backward "back forward" :exit nil)
-       ("g" centaur-tabs-switch-group "move group" :exit nil))
-      "Kill Buffer"
-      (("k" centaur-tabs-kill-all-buffers-in-current-group "kill all buffer in group" :exit nil)
-       ("K" centaur-tabs-kill-other-buffers-in-current-group "kill other buffer in group" :exit nil)))))
-
-  (leaf bufferlo
-    :ensure t
-    :global-minor-mode bufferlo-mode)
-
-  (leaf expand-region
-    :ensure t
-    :bind ("C-=" . er/expand-region))
-
-  (leaf multiple-cursors
-    :ensure t
-    :bind ("M-m" . hydra-multiple-cursors/body)
-    :hydra
-    (hydra-multiple-cursors (:color pink :hint nil)
-  "
-                                                                          ╔════════╗
-      Point^^^^^^             Misc^^            Insert                            ║ Cursor ║
-    ──────────────────────────────────────────────────────────────────────╨────────╜
-       _k_    _K_    _M-k_    [_l_] edit lines  [_i_] 0...
-       ^↑^    ^↑^     ^↑^     [_m_] mark all    [_a_] letters
-      mark^^ skip^^^ un-mk^   [_s_] sort
-       ^↓^    ^↓^     ^↓^
-       _j_    _J_    _M-j_
-    ╭──────────────────────────────────────────────────────────────────────────────╯
-                             [_q_]: quit, [Click]: point
-  "
-            ("l" mc/edit-lines :exit t)
-            ("m" mc/mark-all-like-this :exit t)
-            ("j" mc/mark-next-symbol-like-this)
-            ("J" mc/skip-to-next-like-this)
-            ("M-j" mc/unmark-next-like-this)
-            ("k" mc/mark-previous-symbol-like-this)
-            ("K" mc/skip-to-previous-like-this)
-            ("M-k" mc/unmark-previous-like-this)
-            ("s" mc/mark-all-in-region-regexp :exit t)
-            ("i" mc/insert-numbers :exit t)
-            ("a" mc/insert-letters :exit t)
-            ("<mouse-1>" mc/add-cursor-on-click)
-            ;; Help with click recognition in this hydra
-            ("<down-mouse-1>" ignore)
-            ("<drag-mouse-1>" ignore)
-            ("q" nil)))
-
-  (leaf git-gutter
-    :ensure t
-    :init
-    (global-git-gutter-mode))
-
-  (leaf rainbow-delimiters
-    :ensure t
-    :hook
-    ((prog-mode-hook . rainbow-delimiters-mode)))
-
-  (leaf hl-line
-    :init
-    (global-hl-line-mode +1))
-
-  (leaf free-keys
-    :ensure t)
-
-  (leaf puni
-    :ensure t
-    :bind ("C-c )" . puni/body)
-    :global-minor-mode puni-global-mode
-    :pretty-hydra
-    ((:color blue :quit-key "q" :foreign-keys warn)
-     ("Move Parenthesis"
-      (("f" puni-slurp-forward "forward next" :exit nil)
-       ("F" puni-barf-forward "back next" :exit nil)
-       ("b" puni-slurp-backward "back back" :exit nil)
-       ("B" puni-barf-backward "back forward" :exit nil)))))
-
-  (leaf iflipb
-    :ensure t
-    :bind
-    (("M-n" . iflipb-next-buffer)
-     ("M-p" . iflipb-previous-buffer)))
-
-  (leaf autorevert
-    :doc "revert buffers when files on disk change"
-    :global-minor-mode global-auto-revert-mode)
-
-  (leaf simple
-    :doc "basic editing commands for Emacs"
-    :custom ((kill-read-only-ok . t)
-             (kill-whole-line . t)
-             (eval-expression-print-length . nil)
-             (eval-expression-print-level . nil)))
-
-  (leaf spaceline
-    :ensure t
-    :config (spaceline-spacemacs-theme))
-
-
-  (leaf startup
-    :doc "process Emacs shell arguments"
-    :custom `((auto-save-list-file-prefix . ,(locate-user-emacs-file "backup/.saves-"))))
-
-  (leaf which-key
-    :doc "Display available keybindings in popup"
-    :ensure t
-    :global-minor-mode t)
-
-  (leaf magit
-    :ensure t)
-
-  (leaf smerge-mode
-    :doc "Manage git confliction"
-    :ensure t
-    :preface
-    (defun start-smerge-mode-with-hydra ()
-      (interactive)
-      (progn
-        (smerge-mode 1)
-        (smerge-mode/body)))
-    :pretty-hydra
-    ((:color blue :quit-key "q" :foreign-keys warn)
-     ("Move"
-      (("n" smerge-next "next")
-       ("p" smerge-prev "preview"))
-      "Keep"
-      (("b" smerge-keep-base "base")
-       ("u" smerge-keep-upper "upper")
-       ("l" smerge-keep-lower "lower")
-       ("a" smerge-keep-all "both")
-       ("\C-m" smerge-keep-current "current"))
-      "Others"
-      (("C" smerge-combine-with-next "combine with next")
-       ("r" smerge-resolve "resolve")
-       ("k" smerge-kill-current "kill current"))
-      "End"
-      (("ZZ" (lambda ()
-               (interactive)
-               (save-buffer)
-               (bury-buffer))
-        "Save and bury buffer" :color blue)
-       ("q" nil "cancel" :color blue)))))
-
-  (leaf exec-path-from-shell
-    :doc "Get environment variables such as $PATH from the shell"
-    :ensure t
-    :defun (exec-path-from-shell-initialize)
-    :custom ((exec-path-from-shell-check-startup-files)
-             (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME" "PKG_CONFIG_PATH" "CPPFLAGS" "LDFLAGS")))
-    :config
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "PATH"))
-
-  (leaf corfu
-    :doc "COmpletion in Region FUnction"
-    :ensure t
-    :global-minor-mode global-corfu-mode corfu-popupinfo-mode
-    :custom ((corfu-auto . t)
-             (corfu-auto-delay . 0.1)
-             (corfu-cycle . t)
-             (corfu-auto-prefix . 3)
-             (text-mode-ispell-word-completion . nil))
-    :bind ((corfu-map
-            ("C-s" . corfu-insert-separator))))
-
-  (leaf corfu-popupinfo
-    :ensure nil
-    :after corfu
-    :config
-    (setq-local corfu-popupinfo-delay 0))
-
-  (leaf nerd-icons-corfu
-    :ensure t
-    :config
-    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
-  (leaf cape
-    :doc "Completion At Point Extensions"
-    :ensure t
-    :hook
-    ((prog-mode
-       text-mode
-       conf-mode
-       lsp-completion-mode))
-    :config
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-dict)
-    (add-to-list 'completion-at-point-functions #'tempel-complete)
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-keyword)
-    (add-to-list 'completion-at-point-functions #'cape-tex))
-
-  (leaf vertico
-    :doc "VERTical Interactive COmpletion"
-    :ensure t
-    :global-minor-mode t)
-
-  (leaf marginalia
-    :doc "Enrich existing commands with completion annotations"
-    :ensure t
-    :global-minor-mode t)
-
-  (leaf avy
-    :doc "Jump to things in tree-style"
-    :url "https://github.com/abo-abo/avy"
-    :ensure t)
-
-  (leaf avy-zap
-    :doc "Zap to char using avy"
-    :url "https://github.com/cute-jumper/avy-zap"
-    :ensure t)
-
-  (defvar my-consult--source-buffer
-    `(:name "Other Buffers"
-      :narrow   ?b
-      :category buffer
-      :face     consult-buffer
-      :history  buffer-name-history
-      :state    ,#'consult--buffer-state
-      :items ,(lambda () (consult--buffer-query
-                          :predicate #'bufferlo-non-local-buffer-p
-                          :sort 'visibility
-                          :as #'buffer-name)))
-      "Non-local buffer candidate source for `consult-buffer'.")
-
-  (defvar my-consult--source-local-buffer
-    `(:name "Local Buffers"
-      :narrow   ?l
-      :category buffer
-      :face     consult-buffer
-      :history  buffer-name-history
-      :state    ,#'consult--buffer-state
-      :default  t
-      :items ,(lambda () (consult--buffer-query
-                          :predicate #'bufferlo-local-buffer-p
-                          :sort 'visibility
-                          :as #'buffer-name)))
-      "Local buffer candidate source for `consult-buffer'.")
-
-  (leaf consult
-    :doc "Consulting completing-read"
-    :ensure t
-    :hook (completion-list-mode-hook . consult-preview-at-point-mode)
-    :defun consult-line
-    :preface
-    (defun c/consult-line (&optional at-point)
-      "Consult-line uses things-at-point if set C-u prefix."
-      (interactive "P")
-      (if at-point
-          (consult-line (thing-at-point 'symbol))
-        (consult-line)))
-    :custom ((xref-show-xrefs-function . #'consult-xref)
-             (xref-show-definitions-function . #'consult-xref)
-             (consult-line-start-from-top . t)
-             (consult-buffer-sources . '(consult--source-hidden-buffer
-                                         my-consult--source-local-buffer
-                                         my-consult--source-buffer)))
-    :bind (;; C-c bindings (mode-specific-map)
-           ([remap switch-to-buffer] . consult-buffer) ; C-x b
-           ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
-
-           ;; M-g bindings (goto-map)
-           ([remap goto-line] . consult-goto-line)    ; M-g g
-           ([remap imenu] . consult-imenu)            ; M-g i
-         
-           (minibuffer-local-map
-            :package emacs
-            ("C-r" . consult-history))))
-
-  (leaf embark-consult
-    :doc "Consult integration for Embark"
-    :ensure t
-    :bind ((minibuffer-mode-map
-            :package emacs
-            ("M-." . embark-dwim)
-            ("C-." . embark-act))))
-
-  (leaf affe
-    :doc "Asynchronous Fuzzy Finder for Emacs"
-    :ensure t
-    :custom ((affe-highlight-function . 'orderless-highlight-matches)
-             (affe-regexp-function . 'orderless-pattern-compiler)))
-
-  (leaf orderless
-    :doc "Completion style for matching regexps in any order"
-    :ensure t
-    :custom ((completion-styles . '(orderless partial-completion basic))
-             (completion-category-defaults . nil)
-             (completion-category-overrides . nil)))
-
-  (leaf tempel
-    :ensure t
-    :doc "template engine"
-    :init
-    (defun tempel-setup-capf ()
-      (setq-local completion-at-point-functions
-                  (cons #'tempel-complete
-                        completion-at-point-functions)))
-    (add-hook 'prog-mode-hook 'tempel-setup-capf)
-    (add-hook 'text-mode-hook 'tempel-setup-capf)
-    )
-
-  (leaf yasnippet
-    :ensure t
-    :doc "snippet engine"
-    :init
-    (yas-global-mode +1)
-    :bind ((yas-keymap
-           ("<tab>" . nil)
-           ("TAB" . nil)
-           ("<backtab>" . nil)
-           ("S-TAB" . nil)
-           ("M-}" . yas-next-field-or-maybe-expand)
-           ("M-{" . yas-prev-field)))
-    :bind
-    ("C-c y" . yasnippet/body)
-    :pretty-hydra
-    ((:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-     ("Basic"
-      (("a" yas-new-snippet "add new snippet")
-       ("i" yas-insert-snippet "insert snippet")
-       ("e" yas-visit-snippet-file "edit snippet")))))
-
-
-  (setq org-directory "~/Documents/org-mode"
-          org-memo-file (format "%s/memo.org" org-directory)
-          org-daily-todo-file (format "%s/daily_todo.org" org-directory)
-          org-memo-dir (format "%s/memo/" org-directory))
-
-  (defun create-new-org-file (path)
-    (let ((name (read-string "Name: ")))
-      (expand-file-name (format "%s.org"
-                                name) path)))
-
-  (leaf org
-    :custom
-    ((org-startup-folded . 'content)
-     (org-startup-indented . "indent")
-     (org-deadline-warning-days . 30)
-     (org-capture-templates .
-      '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
-        ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
-        ("p" "Projects" entry (file
-                                 (lambda () (create-new-org-file
-                                       (format "%s/projects/" org-directory))))
-         "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
-     (org-todo-keywords .
-                        '((sequence "TODO" "DOING" "TODAY" "WEEK" "|"  "DONE" "WAIT"))))
-    )
+     (leaf leaf-keywords
+       :ensure t
+       :init
+       ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+       (leaf hydra :ensure t)
+       (leaf pretty-hydra :ensure t)
+       (leaf el-get :ensure t)
+       (leaf blackout :ensure t)
+       :config
+       ;; initialize leaf-keywords.el
+       (leaf-keywords-init))
+   )
   
-  (leaf org-agenda
-    :commands org-agenda
-    :custom
-    ((org-agenda-custom-commands .
-          '(("x" "Unscheduled Tasks" tags-todo
-             "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
-            ("w" "Weekly" todo "WEEK" nil)
-            ("d" "Today" todo "TODAY" nil)))
-    (org-agenda-start-on-weekday . 3)
-    (org-agenda-span . 'week)
-    (org-agenda-skip-scheduled-if-done . t)
-    (org-return-follows-link . t)  ;; RET to follow link
-    (org-agenda-columns-add-appointments-to-effort-sum . t)
-    (org-agenda-time-grid .
-                          '((daily today require-timed)
-                            (0900 1200 1300 1800) "......" "----------------"))
-    (org-columns-default-format . 
-                                "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
-    (org-clock-out-remove-zero-time-clocks . t)
-    (org-clock-clocked-in-display          . 'both)
-    (org-agenda-start-with-log-mode        . t)
-    (org-agenda-files . '("~/Documents/org-mode/projects")))
-    :bind
-    ((org-agenda-mode-map
-          ("s" . org-agenda-schedule)
-          ("S" . org-save-all-org-buffers))
-     ("C-c C-c" . org-agenda))
-    )
-  (plist-put org-format-latex-options :scale 1.2)
+#+end_src
 
-  (leaf org-download
-    :ensure t
-    :custom
-    ((org-download-image-dir . "~/Documents/org-mode/imgs"))
-    )
+#+begin_src elisp
+   (leaf dash
+     :ensure t)
+#+end_src
 
-  (leaf ox-gfm
-    :ensure t
-    :after org)
+#+begin_src elisp
+   (leaf f
+     :ensure t)
+#+end_src
+
+#+begin_src elisp
+   (leaf nerd-icons-completion
+     :ensure t
+     :global-minor-mode t)
+#+end_src
+
+#+begin_src elisp
+   (defadvice moccur-edit-change-file
+       (after save-after-moccur-edit;-buffer activate)
+     (save-buffer)))
+#+end_src
+
+#+begin_src elisp
+   (leaf solarized-theme
+     :ensure t
+     :config
+     (load-theme 'solarized-light t))
+#+end_src
+
+#+begin_src elisp
+   (leaf volatile-highlights
+     :ensure t
+     :global-minor-mode t)
+#+end_src
+
+#+begin_src elisp
+   (cua-mode t)
+   (setq cua-enable-cua-keys nil)
+#+end_src
+
+#+begin_src elisp
+   (leaf projectile
+     :ensure t
+     :global-minor-mode projectile-mode
+     :custom
+     ((projectile-sort-order . 'recently-active))
+     :bind (("C-c p" . projectile-command-map)))
+#+end_src
+
+#+begin_src elisp
+   (leaf centaur-tabs
+     :ensure t
+     :global-minor-mode centaur-tabs-mode
+     :bind ("M-c" . centaur-tabs/body)
+     :custom
+     ((centaur-tabs--buffer-show-groups . t)
+      (centaur-tabs-set-icons . t)
+      (entaur-tabs-icon-type . 'nerd-icons))
+     :pretty-hydra
+     ((:color blue :quit-key "q" :foreign-keys warn)
+      ("Move Buffer"
+       (("n" centaur-tabs-forward "forward next" :exit nil)
+        ("p" centaur-tabs-backward "back forward" :exit nil)
+        ("g" centaur-tabs-switch-group "move group" :exit nil))
+       "Kill Buffer"
+       (("k" centaur-tabs-kill-all-buffers-in-current-group "kill all buffer in group" :exit nil)
+        ("K" centaur-tabs-kill-other-buffers-in-current-group "kill other buffer in group" :exit nil)))))
+#+end_src
+
+#+begin_src elisp
+   (leaf bufferlo
+     :ensure t
+     :global-minor-mode bufferlo-mode)
+#+end_src
+
+#+begin_src elisp
+   (leaf expand-region
+     :ensure t
+     :bind ("C-=" . er/expand-region))
+#+end_src
+
+#+begin_src elisp
+   (leaf multiple-cursors
+     :ensure t
+     :bind ("M-m" . hydra-multiple-cursors/body)
+     :hydra
+     (hydra-multiple-cursors (:color pink :hint nil)
+   "
+                                                                           ╔════════╗
+       Point^^^^^^             Misc^^            Insert                            ║ Cursor ║
+     ──────────────────────────────────────────────────────────────────────╨────────╜
+        _k_    _K_    _M-k_    [_l_] edit lines  [_i_] 0...
+        ^↑^    ^↑^     ^↑^     [_m_] mark all    [_a_] letters
+       mark^^ skip^^^ un-mk^   [_s_] sort
+        ^↓^    ^↓^     ^↓^
+        _j_    _J_    _M-j_
+     ╭──────────────────────────────────────────────────────────────────────────────╯
+                              [_q_]: quit, [Click]: point
+   "
+             ("l" mc/edit-lines :exit t)
+             ("m" mc/mark-all-like-this :exit t)
+             ("j" mc/mark-next-symbol-like-this)
+             ("J" mc/skip-to-next-like-this)
+             ("M-j" mc/unmark-next-like-this)
+             ("k" mc/mark-previous-symbol-like-this)
+             ("K" mc/skip-to-previous-like-this)
+             ("M-k" mc/unmark-previous-like-this)
+             ("s" mc/mark-all-in-region-regexp :exit t)
+             ("i" mc/insert-numbers :exit t)
+             ("a" mc/insert-letters :exit t)
+             ("<mouse-1>" mc/add-cursor-on-click)
+             ;; Help with click recognition in this hydra
+             ("<down-mouse-1>" ignore)
+             ("<drag-mouse-1>" ignore)
+             ("q" nil)))
+#+end_src
+
+#+begin_src elisp
+   (leaf git-gutter
+     :ensure t
+     :init
+     (global-git-gutter-mode))
+#+end_src
+
+#+begin_src elisp
+   (leaf rainbow-delimiters
+     :ensure t
+     :hook
+     ((prog-mode-hook . rainbow-delimiters-mode)))
+#+end_src
+
+#+begin_src elisp
+   (leaf hl-line
+     :init
+     (global-hl-line-mode +1))
+#+end_src
+
+#+begin_src elisp
+   (leaf free-keys
+     :ensure t)
+#+end_src
+
+#+begin_src elisp
+   (leaf puni
+     :ensure t
+     :bind ("C-c )" . puni/body)
+     :global-minor-mode puni-global-mode
+     :pretty-hydra
+     ((:color blue :quit-key "q" :foreign-keys warn)
+      ("Move Parenthesis"
+       (("f" puni-slurp-forward "forward next" :exit nil)
+        ("F" puni-barf-forward "back next" :exit nil)
+        ("b" puni-slurp-backward "back back" :exit nil)
+        ("B" puni-barf-backward "back forward" :exit nil)))))
+#+end_src
+
+#+begin_src elisp
+   (leaf iflipb
+     :ensure t
+     :bind
+     (("M-n" . iflipb-next-buffer)
+      ("M-p" . iflipb-previous-buffer)))
+#+end_src
+
+#+begin_src elisp
+   (leaf autorevert
+     :doc "revert buffers when files on disk change"
+     :global-minor-mode global-auto-revert-mode)
+#+end_src
+
+#+begin_src elisp
+   (leaf simple
+     :doc "basic editing commands for Emacs"
+     :custom ((kill-read-only-ok . t)
+              (kill-whole-line . t)
+              (eval-expression-print-length . nil)
+              (eval-expression-print-level . nil)))
+#+end_src
+
+#+begin_src elisp
+   (leaf spaceline
+     :ensure t
+     :config (spaceline-spacemacs-theme))
+#+end_src
+
+#+begin_src elisp
+
+   (leaf startup
+     :doc "process Emacs shell arguments"
+     :custom `((auto-save-list-file-prefix . ,(locate-user-emacs-file "backup/.saves-"))))
+#+end_src
+
+#+begin_src elisp
+   (leaf which-key
+     :doc "Display available keybindings in popup"
+     :ensure t
+     :global-minor-mode t)
+#+end_src
+
+#+begin_src elisp
+   (leaf magit
+     :ensure t)
+#+end_src
+
+#+begin_src elisp
+   (leaf smerge-mode
+     :doc "Manage git confliction"
+     :ensure t
+     :preface
+     (defun start-smerge-mode-with-hydra ()
+       (interactive)
+       (progn
+         (smerge-mode 1)
+         (smerge-mode/body)))
+     :pretty-hydra
+     ((:color blue :quit-key "q" :foreign-keys warn)
+      ("Move"
+       (("n" smerge-next "next")
+        ("p" smerge-prev "preview"))
+       "Keep"
+       (("b" smerge-keep-base "base")
+        ("u" smerge-keep-upper "upper")
+        ("l" smerge-keep-lower "lower")
+        ("a" smerge-keep-all "both")
+        ("\C-m" smerge-keep-current "current"))
+       "Others"
+       (("C" smerge-combine-with-next "combine with next")
+        ("r" smerge-resolve "resolve")
+        ("k" smerge-kill-current "kill current"))
+       "End"
+       (("ZZ" (lambda ()
+                (interactive)
+                (save-buffer)
+                (bury-buffer))
+         "Save and bury buffer" :color blue)
+        ("q" nil "cancel" :color blue)))))
+#+end_src
+
+#+begin_src elisp
+   (leaf exec-path-from-shell
+     :doc "Get environment variables such as $PATH from the shell"
+     :ensure t
+     :defun (exec-path-from-shell-initialize)
+     :custom ((exec-path-from-shell-check-startup-files)
+              (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME" "PKG_CONFIG_PATH" "CPPFLAGS" "LDFLAGS")))
+     :config
+     (exec-path-from-shell-initialize)
+     (exec-path-from-shell-copy-env "PATH"))
+#+end_src
+
+#+begin_src elisp
+   (leaf corfu
+     :doc "COmpletion in Region FUnction"
+     :ensure t
+     :global-minor-mode global-corfu-mode corfu-popupinfo-mode
+     :custom ((corfu-auto . t)
+              (corfu-auto-delay . 0.1)
+              (corfu-cycle . t)
+              (corfu-auto-prefix . 3)
+              (text-mode-ispell-word-completion . nil))
+     :bind ((corfu-map
+             ("C-s" . corfu-insert-separator))))
+#+end_src
+
+#+begin_src elisp
+   (leaf corfu-popupinfo
+     :ensure nil
+     :after corfu
+     :config
+     (setq-local corfu-popupinfo-delay 0))
+#+end_src
+
+#+begin_src elisp
+   (leaf nerd-icons-corfu
+     :ensure t
+     :config
+     (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+#+end_src
+
+#+begin_src elisp
+   (leaf cape
+     :doc "Completion At Point Extensions"
+     :ensure t
+     :hook
+     ((prog-mode
+        text-mode
+        conf-mode
+        lsp-completion-mode))
+     :config
+     (add-to-list 'completion-at-point-functions #'cape-file)
+     (add-to-list 'completion-at-point-functions #'cape-dict)
+     (add-to-list 'completion-at-point-functions #'tempel-complete)
+     (add-to-list 'completion-at-point-functions #'cape-file)
+     (add-to-list 'completion-at-point-functions #'cape-keyword)
+     (add-to-list 'completion-at-point-functions #'cape-tex))
+#+end_src
+
+#+begin_src elisp
+   (leaf vertico
+     :doc "VERTical Interactive COmpletion"
+     :ensure t
+     :global-minor-mode t)
+#+end_src
+
+#+begin_src elisp
+   (leaf marginalia
+     :doc "Enrich existing commands with completion annotations"
+     :ensure t
+     :global-minor-mode t)
+#+end_src
+
+#+begin_src elisp
+   (leaf avy
+     :doc "Jump to things in tree-style"
+     :url "https://github.com/abo-abo/avy"
+     :ensure t)
+#+end_src
+
+#+begin_src elisp
+   (leaf avy-zap
+     :doc "Zap to char using avy"
+     :url "https://github.com/cute-jumper/avy-zap"
+     :ensure t)
+#+end_src
+
+#+begin_src elisp
+   (defvar my-consult--source-buffer
+     `(:name "Other Buffers"
+       :narrow   ?b
+       :category buffer
+       :face     consult-buffer
+       :history  buffer-name-history
+       :state    ,#'consult--buffer-state
+       :items ,(lambda () (consult--buffer-query
+                           :predicate #'bufferlo-non-local-buffer-p
+                           :sort 'visibility
+                           :as #'buffer-name)))
+       "Non-local buffer candidate source for `consult-buffer'.")
+
+   (defvar my-consult--source-local-buffer
+     `(:name "Local Buffers"
+       :narrow   ?l
+       :category buffer
+       :face     consult-buffer
+       :history  buffer-name-history
+       :state    ,#'consult--buffer-state
+       :default  t
+       :items ,(lambda () (consult--buffer-query
+                           :predicate #'bufferlo-local-buffer-p
+                           :sort 'visibility
+                           :as #'buffer-name)))
+       "Local buffer candidate source for `consult-buffer'.")
+
+   (leaf consult
+     :doc "Consulting completing-read"
+     :ensure t
+     :hook (completion-list-mode-hook . consult-preview-at-point-mode)
+     :defun consult-line
+     :preface
+     (defun c/consult-line (&optional at-point)
+       "Consult-line uses things-at-point if set C-u prefix."
+       (interactive "P")
+       (if at-point
+           (consult-line (thing-at-point 'symbol))
+         (consult-line)))
+     :custom ((xref-show-xrefs-function . #'consult-xref)
+              (xref-show-definitions-function . #'consult-xref)
+              (consult-line-start-from-top . t)
+              (consult-buffer-sources . '(consult--source-hidden-buffer
+                                          my-consult--source-local-buffer
+                                          my-consult--source-buffer)))
+     :bind (;; C-c bindings (mode-specific-map)
+            ([remap switch-to-buffer] . consult-buffer) ; C-x b
+            ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
+
+            ;; M-g bindings (goto-map)
+            ([remap goto-line] . consult-goto-line)    ; M-g g
+            ([remap imenu] . consult-imenu)            ; M-g i
+
+            (minibuffer-local-map
+             :package emacs
+             ("C-r" . consult-history))))
+#+end_src
+
+#+begin_src elisp
+   (leaf embark-consult
+     :doc "Consult integration for Embark"
+     :ensure t
+     :bind ((minibuffer-mode-map
+             :package emacs
+             ("M-." . embark-dwim)
+             ("C-." . embark-act))))
+#+end_src
+
+#+begin_src elisp
+   (leaf affe
+     :doc "Asynchronous Fuzzy Finder for Emacs"
+     :ensure t
+     :custom ((affe-highlight-function . 'orderless-highlight-matches)
+              (affe-regexp-function . 'orderless-pattern-compiler)))
+#+end_src
+
+#+begin_src elisp
+   (leaf orderless
+     :doc "Completion style for matching regexps in any order"
+     :ensure t
+     :custom ((completion-styles . '(orderless partial-completion basic))
+              (completion-category-defaults . nil)
+              (completion-category-overrides . nil)))
+#+end_src
+
+#+begin_src elisp
+   (leaf tempel
+     :ensure t
+     :doc "template engine"
+     :init
+     (defun tempel-setup-capf ()
+       (setq-local completion-at-point-functions
+                   (cons #'tempel-complete
+                         completion-at-point-functions)))
+     (add-hook 'prog-mode-hook 'tempel-setup-capf)
+     (add-hook 'text-mode-hook 'tempel-setup-capf)
+     )
+#+end_src
+
+#+begin_src elisp
+   (leaf yasnippet
+     :ensure t
+     :doc "snippet engine"
+     :init
+     (yas-global-mode +1)
+     :bind ((yas-keymap
+            ("<tab>" . nil)
+            ("TAB" . nil)
+            ("<backtab>" . nil)
+            ("S-TAB" . nil)
+            ("M-}" . yas-next-field-or-maybe-expand)
+            ("M-{" . yas-prev-field)))
+     :bind
+     ("C-c y" . yasnippet/body)
+     :pretty-hydra
+     ((:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+      ("Basic"
+       (("a" yas-new-snippet "add new snippet")
+        ("i" yas-insert-snippet "insert snippet")
+        ("e" yas-visit-snippet-file "edit snippet")))))
 
 
-  (defun my:org-goto-project ()
-      (interactive)
-      (find-file org-project-file))
-  (defun my:org-goto-memo ()
-      (interactive)
-      (find-file org-memo-file))
-  (defun my:org-goto-exp ()
-      (interactive)
-      (find-file org-exp-file))
-  (defun my:org-goto-daily-todo ()
-    (interactive)
-    (find-file org-daily-todo-file))
+   (setq org-directory "~/Documents/org-mode"
+           org-memo-file (format "%s/memo.org" org-directory)
+           org-daily-todo-file (format "%s/daily_todo.org" org-directory)
+           org-memo-dir (format "%s/memo/" org-directory))
 
-  (leaf *hydra-org
-    :bind ("C-c o". *hydra-org/body)
-    :pretty-hydra
-    ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
-     ("visit file"
-      (("m" my:org-goto-memo "memo")
-       ("t" my:org-goto-daily-todo "todo"))
-      "agenda"
-      (("a" org-agenda "open agenda")
-       ("c" org-capture "capture"))
+   (defun create-new-org-file (path)
+     (let ((name (read-string "Name: ")))
+       (expand-file-name (format "%s.org"
+                                 name) path)))
+
+   (leaf org
+     :custom
+     ((org-startup-folded . 'content)
+      (org-startup-indented . "indent")
+      (org-deadline-warning-days . 30)
+      (org-capture-templates .
+       '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
+         ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
+         ("p" "Projects" entry (file
+                                  (lambda () (create-new-org-file
+                                        (format "%s/projects/" org-directory))))
+          "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
+      (org-todo-keywords .
+                         '((sequence "TODO" "DOING" "TODAY" "WEEK" "|"  "DONE" "WAIT"))))
+     )
+#+end_src
+
+#+begin_src elisp
+  (org-babel-do-load-languages
+  'org-babel-load-languages
+  '((python . t)
+    (shell . t)))
+
+  (setq org-babel-python-command "../.venv/bin/python")
+#+end_src
+
+#+begin_src elisp
+   (leaf org-agenda
+     :commands org-agenda
+     :custom
+     ((org-agenda-custom-commands .
+           '(("x" "Unscheduled Tasks" tags-todo
+              "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
+             ("w" "Weekly" todo "WEEK" nil)
+             ("d" "Today" todo "TODAY" nil)))
+     (org-agenda-start-on-weekday . 3)
+     (org-agenda-span . 'week)
+     (org-agenda-skip-scheduled-if-done . t)
+     (org-return-follows-link . t)  ;; RET to follow link
+     (org-agenda-columns-add-appointments-to-effort-sum . t)
+     (org-agenda-time-grid .
+                           '((daily today require-timed)
+                             (0900 1200 1300 1800) "......" "----------------"))
+     (org-columns-default-format . 
+                                 "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
+     (org-clock-out-remove-zero-time-clocks . t)
+     (org-clock-clocked-in-display          . 'both)
+     (org-agenda-start-with-log-mode        . t)
+     (org-agenda-files . '("~/Documents/org-mode/projects")))
+     :bind
+     ((org-agenda-mode-map
+           ("s" . org-agenda-schedule)
+           ("S" . org-save-all-org-buffers))
+      ("C-c C-c" . org-agenda))
+     )
+   (plist-put org-format-latex-options :scale 1.2)
+
+   (leaf org-download
+     :ensure t
+     :custom
+     ((org-download-image-dir . "~/Documents/org-mode/imgs"))
+     )
+#+end_src
+
+#+begin_src elisp
+   (leaf ox-gfm
+     :ensure t
+     :after org)
+#+end_src
+
+#+begin_src elisp
+
+   (defun my:org-goto-project ()
+       (interactive)
+       (find-file org-project-file))
+   (defun my:org-goto-memo ()
+       (interactive)
+       (find-file org-memo-file))
+   (defun my:org-goto-exp ()
+       (interactive)
+       (find-file org-exp-file))
+   (defun my:org-goto-daily-todo ()
+     (interactive)
+     (find-file org-daily-todo-file))
+
+   (leaf *hydra-org
+     :bind ("C-c o". *hydra-org/body)
+     :pretty-hydra
+     ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
+      ("visit file"
+       (("m" my:org-goto-memo "memo")
+        ("t" my:org-goto-daily-todo "todo"))
+       "agenda"
+       (("a" org-agenda "open agenda")
+        ("c" org-capture "capture"))
+       )
       )
      )
-    )
+#+end_src
 
-  ; lsp client
-  ;; (leaf eglot
-  ;;   :doc "The Emacs Client for LSP servers"
-  ;;   :hook
-  ;;   ((js-mode-hook) . eglot-ensure)
-  ;;   :custom ((eldoc-echo-area-use-multiline-p . nil)
-  ;;            (eglot-connect-timeout . 600))
-  ;;   :config
-  ;;   (defun my/eglot-capf ()
-  ;;     (setq-local completion-at-point-functions
-  ;;                 (list (cape-capf-super
-  ;;                        #'tempel-complete
-  ;;                        #'eglot-completion-at-point)
-  ;;                       #'cape-keyword
-  ;;                       #'cape-dabbrev
-  ;;                       #'cape-file)))
-  ;;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
+#+begin_src elisp
+   ; lsp client
+   ;; (leaf eglot
+   ;;   :doc "The Emacs Client for LSP servers"
+   ;;   :hook
+   ;;   ((js-mode-hook) . eglot-ensure)
+   ;;   :custom ((eldoc-echo-area-use-multiline-p . nil)
+   ;;            (eglot-connect-timeout . 600))
+   ;;   :config
+   ;;   (defun my/eglot-capf ()
+   ;;     (setq-local completion-at-point-functions
+   ;;                 (list (cape-capf-super
+   ;;                        #'tempel-complete
+   ;;                        #'eglot-completion-at-point)
+   ;;                       #'cape-keyword
+   ;;                       #'cape-dabbrev
+   ;;                       #'cape-file)))
+   ;;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
 
-  ;; (leaf *hydra-eglot
-  ;;   :bind
-  ;;   (("C-c l" . hydra-eglot/body))
-  ;;   :pretty-hydra
-  ;;   ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ;;    ("ref"
-  ;;     (("d" xref-find-definitions "goto definitions")
-  ;;      ("r" xref-find-references "find references")
-  ;;      ("b" xref-go-back "go back to previous location")))))
+   ;; (leaf *hydra-eglot
+   ;;   :bind
+   ;;   (("C-c l" . hydra-eglot/body))
+   ;;   :pretty-hydra
+   ;;   ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ;;    ("ref"
+   ;;     (("d" xref-find-definitions "goto definitions")
+   ;;      ("r" xref-find-references "find references")
+   ;;      ("b" xref-go-back "go back to previous location")))))
 
 
-  (leaf emacs-lsp-booster
-    :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
-    :ensure t)
+   (leaf emacs-lsp-booster
+     :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
+     :ensure t)
 
-  ;; (leaf eglot-booster
-  ;;   :when (executable-find "emacs-lsp-booster")
-  ;;   :ensure t
-  ;;   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
-  ;;   :global-minor-mode t)
+   ;; (leaf eglot-booster
+   ;;   :when (executable-find "emacs-lsp-booster")
+   ;;   :ensure t
+   ;;   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
+   ;;   :global-minor-mode t)
 
-  (defun my/lsp-mode-completion ()
-     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-           '(orderless)))
+   (defun my/lsp-mode-completion ()
+      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+            '(orderless)))
 
-  (leaf lsp-mode
-   :ensure t
-   :hook
-   (python-mode-hook . lsp-mode)
-   :hook
-   (lsp-completion-mode-hook . my/lsp-mode-completion)
-   :custom
-   (lsp-enable-file-watchers . nil)
-   (lsp-file-watch-threshold . 500)
-   (lsp-completion-provider . :none)
-   (lsp-ruff-lsp-server-command . '("ruff" "server")))
-
-  (leaf lsp-ui
-   :ensure t
-   :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-imenu-mode))
-   :bind
-   ("C-c l" . lsp-ui/body)
-   :pretty-hydra
-    ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-     ("peek"
-      (("d" lsp-ui-peek-find-definitions "definitions")
-       ("r" lsp-ui-peek-find-references "references")
-       ("b" xref-go-back "go back to previous location"))
-      "code action"
-      (("n" lsp-rename "rename")
-       ("c" lsp-execute-code-action "code action"))))
-   :custom
-   ((lsp-ui-sideline-show-diagnostics . t)
-    (lsp-ui-sideline-show-code-actions . t)
-    (lsp-ui-sideline-update-mode . t)
-    (lsp-ui-doc-enable . nil)
-    (lsp-ui-imenu-auto-refresh . t)))
-
-  ;(leaf dap-mode
-  ;  :ensure t
-  ;  :init
-  ;  (dap-mode t))
-  ;
-  ;(leaf dap-ui
-  ;  :hook
-  ;  (dap-mode-hook . dap-ui-mode))
-
-  ; grammar check
-  (leaf flycheck
+   (leaf lsp-mode
     :ensure t
-    :global-minor-mode global-flycheck-mode)
+    :hook
+    (python-mode-hook . lsp-mode)
+    :hook
+    (lsp-completion-mode-hook . my/lsp-mode-completion)
+    :custom
+    (lsp-enable-file-watchers . nil)
+    (lsp-file-watch-threshold . 500)
+    (lsp-completion-provider . :none)
+    (lsp-ruff-lsp-server-command . '("ruff" "server")))
+#+end_src
 
-  (leaf highlight-indent-guides
+#+begin_src elisp
+   (leaf lsp-ui
     :ensure t
-    :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
+    :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-imenu-mode))
+    :bind
+    ("C-c l" . lsp-ui/body)
+    :pretty-hydra
+     ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+      ("peek"
+       (("d" lsp-ui-peek-find-definitions "definitions")
+        ("r" lsp-ui-peek-find-references "references")
+        ("b" xref-go-back "go back to previous location"))
+       "code action"
+       (("n" lsp-rename "rename")
+        ("c" lsp-execute-code-action "code action"))))
+    :custom
+    ((lsp-ui-sideline-show-diagnostics . t)
+     (lsp-ui-sideline-show-code-actions . t)
+     (lsp-ui-sideline-update-mode . t)
+     (lsp-ui-doc-enable . nil)
+     (lsp-ui-imenu-auto-refresh . t)))
+#+end_src
 
+#+begin_src elisp
+   ;(leaf dap-mode
+   ;  :ensure t
+   ;  :init
+   ;  (dap-mode t))
+   ;
+   ;(leaf dap-ui
+   ;  :hook
+   ;  (dap-mode-hook . dap-ui-mode))
+
+   ; grammar check
+   (leaf flycheck
+     :ensure t
+     :global-minor-mode global-flycheck-mode)
+#+end_src
+
+#+begin_src elisp
+   (leaf highlight-indent-guides
+     :ensure t
+     :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
+#+end_src
+
+#+begin_src elisp
   ; Python
   (leaf python-mode
     :ensure t)
@@ -686,7 +822,6 @@
 
   (leaf lsp-pyright
     :ensure t)
-   
 
   ;(leaf ein
   ;  :ensure t)
@@ -697,16 +832,23 @@
   ;(declare-function ein:format-time-string "ein-utils")
   ;(declare-function smartrep-define-key "smartrep")
   ; yaml
+  #+end_src
+
+#+begin_src elisp
   (leaf yaml-mode
     :ensure t
     :config
     (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+#+end_src
 
+#+begin_src elisp
   ;docker
   (leaf dockerfile-mode
     :ensure t)
+#+end_src
 
+#+begin_src elisp
   ; Latex
   (leaf yatex
     :doc "new latex mode"
@@ -726,13 +868,17 @@
        '(("Skim" . ".pdf")))
        ( dvi2-command . "open -a Skim")
        ( tex-pdfview-command . "open -a Skim")))
+#+end_src
 
+#+begin_src elisp
   (leaf flyspell
     ;; flyspellをインストールする
     :ensure t
     ;; YaTeXモードでflyspellを使う
     :hook (yatex-mode-hook . flyspell-mode))
+#+end_src
 
+#+begin_src elisp
 
   (leaf reftex
       :ensure t
@@ -743,17 +889,9 @@
   (add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
                                                (directory-files-recursively (projectile-project-root) "\\.bib$"))))
 
-  ;; (leaf ispell
-  ;;     :ensure t
-  ;;     :after yatex
-  ;;     :init
-  ;;     ( ispell-local-dictionary "en_US")
-  ;;     ;; スペルチェッカとしてaspellを使う
-  ;;     ( ispell-program-name "aspell")
-  ;;     :config
-  ;;     ;; 日本語の部分を飛ばす
-  ;;     (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+#+end_src
 
+#+begin_src elisp
   (leaf *hydra-goto2
     :doc "Search and move cursor"
     :bind ("M-j" . *hydra-goto2/body)
@@ -779,7 +917,9 @@
       "Spell"
       ((">"  flyspell-goto-next-error "next" :exit nil)
        ("cc" flyspell-correct-at-point "correct" :exit nil)))))
+#+end_src
 
+#+begin_src elisp
   (leaf *hydra-toggle2
     :doc "Toggle functions"
     :bind ("M-t" . *hydra-toggle2/body)
@@ -807,8 +947,9 @@
       (("t" toggle-window-transparency "transparency" :toggle t)
        ("m" toggle-window-maximize "maximize" :toggle t)
        ("p" presentation-mode "presentation" :toggle t)))))
+#+end_src
 
-
+#+begin_src elisp
   (leaf *hydra-search
     :doc "Search functions"
     :bind
@@ -826,7 +967,9 @@
       "Document"
       (("df" consult-find-doc "find")
        ("dd" consult-grep-doc "grep")))))
+#+end_src
 
+#+begin_src elisp
   (leaf *hydra-git
     :bind
     ("M-g" . *hydra-git/body)
@@ -859,7 +1002,9 @@
        ("o" browse-at-remote-or-copy"browse at point")
        ("k" browse-at-remote-kill "copy url")
        ("O" (shell-command "hub browse") "browse repository")))))
+#+end_src
 
+#+begin_src elisp
   (leaf ddskk
     :ensure t
     :doc "japanese IME works in emacs"
