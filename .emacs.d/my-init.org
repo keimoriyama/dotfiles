@@ -1,3 +1,4 @@
+#+STARTUP: overview
 * Emacsの設定ファイル
 ** 基本設定
 *** 本当の基本設定
@@ -299,17 +300,30 @@
 
 *** puni.el
 #+begin_src elisp
-  ;; (leaf puni
-  ;;   :ensure t
-  ;;   :bind ("C-c )" . puni/body)
-  ;;   :global-minor-mode puni-global-mode
-  ;;   :pretty-hydra
-  ;;   ((:color blue :quit-key "q" :foreign-keys warn)
-  ;;    ("Move Parenthesis"
-  ;;     (("f" puni-slurp-forward "forward next" :exit nil)
-  ;;      ("F" puni-barf-forward "back next" :exit nil)
-  ;;      ("b" puni-slurp-backward "back back" :exit nil)
-  ;;      ("B" puni-barf-backward "back forward" :exit nil)))))
+  (leaf puni
+  :doc "Parentheses Universalistic"
+  :ensure t
+  :global-minor-mode puni-global-mode
+  :bind (puni-mode-map
+         ;; default mapping
+         ;; ("C-M-f" . puni-forward-sexp)
+         ;; ("C-M-b" . puni-backward-sexp)
+         ;; ("C-M-a" . puni-beginning-of-sexp)
+         ;; ("C-M-e" . puni-end-of-sexp)
+         ;; ("M-)" . puni-syntactic-forward-punct)
+         ;; ("C-M-u" . backward-up-list)
+         ;; ("C-M-d" . backward-down-list)
+         ("C-)" . puni-slurp-forward)
+         ("C-}" . puni-barf-forward)
+         ("M-(" . puni-wrap-round)
+         ("M-s" . puni-splice)
+         ("M-r" . puni-raise)
+         ("M-U" . puni-splice-killing-backward)
+         ("M-z" . puni-squeeze))
+  :config
+  (leaf elec-pair
+    :doc "Automatic parenthesis pairing"
+    :global-minor-mode electric-pair-mode))
 #+end_src
 
 *** iflipb.el
@@ -555,14 +569,26 @@
 
 *** embark
 #+begin_src elisp
-   (leaf embark-consult
-     :doc "Consult integration for Embark"
-     :ensure t
-     :bind ((minibuffer-mode-map
-             :package emacs
-             ("M-." . embark-dwim)
-             ("C-." . embark-act))))
+  (leaf embark
+    :ensure t
+    :bind
+    (("C-h b" . embark-bindings)
+     ("s-e" . embark-act)))
+
+  (leaf embark-consult                    ;
+    :doc "Consult integration for Embark"
+    :ensure t
+    :after embark consult
+    :hook
+    (embark-collect-mode-hook . consult-preview-at-point-mode)
+    :bind ((minibuffer-mode-map
+            :package emacs
+            ("C-;" . embark-dwim)
+            ("C-." . embark-act))))
 #+end_src
+
+#+RESULTS:
+: embark-consult
 
 *** affe
 #+begin_src elisp
