@@ -478,10 +478,15 @@
 
 *** vertico
 #+begin_src elisp
-   (leaf vertico
-     :doc "VERTical Interactive COmpletion"
-     :ensure t
-     :global-minor-mode t)
+(savehist-mode)
+  (leaf vertico
+      :doc "VERTical Interactive COmpletion"
+      :ensure t
+      :global-minor-mode t)
+    (advice-add #'vertico--setup :after
+              (lambda (&rest _)
+                (setq-local completion-auto-help nil
+                            completion-show-inline-help nil)))
 #+end_src
 
 *** marginalia
@@ -569,22 +574,27 @@
 
 *** embark
 #+begin_src elisp
-  (leaf embark
-    :ensure t
-    :bind
-    (("C-h b" . embark-bindings)
-     ("s-e" . embark-act)))
+    (leaf embark
+      :ensure t
+      :bind
+      (("C-h b" . embark-bindings)
+       ("s-e" . embark-act)))
+  
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none))))
 
-  (leaf embark-consult                    ;
-    :doc "Consult integration for Embark"
-    :ensure t
-    :after embark consult
-    :hook
-    (embark-collect-mode-hook . consult-preview-at-point-mode)
-    :bind ((minibuffer-mode-map
-            :package emacs
-            ("C-;" . embark-dwim)
-            ("C-." . embark-act))))
+    (leaf embark-consult                    ;
+      :doc "Consult integration for Embark"
+      :ensure t
+      :after (embark consult)
+      :hook
+      (embark-collect-mode-hook . consult-preview-at-point-mode)
+      :bind ((minibuffer-mode-map
+              :package emacs
+              ("C-;" . embark-dwim)
+              ("C-." . embark-act))))
 #+end_src
 
 #+RESULTS:
