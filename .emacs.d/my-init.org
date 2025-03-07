@@ -781,34 +781,40 @@
      :after org)
 #+end_src
 
+*** org modern
+#+begin_src elisp
+    (leaf org-modern
+      :ensure t
+      :hook (mode-mode-hook . org-modern-mode))
+#+end_src
 *** org hydra
 #+begin_src elisp
-   (defun my:org-goto-project ()
-       (interactive)
-       (find-file org-project-file))
-   (defun my:org-goto-memo ()
-       (interactive)
-       (find-file org-memo-file))
-   (defun my:org-goto-exp ()
-       (interactive)
-       (find-file org-exp-file))
-   (defun my:org-goto-daily-todo ()
-     (interactive)
-     (find-file org-daily-todo-file))
+  (defun my:org-goto-project ()
+      (interactive)
+      (find-file org-project-file))
+  (defun my:org-goto-memo ()
+      (interactive)
+      (find-file org-memo-file))
+  (defun my:org-goto-exp ()
+      (interactive)
+      (find-file org-exp-file))
+  (defun my:org-goto-daily-todo ()
+    (interactive)
+    (find-file org-daily-todo-file))
 
-   (leaf *hydra-org
-     :bind ("C-c o". *hydra-org/body)
-     :pretty-hydra
-     ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
-      ("visit file"
-       (("m" my:org-goto-memo "memo")
-        ("t" my:org-goto-daily-todo "todo"))
-       "agenda"
-       (("a" org-agenda "open agenda")
-        ("c" org-capture "capture"))
-       )
+  (leaf *hydra-org
+    :bind ("C-c o". *hydra-org/body)
+    :pretty-hydra
+    ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
+     ("visit file"
+      (("m" my:org-goto-memo "memo")
+       ("t" my:org-goto-daily-todo "todo"))
+      "agenda"
+      (("a" org-agenda "open agenda")
+       ("c" org-capture "capture"))
       )
      )
+    )
 #+end_src
 
 *** lsp
