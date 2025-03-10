@@ -1,7 +1,7 @@
 [[plugins]]
-repo="cocopon/iceberg.vim"
+repo="maxmx03/solarized.nvim"
 hook_add='''
-colorscheme iceberg
+colorscheme solarized
 '''
 
 # dot repeat

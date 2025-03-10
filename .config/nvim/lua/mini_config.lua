@@ -1,3 +1,4 @@
+-- plugin configs
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath("data") .. "/site/"
 -- print(path_package)
@@ -23,7 +24,6 @@ local now, later, add = MiniDeps.now, MiniDeps.later, MiniDeps.add
 -- Safely execute immediately
 now(function()
 	vim.o.termguicolors = true
-	vim.cmd("colorscheme randomhue")
 	require("mini.notify").setup()
 	vim.api.nvim_create_user_command("NotifyLog", function()
 		-- local logs = vim.inspect(MiniNotify.get_all())
@@ -87,6 +87,11 @@ now(function()
 			end
 		end,
 	})
+end)
+
+now(function()
+	add({ source = "maxmx03/solarized.nvim" })
+	vim.cmd("colorscheme solarized")
 end)
 
 now(function()
@@ -327,7 +332,7 @@ end)
 
 -- load later plugins
 
-later(function()
+now(function()
 	require("mini.ai").setup()
 	require("mini.comment").setup()
 	require("mini.files").setup({
@@ -335,16 +340,26 @@ later(function()
 	})
 	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
 	require("mini.git").setup()
-	git_setup()
+	vim.keymap.set({ "n", "x" }, "<Leader>gs", "<CMD>Git status<cr>", { desc = "Show at cursor" })
+	vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
+	vim.keymap.set({ "n", "x" }, "<Leader>ga", "<CMD>Git add .<CR>", { desc = "Show at cursor" })
 	require("mini.diff").setup()
 	require("mini.jump").setup()
 	require("mini.trailspace").setup()
 	require("mini.bufremove").setup()
-	bufremove_setup()
+	local function delete_buf()
+		local bufnr = vim.api.nvim_get_current_buf()
+		MiniBufremove.delete(bufnr)
+	end
+	vim.keymap.set("n", "<leader>bd", function()
+		delete_buf()
+	end)
 	-- require("mini.map").setup()
 	require("mini.extra").setup()
 	-- -- telescope的なやつ
-	require("mini.pick").setup()
+	local MiniPick = require("mini.pick")
+	local s = require("search_bibtex")
+	MiniPick.setup()
 	vim.keymap.set("n", "<leader>sf", "<Cmd>Pick explorer<Cr>", opts)
 	vim.keymap.set("n", "<leader>sb", "<Cmd>Pick buffers<Cr>", opts)
 	vim.keymap.set("n", "<leader>h", "<Cmd>Pick help<Cr>", opts)
@@ -352,8 +367,12 @@ later(function()
 	vim.keymap.set("n", "<leader>ff", "<Cmd>Pick files<Cr>", opts)
 	vim.keymap.set("n", "<leader>gf", "<Cmd>Pick git_files<Cr>", opts)
 	vim.keymap.set("n", "/", "<Cmd>Pick buf_lines<Cr>", opts)
+	vim.keymap.set("n", "<leader>[", function()
+		MiniPick.start({ source = { items = s.search_files() } })
+	end, opts)
 	-- vim.keymap.set('n', [[\m]], '<Cmd>Pick visit_paths<Cr>', opts)
-
+end)
+now(function()
 	-- terminal
 	add({ source = "uga-rosa/ugaterm.nvim" })
 	vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", { noremap = true, silent = true })
@@ -371,43 +390,6 @@ later(function()
 
 	add("chrisbra/Recover.vim")
 	add({ source = "nvimtools/none-ls.nvim", depends = { "nvim-lua/plenary.nvim" } })
-	none_ls_config()
-	add({
-		source = "nvim-treesitter/nvim-treesitter",
-		-- Use 'master' while monitoring updates in 'main'
-		checkout = "master",
-		monitor = "main",
-		-- Perform action after every checkout
-		hooks = {
-			post_checkout = function()
-				vim.cmd("TSUpdate")
-			end,
-		},
-	})
-	treesitter_setup()
-	add({ source = "yioneko/nvim-yati", depends = { "nvim-treesitter/nvim-treesitter" } })
-	add({ source = "HiPhish/rainbow-delimiters.nvim", depends = { "nvim-treesitter/nvim-treesitter" } })
-	add({ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } })
-	require("treesitter-context").setup()
-end)
-
-function git_setup()
-	vim.keymap.set({ "n", "x" }, "<Leader>gs", "<CMD>Git status<cr>", { desc = "Show at cursor" })
-	vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
-	vim.keymap.set({ "n", "x" }, "<Leader>ga", "<CMD>Git add .<CR>", { desc = "Show at cursor" })
-end
-
-function bufremove_setup()
-	local function delete_buf()
-		local bufnr = vim.api.nvim_get_current_buf()
-		MiniBufremove.delete(bufnr)
-	end
-	vim.keymap.set("n", "<leader>bd", function()
-		delete_buf()
-	end)
-end
-
-function none_ls_config()
 	local status, null_ls = pcall(require, "null-ls")
 	if not status then
 		return
@@ -438,9 +420,18 @@ function none_ls_config()
 		},
 		on_attach = on_attach,
 	})
-end
-
-function treesitter_setup()
+	add({
+		source = "nvim-treesitter/nvim-treesitter",
+		-- Use 'master' while monitoring updates in 'main'
+		checkout = "master",
+		monitor = "main",
+		-- Perform action after every checkout
+		hooks = {
+			post_checkout = function()
+				vim.cmd("TSUpdate")
+			end,
+		},
+	})
 	local status, ts = pcall(require, "nvim-treesitter.configs")
 	if not status then
 		return
@@ -481,4 +472,8 @@ function treesitter_setup()
 
 	local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 	parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
-end
+	add({ source = "yioneko/nvim-yati", depends = { "nvim-treesitter/nvim-treesitter" } })
+	add({ source = "HiPhish/rainbow-delimiters.nvim", depends = { "nvim-treesitter/nvim-treesitter" } })
+	add({ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } })
+	require("treesitter-context").setup()
+end)

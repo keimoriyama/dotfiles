@@ -20,28 +20,36 @@ fish_add_path $HOME/.local/nvim/bin
 fish_add_path $HOME/.local/share/aquaproj-aqua/bin
 
 
-switch (uname)
-    case Linux
-		fish_add_path /home/kei/.deno/bin
-		fish_add_path $HOME/.cargo/bin
-    case Darwin
-		fish_add_path /opt/homebrew/opt/llvm/bin 
-		fish_add_path /Users/keimoriyama/.local/bin
-		fish_add_path /Users/keimoriyama/Applications
-		fish_add_path /opt/homebrew/bin
-		fish_add_path /opt/homebrew/opt/llvm/bin
-		alias gcc='gcc-14'
-		set -gx LD_LIBRARY_PATH /opt/homebrew/Cellar/libgccjit/14.2.0/lib/gcc/14
-		set -gx LDFLAGS /opt/homebrew/opt/openssl/lib
-		set -gx CPPFLAGS /opt/homebrew/opt/openssl/include
-		set -gx PKG_CONFIG_PATH /opt/homebrew/Cellar/libffi/3.4.6/lib/pkgconfig/
-
-    case FreeBSD NetBSD DragonFly
-            echo Hi Beastie!
-    case '*'
-            echo Hi, stranger!
-end
-
+fish_add_path /opt/homebrew/bin
+alias gcc="$(brew --prefix gcc)"/bin/gcc-14
+# fish_add_path /opt/homebrew/opt/llvm/bin 
+fish_add_path /Users/keimoriyama/.local/bin
+# fish_add_path /opt/homebrew/opt/llvm/bin
+fish_add_path /opt/homebrew/sbin
+set -gx LIBRARY_PATH  "$(brew --prefix libgccjit)/lib/gcc/14"
+set -gx LD_LIBRARY_PATH  "$(brew --prefix libgccjit)/lib/gcc/14"
+# set -gx LDFLAGS /opt/homebrew/opt/openssl/lib
+# set -gx CPPFLAGS /opt/homebrew/opt/openssl/include
+# switch (uname)
+#     case Linux
+# 		fish_add_path /home/kei/.deno/bin
+# 		fish_add_path $HOME/.cargo/bin
+#     case Darwin
+# 		fish_add_path /opt/homebrew/bin
+# 		alias gcc="$(brew --prefix gcc)"/bin/gcc-14
+# 		# fish_add_path /opt/homebrew/opt/llvm/bin 
+# 		fish_add_path /Users/keimoriyama/.local/bin
+# 		# fish_add_path /opt/homebrew/opt/llvm/bin
+# 		fish_add_path /opt/homebrew/sbin
+# 		set -gx LIBRARY_PATH  "$(brew --prefix libgccjit)/lib/gcc/14"
+# 		set -gx LD_LIBRARY_PATH  "$(brew --prefix libgccjit)/lib/gcc/14"
+# 		# set -gx LDFLAGS /opt/homebrew/opt/openssl/lib
+# 		# set -gx CPPFLAGS /opt/homebrew/opt/openssl/include
+#     case FreeBSD NetBSD DragonFly
+#             echo Hi Beastie!
+#     case '*'
+#             echo Hi, stranger!
+# end
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
 
 set -gx DPP_PATH $HOME/.cache/dpp
