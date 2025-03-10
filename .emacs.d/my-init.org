@@ -815,12 +815,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
         (68 . "#81A1C1")
         (69 . "#5E81AC")
         (70 . "#4C566A")))
-(setq org-todo-keywords
-      '((sequence
-		 "TODO" "DOING" ; Needs further action
-		 "|"
-		 "DONE")))                           ; Needs no action currently
-
+; Needs no action currently
 (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
         ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
