@@ -111,7 +111,7 @@
     (add-to-list 'exec-path path))
 #+end_src
 
-*** Leafの設定
+** Leafの設定
 #+begin_src elisp
    ; <leaf-install-code>
    (eval-and-compile
@@ -724,6 +724,7 @@
         ("e" yas-visit-snippet-file "edit snippet")))))
 #+end_src
 
+** org mode
 *** org mode
 #+begin_src elisp
     (setq org-directory "~/Documents/org-mode"
@@ -947,7 +948,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     )
 #+end_src
 
-*** lsp
+** lsp
 #+begin_src elisp
   ; lsp client
   ;; (leaf eglot
@@ -1052,7 +1053,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 #+end_src
 
-*** python
+** python
 #+begin_src elisp
   ; Python
   (leaf python-mode
@@ -1089,7 +1090,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   ; yaml
   #+end_src
 
-*** yaml
+** yaml
 #+begin_src elisp
   (leaf yaml-mode
     :ensure t
@@ -1098,13 +1099,14 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 #+end_src
 
-*** dockerfile
+** dockerfile
 #+begin_src elisp
   ;docker
   (leaf dockerfile-mode
     :ensure t)
 #+end_src
 
+** latex
 *** yatex
 #+begin_src elisp
   ; Latex
@@ -1148,6 +1150,24 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   (add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
                                                (directory-files-recursively (projectile-project-root) "\\.bib$"))))
 #+end_src
+** ddskk
+#+begin_src elisp
+  (leaf ddskk
+    :ensure t
+    :doc "japanese IME works in emacs"
+    :bind (("C-x C-j" . skk-mode))
+    :custom
+    ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
+     (skk-large-jisyo . "~/.cache/skk/SKK-JISYO.L")
+     (skk-use-azik . t)
+     (skk-search-katakana . t)
+     (skk-preload . t)
+     (skk-share-private-jisyo . t)
+     ;(skk-show-inline . t)
+     (default-input-method . "japanese-skk")
+     (skk-server-host . "localhost")
+     (skk-server-portnum . 1178)))
+#+END_SRC
 
 *** hydra menu 
 #+begin_src elisp
@@ -1263,21 +1283,3 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
        ("O" (shell-command "hub browse") "browse repository")))))
 #+end_src
 
-*** ddskk
-#+begin_src elisp
-  (leaf ddskk
-    :ensure t
-    :doc "japanese IME works in emacs"
-    :bind (("C-x C-j" . skk-mode))
-    :custom
-    ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
-     (skk-large-jisyo . "~/.cache/skk/SKK-JISYO.L")
-     (skk-use-azik . t)
-     (skk-search-katakana . t)
-     (skk-preload . t)
-     (skk-share-private-jisyo . t)
-     ;(skk-show-inline . t)
-     (default-input-method . "japanese-skk")
-     (skk-server-host . "localhost")
-     (skk-server-portnum . 1178)))
-#+END_SRC
