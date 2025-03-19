@@ -1141,14 +1141,14 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 *** reftex
 #+begin_src elisp
-  (leaf reftex
-      :ensure t
-      :hook (yatex-mode-hook . (lambda () (reftex-mode))))
-      ;; :custom
-      ;; (reftex-bibpath-environment-variables . (projectile-project-root)))
+(leaf reftex
+    :ensure t
+    :hook (yatex-mode-hook . (lambda () (reftex-mode))))
+    ;; :custom
+;; (reftex-bibpath-environment-variables . (projectile-project-root)))
 
-  (add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
-                                               (directory-files-recursively (projectile-project-root) "\\.bib$"))))
+(add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
+                                             (directory-files-recursively (projectile-project-root) "\\.bib$"))))
 #+end_src
 ** ddskk
 #+begin_src elisp
@@ -1169,7 +1169,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      (skk-server-portnum . 1178)))
 #+END_SRC
 
-*** hydra menu 
+** hydra menu 
 #+begin_src elisp
   (leaf *hydra-goto2
     :doc "Search and move cursor"
@@ -1283,3 +1283,10 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
        ("O" (shell-command "hub browse") "browse repository")))))
 #+end_src
 
+** marimo settings(WIP)
+#+begin_src elisp
+(defcustom marimo:server-command "marimo edit"
+  "The default command to start marimo server."
+  :group 'marimo
+  :type 'string)
+#+end_src

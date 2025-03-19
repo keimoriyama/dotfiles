@@ -27,6 +27,8 @@ lib*
 !.config/wezterm
 !.config/fish/config.fish
 !.config/aquaskk
+!.config/nix
+.config/nix/result
 !.config/karabiner/karabiner.json
 
 .zshenv
