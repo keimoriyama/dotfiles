@@ -6,14 +6,35 @@
    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { self, nixpkgs, neovim-nightly-overlay }: {
-	packages.aarch64-darwin.my-packages = nixpkgs.legacyPackages.aarch64-darwin.buildEnv {
-   name="my-packages";
-		paths = [
-		nixpkgs.legacyPackages.aarch64-darwin.git
-        nixpkgs.legacyPackages.aarch64-darwin.curl
-		neovim-nightly-overlay.packages.aarch64-darwin.neovim
-		];
+  outputs = { self, nixpkgs, neovim-nightly-overlay }: 
+  let
+  system = "aarch64-darwin";
+  pkgs = nixpkgs.legacyPackages.aarch64-darwin.extend(
+	  neovim-nightly-overlay.overlays.default
+  ); in
+	{
+	pkgs.${system}.my-packages = pkgs.buildEnv {
+	  name="my-packages-list";
+	  paths=with pkgs; [
+	  git 
+	  curl 
+	  uv
+	  nodejs_23
+	  ]
+	  ++[
+	  neovim
+	  ];
 	};
+  apps.${system}.update = {
+  type= "app";
+  program = toString (pkgs.writeShellScript "update-script" ''
+  	set -e
+	echo "updating flake..."
+	nix flake update
+	echo "updating profiles"
+	nix profile upgrade my-packages
+	echo "update complete"
+	'');
+  };
   };
 }
