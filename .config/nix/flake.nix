@@ -43,6 +43,10 @@
         echo "Updating nix-darwin..."
               nix run nix-darwin -- switch --flake .#kei-darwin
         echo "update complete"
+		alejandra .
+        echo "running gc..."
+		nix store gc
+        echo "done!!!"
       '');
     };
     formatter.${system} = "alejandra";
