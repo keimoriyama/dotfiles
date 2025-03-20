@@ -44,7 +44,7 @@
       "wezterm"
       "karabiner-elements"
       "zoom"
-      "mactex"
+      # "mactex"
     ];
   };
 }

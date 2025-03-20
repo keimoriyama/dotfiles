@@ -16,6 +16,7 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
   outputs = {
@@ -23,6 +24,7 @@
     nixpkgs,
     nix-darwin,
     home-manager,
+    nix-homebrew,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -30,23 +32,25 @@
   in {
     darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
       system = system;
-      modules = [./nix-darwin/default.nix];
+      modules = [
+        ./nix-darwin/default.nix
+      ];
     };
     apps.${system}.update = {
       type = "app";
       program = toString (pkgs.writeShellScript "update-script" ''
-        set -e
-        echo "updating flake..."
-        nix flake update
-        echo "Updating home-manager..."
-           nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-        echo "Updating nix-darwin..."
-              nix run nix-darwin -- switch --flake .#kei-darwin
-        echo "update complete"
-		alejandra .
-        echo "running gc..."
-		nix store gc
-        echo "done!!!"
+              set -e
+              echo "updating flake..."
+              nix flake update
+              echo "Updating home-manager..."
+                 nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
+              echo "Updating nix-darwin..."
+                    nix run nix-darwin -- switch --flake .#kei-darwin
+              echo "update complete"
+        alejandra .
+              echo "running gc..."
+        nix store gc
+              echo "done!!!"
       '');
     };
     formatter.${system} = "alejandra";
