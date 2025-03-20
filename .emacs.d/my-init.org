@@ -1099,6 +1099,14 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 #+end_src
 
+** nix
+#+begin_src elisp
+(leaf nix-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)))
+#+end_src
+
 ** dockerfile
 #+begin_src elisp
   ;docker
