@@ -1,8 +1,7 @@
 {pkgs, ...}: {
-
   nix = {
     optimise.automatic = true;
-	# enable = false;
+    # enable = false;
     settings = {
       experimental-features = "nix-command flakes";
       max-jobs = 8;
@@ -10,7 +9,7 @@
   };
 
   system = {
-  stateVersion = 6;
+    stateVersion = 6;
     defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
       finder = {
@@ -24,7 +23,7 @@
       };
     };
   };
-# homebrewの設定
+  # homebrewの設定
   homebrew = {
     enable = true;
     onActivation = {
@@ -34,17 +33,17 @@
     };
     casks = [
       # ここにGUIアプリの記述
-	  "arc"
+      "arc"
       "sublime-text"
-	  "aquaskk"                 
-	  "skim"
-	  "discord"                 
-	  "slack"
-	  "font-hack-nerd-font"     
-	  "spotify"
+      "aquaskk"
+      "skim"
+      "discord"
+      "slack"
+      "font-hack-nerd-font"
+      "spotify"
       "wezterm"
-      "karabiner-elements"      
-	  "zoom"
+      "karabiner-elements"
+      "zoom"
       "mactex"
     ];
   };

@@ -8,8 +8,8 @@
   username = "kei";
 in {
   nixpkgs = {
-  	overlays = [
-	(final: prev: {
+    overlays = [
+      (final: prev: {
         vim = prev.vim.overrideAttrs (oldAttrs: {
           version = "latest";
           src = inputs.vim-src;
@@ -26,9 +26,9 @@ in {
             oldAttrs.buildInputs
             ++ [prev.gettext prev.lua prev.libiconv];
         });
-     })
-		inputs.neovim-nightly-overlay.overlays.default
-	];
+      })
+      inputs.neovim-nightly-overlay.overlays.default
+    ];
     config = {
       allowUnfree = true;
     };
@@ -39,18 +39,23 @@ in {
     homeDirectory = "/Users/${username}";
 
     stateVersion = "25.05";
-	packages = with pkgs; [
-		  git 
-		  curl 
-		  uv
-		  nodejs_23
-		  alejandra
-          fish
-          fishPlugins.z
-		  deno
-		  emacs
-		  neovim
-		  vim
+    packages = with pkgs; [
+      git
+      curl
+      uv
+      nodejs_23
+      alejandra
+      fish
+      fishPlugins.z
+      deno
+      emacs
+      neovim
+      vim
+      tree-sitter
+      pyright
+      ruff
+      yaml-language-server
+      lua-language-server
     ];
   };
 
