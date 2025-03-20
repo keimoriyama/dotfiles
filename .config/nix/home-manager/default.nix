@@ -45,6 +45,8 @@ in {
 		  uv
 		  nodejs_23
 		  alejandra
+          fish
+          fishPlugins.z
 		  deno
 		  emacs
 		  neovim
