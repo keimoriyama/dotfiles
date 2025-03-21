@@ -7,7 +7,7 @@
       max-jobs = 8;
     };
   };
-
+  # システムの設定
   system = {
     stateVersion = 6;
     defaults = {
@@ -29,7 +29,7 @@
     onActivation = {
       autoUpdate = true;
       # !! 注意 !!
-      # cleanup = "uninstall";
+      cleanup = "uninstall";
     };
     casks = [
       # ここにGUIアプリの記述
@@ -44,7 +44,7 @@
       "wezterm"
       "karabiner-elements"
       "zoom"
-      # "mactex"
+      "mactex"
     ];
   };
 }

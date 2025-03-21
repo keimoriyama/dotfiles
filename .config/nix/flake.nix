@@ -24,7 +24,7 @@
     nixpkgs,
     nix-darwin,
     home-manager,
-    nix-homebrew,
+      nix-homebrew,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -34,6 +34,24 @@
       system = system;
       modules = [
         ./nix-darwin/default.nix
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            # Install Homebrew under the default prefix
+            enable = true;
+
+            # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+            enableRosetta = false;
+
+            # User owning the Homebrew prefix
+            user = "kei";
+
+            # Optional: Enable fully-declarative tap management
+            #
+            # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+            mutableTaps = false;
+          };
+        }
       ];
     };
     apps.${system}.update = {
@@ -48,8 +66,6 @@
                     nix run nix-darwin -- switch --flake .#kei-darwin
               echo "update complete"
         alejandra .
-              echo "running gc..."
-        nix store gc
               echo "done!!!"
       '');
     };

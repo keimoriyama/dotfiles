@@ -54,6 +54,7 @@ in {
       tree-sitter
       pyright
       ruff
+      wezterm
       yaml-language-server
       lua-language-server
     ];
