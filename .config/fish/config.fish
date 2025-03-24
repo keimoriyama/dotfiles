@@ -11,7 +11,7 @@ alias gc='git commit'
 alias gt='git log --graph --pretty=format:'\''%x09%C(auto) %h %Cgreen %ar %Creset%x09by\"%C(cyan ul)%an%Creset\" %x09%C(auto)%s %d'\'''
 
 alias c='clear'
-# alias vim='nvim'
+alias n='nvim'
 alias python='python3'
 
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
@@ -29,4 +29,4 @@ set -g theme_color_scheme dark
 set fish_plugins theme peco
 
 set -x PATH "/nix/var/nix/profiles/default/bin/" "$PATH"
-set -x PATH ".nix-profile/bin" "$PATH"
+set -x PATH "$HOME/.nix-profile/bin" "$PATH"

@@ -311,7 +311,7 @@
 (leaf puni
 :doc "Parentheses Universalistic"
 :ensure t
-:global-minor-mode puni-global-mode
+:global-minor-mode t
 :bind (puni-mode-map
        ;; default mapping
        ;; ("C-M-f" . puni-forward-sexp)
@@ -332,7 +332,7 @@
 :config
 (leaf elec-pair
   :doc "Automatic parenthesis pairing"
-  :global-minor-mode electric-pair-mode))
+  :global-minor-mode t))
 #+end_src
 
 *** iflipb.el
