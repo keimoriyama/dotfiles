@@ -1,14 +1,9 @@
 # dotfiles
-to install
 
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
+  sh -s -- install
+cd .config/nix/
+nix run .#update
 ```
-raw.github.com/keimoriyama/dotfiles/master/dotfilesLink.sh | bash
-```
-
-# フォントの有効化
-
-[nerdfont](https://github.com/ryanoasis/nerd-fonts#patched-fonts)
-
-# ターミナル
-
-[iceberg](http://cocopon.github.io/iceberg.vim/)

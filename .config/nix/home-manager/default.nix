@@ -48,7 +48,7 @@ in {
       fish
       fishPlugins.z
       deno
-      emacs
+      # emacs
       neovim
       vim
       tree-sitter
