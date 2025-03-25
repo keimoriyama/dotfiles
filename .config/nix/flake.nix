@@ -16,6 +16,7 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    emacs.url = "github:nix-community/emacs-overlay";
   };
 
   outputs = {
