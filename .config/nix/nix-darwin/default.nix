@@ -13,7 +13,7 @@
     defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
       finder = {
-        AppleShowAllFiles = true;
+        AppleShowAllFiles = false;
         AppleShowAllExtensions = true;
       };
       dock = {
@@ -48,7 +48,8 @@
       "karabiner-elements"
       "zoom"
       "mactex"
-      # "tex2img"
+      "notion"
+      "notion-calendar"
     ];
   };
 }
