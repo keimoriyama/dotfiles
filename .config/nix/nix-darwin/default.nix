@@ -31,6 +31,9 @@
       # !! 注意 !!
       cleanup = "uninstall";
     };
+    taps = [
+      "wtsnjp/tex2img"
+    ];
     casks = [
       # ここにGUIアプリの記述
       "arc"
@@ -45,6 +48,7 @@
       "karabiner-elements"
       "zoom"
       "mactex"
+      # "tex2img"
     ];
   };
 }
