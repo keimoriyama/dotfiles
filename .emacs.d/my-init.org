@@ -145,7 +145,7 @@
 #+begin_src elisp
 (leaf cus-edit
   :doc "tools for customizing Emacs and Lisp packages"
-  :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
+  :custom `((custom-file . '(locate-user-emacs-file "custom.el"))))
 #+end_src
 
 *** dash.el
@@ -170,8 +170,8 @@
 *** moccur
 #+begin_src elisp
    (defadvice moccur-edit-change-file
-       (after save-after-moccur-edit;-buffer activate)
-     (save-buffer)))
+       (after save-after-moccur-edit-buffer activate)
+     (save-buffer))
 #+end_src
 
 *** theme(solarized)
@@ -311,8 +311,8 @@
 (leaf puni
 :doc "Parentheses Universalistic"
 :ensure t
-:global-minor-mode t
-:bind (puni-mode-map
+:global-minor-mode puni-global-mode
+:bind ((puni-mode-map
        ;; default mapping
        ;; ("C-M-f" . puni-forward-sexp)
        ;; ("C-M-b" . puni-backward-sexp)
@@ -322,19 +322,14 @@
        ;; ("C-M-u" . backward-up-list)
        ;; ("C-M-d" . backward-down-list)
        
-       ("C-)" . puni-slurp-forward)
+       ("C-(" . puni-slurp-forward)
        ("C-}" . puni-barf-forward)
        ("M-(" . puni-wrap-round)
        ("M-s" . puni-splice)
        ("M-r" . puni-raise)
        ("M-U" . puni-splice-killing-backward)
-       ("M-z" . puni-squeeze))
-:config
-(leaf elec-pair
-  :doc "Automatic parenthesis pairing"
-  :global-minor-mode t))
+       ("M-z" . puni-squeeze))))
 #+end_src
-
 *** iflipb.el
 #+begin_src elisp
    (leaf iflipb
