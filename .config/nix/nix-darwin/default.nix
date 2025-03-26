@@ -49,7 +49,6 @@
       "zoom"
       "mactex"
       "notion"
-      "notion-calendar"
     ];
   };
 }
