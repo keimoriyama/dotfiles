@@ -381,7 +381,7 @@
 #+begin_src elisp
   (leaf mistty
     :ensure t
-    :bind (("C-c s" . mistty)
+    :bind (("C-c s" . mistty-other-window)
 
          ;; bind here the shortcuts you'd like the
          ;; shell to handle instead of Emacs.
