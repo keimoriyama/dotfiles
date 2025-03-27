@@ -7,8 +7,7 @@ local opts = { noremap = true, silent = true }
 -- https://github.com/neovim/neovim/pull/23500#issuecomment-1585986913
 -- pyright asks for every file in every directory to be watched,
 -- so for large projects that will necessarily turn into a lot of polling handles being created.
--- sigh
-local ok, wf = pcall(require, "vim.lsp._watchfiles")
+-- sigh local ok, wf = pcall(require, "vim.lsp._watchfiles")
 if ok then
 	wf._watchfunc = function()
 		return function() end
@@ -115,20 +114,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 -- }}}
 
--- lua_python {{{
-local cli_path = os.getenv("BASE_DIR") .. "/rc/hooks/python/.venv/bin"
-vim.env.PATH = vim.env.PATH .. ":" .. cli_path
--- }}}
-
--- lua_typescript_javascript{{{
-local dir = os.getenv("BASE_DIR") .. "/rc/hooks/node/node_modules/.bin"
-vim.env.PATH = vim.env.PATH .. ":" .. dir
-vim.system({ "bun", "i" }, { cwd = dir, text = true })
--- }}}
-
--- lua_post_update {{{
--- print("updating python hooks")
-vim.system({ "rye", "sync" }, { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/python", stdout = false })
--- print("updating typescript hooks")
-vim.system({ "bun", "install" }, { cwd = os.getenv("BASE_DIR") .. "/rc/hooks/node", stdout = false })
--- }}}
