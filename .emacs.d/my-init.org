@@ -1,4 +1,4 @@
-#+STARTUP: overview
+#+STARTUP:
 * Emacsの設定ファイル
 ** 基本設定
 *** 本当の基本設定
@@ -140,6 +140,7 @@
   
 #+end_src
 
+** 雑多な設定
 *** cus-start.el
 
 #+begin_src elisp
@@ -235,9 +236,16 @@
 
 *** expand region
 #+begin_src elisp
-   (leaf expand-region
-     :ensure t
-     :bind ("C-=" . er/expand-region))
+(leaf expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region))
+#+end_src
+
+*** undo-tree
+#+begin_src elisp
+(leaf undo-tree
+  :ensure t
+  :global-minor-mode undo-tree-mode)
 #+end_src
 
 *** multiple-sursors.el
@@ -328,8 +336,12 @@
        ("M-s" . puni-splice)
        ("M-r" . puni-raise)
        ("M-U" . puni-splice-killing-backward)
-       ("M-z" . puni-squeeze))))
+       ("M-z" . puni-squeeze)))
+:config
+(leaf electric-pair-mode
+  :global-minor-mode t))
 #+end_src
+
 *** iflipb.el
 #+begin_src elisp
    (leaf iflipb
@@ -753,46 +765,44 @@
 
 copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 **** olivetti-mode
-     #+begin_src elisp
-     (leaf olivetti
-       :ensure t
-       :hook (org-mode-hook . olivetti-mode))
-     #+end_src
-
-
 #+begin_src elisp
-    (when (member "Roboto Mono" (font-family-list))
-        (set-face-attribute 'default nil :font "Roboto Mono" :height 110)
-        (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
+(leaf olivetti
+  :ensure t
+  :hook (org-mode-hook . olivetti-mode))
+#+end_src
+#+begin_src elisp
+(when (member "Roboto Mono" (font-family-list))
+  (set-face-attribute 'default nil :font "Roboto Mono" :height 110)
+  (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
-    (when (member "Source Sans Pro" (font-family-list))
-        (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18))
-      ;; Resize Org headings
-    (dolist (face '((org-level-1 . 1.35)
-                      (org-level-2 . 1.3)
-                      (org-level-3 . 1.2)
-                      (org-level-4 . 1.1)
-                      (org-level-5 . 1.1)
-                      (org-level-6 . 1.1)
-                      (org-level-7 . 1.1)
-                      (org-level-8 . 1.1))))
+(when (member "Source Sans Pro" (font-family-list))
+  (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18))
+;; Resize Org headings
+(dolist (face '((org-level-1 . 1.35)
+                (org-level-2 . 1.3)
+                (org-level-3 . 1.2)
+                (org-level-4 . 1.1)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.1)
+                (org-level-7 . 1.1)
+                (org-level-8 . 1.1))))
 
-          ;; Make the document title a bit bigger
-    (set-face-attribute 'org-document-title nil :weight 'bold :height 1.8)
+;; Make the document title a bit bigger
+(set-face-attribute 'org-document-title nil :weight 'bold :height 1.8)
 
-    (require 'org-indent)
-  (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-    (set-face-attribute 'org-block nil            :foreground nil :inherit
-                        'fixed-pitch :height 1.0)
-     (set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
-     (set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
-     (set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
-     (set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
+(require 'org-indent)
+(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+(set-face-attribute 'org-block nil            :foreground nil :inherit
+                    'fixed-pitch :height 1.0)
+(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
+(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
                                                               fixed-pitch))
-     (set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
-     (set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
-     (add-hook 'org-mode-hook 'variable-pitch-mode)
-   (plist-put org-format-latex-options :scale 2)
+(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+(plist-put org-format-latex-options :scale 2)
 (setq org-adapt-indentation t
       org-hide-leading-stars t
       org-hide-emphasis-markers t
@@ -822,33 +832,8 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 		;; ("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" 
          ;;:weight bold)
 		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)))
-
 #+end_src
 
-#+RESULTS:
-| TODO  | :inherit | (org-todo region) | :foreground | #A3BE8C | :weight | bold |
-| DOING | :inherit | (org-todo region) | :foreground | #88C0D0 | :weight | bold |
-| DONE  | :inherit | (org-todo region) | :foreground | #30343d | :weight | bold |
-*** org modern
-    #+begin_src elisp
-    ;; (leaf org-modern
-    ;;   :ensure t
-    ;;   :hook (org-mode . org-modern-mode)
-    ;;   :custom
-    ;;   ((org-auto-align-tags . t)
-    ;;    (org-tags-column . 0)
-    ;;    (org-fold-catch-invisible-edits . 'show-and-error)
-    ;;    (org-special-ctrl-a/e . t)
-    ;;    (org-insert-heading-respect-content . t)
-    ;;    (org-modern-tag . nil)
-    ;;    (org-modern-priority . nil)
-    ;;    (org-modern-todo . nil)
-    ;;    (org-modern-table . nil)
-    ;;    (org-agenta-tags-column . 0)
-    ;;    ))
-    #+end_src
-
- 
 *** org-superstar
     #+begin_src elisp
     (leaf org-superstar
@@ -862,167 +847,171 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     #+RESULTS:
     : org-superstar
 
-*** org babel
+*** org bnabel
 #+begin_src elisp
-  (org-babel-do-load-languages
-  'org-babel-load-languages
-  '((python . t)
-    (shell . t)))
+(org-babel-do-load-languages
+'org-babel-load-languages
+'((python . t)
+  (shell . t)))
 
-  (setq org-babel-python-command "../.venv/bin/python")
+(setq org-babel-python-command "../.venv/bin/python")
 #+end_src
 
 *** org agenda
 #+begin_src elisp
-  (leaf org-agenda
-    :commands org-agenda
-    :custom
-    ((org-agenda-custom-commands .
-          '(("x" "Unscheduled Tasks" tags-todo
-             "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
-            ))
-    (org-agenda-start-on-weekday . 3)
-    (org-agenda-span . 'week)
-    (org-agenda-skip-scheduled-if-done . t)
-    (org-return-follows-link . t)  ;; RET to follow link
-    (org-agenda-columns-add-appointments-to-effort-sum . t)
-    (org-agenda-time-grid .
-                          '((daily today require-timed)
-                            (0900 1200 1300 1800) "......" "----------------"))
-    (org-columns-default-format . 
-                                "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
-    (org-clock-out-remove-zero-time-clocks . t)
-    (org-agenda-use-time-grid . t)
-    (org-clock-clocked-in-display          . 'both)
-    (org-agenda-start-with-log-mode        . t)
-    (org-agenda-files . '("~/Documents/org-mode/projects")))
-    :bind
-    ((org-agenda-mode-map
-          ("s" . org-agenda-schedule)
-          ("S" . org-save-all-org-buffers))
-     ("C-c C-c" . org-agenda))
-    )
+(leaf org-agenda
+  :commands org-agenda
+  :custom
+  ((org-agenda-custom-commands .
+        '(("x" "Unscheduled Tasks" tags-todo
+           "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
+          ))
+  (org-agenda-start-on-weekday . 3)
+  (org-agenda-span . 'week)
+  (org-agenda-skip-scheduled-if-done . t)
+  (org-return-follows-link . t)  ;; RET to follow link
+  (org-agenda-columns-add-appointments-to-effort-sum . t)
+  (org-agenda-time-grid .
+                        '((daily today require-timed)
+                          (0900 1200 1300 1800) "......" "----------------"))
+  (org-columns-default-format . 
+                              "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
+  (org-clock-out-remove-zero-time-clocks . t)
+  (org-agenda-use-time-grid . t)
+  (org-clock-clocked-in-display          . 'both)
+  (org-agenda-start-with-log-mode        . t)
+  (org-agenda-files . '("~/Documents/org-mode/projects")))
+  :bind
+  ((org-agenda-mode-map
+        ("s" . org-agenda-schedule)
+        ("S" . org-save-all-org-buffers))
+   ("C-c C-c" . org-agenda))
+  )
 
-  (plist-put org-format-latex-options :scale 1.2)
+(plist-put org-format-latex-options :scale 1.2)
   #+end_src
 
 *** ox-gfm
 #+begin_src elisp
-   (leaf ox-gfm
-     :ensure t
-     :after org)
+(leaf ox-gfm
+  :ensure t
+  :after org)
 #+end_src
  
 *** org hydra
 #+begin_src elisp
-  (defun my:org-goto-project ()
-      (interactive)
-      (find-file org-project-file))
-  (defun my:org-goto-memo ()
-      (interactive)
-      (find-file org-memo-file))
-  (defun my:org-goto-exp ()
-      (interactive)
-      (find-file org-exp-file))
-  (defun my:org-goto-daily-todo ()
+(defun my:org-goto-project ()
     (interactive)
-    (find-file org-daily-todo-file))
+    (find-file org-project-file))
+(defun my:org-goto-memo ()
+    (interactive)
+    (find-file org-memo-file))
+(defun my:org-goto-exp ()
+    (interactive)
+    (find-file org-exp-file))
+(defun my:org-goto-daily-todo ()
+  (interactive)
+  (find-file org-daily-todo-file))
 
-  (leaf *hydra-org
-    :bind ("C-c o". *hydra-org/body)
-    :pretty-hydra
-    ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
-     ("visit file"
-      (("m" my:org-goto-memo "memo")
-       ("t" my:org-goto-daily-todo "todo"))
-      "agenda"
-      (("a" org-agenda "open agenda")
-       ("c" org-capture "capture"))
-      )
-     )
+(leaf *hydra-org
+  :bind ("C-c o". *hydra-org/body)
+  :pretty-hydra
+  ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("visit file"
+    (("m" my:org-goto-memo "memo")
+     ("t" my:org-goto-daily-todo "todo"))
+    "agenda"
+    (("a" org-agenda "open agenda")
+     ("c" org-capture "capture"))
     )
+   )
+  )
 #+end_src
 
 ** lsp
+
+*** eglot
 #+begin_src elisp
-  ; lsp client
-  ;; (leaf eglot
-  ;;   :doc "The Emacs Client for LSP servers"
-  ;;   :hook
-  ;;   ((js-mode-hook) . eglot-ensure)
-  ;;   :custom ((eldoc-echo-area-use-multiline-p . nil)
-  ;;            (eglot-connect-timeout . 600))
-  ;;   :config
-  ;;   (defun my/eglot-capf ()
-  ;;     (setq-local completion-at-point-functions
-  ;;                 (list (cape-capf-super
-  ;;                        #'tempel-complete
-  ;;                        #'eglot-completion-at-point)
-  ;;                       #'cape-keyword
-  ;;                       #'cape-dabbrev
-  ;;                       #'cape-file)))
-  ;;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
+                                        ; lsp client
+;; (leaf eglot
+;;   :doc "The Emacs Client for LSP servers"
+;;   :hook
+;;   ((js-mode-hook) . eglot-ensure)
+;;   :custom ((eldoc-echo-area-use-multiline-p . nil)
+;;            (eglot-connect-timeout . 600))
+;;   :config
+;;   (defun my/eglot-capf ()
+;;     (setq-local completion-at-point-functions
+;;                 (list (cape-capf-super
+;;                        #'tempel-complete
+;;                        #'eglot-completion-at-point)
+;;                       #'cape-keyword
+;;                       #'cape-dabbrev
+;;                       #'cape-file)))
+;;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
 
-  ;; (leaf *hydra-eglot
-  ;;   :bind
-  ;;   (("C-c l" . hydra-eglot/body))
-  ;;   :pretty-hydra
-  ;;   ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ;;    ("ref"
-  ;;     (("d" xref-find-definitions "goto definitions")
-  ;;      ("r" xref-find-references "find references")
-  ;;      ("b" xref-go-back "go back to previous location")))))
+;; (leaf *hydra-eglot
+;;   :bind
+;;   (("C-c l" . hydra-eglot/body))
+;;   :pretty-hydra
+;;   ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;    ("ref"
+;;     (("d" xref-find-definitions "goto definitions")
+;;      ("r" xref-find-references "find references")
+;;      ("b" xref-go-back "go back to previous location")))))
+;; (leaf eglot-booster
+;;   :when (executable-find "emacs-lsp-booster")
+;;   :ensure t
+;;   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
+;;   :global-minor-mode t)
+#+end_src
 
+*** lsp mode
+#+begin_src elisp
+(leaf emacs-lsp-booster
+  :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
+  :ensure t)
+(defun my/lsp-mode-completion ()
+   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+         '(orderless)))
 
-  (leaf emacs-lsp-booster
-    :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
-    :ensure t)
-
-  ;; (leaf eglot-booster
-  ;;   :when (executable-find "emacs-lsp-booster")
-  ;;   :ensure t
-  ;;   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
-  ;;   :global-minor-mode t)
-
-  (defun my/lsp-mode-completion ()
-     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-           '(orderless)))
-
-  (leaf lsp-mode
-   :ensure t
-   :hook
-   ((python-mode-hook . lsp-mode))
-   :hook
-   (lsp-completion-mode-hook . my/lsp-mode-completion)
-   :custom
-   (lsp-enable-file-watchers . nil)
-   (lsp-file-watch-threshold . 500)
-   (lsp-completion-provider . :none)
-   (lsp-ruff-lsp-server-command . '("ruff" "server")))
+(leaf lsp-mode
+ :ensure t
+ :hook
+ ((python-mode-hook . lsp-mode))
+ :hook
+ (lsp-completion-mode-hook . my/lsp-mode-completion)
+ :custom
+ (lsp-enable-file-watchers . nil)
+ (lsp-file-watch-threshold . 500)
+ (lsp-completion-provider . :none)
+ (lsp-ruff-lsp-server-command . '("ruff" "server")))
 #+end_src
 
 *** lsp ui
 #+begin_src elisp
-   (leaf lsp-ui
-    :ensure t
-    :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-imenu-mode))
-    :bind
-    ("C-c l" . lsp-ui/body)
-    :pretty-hydra
-     ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-      ("peek"
-       (("d" lsp-ui-peek-find-definitions "definitions")
-        ("r" lsp-ui-peek-find-references "references")
-        ("b" xref-go-back "go back to previous location"))
-       "code action"
-       (("n" lsp-rename "rename")
-        ("c" lsp-execute-code-action "code action"))))
-    :custom
-    ((lsp-ui-sideline-show-diagnostics . t)
-     (lsp-ui-sideline-show-code-actions . t)
-     (lsp-ui-sideline-update-mode . t)
-     (lsp-ui-doc-enable . nil)
-     (lsp-ui-imenu-auto-refresh . t)))
+(leaf lsp-ui
+ :ensure t
+ :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-imenu-mode))
+ :bind
+ ("C-c l" . lsp-ui/body)
+ :pretty-hydra
+  ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("peek"
+    (("d" lsp-ui-peek-find-definitions "definitions")
+     ("r" lsp-ui-peek-find-references "references")
+     ("b" xref-go-back "go back to previous location"))
+    "code action"
+    (("n" lsp-rename "rename")
+     ("c" lsp-execute-code-action "code action"))))
+ :custom
+ ((lsp-ui-sideline-show-diagnostics . t)
+  (lsp-ui-sideline-show-code-actions . t)
+  (lsp-ui-sideline-update-mode . t)
+  (lsp-ui-doc-enable . t)
+  (lsp-ui-doc-position . 'top)
+  (lsp-ui-doc-side . 'right)
+  (lsp-ui-imenu-auto-refresh . t)))
 #+end_src
 
 *** flycheck
@@ -1171,64 +1160,69 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      (skk-server-host . "localhost")
      (skk-server-portnum . 1178)))
 #+END_SRC
-
+** CopilotChat
+#+begin_src elisp
+(leaf copilot-chat
+  :ensure t
+  :vc (:url "https://github.com/chep/copilot-chat.el"))
+#+end_src
 ** hydra menu 
 #+begin_src elisp
-  (leaf *hydra-goto2
-    :doc "Search and move cursor"
-    :bind ("M-j" . *hydra-goto2/body)
-    :pretty-hydra
-    ((:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-     ("Got"
-      (("i" avy-goto-char       "char")
-       ("t" avy-goto-char-timer "timer")
-       ("l" avy-goto-line       "line")
-       ("j" avy-resume          "resume"))
-      "Line"
-      (("h" avy-goto-line        "head")
-       ("e" avy-goto-end-of-line "end")
-       ("n" consult-goto-line    "number"))
-      "Topic"
-      (("o"  consult-outline      "outline")
-       ("m"  consult-imenu        "imenu")
-       ("gm" consult-global-imenu "global imenu"))
-      "Error"
-      ((","  lsp-bridge-diagnostic-jump-prev "previous")
-       ("."  lsp-bridge-diagnostic-jump-next "next")
-       ("L"  lsp-bridge-diagnostic-list "list"))
-      "Spell"
-      ((">"  flyspell-goto-next-error "next" :exit nil)
-       ("cc" flyspell-correct-at-point "correct" :exit nil)))))
+(leaf *hydra-goto2
+  :doc "Search and move cursor"
+  :bind ("M-j" . *hydra-goto2/body)
+  :pretty-hydra
+  ((:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("Got"
+    (("i" avy-goto-char       "char")
+     ("t" avy-goto-char-timer "timer")
+     ("l" avy-goto-line       "line")
+     ("j" avy-resume          "resume"))
+    "Line"
+    (("h" avy-goto-line        "head")
+     ("e" avy-goto-end-of-line "end")
+     ("n" consult-goto-line    "number"))
+    "Topic"
+    (("o"  consult-outline      "outline")
+     ("m"  consult-imenu        "imenu")
+     ("gm" consult-global-imenu "global imenu"))
+    "Error"
+    ((","  lsp-bridge-diagnostic-jump-prev "previous")
+     ("."  lsp-bridge-diagnostic-jump-next "next")
+     ("L"  lsp-bridge-diagnostic-list "list"))
+    "Spell"
+    ((">"  flyspell-goto-next-error "next" :exit nil)
+     ("cc" flyspell-correct-at-point "correct" :exit nil)))))
 #+end_src
 
 #+begin_src elisp
-  (leaf *hydra-toggle2
-    :doc "Toggle functions"
-    :bind ("M-t" . *hydra-toggle2/body)
-    :pretty-hydra
-    ((:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
-     ("Basic"
-      (("v" view-mode "view mode" :toggle t)
-       ("w" whitespace-mode "whitespace" :toggle t)
-       ("W" whitespace-cleanup "whitespace cleanup")
-       ("r" rainbow-mode "rainbow" :toggle t)
-       ("b" beacon-mode "beacon" :toggle t))
-      "Line & Column"
-      (("l" toggle-truncate-lines "truncate line" :toggle t)
-       ("n" display-line-numbers-mode "line number" :toggle t)
-       ("F" display-fill-column-indicator-mode "column indicator" :toggle t)
-       ("f" visual-fill-column-mode "visual column" :toggle t)
-       ("c" toggle-visual-fill-column-center "fill center"))
-      "Highlight"
-      (("h" highlight-symbol "highligh symbol" :toggle t)
-       ("L" hl-line-mode "line" :toggle t)
-       ("t" hl-todo-mode "todo" :toggle t)
-       ("g" git-gutter-mode "git gutter" :toggle t)
-       ("i" highlight-indent-guides-mode "indent guide" :toggle t))
-      "Window"
-      (("t" toggle-window-transparency "transparency" :toggle t)
-       ("m" toggle-window-maximize "maximize" :toggle t)
-       ("p" presentation-mode "presentation" :toggle t)))))
+(leaf *hydra-toggle2
+  :doc "Toggle functions"
+  :bind ("M-t" . *hydra-toggle2/body)
+  :pretty-hydra
+  ((:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
+   ("Basic"
+    (("v" view-mode "view mode" :toggle t)
+     ("w" whitespace-mode "whitespace" :toggle t)
+     ("W" whitespace-cleanup "whitespace cleanup")
+     ("r" rainbow-mode "rainbow" :toggle t)
+     ("b" beacon-mode "beacon" :toggle t))
+    "Line & Column"
+    (("l" toggle-truncate-lines "truncate line" :toggle t)
+     ("n" display-line-numbers-mode "line number" :toggle t)
+     ("F" display-fill-column-indicator-mode "column indicator" :toggle t)
+     ("f" visual-fill-column-mode "visual column" :toggle t)
+     ("c" toggle-visual-fill-column-center "fill center"))
+    "Highlight"
+    (("h" highlight-symbol "highligh symbol" :toggle t)
+     ("L" hl-line-mode "line" :toggle t)
+     ("t" hl-todo-mode "todo" :toggle t)
+     ("g" git-gutter-mode "git gutter" :toggle t)
+     ("i" highlight-indent-guides-mode "indent guide" :toggle t))
+    "Window"
+    (("t" toggle-window-transparency "transparency" :toggle t)
+     ("m" toggle-window-maximize "maximize" :toggle t)
+     ("p" presentation-mode "presentation" :toggle t)))))
 #+end_src
 
 #+begin_src elisp
