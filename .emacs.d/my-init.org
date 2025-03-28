@@ -1165,7 +1165,8 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
 (leaf copilot-chat
   :ensure t
-  :vc (:url "https://github.com/chep/copilot-chat.el"))
+  :vc (:url "https://github.com/chep/copilot-chat.el")
+  :hook (git-commit-setup-hook . copilo-chat-insert-commit-message))
 #+end_src
 ** hydra menu 
 #+begin_src elisp
