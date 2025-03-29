@@ -48,13 +48,14 @@ in {
       fish
       fishPlugins.z
       deno
+      wezterm
+      ripgrep
       emacs
       neovim
       vim
       tree-sitter
       pyright
       ruff
-      wezterm
       yaml-language-server
       lua-language-server
     ];

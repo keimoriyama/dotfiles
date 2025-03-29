@@ -44,3 +44,4 @@ Brewfile.lock.json
 # Compiled
 *.elc
 *.bib
+*.~undo-tree~

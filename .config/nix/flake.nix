@@ -16,7 +16,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    emacs.url = "github:nix-community/emacs-overlay";
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -24,6 +27,7 @@
     nixpkgs,
     nix-darwin,
     home-manager,
+    emacs-overlay,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -34,6 +38,18 @@
       modules = [
         ./nix-darwin/default.nix
       ];
+    };
+    formatter.${system} = "alejandra";
+    homeConfigurations = {
+      myHomeConfig = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs;
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./home-manager/default.nix
+        ];
+      };
     };
     apps.${system}.update = {
       type = "app";
@@ -49,18 +65,6 @@
         alejandra .
               echo "done!!!"
       '');
-    };
-    formatter.${system} = "alejandra";
-    homeConfigurations = {
-      myHomeConfig = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./home-manager/default.nix
-        ];
-      };
     };
   };
 }

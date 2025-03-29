@@ -23,6 +23,7 @@
       };
     };
   };
+
   # homebrewの設定
   homebrew = {
     enable = true;
