@@ -45,3 +45,5 @@ Brewfile.lock.json
 *.elc
 *.bib
 *.~undo-tree~
+.config/nix/v:null
+.config/nix/config.nix

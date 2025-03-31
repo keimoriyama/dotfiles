@@ -1282,6 +1282,15 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      ("O" (shell-command "hub browse") "browse repository")))))
 #+end_src
 
+** OJ
+#+begin_src elisp
+(leaf oj
+  :ensure t
+  :custom ((oj-compiler-python . "pypy")
+           (oj-default-online-judge . 'atcoder)
+           (oj-home-dir . "~/Program/Atcoder")))
+#+end_src
+
 ** marimo settings(WIP)
 
 *** サーバーへの接続をする
