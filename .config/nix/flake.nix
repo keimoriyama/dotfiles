@@ -20,6 +20,7 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    org-babel.url = "github:emacs-twist/org-babel";
   };
 
   outputs = {
@@ -28,6 +29,7 @@
     nix-darwin,
     home-manager,
     emacs-overlay,
+    org-babel,
     ...
   } @ inputs: let
     system = "aarch64-darwin";

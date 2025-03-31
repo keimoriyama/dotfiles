@@ -3,9 +3,19 @@
   lib,
   config,
   pkgs,
+  org-babel,
   ...
 }: let
   username = "kei";
+  emacs = import ./packages/emacs {
+    inherit lib;
+    inherit pkgs;
+  };
+  emacsPkg = emacs.emacs-stable;
+  defaultPrograms = import ./programs/default.nix {
+    inherit pkgs;
+    inherit org-babel emacsPkg;
+  };
 in {
   nixpkgs = {
     overlays = [
@@ -34,32 +44,37 @@ in {
     };
   };
 
+  imports = defaultPrograms;
+
   home = {
     username = username;
     homeDirectory = "/Users/${username}";
 
     stateVersion = "25.05";
-    packages = with pkgs; [
-      git
-      curl
-      uv
-      nodejs_23
-      alejandra
-      fish
-      fishPlugins.z
-      deno
-      wezterm
-      ripgrep
-      emacs
-      neovim
-      vim
-      tree-sitter
-      pyright
-      ruff
-      yaml-language-server
-      lua-language-server
-    ];
+    # packages = defaultPackages;
+    packages = with pkgs;
+      [
+        git
+        curl
+        uv
+        nodejs_23
+        alejandra
+        fish
+        fishPlugins.z
+        deno
+        python3Full
+        wezterm
+        ripgrep
+        # emacs
+        neovim
+        vim
+        tree-sitter
+        pyright
+        ruff
+        yaml-language-server
+        lua-language-server
+      ]
+      + emacsPkg;
   };
-
   programs.home-manager.enable = true;
 }
