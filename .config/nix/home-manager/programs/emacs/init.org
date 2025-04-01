@@ -2,7 +2,7 @@
 * Emacsの設定ファイル
 ** 基本設定
 *** 本当の基本設定
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
    ;;; init.el:
    (when (< emacs-major-version 23)
      (defvar user-emacs-directory "~/.emacs.d/"))

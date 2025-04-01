@@ -30,6 +30,7 @@
     home-manager,
     emacs-overlay,
     org-babel,
+    neovim-nightly-overlay,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -41,12 +42,13 @@
         ./nix-darwin/default.nix
       ];
     };
+
     formatter.${system} = "alejandra";
     homeConfigurations = {
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {
-          inherit inputs;
+          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay;
         };
         modules = [
           ./home-manager/default.nix

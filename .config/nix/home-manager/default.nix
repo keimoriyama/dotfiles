@@ -1,14 +1,25 @@
 {
-  inputs,
-  lib,
-  config,
-  pkgs,
+  nixpkgs,
+  home-manager,
+  emacs-overlay,
   org-babel,
+  system,
+  neovim-nightly-overlay,
   ...
 }: let
   username = "kei";
+
+  pkgs = import nixpkgs {
+    inherit system;
+    config.allowUnfree = true;
+    overlays = import ./overlay/default.nix {
+      inherit emacs-overlay;
+      inherit neovim-nightly-overlay;
+    };
+    # overlays = inputs.emacs-overlay;
+  };
   emacs = import ./packages/emacs {
-    inherit lib;
+    inherit (nixpkgs) lib;
     inherit pkgs;
   };
   emacsPkg = emacs.emacs-stable;
@@ -16,34 +27,8 @@
     inherit pkgs;
     inherit org-babel emacsPkg;
   };
+  sources = pkgs.callPackage ../_sources/generated.nix {};
 in {
-  nixpkgs = {
-    overlays = [
-      (final: prev: {
-        vim = prev.vim.overrideAttrs (oldAttrs: {
-          version = "latest";
-          src = inputs.vim-src;
-          configureFlags =
-            oldAttrs.configureFlags
-            ++ [
-              "--enable-terminal"
-              "--with-compiledby=nix-home-manager"
-              "--enable-luainterp"
-              "--with-lua-prefix=${prev.lua}"
-              "--enable-fail-if-missing"
-            ];
-          buildInputs =
-            oldAttrs.buildInputs
-            ++ [prev.gettext prev.lua prev.libiconv];
-        });
-      })
-      inputs.neovim-nightly-overlay.overlays.default
-    ];
-    config = {
-      allowUnfree = true;
-    };
-  };
-
   imports = defaultPrograms;
 
   home = {
@@ -52,29 +37,27 @@ in {
 
     stateVersion = "25.05";
     # packages = defaultPackages;
-    packages = with pkgs;
-      [
-        git
-        curl
-        uv
-        nodejs_23
-        alejandra
-        fish
-        fishPlugins.z
-        deno
-        python3Full
-        wezterm
-        ripgrep
-        # emacs
-        neovim
-        vim
-        tree-sitter
-        pyright
-        ruff
-        yaml-language-server
-        lua-language-server
-      ]
-      + emacsPkg;
+    packages = with pkgs; [
+      git
+      curl
+      uv
+      nodejs_23
+      alejandra
+      fish
+      fishPlugins.z
+      deno
+      python3Full
+      wezterm
+      ripgrep
+      # emacs
+      neovim
+      vim
+      tree-sitter
+      pyright
+      ruff
+      yaml-language-server
+      lua-language-server
+    ];
   };
   programs.home-manager.enable = true;
 }
