@@ -16,9 +16,12 @@
       inherit emacs-overlay;
       inherit neovim-nightly-overlay;
     };
-    # overlays = inputs.emacs-overlay;
   };
   emacs = import ./packages/emacs {
+    inherit (nixpkgs) lib;
+    inherit pkgs;
+  };
+  python = import ./packages/python {
     inherit (nixpkgs) lib;
     inherit pkgs;
   };
@@ -42,14 +45,13 @@ in {
       curl
       uv
       nodejs_23
+	  python313
       alejandra
       fish
       fishPlugins.z
       deno
-      python3Full
       wezterm
       ripgrep
-      # emacs
       neovim
       vim
       tree-sitter

@@ -966,10 +966,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 *** lsp mode
 #+begin_src elisp
-(leaf emacs-lsp-booster
-  :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
-  :ensure t)
-
 (defun my/lsp-mode-completion ()
    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
          '(orderless)))
