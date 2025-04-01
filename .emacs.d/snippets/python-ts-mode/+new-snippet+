@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: input as list
-# key: il
-# --
-${1} = list(map(int,input().split()))
-${0}

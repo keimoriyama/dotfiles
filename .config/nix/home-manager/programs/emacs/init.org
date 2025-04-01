@@ -146,7 +146,7 @@
 #+begin_src elisp
 (leaf cus-edit
   :doc "tools for customizing Emacs and Lisp packages"
-  :custom `((custom-file . '(locate-user-emacs-file "custom.el"))))
+  :custom ((custom-file . '(locate-user-emacs-file "custom.el"))))
 #+end_src
 
 *** dash.el
@@ -787,7 +787,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
                 (org-level-8 . 1.1))))
 
 ;; Make the document title a bit bigger
-(set-face-attribute 'org-document-title nil :weight 'bold :height 1.8)
 
 (require 'org-indent)
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
@@ -970,6 +969,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 (leaf emacs-lsp-booster
   :vc (:url "https://github.com/blahgeek/emacs-lsp-booster")
   :ensure t)
+
 (defun my/lsp-mode-completion ()
    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
          '(orderless)))
