@@ -11,7 +11,11 @@
   system = {
     stateVersion = 6;
     defaults = {
-      NSGlobalDomain.AppleShowAllExtensions = true;
+      NSGlobalDomain = {
+        AppleShowAllExtensions = true;
+        "com.apple.sound.beep.feedback" = 0;
+        "com.apple.sound.beep.volume" = 0.0;
+      };
       finder = {
         AppleShowAllFiles = false;
         AppleShowAllExtensions = true;
@@ -20,7 +24,11 @@
         autohide = true;
         show-recents = false;
         orientation = "left";
+        static-only = true;
       };
+    };
+    keyboard = {
+      remapCapsLockToControl = true;
     };
   };
 
