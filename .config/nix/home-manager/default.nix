@@ -107,6 +107,8 @@ in {
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
 set -gx DPP_PATH $HOME/.cache/dpp
 set -gx HYDRA_FULL_ERROR 1
+set -x PATH "/nix/var/nix/profiles/default/bin" "$PATH"
+set -x PATH "$HOME/.nix-profile/bin" "$PATH"
 ";
   };
   programs.home-manager.enable = true;
