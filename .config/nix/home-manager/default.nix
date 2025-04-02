@@ -45,7 +45,7 @@ in {
       curl
       uv
       nodejs_23
-	  python313
+      python313
       alejandra
       fish
       fishPlugins.z
