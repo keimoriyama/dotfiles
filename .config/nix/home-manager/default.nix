@@ -95,17 +95,41 @@ in {
     };
     functions = {
       fish_prompt = "
-      if git rev-parse --is-inside-work-tree > /dev/null 2>&1
-          string join '' --  (prompt_pwd)(fish_git_prompt) \">\"
-        else
+function fish_prompt
+    test $SSH_TTY
+    and printf (set_color red)$USER(set_color brwhite)'@'(set_color yellow)(prompt_hostname)' '
+    test $USER = 'root'
+    and echo (set_color red)\"#\"
 
-                string join '' --  (prompt_pwd) \">\"
-        end
+    # Main
+    echo -n (set_color cyan)(prompt_pwd)(__fish_git_prompt) (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯'
+
+    # Git
+    # set last_status $status
+    # printf '%s' (__fish_git_prompt)
+    # set_color normal
+end
 ";
     };
     loginShellInit = "
 set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"
 set -x PATH \"$HOME/.nix-profile/bin\" \"$PATH\"
+# Fish git prompt
+set __fish_git_prompt_showdirtystate 'yes'
+set __fish_git_prompt_showstashstate 'yes'
+set __fish_git_prompt_showuntrackedfiles 'yes'
+set __fish_git_prompt_showupstream 'yes'
+set __fish_git_prompt_color_branch yellow
+set __fish_git_prompt_color_upstream_ahead green
+set __fish_git_prompt_color_upstream_behind red
+
+# Status Chars
+set __fish_git_prompt_char_dirtystate '⚡'
+set __fish_git_prompt_char_stagedstate '→'
+set __fish_git_prompt_char_untrackedfiles '☡'
+set __fish_git_prompt_char_stashstate '↩'
+set __fish_git_prompt_char_upstream_ahead '+'
+set __fish_git_prompt_char_upstream_behind '-'
 ";
     interactiveShellInit = "
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
