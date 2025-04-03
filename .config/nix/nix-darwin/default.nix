@@ -25,6 +25,7 @@
         show-recents = false;
         orientation = "left";
         static-only = true;
+        tilesize = 32;
       };
     };
     keyboard = {

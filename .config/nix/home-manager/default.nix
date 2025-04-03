@@ -75,20 +75,7 @@ in {
     plugins = [
       {
         name = "z";
-        src = pkgs.fetchFromGitHub {
-          owner = "jethrokuan";
-          repo = "z";
-          rev = "<2.7.0";
-          # rev = "ddeb28a7b6a1f0ec6dae40c636e5ca4908ad160a";
-        };
-      }
-      {
-        name = "peco";
-        src = pkgs.fetchFromGitHub {
-          owner = "takashabe";
-          repo = "fish-peco";
-          rev = "bea41a021973c02d03d4b03115d164083c083151";
-        };
+        src = pkgs.fishPlugins.z.src;
       }
     ];
     shellAliases = {
