@@ -66,10 +66,10 @@
 #+end_src
 
 #+begin_src elisp
-  (global-auto-revert-mode t)
+(global-auto-revert-mode t)
 
-  (add-hook 'after-save-hook
-            'executable-make-buffer-file-executable-if-script-p)
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
 #+end_src
 
 *** M-*をmacのcommandキーにマップする
@@ -141,14 +141,6 @@
 #+end_src
 
 ** 雑多な設定
-*** cus-start.el
-
-#+begin_src elisp
-(leaf cus-edit
-  :doc "tools for customizing Emacs and Lisp packages"
-  :custom ((custom-file . '(locate-user-emacs-file "custom.el"))))
-#+end_src
-
 *** dash.el
 #+begin_src elisp
    (leaf dash
@@ -928,43 +920,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 ** lsp
 
-*** eglot
-#+begin_src elisp
-;; (leaf eglot
-;;   :doc "The Emacs Client for LSP servers"
-;;   :hook
-;;   ((js-mode-hook) . eglot-ensure)
-;;   :custom ((eldoc-echo-area-use-multiline-p . nil)
-;;            (eglot-connect-timeout . 600))
-;;   :config
-;;   (defun my/eglot-capf ()
-;;     (setq-local completion-at-point-functions
-;;                 (list (cape-capf-super
-;;                        #'tempel-complete
-;;                        #'eglot-completion-at-point)
-;;                       #'cape-keyword
-;;                       #'cape-dabbrev
-;;                       #'cape-file)))
-;;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
-;; (leaf eglot-booster
-;;   :after eglot
-;;   :init (eglot-booster-mode))
-;; (leaf *hydra-eglot
-;;   :bind
-;;   (("C-c l" . hydra-eglot/body))
-;;   :pretty-hydra
-;;   ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;    ("ref"
-;;     (("d" xref-find-definitions "goto definitions")
-;;      ("r" xref-find-references "find references")
-;;      ("b" xref-go-back "go back to previous location")))))
-;; (leaf eglot-booster
-;;   :when (executable-find "emacs-lsp-booster")
-;;   :ensure t
-;;   :vc ( :url "https://github.com/jdtsmith/eglot-booster")
-;;   :global-minor-mode t)
-#+end_src
-
 *** lsp mode
 #+begin_src elisp
 (defun my/lsp-mode-completion ()
@@ -981,46 +936,50 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
  (lsp-enable-file-watchers . nil)
  (lsp-file-watch-threshold . 500)
  (lsp-completion-provider . :none)
- (lsp-ruff-lsp-server-command . '("ruff" "server")))
+ ;(lsp-ruff-lsp-server-command . '("ruff" "server"))
+ (lsp-use-plists . t))
 #+end_src
 
 *** lsp-booster
 #+begin_src elisp
-(setenv "LSP_USE_PLISTS" "true")
-(setq gc-cons-threshold 1600000)
-(defun lsp-booster--advice-json-parse (old-fn &rest args)
-  "Try to parse bytecode instead of json."
-  (or
-   (when (equal (following-char) ?#)
-     (let ((bytecode (read (current-buffer))))
-       (when (byte-code-function-p bytecode)
-         (funcall bytecode))))
-   (apply old-fn args)))
-(advice-add (if (progn (require 'json)
-                       (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-              'json-read)
-            :around
-            #'lsp-booster--advice-json-parse)
+;; (setenv "LSP_USE_PLISTS" "true") ;; in early-init.el
 
-(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  "Prepend emacs-lsp-booster command to lsp CMD."
-  (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)                             ;; for check lsp-server-present?
-             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-             lsp-use-plists
-             (not (functionp 'json-rpc-connection))  ;; native json-rpc
-             (executable-find "emacs-lsp-booster"))
-        (progn
-          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-            (setcar orig-result command-from-exec-path))
-          (message "Using emacs-lsp-booster for %s!" orig-result)
-          (cons "emacs-lsp-booster" orig-result))
-      orig-result)))
-(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+;; (setq read-process-output-max (* 10 1024 1024)) ;; 10mb
+;; (setq gc-cons-threshold 200000000)
+
+;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   "Try to parse bytecode instead of json."
+;;   (or
+;;    (when (equal (following-char) ?#)
+;;      (let ((bytecode (read (current-buffer))))
+;;        (when (byte-code-function-p bytecode)
+;;          (funcall bytecode))))
+;;    (apply old-fn args)))
+;; (advice-add (if (progn (require 'json)
+;;                        (fboundp 'json-parse-buffer))
+;;                 'json-parse-buffer
+;;               'json-read)
+;;             :around
+;;             #'lsp-booster--advice-json-parse)
+
+;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+;;   "Prepend emacs-lsp-booster command to lsp CMD."
+;;   (let ((orig-result (funcall old-fn cmd test?)))
+;;     (if (and (not test?)                             ;; for check lsp-server-present?
+;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+;;              lsp-use-plists
+;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+;;              (executable-find "emacs-lsp-booster"))
+;;         (progn
+;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+;;             (setcar orig-result command-from-exec-path))
+;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+;;           (cons "emacs-lsp-booster" orig-result))
+;;       orig-result)))
+;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
 
-*** lsp ui
+*** lsp-ui
 #+begin_src elisp
 (leaf lsp-ui
  :ensure t
@@ -1048,17 +1007,14 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   (lsp-ui-imenu-auto-refresh . t)))
 #+end_src
 
+*** lsp-bridge
+#+begin_src elisp
+(with-eval-after-load 'lsp-bridge
+  (global-lsp-bridge-mode t))
+#+end_src
+
 *** flycheck
 #+begin_src elisp
-   ;(leaf dap-mode
-   ;  :ensure t
-   ;  :init
-   ;  (dap-mode t))
-   ;
-   ;(leaf dap-ui
-   ;  :hook
-   ;  (dap-mode-hook . dap-ui-mode))
-
    ; grammar check
    (leaf flycheck
      :ensure t
@@ -1075,9 +1031,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
   ; Python
   (leaf python-mode
-    :ensure t)
-
-  (leaf ruff-format
     :ensure t)
 
   (leaf pet

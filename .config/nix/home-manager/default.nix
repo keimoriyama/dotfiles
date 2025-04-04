@@ -8,6 +8,7 @@
   ...
 }: let
   username = "moriyamakei";
+  sources = pkgs.callPackage ../_sources/generated.nix {};
 
   pkgs = import nixpkgs {
     inherit system;
@@ -19,7 +20,7 @@
   };
   emacs = import ./packages/emacs {
     inherit (nixpkgs) lib;
-    inherit pkgs;
+    inherit pkgs sources;
   };
   python = import ./packages/python {
     inherit (nixpkgs) lib;
@@ -30,7 +31,6 @@
     inherit pkgs;
     inherit org-babel emacsPkg;
   };
-  sources = pkgs.callPackage ../_sources/generated.nix {};
 in {
   imports = defaultPrograms;
 
@@ -122,6 +122,7 @@ set __fish_git_prompt_char_upstream_behind '-'
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
 set -gx DPP_PATH $HOME/.cache/dpp
 set -gx HYDRA_FULL_ERROR 1
+set -gx NIX_USER_CONF_FILES $XDG_CONFIG_HOME/nix/nix.conf:$$XDG_CONFIG_HOME/nix/local.conf;
 ";
   };
   programs.home-manager.enable = true;

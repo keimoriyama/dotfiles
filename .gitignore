@@ -47,3 +47,5 @@ Brewfile.lock.json
 *.~undo-tree~
 .config/nix/v:null
 .config/nix/config.nix
+/.config/nix/local.conf
+/.config/nix/home-manager/programs/emacs/#init.org#
