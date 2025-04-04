@@ -824,7 +824,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
         ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
-		;; ("PROJ"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
+		("WAIT"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
         ;; ("READ"      :inherit (org-todo region) :foreground "#8FBCBB" :weight bold)
 		;; ("CHECK"     :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
 		;; ("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" 
@@ -930,7 +930,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 *** eglot
 #+begin_src elisp
-                                        ; lsp client
 ;; (leaf eglot
 ;;   :doc "The Emacs Client for LSP servers"
 ;;   :hook
@@ -947,7 +946,9 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 ;;                       #'cape-dabbrev
 ;;                       #'cape-file)))
 ;;  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf))
-
+;; (leaf eglot-booster
+;;   :after eglot
+;;   :init (eglot-booster-mode))
 ;; (leaf *hydra-eglot
 ;;   :bind
 ;;   (("C-c l" . hydra-eglot/body))
@@ -981,6 +982,42 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
  (lsp-file-watch-threshold . 500)
  (lsp-completion-provider . :none)
  (lsp-ruff-lsp-server-command . '("ruff" "server")))
+#+end_src
+
+*** lsp-booster
+#+begin_src elisp
+(setenv "LSP_USE_PLISTS" "true")
+(setq gc-cons-threshold 1600000)
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
+
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+            (setcar orig-result command-from-exec-path))
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
 
 *** lsp ui
@@ -1147,7 +1184,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     :bind (("C-x C-j" . skk-mode))
     :custom
     ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
-     (skk-large-jisyo . "~/.cache/skk/SKK-JISYO.L")
+     (skk-large-jisyo . "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
      (skk-use-azik . t)
      (skk-search-katakana . t)
      (skk-preload . t)
