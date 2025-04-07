@@ -61,6 +61,7 @@ in {
       ruff
       yaml-language-server
       lua-language-server
+      docker
     ];
   };
 
@@ -95,8 +96,11 @@ in {
     };
     functions = {
       fish_prompt = "
-    echo -n (set_color cyan)(prompt_pwd)(__fish_git_prompt) (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '
+    echo -n (set_color cyan)(prompt_pwd) (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '
 ";
+      fish_right_prompt = "
+	printf \"%s\" (__fish_git_prompt)
+	";
     };
     loginShellInit = "
 set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"

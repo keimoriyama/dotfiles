@@ -58,6 +58,7 @@
       "zoom"
       "mactex"
       "notion"
+      "docker"
     ];
   };
 }
