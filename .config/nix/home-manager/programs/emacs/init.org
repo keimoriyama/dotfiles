@@ -928,16 +928,15 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 (leaf lsp-mode
  :ensure t
  :hook
- ((python-mode-hook . lsp-mode))
- :hook
- (lsp-completion-mode-hook . my/lsp-mode-completion)
+ ((python-mode-hook . lsp-mode)
+ (lsp-completion-mode-hook . my/lsp-mode-completion))
  :custom
  (lsp-enable-file-watchers . nil)
  (lsp-file-watch-threshold . 500)
  (lsp-completion-provider . :none)
  (lsp-ruff-lsp-server-command . '("ruff" "server"))
  ;(lsp-use-plists . t)
- )
+)
 #+end_src
 
 *** lsp-booster
@@ -1051,7 +1050,10 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
                          )))
 
   (leaf lsp-pyright
-    :ensure t)
+    :ensure t
+    :custom ((lsp-pyright-langserver-command . "pyright")
+             (lsp-pyright-disable-tagged-hints . t)
+             (lsp-pyright-basedpyright-inlay-hints-variable-types . nil)))
 
   ;(leaf ein
   ;  :ensure t)
