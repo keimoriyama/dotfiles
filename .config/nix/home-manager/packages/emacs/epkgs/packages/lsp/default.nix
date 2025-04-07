@@ -7,6 +7,7 @@
 in
   with epkgs; [
     lsp-bridge
-	lsp-mode
-	lsp-ui
+    lsp-mode
+    lsp-ui
+    # dap-mode
   ]

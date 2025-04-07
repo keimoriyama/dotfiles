@@ -46,7 +46,6 @@
     ];
     casks = [
       # ここにGUIアプリの記述
-      "arc"
       "sublime-text"
       "aquaskk"
       "skim"

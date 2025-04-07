@@ -1017,7 +1017,19 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      :ensure t
      :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 #+end_src
+** dap
+#+begin_src elisp
+;; (with-eval-after-load 'dap-mode
+;;   ;; keybind
+;;   (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
 
+;;   ;; hooks
+;;   (add-hook 'dap-mode-hook #'dap-ui-mode)
+;;   (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
+;;   (add-hook 'dap-mode-hook #'tooltip-mode)
+;;   (add-hook 'dap-mode-hook #'dap-tooltip-mode)
+;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
+#+end_src
 ** python
 #+begin_src elisp
   ; Python
