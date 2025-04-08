@@ -26,7 +26,7 @@
     inherit (nixpkgs) lib;
     inherit pkgs;
   };
-  emacsPkg = emacs.emacs-stable;
+  emacsPkg = emacs.emacs-stable-without-nativecomp;
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
     inherit org-babel emacsPkg;
@@ -105,6 +105,7 @@ in {
     loginShellInit = "
 set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"
 set -x PATH \"$HOME/.nix-profile/bin\" \"$PATH\"
+set -x PATH \"/opt/homebrew/bin\" \"$PATH\"
 # Fish git prompt
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'

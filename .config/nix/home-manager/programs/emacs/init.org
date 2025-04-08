@@ -199,30 +199,30 @@
 
 *** centauer-tabs.el
 #+begin_src elisp
-   (leaf centaur-tabs
-     :ensure t
-     :global-minor-mode centaur-tabs-mode
-     :bind ("M-c" . centaur-tabs/body)
-     :custom
-     ((centaur-tabs--buffer-show-groups . t)
-      (centaur-tabs-set-icons . t)
-      (entaur-tabs-icon-type . 'nerd-icons))
-     :pretty-hydra
-     ((:color blue :quit-key "q" :foreign-keys warn)
-      ("Move Buffer"
-       (("n" centaur-tabs-forward "forward next" :exit nil)
-        ("p" centaur-tabs-backward "back forward" :exit nil)
-        ("g" centaur-tabs-switch-group "move group" :exit nil))
-       "Kill Buffer"
-       (("k" centaur-tabs-kill-all-buffers-in-current-group "kill all buffer in group" :exit nil)
-        ("K" centaur-tabs-kill-other-buffers-in-current-group "kill other buffer in group" :exit nil)))))
+;; (leaf centaur-tabs
+;;   :ensure t
+;;   :global-minor-mode centaur-tabs-mode
+;;   :bind ("M-c" . centaur-tabs/body)
+;;   :custom
+;;   ((centaur-tabs--buffer-show-groups . t)
+;;    (centaur-tabs-set-icons . t)
+;;    (entaur-tabs-icon-type . 'nerd-icons))
+;;   :pretty-hydra
+;;   ((:color blue :quit-key "q" :foreign-keys warn)
+;;    ("Move Buffer"
+;;     (("n" centaur-tabs-forward "forward next" :exit nil)
+;;      ("p" centaur-tabs-backward "back forward" :exit nil)
+;;      ("g" centaur-tabs-switch-group "move group" :exit nil))
+;;     "Kill Buffer"
+;;     (("k" centaur-tabs-kill-all-buffers-in-current-group "kill all buffer in group" :exit nil)
+;;      ("K" centaur-tabs-kill-other-buffers-in-current-group "kill other buffer in group" :exit nil)))))
 #+end_src
 
 *** bufferlo.el
 #+begin_src elisp
-   (leaf bufferlo
-     :ensure t
-     :global-minor-mode bufferlo-mode)
+;; (leaf bufferlo
+;;   :ensure t
+;;   :global-minor-mode bufferlo-mode)
 #+end_src
 
 *** expand region
@@ -239,41 +239,41 @@
   :global-minor-mode global-undo-tree-mode)
 #+end_src
 
-*** multiple-sursors.el
+*** multiple-cursors.el
 #+begin_src elisp
-   (leaf multiple-cursors
-     :ensure t
-     :bind ("M-m" . hydra-multiple-cursors/body)
-     :hydra
-     (hydra-multiple-cursors (:color pink :hint nil)
-   "
-                                                                           ╔════════╗
-       Point^^^^^^             Misc^^            Insert                            ║ Cursor ║
-     ──────────────────────────────────────────────────────────────────────╨────────╜
-        _k_    _K_    _M-k_    [_l_] edit lines  [_i_] 0...
-        ^↑^    ^↑^     ^↑^     [_m_] mark all    [_a_] letters
-       mark^^ skip^^^ un-mk^   [_s_] sort
-        ^↓^    ^↓^     ^↓^
-        _j_    _J_    _M-j_
-     ╭──────────────────────────────────────────────────────────────────────────────╯
-                              [_q_]: quit, [Click]: point
-   "
-             ("l" mc/edit-lines :exit t)
-             ("m" mc/mark-all-like-this :exit t)
-             ("j" mc/mark-next-symbol-like-this)
-             ("J" mc/skip-to-next-like-this)
-             ("M-j" mc/unmark-next-like-this)
-             ("k" mc/mark-previous-symbol-like-this)
-             ("K" mc/skip-to-previous-like-this)
-             ("M-k" mc/unmark-previous-like-this)
-             ("s" mc/mark-all-in-region-regexp :exit t)
-             ("i" mc/insert-numbers :exit t)
-             ("a" mc/insert-letters :exit t)
-             ("<mouse-1>" mc/add-cursor-on-click)
-             ;; Help with click recognition in this hydra
-             ("<down-mouse-1>" ignore)
-             ("<drag-mouse-1>" ignore)
-             ("q" nil)))
+;; (leaf multiple-cursors
+;;   :ensure t
+;;   :bind ("M-m" . hydra-multiple-cursors/body)
+;;   :hydra
+;;   (hydra-multiple-cursors (:color pink :hint nil)
+;; "
+;;                                                                         ╔════════╗
+;;     Point^^^^^^             Misc^^            Insert                            ║ Cursor ║
+;;   ──────────────────────────────────────────────────────────────────────╨────────╜
+;;      _k_    _K_    _M-k_    [_l_] edit lines  [_i_] 0...
+;;      ^↑^    ^↑^     ^↑^     [_m_] mark all    [_a_] letters
+;;     mark^^ skip^^^ un-mk^   [_s_] sort
+;;      ^↓^    ^↓^     ^↓^
+;;      _j_    _J_    _M-j_
+;;   ╭──────────────────────────────────────────────────────────────────────────────╯
+;;                            [_q_]: quit, [Click]: point
+;; "
+;;           ("l" mc/edit-lines :exit t)
+;;           ("m" mc/mark-all-like-this :exit t)
+;;           ("j" mc/mark-next-symbol-like-this)
+;;           ("J" mc/skip-to-next-like-this)
+;;           ("M-j" mc/unmark-next-like-this)
+;;           ("k" mc/mark-previous-symbol-like-this)
+;;           ("K" mc/skip-to-previous-like-this)
+;;           ("M-k" mc/unmark-previous-like-this)
+;;           ("s" mc/mark-all-in-region-regexp :exit t)
+;;           ("i" mc/insert-numbers :exit t)
+;;           ("a" mc/insert-letters :exit t)
+;;           ("<mouse-1>" mc/add-cursor-on-click)
+;;           ;; Help with click recognition in this hydra
+;;           ("<down-mouse-1>" ignore)
+;;           ("<drag-mouse-1>" ignore)
+;;           ("q" nil)))
 #+end_src
 
 *** git-gutter.el
@@ -335,11 +335,11 @@
 
 *** iflipb.el
 #+begin_src elisp
-   (leaf iflipb
-     :ensure t
-     :bind
-     (("M-n" . iflipb-next-buffer)
-      ("M-p" . iflipb-previous-buffer)))
+;; (leaf iflipb
+;;   :ensure t
+;;   :bind
+;;   (("M-n" . iflipb-next-buffer)
+;;    ("M-p" . iflipb-previous-buffer)))
 #+end_src
 
 *** autorevert.el
