@@ -10,4 +10,6 @@ in
     lsp-mode
     lsp-ui
     # dap-mode
+    flycheck
+    hiligh-indent-guides
   ]

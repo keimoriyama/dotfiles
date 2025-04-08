@@ -4,7 +4,8 @@
 }: epkgs: let
   lsp = import ./packages/lsp {inherit epkgs pkgs sources;};
   utils = import ./packages/utils {inherit epkgs pkgs sources;};
-  git = import ./packages/git{inherit epkgs pkgs sources;};
-  completion= import ./packages/completion {inherit epkgs pkgs sources;};
+  git = import ./packages/git {inherit epkgs pkgs sources;};
+  completion = import ./packages/completion {inherit epkgs pkgs sources;};
+  org = import ./packages/org {inherit epkgs pkgs sources;};
 in
-  lsp ++ utils ++ git ++ completion
+  lsp ++ utils ++ git ++ completion ++ org

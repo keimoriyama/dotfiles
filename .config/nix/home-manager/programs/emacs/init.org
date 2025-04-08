@@ -220,9 +220,8 @@
 
 *** bufferlo.el
 #+begin_src elisp
-;; (leaf bufferlo
-;;   :ensure t
-;;   :global-minor-mode bufferlo-mode)
+(leaf bufferlo
+  :global-minor-mode bufferlo-mode)
 #+end_src
 
 *** expand region
@@ -287,7 +286,6 @@
 *** rainbow-delimiters.el
 #+begin_src elisp
    (leaf rainbow-delimiters
-     :ensure t
      :hook
      ((prog-mode-hook . rainbow-delimiters-mode)))
 #+end_src
@@ -724,31 +722,31 @@ targets."
 ** org mode
 *** org mode
 #+begin_src elisp
-    (setq org-directory "~/Documents/org-mode"
-            org-memo-file (format "%s/memo.org" org-directory)
-            org-daily-todo-file (format "%s/daily_todo.org" org-directory)
-            org-memo-dir (format "%s/memo/" org-directory))
+(setq org-directory "~/Documents/org-mode"
+        org-memo-file (format "%s/memo.org" org-directory)
+        org-daily-todo-file (format "%s/daily_todo.org" org-directory)
+        org-memo-dir (format "%s/memo/" org-directory))
 
-    (defun create-new-org-file (path)
-      (let ((name (read-string "Name: ")))
-        (expand-file-name (format "%s.org"
-                                  name) path)))
+(defun create-new-org-file (path)
+  (let ((name (read-string "Name: ")))
+    (expand-file-name (format "%s.org"
+                              name) path)))
 
-    (leaf org
-      :custom
-      ((org-startup-folded . 'content)
-       (org-startup-indented . "indent")
-       (org-deadline-warning-days . 30)
-       (org-capture-templates .
-        '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
-          ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
-          ("p" "Projects" entry (file
-                                   (lambda () (create-new-org-file
-                                         (format "%s/projects/" org-directory))))
-           "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
-       (org-todo-keywords .
-                          '((sequence "TODO" "DOING" "|"  "DONE" "WAIT"))))
-      )
+(leaf org
+  :custom
+  ((org-startup-folded . 'content)
+   (org-startup-indented . "indent")
+   (org-deadline-warning-days . 30)
+   (org-capture-templates .
+    '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
+      ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
+      ("p" "Projects" entry (file
+                               (lambda () (create-new-org-file
+                                     (format "%s/projects/" org-directory))))
+       "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
+   (org-todo-keywords .
+                      '((sequence "TODO" "DOING" "|"  "DONE" "WAIT"))))
+  )
 #+end_src
 
 *** org preview
@@ -757,7 +755,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 **** olivetti-mode
 #+begin_src elisp
 (leaf olivetti
-  :ensure t
   :hook (org-mode-hook . olivetti-mode))
 #+end_src
 #+begin_src elisp
@@ -827,7 +824,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     #+begin_src elisp
     (leaf org-superstar
       :hook (org-mode-hook . org-superstar-mode)
-      :ensure t
       :custom
       ((org-superstar-leading-bullet . " ")
        (org-superstart-special-todo-items . t)))
@@ -836,7 +832,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     #+RESULTS:
     : org-superstar
 
-*** org bnabel
+*** org babel
 #+begin_src elisp
 (org-babel-do-load-languages
 'org-babel-load-languages
@@ -883,7 +879,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 *** ox-gfm
 #+begin_src elisp
 (leaf ox-gfm
-  :ensure t
   :after org)
 #+end_src
  
@@ -926,7 +921,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
          '(orderless)))
 
 (leaf lsp-mode
- :ensure t
  :hook
  ((python-mode-hook . lsp-mode)
  (lsp-completion-mode-hook . my/lsp-mode-completion))
@@ -979,7 +973,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 *** lsp-ui
 #+begin_src elisp
 (leaf lsp-ui
- :ensure t
  :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-sideline-update-mode))
  :bind
  ("C-c l" . lsp-ui/body)
@@ -1007,13 +1000,12 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
    ; grammar check
    (leaf flycheck
-     :ensure t
+     
      :global-minor-mode global-flycheck-mode)
 #+end_src
 
 #+begin_src elisp
    (leaf highlight-indent-guides
-     :ensure t
      :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 #+end_src
 ** dap
@@ -1031,54 +1023,48 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+end_src
 ** python
 #+begin_src elisp
-  ; Python
-  (leaf python-mode
-    :ensure t)
+; Python
+(leaf python-mode)
+(leaf pet
+  :hook
+  (python-mode-hook . (lambda () (pet-mode)
+                       (setq-local python-shell-interpreter (pet-executable-find "python"))
+                       (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
+                       (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
+                       (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+                       (setq-local lsp-ruff-server-command (list (pet-executable-find "ruff") "server"))
+                       (setq-local lsp-ruff-python-path python-shell-interpreter)
+                       (setq-local ruff-format-command (pet-executable-find "ruff"))
+                       (pet-flycheck-setup)
+                       )))
 
-  (leaf pet
-    :ensure t
-    :hook
-    (python-mode-hook . (lambda () (pet-mode)
-                         (setq-local python-shell-interpreter (pet-executable-find "python"))
-                         (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
-                         (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
-                         (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-                         (setq-local lsp-ruff-server-command (list (pet-executable-find "ruff") "server"))
-                         (setq-local lsp-ruff-python-path python-shell-interpreter)
-                         (setq-local ruff-format-command (pet-executable-find "ruff"))
-                         (pet-flycheck-setup)
-                         )))
+(leaf lsp-pyright
+  :custom ((lsp-pyright-langserver-command . "pyright")
+           (lsp-pyright-disable-tagged-hints . t)
+           (lsp-pyright-basedpyright-inlay-hints-variable-types . nil)))
 
-  (leaf lsp-pyright
-    :ensure t
-    :custom ((lsp-pyright-langserver-command . "pyright")
-             (lsp-pyright-disable-tagged-hints . t)
-             (lsp-pyright-basedpyright-inlay-hints-variable-types . nil)))
-
-  ;(leaf ein
-  ;  :ensure t)
-  ;;; undoを有効化 (customizeから設定しておいたほうが良さげ)
-  ;(setq ein:worksheet-enable-undo t)
-  ;;; 画像をインライン表示 (customizeから設定しておいたほうが良さげ)
-  ;(setq ein:output-area-inlined-images t)
-  ;(declare-function ein:format-time-string "ein-utils")
-  ;(declare-function smartrep-define-key "smartrep")
-  ; yaml
+;(leaf ein
+;  :ensure t)
+;;; undoを有効化 (customizeから設定しておいたほうが良さげ)
+;(setq ein:worksheet-enable-undo t)
+;;; 画像をインライン表示 (customizeから設定しておいたほうが良さげ)
+;(setq ein:output-area-inlined-images t)
+;(declare-function ein:format-time-string "ein-utils")
+;(declare-function smartrep-define-key "smartrep")
+; yaml
   #+end_src
 
 ** yaml
 #+begin_src elisp
-  (leaf yaml-mode
-    :ensure t
-    :config
-    (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-    (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+(leaf yaml-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 #+end_src
 
 ** nix
 #+begin_src elisp
 (leaf nix-mode
-  :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)))
 #+end_src
@@ -1086,8 +1072,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 ** dockerfile
 #+begin_src elisp
   ;docker
-  (leaf dockerfile-mode
-    :ensure t)
+  (leaf dockerfile-mode)
 #+end_src
 
 ** latex
@@ -1096,7 +1081,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   ; Latex
   (leaf yatex
     :doc "new latex mode"
-    :ensure t
     :commands (yatex-mode)
     :mode (("\\.tex$" . yatex-mode)
              ("\\.ltx$" . yatex-mode)
@@ -1118,7 +1102,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
   (leaf flyspell
     ;; flyspellをインストールする
-    :ensure t
     ;; YaTeXモードでflyspellを使う
     :hook (yatex-mode-hook . flyspell-mode))
 #+end_src
@@ -1126,14 +1109,13 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 *** reftex
 #+begin_src elisp
 (leaf reftex
-    :ensure t
+    
     :hook (yatex-mode-hook . (lambda () (reftex-mode))))
-    ;; :custom
-;; (reftex-bibpath-environment-variables . (projectile-project-root)))
 
 (add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
                                              (directory-files-recursively (projectile-project-root) "\\.bib$"))))
 #+end_src
+
 ** ddskk
 #+begin_src elisp
   (leaf ddskk

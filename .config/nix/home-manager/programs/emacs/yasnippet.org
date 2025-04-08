@@ -2,8 +2,8 @@
 ** python-mode
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/template") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
-  # name: ipdb
-  # key: ipdb
-  # --
-  import ipdb;ipdb.set_trace()
+# name: ipdb
+# key: ipdb
+# --
+import ipdb;ipdb.set_trace()
 #+end_src
