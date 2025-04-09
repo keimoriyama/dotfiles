@@ -12,25 +12,6 @@
 .zprofile
 lib*
 
-.config/*
-
-.config/nvim/*.json
-.config/nvim/node_modules
-.config/nvim/lazy-lock.json
-
-!.config/nvim/*.lua
-!.config/nvim/
-!.config/fish
-.config/fish/*
-!.config/fish/config.fish
-!.config/nvim/after/plugin/*.lua
-!.config/wezterm
-!.config/fish/config.fish
-!.config/aquaskk
-!.config/nix
-.config/nix/result
-!.config/karabiner/karabiner.json
-
 .zshenv
 .config/github-copilot/hosts.json
 *.log
