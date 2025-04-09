@@ -76,6 +76,7 @@ in {
         target = ".config/nix";
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/nix";
       };
+      ".config/karabiner/karabiner.json".text = builtins.readFile ../../karabiner/karabiner.json;
     };
   };
 
