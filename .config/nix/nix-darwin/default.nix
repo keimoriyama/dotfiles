@@ -46,20 +46,17 @@
     ];
     casks = [
       # ここにGUIアプリの記述
-      "sublime-text"
       "aquaskk"
       "skim"
       "discord"
       "slack"
       "font-hack-nerd-font"
       "spotify"
-      "wezterm"
       "karabiner-elements"
       "zoom"
       "mactex"
       "notion"
-      "google-chrome"
-      "docker"
+      "wezterm"
     ];
   };
 }

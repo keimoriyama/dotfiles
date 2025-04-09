@@ -49,6 +49,7 @@
         pkgs = pkgs;
         extraSpecialArgs = {
           inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay;
+          inherit (home-manager.lib) homeManagerConfiguration;
         };
         modules = [
           ./home-manager/default.nix

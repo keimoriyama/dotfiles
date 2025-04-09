@@ -14,14 +14,10 @@ in
     projectile
     expand-region
     undo-tree
-    # hl-line
     free-keys
     bufferlo
     puni
-    # autorevert
-    # simple
     spaceline
-    # startup
     mistty
     which-key
     exec-path-from-shell
@@ -30,6 +26,7 @@ in
     hydra
     pretty-hydra
     tempel
-    quickrunf
+    quickrun
     avy-zap
+    copilot-chat
   ]

@@ -1,5 +1,6 @@
 {
   nixpkgs,
+  config,
   home-manager,
   emacs-overlay,
   org-babel,
@@ -7,8 +8,9 @@
   neovim-nightly-overlay,
   ...
 }: let
-  username = "moriyamakei";
+  username = "kei";
   sources = pkgs.callPackage ../_sources/generated.nix {};
+  lib = nixpkgs.lib;
 
   pkgs = import nixpkgs {
     inherit system;
@@ -26,13 +28,14 @@
     inherit (nixpkgs) lib;
     inherit pkgs;
   };
-  emacsPkg = emacs.emacs-stable-without-nativecomp;
-  defaultPrograms = import ./programs/default.nix {
-    inherit pkgs;
-    inherit org-babel emacsPkg;
-  };
+  programs.fish.enable = true;
+  # emacsPkg = emacs.emacs-stable-without-nativecomp;
+  #defaultPrograms = import ./programs/default.nix {
+  #  inherit pkgs;
+  #  inherit org-babel emacsPkg;
+  # };
 in {
-  imports = defaultPrograms;
+  # imports = defaultPrograms;
 
   home = {
     username = username;
@@ -62,7 +65,25 @@ in {
       yaml-language-server
       lua-language-server
       docker
+      nvfetcher
+      wezterm
+      docker
     ];
+    file = {
+      ".config/nvim" = {
+        target = ".config/nvim";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/nvim";
+      };
+      ".config/nix" = {
+        target = ".config/nix";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/nix";
+      };
+    };
+  };
+
+  programs.wezterm = {
+    enable = true;
+    extraConfig = builtins.readFile ./wezterm.lua;
   };
 
   programs.git = {
@@ -131,4 +152,9 @@ set -gx NIX_USER_CONF_FILES $XDG_CONFIG_HOME/nix/nix.conf:$$XDG_CONFIG_HOME/nix/
 ";
   };
   programs.home-manager.enable = true;
+
+  # xdg.configFile.".config/nvim" = {
+  #   recursive = true;
+  #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/nvim";
+  # };
 }

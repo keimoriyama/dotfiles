@@ -13,6 +13,7 @@ in
     nix-mode
     dockerfile-mode
     yatex
-    flyspell
-    reftex
+    # flyspell
+    # consult-reftex
+    # reftex
   ]
