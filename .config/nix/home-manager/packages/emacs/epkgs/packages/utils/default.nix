@@ -27,4 +27,9 @@ in
     exec-path-from-shell
     ddskk
     rainbow-delimiters
+    hydra
+    pretty-hydra
+    tempel
+    quickrunf
+    avy-zap
   ]

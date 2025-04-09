@@ -998,15 +998,14 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+end_src
 *** flycheck
 #+begin_src elisp
-   ; grammar check
-   (leaf flycheck
-     
-     :global-minor-mode global-flycheck-mode)
+; grammar check
+(leaf flycheck
+  :global-minor-mode global-flycheck-mode)
 #+end_src
 
 #+begin_src elisp
-   (leaf highlight-indent-guides
-     :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
+(leaf highlight-indent-guides
+  :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 #+end_src
 ** dap
 #+begin_src elisp

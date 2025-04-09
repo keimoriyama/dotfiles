@@ -11,5 +11,5 @@ in
     lsp-ui
     # dap-mode
     flycheck
-    hiligh-indent-guides
+    highlight-indent-guides
   ]

@@ -8,5 +8,5 @@ in
   with epkgs; [
     olivetti
     org-superstar
-    org-gfm
+    ox-gfm
   ]
