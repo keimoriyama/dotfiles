@@ -66,8 +66,6 @@ in {
       lua-language-server
       docker
       nvfetcher
-      wezterm
-      docker
     ];
     file = {
       ".config/nvim" = {
@@ -152,9 +150,4 @@ set -gx NIX_USER_CONF_FILES $XDG_CONFIG_HOME/nix/nix.conf:$$XDG_CONFIG_HOME/nix/
 ";
   };
   programs.home-manager.enable = true;
-
-  # xdg.configFile.".config/nvim" = {
-  #   recursive = true;
-  #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/nvim";
-  # };
 }

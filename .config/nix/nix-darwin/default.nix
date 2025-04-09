@@ -57,6 +57,7 @@
       "mactex"
       "notion"
       "wezterm"
+      "docker"
     ];
   };
 }
