@@ -58,7 +58,7 @@
       "zoom"
       "mactex"
       "notion"
-      "google-chrome"
+      # "google-chrome"
       "docker"
     ];
   };

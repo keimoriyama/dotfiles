@@ -1,7 +1,7 @@
-{ sources, epkgs }:
-{
-    reftex = epkgs.melpaBuild {
-    pname = "reftex";
-    src = sources.reftex.src;
-}
-}
+# { sources, epkgs }:
+# {
+#     reftex = epkgs.melpaBuild {
+#     pname = "reftex";
+#     src = sources.reftex.src;
+# }
+# }

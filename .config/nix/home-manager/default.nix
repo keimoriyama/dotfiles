@@ -62,6 +62,7 @@ in {
       yaml-language-server
       lua-language-server
       docker
+      nvfetcher
     ];
   };
 
