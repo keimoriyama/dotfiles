@@ -18,10 +18,7 @@ mason.setup({
 local servers = {
 	"lua_ls",
 	"html",
-	"quick_lint_js",
 	"jsonls",
-	"pyright",
-	"ruff",
 }
 
 local status, mason_lspconfig = pcall(require, "mason-lspconfig")

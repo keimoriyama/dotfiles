@@ -43,6 +43,7 @@
     };
     taps = [
       "wtsnjp/tex2img"
+      # "daviderestivo/emacs-head"
     ];
     casks = [
       # ここにGUIアプリの記述
@@ -54,6 +55,7 @@
       "spotify"
       "karabiner-elements"
       "zoom"
+      # "google-chrome"
       "mactex"
       "notion"
       "wezterm"
