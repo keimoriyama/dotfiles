@@ -136,65 +136,64 @@
        ;; initialize leaf-keywords.el
        (leaf-keywords-init))
    )
-  
 #+end_src
 
 ** 雑多な設定
 *** dash.el
 #+begin_src elisp
-   (leaf dash
-     :ensure t)
+(leaf dash
+  :ensure t)
 #+end_src
 
 *** f.el
 #+begin_src elisp
-   (leaf f
-     :ensure t)
+(leaf f
+  :ensure t)
 #+end_src
 
 *** NerdIcon
 #+begin_src elisp
-   (leaf nerd-icons-completion
-     :ensure t
-     :global-minor-mode t)
+(leaf nerd-icons-completion
+  :ensure t
+  :global-minor-mode t)
 #+end_src
 
 *** moccur
 #+begin_src elisp
-   (defadvice moccur-edit-change-file
-       (after save-after-moccur-edit-buffer activate)
-     (save-buffer))
+(defadvice moccur-edit-change-file
+    (after save-after-moccur-edit-buffer activate)
+  (save-buffer))
 #+end_src
 
 *** theme(solarized)
 #+begin_src elisp
-   (leaf solarized-theme
-     :ensure t
-     :config
-     (load-theme 'solarized-light t))
+(leaf solarized-theme
+  :ensure t
+  :config
+  (load-theme 'solarized-light t))
 #+end_src
 
 *** volatile-highlights
 #+begin_src elisp
-   (leaf volatile-highlights
-     :ensure t
-     :global-minor-mode t)
+(leaf volatile-highlights
+  :ensure t
+  :global-minor-mode t)
 #+end_src
 
 *** cua-mode
 #+begin_src elisp
-   (cua-mode t)
-   (setq cua-enable-cua-keys nil)
+(cua-mode t)
+(setq cua-enable-cua-keys nil)
 #+end_src
 
 *** projectile.el
 #+begin_src elisp
-   (leaf projectile
-     :ensure t
-     :global-minor-mode projectile-mode
-     :custom
-     ((projectile-sort-order . 'recently-active))
-     :bind (("C-c p" . projectile-command-map)))
+(leaf projectile
+  :ensure t
+  :global-minor-mode projectile-mode
+  :custom
+  ((projectile-sort-order . 'recently-active))
+  :bind (("C-c p" . projectile-command-map)))
 #+end_src
 
 *** centauer-tabs.el
@@ -221,6 +220,7 @@
 *** bufferlo.el
 #+begin_src elisp
 (leaf bufferlo
+  :ensure t
   :global-minor-mode bufferlo-mode)
 #+end_src
 
@@ -277,39 +277,40 @@
 
 *** git-gutter.el
 #+begin_src elisp
-   (leaf git-gutter
-     :ensure t
-     :init
-     (global-git-gutter-mode))
+(leaf git-gutter
+  :ensure t
+  :init
+  (global-git-gutter-mode))
 #+end_src
 
 *** rainbow-delimiters.el
 #+begin_src elisp
-   (leaf rainbow-delimiters
-     :hook
-     ((prog-mode-hook . rainbow-delimiters-mode)))
+(leaf rainbow-delimiters
+  :ensure t
+  :hook
+  ((prog-mode-hook . rainbow-delimiters-mode)))
 #+end_src
 
 *** hl-line.el
 #+begin_src elisp
-   (leaf hl-line
-     :init
-     (global-hl-line-mode +1))
+(leaf hl-line
+  :init
+  (global-hl-line-mode +1))
 #+end_src
 
 *** free-keys.el
 #+begin_src elisp
-   (leaf free-keys
-     :ensure t)
+(leaf free-keys
+  :ensure t)
 #+end_src
 
 *** puni.el
 #+begin_src elisp
 (leaf puni
-:doc "Parentheses Universalistic"
-:ensure t
-:global-minor-mode puni-global-mode
-:bind ((puni-mode-map
+  :doc "Parentheses Universalistic"
+  :ensure t
+  :global-minor-mode puni-global-mode
+  :bind ((puni-mode-map
        ;; default mapping
        ;; ("C-M-f" . puni-forward-sexp)
        ;; ("C-M-b" . puni-backward-sexp)
@@ -326,9 +327,9 @@
        ("M-r" . puni-raise)
        ("M-U" . puni-splice-killing-backward)
        ("M-z" . puni-squeeze)))
-:config
-(leaf electric-pair-mode
-  :global-minor-mode t))
+  :config
+  (leaf electric-pair-mode
+    :global-minor-mode t))
 #+end_src
 
 *** iflipb.el
@@ -342,198 +343,182 @@
 
 *** autorevert.el
 #+begin_src elisp
-   (leaf autorevert
-     :doc "revert buffers when files on disk change"
-     :global-minor-mode global-auto-revert-mode)
+(leaf autorevert
+  :doc "revert buffers when files on disk change"
+  :global-minor-mode global-auto-revert-mode)
 #+end_src
 
 *** simple
 #+begin_src elisp
-   (leaf simple
-     :doc "basic editing commands for Emacs"
-     :custom ((kill-read-only-ok . t)
-              (kill-whole-line . t)
-              (eval-expression-print-length . nil)
-              (eval-expression-print-level . nil)))
+(leaf simple
+  :doc "basic editing commands for Emacs"
+  :custom ((kill-read-only-ok . t)
+           (kill-whole-line . t)
+           (eval-expression-print-length . nil)
+           (eval-expression-print-level . nil)))
 #+end_src
 
 *** spaceline.el
 #+begin_src elisp
-  (leaf spaceline
-    :ensure t
-    :config (spaceline-spacemacs-theme)
-    :custom
-    (spacelne-org-clock-p . t))
+(leaf spaceline
+  :ensure t
+  :custom
+  (spacelne-org-clock-p . t))
 #+end_src
 
 *** startup.el
 #+begin_src elisp
-   (leaf startup
-     :doc "process Emacs shell arguments"
-     :custom `((auto-save-list-file-prefix . ,(locate-user-emacs-file "backup/.saves-"))))
+(leaf startup
+  :doc "process Emacs shell arguments"
+  :custom `((auto-save-list-file-prefix . '(locate-user-emacs-file "backup/.saves-"))))
 #+end_src
 
 *** mistty
 #+begin_src elisp
-  (leaf mistty
-    :ensure t
-    :bind (("C-c s" . mistty-other-window)
+(leaf mistty
+  :ensure t
+  :bind (("C-c s" . mistty-other-window)
 
-         ;; bind here the shortcuts you'd like the
-         ;; shell to handle instead of Emacs.
-         (mistty-prompt-map
+       ;; bind here the shortcuts you'd like the
+       ;; shell to handle instead of Emacs.
+       (mistty-prompt-map
 
-         ;; fish: directory history
-         ("M-<up>" . mistty-send-key)
-         ("M-<down>" . mistty-send-key)
-         ("M-<left>" . mistty-send-key)
-         ("M-<right>" . mistty-send-key))))
+       ;; fish: directory history
+       ("M-<up>" . mistty-send-key)
+       ("M-<down>" . mistty-send-key)
+       ("M-<left>" . mistty-send-key)
+       ("M-<right>" . mistty-send-key))))
 #+end_src
 *** which-key
 #+begin_src elisp
-   (leaf which-key
-     :doc "Display available keybindings in popup"
-     :ensure t
-     :global-minor-mode t)
+(leaf which-key
+  :doc "Display available keybindings in popup"
+  :ensure t
+  :global-minor-mode t)
 #+end_src
 
 *** magit
 #+begin_src elisp
-   (leaf magit
-     :ensure t)
+(leaf magit
+  :ensure t)
 #+end_src
 
 *** smerge-mode
 #+begin_src elisp
-   (leaf smerge-mode
-     :doc "Manage git confliction"
-     :ensure t
-     :preface
-     (defun start-smerge-mode-with-hydra ()
-       (interactive)
-       (progn
-         (smerge-mode 1)
-         (smerge-mode/body)))
-     :pretty-hydra
-     ((:color blue :quit-key "q" :foreign-keys warn)
-      ("Move"
-       (("n" smerge-next "next")
-        ("p" smerge-prev "preview"))
-       "Keep"
-       (("b" smerge-keep-base "base")
-        ("u" smerge-keep-upper "upper")
-        ("l" smerge-keep-lower "lower")
-        ("a" smerge-keep-all "both")
-        ("\C-m" smerge-keep-current "current"))
-       "Others"
-       (("C" smerge-combine-with-next "combine with next")
-        ("r" smerge-resolve "resolve")
-        ("k" smerge-kill-current "kill current"))
-       "End"
-       (("ZZ" (lambda ()
-                (interactive)
-                (save-buffer)
-                (bury-buffer))
-         "Save and bury buffer" :color blue)
-        ("q" nil "cancel" :color blue)))))
+(leaf smerge-mode
+  :doc "Manage git confliction"
+  :ensure t
+  :preface
+  (defun start-smerge-mode-with-hydra ()
+    (interactive)
+    (progn
+      (smerge-mode 1)
+      (smerge-mode/body)))
+  :pretty-hydra
+  ((:color blue :quit-key "q" :foreign-keys warn)
+   ("Move"
+    (("n" smerge-next "next")
+     ("p" smerge-prev "preview"))
+    "Keep"
+    (("b" smerge-keep-base "base")
+     ("u" smerge-keep-upper "upper")
+     ("l" smerge-keep-lower "lower")
+     ("a" smerge-keep-all "both")
+     ("\C-m" smerge-keep-current "current"))
+    "Others"
+    (("C" smerge-combine-with-next "combine with next")
+     ("r" smerge-resolve "resolve")
+     ("k" smerge-kill-current "kill current"))
+    "End"
+    (("ZZ" (lambda ()
+             (interactive)
+             (save-buffer)
+             (bury-buffer))
+      "Save and bury buffer" :color blue)
+     ("q" nil "cancel" :color blue)))))
 #+end_src
 
-*** environmental variables
+*** exec-path-from-shell
 #+begin_src elisp
-   (leaf exec-path-from-shell
-     :doc "Get environment variables such as $PATH from the shell"
-     :ensure t
-     :defun (exec-path-from-shell-initialize)
-     :custom ((exec-path-from-shell-check-startup-files)
-              (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME" "PKG_CONFIG_PATH" "CPPFLAGS" "LDFLAGS")))
-     :config
-     (exec-path-from-shell-initialize)
-     (exec-path-from-shell-copy-env "PATH"))
+(leaf exec-path-from-shell
+  :doc "Get environment variables such as $PATH from the shell"
+  :ensure t
+  :defun (exec-path-from-shell-initialize)
+  :custom ((exec-path-from-shell-check-startup-files)
+           (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME")))
+  :config
+  (exec-path-from-shell-initialize))
 #+end_src
 
 *** corfu
-#+begin_src elisp
-   (leaf corfu
-     :doc "COmpletion in Region FUnction"
-     :ensure t
-     :global-minor-mode global-corfu-mode corfu-popupinfo-mode
-     :custom ((corfu-auto . t)
-              (corfu-auto-delay . 0.1)
-              (corfu-cycle . t)
-              (corfu-auto-prefix . 3)
-              (text-mode-ispell-word-completion . nil))
-     :bind ((corfu-map
-             ("C-s" . corfu-insert-separator))))
-#+end_src
 
 #+begin_src elisp
-   (leaf corfu-popupinfo
-     :ensure nil
-     :after corfu
-     :config
-     (setq-local corfu-popupinfo-delay 0))
-#+end_src
-
-#+begin_src elisp
-   (leaf nerd-icons-corfu
-     :ensure t
-     :config
-     (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+(leaf corfu
+  :doc "COmpletion in Region FUnction"
+  :ensure t
+  :global-minor-mode global-corfu-mode
+  :custom ((corfu-auto . t)
+           (corfu-auto-delay . 0.1)
+           (corfu-cycle . t)
+           (corfu-auto-prefix . 3)
+           (text-mode-ispell-word-completion . nil))
+  :bind ((corfu-map
+          ("C-s" . corfu-insert-separator))))
 #+end_src
 
 *** cape
 #+begin_src elisp
-   (leaf cape
-     :doc "Completion At Point Extensions"
-     :ensure t
-     :hook
-     ((prog-mode
-        text-mode
-        conf-mode
-        lsp-completion-mode))
-     :config
-     (add-to-list 'completion-at-point-functions #'cape-file)
-     (add-to-list 'completion-at-point-functions #'cape-dict)
-     (add-to-list 'completion-at-point-functions #'tempel-complete)
-     (add-to-list 'completion-at-point-functions #'cape-file)
-     (add-to-list 'completion-at-point-functions #'cape-keyword)
-     (add-to-list 'completion-at-point-functions #'cape-tex))
+(leaf cape
+  :doc "Completion At Point Extensions"
+  :ensure t
+  :hook
+  ((prog-mode
+     text-mode
+     conf-mode
+     lsp-completion-mode))
+  :config
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'tempel-complete)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-tex))
 #+end_src
 
 *** vertico
 #+begin_src elisp
 (savehist-mode)
-  (leaf vertico
-      :doc "VERTical Interactive COmpletion"
-      :ensure t
-      :global-minor-mode t)
-    (advice-add #'vertico--setup :after
-              (lambda (&rest _)
-                (setq-local completion-auto-help nil
-                            completion-show-inline-help nil)))
+(leaf vertico
+  :doc "VERTical Interactive COmpletion"
+  :ensure t
+  :global-minor-mode t)
+(advice-add #'vertico--setup :after
+            (lambda (&rest _)
+              (setq-local completion-auto-help nil
+                          completion-show-inline-help nil)))
 #+end_src
 
 *** marginalia
 #+begin_src elisp
-   (leaf marginalia
-     :doc "Enrich existing commands with completion annotations"
-     :ensure t
-     :global-minor-mode t)
+(leaf marginalia
+  :doc "Enrich existing commands with completion annotations"
+  :ensure t
+  :global-minor-mode t)
 #+end_src
 
 *** avy
 #+begin_src elisp
-   (leaf avy
-     :doc "Jump to things in tree-style"
-     :url "https://github.com/abo-abo/avy"
-     :ensure t)
+(leaf avy
+  :doc "Jump to things in tree-style"
+  :url "https://github.com/abo-abo/avy"
+  :ensure t)
 #+end_src
 
 #+begin_src elisp
-   (leaf avy-zap
-     :doc "Zap to char using avy"
-     :url "https://github.com/cute-jumper/avy-zap"
-     :ensure t)
+(leaf avy-zap
+  :doc "Zap to char using avy"
+  :url "https://github.com/cute-jumper/avy-zap"
+  :ensure t)
 #+end_src
 
 *** consult
@@ -603,7 +588,6 @@
       :bind
       (("C-h b" . embark-bindings)
        ("s-e" . embark-act)))
-
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
@@ -659,9 +643,6 @@ targets."
             :around #'embark-hide-which-key-indicator)
 #+end_src
 
-#+RESULTS:
-: embark-consult
-
 *** affe
 #+begin_src elisp
 (leaf affe
@@ -673,51 +654,50 @@ targets."
 
 *** orderless
 #+begin_src elisp
-   (leaf orderless
-     :doc "Completion style for matching regexps in any order"
-     :ensure t
-     :custom ((completion-styles . '(orderless partial-completion basic))
-              (completion-category-defaults . nil)
-              (completion-category-overrides . nil)))
+(leaf orderless
+  :doc "Completion style for matching regexps in any order"
+  :ensure t
+  :custom ((completion-styles . '(orderless partial-completion basic))
+           (completion-category-defaults . nil)
+           (completion-category-overrides . nil)))
 #+end_src
 
 *** tempel
 #+begin_src elisp
-   (leaf tempel
-     :ensure t
-     :doc "template engine"
-     :init
-     (defun tempel-setup-capf ()
-       (setq-local completion-at-point-functions
-                   (cons #'tempel-complete
-                         completion-at-point-functions)))
-     (add-hook 'prog-mode-hook 'tempel-setup-capf)
-     (add-hook 'text-mode-hook 'tempel-setup-capf)
-     )
+(leaf tempel
+  :ensure t
+  :doc "template engine"
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-complete
+                      completion-at-point-functions)))
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+  )
 #+end_src
 
 *** yasnippet
 #+begin_src elisp
-   (leaf yasnippet
-     :ensure t
-     :doc "snippet engine"
-     :init
-     (yas-global-mode +1)
-     :bind ((yas-keymap
-            ("<tab>" . nil)
-            ("TAB" . nil)
-            ("<backtab>" . nil)
-            ("S-TAB" . nil)
-            ("M-}" . yas-next-field-or-maybe-expand)
-            ("M-{" . yas-prev-field)))
-     :bind
-     ("C-c y" . yasnippet/body)
-     :pretty-hydra
-     ((:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-      ("Basic"
-       (("a" yas-new-snippet "add new snippet")
-        ("i" yas-insert-snippet "insert snippet")
-        ("e" yas-visit-snippet-file "edit snippet")))))
+(leaf yasnippet
+  :ensure t
+  :doc "snippet engine"
+  :init (yas-global-mode t)
+  :bind ((yas-keymap
+         ("<tab>" . nil)
+         ("TAB" . nil)
+         ("<backtab>" . nil)
+         ("S-TAB" . nil)
+         ("M-}" . yas-next-field-or-maybe-expand)
+         ("M-{" . yas-prev-field)))
+  :bind
+  ("C-c y" . yasnippet/body)
+  :pretty-hydra
+  ((:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("Basic"
+    (("a" yas-new-snippet "add new snippet")
+     ("i" yas-insert-snippet "insert snippet")
+     ("e" yas-visit-snippet-file "edit snippet")))))
 #+end_src
 ** org mode
 *** org mode
@@ -756,8 +736,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
 (leaf olivetti
   :hook (org-mode-hook . olivetti-mode))
-#+end_src
-#+begin_src elisp
+
 (when (member "Roboto Mono" (font-family-list))
   (set-face-attribute 'default nil :font "Roboto Mono" :height 110)
   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
@@ -821,16 +800,13 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+end_src
 
 *** org-superstar
-    #+begin_src elisp
-    (leaf org-superstar
-      :hook (org-mode-hook . org-superstar-mode)
-      :custom
-      ((org-superstar-leading-bullet . " ")
-       (org-superstart-special-todo-items . t)))
-    #+end_src
-
-    #+RESULTS:
-    : org-superstar
+#+begin_src elisp
+(leaf org-superstar
+  :hook (org-mode-hook . org-superstar-mode)
+  :custom
+  ((org-superstar-leading-bullet . " ")
+   (org-superstart-special-todo-items . t)))
+#+end_src
 
 *** org babel
 #+begin_src elisp
@@ -874,7 +850,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   )
 
 (plist-put org-format-latex-options :scale 1.2)
-  #+end_src
+#+end_src
 
 *** ox-gfm
 #+begin_src elisp
@@ -1000,11 +976,13 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
 ; grammar check
 (leaf flycheck
+  :ensure t
   :global-minor-mode global-flycheck-mode)
 #+end_src
 
 #+begin_src elisp
 (leaf highlight-indent-guides
+  :ensure t
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 #+end_src
 ** dap
@@ -1128,7 +1106,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      (skk-search-katakana . t)
      (skk-preload . t)
      (skk-share-private-jisyo . t)
-     ;(skk-show-inline . t)
      (default-input-method . "japanese-skk")
      (skk-server-host . "localhost")
      (skk-server-portnum . 1178)))

@@ -44,20 +44,19 @@ in {
 
     stateVersion = "25.05";
 
-    # packages = defaultPackages;
-
     packages = with pkgs; [
       git
       curl
       uv
       nodejs_23
+      typescript
       python313
+      lua
       alejandra
       peco
       ghq
       gh
       deno
-      wezterm
       ripgrep
       neovim
       vim
@@ -66,9 +65,9 @@ in {
       ruff
       yaml-language-server
       lua-language-server
+      typescript-language-server
       docker
       nvfetcher
-      luajitPackages.lua-lsp
     ];
     file = {
       ".config/nvim" = {
@@ -81,11 +80,6 @@ in {
       };
       ".config/karabiner/karabiner.json".text = builtins.readFile ../../karabiner/karabiner.json;
     };
-  };
-
-  programs.wezterm = {
-    enable = true;
-    extraConfig = builtins.readFile ./wezterm.lua;
   };
 
   programs.git = {
