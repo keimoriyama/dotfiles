@@ -39,11 +39,10 @@
     onActivation = {
       autoUpdate = true;
       # !! 注意 !!
-      # cleanup = "uninstall";
+      cleanup = "uninstall";
     };
     taps = [
       "wtsnjp/tex2img"
-      # "daviderestivo/emacs-head"
     ];
     casks = [
       # ここにGUIアプリの記述
@@ -55,12 +54,10 @@
       "spotify"
       "karabiner-elements"
       "zoom"
-      # "google-chrome"
       "mactex"
       "notion"
       "wezterm"
       "docker"
-      # "tex2img"
     ];
   };
 }
