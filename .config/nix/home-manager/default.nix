@@ -68,6 +68,7 @@ in {
       typescript-language-server
       docker
       nvfetcher
+      udev-gothic
     ];
     file = {
       ".config/nvim" = {
