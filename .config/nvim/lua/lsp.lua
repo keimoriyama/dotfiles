@@ -1,4 +1,3 @@
--- lua_source {{{
 local opts = { noremap = true, silent = true }
 
 function tbl_flatten(t)
@@ -160,4 +159,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
--- }}}

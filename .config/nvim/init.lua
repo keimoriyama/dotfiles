@@ -62,3 +62,4 @@ vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
 
 vim.api.nvim_set_keymap("v", "<Leader>cw", "g<C-G>", opts)
 require("dpp_config")
+require("lsp")
