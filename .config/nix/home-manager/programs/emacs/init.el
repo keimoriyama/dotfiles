@@ -1,203 +1,139 @@
-#+STARTUP:
-** 基本設定
-*** 本当の基本設定
-#+BEGIN_SRC elisp
-   ;;; init.el:
-   (when (< emacs-major-version 23)
-     (defvar user-emacs-directory "~/.emacs.d/"))
+;;; init.el:
+(when (< emacs-major-version 23)
+  (defvar user-emacs-directory "~/.emacs.d/"))
 
-   ; システムに装飾キー渡さない
-   (setq mac-pass-control-to-system nil)
-   (setq mac-pass-command-to-system nil)
-   (setq mac-pass-option-to-system nil)
-   (setq make-backup-files nil)
-   (setq auto-save-default nil)
-   (setq auto-save-list-file-prefix nil)
-   (setq create-lockfiles nil)
-#+end_src
-*** C-tでバッファを切り変える
-#+begin_src elisp
-   (define-key global-map (kbd "C-t") 'other-window)
-#+end_src
-*** C-x C-cでEmacsを終了しない
-#+begin_src elisp
-  ; 好きなコマンドを割り振ろう
-  (global-set-key (kbd "C-x C-c") 'magit)
-  (global-set-key (kbd "C-x C-z") 'your-favorite-command)
-  ;; I never use C-x C-c
-  (defalias 'exit 'save-buffers-kill-emacs)
-#+end_src
-*** 何かサーバーが動くらしい
-行番号を表示しない、スクロールバーを表示しない、時間を24時間フォーマットで表示する
-#+begin_src elisp
-   (server-start)
-   (column-number-mode -1)
-   (scroll-bar-mode -1)
-   (size-indication-mode t)
-   (setq display-time-24hr-format t)
-   (display-time-mode t)
-#+end_src
-*** 日本語にする
-文字コードはutf-8
-#+begin_src elisp
-  (set-language-environment "Japanese")
-  (prefer-coding-system 'utf-8)
+; システムに装飾キー渡さない
+(setq mac-pass-control-to-system nil)
+(setq mac-pass-command-to-system nil)
+(setq mac-pass-option-to-system nil)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq auto-save-list-file-prefix nil)
+(setq create-lockfiles nil)
 
-  (setq frame-title-format "%f")
-#+end_src
-*** タブは4文字
-#+begin_src elisp
-  (setq-default tab-width 4)
-  (setq-default indent-tabs-mode nil)
-#+end_src
-*** フォントはMenloを使用する
-#+begin_src elisp
-  (set-face-attribute 'default nil
-                      :family "Menlo"
-                      :height 200)
-#+end_src
-*** 中間ファイルを生成しない(はず)
-#+begin_src elisp
-  (setq backup-directory-alist
-        `((".*".,temporary-file-directory)))
-  (setq auto-save-file-name-transforms
-        `((".*" ,temporary-file-directory)))
-#+end_src
+(define-key global-map (kbd "C-t") 'other-window)
 
-#+begin_src elisp
+; 好きなコマンドを割り振ろう
+(global-set-key (kbd "C-x C-c") 'magit)
+(global-set-key (kbd "C-x C-z") 'your-favorite-command)
+;; I never use C-x C-c
+(defalias 'exit 'save-buffers-kill-emacs)
+
+(server-start)
+(column-number-mode -1)
+(scroll-bar-mode -1)
+(size-indication-mode t)
+(setq display-time-24hr-format t)
+(display-time-mode t)
+
+(set-language-environment "Japanese")
+(prefer-coding-system 'utf-8)
+
+(setq frame-title-format "%f")
+
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+
+(set-face-attribute 'default nil
+                    :family "Menlo"
+                    :height 200)
+
+(setq backup-directory-alist
+      `((".*".,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory)))
+
 (global-auto-revert-mode t)
 
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
-#+end_src
 
-*** M-*をmacのcommandキーにマップする
-#+begin_src elisp
-  (setq mac-command-modifier 'meta)
-#+end_src
+(setq mac-command-modifier 'meta)
 
-*** yes or noをy、nにする
-#+begin_src elisp
-  (add-hook 'emacs-startup-hook
-            #'(lambda ()
-                (fset 'yes-or-no-p 'y-or-n-p)))
-#+end_src
+(add-hook 'emacs-startup-hook
+          #'(lambda ()
+              (fset 'yes-or-no-p 'y-or-n-p)))
 
-*** Native Comp周りの設定
-#+begin_src elisp
-  (with-eval-after-load 'comp-run
-    ;; config
-    (setopt native-comp-async-jobs-number 8)
-    (setopt native-comp-speed 3)
-    (setopt native-comp-always-compile t))
+(with-eval-after-load 'comp-run
+  ;; config
+  (setopt native-comp-async-jobs-number 8)
+  (setopt native-comp-speed 3)
+  (setopt native-comp-always-compile t))
 
-  (with-eval-after-load 'warnings
-    ;; config
-    (setopt warning-suppress-types '((comp))))
+(with-eval-after-load 'warnings
+  ;; config
+  (setopt warning-suppress-types '((comp))))
 
-  (defun elisp-mode-hooks ()
-    "list-mode-hooks"
-    (when (require 'eldoc nil t)
-      (setq eldoc-idle-delay 0.2)
-      (setq eldoc-echo-area-use-multiline-p t)
-      (turn-on-eldoc-mode)))
-  (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
-#+end_src
+(defun elisp-mode-hooks ()
+  "list-mode-hooks"
+  (when (require 'eldoc nil t)
+    (setq eldoc-idle-delay 0.2)
+    (setq eldoc-echo-area-use-multiline-p t)
+    (turn-on-eldoc-mode)))
+(add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 
-#+begin_src elisp
-  ;; load environment value
-  (dolist (path (reverse (split-string (getenv "PATH") ":")))
-    (add-to-list 'exec-path path))
-#+end_src
+;; load environment value
+(dolist (path (reverse (split-string (getenv "PATH") ":")))
+  (add-to-list 'exec-path path))
 
-** Leafの設定
-#+begin_src elisp
-   ; <leaf-install-code>
-   (eval-and-compile
-     (customize-set-variable
-      'package-archives '(("org" . "https://orgmode.org/elpa/")
-                          ("melpa" . "https://melpa.org/packages/")
-                          ("gnu" . "https://elpa.gnu.org/packages/")
-                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-     (package-initialize)
-     (unless (package-installed-p 'leaf)
-       (package-refresh-contents)
-       (package-install 'leaf))
+; <leaf-install-code>
+(eval-and-compile
+  (customize-set-variable
+   'package-archives '(("org" . "https://orgmode.org/elpa/")
+                       ("melpa" . "https://melpa.org/packages/")
+                       ("gnu" . "https://elpa.gnu.org/packages/")
+                       ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  (package-initialize)
+  (unless (package-installed-p 'leaf)
+    (package-refresh-contents)
+    (package-install 'leaf))
 
-     (leaf leaf-keywords
-       :ensure t
-       :init
-       ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-       (leaf hydra :ensure t)
-       (leaf pretty-hydra :ensure t)
-       (leaf el-get :ensure t)
-       (leaf blackout :ensure t)
-       :config
-       ;; initialize leaf-keywords.el
-       (leaf-keywords-init))
-   )
-#+end_src
+  (leaf leaf-keywords
+    :ensure t
+    :init
+    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+    (leaf hydra :ensure t)
+    (leaf pretty-hydra :ensure t)
+    (leaf el-get :ensure t)
+    (leaf blackout :ensure t)
+    :config
+    ;; initialize leaf-keywords.el
+    (leaf-keywords-init))
+)
 
-** 雑多な設定
-*** dash.el
-#+begin_src elisp
 (leaf dash
   :ensure t)
-#+end_src
 
-*** f.el
-#+begin_src elisp
 (leaf f
   :ensure t)
-#+end_src
 
-*** NerdIcon
-#+begin_src elisp
 (leaf nerd-icons-completion
   :ensure t
   :global-minor-mode t)
-#+end_src
 
-*** moccur
-#+begin_src elisp
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
-#+end_src
 
-*** theme(solarized)
-#+begin_src elisp
 (leaf solarized-theme
   :ensure t
   :config
   (load-theme 'solarized-light t))
-#+end_src
 
-*** volatile-highlights
-#+begin_src elisp
 (leaf volatile-highlights
   :ensure t
   :global-minor-mode t)
-#+end_src
 
-*** cua-mode
-#+begin_src elisp
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
-#+end_src
 
-*** projectile.el
-#+begin_src elisp
 (leaf projectile
   :ensure t
   :global-minor-mode projectile-mode
   :custom
   ((projectile-sort-order . 'recently-active))
   :bind (("C-c p" . projectile-command-map)))
-#+end_src
 
-*** centauer-tabs.el
-#+begin_src elisp
 ;; (leaf centaur-tabs
 ;;   :ensure t
 ;;   :global-minor-mode centaur-tabs-mode
@@ -215,31 +151,19 @@
 ;;     "Kill Buffer"
 ;;     (("k" centaur-tabs-kill-all-buffers-in-current-group "kill all buffer in group" :exit nil)
 ;;      ("K" centaur-tabs-kill-other-buffers-in-current-group "kill other buffer in group" :exit nil)))))
-#+end_src
 
-*** bufferlo.el
-#+begin_src elisp
 (leaf bufferlo
   :ensure t
   :global-minor-mode bufferlo-mode)
-#+end_src
 
-*** expand region
-#+begin_src elisp
 (leaf expand-region
   :ensure t
   :bind ("C-=" . er/expand-region))
-#+end_src
 
-*** undo-tree
-#+begin_src elisp
 (leaf undo-tree
   :ensure t
   :global-minor-mode global-undo-tree-mode)
-#+end_src
 
-*** multiple-cursors.el
-#+begin_src elisp
 ;; (leaf multiple-cursors
 ;;   :ensure t
 ;;   :bind ("M-m" . hydra-multiple-cursors/body)
@@ -273,39 +197,24 @@
 ;;           ("<down-mouse-1>" ignore)
 ;;           ("<drag-mouse-1>" ignore)
 ;;           ("q" nil)))
-#+end_src
 
-*** git-gutter.el
-#+begin_src elisp
 (leaf git-gutter
   :ensure t
   :init
   (global-git-gutter-mode))
-#+end_src
 
-*** rainbow-delimiters.el
-#+begin_src elisp
 (leaf rainbow-delimiters
   :ensure t
   :hook
   ((prog-mode-hook . rainbow-delimiters-mode)))
-#+end_src
 
-*** hl-line.el
-#+begin_src elisp
 (leaf hl-line
   :init
   (global-hl-line-mode +1))
-#+end_src
 
-*** free-keys.el
-#+begin_src elisp
 (leaf free-keys
   :ensure t)
-#+end_src
 
-*** puni.el
-#+begin_src elisp
 (leaf puni
   :doc "Parentheses Universalistic"
   :ensure t
@@ -330,50 +239,32 @@
   :config
   (leaf electric-pair-mode
     :global-minor-mode t))
-#+end_src
 
-*** iflipb.el
-#+begin_src elisp
 ;; (leaf iflipb
 ;;   :ensure t
 ;;   :bind
 ;;   (("M-n" . iflipb-next-buffer)
 ;;    ("M-p" . iflipb-previous-buffer)))
-#+end_src
 
-*** autorevert.el
-#+begin_src elisp
 (leaf autorevert
   :doc "revert buffers when files on disk change"
   :global-minor-mode global-auto-revert-mode)
-#+end_src
 
-*** simple
-#+begin_src elisp
 (leaf simple
   :doc "basic editing commands for Emacs"
   :custom ((kill-read-only-ok . t)
            (kill-whole-line . t)
            (eval-expression-print-length . nil)
            (eval-expression-print-level . nil)))
-#+end_src
 
-*** doom modeline
-#+begin_src elisp
 (leaf doom-modeline
   :ensure t
   :global-minor-mode doom-modeline-mode)
-#+end_src
 
-*** startup.el
-#+begin_src elisp
 (leaf startup
   :doc "process Emacs shell arguments")
 ;  :custom `((auto-save-list-file-prefix . '(locate-user-emacs-file "backup/.saves-"))))
-#+end_src
 
-*** mistty
-#+begin_src elisp
 (leaf mistty
   :ensure t
   :bind (("C-c s" . mistty-other-window)
@@ -387,23 +278,15 @@
        ("M-<down>" . mistty-send-key)
        ("M-<left>" . mistty-send-key)
        ("M-<right>" . mistty-send-key))))
-#+end_src
-*** which-key
-#+begin_src elisp
+
 (leaf which-key
   :doc "Display available keybindings in popup"
   :ensure t
   :global-minor-mode t)
-#+end_src
 
-*** magit
-#+begin_src elisp
 (leaf magit
   :ensure t)
-#+end_src
 
-*** smerge-mode
-#+begin_src elisp
 (leaf smerge-mode
   :doc "Manage git confliction"
   :ensure t
@@ -435,10 +318,7 @@
              (bury-buffer))
       "Save and bury buffer" :color blue)
      ("q" nil "cancel" :color blue)))))
-#+end_src
 
-*** exec-path-from-shell
-#+begin_src elisp
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
   :ensure t
@@ -447,11 +327,7 @@
            (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME")))
   :config
   (exec-path-from-shell-initialize))
-#+end_src
 
-*** corfu
-
-#+begin_src elisp
 (leaf corfu
   :doc "COmpletion in Region FUnction"
   :ensure t
@@ -463,10 +339,7 @@
            (text-mode-ispell-word-completion . nil))
   :bind ((corfu-map
           ("C-s" . corfu-insert-separator))))
-#+end_src
 
-*** cape
-#+begin_src elisp
 (leaf cape
   :doc "Completion At Point Extensions"
   :ensure t
@@ -482,10 +355,7 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-tex))
-#+end_src
 
-*** vertico
-#+begin_src elisp
 (savehist-mode)
 (leaf vertico
   :doc "VERTical Interactive COmpletion"
@@ -495,33 +365,22 @@
             (lambda (&rest _)
               (setq-local completion-auto-help nil
                           completion-show-inline-help nil)))
-#+end_src
 
-*** marginalia
-#+begin_src elisp
 (leaf marginalia
   :doc "Enrich existing commands with completion annotations"
   :ensure t
   :global-minor-mode t)
-#+end_src
 
-*** avy
-#+begin_src elisp
 (leaf avy
   :doc "Jump to things in tree-style"
   :url "https://github.com/abo-abo/avy"
   :ensure t)
-#+end_src
 
-#+begin_src elisp
 (leaf avy-zap
   :doc "Zap to char using avy"
   :url "https://github.com/cute-jumper/avy-zap"
   :ensure t)
-#+end_src
 
-*** consult
-#+begin_src elisp
 (defvar my-consult--source-buffer
   `(:name "Other Buffers"
     :narrow   ?b
@@ -578,10 +437,7 @@
          (minibuffer-local-map
           :package emacs
           ("C-r" . consult-history))))
-#+end_src
 
-*** embark
-#+begin_src elisp
 (leaf embark
       :ensure t
       :bind
@@ -640,29 +496,20 @@ targets."
 
 (advice-add #'embark-completing-read-prompter
             :around #'embark-hide-which-key-indicator)
-#+end_src
 
-*** affe
-#+begin_src elisp
 (leaf affe
   :doc "Asynchronous Fuzzy Finder for Emacs"
   :ensure t
   :custom ((affe-highlight-function . 'orderless-highlight-matches)
            (affe-regexp-function . 'orderless-pattern-compiler)))
-#+end_src
 
-*** orderless
-#+begin_src elisp
 (leaf orderless
   :doc "Completion style for matching regexps in any order"
   :ensure t
   :custom ((completion-styles . '(orderless partial-completion basic))
            (completion-category-defaults . nil)
            (completion-category-overrides . nil)))
-#+end_src
 
-*** tempel
-#+begin_src elisp
 (leaf tempel
   :ensure t
   :doc "template engine"
@@ -674,10 +521,7 @@ targets."
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
   (add-hook 'text-mode-hook 'tempel-setup-capf)
   )
-#+end_src
 
-*** yasnippet
-#+begin_src elisp
 (leaf yasnippet
   :ensure t
   :doc "snippet engine"
@@ -697,10 +541,7 @@ targets."
     (("a" yas-new-snippet "add new snippet")
      ("i" yas-insert-snippet "insert snippet")
      ("e" yas-visit-snippet-file "edit snippet")))))
-#+end_src
-** org mode
-*** org mode
-#+begin_src elisp
+
 (setq org-directory "~/Documents/org-mode"
         org-memo-file (format "%s/memo.org" org-directory)
         org-daily-todo-file (format "%s/daily_todo.org" org-directory)
@@ -726,13 +567,7 @@ targets."
    (org-todo-keywords .
                       '((sequence "TODO" "DOING" "|"  "DONE" "WAIT"))))
   )
-#+end_src
 
-*** org preview
-
-copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
-**** olivetti-mode
-#+begin_src elisp
 (leaf olivetti
   :ensure t
   :hook (org-mode-hook . olivetti-mode))
@@ -797,30 +632,21 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 		;; ("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" 
          ;;:weight bold)
 		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)))
-#+end_src
 
-*** org-superstar
-#+begin_src elisp
 (leaf org-superstar
   :hook (org-mode-hook . org-superstar-mode)
   :ensure t
   :custom
   ((org-superstar-leading-bullet . " ")
    (org-superstart-special-todo-items . t)))
-#+end_src
 
-*** org babel
-#+begin_src elisp
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((python . t)
   (shell . t)))
 
 (setq org-babel-python-command "../.venv/bin/python")
-#+end_src
 
-*** org agenda
-#+begin_src elisp
 (leaf org-agenda
   :commands org-agenda
   :custom
@@ -851,26 +677,16 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   )
 
 (plist-put org-format-latex-options :scale 1.2)
-#+end_src
 
-*** org pomodoro
-#+begin_src elisp
 (leaf org-pomodoro
   :ensure t
   :hook (org-pomodoro-break-finished-hook . org-pomodoro)
-  :bind ("M-p" . org-pomodoro)
-  :custom (
-           (org-pomodoro-play-sournds . nil)))
-#+end_src
-*** ox-gfm
-#+begin_src elisp
+  :bind ("M-p" . org-pomodoro))
+
 (leaf ox-gfm
   :ensure t
   :after org)
-#+end_src
- 
-*** org hydra
-#+begin_src elisp
+
 (defun my:org-goto-project ()
     (interactive)
     (find-file org-project-file))
@@ -897,12 +713,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     )
    )
   )
-#+end_src
 
-** lsp
-
-*** lsp mode
-#+begin_src elisp
 (defun my/lsp-mode-completion ()
    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
          '(orderless)))
@@ -919,10 +730,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   (lsp-ruff-lsp-server-command . '("ruff" "server"))
                                         ;(lsp-use-plists . t)
 )
-#+end_src
 
-*** lsp-booster
-#+begin_src elisp
 (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
 (setq gc-cons-threshold 200000000)
 
@@ -956,10 +764,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-#+end_src
 
-*** lsp-ui
-#+begin_src elisp
 (leaf lsp-ui
  :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-sideline-update-mode))
  :ensure t
@@ -984,22 +789,16 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   (lsp-ui-doc-show-with-cursor . t)
   (lsp-ui-doc-show-with-mouse . nil)
   (lsp-ui-imenu-auto-refresh . t)))
-#+end_src
-*** flycheck
-#+begin_src elisp
+
 ; grammar check
 (leaf flycheck
   :ensure t
   :global-minor-mode global-flycheck-mode)
-#+end_src
 
-#+begin_src elisp
 (leaf highlight-indent-guides
   :ensure t
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
-#+end_src
-** dap
-#+begin_src elisp
+
 ;; (with-eval-after-load 'dap-mode
 ;;   ;; keybind
 ;;   (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
@@ -1010,9 +809,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 ;;   (add-hook 'dap-mode-hook #'tooltip-mode)
 ;;   (add-hook 'dap-mode-hook #'dap-tooltip-mode)
 ;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
-#+end_src
-** python
-#+begin_src elisp
+
 ; Python
 (leaf python-mode
   :ensure t)
@@ -1045,35 +842,22 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 ;(declare-function ein:format-time-string "ein-utils")
 ;(declare-function smartrep-define-key "smartrep")
 ; yaml
-  #+end_src
 
-** yaml
-#+begin_src elisp
 (leaf yaml-mode
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
-#+end_src
 
-** nix
-#+begin_src elisp
 (leaf nix-mode
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)))
-#+end_src
 
-** dockerfile
-#+begin_src elisp
-  ;docker
-  (leaf dockerfile-mode
-    :ensure t)
-#+end_src
+;docker
+(leaf dockerfile-mode
+  :ensure t)
 
-** latex
-*** yatex
-#+begin_src elisp
 ; Latex
 (leaf yatex
   :ensure t
@@ -1093,52 +877,38 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      '(("Skim" . ".pdf")))
      ( dvi2-command . "open -a Skim")
      ( tex-pdfview-command . "open -a Skim")))
-#+end_src
 
-*** flyspell
-#+begin_src elisp
 (leaf flyspell
   ;; flyspellをインストールする
   :ensure t
   ;; YaTeXモードでflyspellを使う
   :hook (yatex-mode-hook . flyspell-mode))
-#+end_src
 
-*** reftex
-#+begin_src elisp
 (leaf reftex
    :ensure t 
     :hook (yatex-mode-hook . (lambda () (reftex-mode))))
 
 (add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
                                              (directory-files-recursively (projectile-project-root) "\\.bib$"))))
-#+end_src
 
-** ddskk
-#+begin_src elisp
-  (leaf ddskk
-    :ensure t
-    :doc "japanese IME works in emacs"
-    :bind (("C-x C-j" . skk-mode))
-    :custom
-    ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
-     (skk-large-jisyo . "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
-     (skk-use-azik . t)
-     (skk-search-katakana . t)
-     (skk-preload . t)
-     (skk-share-private-jisyo . t)
-     (default-input-method . "japanese-skk")
-     (skk-server-host . "localhost")
-     (skk-server-portnum . 1178)))
-#+END_SRC
-** CopilotChat
-#+begin_src elisp
+(leaf ddskk
+  :ensure t
+  :doc "japanese IME works in emacs"
+  :bind (("C-x C-j" . skk-mode))
+  :custom
+  ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
+   (skk-large-jisyo . "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
+   (skk-use-azik . t)
+   (skk-search-katakana . t)
+   (skk-preload . t)
+   (skk-share-private-jisyo . t)
+   (default-input-method . "japanese-skk")
+   (skk-server-host . "localhost")
+   (skk-server-portnum . 1178)))
+
 (leaf copilot-chat
   :hook (git-commit-setup-hook . copilo-chat-insert-commit-message))
-#+end_src
 
-** hydra menu 
-#+begin_src elisp
 (leaf *hydra-goto2
   :doc "Search and move cursor"
   :bind ("M-j" . *hydra-goto2/body)
@@ -1164,9 +934,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     "Spell"
     ((">"  flyspell-goto-next-error "next" :exit nil)
      ("cc" flyspell-correct-at-point "correct" :exit nil)))))
-#+end_src
 
-#+begin_src elisp
 (leaf *hydra-toggle2
   :doc "Toggle functions"
   :bind ("M-t" . *hydra-toggle2/body)
@@ -1194,9 +962,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     (("t" toggle-window-transparency "transparency" :toggle t)
      ("m" toggle-window-maximize "maximize" :toggle t)
      ("p" presentation-mode "presentation" :toggle t)))))
-#+end_src
 
-#+begin_src elisp
 (leaf *hydra-search
   :doc "Search functions"
   :bind
@@ -1213,9 +979,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     "Document"
     (("df" consult-find-doc "find")
      ("dd" consult-grep-doc "grep")))))
-#+end_src
 
-#+begin_src elisp
 (leaf *hydra-git
   :bind
   ("M-g" . *hydra-git/body)
@@ -1248,23 +1012,13 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      ("o" browse-at-remote-or-copy"browse at point")
      ("k" browse-at-remote-kill "copy url")
      ("O" (shell-command "hub browse") "browse repository")))))
-#+end_src
 
-** OJ
-#+begin_src elisp
 ;; (leaf oj
  ;;  :ensure t
  ;;  :custom ((oj-compiler-python . "pypy")
  ;;           (oj-default-online-judge . 'atcoder)
  ;;           (oj-home-dir . "~/Program/Atcoder")))
-#+end_src
 
-** marimo settings(WIP)
-
-*** サーバーへの接続をする
-Reference
-- ein: [[https://github.com/millejoh/emacs-ipython-notebook/blob/271136654631d42105164163fff3d8ceec4c5e40/lisp/ein-jupyter.el#L285C1-L285C18][server start functions]]
-#+begin_src elisp
 (defcustom marimo:server-command "marimo edit"
   "The default command to start marimo server."
   :group 'marimo
@@ -1303,5 +1057,3 @@ LOGIN-CALLBACK takes two arguments, the buffer created by `marimo:notebooklist-o
    
    )
   )
-#+end_src
-

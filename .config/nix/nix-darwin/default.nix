@@ -58,6 +58,7 @@
       "notion"
       "wezterm"
       "docker"
+      "google-chrome"
     ];
   };
 }
