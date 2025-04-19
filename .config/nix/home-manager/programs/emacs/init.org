@@ -585,12 +585,12 @@
 (leaf embark
       :ensure t
       :bind
-      (("C-h b" . embark-bindings)
-       ("s-e" . embark-act)))
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none))))
+      (("C-h b" . embark-bindings)))
+
+(add-to-list 'display-buffer-alist
+             '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+               nil
+               (window-parameters (mode-line-format . none))))
 
 (leaf embark-consult                    ;
       :doc "Consult integration for Embark"
