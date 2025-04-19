@@ -857,14 +857,14 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
 (leaf org-pomodoro
   :ensure t
-  :hook ((org-pomodoro-break-finished-hook . org-pomodoro)
-         (org-pomodoro-killed-hook . org-clock-out))
+  :hook ((org-pomodoro-break-finished-hook . org-pomodoro))
   :bind ("M-p" . org-pomodoro)
   :custom (
            (org-pomodoro-play-sournds . nil)
            (org-pomodoro-finished-sound-p . nil)
            (org-pomodoro-short-break-sound-p . nil)
-           (org-pomodoro-long-break-sound-p . nil)))
+           (org-pomodoro-long-break-sound-p . nil)
+           (org-pomodoro-format . "Working %s")))
 (defun org-pomodoro-kill ()
   "Kill the current timer, reset the phase and update the modeline."
   (org-clock-out)
