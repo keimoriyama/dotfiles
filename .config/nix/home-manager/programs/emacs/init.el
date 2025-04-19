@@ -543,9 +543,9 @@ targets."
      ("e" yas-visit-snippet-file "edit snippet")))))
 
 (setq org-directory "~/Documents/org-mode"
-        org-memo-file (format "%s/memo.org" org-directory)
-        org-daily-todo-file (format "%s/daily_todo.org" org-directory)
-        org-memo-dir (format "%s/memo/" org-directory))
+      org-memo-file (format "%s/memo.org" org-directory)
+      org-daily-todo-file (format "%s/daily_todo.org" org-directory)
+      org-memo-dir (format "%s/memo/" org-directory))
 
 (defun create-new-org-file (path)
   (let ((name (read-string "Name: ")))
@@ -680,8 +680,15 @@ targets."
 
 (leaf org-pomodoro
   :ensure t
-  :hook (org-pomodoro-break-finished-hook . org-pomodoro)
-  :bind ("M-p" . org-pomodoro))
+  :hook ((org-pomodoro-break-finished-hook . org-pomodoro)
+         (org-pomodoro-killed-hook . org-clock-out))
+  :bind ("M-p" . org-pomodoro)
+  :custom (
+           (org-pomodoro-play-sournds . nil)))
+(defun org-pomodoro-kill ()
+  "Kill the current timer, reset the phase and update the modeline."
+  (org-clock-out)
+  (org-pomodoro-killed))
 
 (leaf ox-gfm
   :ensure t
@@ -810,9 +817,7 @@ targets."
 ;;   (add-hook 'dap-mode-hook #'dap-tooltip-mode)
 ;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 
-; Python
-(leaf python-mode
-  :ensure t)
+; python
 (leaf pet
   :ensure t
   :hook

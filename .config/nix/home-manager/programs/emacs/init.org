@@ -861,7 +861,10 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
          (org-pomodoro-killed-hook . org-clock-out))
   :bind ("M-p" . org-pomodoro)
   :custom (
-           (org-pomodoro-play-sournds . nil)))
+           (org-pomodoro-play-sournds . nil)
+           (org-pomodoro-finished-sound-p . nil)
+           (org-pomodoro-short-break-sound-p . nil)
+           (org-pomodoro-long-break-sound-p . nil)))
 (defun org-pomodoro-kill ()
   "Kill the current timer, reset the phase and update the modeline."
   (org-clock-out)
@@ -1018,9 +1021,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+end_src
 ** python
 #+begin_src elisp
-; Python
-(leaf python-mode
-  :ensure t)
+; python
 (leaf pet
   :ensure t
   :hook
