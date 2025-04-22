@@ -919,11 +919,13 @@ targets."
    (skk-server-host . "localhost")
    (skk-server-portnum . 1178)))
 
-(leaf llm-ollama
-  :ensure t)
-
+(defun generate-commit-message()
+    (let ((buffer (current-buffer)))
+             (with-current-buffer buffer
+               (insert (ellama-generate-commit-message)))))
 (leaf ellama
   :ensure t
+  ;:hook (git-commit-mode-hook . generate-commit-message)
   :custom ((ellama-language . "Japanese")))
 
 (leaf *hydra-goto2
