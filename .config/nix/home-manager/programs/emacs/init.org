@@ -1145,6 +1145,13 @@ nixのEmacsが直るまで、これは待機
      (skk-server-host . "localhost")
      (skk-server-portnum . 1178)))
 #+END_SRC
+
+** LLM (ellama)
+#+begin_src elisp
+(leaf ellama
+  :ensure t
+  :custom ((ellama-language . "Japanese")))
+#+end_src
 ** hydra menu 
 #+begin_src elisp
 (leaf *hydra-goto2

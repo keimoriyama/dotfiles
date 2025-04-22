@@ -69,6 +69,7 @@ in {
       docker
       nvfetcher
       udev-gothic
+      ollama
     ];
     file = {
       ".config/nvim" = {

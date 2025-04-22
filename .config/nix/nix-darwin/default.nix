@@ -59,6 +59,7 @@
       "wezterm"
       "docker"
       "google-chrome"
+      "ollama"
     ];
   };
 }
