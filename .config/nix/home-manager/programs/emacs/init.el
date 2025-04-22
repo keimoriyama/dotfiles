@@ -441,12 +441,12 @@
 (leaf embark
       :ensure t
       :bind
-      (("C-h b" . embark-bindings)
-       ("s-e" . embark-act)))
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none))))
+      (("C-h b" . embark-bindings)))
+
+(add-to-list 'display-buffer-alist
+             '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+               nil
+               (window-parameters (mode-line-format . none))))
 
 (leaf embark-consult                    ;
       :doc "Consult integration for Embark"
@@ -680,11 +680,14 @@ targets."
 
 (leaf org-pomodoro
   :ensure t
-  :hook ((org-pomodoro-break-finished-hook . org-pomodoro)
-         (org-pomodoro-killed-hook . org-clock-out))
+  :hook ((org-pomodoro-break-finished-hook . org-pomodoro))
   :bind ("M-p" . org-pomodoro)
   :custom (
-           (org-pomodoro-play-sournds . nil)))
+           (org-pomodoro-play-sournds . nil)
+           (org-pomodoro-finished-sound-p . nil)
+           (org-pomodoro-short-break-sound-p . nil)
+           (org-pomodoro-long-break-sound-p . nil)
+           (org-pomodoro-format . "Working %s")))
 (defun org-pomodoro-kill ()
   "Kill the current timer, reset the phase and update the modeline."
   (org-clock-out)
@@ -738,39 +741,39 @@ targets."
                                         ;(lsp-use-plists . t)
 )
 
-(setq read-process-output-max (* 5 1024 1024)) ;; 10mb
-(setq gc-cons-threshold 200000000)
+;; (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
+;; (setq gc-cons-threshold 200000000)
 
-(defun lsp-booster--advice-json-parse (old-fn &rest args)
-  "Try to parse bytecode instead of json."
-  (or
-   (when (equal (following-char) ?#)
-     (let ((bytecode (read (current-buffer))))
-       (when (byte-code-function-p bytecode)
-         (funcall bytecode))))
-   (apply old-fn args)))
-(advice-add (if (progn (require 'json)
-                       (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-              'json-read)
-            :around
-            #'lsp-booster--advice-json-parse)
+;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   "Try to parse bytecode instead of json."
+;;   (or
+;;    (when (equal (following-char) ?#)
+;;      (let ((bytecode (read (current-buffer))))
+;;        (when (byte-code-function-p bytecode)
+;;          (funcall bytecode))))
+;;    (apply old-fn args)))
+;; (advice-add (if (progn (require 'json)
+;;                        (fboundp 'json-parse-buffer))
+;;                 'json-parse-buffer
+;;               'json-read)
+;;             :around
+;;             #'lsp-booster--advice-json-parse)
 
-(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  "Prepend emacs-lsp-booster command to lsp CMD."
-  (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)                             ;; for check lsp-server-present?
-             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-             lsp-use-plists
-             (not (functionp 'json-rpc-connection))  ;; native json-rpc
-             (executable-find "emacs-lsp-booster"))
-        (progn
-          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-            (setcar orig-result command-from-exec-path))
-          (message "Using emacs-lsp-booster for %s!" orig-result)
-          (cons "emacs-lsp-booster" orig-result))
-      orig-result)))
-(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+;;   "Prepend emacs-lsp-booster command to lsp CMD."
+;;   (let ((orig-result (funcall old-fn cmd test?)))
+;;     (if (and (not test?)                             ;; for check lsp-server-present?
+;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+;;              lsp-use-plists
+;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+;;              (executable-find "emacs-lsp-booster"))
+;;         (progn
+;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+;;             (setcar orig-result command-from-exec-path))
+;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+;;           (cons "emacs-lsp-booster" orig-result))
+;;       orig-result)))
+;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
 (leaf lsp-ui
  :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-sideline-update-mode))
@@ -818,6 +821,10 @@ targets."
 ;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 
 ; python
+(leaf python-mode
+  :ensure t)
+
+
 (leaf pet
   :ensure t
   :hook

@@ -7,7 +7,7 @@
   fish = import ./fish {inherit pkgs;};
   wezterm = import ./wezterm {inherit pkgs;};
 in [
-  # emacs
+  emacs
   fish
   wezterm
 ]

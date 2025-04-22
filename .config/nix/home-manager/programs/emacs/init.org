@@ -449,6 +449,7 @@
   (exec-path-from-shell-initialize))
 #+end_src
 
+** Completion
 *** corfu
 
 #+begin_src elisp
@@ -724,7 +725,8 @@ targets."
                                      (format "%s/projects/" org-directory))))
        "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
    (org-todo-keywords .
-                      '((sequence "TODO" "DOING" "|"  "DONE" "WAIT"))))
+                      '((sequence "TODO" "DOING" "|"  "DONE" "WAIT")))
+   (org-global-properties . '(("EFFORT_ALL" . "25 50 75 90"))))
   )
 #+end_src
 
@@ -930,40 +932,41 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+end_src
 
 *** lsp-booster
+nixのEmacsが直るまで、これは待機
 #+begin_src elisp
-(setq read-process-output-max (* 5 1024 1024)) ;; 10mb
-(setq gc-cons-threshold 200000000)
+;; (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
+;; (setq gc-cons-threshold 200000000)
 
-(defun lsp-booster--advice-json-parse (old-fn &rest args)
-  "Try to parse bytecode instead of json."
-  (or
-   (when (equal (following-char) ?#)
-     (let ((bytecode (read (current-buffer))))
-       (when (byte-code-function-p bytecode)
-         (funcall bytecode))))
-   (apply old-fn args)))
-(advice-add (if (progn (require 'json)
-                       (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-              'json-read)
-            :around
-            #'lsp-booster--advice-json-parse)
+;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   "Try to parse bytecode instead of json."
+;;   (or
+;;    (when (equal (following-char) ?#)
+;;      (let ((bytecode (read (current-buffer))))
+;;        (when (byte-code-function-p bytecode)
+;;          (funcall bytecode))))
+;;    (apply old-fn args)))
+;; (advice-add (if (progn (require 'json)
+;;                        (fboundp 'json-parse-buffer))
+;;                 'json-parse-buffer
+;;               'json-read)
+;;             :around
+;;             #'lsp-booster--advice-json-parse)
 
-(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  "Prepend emacs-lsp-booster command to lsp CMD."
-  (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)                             ;; for check lsp-server-present?
-             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-             lsp-use-plists
-             (not (functionp 'json-rpc-connection))  ;; native json-rpc
-             (executable-find "emacs-lsp-booster"))
-        (progn
-          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-            (setcar orig-result command-from-exec-path))
-          (message "Using emacs-lsp-booster for %s!" orig-result)
-          (cons "emacs-lsp-booster" orig-result))
-      orig-result)))
-(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+;;   "Prepend emacs-lsp-booster command to lsp CMD."
+;;   (let ((orig-result (funcall old-fn cmd test?)))
+;;     (if (and (not test?)                             ;; for check lsp-server-present?
+;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+;;              lsp-use-plists
+;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+;;              (executable-find "emacs-lsp-booster"))
+;;         (progn
+;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+;;             (setcar orig-result command-from-exec-path))
+;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+;;           (cons "emacs-lsp-booster" orig-result))
+;;       orig-result)))
+;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
 
 *** lsp-ui
@@ -1020,8 +1023,13 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 ;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 #+end_src
 ** python
+
 #+begin_src elisp
 ; python
+(leaf python-mode
+  :ensure t)
+
+
 (leaf pet
   :ensure t
   :hook
@@ -1137,12 +1145,6 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
      (skk-server-host . "localhost")
      (skk-server-portnum . 1178)))
 #+END_SRC
-** CopilotChat
-#+begin_src elisp
-(leaf copilot-chat
-  :hook (git-commit-setup-hook . copilo-chat-insert-commit-message))
-#+end_src
-
 ** hydra menu 
 #+begin_src elisp
 (leaf *hydra-goto2
@@ -1310,4 +1312,3 @@ LOGIN-CALLBACK takes two arguments, the buffer created by `marimo:notebooklist-o
    )
   )
 #+end_src
-
