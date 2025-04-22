@@ -1150,7 +1150,6 @@ nixのEmacsが直るまで、これは待機
 #+begin_src elisp
 (leaf ellama
   :ensure t
-  :hook (git-commit-setup-hook . ellama-generate-commit-message)
   :custom ((ellama-language . "Japanese")))
 #+end_src
 ** hydra menu 

@@ -565,7 +565,8 @@ targets."
                                      (format "%s/projects/" org-directory))))
        "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
    (org-todo-keywords .
-                      '((sequence "TODO" "DOING" "|"  "DONE" "WAIT"))))
+                      '((sequence "TODO" "DOING" "|"  "DONE" "WAIT")))
+   (org-global-properties . '(("EFFORT_ALL" . "25 50 75 90"))))
   )
 
 (leaf olivetti
@@ -918,8 +919,12 @@ targets."
    (skk-server-host . "localhost")
    (skk-server-portnum . 1178)))
 
-(leaf copilot-chat
-  :hook (git-commit-setup-hook . copilo-chat-insert-commit-message))
+(leaf llm-ollama
+  :ensure t)
+
+(leaf ellama
+  :ensure t
+  :custom ((ellama-language . "Japanese")))
 
 (leaf *hydra-goto2
   :doc "Search and move cursor"
