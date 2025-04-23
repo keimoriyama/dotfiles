@@ -2,66 +2,64 @@
 ** 基本設定
 *** 本当の基本設定
 #+BEGIN_SRC elisp
-   ;;; init.el:
-   (when (< emacs-major-version 23)
-     (defvar user-emacs-directory "~/.emacs.d/"))
+;;; init.el:
+(when (< emacs-major-version 23)
+  (defvar user-emacs-directory "~/.emacs.d/"))
 
-   ; システムに装飾キー渡さない
-   (setq mac-pass-control-to-system nil)
-   (setq mac-pass-command-to-system nil)
-   (setq mac-pass-option-to-system nil)
-   (setq make-backup-files nil)
-   (setq auto-save-default nil)
-   (setq auto-save-list-file-prefix nil)
-   (setq create-lockfiles nil)
+; システムに装飾キー渡さない
+(setq mac-pass-control-to-system nil)
+(setq mac-pass-command-to-system nil)
+(setq mac-pass-option-to-system nil)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq auto-save-list-file-prefix nil)
+(setq create-lockfiles nil)
 #+end_src
 *** C-tでバッファを切り変える
 #+begin_src elisp
-   (define-key global-map (kbd "C-t") 'other-window)
+(define-key global-map (kbd "C-t") 'other-window)
 #+end_src
 *** C-x C-cでEmacsを終了しない
 #+begin_src elisp
-  ; 好きなコマンドを割り振ろう
-  (global-set-key (kbd "C-x C-c") 'magit)
-  (global-set-key (kbd "C-x C-z") 'your-favorite-command)
-  ;; I never use C-x C-c
-  (defalias 'exit 'save-buffers-kill-emacs)
+(global-set-key (kbd "C-x C-c") 'magit)
+(global-set-key (kbd "C-x C-z") 'your-favorite-command)
+;; I never use C-x C-c
+(defalias 'exit 'save-buffers-kill-emacs)
 #+end_src
 *** 何かサーバーが動くらしい
 行番号を表示しない、スクロールバーを表示しない、時間を24時間フォーマットで表示する
 #+begin_src elisp
-   (server-start)
-   (column-number-mode -1)
-   (scroll-bar-mode -1)
-   (size-indication-mode t)
-   (setq display-time-24hr-format t)
-   (display-time-mode t)
+(server-start)
+(column-number-mode -1)
+(scroll-bar-mode -1)
+(size-indication-mode t)
+(setq display-time-24hr-format t)
+(display-time-mode t)
 #+end_src
 *** 日本語にする
 文字コードはutf-8
 #+begin_src elisp
-  (set-language-environment "Japanese")
-  (prefer-coding-system 'utf-8)
-
-  (setq frame-title-format "%f")
+(set-language-environment "Japanese")
+(prefer-coding-system 'utf-8)
+(setq frame-title-format "%f")
 #+end_src
 *** タブは4文字
 #+begin_src elisp
-  (setq-default tab-width 4)
-  (setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
 #+end_src
 *** フォントはMenloを使用する
 #+begin_src elisp
-  (set-face-attribute 'default nil
-                      :family "Menlo"
-                      :height 200)
+(set-face-attribute 'default nil
+                    :family "Menlo"
+                    :height 200)
 #+end_src
 *** 中間ファイルを生成しない(はず)
 #+begin_src elisp
-  (setq backup-directory-alist
-        `((".*".,temporary-file-directory)))
-  (setq auto-save-file-name-transforms
-        `((".*" ,temporary-file-directory)))
+(setq backup-directory-alist
+      `((".*".,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory)))
 #+end_src
 
 #+begin_src elisp
@@ -73,41 +71,41 @@
 
 *** M-*をmacのcommandキーにマップする
 #+begin_src elisp
-  (setq mac-command-modifier 'meta)
+(setq mac-command-modifier 'meta)
 #+end_src
 
 *** yes or noをy、nにする
 #+begin_src elisp
-  (add-hook 'emacs-startup-hook
-            #'(lambda ()
-                (fset 'yes-or-no-p 'y-or-n-p)))
+(add-hook 'emacs-startup-hook
+          #'(lambda ()
+              (fset 'yes-or-no-p 'y-or-n-p)))
 #+end_src
 
 *** Native Comp周りの設定
 #+begin_src elisp
-  (with-eval-after-load 'comp-run
-    ;; config
-    (setopt native-comp-async-jobs-number 8)
-    (setopt native-comp-speed 3)
-    (setopt native-comp-always-compile t))
+(with-eval-after-load 'comp-run
+  ;; config
+  (setopt native-comp-async-jobs-number 8)
+  (setopt native-comp-speed 3)
+  (setopt native-comp-always-compile t))
 
-  (with-eval-after-load 'warnings
-    ;; config
-    (setopt warning-suppress-types '((comp))))
+(with-eval-after-load 'warnings
+  ;; config
+  (setopt warning-suppress-types '((comp))))
 
-  (defun elisp-mode-hooks ()
-    "list-mode-hooks"
-    (when (require 'eldoc nil t)
-      (setq eldoc-idle-delay 0.2)
-      (setq eldoc-echo-area-use-multiline-p t)
-      (turn-on-eldoc-mode)))
-  (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
+(defun elisp-mode-hooks ()
+  "list-mode-hooks"
+  (when (require 'eldoc nil t)
+    (setq eldoc-idle-delay 0.2)
+    (setq eldoc-echo-area-use-multiline-p t)
+    (turn-on-eldoc-mode)))
+(add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 #+end_src
 
 #+begin_src elisp
-  ;; load environment value
-  (dolist (path (reverse (split-string (getenv "PATH") ":")))
-    (add-to-list 'exec-path path))
+;; load environment value
+(dolist (path (reverse (split-string (getenv "PATH") ":")))
+  (add-to-list 'exec-path path))
 #+end_src
 
 ** Leafの設定
@@ -138,7 +136,7 @@
    )
 #+end_src
 
-** 雑多な設定
+** Utils
 *** dash.el
 #+begin_src elisp
 (leaf dash
@@ -1022,7 +1020,8 @@ nixのEmacsが直るまで、これは待機
 ;;   (add-hook 'dap-mode-hook #'dap-tooltip-mode)
 ;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 #+end_src
-** python
+** program
+*** python
 
 #+begin_src elisp
 ; python
@@ -1061,7 +1060,7 @@ nixのEmacsが直るまで、これは待機
 ; yaml
   #+end_src
 
-** yaml
+*** yaml
 #+begin_src elisp
 (leaf yaml-mode
   :ensure t
@@ -1070,7 +1069,7 @@ nixのEmacsが直るまで、これは待機
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 #+end_src
 
-** nix
+*** nix
 #+begin_src elisp
 (leaf nix-mode
   :ensure t
@@ -1078,7 +1077,7 @@ nixのEmacsが直るまで、これは待機
   (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)))
 #+end_src
 
-** dockerfile
+*** dockerfile
 #+begin_src elisp
   ;docker
   (leaf dockerfile-mode
