@@ -1148,13 +1148,8 @@ nixのEmacsが直るまで、これは待機
 
 ** LLM (ellama)
 #+begin_src elisp
-(defun generate-commit-message()
-    (let ((buffer (current-buffer)))
-             (with-current-buffer buffer
-               (insert (ellama-generate-commit-message)))))
 (leaf ellama
   :ensure t
-  ;:hook (git-commit-mode-hook . generate-commit-message)
   :bind ((git-commit-mode-map
           ("M-g" . ellama-generate-commit-message)))
   :custom ((ellama-language . "Japanese")))
