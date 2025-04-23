@@ -106,6 +106,8 @@ vim.lsp.config('ts_ls', {
 	root_dir = root_pattern("package.json"),
 })
 
+vim.lsp.enable({"pyright", "ruff", "ts_ls", "denols", "lua_ls"})
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
 
