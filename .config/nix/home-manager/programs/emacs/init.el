@@ -13,7 +13,6 @@
 
 (define-key global-map (kbd "C-t") 'other-window)
 
-; 好きなコマンドを割り振ろう
 (global-set-key (kbd "C-x C-c") 'magit)
 (global-set-key (kbd "C-x C-z") 'your-favorite-command)
 ;; I never use C-x C-c
@@ -28,7 +27,6 @@
 
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
-
 (setq frame-title-format "%f")
 
 (setq-default tab-width 4)
@@ -919,13 +917,10 @@ targets."
    (skk-server-host . "localhost")
    (skk-server-portnum . 1178)))
 
-(defun generate-commit-message()
-    (let ((buffer (current-buffer)))
-             (with-current-buffer buffer
-               (insert (ellama-generate-commit-message)))))
 (leaf ellama
   :ensure t
-  ;:hook (git-commit-mode-hook . generate-commit-message)
+  :bind ((git-commit-mode-map
+          ("M-g" . ellama-generate-commit-message)))
   :custom ((ellama-language . "Japanese")))
 
 (leaf *hydra-goto2
