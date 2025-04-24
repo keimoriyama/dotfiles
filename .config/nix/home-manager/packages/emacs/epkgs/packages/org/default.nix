@@ -9,4 +9,5 @@ in
     olivetti
     org-superstar
     ox-gfm
+    org-pomodoro
   ]

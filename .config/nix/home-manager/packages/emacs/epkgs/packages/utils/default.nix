@@ -28,5 +28,6 @@ in
     tempel
     quickrun
     avy-zap
-    copilot-chat
+    ellama
+    doom-modeline
   ]

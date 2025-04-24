@@ -439,23 +439,22 @@
 (leaf embark
       :ensure t
       :bind
-      (("C-h b" . embark-bindings)))
+      (("C-h b" . embark-bindings)
+       ("C-." . embark-act)
+       ("C-;" . embark-dwin)))
 
 (add-to-list 'display-buffer-alist
              '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                nil
                (window-parameters (mode-line-format . none))))
 
-(leaf embark-consult                    ;
+(leaf embark-consult
       :doc "Consult integration for Embark"
       :ensure t
       :after (embark consult)
       :hook
       (embark-collect-mode-hook . consult-preview-at-point-mode)
-      :bind ((minibuffer-mode-map
-              :package emacs
-              ("C-;" . embark-dwim)
-              ("C-." . embark-act))))
+      )
 
 (defun embark-which-key-indicator ()
   "An embark indicator that displays keymaps using which-key.
@@ -478,7 +477,8 @@ targets."
              (_ (key-binding prefix 'accept-default)))
          keymap)
        nil nil t (lambda (binding)
-                   (not (string-suffix-p "-argument" (cdr binding))))))))
+                   (not (string-suffix-p "-argument" (cdr
+binding))))))))
 
 (setq embark-indicators
   '(embark-which-key-indicator
@@ -679,14 +679,16 @@ targets."
 
 (leaf org-pomodoro
   :ensure t
-  :hook ((org-pomodoro-break-finished-hook . org-pomodoro))
+; :hook ((org-pomodoro-break-finished-hook . org-pomodoro))
   :bind ("M-p" . org-pomodoro)
-  :custom (
-           (org-pomodoro-play-sournds . nil)
+  :custom ((org-pomodoro-play-sournds . nil)
            (org-pomodoro-finished-sound-p . nil)
            (org-pomodoro-short-break-sound-p . nil)
            (org-pomodoro-long-break-sound-p . nil)
-           (org-pomodoro-format . "Working %s")))
+           (org-pomodoro-manual-break . t)
+           (org-pomodoro-format . "Working %s")
+           (org-pomodoro-length . 50)
+           (org-pomodoro-short-break-length . 10)))
 (defun org-pomodoro-kill ()
   "Kill the current timer, reset the phase and update the modeline."
   (org-clock-out)
