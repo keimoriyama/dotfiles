@@ -31,6 +31,7 @@
   programs.fish.enable = true;
 
   emacsPkg = emacs.emacs-stable-without-nativecomp;
+  
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
     inherit org-babel emacsPkg;

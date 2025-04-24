@@ -863,10 +863,10 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
            (org-pomodoro-finished-sound-p . nil)
            (org-pomodoro-short-break-sound-p . nil)
            (org-pomodoro-long-break-sound-p . nil)
-           (org-pomodoro-manual-break . t)
+           (org-pomodoro-manual-break . nil)
            (org-pomodoro-format . "Working %s")
-           (org-pomodoro-length . 50)
-           (org-pomodoro-short-break-length . 10)))
+           (org-pomodoro-length . 25)
+           (org-pomodoro-short-break-length . 5)))
 (defun org-pomodoro-kill ()
   "Kill the current timer, reset the phase and update the modeline."
   (org-clock-out)

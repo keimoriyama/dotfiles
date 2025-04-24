@@ -31,9 +31,9 @@
 	";
     };
     loginShellInit = "
+set -x PATH \"/opt/homebrew/bin\" \"$PATH\"
 set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"
 set -x PATH \"$HOME/.nix-profile/bin\" \"$PATH\"
-set -x PATH \"/opt/homebrew/bin\" \"$PATH\"
 # Fish git prompt
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
