@@ -137,6 +137,7 @@
 #+end_src
 
 ** Utils
+
 *** dash.el
 #+begin_src elisp
 (leaf dash
@@ -146,13 +147,13 @@
 *** f.el
 #+begin_src elisp
 (leaf f
-  :ensure t)
+  :ensure nil)
 #+end_src
 
 *** NerdIcon
 #+begin_src elisp
 (leaf nerd-icons-completion
-  :ensure t
+  :ensure nil
   :global-minor-mode t)
 #+end_src
 
@@ -166,7 +167,7 @@
 *** theme(solarized)
 #+begin_src elisp
 (leaf solarized-theme
-  :ensure t
+  :ensure nil
   :config
   (load-theme 'solarized-light t))
 #+end_src
@@ -174,7 +175,7 @@
 *** volatile-highlights
 #+begin_src elisp
 (leaf volatile-highlights
-  :ensure t
+  :ensure nil
   :global-minor-mode t)
 #+end_src
 
@@ -187,7 +188,7 @@
 *** projectile.el
 #+begin_src elisp
 (leaf projectile
-  :ensure t
+  :ensure nil
   :global-minor-mode projectile-mode
   :custom
   ((projectile-sort-order . 'recently-active))
@@ -197,7 +198,7 @@
 *** centauer-tabs.el
 #+begin_src elisp
 ;; (leaf centaur-tabs
-;;   :ensure t
+;;   :ensure nil
 ;;   :global-minor-mode centaur-tabs-mode
 ;;   :bind ("M-c" . centaur-tabs/body)
 ;;   :custom
@@ -218,28 +219,28 @@
 *** bufferlo.el
 #+begin_src elisp
 (leaf bufferlo
-  :ensure t
+  :ensure nil
   :global-minor-mode bufferlo-mode)
 #+end_src
 
 *** expand region
 #+begin_src elisp
 (leaf expand-region
-  :ensure t
+  :ensure nil
   :bind ("C-=" . er/expand-region))
 #+end_src
 
 *** undo-tree
 #+begin_src elisp
 (leaf undo-tree
-  :ensure t
+  :ensure nil
   :global-minor-mode global-undo-tree-mode)
 #+end_src
 
 *** multiple-cursors.el
 #+begin_src elisp
 ;; (leaf multiple-cursors
-;;   :ensure t
+;;   :ensure nil
 ;;   :bind ("M-m" . hydra-multiple-cursors/body)
 ;;   :hydra
 ;;   (hydra-multiple-cursors (:color pink :hint nil)
@@ -276,7 +277,7 @@
 *** git-gutter.el
 #+begin_src elisp
 (leaf git-gutter
-  :ensure t
+  :ensure nil
   :init
   (global-git-gutter-mode))
 #+end_src
@@ -284,7 +285,7 @@
 *** rainbow-delimiters.el
 #+begin_src elisp
 (leaf rainbow-delimiters
-  :ensure t
+  :ensure nil
   :hook
   ((prog-mode-hook . rainbow-delimiters-mode)))
 #+end_src
@@ -299,14 +300,14 @@
 *** free-keys.el
 #+begin_src elisp
 (leaf free-keys
-  :ensure t)
+  :ensure nil)
 #+end_src
 
 *** puni.el
 #+begin_src elisp
 (leaf puni
   :doc "Parentheses Universalistic"
-  :ensure t
+  :ensure nil
   :global-minor-mode puni-global-mode
   :bind ((puni-mode-map
        ;; default mapping
@@ -333,7 +334,7 @@
 *** iflipb.el
 #+begin_src elisp
 ;; (leaf iflipb
-;;   :ensure t
+;;   :ensure nil
 ;;   :bind
 ;;   (("M-n" . iflipb-next-buffer)
 ;;    ("M-p" . iflipb-previous-buffer)))
@@ -359,7 +360,7 @@
 *** doom modeline
 #+begin_src elisp
 (leaf doom-modeline
-  :ensure t
+  :ensure nil
   :global-minor-mode doom-modeline-mode)
 #+end_src
 
@@ -373,7 +374,7 @@
 *** mistty
 #+begin_src elisp
 (leaf mistty
-  :ensure t
+  :ensure nil
   :bind (("C-c s" . mistty-other-window)
 
        ;; bind here the shortcuts you'd like the
@@ -390,21 +391,21 @@
 #+begin_src elisp
 (leaf which-key
   :doc "Display available keybindings in popup"
-  :ensure t
+  :ensure nil
   :global-minor-mode t)
 #+end_src
 
 *** magit
 #+begin_src elisp
 (leaf magit
-  :ensure t)
+  :ensure nil)
 #+end_src
 
 *** smerge-mode
 #+begin_src elisp
 (leaf smerge-mode
   :doc "Manage git confliction"
-  :ensure t
+  :ensure nil
   :preface
   (defun start-smerge-mode-with-hydra ()
     (interactive)
@@ -439,7 +440,7 @@
 #+begin_src elisp
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
-  :ensure t
+  :ensure nil
   :defun (exec-path-from-shell-initialize)
   :custom ((exec-path-from-shell-check-startup-files)
            (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME")))
@@ -453,7 +454,7 @@
 #+begin_src elisp
 (leaf corfu
   :doc "COmpletion in Region FUnction"
-  :ensure t
+  :ensure nil
   :global-minor-mode global-corfu-mode
   :custom ((corfu-auto . t)
            (corfu-auto-delay . 0.1)
@@ -468,7 +469,7 @@
 #+begin_src elisp
 (leaf cape
   :doc "Completion At Point Extensions"
-  :ensure t
+  :ensure nil
   :hook
   ((prog-mode
      text-mode
@@ -488,7 +489,7 @@
 (savehist-mode)
 (leaf vertico
   :doc "VERTical Interactive COmpletion"
-  :ensure t
+  :ensure nil
   :global-minor-mode t)
 (advice-add #'vertico--setup :after
             (lambda (&rest _)
@@ -500,7 +501,7 @@
 #+begin_src elisp
 (leaf marginalia
   :doc "Enrich existing commands with completion annotations"
-  :ensure t
+  :ensure nil
   :global-minor-mode t)
 #+end_src
 
@@ -509,14 +510,14 @@
 (leaf avy
   :doc "Jump to things in tree-style"
   :url "https://github.com/abo-abo/avy"
-  :ensure t)
+  :ensure nil)
 #+end_src
 
 #+begin_src elisp
 (leaf avy-zap
   :doc "Zap to char using avy"
   :url "https://github.com/cute-jumper/avy-zap"
-  :ensure t)
+  :ensure nil)
 #+end_src
 
 *** consult
@@ -550,7 +551,7 @@
 
 (leaf consult
   :doc "Consulting completing-read"
-  :ensure t
+  :ensure nil
   :hook (completion-list-mode-hook . consult-preview-at-point-mode)
   :defun consult-line
   :preface
@@ -582,7 +583,7 @@
 *** embark
 #+begin_src elisp
 (leaf embark
-      :ensure t
+      :ensure nil
       :bind
       (("C-h b" . embark-bindings)
        ("C-." . embark-act)
@@ -595,7 +596,7 @@
 
 (leaf embark-consult
       :doc "Consult integration for Embark"
-      :ensure t
+      :ensure nil
       :after (embark consult)
       :hook
       (embark-collect-mode-hook . consult-preview-at-point-mode)
@@ -645,7 +646,7 @@ binding))))))))
 #+begin_src elisp
 (leaf affe
   :doc "Asynchronous Fuzzy Finder for Emacs"
-  :ensure t
+  :ensure nil
   :custom ((affe-highlight-function . 'orderless-highlight-matches)
            (affe-regexp-function . 'orderless-pattern-compiler)))
 #+end_src
@@ -654,7 +655,7 @@ binding))))))))
 #+begin_src elisp
 (leaf orderless
   :doc "Completion style for matching regexps in any order"
-  :ensure t
+  :ensure nil
   :custom ((completion-styles . '(orderless partial-completion basic))
            (completion-category-defaults . nil)
            (completion-category-overrides . nil)))
@@ -663,7 +664,7 @@ binding))))))))
 *** tempel
 #+begin_src elisp
 (leaf tempel
-  :ensure t
+  :ensure nil
   :doc "template engine"
   :init
   (defun tempel-setup-capf ()
@@ -678,7 +679,7 @@ binding))))))))
 *** yasnippet
 #+begin_src elisp
 (leaf yasnippet
-  :ensure t
+  :ensure nil
   :doc "snippet engine"
   :init (yas-global-mode t)
   :bind ((yas-keymap
@@ -711,6 +712,7 @@ binding))))))))
                               name) path)))
 
 (leaf org
+  ;:hook (org-mode-hook . lsp-org)
   :custom
   ((org-startup-folded . 'content)
    (org-startup-indented . "indent")
@@ -734,7 +736,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 **** olivetti-mode
 #+begin_src elisp
 (leaf olivetti
-  :ensure t
+  :ensure nil
   :hook (org-mode-hook . olivetti-mode))
 
 (when (member "Roboto Mono" (font-family-list))
@@ -803,7 +805,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 #+begin_src elisp
 (leaf org-superstar
   :hook (org-mode-hook . org-superstar-mode)
-  :ensure t
+  :ensure nil
   :custom
   ((org-superstar-leading-bullet . " ")
    (org-superstart-special-todo-items . t)))
@@ -817,6 +819,18 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
   (shell . t)))
 
 (setq org-babel-python-command "../.venv/bin/python")
+(leaf ob-core
+  ;; config
+  :custom ((org-confirm-babel-evaluate . nil)
+  (org-babel-default-header-args . '((:session . "none")
+                                        (:results . "drawer replace")
+                                        (:exports . "code")
+                                        (:cache . "no")
+                                        (:noweb . "no")
+                                        (:hlines . "no")
+                                        (:tangle . "no")))))
+(with-eval-after-load 'ob-lisp
+  (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
 
 *** org agenda
@@ -856,7 +870,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 *** org pomodoro
 #+begin_src elisp
 (leaf org-pomodoro
-  :ensure t
+  :ensure nil
 ; :hook ((org-pomodoro-break-finished-hook . org-pomodoro))
   :bind ("M-p" . org-pomodoro)
   :custom ((org-pomodoro-play-sournds . nil)
@@ -875,7 +889,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 *** ox-gfm
 #+begin_src elisp
 (leaf ox-gfm
-  :ensure t
+  :ensure nil
   :after org)
 #+end_src
  
@@ -918,7 +932,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
          '(orderless)))
 
 (leaf lsp-mode
-  :ensure t
+  :ensure nil
   :hook
   ((python-mode-hook . lsp-mode)
    (lsp-completion-mode-hook . my/lsp-mode-completion))
@@ -973,7 +987,7 @@ nixのEmacsが直るまで、これは待機
 #+begin_src elisp
 (leaf lsp-ui
  :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-sideline-update-mode))
- :ensure t
+ :ensure nil
  :bind
  ("C-c l" . lsp-ui/body)
  :pretty-hydra
@@ -1000,13 +1014,13 @@ nixのEmacsが直るまで、これは待機
 #+begin_src elisp
 ; grammar check
 (leaf flycheck
-  :ensure t
+  :ensure nil
   :global-minor-mode global-flycheck-mode)
 #+end_src
 
 #+begin_src elisp
 (leaf highlight-indent-guides
-  :ensure t
+  :ensure nil
   :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
 #+end_src
 ** dap
@@ -1028,11 +1042,11 @@ nixのEmacsが直るまで、これは待機
 #+begin_src elisp
 ; python
 (leaf python-mode
-  :ensure t)
+  :ensure nil)
 
 
 (leaf pet
-  :ensure t
+  :ensure nil
   :hook
   (python-mode-hook . (lambda () (pet-mode)
                        (setq-local python-shell-interpreter (pet-executable-find "python"))
@@ -1046,13 +1060,13 @@ nixのEmacsが直るまで、これは待機
                        )))
 
 (leaf lsp-pyright
-  :ensure t
+  :ensure nil
   :custom ((lsp-pyright-langserver-command . "pyright")
            (lsp-pyright-disable-tagged-hints . t)
            (lsp-pyright-basedpyright-inlay-hints-variable-types . nil)))
 
 ;(leaf ein
-;  :ensure t)
+;  :ensure nil)
 ;;; undoを有効化 (customizeから設定しておいたほうが良さげ)
 ;(setq ein:worksheet-enable-undo t)
 ;;; 画像をインライン表示 (customizeから設定しておいたほうが良さげ)
@@ -1065,7 +1079,7 @@ nixのEmacsが直るまで、これは待機
 *** yaml
 #+begin_src elisp
 (leaf yaml-mode
-  :ensure t
+  :ensure nil
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
@@ -1074,7 +1088,7 @@ nixのEmacsが直るまで、これは待機
 *** nix
 #+begin_src elisp
 (leaf nix-mode
-  :ensure t
+  :ensure nil
   :config
   (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)))
 #+end_src
@@ -1083,7 +1097,7 @@ nixのEmacsが直るまで、これは待機
 #+begin_src elisp
   ;docker
   (leaf dockerfile-mode
-    :ensure t)
+    :ensure nil)
 #+end_src
 
 ** latex
@@ -1091,7 +1105,7 @@ nixのEmacsが直るまで、これは待機
 #+begin_src elisp
 ; Latex
 (leaf yatex
-  :ensure t
+  :ensure nil
   :doc "new latex mode"
   :commands (yatex-mode)
   :mode (("\\.tex$" . yatex-mode)
@@ -1114,7 +1128,7 @@ nixのEmacsが直るまで、これは待機
 #+begin_src elisp
 (leaf flyspell
   ;; flyspellをインストールする
-  :ensure t
+  :ensure nil
   ;; YaTeXモードでflyspellを使う
   :hook (yatex-mode-hook . flyspell-mode))
 #+end_src
@@ -1122,7 +1136,7 @@ nixのEmacsが直るまで、これは待機
 *** reftex
 #+begin_src elisp
 (leaf reftex
-   :ensure t 
+   :ensure nil 
     :hook (yatex-mode-hook . (lambda () (reftex-mode))))
 
 (add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
@@ -1132,7 +1146,7 @@ nixのEmacsが直るまで、これは待機
 ** ddskk
 #+begin_src elisp
   (leaf ddskk
-    :ensure t
+    :ensure nil
     :doc "japanese IME works in emacs"
     :bind (("C-x C-j" . skk-mode))
     :custom
@@ -1150,9 +1164,7 @@ nixのEmacsが直るまで、これは待機
 ** LLM (ellama)
 #+begin_src elisp
 (leaf ellama
-  :ensure t
-  :bind ((git-commit-mode-map
-          ("M-g" . ellama-generate-commit-message)))
+  :ensure nil
   :custom ((ellama-language . "Japanese")))
 #+end_src
 
@@ -1272,7 +1284,7 @@ nixのEmacsが直るまで、これは待機
 ** OJ
 #+begin_src elisp
 ;; (leaf oj
- ;;  :ensure t
+ ;;  :ensure nil
  ;;  :custom ((oj-compiler-python . "pypy")
  ;;           (oj-default-online-judge . 'atcoder)
  ;;           (oj-home-dir . "~/Program/Atcoder")))
