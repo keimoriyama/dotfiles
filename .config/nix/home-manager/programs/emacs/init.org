@@ -141,7 +141,7 @@
 *** dash.el
 #+begin_src elisp
 (leaf dash
-  :ensure t)
+  :ensure nil)
 #+end_src
 
 *** f.el

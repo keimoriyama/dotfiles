@@ -59,16 +59,16 @@
     apps.${system}.update = {
       type = "app";
       program = toString (pkgs.writeShellScript "update-script" ''
-              set -e
-              echo "updating flake..."
-              nix flake update
-              echo "Updating home-manager..."
-                 nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-              echo "Updating nix-darwin..."
-                    nix run nix-darwin -- switch --flake .#kei-darwin
-              echo "update complete"
+        set -e
+        echo "updating flake..."
+        nix flake update
+        echo "Updating home-manager..."
+        nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
+        echo "Updating nix-darwin..."
+        nix run nix-darwin -- switch --flake .#kei-darwin
+        echo "update complete"
         alejandra .
-              echo "done!!!"
+        echo "done!!!"
       '');
     };
   };
