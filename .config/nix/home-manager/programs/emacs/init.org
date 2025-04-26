@@ -102,10 +102,19 @@
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 #+end_src
 
+*** 環境変数の設定
 #+begin_src elisp
 ;; load environment value
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
+#+end_src
+
+*** シェルの設定
+#+begin_src elisp
+(setq-default shell-file-name
+              (expand-file-name "~/.nix-profile/bin/fish"))
+(setq-default sh-shell-file
+              (expand-file-name "~/.nix-profile/bin/fish"))
 #+end_src
 
 ** Leafの設定
@@ -440,12 +449,13 @@
 #+begin_src elisp
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
-  :ensure nil
-  :defun (exec-path-from-shell-initialize)
+  :ensure t
+  ;:defun (exec-path-from-shell-initialize)
   :custom ((exec-path-from-shell-check-startup-files)
-           (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME")))
+           (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME" "SHELL")))
   :config
   (exec-path-from-shell-initialize))
+(add-to-list 'exec-path "/Library/Tex/texbin/")
 #+end_src
 
 ** Completion
@@ -681,7 +691,7 @@ binding))))))))
 (leaf yasnippet
   :ensure nil
   :doc "snippet engine"
-  :init (yas-global-mode t)
+  ;:init (yas-global-mode t)
   :bind ((yas-keymap
          ("<tab>" . nil)
          ("TAB" . nil)
