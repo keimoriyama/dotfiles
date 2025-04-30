@@ -8,16 +8,16 @@
       }
     ];
     shellAliases = {
-      g = "git";
-      ga = "git add";
-      gd = "git diff";
-      gp = "git push";
-      gpo = "git push origin";
-      gb = "git branch";
-      gs = "git status";
-      gco = "git checkout";
-      gf = "git fetch";
-      gc = "git commit";
+      # g = "git";
+      # ga = "git add";
+      # gd = "git diff";
+      # gp = "git push";
+      # gpo = "git push origin";
+      # gb = "git branch";
+      # gs = "git status";
+      # gco = "git checkout";
+      # gf = "git fetch";
+      # gc = "git commit";
       c = "clear";
       n = "nvim";
       python = "python3";
@@ -33,8 +33,8 @@
     loginShellInit = "
 set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"
 set -x PATH \"$HOME/.nix-profile/bin\" \"$PATH\"
-set -x PATH \"/opt/homebrew/bin\" \"$PATH\"
-set -x PATH \"$HOME/.cargo/bin\" \"$PATH\"
+set -x PATH \"$PATH\" \"/opt/homebrew/bin\"
+set -x PATH \"$PATH\" \"$HOME/.cargo/bin\" 
 # Fish git prompt
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'

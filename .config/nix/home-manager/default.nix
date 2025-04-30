@@ -72,7 +72,7 @@ in {
       udev-gothic
       cargo
 	  ghostscript
-      # ollama
+	  ollama
     ];
     file = {
       ".config/nvim" = {
