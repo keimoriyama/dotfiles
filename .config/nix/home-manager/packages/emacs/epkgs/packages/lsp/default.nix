@@ -6,7 +6,10 @@
   packages = pkgs.callPackage ./packages.nix {inherit sources epkgs;};
 in
   with epkgs; [
-    # lsp-bridge
+    # lsp
+    lsp-bridge
+    # formatter
+    apheleia
     lsp-mode
     lsp-ui
     # dap-mode

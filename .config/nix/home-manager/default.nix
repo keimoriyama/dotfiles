@@ -30,7 +30,7 @@
   };
   programs.fish.enable = true;
 
-  emacsPkg = emacs.emacs-stable-without-nativecomp;
+  emacsPkg = emacs.emacs-stable;
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
