@@ -71,6 +71,7 @@ in {
       nvfetcher
       udev-gothic
       cargo
+	  ghostscript
       # ollama
     ];
     file = {
