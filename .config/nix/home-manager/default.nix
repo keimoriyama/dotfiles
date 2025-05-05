@@ -14,7 +14,10 @@
 
   pkgs = import nixpkgs {
     inherit system;
-    config.allowUnfree = true;
+    config = {
+      allowUnfree = true;
+      allwoUnfreePredicate = (_: true);
+    };
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;
       inherit neovim-nightly-overlay;
@@ -73,6 +76,11 @@ in {
       cargo
 	  ghostscript
 	  ollama
+      slack
+      wezterm
+      spotify
+      docker
+      karabiner-elements
     ];
     file = {
       ".config/nvim" = {
