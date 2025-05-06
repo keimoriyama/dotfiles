@@ -463,8 +463,7 @@
 #+begin_src elisp
 (leaf olivetti
   :ensure nil
-  :init (olivetti-mode t))
-  ;:global-minor-mode olivetti-mode)
+  :global-minor-mode olivetti-mode)
 #+end_src
 
 ** Completion

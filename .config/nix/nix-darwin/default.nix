@@ -52,7 +52,7 @@
       # "slack"
       "font-hack-nerd-font"
       # "spotify"
-      # "karabiner-elements"
+      "karabiner-elements"
       "zoom"
       "mactex"
       "notion"

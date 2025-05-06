@@ -7,9 +7,6 @@
 in
   with epkgs; [
     # lsp
-    lsp-bridge
-    # formatter
-    apheleia
     lsp-mode
     lsp-ui
     # dap-mode

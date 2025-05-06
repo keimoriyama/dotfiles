@@ -80,7 +80,6 @@ in {
       wezterm
       spotify
       docker
-      karabiner-elements
     ];
     file = {
       ".config/nvim" = {
