@@ -466,7 +466,7 @@
 #+begin_src elisp
 (leaf olivetti
   :ensure nil
-  :global-minor-mode olivetti-mode)
+  :hook ((org-mode-hook prog-mode-hook) . olivetti-mode))
 #+end_src
 
 ** Completion
