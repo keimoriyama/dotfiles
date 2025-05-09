@@ -52,7 +52,7 @@ in {
       git
       curl
       uv
-      nodejs_23
+      # nodejs_23
       typescript
       python313
       lua
@@ -74,8 +74,8 @@ in {
       nvfetcher
       udev-gothic
       cargo
-	  ghostscript
-	  ollama
+	    ghostscript
+	    ollama
       slack
       wezterm
       spotify

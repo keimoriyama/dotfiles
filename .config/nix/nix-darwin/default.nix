@@ -48,7 +48,7 @@
       # ここにGUIアプリの記述
       "aquaskk"
       "skim"
-      "discord"
+      # "discord"
       # "slack"
       "font-hack-nerd-font"
       # "spotify"
@@ -59,7 +59,7 @@
       # "wezterm"
       # "docker"
       # "google-chrome"
-      # "ollama"
+      "ollama"
     ];
   };
 }

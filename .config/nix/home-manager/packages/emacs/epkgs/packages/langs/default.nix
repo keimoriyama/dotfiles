@@ -9,6 +9,7 @@ in
     python-mode
     pet
     lsp-pyright
+    ruff-format
     yaml-mode
     nix-mode
     dockerfile-mode

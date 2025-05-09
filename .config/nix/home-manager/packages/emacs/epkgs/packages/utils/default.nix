@@ -8,6 +8,7 @@ in
   with epkgs; [
     dash
     f
+    nerd-icons
     nerd-icons-completion
     solarized-theme
     volatile-highlights

@@ -51,7 +51,7 @@
 *** フォントはMenloを使用する
 #+begin_src elisp
 (set-face-attribute 'default nil
-                    :family "Menlo"
+                    :family "udev-gothic"
                     :height 200)
 #+end_src
 *** 中間ファイルを生成しない(はず)
@@ -161,6 +161,9 @@
 
 *** NerdIcon
 #+begin_src elisp
+(leaf nerd-icons
+  :ensure nil)
+
 (leaf nerd-icons-completion
   :ensure nil
   :global-minor-mode t)
