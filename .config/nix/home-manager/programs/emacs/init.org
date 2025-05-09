@@ -405,25 +405,27 @@
 
 *** embark
 #+begin_src elisp
-(leaf embark
-      :ensure nil
-      :bind
-      (("C-h b" . embark-bindings)
-       ("C-." . embark-act)
-       ("C-;" . embark-dwin)))
+(autoload-if-found '(embark-dwin
+                     embark-act
+                     embark-bindings) "embark" nil t)
+
+(keymap-global-set "C-." embark-act)
+(keymap-global-set "C-;" embark-dwin)
 
 (add-to-list 'display-buffer-alist
              '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                nil
                (window-parameters (mode-line-format . none))))
 
-(leaf embark-consult
-      :doc "Consult integration for Embark"
-      :ensure nil
-      :after (embark consult)
-      :hook
-      (embark-collect-mode-hook . consult-preview-at-point-mode)
-      )
+(autoload-if-found '(embark-consult) "embark-consult" nil t)
+
+;; (leaf embark-consult
+;;       :doc "Consult integration for Embark"
+;;       :ensure nil
+;;       :after (embark consult)
+;;       :hook
+;;       (embark-collect-mode-hook . consult-preview-at-point-mode)
+;;       )
 
 (defun embark-which-key-indicator ()
   "An embark indicator that displays keymaps using which-key.
@@ -467,40 +469,28 @@ binding))))))))
 
 *** affe
 #+begin_src elisp
-(leaf affe
-  :doc "Asynchronous Fuzzy Finder for Emacs"
-  :ensure nil
-  :custom ((affe-highlight-function . 'orderless-highlight-matches)
-           (affe-regexp-function . 'orderless-pattern-compiler)))
+(autoload-if-found '(affe-find
+                     affe-grep) "affe" nil t)
+(with-eval-after-load 'affe
+  (setopt affe-highlight-function 'orderless-highlight-matches)
+  (setopt affe-regexp-function 'orderless-pattern-compiler))
 #+end_src
 
 *** orderless
 #+begin_src elisp
-(leaf orderless
-  :doc "Completion style for matching regexps in any order"
-  :ensure nil
-  :custom ((completion-styles . '(orderless partial-completion basic))
-           (completion-category-defaults . nil)
-           (completion-category-overrides . nil)))
-#+end_src
-
-*** tempel
-#+begin_src elisp
-(leaf tempel
-  :ensure nil
-  :doc "template engine"
-  :init
-  (defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-complete
-                      completion-at-point-functions)))
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf)
-  )
+(autoload-if-found '(orderless-all-completions) "orderless" nil t)
+(with-eval-after-load 'minibuffer
+  ;; config
+  (add-to-list 'completion-styles-alist '(orderless orderless-try-completion orderless-all-completions
+                                                    "Completion of multiple components, in any order."))
+  (setopt completion-styles '(orderless initials flex basic))
+  (setopt completion-category-overrides '((file (styles flex basic partial-completion)))))
 #+end_src
 
 *** yasnippet
 #+begin_src elisp
+(autoload-if-found '(yas-global-mode) "yasnippet" nil t)
+(add-hook 'emacs-startup-hook #'yas-global-mode)
 (leaf yasnippet
   :ensure nil
   :doc "snippet engine"
@@ -533,30 +523,19 @@ binding))))))))
   (let ((name (read-string "Name: ")))
     (expand-file-name (format "%s.org"
                               name) path)))
-
-(leaf org
-  ;:hook (org-mode-hook . lsp-org)
-  :custom
-  ((org-startup-folded . 'content)
-   (org-startup-indented . "indent")
-   (org-deadline-warning-days . 30)
-   (org-capture-templates .
+(autoload-if-found '(org-mode) "org" nil t)
+(with-eval-after-load 'org
+  (setopt org-startup-folded 'content)
+  (setopt org-startup-indented 'indent)
+  (setopt org-deadline-warning-day  30)
+  (setopt org-capture-templates 
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
       ("p" "Projects" entry (file
                                (lambda () (create-new-org-file
                                      (format "%s/projects/" org-directory))))
-       "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
-   (org-todo-keywords .
-                      '((sequence "TODO" "DOING" "|"  "DONE" "WAIT")))
-   (org-global-properties . '(("EFFORT_ALL" . "25 50 75 90"))))
-  )
-#+end_src
+       "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-"))))
 
-*** org preview
-
-copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
-#+begin_src elisp
 (when (member "Roboto Mono" (font-family-list))
   (set-face-attribute 'default nil :font "Roboto Mono" :height 110)
   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
@@ -621,12 +600,11 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 *** org-superstar
 #+begin_src elisp
-(leaf org-superstar
-  :hook (org-mode-hook . org-superstar-mode)
-  :ensure nil
-  :custom
-  ((org-superstar-leading-bullet . " ")
-   (org-superstart-special-todo-items . t)))
+(autoload-if-found '(org-superstar-mode) "org-superstar" nil t)
+(add-hook 'org-mode-hook #'org-superstar-mode)
+(with-eval-after-load 'org-superstar
+  (setopt org-superstart-special-todo-items " ")
+  (setopt org-superstart-special-todo-items t))
 #+end_src
 
 *** org babel
@@ -653,52 +631,46 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 *** org agenda
 #+begin_src elisp
-(leaf org-agenda
-  :commands org-agenda
-  :custom
-  ((org-agenda-custom-commands .
+(autoload-if-found '(org-agenda) "org-agenda" nil t)
+(with-eval-after-load 'org-agenda
+  (setopt org-agenda-custom-commands 
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ))
-  (org-agenda-start-on-weekday . 3)
-  (org-agenda-span . 'week)
-  (org-agenda-skip-scheduled-if-done . t)
-  (org-return-follows-link . t)  ;; RET to follow link
-  (org-agenda-columns-add-appointments-to-effort-sum . t)
-  (org-agenda-time-grid .
+  (setopt org-agenda-start-on-weekday 3)
+  (setopt org-agenda-span 'week)
+  (setopt org-agenda-skip-scheduled-if-done t)
+  (setopt org-return-follows-link t)  ;; RET to follow link
+  (setopt org-agenda-columns-add-appointments-to-effort-sum t)
+  (setopt org-agenda-time-grid
                         '((daily today require-timed)
                           (0900 1200 1300 1800) "......" "----------------"))
-  (org-columns-default-format . 
+  (setopt org-columns-default-format
                               "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
-  (org-clock-out-remove-zero-time-clocks . t)
-  (org-agenda-use-time-grid . t)
-  (org-clock-clocked-in-display          . 'both)
-  (org-agenda-start-with-log-mode        . t)
-  (org-agenda-files . '("~/Documents/org-mode/projects")))
-  :bind
-  ((org-agenda-mode-map
-        ("s" . org-agenda-schedule)
-        ("S" . org-save-all-org-buffers))
-   ("C-c C-c" . org-agenda))
-  )
+  (setopt org-clock-out-remove-zero-time-clocks t)
+  (setopt org-agenda-use-time-grid t)
+  (setopt org-clock-clocked-in-display          'both)
+  (setopt org-agenda-start-with-log-mode         t)
+  (setopt org-agenda-files  '("~/Documents/org-mode/projects")))
+
 
 (plist-put org-format-latex-options :scale 1.2)
 #+end_src
 
 *** org pomodoro
 #+begin_src elisp
-(leaf org-pomodoro
-  :ensure nil
-; :hook ((org-pomodoro-break-finished-hook . org-pomodoro))
-  :bind ("M-p" . org-pomodoro)
-  :custom ((org-pomodoro-play-sournds . nil)
-           (org-pomodoro-finished-sound-p . nil)
-           (org-pomodoro-short-break-sound-p . nil)
-           (org-pomodoro-long-break-sound-p . nil)
-           (org-pomodoro-manual-break . nil)
-           (org-pomodoro-format . "Working %s")
-           (org-pomodoro-length . 25)
-           (org-pomodoro-short-break-length . 5)))
+(autoload-if-found '(org-pomodoro) "org-pomodoro" nil t)
+(keymap-global-set "M-p" org-pomodoro)
+(with-eval-after-load 'org-pomodoro
+  (setopt org-pomodoro-play-sournds  nil)
+  (setopt org-pomodoro-finished-sound-p nil)
+  (setopt org-pomodoro-short-break-sound-p nil)
+  (setopt org-pomodoro-long-break-sound-p nil)
+  (setopt org-pomodoro-manual-break nil)
+  (setopt org-pomodoro-format "Working %s")
+  (setopt org-pomodoro-length 25)
+  (setopt org-pomodoro-short-break-length 5))
+
 (defun org-pomodoro-kill ()
   "Kill the current timer, reset the phase and update the modeline."
   (org-clock-out)
@@ -707,9 +679,7 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 *** ox-gfm
 #+begin_src elisp
-(leaf ox-gfm
-  :ensure nil
-  :after org)
+(autoload-if-found '(org-mode) "ox-gfm" nil t)
 #+end_src
  
 *** org hydra
@@ -744,43 +714,19 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 ** lsp
 
-*** lsp-bridge
-#+begin_src elisp
-;; (leaf lsp-bridge
-;;   :ensure nil
-;;   :init (global-lsp-bridge-mode)
-;;   :custom ((lsp-bridge-python-lsp-server . '("pyright", "ruff"))
-;;              (acm-enable-capf . t)
-;;              (lsp-bridge-enable-org-babel . t))
-;;   :pretty-hydra
-;;   ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;    ("peek"
-;;     (("d" lsp-bridge-find-def "definitions")
-;;      ("r" lsp-bridge-find-references "references")
-;;      ("b" lsp-bridge-find-def-return "go back to previous location"))
-;;     "code action"
-;;     (("n" lsp-bridge-rename "rename")
-;;      ("c" lsp-execute-code-action "code action")))))
-#+end_src
-
 *** lsp mode
 #+begin_src elisp
 (defun my/lsp-mode-completion ()
    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
          '(orderless)))
 
-(leaf lsp-mode
-  :ensure nil
-  :hook
-  ((python-mode-hook . lsp-mode)
-   (lsp-completion-mode-hook . my/lsp-mode-completion))
-  :custom
-  (lsp-enable-file-watchers . nil)
-  (lsp-file-watch-threshold . 500)
-  (lsp-completion-provider . :none)
-  (lsp-ruff-lsp-server-command . '("ruff" "server"))
-                                        ;(lsp-use-plists . t)
-)
+(autoload-if-found '(lsp lsp-deferred lsp-org lsp-register-client make-lsp-client) "lsp-mode" nil t)
+(add-hook 'python-mode-hook #'lsp-mode)
+(with-eval-after-load 'lsp-mode
+  (setopt lsp-enable-file-watchers nil)
+  (setopt lsp-file-watch-threshold 500)
+  (setopt lsp-completion-provider :none)
+  (setopt lsp-ruff-lsp-server-command '("ruff" "server")))
 #+end_src
 
 *** lsp-booster
@@ -822,9 +768,21 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
 
 *** lsp-ui
 #+begin_src elisp
+(autoload-if-found '(lsp-ui-mode) "lsp-ui" nil t)
+
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
+(with-eval-after-load 'lsp-ui
+  (setopt lsp-ui-sideline-show-diagnostics t)
+  (setopt lsp-ui-sideline-show-code-actions  t)
+  (setopt lsp-ui-sideline-update-mode t)
+  (setopt lsp-ui-doc-enable t)
+  (setopt lsp-ui-doc-position 'top)
+  (setopt lsp-ui-doc-side 'right)
+  (setopt lsp-ui-doc-show-with-cursor t)
+  (setopt lsp-ui-doc-show-with-mouse nil)
+  (setopt lsp-ui-imenu-auto-refresh t))
 (leaf lsp-ui
- :hook (lsp-mode-hook . (lsp-ui-mode lsp-ui-sideline-update-mode))
- :ensure nil
  :bind
  ("C-c l" . lsp-ui/body)
  :pretty-hydra
@@ -836,167 +794,125 @@ copied from [[https://sophiebos.io/posts/beautifying-emacs-org-mode/][here]]
     "code action"
     (("n" lsp-rename "rename")
      ("c" lsp-execute-code-action "code action"))))
- :custom
- ((lsp-ui-sideline-show-diagnostics . t)
-  (lsp-ui-sideline-show-code-actions . t)
-  (lsp-ui-sideline-update-mode . t)
-  (lsp-ui-doc-enable . t)
-  (lsp-ui-doc-position . 'top)
-  (lsp-ui-doc-side . 'right)
-  (lsp-ui-doc-show-with-cursor . t)
-  (lsp-ui-doc-show-with-mouse . nil)
-  (lsp-ui-imenu-auto-refresh . t)))
+ )
 #+end_src
 *** flycheck
 #+begin_src elisp
 ; grammar check
-(leaf flycheck
-  :ensure nil
-  :global-minor-mode global-flycheck-mode)
+(autoload-if-fount '(global-flycheck-mode) "flycheck" nil t)
+(add-hook 'emacs-startup-hook #'global-flycheck-mode)
 #+end_src
 
 #+begin_src elisp
-(leaf highlight-indent-guides
-  :ensure nil
-  :hook ((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
-#+end_src
-** dap
-#+begin_src elisp
-;; (with-eval-after-load 'dap-mode
-;;   ;; keybind
-;;   (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
-
-;;   ;; hooks
-;;   (add-hook 'dap-mode-hook #'dap-ui-mode)
-;;   (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
-;;   (add-hook 'dap-mode-hook #'tooltip-mode)
-;;   (add-hook 'dap-mode-hook #'dap-tooltip-mode)
-;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
+(autoload-if-found '(highlight-indent-guides-mode) "highlight-indent-guides" nil t)
+(add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 ** program
 *** python
 
 #+begin_src elisp
 ; python
-(leaf python-mode
-  :ensure nil)
+(autoload-if-found '(python-mode) "python-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
+(autoload-if-found '(python-mode) "pet" nil t)
+(with-eval-after-load 'pet
+  (pet-mode)
+  (setq-local python-shell-interpreter (pet-executable-find "python"))
+  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
+  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
+  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+  (setq-local lsp-ruff-server-command (list (pet-executable-find "ruff") "server"))
+  (setq-local lsp-ruff-python-path python-shell-interpreter)
+  (setq-local ruff-format-command (pet-executable-find "ruff"))
+  (pet-flycheck-setup))
 
-(leaf pet
-  :ensure nil
-  :hook
-  (python-mode-hook . (lambda () (pet-mode)
-                       (setq-local python-shell-interpreter (pet-executable-find "python"))
-                       (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
-                       (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
-                       (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-                       (setq-local lsp-ruff-server-command (list (pet-executable-find "ruff") "server"))
-                       (setq-local lsp-ruff-python-path python-shell-interpreter)
-                       (setq-local ruff-format-command (pet-executable-find "ruff"))
-                       (pet-flycheck-setup)
-                       )))
-
-(leaf lsp-pyright
-  :ensure nil
-  :custom ((lsp-pyright-langserver-command . "pyright")
-           (lsp-pyright-disable-tagged-hints . t)
-           (lsp-pyright-basedpyright-inlay-hints-variable-types . nil)))
-
-;(leaf ein
-;  :ensure nil)
-;;; undoを有効化 (customizeから設定しておいたほうが良さげ)
-;(setq ein:worksheet-enable-undo t)
-;;; 画像をインライン表示 (customizeから設定しておいたほうが良さげ)
-;(setq ein:output-area-inlined-images t)
-;(declare-function ein:format-time-string "ein-utils")
-;(declare-function smartrep-define-key "smartrep")
-; yaml
-  #+end_src
+(autoload-if-found '(python-mode) "lsp-pyright" nil t)
+(with-eval-after-load 'lsp-pyright
+  (setopt lsp-pyright-langserver-command "pyright")
+  (setopt lsp-pyright-disable-tagged-hints t)
+  (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
+#+end_src
 
 *** yaml
 #+begin_src elisp
-(leaf yaml-mode
-  :ensure nil
-  :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+(autoload-if-found '(yaml-mode) "yaml-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 #+end_src
 
 *** nix
 #+begin_src elisp
-(leaf nix-mode
-  :ensure nil
-  :config
-  (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)))
+(autoload-if-found '(nix-mode) "nix-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 #+end_src
 
 *** dockerfile
 #+begin_src elisp
-  ;docker
-  (leaf dockerfile-mode
-    :ensure nil)
+(autoload-if-found '(dockerfile-mode) "dockerfile-mode" nil t)
+
+(add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
+(add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
+(add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
+
+(with-eval-after-load 'dockerfile-mode
+  ;; hooks
+  (add-hook 'dockerfile-mode-hook #'flycheck-mode))
 #+end_src
 
 ** latex
 *** yatex
 #+begin_src elisp
-; Latex
-(leaf yatex
-  :ensure nil
-  :doc "new latex mode"
-  :commands (yatex-mode)
-  :mode (("\\.tex$" . yatex-mode)
-           ("\\.ltx$" . yatex-mode)
-           ("\\.cls$" . yatex-mode)
-           ("\\.sty$" . yatex-mode)
-           ("\\.clo$" . yatex-mode)
-           ("\\.bbl$" . yatex-mode)
-           ("\\.bib$" . yatex-mode))
-  :custom
-  (( YaTeX-inhibit-prefix-letter . t)
-   (tex-command . "platex -kanji=utf8")
-     ( YaTeX-dvi2-command-ext-alist .
+(autoload-if-found '(yatex-mode) "yatex" nil t)
+(add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.sty$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
+(with-eval-after-load 'yatex
+  (setopt YaTeX-inhibit-prefix-letter  t)
+  (setopt tex-command  "platex -kanji=utf8")
+  (setopt YaTeX-dvi2-command-ext-alist
      '(("Skim" . ".pdf")))
-     ( dvi2-command . "open -a Skim")
-     ( tex-pdfview-command . "open -a Skim")))
+  (setopt dvi2-command "open -a Skim")
+  (setopt tex-pdfview-command "open -a Skim"))
 #+end_src
 
 *** flyspell
 #+begin_src elisp
-(leaf flyspell
-  ;; flyspellをインストールする
-  :ensure nil
-  ;; YaTeXモードでflyspellを使う
-  :hook (yatex-mode-hook . flyspell-mode))
+(autoload-if-found '(flyspell-mode) "flyspell" nil t)
+(add-hook 'yatex-mode-hook '#flyspell-mode)
 #+end_src
 
 *** reftex
 #+begin_src elisp
-(leaf reftex
-   :ensure nil 
-    :hook (yatex-mode-hook . (lambda () (reftex-mode))))
-
-(add-hook 'reftex-mode-hook (lambda () (setq reftex-default-bibliography
-                                             (directory-files-recursively (projectile-project-root) "\\.bib$"))))
+(autoload-if-found '(reftex-mode) "reftex" nil t)
+(add-to-list 'yatex-mode-hook #'reftex-mode)
+(with-eval-after-load 'reftex
+  (setq reftex-default-bibliography
+        (directory-files-recursively (projectile-project-root) "\\.bib$")))
 #+end_src
+
 
 ** ddskk
 #+begin_src elisp
-  (leaf ddskk
-    :ensure nil
-    :doc "japanese IME works in emacs"
-    :bind (("C-x C-j" . skk-mode))
-    :custom
-    ((skk-jisyo . "~/Documents/skk-jisyo.utf-8")
-     (skk-large-jisyo . "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
-     (skk-use-azik . t)
-     (skk-search-katakana . t)
-     (skk-preload . t)
-     (skk-share-private-jisyo . t)
-     (default-input-method . "japanese-skk")
-     (skk-server-host . "localhost")
-     (skk-server-portnum . 1178)))
+(autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
+(keymap-global-set "C-x j" skk-mode)
+(with-eval-after-load 'skk
+  (setq skk-preload t)
+  (setq default-input-method "japanese-skk"))
+(with-eval-after-load 'skk-vers
+  (setq skk-jisyo "~/Documents/skk-jisyo.utf-8")
+  (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
+    (setq skk-use-azik t)
+    (setq skk-search-katakana t)
+    (setq skk-share-private-jisyo t)
+    (setq skk-server-host "localhost")
+    (setq skk-server-portnum 1178))
 #+END_SRC
+
 
 ** LLM (ellama)
 #+begin_src elisp
