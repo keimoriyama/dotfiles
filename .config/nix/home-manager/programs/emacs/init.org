@@ -145,30 +145,28 @@
    )
 #+end_src
 
+** autoload-if-found
+
+#+begin_src elisp
+(defun autoload-if-found (functions file &optional docstring interactive type)
+  "set autoload iff. FILE has found."
+  (when (locate-library file)
+    (dolist (f functions)
+      (autoload f file docstring interactive type))
+    t))
+#+end_src
+
 ** Utils
 
 *** dash.el
 #+begin_src elisp
-(leaf dash
-  :ensure nil)
+(require 'dash)
 #+end_src
 
 *** f.el
 #+begin_src elisp
-(leaf f
-  :ensure nil)
+(require 'f)
 #+end_src
-
-*** NerdIcon
-#+begin_src elisp
-(leaf nerd-icons
-  :ensure nil)
-
-(leaf nerd-icons-completion
-  :ensure nil
-  :global-minor-mode t)
-#+end_src
-
 *** moccur
 #+begin_src elisp
 (defadvice moccur-edit-change-file
@@ -178,17 +176,14 @@
 
 *** theme(solarized)
 #+begin_src elisp
-(leaf solarized-theme
-  :ensure nil
-  :config
-  (load-theme 'solarized-light t))
+(require 'solarized-theme)
+(load-theme 'solarized-light t)
 #+end_src
 
 *** volatile-highlights
 #+begin_src elisp
-(leaf volatile-highlights
-  :ensure nil
-  :global-minor-mode t)
+(autoload-if-found  '(volatile-highlights-mode) "volatile-highlights" nil t)
+(add-hook 'emacs-startup-hook #'volatile-highlights-mode)
 #+end_src
 
 *** cua-mode
@@ -199,319 +194,155 @@
 
 *** projectile.el
 #+begin_src elisp
-(leaf projectile
-  :ensure nil
-  :global-minor-mode projectile-mode
-  :custom
-  ((projectile-sort-order . 'recently-active))
-  :bind (("C-c p" . projectile-command-map)))
-#+end_src
-
-*** centauer-tabs.el
-#+begin_src elisp
-;; (leaf centaur-tabs
-;;   :ensure nil
-;;   :global-minor-mode centaur-tabs-mode
-;;   :bind ("M-c" . centaur-tabs/body)
-;;   :custom
-;;   ((centaur-tabs--buffer-show-groups . t)
-;;    (centaur-tabs-set-icons . t)
-;;    (entaur-tabs-icon-type . 'nerd-icons))
-;;   :pretty-hydra
-;;   ((:color blue :quit-key "q" :foreign-keys warn)
-;;    ("Move Buffer"
-;;     (("n" centaur-tabs-forward "forward next" :exit nil)
-;;      ("p" centaur-tabs-backward "back forward" :exit nil)
-;;      ("g" centaur-tabs-switch-group "move group" :exit nil))
-;;     "Kill Buffer"
-;;     (("k" centaur-tabs-kill-all-buffers-in-current-group "kill all buffer in group" :exit nil)
-;;      ("K" centaur-tabs-kill-other-buffers-in-current-group "kill other buffer in group" :exit nil)))))
+(autoload-if-found '(projectile-mode) "projectile" nil t)
+(add-hook 'emacs-startup-hook #'projectile-mode)
+(keymap-global-set "C-c p" #'projectile-command-map)
+(with-eval-after-load 'projectile
+  (setopt projectile-sort-order  'recently-active))
 #+end_src
 
 *** bufferlo.el
 #+begin_src elisp
-(leaf bufferlo
-  :ensure nil
-  :global-minor-mode bufferlo-mode)
+(autoload-if-found '(bufferlo-mode) "bufferlo" nil t)
+(add-hook 'emacs-startup-hook #'bufferlo-mode)
 #+end_src
 
 *** expand region
 #+begin_src elisp
-(leaf expand-region
-  :ensure nil
-  :bind ("C-=" . er/expand-region))
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
 
 *** undo-tree
 #+begin_src elisp
-(leaf undo-tree
-  :ensure nil
-  :global-minor-mode global-undo-tree-mode)
-#+end_src
-
-*** multiple-cursors.el
-#+begin_src elisp
-;; (leaf multiple-cursors
-;;   :ensure nil
-;;   :bind ("M-m" . hydra-multiple-cursors/body)
-;;   :hydra
-;;   (hydra-multiple-cursors (:color pink :hint nil)
-;; "
-;;                                                                         ╔════════╗
-;;     Point^^^^^^             Misc^^            Insert                            ║ Cursor ║
-;;   ──────────────────────────────────────────────────────────────────────╨────────╜
-;;      _k_    _K_    _M-k_    [_l_] edit lines  [_i_] 0...
-;;      ^↑^    ^↑^     ^↑^     [_m_] mark all    [_a_] letters
-;;     mark^^ skip^^^ un-mk^   [_s_] sort
-;;      ^↓^    ^↓^     ^↓^
-;;      _j_    _J_    _M-j_
-;;   ╭──────────────────────────────────────────────────────────────────────────────╯
-;;                            [_q_]: quit, [Click]: point
-;; "
-;;           ("l" mc/edit-lines :exit t)
-;;           ("m" mc/mark-all-like-this :exit t)
-;;           ("j" mc/mark-next-symbol-like-this)
-;;           ("J" mc/skip-to-next-like-this)
-;;           ("M-j" mc/unmark-next-like-this)
-;;           ("k" mc/mark-previous-symbol-like-this)
-;;           ("K" mc/skip-to-previous-like-this)
-;;           ("M-k" mc/unmark-previous-like-this)
-;;           ("s" mc/mark-all-in-region-regexp :exit t)
-;;           ("i" mc/insert-numbers :exit t)
-;;           ("a" mc/insert-letters :exit t)
-;;           ("<mouse-1>" mc/add-cursor-on-click)
-;;           ;; Help with click recognition in this hydra
-;;           ("<down-mouse-1>" ignore)
-;;           ("<drag-mouse-1>" ignore)
-;;           ("q" nil)))
+(autoload-if-found '(global-undo-tree-mode) "undo-tree" nil t)
+(add-hook 'emacs-startup-hook #'global-undo-tree-mode)
+(with-eval-after-load 'undo-tree
+  (keymap-global-set "C-x u" #'undo-tree-visualize))
 #+end_src
 
 *** git-gutter.el
 #+begin_src elisp
-(leaf git-gutter
-  :ensure nil
-  :init
-  (global-git-gutter-mode))
+(autoload-if-found '(global-git-gutter-mode) "git-gutter" nil t)
+(add-hook 'emacs-startup-hook #'global-git-gutter-mode)
 #+end_src
 
 *** rainbow-delimiters.el
 #+begin_src elisp
-(leaf rainbow-delimiters
-  :ensure nil
-  :hook
-  ((prog-mode-hook . rainbow-delimiters-mode)))
+(autoload-if-found '(rainbow-delimiters-mode) "rainbow-delimiters" nil t)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 
 *** hl-line.el
 #+begin_src elisp
-(leaf hl-line
-  :init
-  (global-hl-line-mode +1))
+  (autoload-if-found '(global-hl-line-mode) "hl-line" nil t)
+  (add-hook 'emacs-startup-hook #'global-hl-line-mode)
 #+end_src
-
 *** free-keys.el
 #+begin_src elisp
-(leaf free-keys
-  :ensure nil)
+(require 'free-keys)
 #+end_src
 
 *** puni.el
 #+begin_src elisp
-(leaf puni
-  :doc "Parentheses Universalistic"
-  :ensure nil
-  :global-minor-mode puni-global-mode
-  :bind ((puni-mode-map
-       ;; default mapping
-       ;; ("C-M-f" . puni-forward-sexp)
-       ;; ("C-M-b" . puni-backward-sexp)
-       ;; ("C-M-a" . puni-beginning-of-sexp)
-       ;; ("C-M-e" . puni-end-of-sexp)
-       ;; ("M-)" . puni-syntactic-forward-punct)
-       ;; ("C-M-u" . backward-up-list)
-       ;; ("C-M-d" . backward-down-list)
-       
-       ("C-(" . puni-slurp-forward)
-       ("C-}" . puni-barf-forward)
-       ("M-(" . puni-wrap-round)
-       ("M-s" . puni-splice)
-       ("M-r" . puni-raise)
-       ("M-U" . puni-splice-killing-backward)
-       ("M-z" . puni-squeeze)))
-  :config
-  (leaf electric-pair-mode
-    :global-minor-mode t))
-#+end_src
+  (autoload-if-found '(puni-global-mode) "puni" nil t)
 
-*** iflipb.el
-#+begin_src elisp
-;; (leaf iflipb
-;;   :ensure nil
-;;   :bind
-;;   (("M-n" . iflipb-next-buffer)
-;;    ("M-p" . iflipb-previous-buffer)))
+  (add-hook 'emacs-startup-hook #'puni-global-mode)
+    
+  (with-eval-after-load 'puni
+    (keymap-global-set "C-(" #'puni-slurp-forward)
+    (keymap-global-set "C-}" #'puni-barf-forward)
+    (keymap-global-set "M-(" #'puni-wrap-round)
+    (keymap-global-set "M-s" #'puni-splice)
+    (keymap-global-set "M-r" #'puni-raise)
+    (keymap-global-set "M-U" #'puni-splice-killing-backward)
+    (keymap-global-set "M-z" #'puni-squeeze))
+
+  (electric-pair-mode 1)
 #+end_src
 
 *** autorevert.el
 #+begin_src elisp
-(leaf autorevert
-  :doc "revert buffers when files on disk change"
-  :global-minor-mode global-auto-revert-mode)
+  (autoload-if-found '(global-auto-revert-mode) "autorevert" nil t)
+  (add-hook 'emacs-startup-hook #'global-auto-revert-mode)
 #+end_src
 
 *** simple
 #+begin_src elisp
-(leaf simple
-  :doc "basic editing commands for Emacs"
-  :custom ((kill-read-only-ok . t)
-           (kill-whole-line . t)
-           (eval-expression-print-length . nil)
-           (eval-expression-print-level . nil)))
+  (require 'simple)
+  (with-eval-after-load 'simple
+    (setopt kill-whole-line t)
+    (setopt kill-read-only-ok t))
 #+end_src
 
 *** doom modeline
 #+begin_src elisp
-(leaf doom-modeline
-  :ensure nil
-  :global-minor-mode doom-modeline-mode)
+  (autoload-if-found '(doom-modeline-mode) "doom-modeline" nil t)
+  (add-hook 'emacs-startup-hook #'doom-modeline-mode)
 #+end_src
 
-*** startup.el
-#+begin_src elisp
-(leaf startup
-  :doc "process Emacs shell arguments")
-;  :custom `((auto-save-list-file-prefix . '(locate-user-emacs-file "backup/.saves-"))))
-#+end_src
-
-*** mistty
-#+begin_src elisp
-(leaf mistty
-  :ensure nil
-  :bind (("C-c s" . mistty-other-window)
-
-       ;; bind here the shortcuts you'd like the
-       ;; shell to handle instead of Emacs.
-       (mistty-prompt-map
-
-       ;; fish: directory history
-       ("M-<up>" . mistty-send-key)
-       ("M-<down>" . mistty-send-key)
-       ("M-<left>" . mistty-send-key)
-       ("M-<right>" . mistty-send-key))))
-#+end_src
 *** which-key
 #+begin_src elisp
-(leaf which-key
-  :doc "Display available keybindings in popup"
-  :ensure nil
-  :global-minor-mode t)
+  (autoload-if-found '(which-key-mode) "which-key" nil t)
+  (add-hook 'emacs-startup-hook #'which-key-mode)
 #+end_src
 
 *** magit
 #+begin_src elisp
-(leaf magit
-  :ensure nil)
-#+end_src
-
-*** smerge-mode
-#+begin_src elisp
-(leaf smerge-mode
-  :doc "Manage git confliction"
-  :ensure nil
-  :preface
-  (defun start-smerge-mode-with-hydra ()
-    (interactive)
-    (progn
-      (smerge-mode 1)
-      (smerge-mode/body)))
-  :pretty-hydra
-  ((:color blue :quit-key "q" :foreign-keys warn)
-   ("Move"
-    (("n" smerge-next "next")
-     ("p" smerge-prev "preview"))
-    "Keep"
-    (("b" smerge-keep-base "base")
-     ("u" smerge-keep-upper "upper")
-     ("l" smerge-keep-lower "lower")
-     ("a" smerge-keep-all "both")
-     ("\C-m" smerge-keep-current "current"))
-    "Others"
-    (("C" smerge-combine-with-next "combine with next")
-     ("r" smerge-resolve "resolve")
-     ("k" smerge-kill-current "kill current"))
-    "End"
-    (("ZZ" (lambda ()
-             (interactive)
-             (save-buffer)
-             (bury-buffer))
-      "Save and bury buffer" :color blue)
-     ("q" nil "cancel" :color blue)))))
+  (require 'magit)
 #+end_src
 
 *** exec-path-from-shell
 #+begin_src elisp
-(leaf exec-path-from-shell
-  :doc "Get environment variables such as $PATH from the shell"
-  :ensure t
-  ;:defun (exec-path-from-shell-initialize)
-  :custom ((exec-path-from-shell-check-startup-files)
-           (exec-path-from-shell-variables . '("PATH" "GOPATH" "JAVA_HOME" "SHELL")))
-  :config
-  (exec-path-from-shell-initialize))
-(add-to-list 'exec-path "/Library/Tex/texbin/")
+  (require 'exec-path-from-shell)
+  (with-eval-after-load 'exec-path-from-shell
+    (setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL")))
 #+end_src
 
 *** olivetti-mode
 
 #+begin_src elisp
-(leaf olivetti
-  :ensure nil
-  :hook ((org-mode-hook prog-mode-hook) . olivetti-mode))
+  (autoload-if-found '(olivetti-mode) "olivetti" nil t)
+  (add-hook 'org-mode-hook #'olivetti-mode)
+  (add-hook 'prog-mode-hook #'olivetti-mode)
 #+end_src
 
 ** Completion
 *** corfu
 
 #+begin_src elisp
-(leaf corfu
-  :doc "COmpletion in Region FUnction"
-  :ensure nil
-  :global-minor-mode global-corfu-mode
-  :custom ((corfu-auto . t)
-           (corfu-auto-delay . 0.1)
-           (corfu-cycle . t)
-           (corfu-auto-prefix . 3)
-           (text-mode-ispell-word-completion . nil))
-  :bind ((corfu-map
-          ("C-s" . corfu-insert-separator))))
+(autoload-if-found '(global-corfu-mode) "corfu" nil t)
+(add-hook 'emacs-startup-hook #'global-corfu-mode)
+(with-eval-after-load 'corfu
+  (setopt corfu-auto t)
+  (setopt corfu-auto-delay 0.1)
+  (setopt corfu-cycle t)
+  (setopt corfu-auto-prefix 3)
+  (setopt text-mode-ispell-word-completion nil))
 #+end_src
 
 *** cape
 #+begin_src elisp
-(leaf cape
-  :doc "Completion At Point Extensions"
-  :ensure nil
-  :hook
-  ((prog-mode
-     text-mode
-     conf-mode
-     lsp-completion-mode))
-  :config
+(autoload-if-found '(cape-dabbrev
+                     cape-file
+                     cape-elisp-block
+                     cape-history) "cape" nil t)
+(with-eval-after-load 'minibuffer
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dict)
-  (add-to-list 'completion-at-point-functions #'tempel-complete)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-tex))
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (add-to-list 'completion-at-point-functions #'cape-history))
 #+end_src
 
+*** NerdIcon-completion
+#+begin_src elisp
+(autoload 'corfu-mode "nerd-icons-completion")
+#+end_src
 *** vertico
 #+begin_src elisp
 (savehist-mode)
-(leaf vertico
-  :doc "VERTical Interactive COmpletion"
-  :ensure nil
-  :global-minor-mode t)
+(autoload-if-found '(vertico-mode) "vertico" nil t)
+(add-hook 'emacs-startup-hook #'vertico-mode)
 (advice-add #'vertico--setup :after
             (lambda (&rest _)
               (setq-local completion-auto-help nil
@@ -520,25 +351,14 @@
 
 *** marginalia
 #+begin_src elisp
-(leaf marginalia
-  :doc "Enrich existing commands with completion annotations"
-  :ensure nil
-  :global-minor-mode t)
+(autoload-if-found '(marginalia-mode) "marginalia" nil t)
+(add-hook 'emacs-startup-hook #'marginalia-mode)
 #+end_src
 
 *** avy
 #+begin_src elisp
-(leaf avy
-  :doc "Jump to things in tree-style"
-  :url "https://github.com/abo-abo/avy"
-  :ensure nil)
-#+end_src
-
-#+begin_src elisp
-(leaf avy-zap
-  :doc "Zap to char using avy"
-  :url "https://github.com/cute-jumper/avy-zap"
-  :ensure nil)
+(require 'avy)
+(require 'avy-zap)
 #+end_src
 
 *** consult
@@ -569,36 +389,18 @@
                         :sort 'visibility
                         :as #'buffer-name)))
     "Local buffer candidate source for `consult-buffer'.")
-
-(leaf consult
-  :doc "Consulting completing-read"
-  :ensure nil
-  :hook (completion-list-mode-hook . consult-preview-at-point-mode)
-  :defun consult-line
-  :preface
-  (defun c/consult-line (&optional at-point)
+(defun c/consult-line (&optional at-point)
     "Consult-line uses things-at-point if set C-u prefix."
     (interactive "P")
     (if at-point
         (consult-line (thing-at-point 'symbol))
       (consult-line)))
-  :custom ((xref-show-xrefs-function . #'consult-xref)
-           (xref-show-definitions-function . #'consult-xref)
-           (consult-line-start-from-top . t)
-           (consult-buffer-sources . '(consult--source-hidden-buffer
-                                       my-consult--source-local-buffer
-                                       my-consult--source-buffer)))
-  :bind (;; C-c bindings (mode-specific-map)
-         ([remap switch-to-buffer] . consult-buffer) ; C-x b
-         ([remap project-switch-to-buffer] . consult-project-buffer) ; C-x p b
 
-         ;; M-g bindings (goto-map)
-         ([remap goto-line] . consult-goto-line)    ; M-g g
-         ([remap imenu] . consult-imenu)            ; M-g i
-
-         (minibuffer-local-map
-          :package emacs
-          ("C-r" . consult-history))))
+(autoload-if-found '(consult-line
+                     consult-buffer
+                     consult-project-buffer
+                     consult-goto-line
+                     consult-history) "consult" nil t)
 #+end_src
 
 *** embark
