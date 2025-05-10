@@ -409,8 +409,8 @@
                      embark-act
                      embark-bindings) "embark" nil t)
 
-(keymap-global-set "C-." embark-act)
-(keymap-global-set "C-;" embark-dwin)
+(keymap-global-set "C-." #'embark-act)
+(keymap-global-set "C-;" #'embark-dwin)
 
 (add-to-list 'display-buffer-alist
              '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -526,7 +526,6 @@ binding))))))))
 (autoload-if-found '(org-mode) "org" nil t)
 (with-eval-after-load 'org
   (setopt org-startup-folded 'content)
-  (setopt org-startup-indented 'indent)
   (setopt org-deadline-warning-day  30)
   (setopt org-capture-templates 
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
@@ -660,7 +659,7 @@ binding))))))))
 *** org pomodoro
 #+begin_src elisp
 (autoload-if-found '(org-pomodoro) "org-pomodoro" nil t)
-(keymap-global-set "M-p" org-pomodoro)
+(keymap-global-set "M-p" #'org-pomodoro)
 (with-eval-after-load 'org-pomodoro
   (setopt org-pomodoro-play-sournds  nil)
   (setopt org-pomodoro-finished-sound-p nil)
@@ -721,7 +720,7 @@ binding))))))))
          '(orderless)))
 
 (autoload-if-found '(lsp lsp-deferred lsp-org lsp-register-client make-lsp-client) "lsp-mode" nil t)
-(add-hook 'python-mode-hook #'lsp-mode)
+(add-hook 'python-mode-hook #'lsp)
 (with-eval-after-load 'lsp-mode
   (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 500)
@@ -799,7 +798,7 @@ binding))))))))
 *** flycheck
 #+begin_src elisp
 ; grammar check
-(autoload-if-fount '(global-flycheck-mode) "flycheck" nil t)
+(autoload-if-found '(global-flycheck-mode) "flycheck" nil t)
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
 #+end_src
 
@@ -883,10 +882,11 @@ binding))))))))
 *** flyspell
 #+begin_src elisp
 (autoload-if-found '(flyspell-mode) "flyspell" nil t)
-(add-hook 'yatex-mode-hook '#flyspell-mode)
+(add-hook 'yatex-mode-hook #'fXslyspell-mode)
 #+end_src
 
 *** reftex
+    
 #+begin_src elisp
 (autoload-if-found '(reftex-mode) "reftex" nil t)
 (add-to-list 'yatex-mode-hook #'reftex-mode)
@@ -895,14 +895,18 @@ binding))))))))
         (directory-files-recursively (projectile-project-root) "\\.bib$")))
 #+end_src
 
-
 ** ddskk
 #+begin_src elisp
 (autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
-(keymap-global-set "C-x j" skk-mode)
+(autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
+
+(keymap-global-set "C-x j" #'skk-mode)
+(add-hook 'skk-mode-hook #'ddskk-posframe-mode)
+
 (with-eval-after-load 'skk
   (setq skk-preload t)
   (setq default-input-method "japanese-skk"))
+
 (with-eval-after-load 'skk-vers
   (setq skk-jisyo "~/Documents/skk-jisyo.utf-8")
   (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
@@ -913,12 +917,11 @@ binding))))))))
     (setq skk-server-portnum 1178))
 #+END_SRC
 
-
 ** LLM (ellama)
 #+begin_src elisp
-(leaf ellama
-  :ensure nil
-  :custom ((ellama-language . "Japanese")))
+  (require 'ellama)
+  (with-eval-after-load 'ellama
+    (setopt ellama-language "Japanese"))
 #+end_src
 
 ** hydra menu 
