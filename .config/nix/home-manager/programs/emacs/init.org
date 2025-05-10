@@ -533,27 +533,23 @@ binding))))))))
       ("p" "Projects" entry (file
                                (lambda () (create-new-org-file
                                      (format "%s/projects/" org-directory))))
-       "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-"))))
+       "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
+  (setq org-enforce-todo-dependencies t)
 
-(when (member "Roboto Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "Roboto Mono" :height 110)
-  (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
-
-(when (member "Source Sans Pro" (font-family-list))
-  (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18))
 ;; Resize Org headings
-(dolist (face '((org-level-1 . 1.35)
-                (org-level-2 . 1.3)
-                (org-level-3 . 1.2)
-                (org-level-4 . 1.1)
-                (org-level-5 . 1.1)
-                (org-level-6 . 1.1)
-                (org-level-7 . 1.1)
-                (org-level-8 . 1.1))))
+  (dolist (face '((org-level-1 . 1.35)
+                  (org-level-2 . 1.3)
+                  (org-level-3 . 1.2)
+                  (org-level-4 . 1.1)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))))
 
 ;; Make the document title a bit bigger
 
 (require 'org-indent)
+(add-hook 'org-mode-hook #'org-indent-mode)
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
 (set-face-attribute 'org-block nil            :foreground nil :inherit
                     'fixed-pitch :height 1.0)
@@ -585,7 +581,8 @@ binding))))))))
         (68 . "#81A1C1")
         (69 . "#5E81AC")
         (70 . "#4C566A")))
-; Needs no action currently
+(setq org-todo-keywords
+      '((sequence "TODO" "DOING" "DONE" "|" "WAIT")))
 (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
         ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
@@ -898,16 +895,15 @@ binding))))))))
 ** ddskk
 #+begin_src elisp
 (autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
-(autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
 
 (keymap-global-set "C-x j" #'skk-mode)
-(add-hook 'skk-mode-hook #'ddskk-posframe-mode)
+(keymap-global-set "C-x C-j" #'skk-mode)
 
 (with-eval-after-load 'skk
   (setq skk-preload t)
   (setq default-input-method "japanese-skk"))
 
-(with-eval-after-load 'skk-vers
+(with-eval-after-load 'skk-vars
   (setq skk-jisyo "~/Documents/skk-jisyo.utf-8")
   (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
     (setq skk-use-azik t)
@@ -915,7 +911,18 @@ binding))))))))
     (setq skk-share-private-jisyo t)
     (setq skk-server-host "localhost")
     (setq skk-server-portnum 1178))
+
+(autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
+
+(with-eval-after-load 'skk
+  ;; hooks
+  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+END_SRC
+
+#+RESULTS:
+:results:
+(ddskk-posframe-mode)
+:end:
 
 ** LLM (ellama)
 #+begin_src elisp
