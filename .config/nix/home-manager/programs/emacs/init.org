@@ -117,34 +117,6 @@
               (expand-file-name "~/.nix-profile/bin/fish"))
 #+end_src
 
-** Leafの設定
-#+begin_src elisp
-   ; <leaf-install-code>
-   (eval-and-compile
-     (customize-set-variable
-      'package-archives '(("org" . "https://orgmode.org/elpa/")
-                          ("melpa" . "https://melpa.org/packages/")
-                          ("gnu" . "https://elpa.gnu.org/packages/")
-                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-     (package-initialize)
-     (unless (package-installed-p 'leaf)
-       (package-refresh-contents)
-       (package-install 'leaf))
-
-     (leaf leaf-keywords
-       :ensure t
-       :init
-       ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-       (leaf hydra :ensure t)
-       (leaf pretty-hydra :ensure t)
-       (leaf el-get :ensure t)
-       (leaf blackout :ensure t)
-       :config
-       ;; initialize leaf-keywords.el
-       (leaf-keywords-init))
-   )
-#+end_src
-
 ** autoload-if-found
 
 #+begin_src elisp
@@ -491,25 +463,14 @@ binding))))))))
 #+begin_src elisp
 (autoload-if-found '(yas-global-mode) "yasnippet" nil t)
 (add-hook 'emacs-startup-hook #'yas-global-mode)
-(leaf yasnippet
-  :ensure nil
-  :doc "snippet engine"
-  ;:init (yas-global-mode t)
-  :bind ((yas-keymap
-         ("<tab>" . nil)
-         ("TAB" . nil)
-         ("<backtab>" . nil)
-         ("S-TAB" . nil)
-         ("M-}" . yas-next-field-or-maybe-expand)
-         ("M-{" . yas-prev-field)))
-  :bind
-  ("C-c y" . yasnippet/body)
-  :pretty-hydra
-  ((:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("Basic"
-    (("a" yas-new-snippet "add new snippet")
-     ("i" yas-insert-snippet "insert snippet")
-     ("e" yas-visit-snippet-file "edit snippet")))))
+(with-eval-after-load 'yasnippet
+  (pretty-hydra-define yasnippet
+    (:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+    ("Basic"
+     (("a" yas-new-snippet "add new snippet")
+      ("i" yas-insert-snippet "insert snippet")
+      ("e" yas-visit-snippet-file "edit snippet"))))
+  (keymap-global-set "C-c y" #'yasnippet/body))
 #+end_src
 ** org mode
 *** org mode
@@ -546,8 +507,6 @@ binding))))))))
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))))
 
-;; Make the document title a bit bigger
-
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
@@ -557,7 +516,7 @@ binding))))))))
 (set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
 (set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
 (set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
-                                                              fixed-pitch))
+                                                         fixed-pitch))
 (set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
 (add-hook 'org-mode-hook 'variable-pitch-mode)
@@ -582,16 +541,12 @@ binding))))))))
         (69 . "#5E81AC")
         (70 . "#4C566A")))
 (setq org-todo-keywords
-      '((sequence "TODO" "DOING" "DONE" "|" "WAIT")))
+      '((sequence "TODO" "DOING" "DONE" "WAIT")))
 (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
         ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
 		("WAIT"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
-        ;; ("READ"      :inherit (org-todo region) :foreground "#8FBCBB" :weight bold)
-		;; ("CHECK"     :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
-		;; ("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" 
-         ;;:weight bold)
-		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)))
+        ("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)))
 #+end_src
 
 *** org-superstar
@@ -611,16 +566,16 @@ binding))))))))
   (shell . t)))
 
 (setq org-babel-python-command "../.venv/bin/python")
-(leaf ob-core
-  ;; config
-  :custom ((org-confirm-babel-evaluate . nil)
-  (org-babel-default-header-args . '((:session . "none")
+(require 'ob-core)
+(with-eval-after-load 'ob-core
+  (setopt org-confirm-babel-evaluate nil)
+  (setopt org-babel-default-header-args '((:session . "none")
                                         (:results . "drawer replace")
                                         (:exports . "code")
                                         (:cache . "no")
                                         (:noweb . "no")
                                         (:hlines . "no")
-                                        (:tangle . "no")))))
+                                        (:tangle . "no"))))
 (with-eval-after-load 'ob-lisp
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
@@ -693,19 +648,15 @@ binding))))))))
   (interactive)
   (find-file org-daily-todo-file))
 
-(leaf *hydra-org
-  :bind ("C-c o". *hydra-org/body)
-  :pretty-hydra
-  ((:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("visit file"
-    (("m" my:org-goto-memo "memo")
-     ("t" my:org-goto-daily-todo "todo"))
-    "agenda"
-    (("a" org-agenda "open agenda")
-     ("c" org-capture "capture"))
-    )
-   )
-  )
+(pretty-hydra-define hydra-org
+  (:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  ("visit file"
+   (("m" my:org-goto-memo "memo")
+    ("t" my:org-goto-daily-todo "todo"))
+   "agenda"
+   (("a" org-agenda "open agenda")
+    ("c" org-capture "capture"))))
+(keymap-global-set "C-c o" #'hydra-org/body)
 #+end_src
 
 ** lsp
@@ -717,6 +668,7 @@ binding))))))))
          '(orderless)))
 
 (autoload-if-found '(lsp lsp-deferred lsp-org lsp-register-client make-lsp-client) "lsp-mode" nil t)
+
 (add-hook 'python-mode-hook #'lsp)
 (with-eval-after-load 'lsp-mode
   (setopt lsp-enable-file-watchers nil)
@@ -769,20 +721,17 @@ binding))))))))
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 (with-eval-after-load 'lsp-ui
-  (setopt lsp-ui-sideline-show-diagnostics t)
-  (setopt lsp-ui-sideline-show-code-actions  t)
-  (setopt lsp-ui-sideline-update-mode t)
+  ;; (setopt lsp-ui-sideline-show-diagnostics t)
+  ;; (setopt lsp-ui-sideline-show-code-actions  t)
+  ;; (setopt lsp-ui-sideline-update-mode t)
   (setopt lsp-ui-doc-enable t)
   (setopt lsp-ui-doc-position 'top)
   (setopt lsp-ui-doc-side 'right)
   (setopt lsp-ui-doc-show-with-cursor t)
   (setopt lsp-ui-doc-show-with-mouse nil)
-  (setopt lsp-ui-imenu-auto-refresh t))
-(leaf lsp-ui
- :bind
- ("C-c l" . lsp-ui/body)
- :pretty-hydra
-  ((:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  (setopt lsp-ui-imenu-auto-refresh t)
+  (pretty-hydra-define lsp-ui
+    (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("peek"
     (("d" lsp-ui-peek-find-definitions "definitions")
      ("r" lsp-ui-peek-find-references "references")
@@ -790,7 +739,8 @@ binding))))))))
     "code action"
     (("n" lsp-rename "rename")
      ("c" lsp-execute-code-action "code action"))))
- )
+  (global-set-key "C-c l" #'lsp-ui/body)
+  )
 #+end_src
 *** flycheck
 #+begin_src elisp
@@ -933,11 +883,8 @@ binding))))))))
 
 ** hydra menu 
 #+begin_src elisp
-(leaf *hydra-goto2
-  :doc "Search and move cursor"
-  :bind ("M-j" . *hydra-goto2/body)
-  :pretty-hydra
-  ((:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+(pretty-hydra-define hydra-goto
+  (:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Got"
     (("i" avy-goto-char       "char")
      ("t" avy-goto-char-timer "timer")
@@ -957,15 +904,13 @@ binding))))))))
      ("L"  lsp-bridge-diagnostic-list "list"))
     "Spell"
     ((">"  flyspell-goto-next-error "next" :exit nil)
-     ("cc" flyspell-correct-at-point "correct" :exit nil)))))
+     ("cc" flyspell-correct-at-point "correct" :exit nil))))
+(keymap-global-set "M-j" #'hydra-goto2/body)
 #+end_src
 
 #+begin_src elisp
-(leaf *hydra-toggle2
-  :doc "Toggle functions"
-  :bind ("M-t" . *hydra-toggle2/body)
-  :pretty-hydra
-  ((:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
+(pretty-hydra-define hydra-toggle2
+  (:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
    ("Basic"
     (("v" view-mode "view mode" :toggle t)
      ("w" whitespace-mode "whitespace" :toggle t)
@@ -987,16 +932,13 @@ binding))))))))
     "Window"
     (("t" toggle-window-transparency "transparency" :toggle t)
      ("m" toggle-window-maximize "maximize" :toggle t)
-     ("p" presentation-mode "presentation" :toggle t)))))
+     ("p" presentation-mode "presentation" :toggle t))))
+(keymap-global-set "M-t" #'hydra-toggle2/body)
 #+end_src
 
 #+begin_src elisp
-(leaf *hydra-search
-  :doc "Search functions"
-  :bind
-  ("C-s" . *hydra-search/body)
-  :pretty-hydra
-  ((:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+(pretty-hydra-define hydra-search
+  (:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Buffer"
     (("l" consult-line "line")
      ("o" consult-outline "outline")
@@ -1006,15 +948,13 @@ binding))))))))
      ("r" affe-grep "grep"))
     "Document"
     (("df" consult-find-doc "find")
-     ("dd" consult-grep-doc "grep")))))
+     ("dd" consult-grep-doc "grep"))))
+(keymap-global-set "C-s" #'hydra-search/body)
 #+end_src
 
 #+begin_src elisp
-(leaf *hydra-git
-  :bind
-  ("M-g" . *hydra-git/body)
-  :pretty-hydra
-  ((:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+(pretty-hydra-define hydra-git
+  (:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Basic"
     (("w" magit-checkout "checkout")
      ("s" magit-status "status")
@@ -1041,7 +981,8 @@ binding))))))))
     (("C" checkout-gh-pr "checkout PR")
      ("o" browse-at-remote-or-copy"browse at point")
      ("k" browse-at-remote-kill "copy url")
-     ("O" (shell-command "hub browse") "browse repository")))))
+     ("O" (shell-command "hub browse") "browse repository"))))
+(keymap-global-set "M-g" #'hydra-git/body)
 #+end_src
 
 ** OJ

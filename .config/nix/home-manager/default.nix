@@ -16,7 +16,7 @@
     inherit system;
     config = {
       allowUnfree = true;
-      allwoUnfreePredicate = (_: true);
+      allwoUnfreePredicate = _: true;
     };
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;
@@ -55,6 +55,7 @@ in {
       # nodejs_23
       typescript
       python313
+pipx
       lua
       alejandra
       peco
@@ -74,8 +75,8 @@ in {
       nvfetcher
       udev-gothic
       cargo
-	    ghostscript
-	    ollama
+      ghostscript
+      ollama
       slack
       wezterm
       spotify

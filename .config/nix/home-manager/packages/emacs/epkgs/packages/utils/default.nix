@@ -23,7 +23,7 @@ in
     which-key
     exec-path-from-shell
     ddskk
-	ddskk-posframe
+    ddskk-posframe
     rainbow-delimiters
     hydra
     pretty-hydra

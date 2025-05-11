@@ -56,6 +56,8 @@
       "zoom"
       "mactex"
       "notion"
+      "notion-calendar"
+      "notion-mail"
       # "wezterm"
       # "docker"
       # "google-chrome"
