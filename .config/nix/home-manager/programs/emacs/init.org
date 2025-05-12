@@ -274,9 +274,7 @@
 *** olivetti-mode
 
 #+begin_src elisp
-  (autoload-if-found '(olivetti-mode) "olivetti" nil t)
-  (add-hook 'org-mode-hook #'olivetti-mode)
-  (add-hook 'prog-mode-hook #'olivetti-mode)
+(autoload-if-found '(olivetti-mode) "olivetti" nil t)
 #+end_src
 
 ** Completion
@@ -739,7 +737,7 @@ binding))))))))
     "code action"
     (("n" lsp-rename "rename")
      ("c" lsp-execute-code-action "code action"))))
-  (global-set-key "C-c l" #'lsp-ui/body)
+  (keymap-global-set "C-c l" #'lsp-ui/body)
   )
 #+end_src
 *** flycheck
@@ -916,7 +914,8 @@ binding))))))))
      ("w" whitespace-mode "whitespace" :toggle t)
      ("W" whitespace-cleanup "whitespace cleanup")
      ("r" rainbow-mode "rainbow" :toggle t)
-     ("b" beacon-mode "beacon" :toggle t))
+     ("b" beacon-mode "beacon" :toggle t)
+     ("o" olivetti-mode "olivetti" :toggle t))
     "Line & Column"
     (("l" toggle-truncate-lines "truncate line" :toggle t)
      ("n" display-line-numbers-mode "line number" :toggle t)
