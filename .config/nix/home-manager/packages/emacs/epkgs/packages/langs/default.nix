@@ -15,6 +15,7 @@ in
     dockerfile-mode
     yatex
     yasnippet
+	consult-yasnippet
     # flyspell
     # consult-reftex
     # reftex

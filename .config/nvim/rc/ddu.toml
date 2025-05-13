@@ -11,10 +11,10 @@ depends = 'ddu.vim'
 repo = "Shougo/ddu-kind-file"
 on_source = "ddu.vim"
 
-[[plugins]]
-repo = "Shougo/ddu-ui-filer"
-on_source = "ddu.vim"
-hooks_file="$BASE_DIR/rc/hooks/ddu-ui-filer.lua"
+# [[plugins]]
+# repo = "Shougo/ddu-ui-filer"
+# on_source = "ddu.vim"
+# hooks_file="$BASE_DIR/rc/hooks/ddu-ui-filer.lua"
 
 [[plugins]]
 repo = "Shougo/ddu-ui-ff"

@@ -60,7 +60,7 @@ local mouse_binding = {
 	},
 }
 return {
-	font = wezterm.font_with_fallback({ "Hack Nerd Font", "HackGen35" }),
+	font = wezterm.font_with_fallback({ "UDEV Gothic", "HackGen35" }),
 	font_size = 18,
 	color_scheme = "Solarized (light) (terminal.sexy)",
 	hyperlink_rules = hyperlink_rules,
@@ -71,14 +71,14 @@ return {
 	hide_mouse_cursor_when_typing = true,
 	force_reverse_video_cursor = true,
 	keys = {
-		{
-			key = "v",
-			mods = "CTRL",
-			action = wezterm.action.SplitPane({
-				direction = "Left",
-				size = { Percent = 50 },
-			}),
-		},
+		-- {
+		-- 	key = "v",
+		-- 	mods = "CTRL",
+		-- 	action = wezterm.action.SplitPane({
+		-- 		direction = "Left",
+		-- 		size = { Percent = 50 },
+		-- 	}),
+		-- },
 		{
 			key = "w",
 			mods = "CMD",

@@ -129,16 +129,6 @@
 #+end_src
 
 ** Utils
-
-*** dash.el
-#+begin_src elisp
-(require 'dash)
-#+end_src
-
-*** f.el
-#+begin_src elisp
-(require 'f)
-#+end_src
 *** moccur
 #+begin_src elisp
 (defadvice moccur-edit-change-file
@@ -275,6 +265,12 @@
 
 #+begin_src elisp
 (autoload-if-found '(olivetti-mode) "olivetti" nil t)
+#+end_src
+
+*** dashboard
+#+begin_src elisp
+(autoload-if-found '(dashboard-startup-hook) "dashboard" nil t)
+(dashboard-setup-startup-hook)
 #+end_src
 
 ** Completion
@@ -467,8 +463,13 @@ binding))))))))
     ("Basic"
      (("a" yas-new-snippet "add new snippet")
       ("i" yas-insert-snippet "insert snippet")
-      ("e" yas-visit-snippet-file "edit snippet"))))
-  (keymap-global-set "C-c y" #'yasnippet/body))
+      ("e" yas-visit-snippet-file "edit snippet")))))
+  ;(keymap-global-set "C-c y" #'yasnippet/body))
+
+(autoload-if-found '(consult-yasnippet) "consult-yasnippet" nil t)
+
+(keymap-global-set "C-c y" #'consult-yasnippet)
+(keymap-global-set "C-c C-y" #'consult-yasnippet)
 #+end_src
 ** org mode
 *** org mode
@@ -587,7 +588,7 @@ binding))))))))
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ))
   (setopt org-agenda-start-on-weekday 3)
-  (setopt org-agenda-span 'week)
+  (setopt org-xagenda-span 'week)
   (setopt org-agenda-skip-scheduled-if-done t)
   (setopt org-return-follows-link t)  ;; RET to follow link
   (setopt org-agenda-columns-add-appointments-to-effort-sum t)
@@ -599,9 +600,9 @@ binding))))))))
   (setopt org-clock-out-remove-zero-time-clocks t)
   (setopt org-agenda-use-time-grid t)
   (setopt org-clock-clocked-in-display          'both)
-  (setopt org-agenda-start-with-log-mode         t)
-  (setopt org-agenda-files  '("~/Documents/org-mode/projects")))
-
+ ; (setopt org-agenda-start-with-log-mode         t)
+  (setopt org-agenda-files  '("~/Documents/org-mode/projects"))
+  )
 
 (plist-put org-format-latex-options :scale 1.2)
 #+end_src
@@ -986,11 +987,9 @@ binding))))))))
 
 ** OJ
 #+begin_src elisp
-;; (leaf oj
- ;;  :ensure nil
- ;;  :custom ((oj-compiler-python . "pypy")
- ;;           (oj-default-online-judge . 'atcoder)
- ;;           (oj-home-dir . "~/Program/Atcoder")))
+;; (require 'oj)
+;; (setopt oj-home-dir
+;;         (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
 #+end_src
 
 ** marimo settings(WIP)

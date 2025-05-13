@@ -32,4 +32,6 @@ in
     avy-zap
     ellama
     doom-modeline
+    oj
+    dashboard
   ]
