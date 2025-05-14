@@ -38,7 +38,6 @@ else
 	vim.cmd([[set clipboard^=unnamedplus]])
 end
 
-vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
 vim.opt.mouse = ""
 
 -- keymaps
@@ -61,5 +60,6 @@ vim.api.nvim_set_keymap("n", "+", "<C-a>", opts)
 vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
 
 vim.api.nvim_set_keymap("v", "<Leader>cw", "g<C-G>", opts)
-require("dpp_config")
+-- require("dpp_config")
 require("lsp")
+require("mini_config")

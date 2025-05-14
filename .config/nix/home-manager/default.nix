@@ -68,8 +68,11 @@ pipx
       tree-sitter
       pyright
       ruff
+	  isort
+	  black
       yaml-language-server
       lua-language-server
+	  stylua
       typescript-language-server
       docker
       nvfetcher
