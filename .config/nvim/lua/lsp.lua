@@ -14,13 +14,15 @@ vim.lsp.config("lua_ls", {
 
 vim.lsp.config("pyright", {
 	root_makers = { ".venv" },
-	python = {
-		venvPath = ".",
-		pythonPath = "./.venv/bin/python",
-		analysis = {
-			extraPaths = { "." },
-			diagnosticMode = "off",
-			typeCheckingMode = "off",
+	settings = {
+		python = {
+			venvPath = ".",
+			pythonPath = "./.venv/bin/python",
+			analysis = {
+				extraPaths = { "." },
+				diagnosticMode = "off",
+				typeCheckingMode = "off",
+			},
 		},
 	},
 })
@@ -50,7 +52,14 @@ vim.lsp.config("ts_ls", {
 	root_pattern = { "package.json" },
 })
 
-vim.lsp.enable({ "lua_ls", "ruff", "pyright", "denols", "ts_ls" })
+vim.lsp.enable({
+	"lua_ls",
+	"ruff",
+	"pyright",
+	"ty",
+	"denols",
+	"ts_ls",
+})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })

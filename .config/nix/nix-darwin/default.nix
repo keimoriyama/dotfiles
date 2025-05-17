@@ -60,7 +60,7 @@
       "notion-mail"
       # "wezterm"
       # "docker"
-      # "google-chrome"
+      "google-chrome"
       "ollama"
     ];
   };

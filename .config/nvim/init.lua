@@ -49,6 +49,7 @@ local function exit_buffer()
 		vim.api.nvim_command("wq")
 	end
 end
+
 vim.api.nvim_set_keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 -- vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", opts)
 vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", opts)
@@ -58,7 +59,9 @@ end, opts)
 vim.api.nvim_set_keymap("n", "<Leader>Q", ":q!<CR>", opts)
 vim.api.nvim_set_keymap("n", "+", "<C-a>", opts)
 vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
-
+vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], opts)
+vim.api.nvim_set_keymap("n", "<C-j>", ":bnext<CR>", opts)
+vim.api.nvim_set_keymap("n", "<C-k>", ":bnext<CR>", opts)
 vim.api.nvim_set_keymap("v", "<Leader>cw", "g<C-G>", opts)
 -- require("dpp_config")
 require("lsp")

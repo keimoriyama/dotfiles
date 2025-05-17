@@ -148,7 +148,8 @@ now(function()
 			"skk-dev/dict",
 		},
 	})
-	vim.keymap.set("i", "<C-j>", "<Plug>(skkeleton-toggle)", { noremap = true })
+	vim.keymap.set("i", "<C-j>", "<Plug>(skkeleton-enable)", { noremap = true })
+	vim.keymap.set("i", "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
 	-- vim.keymap.set("i", "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
 
 	local path_package = vim.fn.stdpath("data") .. "/site/"
@@ -182,10 +183,7 @@ end)
 now(function()
 	require("mini.ai").setup()
 	require("mini.comment").setup()
-	require("mini.files").setup({
-		windows = { preview = true },
-	})
-	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
+
 	require("mini.git").setup()
 	vim.keymap.set({ "n", "x" }, "<Leader>gs", "<CMD>Git status<cr>", { desc = "Show at cursor" })
 	vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
@@ -218,6 +216,11 @@ now(function()
 		MiniPick.start({ source = { items = s.search_files() } })
 	end, opts)
 	-- vim.keymap.set('n', [[\m]], '<Cmd>Pick visit_paths<Cr>', opts)
+	-- picksの前に設定すると、Picksっぽくなってしまう
+	require("mini.files").setup({
+		windows = { preview = true },
+	})
+	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
 end)
 now(function()
 	-- terminal
@@ -245,9 +248,9 @@ now(function()
 
 	local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-	local on_attach = function(client, bufnr)
+	local on_attach = function(clients, bufnr)
 		-- you can reuse a shared lspconfig on_attach callback here
-		if client.supports_method("textDocument/formatting") then
+		if clients.supports_method("textDocument/formatting") then
 			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				group = augroup,
