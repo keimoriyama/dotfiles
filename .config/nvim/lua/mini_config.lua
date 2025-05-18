@@ -40,9 +40,9 @@ now(function()
 	require("mini.starter").setup()
 	require("mini.surround").setup({
 		mappings = {
-			add = "ya", -- Add surrounding in Normal and Visual modes
+			add = "ya",   -- Add surrounding in Normal and Visual modes
 			delete = "yd", -- Delete surrounding
-			find = "yf", -- Find surrounding (to the right)
+			find = "yf",  -- Find surrounding (to the right)
 			find_left = "yF", -- Find surrounding (to the left)
 			highlight = "yh", -- Highlight surrounding
 			replace = "yr", -- Replace surrounding
@@ -203,7 +203,6 @@ now(function()
 	require("mini.extra").setup()
 	-- -- telescope的なやつ
 	local MiniPick = require("mini.pick")
-	local s = require("search_bibtex")
 	MiniPick.setup()
 	vim.keymap.set("n", "<leader>sf", "<Cmd>Pick explorer<Cr>", opts)
 	vim.keymap.set("n", "<leader>sb", "<Cmd>Pick buffers<Cr>", opts)
@@ -212,6 +211,8 @@ now(function()
 	vim.keymap.set("n", "<leader>ff", "<Cmd>Pick files<Cr>", opts)
 	vim.keymap.set("n", "<leader>gf", "<Cmd>Pick git_files<Cr>", opts)
 	vim.keymap.set("n", "/", "<Cmd>Pick buf_lines<Cr>", opts)
+	local s = require("search_bibtex")
+
 	vim.keymap.set("n", "<leader>[", function()
 		MiniPick.start({ source = { items = s.search_files() } })
 	end, opts)
@@ -234,9 +235,9 @@ now(function()
 	add({ source = "mattn/vim-sonictemplate" })
 	-- smart word
 	add("kana/vim-smartword")
-	vim.keymap.set("n", "w", "<Plug>(smartword-w)zz")
-	vim.keymap.set("n", "b", "<Plug>(smartword-b)zz")
-	vim.keymap.set("n", "e", "<Plug>(smartword-e)zz")
+	vim.keymap.set("n", "w", "<Plug>(smartword-w)")
+	vim.keymap.set("n", "b", "<Plug>(smartword-b)")
+	vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 
 	add("chrisbra/Recover.vim")
 	add("neovim/nvim-lspconfig")
