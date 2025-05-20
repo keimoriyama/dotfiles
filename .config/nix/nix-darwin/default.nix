@@ -9,6 +9,7 @@
   };
   # システムの設定
   system = {
+    primaryUser = "kei";
     stateVersion = 6;
     defaults = {
       NSGlobalDomain = {

@@ -65,7 +65,7 @@
                   echo "Updating home-manager..."
                   nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
                   echo "Updating nix-darwin..."
-                  nix run nix-darwin -- switch --flake .#kei-darwin
+                  sudo nix run nix-darwin -- switch --flake .#kei-darwin
                   echo "update complete"
         #           alejandra .
         # nix store gc

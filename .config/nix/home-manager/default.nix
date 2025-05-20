@@ -9,7 +9,7 @@
   ...
 }: let
   username = "kei";
-  sources = pkgs.callPackage ../_sources/generated.nix {};
+  # sources = pkgs.callPackage ../_sources/generated.nix {};
   lib = nixpkgs.lib;
 
   pkgs = import nixpkgs {
@@ -25,7 +25,7 @@
   };
   emacs = import ./packages/emacs {
     inherit (nixpkgs) lib;
-    inherit pkgs sources;
+    inherit pkgs;
   };
   python = import ./packages/python {
     inherit (nixpkgs) lib;
@@ -46,7 +46,7 @@ in {
     username = username;
     homeDirectory = "/Users/${username}";
 
-    stateVersion = "25.05";
+    stateVersion = "25.11";
 
     packages = with pkgs; [
       git
@@ -55,7 +55,7 @@ in {
       # nodejs_23
       typescript
       python313
-pipx
+      pipx
       lua
       alejandra
       peco
@@ -68,11 +68,11 @@ pipx
       tree-sitter
       pyright
       ruff
-	  isort
-	  black
+      isort
+      black
       yaml-language-server
       lua-language-server
-	  stylua
+      stylua
       typescript-language-server
       docker
       nvfetcher

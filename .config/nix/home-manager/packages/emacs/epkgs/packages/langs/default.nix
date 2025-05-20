@@ -1,9 +1,8 @@
 {
   epkgs,
   pkgs,
-  sources,
 }: let
-  packages = pkgs.callPackage ./packages.nix {inherit sources epkgs;};
+  packages = pkgs.callPackage ./packages.nix {inherit epkgs;};
 in
   with epkgs; [
     python-mode
@@ -15,7 +14,7 @@ in
     dockerfile-mode
     yatex
     yasnippet
-	consult-yasnippet
+    consult-yasnippet
     # flyspell
     # consult-reftex
     # reftex

@@ -21,99 +21,135 @@ end
 require("mini.deps").setup({ path = { package = path_package } })
 local now, later, add = MiniDeps.now, MiniDeps.later, MiniDeps.add
 
--- Safely execute immediately
-now(function()
-	vim.o.termguicolors = true
-	require("mini.notify").setup()
-	vim.api.nvim_create_user_command("NotifyLog", function()
-		-- local logs = vim.inspect(MiniNotify.get_all())
-		local logs = MiniNotify.get_all()
-		for i, log in ipairs(logs) do
-			print(log.msg)
-		end
-	end, {})
-	vim.notify = require("mini.notify").make_notify()
-	require("mini.tabline").setup()
-	require("mini.statusline").setup({
-		set_vim_settings = false,
-	})
-	require("mini.starter").setup()
-	require("mini.surround").setup({
-		mappings = {
-			add = "ya",   -- Add surrounding in Normal and Visual modes
-			delete = "yd", -- Delete surrounding
-			find = "yf",  -- Find surrounding (to the right)
-			find_left = "yF", -- Find surrounding (to the left)
-			highlight = "yh", -- Highlight surrounding
-			replace = "yr", -- Replace surrounding
-			update_n_lines = "yn", -- Update `n_lines`
-		},
-	})
-	require("mini.indentscope").setup({
-		draw = {
-			delay = 0,
-		},
-	})
-	require("mini.pairs").setup()
-	require("mini.cursorword").setup()
-	require("mini.bracketed").setup()
-	require("mini.icons").setup()
-	MiniIcons.mock_nvim_web_devicons()
+vim.o.termguicolors = true
+-- mini plugins
+require("mini.notify").setup()
+vim.api.nvim_create_user_command("NotifyLog", function()
+	-- local logs = vim.inspect(MiniNotify.get_all())
+	local logs = MiniNotify.get_all()
+	for i, log in ipairs(logs) do
+		print(log.msg)
+	end
+end, {})
+vim.notify = require("mini.notify").make_notify()
+require("mini.tabline").setup()
+require("mini.statusline").setup({
+	set_vim_settings = false,
+})
+require("mini.starter").setup()
+require("mini.surround").setup({
+	mappings = {
+		add = "ya",      -- Add surrounding in Normal and Visual modes
+		delete = "yd",   -- Delete surrounding
+		find = "yf",     -- Find surrounding (to the right)
+		find_left = "yF", -- Find surrounding (to the left)
+		highlight = "yh", -- Highlight surrounding
+		replace = "yr",  -- Replace surrounding
+		update_n_lines = "yn", -- Update `n_lines`
+	},
+})
+require("mini.indentscope").setup({
+	draw = {
+		delay = 0,
+	},
+})
+require("mini.pairs").setup()
+require("mini.cursorword").setup()
+require("mini.bracketed").setup()
+require("mini.icons").setup()
+MiniIcons.mock_nvim_web_devicons()
 
-	require("mini.completion").setup({
-		lsp_completion = {
-			source_func = "completefunc",
-			auto_setup = true,
-		},
-		window = {
-			info = { border = "double" },
-			signature = { border = "double" },
-		},
-	})
-	-- utils
-	add({ source = "nvim-lua/plenary.nvim" })
-	add({ source = "ethanholz/nvim-lastplace" })
-	require("nvim-lastplace").setup()
-	-- add("shortcuts/no-neck-pain.nvim")
-	-- local width = vim.fn.winwidth(0)
-	-- if width >= 100 then
-	-- 	require("no-neck-pain").enable()
-	-- end
-	-- vim.api.nvim_create_autocmd({ "VimResized", "WinResized" }, {
-	-- 	callback = function()
-	-- 		width = vim.fn.winwidth(0)
-	-- 		if width >= 100 then
-	-- 			require("no-neck-pain").enable()
-	-- 		end
-	-- 	end,
-	-- })
+require("mini.completion").setup({
+	lsp_completion = {
+		source_func = "completefunc",
+		auto_setup = true,
+	},
+	window = {
+		info = { border = "double" },
+		signature = { border = "double" },
+	},
+})
+
+require("mini.ai").setup()
+require("mini.comment").setup()
+
+require("mini.git").setup()
+vim.keymap.set({ "n", "x" }, "<Leader>gs", "<CMD>Git status<cr>", { desc = "Show at cursor" })
+vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
+vim.keymap.set({ "n", "x" }, "<Leader>ga", "<CMD>Git add .<CR>", { desc = "Show at cursor" })
+require("mini.diff").setup()
+require("mini.jump").setup()
+require("mini.trailspace").setup()
+require("mini.bufremove").setup()
+local function delete_buf()
+	local bufnr = vim.api.nvim_get_current_buf()
+	MiniBufremove.delete(bufnr)
+end
+vim.keymap.set("n", "<leader>bd", function()
+	delete_buf()
 end)
+-- require("mini.map").setup()
+require("mini.extra").setup()
+-- -- telescope的なやつ
+local MiniPick = require("mini.pick")
+MiniPick.setup()
+vim.keymap.set("n", "<leader>sf", "<Cmd>Pick explorer<Cr>", opts)
+vim.keymap.set("n", "<leader>sb", "<Cmd>Pick buffers<Cr>", opts)
+vim.keymap.set("n", "<leader>h", "<Cmd>Pick help<Cr>", opts)
+vim.keymap.set("n", "<leader>fr", "<Cmd>Pick grep<Cr>", opts)
+vim.keymap.set("n", "<leader>ff", "<Cmd>Pick files<Cr>", opts)
+vim.keymap.set("n", "<leader>gf", "<Cmd>Pick git_files<Cr>", opts)
+vim.keymap.set("n", "/", "<Cmd>Pick buf_lines<Cr>", opts)
+local s = require("search_bibtex")
 
-now(function()
-	add({ source = "maxmx03/solarized.nvim" })
-	vim.cmd("colorscheme solarized")
-end)
+vim.keymap.set("n", "<leader>[", function()
+	MiniPick.start({ source = { items = s.search_files() } })
+end, opts)
+-- vim.keymap.set('n', [[\m]], '<Cmd>Pick visit_paths<Cr>', opts)
+-- picksの前に設定すると、Picksっぽくなってしまう
+require("mini.files").setup({
+	windows = { preview = true },
+})
+vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
 
-now(function()
-	add({ source = "hrsh7th/nvim-insx" })
-	require("insx.preset.standard").setup()
-	local insx = require("insx")
-	insx.add(
-		"<C-]>",
-		require("insx.recipe.fast_wrap")({
-			close = '"',
-		})
-	)
-	insx.add(
-		"<C-]>",
-		require("insx.recipe.fast_wrap")({
-			close = "'",
-		})
-	)
-end)
+-- utils
+add({ source = "nvim-lua/plenary.nvim" })
+add({ source = "ethanholz/nvim-lastplace" })
+require("nvim-lastplace").setup()
+-- add("shortcuts/no-neck-pain.nvim")
+-- local width = vim.fn.winwidth(0)
+-- if width >= 100 then
+-- 	require("no-neck-pain").enable()
+-- end
+-- vim.api.nvim_create_autocmd({ "VimResized", "WinResized" }, {
+-- 	callback = function()
+-- 		width = vim.fn.winwidth(0)
+-- 		if width >= 100 then
+-- 			require("no-neck-pain").enable()
+-- 		end
+-- 	end,
+-- })
 
-now(function()
-	vim.cmd([[
+add({ source = "maxmx03/solarized.nvim" })
+vim.cmd("colorscheme solarized")
+
+add({ source = "hrsh7th/nvim-insx" })
+require("insx.preset.standard").setup()
+local insx = require("insx")
+insx.add(
+	"<C-]>",
+	require("insx.recipe.fast_wrap")({
+		close = '"',
+	})
+)
+insx.add(
+	"<C-]>",
+	require("insx.recipe.fast_wrap")({
+		close = "'",
+	})
+)
+
+vim.cmd([[
 	let g:vimtex_view_method = "skim"
 	let g:vimtex_view_general_viewer = "skim"
 	let g:vimtex_view_skim_activate = 1
@@ -135,197 +171,147 @@ now(function()
 		  \],
 		  \}
   ]])
-	add({ source = "lervag/vimtex" })
-end)
+add({ source = "lervag/vimtex" })
 
-now(function()
-	add({
-		source = "vim-skk/skkeleton",
-		depends = {
-			"vim-denops/denops.vim",
-			"delphinus/skkeleton_indicator.nvim",
-			"keimoriyama/skkeleton-azik-kanatable",
-			"skk-dev/dict",
-		},
-	})
-	vim.keymap.set("i", "<C-j>", "<Plug>(skkeleton-enable)", { noremap = true })
-	vim.keymap.set("i", "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
-	-- vim.keymap.set("i", "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
+add({
+	source = "vim-skk/skkeleton",
+	depends = {
+		"vim-denops/denops.vim",
+		"delphinus/skkeleton_indicator.nvim",
+		"keimoriyama/skkeleton-azik-kanatable",
+		"skk-dev/dict",
+	},
+})
+vim.keymap.set("i", "<C-j>", "<Plug>(skkeleton-enable)", { noremap = true })
+vim.keymap.set("i", "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
+-- vim.keymap.set("i", "<C-l>", "<Plug>(skkeleton-disable)", { noremap = true })
 
-	local path_package = vim.fn.stdpath("data") .. "/site/"
-	local dictdir = path_package .. "pack/deps/opt/dict"
+local path_package = vim.fn.stdpath("data") .. "/site/"
+local dictdir = path_package .. "pack/deps/opt/dict"
 
-	local userDict = vim.fn.expand("$HOME") .. "/Documents/skk-jisyo.utf-8"
+local userDict = vim.fn.expand("$HOME") .. "/Documents/skk-jisyo.utf-8"
 
-	vim.fn["skkeleton#azik#add_table"]("us")
+vim.fn["skkeleton#azik#add_table"]("us")
 
-	vim.fn["skkeleton#config"]({
-		kanaTable = "azik",
-	})
-	vim.fn["skkeleton#register_keymap"]("henkan", "X", "")
+vim.fn["skkeleton#config"]({
+	kanaTable = "azik",
+})
+vim.fn["skkeleton#register_keymap"]("henkan", "X", "")
 
-	vim.fn["skkeleton#config"]({
-		globalDictionaries = {
-			vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
-			vim.fs.joinpath(dictdir, "SKK-JISYO.edict"),
-			vim.fs.joinpath(dictdir, "SKK-JISYO.edict2"),
-			vim.fs.joinpath(dictdir, "SKK-JISYO.fullname"),
-			vim.fs.joinpath(dictdir, "SKK-JISYO.propernoun"),
-		},
-		userDictionary = userDict,
-		debug = false,
-	})
-	require("skkeleton_indicator").setup()
-end)
+vim.fn["skkeleton#config"]({
+	globalDictionaries = {
+		vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
+		vim.fs.joinpath(dictdir, "SKK-JISYO.edict"),
+		vim.fs.joinpath(dictdir, "SKK-JISYO.edict2"),
+		vim.fs.joinpath(dictdir, "SKK-JISYO.fullname"),
+		vim.fs.joinpath(dictdir, "SKK-JISYO.propernoun"),
+	},
+	userDictionary = userDict,
+	debug = false,
+})
+require("skkeleton_indicator").setup()
 
--- load later plugins
+-- terminal
+add({ source = "uga-rosa/ugaterm.nvim" })
+vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", { noremap = true, silent = true })
+-- sonic template
+vim.g.sonictemplate_key = 0
+vim.g.sonictemplate_intelligent_key = 0
+vim.g.sonictemplate_postfix_key = 0
+vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
+add({ source = "mattn/vim-sonictemplate" })
+-- smart word
+add("kana/vim-smartword")
+vim.keymap.set("n", "w", "<Plug>(smartword-w)")
+vim.keymap.set("n", "b", "<Plug>(smartword-b)")
+vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 
-now(function()
-	require("mini.ai").setup()
-	require("mini.comment").setup()
+add("chrisbra/Recover.vim")
+add("neovim/nvim-lspconfig")
+add({ source = "nvimtools/none-ls.nvim", depends = { "nvim-lua/plenary.nvim" } })
+local status, null_ls = pcall(require, "null-ls")
+if not status then
+	return
+end
 
-	require("mini.git").setup()
-	vim.keymap.set({ "n", "x" }, "<Leader>gs", "<CMD>Git status<cr>", { desc = "Show at cursor" })
-	vim.keymap.set({ "n", "x" }, "<Leader>gc", "<CMD>Git commit<CR>", { desc = "Show at cursor" })
-	vim.keymap.set({ "n", "x" }, "<Leader>ga", "<CMD>Git add .<CR>", { desc = "Show at cursor" })
-	require("mini.diff").setup()
-	require("mini.jump").setup()
-	require("mini.trailspace").setup()
-	require("mini.bufremove").setup()
-	local function delete_buf()
-		local bufnr = vim.api.nvim_get_current_buf()
-		MiniBufremove.delete(bufnr)
-	end
-	vim.keymap.set("n", "<leader>bd", function()
-		delete_buf()
-	end)
-	-- require("mini.map").setup()
-	require("mini.extra").setup()
-	-- -- telescope的なやつ
-	local MiniPick = require("mini.pick")
-	MiniPick.setup()
-	vim.keymap.set("n", "<leader>sf", "<Cmd>Pick explorer<Cr>", opts)
-	vim.keymap.set("n", "<leader>sb", "<Cmd>Pick buffers<Cr>", opts)
-	vim.keymap.set("n", "<leader>h", "<Cmd>Pick help<Cr>", opts)
-	vim.keymap.set("n", "<leader>fr", "<Cmd>Pick grep<Cr>", opts)
-	vim.keymap.set("n", "<leader>ff", "<Cmd>Pick files<Cr>", opts)
-	vim.keymap.set("n", "<leader>gf", "<Cmd>Pick git_files<Cr>", opts)
-	vim.keymap.set("n", "/", "<Cmd>Pick buf_lines<Cr>", opts)
-	local s = require("search_bibtex")
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-	vim.keymap.set("n", "<leader>[", function()
-		MiniPick.start({ source = { items = s.search_files() } })
-	end, opts)
-	-- vim.keymap.set('n', [[\m]], '<Cmd>Pick visit_paths<Cr>', opts)
-	-- picksの前に設定すると、Picksっぽくなってしまう
-	require("mini.files").setup({
-		windows = { preview = true },
-	})
-	vim.keymap.set("n", "<leader>sf", "<cmd>lua MiniFiles.open()<cr>")
-end)
-now(function()
-	-- terminal
-	add({ source = "uga-rosa/ugaterm.nvim" })
-	vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>UgatermOpen -toggle<cr>", { noremap = true, silent = true })
-	-- sonic template
-	vim.g.sonictemplate_key = 0
-	vim.g.sonictemplate_intelligent_key = 0
-	vim.g.sonictemplate_postfix_key = 0
-	vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
-	add({ source = "mattn/vim-sonictemplate" })
-	-- smart word
-	add("kana/vim-smartword")
-	vim.keymap.set("n", "w", "<Plug>(smartword-w)")
-	vim.keymap.set("n", "b", "<Plug>(smartword-b)")
-	vim.keymap.set("n", "e", "<Plug>(smartword-e)")
-
-	add("chrisbra/Recover.vim")
-	add("neovim/nvim-lspconfig")
-	add({ source = "nvimtools/none-ls.nvim", depends = { "nvim-lua/plenary.nvim" } })
-	local status, null_ls = pcall(require, "null-ls")
-	if not status then
-		return
-	end
-
-	local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-	local on_attach = function(clients, bufnr)
-		-- you can reuse a shared lspconfig on_attach callback here
-		if clients.supports_method("textDocument/formatting") then
-			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = augroup,
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.buf.format({ bufnr = bufnr })
-				end,
-			})
-		end
-	end
-
-	null_ls.setup({
-		debug = false,
-		sources = {
-			null_ls.builtins.formatting.stylua,
-			null_ls.builtins.formatting.black,
-			null_ls.builtins.formatting.isort,
-		},
-		on_attach = on_attach,
-	})
-	add({
-		source = "nvim-treesitter/nvim-treesitter",
-		-- Use 'master' while monitoring updates in 'main'
-		checkout = "master",
-		monitor = "main",
-		-- Perform action after every checkout
-		hooks = {
-			post_checkout = function()
-				vim.cmd("TSUpdate")
+local on_attach = function(clients, bufnr)
+	-- you can reuse a shared lspconfig on_attach callback here
+	if clients.supports_method("textDocument/formatting") then
+		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = augroup,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({ bufnr = bufnr })
 			end,
-		},
-	})
-	local status, ts = pcall(require, "nvim-treesitter.configs")
-	if not status then
-		return
+		})
 	end
+end
 
-	ts.setup({
-		highlight = {
-			enable = true,
-			additional_vim_regex_highlighting = { "markdown" },
-			disable = function(lang, buf)
-				local max_filesize = 100 * 1024 -- 100 KB
-				local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-				if ok and stats and stats.size > max_filesize then
-					vim.api.nvim_out_write("Warning: File size exceeds 100KB. Disabling Treesitter highlighting.\n")
-					return true
-				end
-			end,
-		},
-		indent = { enable = false, disable = { "python" } },
-		ensure_installed = {
-			"toml",
-			"json",
-			"yaml",
-			"lua",
-			"python",
-			"markdown",
-			"markdown_inline",
-			"vim",
-			"dockerfile",
-			"make",
-		},
-		autotag = { enable = true },
-		yati = {
-			enable = true,
-			indent = { enable = false },
-		},
-	})
+null_ls.setup({
+	debug = false,
+	sources = {
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.isort,
+	},
+	on_attach = on_attach,
+})
+add({
+	source = "nvim-treesitter/nvim-treesitter",
+	-- Use 'master' while monitoring updates in 'main'
+	checkout = "master",
+	monitor = "main",
+	-- Perform action after every checkout
+	hooks = {
+		post_checkout = function()
+			vim.cmd("TSUpdate")
+		end,
+	},
+})
+local status, ts = pcall(require, "nvim-treesitter.configs")
+if not status then
+	return
+end
 
-	local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-	parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
-	add({ source = "yioneko/nvim-yati", depends = { "nvim-treesitter/nvim-treesitter" } })
-	add({ source = "HiPhish/rainbow-delimiters.nvim", depends = { "nvim-treesitter/nvim-treesitter" } })
-	add({ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } })
-	require("treesitter-context").setup()
-end)
+ts.setup({
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = { "markdown" },
+		disable = function(lang, buf)
+			local max_filesize = 100 * 1024 -- 100 KB
+			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+			if ok and stats and stats.size > max_filesize then
+				vim.api.nvim_out_write("Warning: File size exceeds 100KB. Disabling Treesitter highlighting.\n")
+				return true
+			end
+		end,
+	},
+	indent = { enable = false, disable = { "python" } },
+	ensure_installed = {
+		"toml",
+		"json",
+		"yaml",
+		"lua",
+		"python",
+		"markdown",
+		"markdown_inline",
+		"vim",
+		"dockerfile",
+		"make",
+	},
+	autotag = { enable = true },
+	yati = {
+		enable = true,
+		indent = { enable = false },
+	},
+})
+
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+add({ source = "yioneko/nvim-yati", depends = { "nvim-treesitter/nvim-treesitter" } })
+add({ source = "HiPhish/rainbow-delimiters.nvim", depends = { "nvim-treesitter/nvim-treesitter" } })
+add({ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } })
+require("treesitter-context").setup()
