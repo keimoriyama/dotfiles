@@ -63,6 +63,7 @@
       # "docker"
       "google-chrome"
       "ollama"
+      "1password"
     ];
   };
 }

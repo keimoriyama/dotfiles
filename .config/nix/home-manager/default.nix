@@ -62,6 +62,9 @@ in {
       ghq
       gh
       deno
+      cargo
+      rustc
+
       ripgrep
       neovim
       vim
@@ -77,7 +80,6 @@ in {
       docker
       nvfetcher
       udev-gothic
-      cargo
       ghostscript
       ollama
       slack
