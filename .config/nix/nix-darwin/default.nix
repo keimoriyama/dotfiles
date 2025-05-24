@@ -62,6 +62,7 @@
       # "wezterm"
       # "docker"
       "google-chrome"
+	  "google-drive"
       "ollama"
       "1password"
     ];

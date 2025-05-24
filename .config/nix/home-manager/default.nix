@@ -62,9 +62,8 @@ in {
       ghq
       gh
       deno
-      cargo
       rustc
-
+	  rustup
       ripgrep
       neovim
       vim

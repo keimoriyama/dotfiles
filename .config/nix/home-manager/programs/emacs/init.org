@@ -483,11 +483,12 @@ binding))))))))
   (let ((name (read-string "Name: ")))
     (expand-file-name (format "%s.org"
                               name) path)))
+
 (autoload-if-found '(org-mode) "org" nil t)
 (with-eval-after-load 'org
-  (setopt org-startup-folded 'content)
-  (setopt org-deadline-warning-day  30)
-  (setopt org-capture-templates 
+  (setq org-startup-folded 'content)
+  (setq org-deadline-warning-day  30)
+  (setq org-capture-templates 
     '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
       ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
       ("p" "Projects" entry (file
@@ -504,7 +505,8 @@ binding))))))))
                   (org-level-5 . 1.1)
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))))
+                  (org-level-8 . 1.1))))
+  (setq org-enforce-todo-dependencies t))
 
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
@@ -540,7 +542,7 @@ binding))))))))
         (69 . "#5E81AC")
         (70 . "#4C566A")))
 (setq org-todo-keywords
-      '((sequence "TODO" "DOING" "DONE" "WAIT")))
+      '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)")))
 (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
         ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
@@ -582,30 +584,37 @@ binding))))))))
 *** org agenda
 #+begin_src elisp
 (autoload-if-found '(org-agenda) "org-agenda" nil t)
-(with-eval-after-load 'org-agenda
-  (setopt org-agenda-custom-commands 
+
+(with-eval-after-load 'org
+  (setq org-agenda-custom-commands 
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ))
-  (setopt org-agenda-start-on-weekday 3)
-  (setopt org-xagenda-span 'week)
-  (setopt org-agenda-skip-scheduled-if-done t)
-  (setopt org-return-follows-link t)  ;; RET to follow link
-  (setopt org-agenda-columns-add-appointments-to-effort-sum t)
-  (setopt org-agenda-time-grid
+  (setq org-agenda-start-on-weekday 3)
+  (setq org-xagenda-span 'week)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-return-follows-link t)  ;; RET to follow link
+  (setq org-agenda-columns-add-appointments-to-effort-sum t)
+  (setq org-agenda-time-grid
                         '((daily today require-timed)
                           (0900 1200 1300 1800) "......" "----------------"))
-  (setopt org-columns-default-format
+  (setq org-columns-default-format
                               "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
-  (setopt org-clock-out-remove-zero-time-clocks t)
-  (setopt org-agenda-use-time-grid t)
-  (setopt org-clock-clocked-in-display          'both)
+  (setq org-clock-out-remove-zero-time-clocks t)
+  (setq org-agenda-use-time-grid t)
+  (setq org-clock-clocked-in-display          'both)
  ; (setopt org-agenda-start-with-log-mode         t)
-  (setopt org-agenda-files  '("~/Documents/org-mode/projects"))
+  (setq org-agenda-files  '("~/Documents/org-mode/projects"))
   )
 
 (plist-put org-format-latex-options :scale 1.2)
 #+end_src
+
+#+RESULTS:
+:results:
+(:foreground default :background default :scale 1.2 :html-foreground Black :html-background Transparent :html-scale 1.0 :matchers (begin $1 $ $$ \( \[))
+:end:
 
 *** org pomodoro
 #+begin_src elisp
@@ -675,6 +684,7 @@ binding))))))))
   (setopt lsp-completion-provider :none)
   (setopt lsp-ruff-lsp-server-command '("ruff" "server")))
 #+end_src
+
 
 *** lsp-booster
 #+begin_src elisp

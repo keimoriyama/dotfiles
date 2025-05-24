@@ -59,6 +59,7 @@ vim.lsp.enable({
 	"ty",
 	"denols",
 	"ts_ls",
+	"rust_analyzer",
 })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
