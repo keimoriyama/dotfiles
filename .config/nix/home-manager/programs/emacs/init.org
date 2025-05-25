@@ -256,9 +256,9 @@
 
 *** exec-path-from-shell
 #+begin_src elisp
-  (require 'exec-path-from-shell)
-  (with-eval-after-load 'exec-path-from-shell
-    (setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL")))
+(require 'exec-path-from-shell)
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL"))
+(exec-path-from-shell-initialize)
 #+end_src
 
 *** olivetti-mode
@@ -685,7 +685,6 @@ binding))))))))
   (setopt lsp-ruff-lsp-server-command '("ruff" "server")))
 #+end_src
 
-
 *** lsp-booster
 #+begin_src elisp
 (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
@@ -783,6 +782,7 @@ binding))))))))
   (pet-flycheck-setup))
 
 (autoload-if-found '(python-mode) "lsp-pyright" nil t)
+
 (with-eval-after-load 'lsp-pyright
   (setopt lsp-pyright-langserver-command "pyright")
   (setopt lsp-pyright-disable-tagged-hints t)
