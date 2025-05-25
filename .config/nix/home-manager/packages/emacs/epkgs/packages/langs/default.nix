@@ -9,6 +9,10 @@ in
     pet
     lsp-pyright
     ruff-format
+
+    rust-mode
+    cargo
+    
     yaml-mode
     nix-mode
     dockerfile-mode
