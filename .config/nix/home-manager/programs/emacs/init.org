@@ -493,7 +493,7 @@ binding))))))))
       ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
       ("p" "Projects" entry (file
                                (lambda () (create-new-org-file
-                                     (format "%s/projects/" org-directory))))
+                                     org-directory)))
        "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
   (setq org-enforce-todo-dependencies t)
 
@@ -605,7 +605,7 @@ binding))))))))
   (setq org-agenda-use-time-grid t)
   (setq org-clock-clocked-in-display          'both)
  ; (setopt org-agenda-start-with-log-mode         t)
-  (setq org-agenda-files  '("~/Documents/org-mode/projects"))
+  (setq org-agenda-files  '("~/Documents/org-mode/"))
   )
 
 (plist-put org-format-latex-options :scale 1.2)
@@ -677,7 +677,6 @@ binding))))))))
 
 (autoload-if-found '(lsp lsp-deferred lsp-org lsp-register-client make-lsp-client) "lsp-mode" nil t)
 
-(add-hook 'python-mode-hook #'lsp)
 (with-eval-after-load 'lsp-mode
   (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 500)
@@ -766,6 +765,8 @@ binding))))))))
 
 #+begin_src elisp
 ; python
+(add-hook 'python-mode-hook #'lsp)
+
 (autoload-if-found '(python-mode) "python-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
@@ -788,7 +789,16 @@ binding))))))))
   (setopt lsp-pyright-disable-tagged-hints t)
   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
 #+end_src
+*** rust
+#+begin_src elisp
+(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
+(add-hook 'rust-mode-hook #'lsp)
+(add-hook 'rust-mode-hook  #'cargo-minor-mode)
+(autoload-if-found '(rust-mode) "rust-mode" nil t)
 
+(with-eval-after-load 'rust-mode
+  (setq rust-format-on-save t))
+#+end_src
 *** yaml
 #+begin_src elisp
 (autoload-if-found '(yaml-mode) "yaml-mode" nil t)

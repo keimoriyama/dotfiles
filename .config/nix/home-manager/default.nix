@@ -81,9 +81,9 @@ in {
       udev-gothic
       ghostscript
       ollama
-      slack
-      wezterm
-      spotify
+      # slack
+      # wezterm
+      # spotify
       docker
     ];
     file = {
