@@ -17,11 +17,11 @@ in {
 
   emacs-stable-without-nativecomp = pkgs.emacsWithPackagesFromUsePackage {
     config = builtins.toFile "empty.el" "";
-    package = pkgs.emacs.override {
-      withNativeCompilation = false;
-    };
-    extraEmacsPackages = import ./epkgs {inherit pkgs;};
-    override = override;
+    # package = pkgs.emacs.override {
+    #   withNativeCompilation = false;
+    # };
+    # extraEmacsPackages = import ./epkgs {inherit pkgs;};
+    # override = override;
   };
   emacs-git = pkgs.emacsWithPackagesFromUsePackage {
     config = builtins.toFile "empty.el" "";

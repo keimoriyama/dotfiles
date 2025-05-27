@@ -16,7 +16,7 @@
     inherit system;
     config = {
       allowUnfree = true;
-      allwoUnfreePredicate = _: true;
+      allwoUnfreePredicate = true;
     };
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;
@@ -63,7 +63,7 @@ in {
       gh
       deno
       rustc
-	  rustup
+      rustup
       ripgrep
       neovim
       vim
@@ -81,9 +81,9 @@ in {
       udev-gothic
       ghostscript
       ollama
-      # slack
-      # wezterm
-      # spotify
+      slack
+      wezterm
+      spotify
       docker
     ];
     file = {

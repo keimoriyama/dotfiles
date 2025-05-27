@@ -128,6 +128,7 @@
     t))
 #+end_src
 
+
 ** Utils
 *** moccur
 #+begin_src elisp
@@ -494,7 +495,7 @@ binding))))))))
       ("p" "Projects" entry (file
                                (lambda () (create-new-org-file
                                      org-directory)))
-       "\n* %? \n** 目的 \n- \n** やること\n*** \n** 結果\n-")))
+       "\n* %? ")))
   (setq org-enforce-todo-dependencies t)
 
 ;; Resize Org headings
@@ -581,6 +582,7 @@ binding))))))))
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
 
+
 *** org agenda
 #+begin_src elisp
 (autoload-if-found '(org-agenda) "org-agenda" nil t)
@@ -610,11 +612,6 @@ binding))))))))
 
 (plist-put org-format-latex-options :scale 1.2)
 #+end_src
-
-#+RESULTS:
-:results:
-(:foreground default :background default :scale 1.2 :html-foreground Black :html-background Transparent :html-scale 1.0 :matchers (begin $1 $ $$ \( \[))
-:end:
 
 *** org pomodoro
 #+begin_src elisp
