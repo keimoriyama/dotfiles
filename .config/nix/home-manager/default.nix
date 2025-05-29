@@ -80,10 +80,10 @@ in {
       nvfetcher
       udev-gothic
       ghostscript
-      ollama
-      slack
+      # ollama
+      # slack
       wezterm
-      spotify
+      # spotify
       docker
     ];
     file = {
