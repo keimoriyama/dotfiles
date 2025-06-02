@@ -128,7 +128,6 @@
     t))
 #+end_src
 
-
 ** Utils
 *** moccur
 #+begin_src elisp

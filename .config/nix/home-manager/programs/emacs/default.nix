@@ -16,7 +16,7 @@ in {
       ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
     };
     packages = with pkgs; [
-    	emacs-lsp-booster
+      emacs-lsp-booster
     ];
     # packages = with pkgs; [
     #   (emacs-lsp-booster.overrideAttrs (
