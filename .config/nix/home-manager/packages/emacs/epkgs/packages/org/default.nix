@@ -8,5 +8,6 @@ in
     olivetti
     org-superstar
     ox-gfm
+    org-modern
     org-pomodoro
   ]

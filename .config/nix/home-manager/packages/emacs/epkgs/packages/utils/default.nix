@@ -24,8 +24,9 @@ in
     ddskk
     ddskk-posframe
     rainbow-delimiters
-    hydra
-    pretty-hydra
+    # hydra
+    # pretty-hydra
+    major-mode-hydra
     tempel
     quickrun
     avy-zap

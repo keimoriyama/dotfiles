@@ -85,6 +85,7 @@ in {
       wezterm
       # spotify
       docker
+	  cbc
     ];
     file = {
       ".config/nvim" = {

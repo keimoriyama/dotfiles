@@ -581,7 +581,6 @@ binding))))))))
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
 
-
 *** org agenda
 #+begin_src elisp
 (autoload-if-found '(org-agenda) "org-agenda" nil t)
@@ -652,7 +651,7 @@ binding))))))))
   (interactive)
   (find-file org-daily-todo-file))
 
-(pretty-hydra-define hydra-org
+(major-mode-hydra-define hydra-org
   (:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("visit file"
    (("m" my:org-goto-memo "memo")
@@ -733,7 +732,7 @@ binding))))))))
   (setopt lsp-ui-doc-show-with-cursor t)
   (setopt lsp-ui-doc-show-with-mouse nil)
   (setopt lsp-ui-imenu-auto-refresh t)
-  (pretty-hydra-define lsp-ui
+  (major-mode-hydra-define lsp-ui
     (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("peek"
     (("d" lsp-ui-peek-find-definitions "definitions")
@@ -844,7 +843,7 @@ binding))))))))
 *** flyspell
 #+begin_src elisp
 (autoload-if-found '(flyspell-mode) "flyspell" nil t)
-(add-hook 'yatex-mode-hook #'fXslyspell-mode)
+(add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 
 *** reftex
@@ -898,7 +897,7 @@ binding))))))))
 
 ** hydra menu 
 #+begin_src elisp
-(pretty-hydra-define hydra-goto
+(major-mode-hydra-define hydra-goto
   (:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Got"
     (("i" avy-goto-char       "char")
@@ -920,11 +919,11 @@ binding))))))))
     "Spell"
     ((">"  flyspell-goto-next-error "next" :exit nil)
      ("cc" flyspell-correct-at-point "correct" :exit nil))))
-(keymap-global-set "M-j" #'hydra-goto2/body)
+(keymap-global-set "M-j" #'major-mode-hydras/hydra-goto/body)
 #+end_src
 
 #+begin_src elisp
-(pretty-hydra-define hydra-toggle2
+(major-mode-hydra-define hydra-toggle2
   (:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
    ("Basic"
     (("v" view-mode "view mode" :toggle t)
@@ -949,11 +948,11 @@ binding))))))))
     (("t" toggle-window-transparency "transparency" :toggle t)
      ("m" toggle-window-maximize "maximize" :toggle t)
      ("p" presentation-mode "presentation" :toggle t))))
-(keymap-global-set "M-t" #'hydra-toggle2/body)
+(keymap-global-set "M-t" #'major-mode-hydras/hydra-toggle2/body)
 #+end_src
 
 #+begin_src elisp
-(pretty-hydra-define hydra-search
+(major-mode-hydra-define hydra-search
   (:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Buffer"
     (("l" consult-line "line")
@@ -965,11 +964,11 @@ binding))))))))
     "Document"
     (("df" consult-find-doc "find")
      ("dd" consult-grep-doc "grep"))))
-(keymap-global-set "C-s" #'hydra-search/body)
+(keymap-global-set "C-s" #'major-mode-hydras/hydra-search/body)
 #+end_src
 
 #+begin_src elisp
-(pretty-hydra-define hydra-git
+(major-mode-hydra-define hydra-git
   (:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Basic"
     (("w" magit-checkout "checkout")
@@ -998,7 +997,7 @@ binding))))))))
      ("o" browse-at-remote-or-copy"browse at point")
      ("k" browse-at-remote-kill "copy url")
      ("O" (shell-command "hub browse") "browse repository"))))
-(keymap-global-set "M-g" #'hydra-git/body)
+(keymap-global-set "M-g" #'major-mode-hydras/hydra-git/body)
 #+end_src
 
 ** OJ
