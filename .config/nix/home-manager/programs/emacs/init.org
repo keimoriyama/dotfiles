@@ -506,7 +506,10 @@ binding))))))))
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1))))
-  (setq org-enforce-todo-dependencies t))
+  (setq org-enforce-todo-dependencies t)
+  (setq org-html-htmlize-output-type 'inline-css)
+  (setq org-html-htmlize-output-type nil)
+  (setq org-html-htmlize-output-type 'css))
 
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
@@ -659,7 +662,7 @@ binding))))))))
    "agenda"
    (("a" org-agenda "open agenda")
     ("c" org-capture "capture"))))
-(keymap-global-set "C-c o" #'hydra-org/body)
+(keymap-global-set "C-c o" #'major-mode-hydras/hydra-org/body)
 #+end_src
 
 ** lsp

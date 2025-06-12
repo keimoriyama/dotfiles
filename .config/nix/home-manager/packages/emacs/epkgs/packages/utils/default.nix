@@ -34,4 +34,5 @@ in
     doom-modeline
     oj
     dashboard
+    htmlize
   ]
