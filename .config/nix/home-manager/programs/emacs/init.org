@@ -744,7 +744,7 @@ binding))))))))
     "code action"
     (("n" lsp-rename "rename")
      ("c" lsp-execute-code-action "code action"))))
-  (keymap-global-set "C-c l" #'lsp-ui/body)
+  (keymap-global-set "C-c l" #'major-mode-hydras/lsp-ui/body)
   )
 #+end_src
 *** flycheck

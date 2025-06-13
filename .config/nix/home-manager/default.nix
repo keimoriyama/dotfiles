@@ -86,6 +86,7 @@ in {
       # spotify
       docker
 	  cbc
+	  sl
     ];
     file = {
       ".config/nvim" = {
