@@ -679,7 +679,8 @@ binding))))))))
   (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 500)
   (setopt lsp-completion-provider :none)
-  (setopt lsp-ruff-lsp-server-command '("ruff" "server")))
+  ;(setopt lsp-ruff-lsp-server-command '("ruff" "server"))
+  )
 #+end_src
 
 *** lsp-booster
@@ -765,28 +766,26 @@ binding))))))))
 ; python
 (add-hook 'python-mode-hook #'lsp)
 
-(autoload-if-found '(python-mode) "python-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+;; (autoload-if-found '(python-mode) "python-mode" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
-(autoload-if-found '(python-mode) "pet" nil t)
-(with-eval-after-load 'pet
-  (pet-mode)
-  (setq-local python-shell-interpreter (pet-executable-find "python"))
-  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
-  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
-  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-  (setq-local lsp-ruff-server-command (list (pet-executable-find "ruff") "server"))
-  (setq-local lsp-ruff-python-path python-shell-interpreter)
-  (setq-local ruff-format-command (pet-executable-find "ruff"))
-  (pet-flycheck-setup))
+;; (autoload-if-found '(python-mode) "pet" nil t)
+;; (with-eval-after-load 'pet
+;;   (pet-mode)
+;;   (setq-local python-shell-interpreter (pet-executable-find "python"))
+;;   (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
+;;   (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
+;;   (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+;;   ;(setq-local lsp-ruff-python-path python-shell-interpreter)
+;;   (pet-flycheck-setup))
 
-(autoload-if-found '(python-mode) "lsp-pyright" nil t)
+;; (autoload-if-found '(python-mode) "lsp-pyright" nil t)
 
-(with-eval-after-load 'lsp-pyright
-  (setopt lsp-pyright-langserver-command "pyright")
-  (setopt lsp-pyright-disable-tagged-hints t)
-  (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
+;; (with-eval-after-load 'lsp-pyright
+;;   (setopt lsp-pyright-disable-tagged-hints t)
+;;   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
 #+end_src
+
 *** rust
 #+begin_src elisp
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
