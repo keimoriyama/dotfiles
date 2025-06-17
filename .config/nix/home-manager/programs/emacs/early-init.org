@@ -1,4 +1,5 @@
 #+begin_src elisp
 ;(setenv "LSP_USE_PLISTS" "true")
 (setq debug-on-error t)
+(setq toggle-debug-on-error t)
 #+end_src

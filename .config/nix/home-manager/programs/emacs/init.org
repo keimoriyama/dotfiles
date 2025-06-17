@@ -129,6 +129,17 @@
 #+end_src
 
 ** Utils
+
+*** mistty
+#+begin_src elisp
+(with-eval-after-load '(mistty) "mistty" nil t)
+(keymap-global-set "C-c s" #'mistty)
+(with-eval-after-load 'mistty
+  (define-key mistty-prompt-map (kbd "M-<up>") 'mistty-send-key)
+  (define-key mistty-prompt-map (kbd "M-<down>") 'mistty-send-key)
+  (define-key mistty-prompt-map (kbd "M-<left>") 'mistty-send-key)
+  (define-key mistty-prompt-map (kbd "M-<right>") 'mistty-send-key))
+#+end_src
 *** moccur
 #+begin_src elisp
 (defadvice moccur-edit-change-file
@@ -156,11 +167,12 @@
 
 *** projectile.el
 #+begin_src elisp
-(autoload-if-found '(projectile-mode) "projectile" nil t)
-(add-hook 'emacs-startup-hook #'projectile-mode)
-(keymap-global-set "C-c p" #'projectile-command-map)
-(with-eval-after-load 'projectile
-  (setopt projectile-sort-order  'recently-active))
+  (autoload-if-found '(projectile-mode) "projectile" nil t)
+  (add-hook 'emacs-startup-hook #'projectile-mode)
+  (keymap-global-set "C-c p" #'projectile-command-map)
+  (with-eval-after-load 'projectile
+    (setopt projectile-sort-order  'recently-active)
+    (add-to-list 'projectile-project-root-files ".projectile"))
 #+end_src
 
 *** bufferlo.el
@@ -180,7 +192,8 @@
 (autoload-if-found '(global-undo-tree-mode) "undo-tree" nil t)
 (add-hook 'emacs-startup-hook #'global-undo-tree-mode)
 (with-eval-after-load 'undo-tree
-  (keymap-global-set "C-x u" #'undo-tree-visualize))
+  (keymap-global-set "C-x u" #'undo-tree-visualize)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 #+end_src
 
 *** git-gutter.el
@@ -486,6 +499,7 @@ binding))))))))
 
 (autoload-if-found '(org-mode) "org" nil t)
 (with-eval-after-load 'org
+  
   (setq org-startup-folded 'content)
   (setq org-deadline-warning-day  30)
   (setq org-capture-templates 
@@ -509,7 +523,8 @@ binding))))))))
   (setq org-enforce-todo-dependencies t)
   (setq org-html-htmlize-output-type 'inline-css)
   (setq org-html-htmlize-output-type nil)
-  (setq org-html-htmlize-output-type 'css))
+  (setq org-html-htmlize-output-type 'css)
+  )
 
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
@@ -552,7 +567,7 @@ binding))))))))
 		("WAIT"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
         ("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)))
 #+end_src
-
+*** 
 *** org-superstar
 #+begin_src elisp
 (autoload-if-found '(org-superstar-mode) "org-superstar" nil t)
@@ -679,7 +694,7 @@ binding))))))))
   (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 500)
   (setopt lsp-completion-provider :none)
-  ;(setopt lsp-ruff-lsp-server-command '("ruff" "server"))
+  (setopt lsp-ruff-lsp-server-command '("ruff" "server"))
   )
 #+end_src
 
@@ -766,24 +781,24 @@ binding))))))))
 ; python
 (add-hook 'python-mode-hook #'lsp)
 
-;; (autoload-if-found '(python-mode) "python-mode" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(autoload-if-found '(python-mode) "python-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
-;; (autoload-if-found '(python-mode) "pet" nil t)
-;; (with-eval-after-load 'pet
-;;   (pet-mode)
-;;   (setq-local python-shell-interpreter (pet-executable-find "python"))
-;;   (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
-;;   (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
-;;   (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-;;   ;(setq-local lsp-ruff-python-path python-shell-interpreter)
-;;   (pet-flycheck-setup))
+(autoload-if-found '(python-mode) "pet" nil t)
+(with-eval-after-load 'pet
+  (pet-mode)
+  (setq-local python-shell-interpreter (pet-executable-find "python"))
+  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
+  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
+  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+  ;(setq-local lsp-ruff-python-path python-shell-interpreter)
+  (pet-flycheck-setup))
 
-;; (autoload-if-found '(python-mode) "lsp-pyright" nil t)
+(autoload-if-found '(python-mode) "lsp-pyright" nil t)
 
-;; (with-eval-after-load 'lsp-pyright
-;;   (setopt lsp-pyright-disable-tagged-hints t)
-;;   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
+(with-eval-after-load 'lsp-pyright
+  (setopt lsp-pyright-disable-tagged-hints t)
+  (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
 #+end_src
 
 *** rust
