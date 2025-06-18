@@ -132,7 +132,6 @@
 
 *** mistty
 #+begin_src elisp
-(with-eval-after-load '(mistty) "mistty" nil t)
 (keymap-global-set "C-c s" #'mistty)
 (with-eval-after-load 'mistty
   (define-key mistty-prompt-map (kbd "M-<up>") 'mistty-send-key)
