@@ -523,23 +523,7 @@ binding))))))))
   (setq org-html-htmlize-output-type 'inline-css)
   (setq org-html-htmlize-output-type nil)
   (setq org-html-htmlize-output-type 'css)
-  )
-
-(require 'org-indent)
-(add-hook 'org-mode-hook #'org-indent-mode)
-(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-(set-face-attribute 'org-block nil            :foreground nil :inherit
-                    'fixed-pitch :height 1.0)
-(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
-(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
-(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
-(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
-                                                         fixed-pitch))
-(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-(plist-put org-format-latex-options :scale 2)
-(setq org-adapt-indentation t
+  (setq org-adapt-indentation t
       org-hide-leading-stars t
       org-hide-emphasis-markers t
       org-pretty-entities t
@@ -564,9 +548,25 @@ binding))))))))
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
         ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
 		("WAIT"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
-        ("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)))
+        ("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold))))
 #+end_src
-*** 
+*** org indent
+#+begin_src elisp
+(require 'org-indent)
+(add-hook 'org-mode-hook #'org-indent-mode)
+(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+(set-face-attribute 'org-block nil            :foreground nil :inherit
+                    'fixed-pitch :height 1.0)
+(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
+(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
+                                                         fixed-pitch))
+(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+(plist-put org-format-latex-options :scale 2)
+#+end_src
 *** org-superstar
 #+begin_src elisp
 (autoload-if-found '(org-superstar-mode) "org-superstar" nil t)
@@ -588,12 +588,12 @@ binding))))))))
 (with-eval-after-load 'ob-core
   (setopt org-confirm-babel-evaluate nil)
   (setopt org-babel-default-header-args '((:session . "none")
-                                        (:results . "drawer replace")
-                                        (:exports . "code")
-                                        (:cache . "no")
-                                        (:noweb . "no")
-                                        (:hlines . "no")
-                                        (:tangle . "no"))))
+                                          (:results . "drawer replace")
+                                          (:exports . "code")
+                                          (:cache . "no")
+                                          (:noweb . "no")
+                                          (:hlines . "no")
+                                          (:tangle . "no"))))
 (with-eval-after-load 'ob-lisp
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
@@ -612,7 +612,7 @@ binding))))))))
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-return-follows-link t)  ;; RET to follow link
-  (setq org-agenda-columns-add-appointments-to-effort-sum t)
+  ;(setq org-agenda-columns-add-appointments-to-effort-sum nil)
   (setq org-agenda-time-grid
                         '((daily today require-timed)
                           (0900 1200 1300 1800) "......" "----------------"))
@@ -621,9 +621,8 @@ binding))))))))
   (setq org-clock-out-remove-zero-time-clocks t)
   (setq org-agenda-use-time-grid t)
   (setq org-clock-clocked-in-display          'both)
- ; (setopt org-agenda-start-with-log-mode         t)
-  (setq org-agenda-files  '("~/Documents/org-mode/"))
-  )
+  (setq org-agenda-start-with-log-mode         t)
+  (setq org-agenda-files  '("~/Documents/org-mode/")))
 
 (plist-put org-format-latex-options :scale 1.2)
 #+end_src

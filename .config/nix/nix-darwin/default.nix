@@ -65,6 +65,6 @@
       "google-drive"
       "ollama"
       "1password"
-    ];
+	  ];
   };
 }
