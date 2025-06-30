@@ -80,13 +80,13 @@ in {
       nvfetcher
       udev-gothic
       ghostscript
-      # ollama
+      ollama
       # slack
       wezterm
       # spotify
       docker
-	    cbc
-	    sl
+      cbc
+      sl
       ispell
     ];
     file = {
