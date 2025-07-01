@@ -60,7 +60,7 @@
       # "notion-calendar"
       # "notion-mail"
       "wezterm"
-      "docker"
+      # "docker"
       "google-chrome"
       "google-drive"
       "ollama"
