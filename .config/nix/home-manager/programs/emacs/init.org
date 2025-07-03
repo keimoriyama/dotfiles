@@ -383,12 +383,12 @@
 
 *** embark
 #+begin_src elisp
-(autoload-if-found '(embark-dwin
+(autoload-if-found '(embark-dwim
                      embark-act
                      embark-bindings) "embark" nil t)
 
 (keymap-global-set "C-." #'embark-act)
-(keymap-global-set "C-;" #'embark-dwin)
+(keymap-global-set "C-;" #'embark-dwim)
 
 (add-to-list 'display-buffer-alist
              '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -444,6 +444,11 @@ binding))))))))
 (advice-add #'embark-completing-read-prompter
             :around #'embark-hide-which-key-indicator)
 #+end_src
+
+#+RESULTS:
+:results:
+nil
+:end:
 
 *** affe
 #+begin_src elisp
@@ -692,7 +697,7 @@ binding))))))))
   (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 500)
   (setopt lsp-completion-provider :none)
-  (setopt lsp-ruff-lsp-server-command '("ruff" "server"))
+  ;(setopt lsp-ruff-lsp-server-command '("ruff" "server"))
   )
 #+end_src
 
@@ -757,7 +762,8 @@ binding))))))))
      ("b" xref-go-back "go back to previous location"))
     "code action"
     (("n" lsp-rename "rename")
-     ("c" lsp-execute-code-action "code action"))))
+     ("c" lsp-execute-code-action "code action")
+     ("p" lsp-ui-peek "peek"))))
   (keymap-global-set "C-c l" #'major-mode-hydras/lsp-ui/body)
   )
 #+end_src
@@ -778,6 +784,7 @@ binding))))))))
 #+begin_src elisp
 ; python
 (add-hook 'python-mode-hook #'lsp)
+(add-hook 'python-mode-hook 'ruff-format-on-save-mode)
 
 (autoload-if-found '(python-mode) "python-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
@@ -789,8 +796,12 @@ binding))))))))
   (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
   (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
   (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-  ;(setq-local lsp-ruff-python-path python-shell-interpreter)
-  (pet-flycheck-setup))
+  (setq-local lsp-ruff-python-path python-shell-interpreter)
+  (when-let ((ruff-executable (pet-executable-find "ruff")))
+                (setq-local ruff-format-command ruff-executable)
+                (ruff-format-on-save-mode))
+  (pet-flycheck-setup)
+  )
 
 (autoload-if-found '(python-mode) "lsp-pyright" nil t)
 

@@ -69,7 +69,7 @@ in {
       vim
       tree-sitter
       pyright
-      # ruff
+      ruff
       isort
       black
       yaml-language-server

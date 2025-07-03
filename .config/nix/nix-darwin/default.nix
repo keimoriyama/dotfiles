@@ -40,7 +40,7 @@
     onActivation = {
       autoUpdate = true;
       # !! 注意 !!
-      cleanup = "uninstall";
+      # cleanup = "uninstall";
     };
     taps = [
       "wtsnjp/tex2img"
@@ -57,7 +57,7 @@
       "zoom"
       "mactex"
       "notion"
-      # "notion-calendar"
+      "notion-calendar"
       # "notion-mail"
       "wezterm"
       # "docker"
