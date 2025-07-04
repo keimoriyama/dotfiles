@@ -34,9 +34,9 @@ export class Config extends BaseConfig {
 			//["telescope.toml", false],
 			["ftplugin.toml", true],
 		];
-		const base_dir = "~/.config/nvim/rc/";
+		const base_dir = "~/.config/nvim/toml/";
 		for (const file of files) {
-			console.log(file);
+			// console.log(file);
 			tomls.push(
 				(await args.dpp.extAction(
 					args.denops,

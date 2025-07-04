@@ -17,7 +17,7 @@
 [[plugins]]
 repo = "nvimtools/none-ls.nvim"
 on_event = ['BufNewFile', 'BufRead']
-hooks_file="$BASE_DIR/rc/hooks/none_ls.lua"
+hooks_file="$BASE_DIR/lua/none_ls.lua"
 
 # [[plugins]]
 # repo = 'ray-x/lsp_signature.nvim'

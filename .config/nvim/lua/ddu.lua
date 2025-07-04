@@ -32,7 +32,7 @@ vim.keymap.set("n", "<leader>ml", "<cmd>Ddu file_rec -source-option-file_rec-pat
 -- }}}
 
 -- lua_source {{{
-vim.fn["ddu#custom#load_config"](vim.fn.expand("~/.config/nvim/rc/ddu.ts"))
+vim.fn["ddu#custom#load_config"](vim.fn.expand("~/.config/nvim/ts/ddu.ts"))
 -- }}}
 
 -- lua_post_upadte{{{

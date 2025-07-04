@@ -9,7 +9,7 @@ require("nvim-autopairs").setup({ disable_filetype = { "vim" },
 [[plugins]]
 repo="lukas-reineke/indent-blankline.nvim"
 on_event = ["VimEnter"]
-hooks_file="$BASE_DIR/rc/hooks/ibl.lua"
+hooks_file="$BASE_DIR/lua/ibl_config.lua"
 
 
 # surround
@@ -54,7 +54,7 @@ vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 [[plugins]]
 repo='lambdalisue/gin.vim'
 on_cmd = ["GinStatus", "GinLog"]
-hooks_file="$BASE_DIR/rc/hooks/gin.lua"
+hooks_file="$BASE_DIR/lua/gin.lua"
 
 # show diff from recover file
 [[plugins]]
@@ -64,7 +64,7 @@ repo="chrisbra/Recover.vim"
 [[plugins]]
 repo='phaazon/hop.nvim'
 on_event = ["VimEnter"]
-hooks_file ="$BASE_DIR/rc/hooks/hop.lua"
+hooks_file ="$BASE_DIR/lua/hop_config.lua"
 
 # [[plugins]]
 # repo = "hrsh7th/nvim-insx.git"
@@ -86,7 +86,7 @@ require('mini.diff').setup()
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter"
 on_event = ["VimEnter"]
-hooks_file="$BASE_DIR/rc/hooks/treesitter.lua"
+hooks_file="$BASE_DIR/lua/treesitter.lua"
 
 [[plugins]]
 repo='echasnovski/mini.bufremove'
@@ -99,7 +99,7 @@ vim.keymap.set("n", "<leader>bd", function()MiniBufremove.delete() end)
 [[plugins]]
 repo="glidenote/memolist.vim"
 on_event = ["VimEnter"]
-hooks_file="$BASE_DIR/rc/hooks/memolist.lua"
+hooks_file="$BASE_DIR/lua/memolist.lua"
 
 
 [[plugins]]

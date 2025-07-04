@@ -1,8 +1,70 @@
+-- lua_source {{{
 local opts = { noremap = true, silent = true }
 
+function tbl_flatten(t)
+  --- @diagnostic disable-next-line:deprecated
+  return nvim_eleven and vim.iter(t):flatten(math.huge):totable() or vim.tbl_flatten(t)
+end
+
+function strip_archive_subpath(path)
+  -- Matches regex from zip.vim / tar.vim
+  path = vim.fn.substitute(path, 'zipfile://\\(.\\{-}\\)::[^\\\\].*$', '\\1', '')
+  path = vim.fn.substitute(path, 'tarfile:\\(.\\{-}\\)::.*$', '\\1', '')
+  return path
+end
+
+function search_ancestors(startpath, func)
+  if nvim_eleven then
+    validate('func', func, 'function')
+  end
+  if func(startpath) then
+    return startpath
+  end
+  local guard = 100
+  for path in vim.fs.parents(startpath) do
+    -- Prevent infinite recursion if our algorithm breaks
+    guard = guard - 1
+    if guard == 0 then
+      return
+    end
+
+    if func(path) then
+      return path
+    end
+  end
+end
+-- from nvim-lspconfig/lua/lspconfig/util.lua L:99
+function root_pattern(...)
+  local patterns = tbl_flatten { ... }
+  return function(startpath)
+    startpath = strip_archive_subpath(startpath)
+    for _, pattern in ipairs(patterns) do
+      local match = search_ancestors(startpath, function(path)
+        for _, p in ipairs(vim.fn.glob(table.concat({ escape_wildcards(path), pattern }, '/'), true, true)) do
+          if vim.uv.fs_stat(p) then
+            return path
+          end
+        end
+      end)
+
+      if match ~= nil then
+        return match
+      end
+    end
+  end
+end
+-- https://github.com/neovim/neovim/issues/23291#issuecomment-1523243069
+-- https://github.com/neovim/neovim/pull/23500#issuecomment-1585986913
+-- pyright asks for every file in every directory to be watched,
+-- so for large projects that will necessarily turn into a lot of polling handles being created.
+-- sigh local ok, wf = pcall(require, "vim.lsp._watchfiles")
+if ok then
+	wf._watchfunc = function()
+		return function() end
+	end
+end
+
 vim.lsp.config("lua_ls", {
-	cmd = { "lua-language-server" },
-	filetypes = { "lua" },
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -12,9 +74,7 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
-vim.lsp.config("pyright", {
-	root_makers = { ".venv" },
-	settings = {
+vim.lsp.config('pyright', {
 		python = {
 			venvPath = ".",
 			pythonPath = "./.venv/bin/python",
@@ -24,14 +84,10 @@ vim.lsp.config("pyright", {
 				typeCheckingMode = "off",
 			},
 		},
-	},
 })
 
-vim.lsp.config("ruff", { root_makers = { ".venv" } })
-
-vim.lsp.config("denols", {
-	root_makers = { "deno.json" },
-	filetypes = { "typescript" },
+vim.lsp.config('denols', {
+	root_dir = root_pattern("deno.json"),
 	init_options = {
 		lint = true,
 		unstable = false,
@@ -47,28 +103,14 @@ vim.lsp.config("denols", {
 	},
 })
 
-vim.lsp.config("ts_ls", {
-	filetypes = { "typescript" },
-	root_pattern = { "package.json" },
-})
-
-vim.lsp.enable({
-	"lua_ls",
-	"ruff",
-	"pyright",
-	"ty",
-	"denols",
-	"ts_ls",
-	"rust_analyzer",
+vim.lsp.config('ts_ls', {
+	root_dir = root_pattern("package.json"),
 })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
 
 -- vim.diagnostics.config({ severity_sort = true })
-vim.diagnostic.config({
-	virtual_text = true,
-})
 -- LSP handlers
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -118,3 +160,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
+-- }}}

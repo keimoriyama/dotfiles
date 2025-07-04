@@ -11,11 +11,13 @@ repo="tpope/vim-repeat"
 # utility
 [[plugins]]
 repo="nvim-lua/plenary.nvim"
-on_source=['none-ls.nvim']
+
+[[plugins]]
+repo='nvim-tree/nvim-web-devicons'
 
 [[plugins]]
 repo="nvim-lualine/lualine.nvim"
-hooks_file="$BASE_DIR/rc/hooks/lualine.lua"
+hooks_file="$BASE_DIR/lua/lualine_config.lua"
 
 [[plugins]]
 repo="ethanholz/nvim-lastplace"

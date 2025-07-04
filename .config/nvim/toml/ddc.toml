@@ -1,7 +1,7 @@
 [[plugins]]
 repo='Shougo/ddc.vim'
-depends=['denops.vim', 'nvim-lspconfig']
-hooks_file="$BASE_DIR/rc/hooks/ddc.lua"
+depends=['denops.vim']
+hooks_file="$BASE_DIR/lua/ddc.lua"
 
 [[plugins]]
 on_souce='ddc.vim'
@@ -94,9 +94,9 @@ on_source="ddc.vim"
 repo="tani/ddc-path"
 on_source="ddc.vim"
 
-[[plugins]]
-repo="uga-rosa/ddc-source-lsp-setup"
-on_source="ddc.vim"
+# [[plugins]]
+# repo="uga-rosa/ddc-source-lsp-setup"
+# on_source="ddc.vim"
 
 [[plugins]]
 repo="Shougo/ddc-filter-converter_truncate_abbr"
@@ -113,7 +113,7 @@ on_source="ddc.vim"
 [[plugins]]
 repo="vim-skk/skkeleton"
 on_source='ddc.vim'
-hooks_file="$BASE_DIR/rc/hooks/skk.lua"
+hooks_file="$BASE_DIR/lua/skk.lua"
 
 [[plugins]]
 repo = 'keimoriyama/skkeleton-azik-kanatable'
@@ -128,7 +128,7 @@ on_source="skkeleton"
 [[plugins]]
 repo = "uga-rosa/denippet.vim"
 on_source = "ddc.vim"
-hooks_file="$BASE_DIR/rc/hooks/denippet.lua"
+hooks_file="$BASE_DIR/lua/denippet.lua"
 
 [[plugins]]
 repo="delphinus/skkeleton_indicator.nvim"

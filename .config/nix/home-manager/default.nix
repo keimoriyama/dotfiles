@@ -52,7 +52,7 @@ in {
       git
       curl
       uv
-      # nodejs_23
+      nodejs_24
       typescript
       python313
       pipx
