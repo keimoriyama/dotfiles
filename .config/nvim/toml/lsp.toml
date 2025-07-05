@@ -1,6 +1,7 @@
-# [[plugins]]
-# repo = "neovim/nvim-lspconfig"
-# on_event = ['BufNewFile', 'BufRead']
+[[plugins]]
+repo = "neovim/nvim-lspconfig"
+on_event = ['BufNewFile', 'BufRead']
+hooks_file="$BASE_DIR/lua/lsp.lua"
 
 # [[plugins]]
 # repo = 'williamboman/mason.nvim'
@@ -19,10 +20,10 @@ repo = "nvimtools/none-ls.nvim"
 on_event = ['BufNewFile', 'BufRead']
 hooks_file="$BASE_DIR/lua/none_ls.lua"
 
-# [[plugins]]
-# repo = 'ray-x/lsp_signature.nvim'
-# on_event = ['BufNewFile', 'BufRead']
-# depends='nvim-lspconfig'
-# lua_source='''
-# require('lsp_signature').setup()
-# '''
+[[plugins]]
+repo = 'ray-x/lsp_signature.nvim'
+on_event = ['BufNewFile', 'BufRead']
+depends='nvim-lspconfig'
+lua_source='''
+require('lsp_signature').setup()
+'''
