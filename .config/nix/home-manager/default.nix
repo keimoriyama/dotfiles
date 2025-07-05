@@ -84,7 +84,7 @@ in {
       # slack
       wezterm
       # spotify
-      docker
+      # docker
       cbc
       sl
       ispell
