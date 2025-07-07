@@ -1,7 +1,8 @@
-import { CSS, render } from "@deno/gfm";
-import { Deno } from "@denops/std";
+import { CSS, KATEX_CSS, render } from "jsr:@deno/gfm";
+// import { Denops } from "jsr:@denops/std@^7.0.0";
 
 export function markdown2html(markdown: string) {
+  console.log(markdown);
   const body = render(markdown);
   return `
 <!DOCTYPE html>
@@ -25,5 +26,3 @@ export function markdown2html(markdown: string) {
 </html>
 `;
 }
-
-Deno.test();
