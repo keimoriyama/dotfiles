@@ -1,10 +1,8 @@
-import { CSS, KATEX_CSS, render } from "jsr:@deno/gfm";
+// import { CSS, KATEX_CSS, render } from "jsr:@deno/gfm";
 // import { Denops } from "jsr:@denops/std@^7.0.0";
-// import * as gfm from "jsr:@deno/gfm"
-
-export function markdown2html(markdown: string) {
-  console.log(markdown);
-//   const body =render(markdown);
+//
+// export function markdown2html(markdown: string) {
+//   // const body = render(markdown);
 //   return `
 // <!DOCTYPE html>
 // <html lang="en">
@@ -21,9 +19,8 @@ export function markdown2html(markdown: string) {
 //   </head>
 //   <body>
 //     <main data-color-mode="light" data-light-theme="light" data-dark-theme="dark" class="markdown-body">
-//       ${body}
 //     </main>
 //   </body>
 // </html>
 // `;
-}
+// }

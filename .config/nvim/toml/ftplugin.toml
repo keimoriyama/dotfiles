@@ -2,7 +2,7 @@
 repo = 'toppair/peek.nvim'
 build='deno task --quiet build:fast'
 on_ft="md"
-hooks_file='$BASE_DIR/lua/peek.lua'
+hooks_file='$BASE_DIR/lua/peek_config.lua'
 
 [[plugins]]
 on_ft="md"
