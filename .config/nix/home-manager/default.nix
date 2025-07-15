@@ -88,6 +88,7 @@ in {
       cbc
       sl
       ispell
+	  typst
     ];
     file = {
       ".config/nvim" = {

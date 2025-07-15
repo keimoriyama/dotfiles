@@ -53,6 +53,14 @@ vim.lsp.config("ts_ls", {
 	root_pattern = { "package.json" },
 })
 
+vim.lsp.config("lua_ls", {
+	settings = {
+		Lua = {
+			semantic = { enable = false },
+		},
+	},
+})
+
 vim.lsp.enable({
 	"lua_ls",
 	"ruff",
