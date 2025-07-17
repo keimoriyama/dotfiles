@@ -152,6 +152,8 @@ export class Config extends BaseConfig {
             "outputs",
             "output",
             "notebooks",
+            ".ruff_cache",
+            ".pytest_cache",
           ],
         },
       },
