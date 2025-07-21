@@ -76,7 +76,6 @@ in {
       lua-language-server
       stylua
       typescript-language-server
-      docker
       nvfetcher
       udev-gothic
       ghostscript
