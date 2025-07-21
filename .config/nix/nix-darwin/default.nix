@@ -60,9 +60,9 @@
       "notion-calendar"
       # "notion-mail"
       "wezterm"
-      "docker"
-      "google-chrome"
-      "google-drive"
+      # "docker"
+      # "google-chrome"
+      # "google-drive"
       # "ollama"
       "1password"
     ];
