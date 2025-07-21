@@ -2,6 +2,7 @@
 vim.keymap.set({ "n" }, "<leader>gs", "<Cmd>GinStatus<Cr>", {})
 vim.keymap.set({ "n" }, "<leader>gl", "<Cmd>GinLog --graph --oneline<Cr>", {})
 -- }}}
+
 -- lua_source {{{
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "gin-diff", "gin-log", "gin-status" },
