@@ -32,7 +32,6 @@ no_neck.setup({
 		scratchPad = {
 			enabled = true,
 			pathToFile = string.format("~/Documents/notes/%s.md", get_prj_name()),
-			-- fileName = "test",
 		},
 		bo = {
 			filetype = "md",
