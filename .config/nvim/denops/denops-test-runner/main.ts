@@ -1,15 +1,117 @@
-import type { Entrypoint } from "jsr:@denops/std@^7.0.0";
 import { Denops } from "jsr:@denops/std@^7.0.0";
 import { system } from "jsr:@denops/std/function";
+import { assertEquals } from "jsr:@std/assert@~1.0.2/equals";
+import { bufname } from "jsr:@denops/std/function";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async test_run(): Promise<void> {
-      const res = await system(denops, "ls");
-      console.log(res);
+      const filename = await bufname(denops, "%");
+      const res = await system(denops, `deno test ${filename}`);
     },
   };
   await denops.cmd(
     `command! Testrun call denops#request('${denops.name}', 'test_run', [])`,
   );
 }
+
+type TestResult = {
+  filename: string;
+  testname: string;
+  result: boolean;
+};
+
+function parse_deno_test_result(cli_output: string[]): TestResult[] {
+  let test_results: TestResult[] = [];
+  const file_regexp = new RegExp(".[/[a-zA-Z-\.]+]*");
+  const test_regexp = new RegExp("=> [a-zA-Z]+");
+  const result_regexp = new RegExp("ok|FAILED");
+  for (const output of cli_output) {
+    const filename_result = file_regexp.exec(output);
+    const testname_result = test_regexp.exec(output);
+    const result_result = result_regexp.exec(output);
+    if (
+      (filename_result == null) || (testname_result == null) ||
+      (result_result == null)
+    ) {
+      continue;
+    }
+    const filename = filename_result[0];
+    const testname = testname_result[0].replace("=> ", "");
+    const result = result_result[0] == "ok" ? true : false;
+    const test_result: TestResult = {
+      filename: filename,
+      testname: testname,
+      result: result,
+    };
+    test_results.push(test_result);
+  }
+  return test_results;
+}
+
+Deno.test("ParseDenoTestOutput", () => {
+  const sample_input = [
+    "./denops/denops-test-runner/main.ts => ParseDenoTestOutput ... ok (0ms)",
+    "./denops/denops-test-runner/main.ts => SimpleTest ... ok (0ms)",
+  ];
+
+  const result = parse_deno_test_result(sample_input);
+  const expected_result: TestResult[] = [{
+    filename: "./denops/denops-test-runner/main.ts",
+    testname: "ParseDenoTestOutput",
+    result: true,
+  }, {
+    filename: "./denops/denops-test-runner/main.ts",
+    testname: "SimpleTest",
+    result: true,
+  }];
+  assertEquals(expected_result, result);
+});
+
+Deno.test("ParseFailedTest", () => {
+  const sample_input = [
+    "./denops/denops-test-runner/main.ts => SimpleTest ... ok (0ms)",
+    "./denops/denops-test-runner/main.ts => ParseDenoTestOutput ... FAILED (0ms)",
+    "",
+    " ERRORS",
+    "",
+    "ParseDenoTestOutput => ./denops/denops-test-runner/main.ts:22:6",
+    "error: AssertionError: Values are not equal.",
+    "",
+    "",
+    "    [Diff] Actual / Expected",
+    "",
+    "",
+    '-   "aa"',
+    "+   undefined",
+    "",
+    "  throw new AssertionError(message);",
+    "        ^",
+    "    at assertEquals (https://jsr.io/@std/assert/1.0.13/equals.ts:64:9)",
+    "    at file:///Users/kei/dotfiles/.config/nvim/denops/denops-test-runner/main.ts:29:3",
+    "",
+    " FAILURES",
+    "",
+    "ParseDenoTestOutput => ./denops/denops-test-runner/main.ts:22:6",
+    "",
+    "FAILED | 5 passed | 1 failed (66ms)",
+    "",
+    "error: Test failed",
+  ];
+  const result = parse_deno_test_result(sample_input);
+  const expected_result: TestResult[] = [{
+    filename: "./denops/denops-test-runner/main.ts",
+    testname: "SimpleTest",
+    result: true,
+  }, {
+    filename: "./denops/denops-test-runner/main.ts",
+    testname: "ParseDenoTestOutput",
+    result: false,
+  }];
+  assertEquals(expected_result, result);
+});
+
+Deno.test("SimpleTest", () => {
+  const a = "test";
+  assertEquals("test", a);
+});

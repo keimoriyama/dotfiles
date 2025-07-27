@@ -49,6 +49,7 @@ export class Config extends BaseConfig {
         },
         line: {
           matchers: ["matcher_kensaku"],
+          sorters: ["sorter_line"],
         },
         git_status: {
           converters: ["converter_git_status", "converter_devicon"],
