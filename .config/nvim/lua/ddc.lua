@@ -16,6 +16,9 @@ vim.fn["ddc#custom#load_config"](vim.fn.expand("$HOME/.config/nvim/ts/ddc.ts"))
 
 -- lua_source {{{
 -- Use ddc
+vim.lsp.config("*", {
+	capabilities = require("ddc_source_lsp").make_client_capabilities(),
+})
 function _G.CommandlinePre(mode)
 	vim.b["prev_buffer_config"] = vim.fn["ddc#custom#get_buffer"]()
 	if mode == ":" then
@@ -37,8 +40,6 @@ function _G.CommandlinePre(mode)
 	vim.fn["ddc#enable_cmdline_completion"]()
 end
 
--- require("ddc_source_lsp_setup").setup()
--- require("lspconfig").denols.setup({})
 -- コマンドライン補完の設定
 vim.keymap.set({ "n", "x" }, ":", "<Cmd>call v:lua.CommandlinePre(':')<CR>:")
 vim.fn["ddc#enable"]()

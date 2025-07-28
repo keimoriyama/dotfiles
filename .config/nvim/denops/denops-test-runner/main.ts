@@ -1,29 +1,39 @@
 import { Denops } from "jsr:@denops/std@^7.0.0";
 import { system } from "jsr:@denops/std/function";
 import { assertEquals } from "jsr:@std/assert@~1.0.2/equals";
-import { bufname } from "jsr:@denops/std/function";
-
-export async function main(denops: Denops): Promise<void> {
-  denops.dispatcher = {
-    async test_run(): Promise<void> {
-      const filename = await bufname(denops, "%");
-      const res = await system(denops, `deno test ${filename}`);
-    },
-  };
-  await denops.cmd(
-    `command! Testrun call denops#request('${denops.name}', 'test_run', [])`,
-  );
-}
 
 type TestResult = {
   filename: string;
   testname: string;
   result: boolean;
 };
-
+export async function main(denops: Denops): Promise<void> {
+  denops.dispatcher = {
+    async test_run(): Promise<void> {
+      // ここの実行が終わる前に、終了しているみたい？
+      await denops.cmd('echomsg "Starting test execution..."');
+      const results: TestResult[] = await run_deno_test(denops);
+      await denops.cmd(`echomsg "Res: ${results}"`);
+      await denops.cmd("enew");
+      await denops.call("setline", 1, results);
+    },
+  };
+  await denops.cmd(
+    `command! Testrun call denops#request('${denops.name}', 'test_run', [])`,
+  );
+}
+async function run_deno_test(denops: Denops): Promise<TestResult[]> {
+  const raw_res = await system(
+    denops,
+    "deno task test",
+  );
+  const res = raw_res.replace(/\x1b\[[0-9;]*m/g, "");
+  const res_list = res.split("\n");
+  return parse_deno_test_result(res_list);
+}
 function parse_deno_test_result(cli_output: string[]): TestResult[] {
   let test_results: TestResult[] = [];
-  const file_regexp = new RegExp(".[/[a-zA-Z-\.]+]*");
+  const file_regexp = new RegExp("\.[/[a-zA-Z-\.]+]*\.ts");
   const test_regexp = new RegExp("=> [a-zA-Z]+");
   const result_regexp = new RegExp("ok|FAILED");
   for (const output of cli_output) {

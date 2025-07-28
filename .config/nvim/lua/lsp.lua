@@ -50,7 +50,8 @@ vim.lsp.config("denols", {
 
 vim.lsp.config("ts_ls", {
 	filetypes = { "typescript" },
-	root_pattern = { "package.json" },
+	root_dir = { "package.json" },
+	root_makers = { "package.json" },
 })
 
 vim.lsp.config("lua_ls", {

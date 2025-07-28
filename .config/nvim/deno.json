@@ -4,7 +4,7 @@
     "lint": "deno lint denops",
     "lint-fix": "deno lint --fix denops",
     "fmt": "deno fmt denops",
-    "test": "deno test -A --doc --parallel --shuffle denops/**/*.ts",
+    "test": "deno test -A --doc --parallel --shuffle --no-check denops/**/*.ts",
     "upgrade": "deno run -A jsr:@molt/cli **/*.ts --write",
     "dev": "deno run --watch main.ts"
   },

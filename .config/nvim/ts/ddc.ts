@@ -77,6 +77,11 @@ export class Config extends BaseConfig {
       },
       sourceParams: {
         buffer: { requireSameFiletype: false, forceCollect: true },
+        lsp: {
+          enableResolveItem: true,
+          enableAdditionalTextEdit: true,
+          comfirmBehaviour: "replace",
+        },
       },
       filterParams: {
         converter_kind_labels: {
