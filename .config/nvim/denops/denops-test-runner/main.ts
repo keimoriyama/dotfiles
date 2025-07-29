@@ -10,10 +10,7 @@ type TestResult = {
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async test_run(): Promise<void> {
-      // ここの実行が終わる前に、終了しているみたい？
-      await denops.cmd('echomsg "Starting test execution..."');
       const results: TestResult[] = await run_deno_test(denops);
-      await denops.cmd(`echomsg "Res: ${results}"`);
       await denops.cmd("enew");
       await denops.call("setline", 1, results);
     },
