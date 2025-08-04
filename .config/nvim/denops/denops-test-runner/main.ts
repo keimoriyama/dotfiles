@@ -2,6 +2,7 @@ import { Denops } from "jsr:@denops/std@^7.0.0";
 import { system } from "jsr:@denops/std/function";
 import { assertEquals } from "jsr:@std/assert@~1.0.2/equals";
 
+import { getbufvar } from "jsr:@denops/std/function";
 type TestResult = {
   filename: string;
   testname: string;
@@ -10,15 +11,33 @@ type TestResult = {
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async test_run(): Promise<void> {
+	  const filetype = await getbufvar(denops, "%", "&filetype")
       const results: TestResult[] = await run_deno_test(denops);
-      await denops.cmd("enew");
-      await denops.call("setline", 1, results);
+      const parsed_resutls: string[] = parse_test_result(results);
+	  console.log(filetype)
+      await denops.cmd("new");
+      await denops.call("setline", 1, parsed_resutls);
     },
   };
   await denops.cmd(
     `command! Testrun call denops#request('${denops.name}', 'test_run', [])`,
   );
 }
+
+function parse_test_result(parsed_result: TestResult[]): string[] {
+  let results = [];
+  let template = "File: ${filename} Test: ${testname} Result: ${result}";
+  for (const result of parsed_result) {
+    const res = result["result"] ? "✅" : "❌";
+    const output = template.replace("${filename}", result["filename"]).replace(
+      "${testname}",
+      result["testname"],
+    ).replace("${result}", res);
+    results.push(output);
+  }
+  return results;
+}
+
 async function run_deno_test(denops: Denops): Promise<TestResult[]> {
   const raw_res = await system(
     denops,
@@ -28,6 +47,7 @@ async function run_deno_test(denops: Denops): Promise<TestResult[]> {
   const res_list = res.split("\n");
   return parse_deno_test_result(res_list);
 }
+
 function parse_deno_test_result(cli_output: string[]): TestResult[] {
   let test_results: TestResult[] = [];
   const file_regexp = new RegExp("\.[/[a-zA-Z-\.]+]*\.ts");
@@ -55,6 +75,24 @@ function parse_deno_test_result(cli_output: string[]): TestResult[] {
   }
   return test_results;
 }
+
+Deno.test("ParseTestResult", () => {
+  const sample_input: TestResult[] = [{
+    filename: "./denops/denops-test-runner/main.ts",
+    testname: "ParseDenoTestOutput",
+    result: true,
+  }, {
+    filename: "./denops/denops-test-runner/main.ts",
+    testname: "SimpleTest",
+    result: false,
+  }];
+  const result = parse_test_result(sample_input);
+  const expected_result = [
+    "File: ./denops/denops-test-runner/main.ts Test: ParseDenoTestOutput Result: ✅",
+    "File: ./denops/denops-test-runner/main.ts Test: SimpleTest Result: ❌",
+  ];
+  assertEquals(expected_result, result);
+});
 
 Deno.test("ParseDenoTestOutput", () => {
   const sample_input = [
