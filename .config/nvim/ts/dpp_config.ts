@@ -26,7 +26,7 @@ export class Config extends BaseConfig {
     const tomls: Toml[] = [];
     const files = [
       ["dpp.toml", false],
-      ["lsp.toml", true],
+      ["lsp.toml", false],
       ["utils.toml", false],
       ["utils_lazy.toml", true],
       ["ddc.toml", false],

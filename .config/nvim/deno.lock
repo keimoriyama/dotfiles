@@ -5,6 +5,8 @@
     "jsr:@denops/core@7": "7.0.1",
     "jsr:@denops/std@*": "7.6.0",
     "jsr:@denops/std@7": "7.6.0",
+    "jsr:@lambdalisue/itertools@^1.1.2": "1.1.2",
+    "jsr:@lambdalisue/unreachable@^1.0.1": "1.0.1",
     "jsr:@shougo/ddu-vim@6.1": "6.1.0",
     "jsr:@std/assert@~1.0.2": "1.0.13",
     "jsr:@std/internal@^1.0.6": "1.0.9",
@@ -23,9 +25,17 @@
       "dependencies": [
         "jsr:@core/unknownutil",
         "jsr:@denops/core",
+        "jsr:@lambdalisue/itertools",
+        "jsr:@lambdalisue/unreachable",
         "jsr:@std/semver",
         "jsr:@std/ulid"
       ]
+    },
+    "@lambdalisue/itertools@1.1.2": {
+      "integrity": "1b8c45a5ab7102a3ff1aa64c8ec0bdb12aee845bec5bf85458ed83446125587a"
+    },
+    "@lambdalisue/unreachable@1.0.1": {
+      "integrity": "24b0743775e92ea0d076beaf0869bfbe4708054ac570742628684fb35ccda0d4"
     },
     "@shougo/ddu-vim@6.1.0": {
       "integrity": "772a042b413b3f3c0e072ff390221494e2ee04c2c252827693d34b454fd05eac"

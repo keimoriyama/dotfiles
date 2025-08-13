@@ -3,6 +3,9 @@ import { system } from "jsr:@denops/std/function";
 import { assertEquals } from "jsr:@std/assert@~1.0.2/equals";
 
 import { getbufvar } from "jsr:@denops/std/function";
+import { open } from "jsr:@denops/std/buffer";
+
+import { setbufline } from "jsr:@denops/std/function";
 type TestResult = {
   filename: string;
   testname: string;
@@ -11,12 +14,16 @@ type TestResult = {
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async test_run(): Promise<void> {
-	  const filetype = await getbufvar(denops, "%", "&filetype")
+      const filetype = await getbufvar(denops, "%", "&filetype");
       const results: TestResult[] = await run_deno_test(denops);
-      const parsed_resutls: string[] = parse_test_result(results);
-	  console.log(filetype)
-      await denops.cmd("new");
-      await denops.call("setline", 1, parsed_resutls);
+      const parsed_results: string[] = parse_test_result(results);
+      // bufferが存在する時は、既存のbufferを上書きする
+      const bufopts= await open(denops, "[TestResult]", { opener: "split" });
+      await denops.cmd("setlocal buftype=nofile");
+      await denops.cmd("setlocal bufhidden=hide");
+      await denops.cmd("setlocal noswapfile");
+	  const bufnr = bufopts['bufnr']
+      await setbufline(denops,bufnr, 1, parsed_results);
     },
   };
   await denops.cmd(

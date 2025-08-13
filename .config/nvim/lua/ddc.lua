@@ -19,6 +19,7 @@ vim.fn["ddc#custom#load_config"](vim.fn.expand("$HOME/.config/nvim/ts/ddc.ts"))
 vim.lsp.config("*", {
 	capabilities = require("ddc_source_lsp").make_client_capabilities(),
 })
+
 function _G.CommandlinePre(mode)
 	vim.b["prev_buffer_config"] = vim.fn["ddc#custom#get_buffer"]()
 	if mode == ":" then

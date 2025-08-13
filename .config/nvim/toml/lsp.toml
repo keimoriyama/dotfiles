@@ -12,6 +12,4 @@ hooks_file="$BASE_DIR/lua/none_ls.lua"
 repo = 'ray-x/lsp_signature.nvim'
 on_event = ['BufNewFile', 'BufRead']
 depends='nvim-lspconfig'
-lua_source='''
-require('lsp_signature').setup()
-'''
+hooks_file="$BASE_DIR/lua/lsp_signature_config.lua"

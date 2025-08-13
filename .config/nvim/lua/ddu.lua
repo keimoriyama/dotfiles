@@ -5,9 +5,9 @@ vim.keymap.set("n", "<Leader>ff", "<cmd>Ddu -name=ff file_rec<cr>", opt)
 -- helper
 vim.keymap.set("n", "<leader>h", "<cmd>Ddu help<cr>", opt)
 vim.keymap.set("n", "<leader>fr", "<cmd>Ddu rg -source-option-rg-volatile<cr>", opt)
-vim.keymap.set("n", "<leader>sr", "<cmd>Ddu -name=lsp lsp_references -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>dd", "<cmd>Ddu -name=lsp lsp_diagnostic -sync=true<cr>", opt)
-vim.keymap.set("n", "<leader>ds", "<cmd>Ddu lsp_documentSymbol -name=lsp:hierarchy<cr>", opt)
+vim.keymap.set("n", "<leader>lr", "<cmd>Ddu -name=lsp lsp_references -sync=true<cr>", opt)
+vim.keymap.set("n", "<leader>ld", "<cmd>Ddu -name=lsp lsp_diagnostic -sync=true<cr>", opt)
+vim.keymap.set("n", "<leader>ls", "<cmd>Ddu lsp_documentSymbol -name=lsp:hierarchy<cr>", opt)
 vim.keymap.set(
 	"n",
 	"<leader>ic",
