@@ -14,7 +14,7 @@ in
     yaml-mode
     nix-mode
     dockerfile-mode
-    yatex
+    # yatex
     yasnippet
     consult-yasnippet
     # flyspell

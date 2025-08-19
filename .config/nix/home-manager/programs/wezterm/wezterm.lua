@@ -71,14 +71,23 @@ return {
 	hide_mouse_cursor_when_typing = true,
 	force_reverse_video_cursor = true,
 	keys = {
-		-- {
-		-- 	key = "v",
-		-- 	mods = "CTRL",
-		-- 	action = wezterm.action.SplitPane({
-		-- 		direction = "Left",
-		-- 		size = { Percent = 50 },
-		-- 	}),
-		-- },
+		{
+			key = "v",
+			mods = "CTRL|CMD",
+			action = wezterm.action.SplitPane({
+				direction = "Left",
+				size = { Percent = 50 },
+			}),
+		},
+		{
+			key = "h",
+			mods = "CTRL|CMD",
+			action = wezterm.action.SplitPane({
+				direction = "Down",
+				size = { Percent = 50 },
+			}),
+		},
+		{ key = "8", mods = "CTRL", action = wezterm.action.PaneSelect },
 		{
 			key = "w",
 			mods = "CMD",

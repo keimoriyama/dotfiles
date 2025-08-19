@@ -29,9 +29,9 @@
         tilesize = 32;
       };
     };
-    keyboard = {
-      remapCapsLockToControl = true;
-    };
+    # keyboard = {
+    #   remapCapsLockToControl = true;
+    # };
   };
 
   # homebrewの設定
@@ -47,7 +47,7 @@
     ];
     casks = [
       # ここにGUIアプリの記述
-      "aquaskk"
+      # "aquaskk"
       "skim"
       "discord"
       "slack"
@@ -64,7 +64,8 @@
       # "google-chrome"
       # "google-drive"
       # "ollama"
-      "1password"
+	  "macskk"
+      # "1password"
     ];
   };
 }

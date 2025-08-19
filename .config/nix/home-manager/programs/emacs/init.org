@@ -117,6 +117,15 @@
               (expand-file-name "~/.nix-profile/bin/fish"))
 #+end_src
 
+*** Melpaの設定
+#+begin_src elisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+(add-to-list 'load-path "~/.emacs.d/elpa/")
+#+end_src
+
+
 ** autoload-if-found
 
 #+begin_src elisp
@@ -492,9 +501,7 @@ nil
 *** org mode
 #+begin_src elisp
 (setq org-directory "~/Documents/org-mode"
-      org-memo-file (format "%s/memo.org" org-directory)
-      org-daily-todo-file (format "%s/daily_todo.org" org-directory)
-      org-memo-dir (format "%s/memo/" org-directory))
+      org-memo-file (format "%s/memo.org" org-directory))
 
 (defun create-new-org-file (path)
   (let ((name (read-string "Name: ")))
@@ -555,6 +562,12 @@ nil
 		("WAIT"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
         ("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold))))
 #+end_src
+
+#+RESULTS:
+:results:
+((TODO :inherit (org-todo region) :foreground #A3BE8C :weight bold) (DOING :inherit (org-todo region) :foreground #88C0D0 :weight bold) (WAIT :inherit (org-todo region) :foreground #88C0D0 :weight bold) (DONE :inherit (org-todo region) :foreground #30343d :weight bold))
+:end:
+
 *** org indent
 #+begin_src elisp
 (require 'org-indent)
@@ -668,15 +681,12 @@ nil
 (defun my:org-goto-exp ()
     (interactive)
     (find-file org-exp-file))
-(defun my:org-goto-daily-todo ()
-  (interactive)
-  (find-file org-daily-todo-file))
+
 
 (major-mode-hydra-define hydra-org
   (:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("visit file"
-   (("m" my:org-goto-memo "memo")
-    ("t" my:org-goto-daily-todo "todo"))
+   (("m" my:org-goto-memo "memo"))
    "agenda"
    (("a" org-agenda "open agenda")
     ("c" org-capture "capture"))))
@@ -891,10 +901,12 @@ nil
 
 (with-eval-after-load 'skk
   (setq skk-preload t)
-  (setq default-input-method "japanese-skk"))
+  (setq default-input-method "japanese-skk")
+  (keymap-global-set "C-l" #'skk-latin-mode))
+
 
 (with-eval-after-load 'skk-vars
-  (setq skk-jisyo "~/Documents/skk-jisyo.utf-8")
+  (setq skk-jisyo "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
   (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
     (setq skk-use-azik t)
     (setq skk-search-katakana t)

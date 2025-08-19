@@ -79,7 +79,7 @@ in {
       nvfetcher
       udev-gothic
       ghostscript
-      ollama
+      # ollama
       # slack
       wezterm
       # spotify
@@ -89,6 +89,7 @@ in {
       ispell
 	  typst
 	  tdf
+	  gtypist
     ];
     file = {
       ".config/nvim" = {
