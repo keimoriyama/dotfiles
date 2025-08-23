@@ -510,7 +510,6 @@ nil
 
 (autoload-if-found '(org-mode) "org" nil t)
 (with-eval-after-load 'org
-  
   (setq org-startup-folded 'content)
   (setq org-deadline-warning-day  30)
   (setq org-capture-templates 
@@ -540,23 +539,23 @@ nil
       org-hide-emphasis-markers t
       org-pretty-entities t
 	  org-ellipsis "  ·")
-(setq org-src-fontify-natively t
+  (setq org-src-fontify-natively t
 	  org-src-tab-acts-natively t
       org-edit-src-content-indentation 0)
-(add-hook 'org-mode-hook 'visual-line-mode)
-(setq org-lowest-priority ?F)  ;; Gives us priorities A through F
-(setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (setq org-lowest-priority ?F)  ;; Gives us priorities A through F
+  (setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
 
-(setq org-priority-faces
+  (setq org-priority-faces
       '((65 . "#BF616A")
         (66 . "#EBCB8B")
         (67 . "#B48EAD")
         (68 . "#81A1C1")
         (69 . "#5E81AC")
         (70 . "#4C566A")))
-(setq org-todo-keywords
+  (setq org-todo-keywords
       '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)")))
-(setq org-todo-keyword-faces
+  (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
         ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
 		("WAIT"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)

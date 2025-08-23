@@ -14,22 +14,57 @@ type TestResult = {
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async test_run(): Promise<void> {
-      const filetype = await getbufvar(denops, "%", "&filetype");
+      // const filetype = await getbufvar(denops, "%", "&filetype");
       const results: TestResult[] = await run_deno_test(denops);
       const parsed_results: string[] = parse_test_result(results);
       // bufferが存在する時は、既存のbufferを上書きする
-      const bufopts= await open(denops, "[TestResult]", { opener: "split" });
+      const bufopts = await open(denops, "[TestResult]", { opener: "split" });
       await denops.cmd("setlocal buftype=nofile");
       await denops.cmd("setlocal bufhidden=hide");
+      await denops.cmd("setlocal filetype=denops-test-runner");
       await denops.cmd("setlocal noswapfile");
-	  const bufnr = bufopts['bufnr']
-      await setbufline(denops,bufnr, 1, parsed_results);
+      const bufnr = bufopts["bufnr"];
+      await setbufline(denops, bufnr, 1, parsed_results);
     },
   };
   await denops.cmd(
     `command! Testrun call denops#request('${denops.name}', 'test_run', [])`,
   );
 }
+
+class BaseDpsTestRunner {
+  private bufnr: number;
+  private denops: Denops;
+  constructor(bufnr: number, denops: Denops) {
+    this.bufnr = bufnr;
+	this.denops = denops
+  }
+
+  init() {
+  }
+  // open buffer
+  async open_result_buffer(parsed_results: string[]){
+      const bufopts = await open(this.denops, "[TestResult]", { opener: "split" });
+      await this.denops.cmd("setlocal buftype=nofile");
+      await this.denops.cmd("setlocal bufhidden=hide");
+      await this.denops.cmd("setlocal filetype=denops-test-runner");
+      await this.denops.cmd("setlocal noswapfile");
+      const bufnr = bufopts["bufnr"];
+      await setbufline(this.denops, bufnr, 1, parsed_results);
+  }
+  //
+  // run test
+  //
+  // parse test result
+  //
+  // select item
+  //
+  // rerun test
+  //
+  // rerun only selected test
+}
+
+class DenoDpsTestRunner extends BaseDpsTestRunner{}
 
 function parse_test_result(parsed_result: TestResult[]): string[] {
   let results = [];
