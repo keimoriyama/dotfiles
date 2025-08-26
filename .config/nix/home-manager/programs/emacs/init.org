@@ -125,7 +125,6 @@
 (add-to-list 'load-path "~/.emacs.d/elpa/")
 #+end_src
 
-
 ** autoload-if-found
 
 #+begin_src elisp
@@ -155,10 +154,10 @@
   (save-buffer))
 #+end_src
 
-*** theme(solarized)
+*** theme(catppuccin-theme)
 #+begin_src elisp
-(require 'solarized-theme)
-(load-theme 'solarized-light t)
+(require 'catppuccin-theme)
+(load-theme 'catppuccin t)
 #+end_src
 
 *** volatile-highlights
@@ -903,15 +902,12 @@ nil
   (setq default-input-method "japanese-skk")
   (keymap-global-set "C-l" #'skk-latin-mode))
 
-
 (with-eval-after-load 'skk-vars
   (setq skk-jisyo "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
   (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
     (setq skk-use-azik t)
     (setq skk-search-katakana t)
-    (setq skk-share-private-jisyo t)
-    (setq skk-server-host "localhost")
-    (setq skk-server-portnum 1178))
+    (setq skk-share-private-jisyo t))
 
 (autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
 

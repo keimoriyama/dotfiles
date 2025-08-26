@@ -1,7 +1,7 @@
 [[plugins]]
-repo="maxmx03/solarized.nvim"
+repo="catppuccin/nvim"
 hook_add='''
-colorscheme solarized
+colorscheme catppuccin-mocha
 '''
 
 # dot repeat

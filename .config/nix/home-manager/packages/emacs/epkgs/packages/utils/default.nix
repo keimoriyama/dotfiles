@@ -10,6 +10,7 @@ in
     nerd-icons
     nerd-icons-completion
     solarized-theme
+    catppuccin-theme
     volatile-highlights
     projectile
     expand-region
