@@ -555,16 +555,12 @@ nil
   (setq org-todo-keywords
       '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)")))
   (setq org-todo-keyword-faces
-      '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
-        ("DOING"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
-		("WAIT"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
-        ("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold))))
+      '(("TODO"   :foreground "#A3BE8C" :weight bold)
+        ("DOING"  :foreground "#88C0D0" :weight bold)
+		("WAIT"   :foreground "#88C0D0" :weight bold)
+        ("DONE"   :foreground "#ff40ff" :weight bold)
+        )))
 #+end_src
-
-#+RESULTS:
-:results:
-((TODO :inherit (org-todo region) :foreground #A3BE8C :weight bold) (DOING :inherit (org-todo region) :foreground #88C0D0 :weight bold) (WAIT :inherit (org-todo region) :foreground #88C0D0 :weight bold) (DONE :inherit (org-todo region) :foreground #30343d :weight bold))
-:end:
 
 *** org indent
 #+begin_src elisp
@@ -907,7 +903,8 @@ nil
   (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
     (setq skk-use-azik t)
     (setq skk-search-katakana t)
-    (setq skk-share-private-jisyo t))
+    (setq skk-share-private-jisyo t)
+    (setq skk-save-jisyo-instantly t))
 
 (autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
 
