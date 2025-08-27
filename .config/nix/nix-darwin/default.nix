@@ -64,7 +64,7 @@
       # "google-chrome"
       # "google-drive"
       # "ollama"
-	  "macskk"
+      "macskk"
       # "1password"
     ];
   };
