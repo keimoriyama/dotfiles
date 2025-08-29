@@ -90,6 +90,8 @@ in {
       typst
       tdf
       gtypist
+	  perl
+	  texliveMedium
     ];
     file = {
       ".config/nvim" = {
@@ -134,7 +136,6 @@ in {
 
       # Misc
       ".env"
-      "*.conao3"
       "*.orig"
 
       "*.pyc"
