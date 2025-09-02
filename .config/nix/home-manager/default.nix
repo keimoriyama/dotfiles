@@ -34,13 +34,14 @@
   programs.fish.enable = true;
 
   emacsPkg = emacs.emacs-stable;
+  nodePkg = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
     inherit org-babel emacsPkg;
   };
 in {
-  imports = defaultPrograms;
+  imports = defaultPrograms ++ nodePkg;
 
   home = {
     username = username;
@@ -90,9 +91,9 @@ in {
       typst
       tdf
       gtypist
-	  perl
-	  texliveMedium
-    ];
+      perl
+      texliveMedium
+    ] ;
     file = {
       ".config/nvim" = {
         target = ".config/nvim";

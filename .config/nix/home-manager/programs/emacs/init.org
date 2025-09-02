@@ -702,8 +702,7 @@ nil
   (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 500)
   (setopt lsp-completion-provider :none)
-  ;(setopt lsp-ruff-lsp-server-command '("ruff" "server"))
-  )
+  (setopt lsp-ruff-lsp-server-command '("ruff" "server")))
 #+end_src
 
 *** lsp-booster
@@ -789,7 +788,7 @@ nil
 #+begin_src elisp
 ; python
 (add-hook 'python-mode-hook #'lsp)
-(add-hook 'python-mode-hook 'ruff-format-on-save-mode)
+(add-hook 'python-mode-hook #'ruff-format-on-save-mode)
 
 (autoload-if-found '(python-mode) "python-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
@@ -806,13 +805,10 @@ nil
                 (setq-local ruff-format-command ruff-executable)
                 (ruff-format-on-save-mode))
   (pet-flycheck-setup)
-  )
-
-(autoload-if-found '(python-mode) "lsp-pyright" nil t)
-
-(with-eval-after-load 'lsp-pyright
   (setopt lsp-pyright-disable-tagged-hints t)
   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
+(add-to-list 'lsp-disabled-clients 'ruff)
+(autoload-if-found '(python-mode) "lsp-pyright" nil t)
 #+end_src
 
 *** rust
@@ -849,6 +845,12 @@ nil
 (with-eval-after-load 'dockerfile-mode
   ;; hooks
   (add-hook 'dockerfile-mode-hook #'flycheck-mode))
+#+end_src
+
+*** copilot
+#+begin_src elisp
+(autoload-if-found '(copilot-mode) "copilot" nil t)
+(add-hook 'prog-mode-hook #'copilot-mode)
 #+end_src
 
 ** latex

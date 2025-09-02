@@ -67,8 +67,7 @@
                   echo "Updating nix-darwin..."
                   sudo nix run nix-darwin -- switch --flake .#kei-darwin
                   echo "update complete"
-        #           alejandra .
-        # nix store gc
+                  alejandra .
                   echo "done!!!"
       '');
     };

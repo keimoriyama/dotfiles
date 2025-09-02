@@ -17,6 +17,7 @@ in
     # yatex
     yasnippet
     consult-yasnippet
+    # copilot
     # flyspell
     # consult-reftex
     # reftex

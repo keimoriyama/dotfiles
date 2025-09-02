@@ -1,0 +1,1 @@
+/nix/store/s1ks2z806284g4hzd5n05awsna9f60sg-home-manager-files/.config/fish/conf.d/plugin-git-abbr.fish
