@@ -38,10 +38,10 @@
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
-    inherit org-babel emacsPkg;
+    inherit org-babel emacsPkg nodePkg;
   };
 in {
-  imports = defaultPrograms ++ nodePkg;
+  imports = defaultPrograms;
 
   home = {
     username = username;
@@ -93,7 +93,7 @@ in {
       gtypist
       perl
       texliveMedium
-    ] ;
+    ];
     file = {
       ".config/nvim" = {
         target = ".config/nvim";
