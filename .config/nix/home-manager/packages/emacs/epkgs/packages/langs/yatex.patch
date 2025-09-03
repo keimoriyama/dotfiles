@@ -1,0 +1,17 @@
+--- a/yatexlib.el
++++ b/yatexlib.el
+@@ -1,7 +1,13 @@
+-(defvar YaTeX-display-color-p
+-  (or (and (fboundp 'display-color-p) (display-color-p))
+-      (and (fboundp 'device-class)
+-           (eq 'color (device-class (selected-device)))))
+-  "Non-nil means display is color.")
++(defvar YaTeX-display-color-p
++  (cond
++   ((fboundp 'display-color-p) (display-color-p))
++   ((fboundp 'device-class)
++    (condition-case nil
++        (eq 'color (device-class))
++      (error nil)))
++   (t nil))
++  "Non-nil means display is color.")
