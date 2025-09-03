@@ -19,3 +19,67 @@
    "Current display's capability of expressing colors.")
  
  (defvar YaTeX-japan
+
+--- a/yatexlib.el
++++ b/yatexlib.el
+@@ -1516,9 +1516,8 @@ 
+ 	(nreverse flpa)
+       flpa)))
+ 
+-(if (and (boundp 'YaTeX-use-font-lock)
+-	 YaTeX-use-font-lock)
+-    (require 'font-lock))
++(defvar YaTeX-use-font-lock t
++  "*Non-nil means YaTeX uses font-lock for syntax highlighting.")
+ 
+ (cond
+  ((and (featurep 'font-lock) (fboundp 'defface))
+
+--- a/yatex19.el
++++ b/yatex19.el
+@@ -4,7 +4,7 @@
+ ;;; $Id$
+
+ ;;; Code:
+-;(require 'yatex)
++(require 'yatex)
+
+ (and (boundp 'YaTeX-use-hilit19)
+      YaTeX-use-hilit19
+
+@@ -806,15 +806,15 @@ 
+ ;;;       string 'mediumspringgreen
+ ;;;       formula 'khaki
+ ;;;       label 'yellow-underlined))
+-(and YaTeX-emacs-19
+-     (not (featurep 'xemacs))
+-     (boundp 'byte-compile-current-file)
+-     byte-compile-current-file
+-     (progn
+-       (if YaTeX-emacs-20 (require 'font-lock))
+-       (if (and (boundp 'window-system) window-system)
+-          (require 'hilit19)
+-        (error "Byte compile this file on window system! Not `-nw'!"))))
++; (and YaTeX-emacs-19
++;      (not (featurep 'xemacs))
++;      (boundp 'byte-compile-current-file)
++;      byte-compile-current-file
++;      (progn
++;        (if YaTeX-emacs-20 (require 'font-lock))
++;        (if (and (boundp 'window-system) window-system)
++;         (require 'hilit19)
++;       (error "Byte compile this file on window system! Not `-nw'!"))))
+
+ (provide 'yatex19)
+
+--- a/yatex23.el
++++ b/yatex23.el
+@@ -3,7 +3,7 @@
+ ;;; Last modified Sun Sep 17 10:23:02 2017 on firestorm
+ ;;; $Id$
+
+-(require 'yatex19)
++; (require 'yatex19)
+ ;;; Code:
+ (defvar YaTeX-dnd-auto-figure "figure"
+   "*If set, include dropped \\includegraphcs{} into that environment.
