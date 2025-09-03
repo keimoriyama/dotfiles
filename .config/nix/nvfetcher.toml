@@ -2,3 +2,8 @@
 src.git = "https://github.com/copilot-emacs/copilot.el"
 src.branch = "main"
 fetch.github = "copilot-emacs/copilot.el"
+
+[emacs-yatex]
+src.git="https://github.com/emacsmirror/yatex"
+src.branch="master"
+fetch.github='emacsmirror/yatex'

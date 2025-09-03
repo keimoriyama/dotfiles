@@ -19,6 +19,7 @@ in
     yasnippet
     consult-yasnippet
     packages.copilot
+	packages.yatex
     # flyspell
     # consult-reftex
     # reftex

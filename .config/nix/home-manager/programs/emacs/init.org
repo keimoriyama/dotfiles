@@ -271,13 +271,13 @@
 
 *** magit
 #+begin_src elisp
-  (require 'magit)
+(require 'magit)
 #+end_src
 
 *** exec-path-from-shell
 #+begin_src elisp
 (require 'exec-path-from-shell)
-(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL"))
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
 (exec-path-from-shell-initialize)
 #+end_src
 
@@ -850,6 +850,9 @@ nil
 #+begin_src elisp
 (autoload-if-found '(copilot-mode) "copilot" nil t)
 (add-hook 'prog-mode-hook #'copilot-mode)
+(with-eval-after-load 'copilot
+  (setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
+  (keymap-set copilot-mode-map "C-<tab>" #'copilot-accept-completion))
 #+end_src
 
 ** latex

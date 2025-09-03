@@ -4,8 +4,13 @@
 }: {
   copilot = epkgs.melpaBuild {
     pname = "copilot";
-	version="0.0.1";
+    version = "0.0.1";
     src = sources.emacs-copilot.src;
-	 packageRequires =  [ epkgs.f ];
+    packageRequires = [epkgs.f];
+  };
+  yatex = epkgs.melpaBuild {
+    pname = "yatex";
+    version = "0.0.1";
+    src = sources.emacs-yatex.src;
   };
 }

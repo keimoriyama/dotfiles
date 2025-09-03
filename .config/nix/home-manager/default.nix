@@ -83,6 +83,7 @@ in {
       typst
       tdf
       perl
+	  nixd
     ];
     file = {
       ".config/nvim" = {
