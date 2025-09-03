@@ -13,16 +13,4 @@
     };
     date = "2025-06-30";
   };
-  emacs-yatex = {
-    pname = "emacs-yatex";
-    version = "2e1104f62b98cb9e73f4836a267b5c8271fb5b9b";
-    src = fetchFromGitHub {
-      owner = "emacsmirror";
-      repo = "yatex";
-      rev = "2e1104f62b98cb9e73f4836a267b5c8271fb5b9b";
-      fetchSubmodules = false;
-      sha256 = "sha256-rlZJPP+Z0S2+dNhuiXf+NCX2rbfJFW27UuGT9PidzNs=";
-    };
-    date = "2025-02-24";
-  };
 }
