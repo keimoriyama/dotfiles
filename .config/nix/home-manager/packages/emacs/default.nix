@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  sources,
 }: let
   override = final: prev: {
     dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
@@ -11,7 +12,7 @@ in {
   emacs-stable = pkgs.emacsWithPackagesFromUsePackage {
     config = builtins.toFile "empty.el" "";
     package = pkgs.emacs;
-    extraEmacsPackages = import ./epkgs {inherit pkgs;};
+    extraEmacsPackages = import ./epkgs {inherit pkgs sources;};
     override = override;
   };
 }

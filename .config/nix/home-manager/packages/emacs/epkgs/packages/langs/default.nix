@@ -1,8 +1,9 @@
 {
   epkgs,
   pkgs,
+  sources,
 }: let
-  packages = pkgs.callPackage ./packages.nix {inherit epkgs;};
+  packages = pkgs.callPackage ./packages.nix {inherit epkgs sources;};
 in
   with epkgs; [
     python-mode
@@ -17,7 +18,7 @@ in
     # yatex
     yasnippet
     consult-yasnippet
-    # copilot
+	packages.emacs-copilot
     # flyspell
     # consult-reftex
     # reftex

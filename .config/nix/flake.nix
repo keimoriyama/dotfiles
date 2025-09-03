@@ -21,6 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     org-babel.url = "github:emacs-twist/org-babel";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
@@ -31,6 +32,7 @@
     emacs-overlay,
     org-babel,
     neovim-nightly-overlay,
+    flake-utils,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -43,7 +45,6 @@
       ];
     };
 
-    formatter.${system} = "alejandra";
     homeConfigurations = {
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;

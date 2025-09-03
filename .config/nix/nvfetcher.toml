@@ -1,0 +1,4 @@
+[emacs-copilot]
+src.git = "https://github.com/copilot-emacs/copilot.el"
+src.branch = "main"
+fetch.github = "copilot-emacs/copilot.el"

@@ -9,7 +9,7 @@
   ...
 }: let
   username = "kei";
-  # sources = pkgs.callPackage ../_sources/generated.nix {};
+  sources = pkgs.callPackage ../_sources/generated.nix {};
   lib = nixpkgs.lib;
 
   pkgs = import nixpkgs {
@@ -25,7 +25,7 @@
   };
   emacs = import ./packages/emacs {
     inherit (nixpkgs) lib;
-    inherit pkgs;
+    inherit pkgs sources;
   };
   python = import ./packages/python {
     inherit (nixpkgs) lib;
@@ -34,11 +34,11 @@
   programs.fish.enable = true;
 
   emacsPkg = emacs.emacs-stable;
-  nodePkg = pkgs.callPackage ../node2nix {inherit pkgs;};
+  nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
-    inherit org-babel emacsPkg nodePkg;
+    inherit org-babel emacsPkg nodePkgs;
   };
 in {
   imports = defaultPrograms;
@@ -53,10 +53,7 @@ in {
       git
       curl
       uv
-      nodejs_24
       typescript
-      python313
-      pipx
       lua
       alejandra
       peco
@@ -72,7 +69,6 @@ in {
       pyright
       ruff
       isort
-      black
       yaml-language-server
       lua-language-server
       stylua
@@ -80,19 +76,13 @@ in {
       nvfetcher
       udev-gothic
       ghostscript
-      # ollama
-      # slack
       wezterm
-      # spotify
-      # docker
       cbc
       sl
       ispell
       typst
       tdf
-      gtypist
       perl
-      texliveMedium
     ];
     file = {
       ".config/nvim" = {

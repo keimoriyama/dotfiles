@@ -807,7 +807,6 @@ nil
   (pet-flycheck-setup)
   (setopt lsp-pyright-disable-tagged-hints t)
   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
-(add-to-list 'lsp-disabled-clients 'ruff)
 (autoload-if-found '(python-mode) "lsp-pyright" nil t)
 #+end_src
 
