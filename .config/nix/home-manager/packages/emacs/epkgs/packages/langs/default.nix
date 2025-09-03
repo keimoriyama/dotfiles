@@ -18,7 +18,7 @@ in
     # yatex
     yasnippet
     consult-yasnippet
-	packages.emacs-copilot
+    packages.copilot
     # flyspell
     # consult-reftex
     # reftex
