@@ -13,4 +13,16 @@
     };
     date = "2025-06-30";
   };
+  emacs-yatex = {
+    pname = "emacs-yatex";
+    version = "dd7cfad4cd0409b5e0eb05e90077de5a225185fa";
+    src = fetchFromGitHub {
+      owner = "hiroseyuuji";
+      repo = "yatex";
+      rev = "dd7cfad4cd0409b5e0eb05e90077de5a225185fa";
+      fetchSubmodules = false;
+      sha256 = "sha256-rlZJPP+Z0S2+dNhuiXf+NCX2rbfJFW27UuGT9PidzNs=";
+    };
+    date = "2025-02-24";
+  };
 }

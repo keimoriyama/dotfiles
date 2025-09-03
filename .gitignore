@@ -31,3 +31,4 @@ Brewfile.lock.json
 /.config/nix/local.conf
 /.config/nix/home-manager/programs/emacs/#init.org#
 nix.conf
+.config/github-copilot/*
