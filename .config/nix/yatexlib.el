@@ -25,10 +25,14 @@
   "*Default filename in which user completion table is saved.")
 
 (defvar YaTeX-display-color-p
-  (or (and (fboundp 'display-color-p) (display-color-p))
-      (and (fboundp 'device-class)
-	   (eq 'color (device-class (selected-device))))
-      window-system)  ; falls down lazy check..
+  (cond
+   ((fboundp 'display-color-p) (display-color-p))
+   ((fboundp 'device-class)
+    (condition-case nil
+        (eq 'color (device-class))
+      (error nil)))
+   (window-system t)
+   (t nil))
   "Current display's capability of expressing colors.")
 
 (defvar YaTeX-japan

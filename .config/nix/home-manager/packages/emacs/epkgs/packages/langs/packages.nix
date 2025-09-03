@@ -12,6 +12,6 @@
     pname = "yatex";
     version = "0.0.1";
     src = sources.emacs-yatex.src;
-	patches = [./yatex.patch];
+	patches = [./yatex.diff];
   };
 }

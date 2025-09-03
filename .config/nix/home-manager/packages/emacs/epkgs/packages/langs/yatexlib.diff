@@ -1,5 +1,5 @@
---- home-manager/packages/emacs/epkgs/packages/langs/yatexa.el	2025-09-03 21:28:39
-+++ home-manager/packages/emacs/epkgs/packages/langs/yatexb.el	2025-09-03 21:29:02
+--- a/yatexlib.el
++++ b/yatexlib.el
 @@ -25,10 +25,14 @@
    "*Default filename in which user completion table is saved.")
  
