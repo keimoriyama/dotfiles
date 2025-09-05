@@ -12,7 +12,7 @@
     pname = "yatex";
     version = "0.0.1";
     src = sources.emacs-yatex.src;
-	# files =''("*[^0-9]*.el")'';
-	patches = [./yatexlib.diff];
+    # files =''("*[^0-9]*.el")'';
+    patches = [./yatexlib.diff];
   };
 }

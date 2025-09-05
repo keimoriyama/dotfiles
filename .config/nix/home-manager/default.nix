@@ -53,6 +53,7 @@ in {
       git
       curl
       uv
+      nodejs_24
       typescript
       lua
       alejandra
@@ -83,7 +84,8 @@ in {
       typst
       tdf
       perl
-	  nixd
+      nixd
+	  copilot-language-server
     ];
     file = {
       ".config/nvim" = {

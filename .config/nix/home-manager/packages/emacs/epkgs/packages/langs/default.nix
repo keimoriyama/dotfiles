@@ -16,7 +16,7 @@ in
     nix-mode
     dockerfile-mode
     # yatex
-	packages.yatex
+    packages.yatex
     yasnippet
     consult-yasnippet
     packages.copilot
