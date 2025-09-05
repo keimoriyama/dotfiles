@@ -59,7 +59,7 @@ export class Config extends BaseConfig {
           mark: "[lsp]",
           keywordPattern: "\\k*",
           dup: "keep",
-          sorters: ["sorter_fuzzy", "sorter_lsp-kind"],
+          sorters: ["sorter_fuzzy"],
         },
         "nvim-lua": { mark: "[lua]", forceCompletionPattern: "." },
         "cmdline-history": { mark: "[cmdline-history]" },
