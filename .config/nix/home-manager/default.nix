@@ -38,7 +38,7 @@
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
-    inherit org-babel emacsPkg nodePkgs;
+    inherit org-babel emacsPkg nodePkgs sources;
   };
 in {
   imports = defaultPrograms;
@@ -64,7 +64,7 @@ in {
       rustc
       rustup
       ripgrep
-      neovim
+      # neovim
       vim
       tree-sitter
       pyright

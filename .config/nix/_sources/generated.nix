@@ -5,6 +5,18 @@
   fetchFromGitHub,
   dockerTools,
 }: {
+  dpp-vim = {
+    pname = "dpp-vim";
+    version = "605be4f875c87f32068252360ca02272c900d333";
+    src = fetchFromGitHub {
+      owner = "Shougo";
+      repo = "dpp.vim";
+      rev = "605be4f875c87f32068252360ca02272c900d333";
+      fetchSubmodules = false;
+      sha256 = "sha256-NWCn00fsM4On66JxZNB4JifTos56EPyRhpMvTZeY6jk=";
+    };
+    date = "2025-09-01";
+  };
   emacs-copilot = {
     pname = "emacs-copilot";
     version = "4f51b3c21c42756d09ee17011201ea7d6e18ff69";
