@@ -59,8 +59,7 @@ in {
       alejandra
       peco
       ghq
-      gh
-      deno
+      gh deno
       rustc
       rustup
       ripgrep
