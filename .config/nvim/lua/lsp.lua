@@ -84,7 +84,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 vim.diagnostic.config({
 	virtual_text = true,
 })
-vim.lsp.inline_completion.enable(true)
+-- vim.lsp.inline_completion.enable(true)
 -- LSP handlers
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -107,7 +107,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
-		vim.keymap.set("i", "<C-CR>", vim.lsp.inline_completion.get, opts)
+		-- vim.keymap.set("i", "<C-CR>", vim.lsp.inline_completion.get, opts)
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client.server_capabilities.documentHighlightProvider then

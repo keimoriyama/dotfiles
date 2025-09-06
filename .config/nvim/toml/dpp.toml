@@ -7,8 +7,8 @@ repo = 'vim-denops/denops.vim'
 [[plugins]]
 repo = 'vim-denops/denops-shared-server.vim'
 
-[[plugins]]
-repo = 'Shougo/dpp.vim'
+# [[plugins]]
+# repo = 'Shougo/dpp.vim'
 
 [[plugins]]
 repo = 'Shougo/dpp-ext-lazy'

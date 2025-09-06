@@ -8,7 +8,7 @@ in {
     enable = true;
     plugins = with pkgs.vimPlugins; [
       denops-vim
-      # plugins.dpp-vim
+      plugins.dpp-vim
 	  plugins.dpp-ext-toml
 	  plugins.dpp-ext-installer
 	  plugins.dpp-ext-lazy

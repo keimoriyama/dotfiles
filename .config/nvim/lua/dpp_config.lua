@@ -16,14 +16,9 @@ local function InitPlugin(plugin)
 	vim.opt.rtp:append(dir)
 end
 
-vim.opt.compatible = false
-
 -- set dpp runtime path
-InitPlugin("vim-denops/denops.vim")
-InitPlugin("Shougo/dpp.vim")
 local dpp = require("dpp")
 local config_file = vim.fn.expand("~/.config/nvim/ts/dpp_config.ts")
-
 if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 	local plugins = {
 		"Shougo/dpp-ext-toml",
@@ -42,14 +37,14 @@ if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
 			dpp.make_state(dpp_base, config_file)
 		end,
 	})
-else
-	vim.api.nvim_create_autocmd("BufWritePost", {
-		pattern = { "*.lua", "*.vim", "*.toml", "*.ts", "vimrc", ".vimrc" },
-		callback = function()
-			vim.fn["dpp#check_files"]()
-		end,
-	})
 end
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+	pattern = { "*.lua", "*.vim", "*.toml", "*.ts", "vimrc", ".vimrc" },
+	callback = function()
+		vim.fn["dpp#check_files"]()
+	end,
+})
 
 vim.api.nvim_create_autocmd("User", {
 	pattern = "Dpp:makeStatePost",
