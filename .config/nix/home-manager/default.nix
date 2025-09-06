@@ -85,7 +85,7 @@ in {
       tdf
       perl
       nixd
-	  copilot-language-server
+      copilot-language-server
     ];
     file = {
       ".config/nvim" = {

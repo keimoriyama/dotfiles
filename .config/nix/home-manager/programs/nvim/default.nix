@@ -1,10 +1,8 @@
 {
   pkgs,
-  sources
-}:
-{
-
-  programs.neovim= {
-  	plugings = [];
+  sources,
+}: {
+  programs.neovim = {
+    plugings = [];
   };
 }
