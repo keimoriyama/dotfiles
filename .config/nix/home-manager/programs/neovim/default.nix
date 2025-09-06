@@ -2,18 +2,14 @@
   pkgs,
   sources,
 }: let
-  dpp-vim = pkgs.vimUtils.buildVimPlugin {
-    pname = "dpp-vim";
-    src = sources.dpp-vim.src;
-	version = sources.dpp-vim.version;
-    dontBuild = true;
-  };
+	plugins = pkgs.callPackage ./plugins.nix {inherit pkgs sources;};
 in {
   programs.neovim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
-      dpp-vim
-	  denops-vim
+      denops-vim
+	  plugins.dpp-vim
+	  plugins.dpp-ext-toml
     ];
   };
 }

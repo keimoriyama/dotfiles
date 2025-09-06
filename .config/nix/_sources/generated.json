@@ -1,4 +1,88 @@
 {
+    "dpp-ext-installer": {
+        "cargoLocks": null,
+        "date": "2025-09-01",
+        "extract": null,
+        "name": "dpp-ext-installer",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Shougo",
+            "repo": "dpp-ext-installer",
+            "rev": "624a4fcd5158bbee3441aefc326eb7c3831d8175",
+            "sha256": "sha256-7DT0NLmPMhCh8eOyfB3jsVfJ6t9VkPI6TRrYe0j4yiI=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "624a4fcd5158bbee3441aefc326eb7c3831d8175"
+    },
+    "dpp-ext-lazy": {
+        "cargoLocks": null,
+        "date": "2025-08-30",
+        "extract": null,
+        "name": "dpp-ext-lazy",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Shougo",
+            "repo": "dpp-ext-lazy",
+            "rev": "80c0e81c566e1e129fa092e90ec109b3e8dd99d6",
+            "sha256": "sha256-x7CLzBsr3QJGNpQ2hdMZqND9r7fTGhyktGqPSAcLtEM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "80c0e81c566e1e129fa092e90ec109b3e8dd99d6"
+    },
+    "dpp-ext-toml": {
+        "cargoLocks": null,
+        "date": "2025-08-30",
+        "extract": null,
+        "name": "dpp-ext-toml",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Shougo",
+            "repo": "dpp-ext-toml",
+            "rev": "9a441896eebb09ca5f9b93fec79d094799ae3cde",
+            "sha256": "sha256-txtUBfy9FcFQt/TWWD1p+Z8vVhUyolxtMpwfuvJzv8g=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "9a441896eebb09ca5f9b93fec79d094799ae3cde"
+    },
+    "dpp-protocol-git": {
+        "cargoLocks": null,
+        "date": "2025-08-30",
+        "extract": null,
+        "name": "dpp-protocol-git",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Shougo",
+            "repo": "dpp-protocol-git",
+            "rev": "69bb079b874c3e6d3781ded269828740a7f702f1",
+            "sha256": "sha256-jilYZSHyGc+k4HicijguDN26jHSWI/e5B5v2gREmLoc=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "69bb079b874c3e6d3781ded269828740a7f702f1"
+    },
     "dpp-vim": {
         "cargoLocks": null,
         "date": "2025-09-01",
