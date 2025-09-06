@@ -1,4 +1,25 @@
 {
+    "dpp-vim": {
+        "cargoLocks": null,
+        "date": "2025-09-01",
+        "extract": null,
+        "name": "dpp-vim",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Shougo",
+            "repo": "dpp.vim",
+            "rev": "605be4f875c87f32068252360ca02272c900d333",
+            "sha256": "sha256-NWCn00fsM4On66JxZNB4JifTos56EPyRhpMvTZeY6jk=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "605be4f875c87f32068252360ca02272c900d333"
+    },
     "emacs-copilot": {
         "cargoLocks": null,
         "date": "2025-06-30",

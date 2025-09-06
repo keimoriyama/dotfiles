@@ -10,9 +10,10 @@ let
 	};
 in
 {
-
-  programs.nvim= {
-  enable = true;
-
+  programs.neovim= {
+	  enable = true;
+	  plugins = with pkgs.vimPlugins; [
+		  dpp-vim
+	  ];
   };
 }

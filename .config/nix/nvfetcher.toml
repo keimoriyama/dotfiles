@@ -10,5 +10,5 @@ fetch.github='hiroseyuuji/yatex'
 
 [dpp-vim]
 src.git="https://github.com/Shougo/dpp.vim"
-src.branch="master"
+src.branch="main"
 fetch.github="Shougo/dpp.vim"
