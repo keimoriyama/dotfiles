@@ -26,11 +26,11 @@ export class Config extends BaseConfig {
     const tomls: Toml[] = [];
     const files = [
       ["dpp.toml", false],
-      ["lsp.toml", false],
+      ["lsp.toml", true],
       ["utils.toml", false],
       ["utils_lazy.toml", true],
-      ["ddc.toml", false],
-      ["ddu.toml", false],
+      ["ddc.toml", true],
+      ["ddu.toml", true],
       //["telescope.toml", false],
       ["ftplugin.toml", true],
     ];

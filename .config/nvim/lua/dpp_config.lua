@@ -1,35 +1,37 @@
-local dpp_base = vim.fn.expand(os.getenv("DPP_PATH"))
+dpp_base = vim.fn.expand(os.getenv("DPP_PATH"))
 
 vim.fn.setenv("BASE_DIR", vim.fn.expand("<sfile>:h"))
 vim.fn.setenv("DPP_BASE", dpp_base)
 
-local function InitPlugin(plugin)
-	local dir = dpp_base .. "/repos/github.com/" .. plugin
-	if vim.fn.isdirectory(dir) == 0 then
-		vim.fn.system({
-			"git",
-			"clone",
-			"https://github.com/" .. plugin .. ".git",
-			dir,
-		})
-	end
-	vim.opt.rtp:append(dir)
-end
+-- local function InitPlugin(plugin)
+-- 	local dir = dpp_base .. "/repos/github.com/" .. plugin
+-- 	if vim.fn.isdirectory(dir) == 0 then
+-- 		vim.fn.system({
+-- 			"git",
+-- 			"clone",
+-- 			"https://github.com/" .. plugin .. ".git",
+-- 			dir,
+-- 		})
+-- 	end
+-- 	vim.opt.rtp:append(dir)
+-- end
 
+-- InitPlugin("Shougo/dpp.vim")
 -- set dpp runtime path
 local dpp = require("dpp")
 local config_file = vim.fn.expand("~/.config/nvim/ts/dpp_config.ts")
 if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
-	local plugins = {
-		"Shougo/dpp-ext-toml",
-		"Shougo/dpp-ext-lazy",
-		"Shougo/dpp-ext-installer",
-		"Shougo/dpp-protocol-git",
-		-- "Shougo/dpp-ext-local",
-	}
-	for _, plugin in ipairs(plugins) do
-		InitPlugin(plugin)
-	end
+	print("Dpp is not initialized")
+	-- local plugins = {
+	-- 	"Shougo/dpp-ext-toml",
+	-- 	"Shougo/dpp-ext-lazy",
+	-- 	"Shougo/dpp-ext-installer",
+	-- 	"Shougo/dpp-protocol-git",
+	-- 	-- "Shougo/dpp-ext-local",
+	-- }
+	-- for _, plugin in ipairs(plugins) do
+	-- 	InitPlugin(plugin)
+	-- end
 	vim.api.nvim_create_autocmd("User", {
 		pattern = "DenopsReady",
 		callback = function()
@@ -60,6 +62,15 @@ end
 
 ---ローカルプラグインの読み込み
 vim.opt.rtp:append(os.getenv("BASE_DIR") .. "/denops/")
+local plugins = {
+	"dpp-ext-toml",
+	"dpp-ext-lazy",
+	"dpp-ext-installer",
+	"dpp-protocol-git",
+}
+for _, plugin in ipairs(plugins) do
+	vim.opt.rtp:append(dpp_base .. "/nix_plugins/" .. plugin)
+end
 
 vim.api.nvim_create_user_command("DppMakeState", function()
 	dpp.make_state(dpp_base, config_file)
