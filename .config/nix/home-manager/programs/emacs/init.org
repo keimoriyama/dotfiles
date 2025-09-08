@@ -857,6 +857,13 @@ nil
 #+end_src
 
 ** latex
+
+*** texlab
+#+begin_src elisp
+(autoload-if-found '(lsp-latex) "lsp-latex" nil t)
+(add-hook 'yatex-mode-hook #'lsp-latex)
+(add-hook 'yatex-mode-hook #'lsp)
+#+end_src
 *** yatex
 #+begin_src elisp
 (autoload-if-found '(yatex-mode) "yatex" nil t)
@@ -873,7 +880,8 @@ nil
   (setopt YaTeX-dvi2-command-ext-alist
      '(("Skim" . ".pdf")))
   (setopt dvi2-command "open -a Skim")
-  (setopt tex-pdfview-command "open -a Skim"))
+  (setopt tex-pdfview-command "open -a Skim")
+  )
 #+end_src
 
 *** flyspell

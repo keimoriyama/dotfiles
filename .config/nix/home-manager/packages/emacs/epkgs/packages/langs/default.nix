@@ -16,6 +16,7 @@ in
     nix-mode
     dockerfile-mode
     # yatex
+    lsp-latex
     packages.yatex
     yasnippet
     consult-yasnippet

@@ -38,7 +38,7 @@
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
-    inherit org-babel emacsPkg nodePkgs sources;
+    inherit org-babel emacsPkg nodePkgs sources config;
   };
 in {
   imports = defaultPrograms;
@@ -50,7 +50,7 @@ in {
     stateVersion = "25.11";
 
     packages = with pkgs; [
-      git
+      # git
       curl
       uv
       nodejs_24
@@ -59,11 +59,11 @@ in {
       alejandra
       peco
       ghq
-      gh deno
+      gh
+      deno
       rustc
       rustup
       ripgrep
-      # neovim
       vim
       tree-sitter
       pyright
@@ -85,6 +85,7 @@ in {
       perl
       nixd
       copilot-language-server
+      texlab
     ];
     file = {
       ".config/nvim" = {

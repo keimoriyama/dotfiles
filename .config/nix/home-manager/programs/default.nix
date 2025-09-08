@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   org-babel,
   emacsPkg,
   nodePkgs,
@@ -9,11 +10,13 @@
   fish = import ./fish {inherit pkgs;};
   wezterm = import ./wezterm {inherit pkgs;};
   copilot-language-server = import ./copilot-language-server {inherit pkgs nodePkgs;};
-  neovim = import ./neovim {inherit pkgs sources;};
+  neovim = import ./neovim {inherit pkgs sources config;};
+  git = import ./git;
 in [
   emacs
   fish
   wezterm
   copilot-language-server
   neovim
+  git
 ]
