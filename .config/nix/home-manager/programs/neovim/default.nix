@@ -25,7 +25,7 @@ in {
     };
   };
   programs.neovim = {
-    defaultEditor = true;
+    # defaultEditor = true;
     enable = true;
     plugins = with pkgs.vimPlugins; [
       denops-vim

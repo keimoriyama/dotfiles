@@ -86,6 +86,7 @@ in {
       nixd
       copilot-language-server
       texlab
+      auctex
     ];
     file = {
       ".config/nvim" = {
@@ -98,42 +99,6 @@ in {
       };
       ".config/karabiner/karabiner.json".text = builtins.readFile ../../karabiner/karabiner.json;
     };
-  };
-
-  programs.git = {
-    enable = true;
-    userName = "keimoriyama";
-    userEmail = "keischwiiz@gmail.com";
-    ignores = [
-      # macOS
-      ".DS_Store"
-      "._*"
-
-      # Emacs
-      "*~"
-      ".#*"
-      "\#*"
-      "*_flymake.*"
-      "flycheck_*"
-      ".dir-locals-2.el"
-
-      # Vim
-      "*.swp"
-
-      # Editors
-      ".vscode"
-      ".idea"
-
-      # Tags
-      "GPATH"
-      "GR?TAGS"
-
-      # Misc
-      ".env"
-      "*.orig"
-
-      "*.pyc"
-    ];
   };
 
   programs.home-manager.enable = true;

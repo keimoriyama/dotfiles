@@ -1,6 +1,4 @@
 -- lua_add {{{
-local opts = { noremap = true, silent = true }
-
 vim.lsp.config("lua_ls", {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
@@ -62,9 +60,6 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
--- vim.lsp.config("copilot")
--- vim.lsp.config("nixd")
-
 vim.lsp.enable({
 	"lua_ls",
 	"ruff",
@@ -73,10 +68,14 @@ vim.lsp.enable({
 	"denols",
 	"ts_ls",
 	"rust_analyzer",
-	--"copilot",
+	"copilot",
 	"nixd",
+	"texlab",
 })
+-- }}}
 
+-- lua_source {{{
+local opts = { noremap = true, silent = true }
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
 
@@ -84,7 +83,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 vim.diagnostic.config({
 	virtual_text = true,
 })
--- vim.lsp.inline_completion.enable(true)
+
+-- vim.lsp.inline_completion.enable()
 -- LSP handlers
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),

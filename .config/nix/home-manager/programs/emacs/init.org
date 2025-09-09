@@ -256,7 +256,7 @@
     (setopt kill-read-only-ok t))
 #+end_src
 
-*** doom modeline
+*** doom-modeline
 #+begin_src elisp
   (autoload-if-found '(doom-modeline-mode) "doom-modeline" nil t)
   (add-hook 'emacs-startup-hook #'doom-modeline-mode)
@@ -404,14 +404,6 @@
                (window-parameters (mode-line-format . none))))
 
 (autoload-if-found '(embark-consult) "embark-consult" nil t)
-
-;; (leaf embark-consult
-;;       :doc "Consult integration for Embark"
-;;       :ensure nil
-;;       :after (embark consult)
-;;       :hook
-;;       (embark-collect-mode-hook . consult-preview-at-point-mode)
-;;       )
 
 (defun embark-which-key-indicator ()
   "An embark indicator that displays keymaps using which-key.
@@ -677,25 +669,32 @@ nil
     (find-file org-exp-file))
 
 
-(major-mode-hydra-define hydra-org
+(major-mode-hydra-define org-mode
   (:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("visit file"
    (("m" my:org-goto-memo "memo"))
    "agenda"
    (("a" org-agenda "open agenda")
     ("c" org-capture "capture"))))
-(keymap-global-set "C-c o" #'major-mode-hydras/hydra-org/body)
 #+end_src
 
 ** lsp
 
-*** lsp mode
+*** lsp-mode
 #+begin_src elisp
 (defun my/lsp-mode-completion ()
    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
          '(orderless)))
 
 (autoload-if-found '(lsp lsp-deferred lsp-org lsp-register-client make-lsp-client) "lsp-mode" nil t)
+(defcustom lsp-client-packages
+  '( lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
+     lsp-json lsp-latex lsp-lua lsp-fennel lsp-magik lsp-markdown 
+     lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex)
+  "List of the clients to be automatically required."
+  :group 'lsp-mode
+  :type '(repeat symbol))
+
 
 (with-eval-after-load 'lsp-mode
   (setopt lsp-enable-file-watchers nil)
@@ -758,7 +757,7 @@ nil
   (setopt lsp-ui-doc-show-with-cursor t)
   (setopt lsp-ui-doc-show-with-mouse nil)
   (setopt lsp-ui-imenu-auto-refresh t)
-  (major-mode-hydra-define lsp-ui
+  (major-mode-hydra-define lsp-mode
     (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("peek"
     (("d" lsp-ui-peek-find-definitions "definitions")
@@ -767,9 +766,7 @@ nil
     "code action"
     (("n" lsp-rename "rename")
      ("c" lsp-execute-code-action "code action")
-     ("p" lsp-ui-peek "peek"))))
-  (keymap-global-set "C-c l" #'major-mode-hydras/lsp-ui/body)
-  )
+     ("p" lsp-ui-peek "peek")))))
 #+end_src
 *** flycheck
 #+begin_src elisp
@@ -860,8 +857,7 @@ nil
 
 *** texlab
 #+begin_src elisp
-(autoload-if-found '(lsp-latex) "lsp-latex" nil t)
-(add-hook 'yatex-mode-hook #'lsp-latex)
+(require 'lsp-latex)
 (add-hook 'yatex-mode-hook #'lsp)
 #+end_src
 *** yatex
@@ -881,7 +877,14 @@ nil
      '(("Skim" . ".pdf")))
   (setopt dvi2-command "open -a Skim")
   (setopt tex-pdfview-command "open -a Skim")
-  )
+  (major-mode-hydra-define yatex-mode
+     (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("reftex"
+    (("r" reftex-citation "references"))
+    "yatex"
+    (("m" YaTeX-typeset-menu "typeset")
+     ("b" YaTeX-make-begin-end "begin env")
+     ("s" YaTeX-make-section "section env")))))
 #+end_src
 
 *** flyspell
@@ -927,11 +930,6 @@ nil
   (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+END_SRC
 
-#+RESULTS:
-:results:
-(ddskk-posframe-mode)
-:end:
-
 ** LLM (ellama)
 #+begin_src elisp
   (require 'ellama)
@@ -941,7 +939,7 @@ nil
 
 ** hydra menu 
 #+begin_src elisp
-(major-mode-hydra-define hydra-goto
+(pretty-hydra-define hydra-goto
   (:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Got"
     (("i" avy-goto-char       "char")
@@ -955,7 +953,7 @@ nil
     "Topic"
     (("o"  consult-outline      "outline")
      ("m"  consult-imenu        "imenu")
-     ("gm" consult-global-imenu "global imenu"))
+     ("g" consult-global-imenu "global imenu"))
     "Error"
     ((","  lsp-bridge-diagnostic-jump-prev "previous")
      ("."  lsp-bridge-diagnostic-jump-next "next")
@@ -963,11 +961,11 @@ nil
     "Spell"
     ((">"  flyspell-goto-next-error "next" :exit nil)
      ("cc" flyspell-correct-at-point "correct" :exit nil))))
-(keymap-global-set "M-j" #'major-mode-hydras/hydra-goto/body)
+(keymap-global-set "M-j" #'hydra-goto/body)
 #+end_src
 
 #+begin_src elisp
-(major-mode-hydra-define hydra-toggle2
+(pretty-hydra-define hydra-toggle2
   (:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
    ("Basic"
     (("v" view-mode "view mode" :toggle t)
@@ -992,11 +990,11 @@ nil
     (("t" toggle-window-transparency "transparency" :toggle t)
      ("m" toggle-window-maximize "maximize" :toggle t)
      ("p" presentation-mode "presentation" :toggle t))))
-(keymap-global-set "M-t" #'major-mode-hydras/hydra-toggle2/body)
+(keymap-global-set "M-t" #'hydra-toggle2/body)
 #+end_src
 
 #+begin_src elisp
-(major-mode-hydra-define hydra-search
+(pretty-hydra-define hydra-search
   (:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Buffer"
     (("l" consult-line "line")
@@ -1008,11 +1006,11 @@ nil
     "Document"
     (("df" consult-find-doc "find")
      ("dd" consult-grep-doc "grep"))))
-(keymap-global-set "C-s" #'major-mode-hydras/hydra-search/body)
+(keymap-global-set "C-s" #'hydra-search/body)
 #+end_src
 
 #+begin_src elisp
-(major-mode-hydra-define hydra-git
+(pretty-hydra-define hydra-git
   (:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Basic"
     (("w" magit-checkout "checkout")
@@ -1028,7 +1026,7 @@ nil
      ("l" magit-log "log")
      ("r" magit-rebase "rebase")
      ("z" magit-stash "stash")
-     ("!" magit-run "run shell command")
+     ("!" magit-run "run command")
      ("y" magit-show-refs "references"))
     "Hunk"
     (("," git-gutter:previous-hunk "previous" :exit nil)
@@ -1041,7 +1039,8 @@ nil
      ("o" browse-at-remote-or-copy"browse at point")
      ("k" browse-at-remote-kill "copy url")
      ("O" (shell-command "hub browse") "browse repository"))))
-(keymap-global-set "M-g" #'major-mode-hydras/hydra-git/body)
+(keymap-global-set "M-g" #'hydra-git/body)
+(keymap-global-set "M-\'" #'major-mode-hydra)
 #+end_src
 
 ** OJ
