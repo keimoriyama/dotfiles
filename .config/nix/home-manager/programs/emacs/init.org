@@ -510,9 +510,9 @@ nil
                                (lambda () (create-new-org-file
                                      org-directory)))
        "\n* %? ")))
+  (keymap-global-set "C-c c" #'org-capture)
   (setq org-enforce-todo-dependencies t)
-
-;; Resize Org headings
+  ;; Resize Org headings
   (dolist (face '((org-level-1 . 1.35)
                   (org-level-2 . 1.3)
                   (org-level-3 . 1.2)
@@ -629,6 +629,7 @@ nil
   (setq org-agenda-files  '("~/Documents/org-mode/")))
 
 (plist-put org-format-latex-options :scale 1.2)
+(keymap-global-set "C-c a" #'org-agenda)
 #+end_src
 
 *** org pomodoro
@@ -653,6 +654,7 @@ nil
 
 *** ox-gfm
 #+begin_src elisp
+;(require 'ox-gfm)
 (autoload-if-found '(org-mode) "ox-gfm" nil t)
 #+end_src
  
@@ -674,8 +676,7 @@ nil
   ("visit file"
    (("m" my:org-goto-memo "memo"))
    "agenda"
-   (("a" org-agenda "open agenda")
-    ("c" org-capture "capture"))))
+   (("c" org-capture "capture"))))
 #+end_src
 
 ** lsp
@@ -757,7 +758,7 @@ nil
   (setopt lsp-ui-doc-show-with-cursor t)
   (setopt lsp-ui-doc-show-with-mouse nil)
   (setopt lsp-ui-imenu-auto-refresh t)
-  (major-mode-hydra-define lsp-mode
+  (pretty-hydra-define lsp-mode
     (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("peek"
     (("d" lsp-ui-peek-find-definitions "definitions")
@@ -766,8 +767,11 @@ nil
     "code action"
     (("n" lsp-rename "rename")
      ("c" lsp-execute-code-action "code action")
-     ("p" lsp-ui-peek "peek")))))
+     ("p" lsp-ui-peek "peek"))))
+  (keymap-global-set "C-c l" #'lsp-mode/body))
+
 #+end_src
+
 *** flycheck
 #+begin_src elisp
 ; grammar check
@@ -781,7 +785,6 @@ nil
 #+end_src
 ** program
 *** python
-
 #+begin_src elisp
 ; python
 (add-hook 'python-mode-hook #'lsp)
@@ -789,9 +792,13 @@ nil
 
 (autoload-if-found '(python-mode) "python-mode" nil t)
 (autoload-if-found '(python-mode) "lsp-pyright" nil t)
+(autoload-if-found '(python-mode) "pet" nil t)
+
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
-(autoload-if-found '(python-mode) "pet" nil t)
+(with-eval-after-load 'python-mode
+  (keymap-global-set "C-c C-p" nil))
+
 (with-eval-after-load 'pet
   (pet-mode)
   (setq-local python-shell-interpreter (pet-executable-find "python"))
@@ -806,6 +813,11 @@ nil
   (setopt lsp-pyright-disable-tagged-hints t)
   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
 #+end_src
+
+#+RESULTS:
+:results:
+nil
+:end:
 
 *** rust
 #+begin_src elisp
@@ -854,7 +866,6 @@ nil
 #+end_src
 
 ** latex
-
 *** texlab
 #+begin_src elisp
 (require 'lsp-latex)
@@ -904,11 +915,18 @@ nil
 #+end_src
 
 ** ddskk
+
 #+begin_src elisp
 (autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
 
 (keymap-global-set "C-x j" #'skk-mode)
 (keymap-global-set "C-x C-j" #'skk-mode)
+(defvar skk-azik-keyboard-specific-additional-rom-kana-rule-list
+ '(("l" nil skk-toggle-characters)
+              ("x@" nil skk-today)
+              ("~" nil skk-set-henkan-point-subr)
+              ("x~" nil "~")
+              (":" nil "ー")))
 
 (with-eval-after-load 'skk
   (setq skk-preload t)
@@ -916,12 +934,14 @@ nil
   (keymap-global-set "C-l" #'skk-latin-mode))
 
 (with-eval-after-load 'skk-vars
-  (setq skk-jisyo "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
+  (setq skk-jisyo
+ "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
   (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
-    (setq skk-use-azik t)
-    (setq skk-search-katakana t)
-    (setq skk-share-private-jisyo t)
-    (setq skk-save-jisyo-instantly t))
+  (setq skk-use-azik t)
+  (setq skk-azik-keyboard-type "en")
+  (setq skk-search-katakana t)
+  (setq skk-share-private-jisyo t)
+  (setq skk-save-jisyo-instantly t))
 
 (autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
 
