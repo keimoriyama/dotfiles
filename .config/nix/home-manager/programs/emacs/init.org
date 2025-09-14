@@ -635,7 +635,8 @@ nil
 *** org pomodoro
 #+begin_src elisp
 (autoload-if-found '(org-pomodoro) "org-pomodoro" nil t)
-(keymap-global-set "M-p" #'org-pomodoro)
+;(keymap-global-set "M-p" #'org-pomodoro)
+; (global-unset-key (kbd "M-p"))
 (with-eval-after-load 'org-pomodoro
   (setopt org-pomodoro-play-sournds  nil)
   (setopt org-pomodoro-finished-sound-p nil)
@@ -657,7 +658,12 @@ nil
 ;(require 'ox-gfm)
 (autoload-if-found '(org-mode) "ox-gfm" nil t)
 #+end_src
- 
+
+*** ox-hugo
+
+#+begin_src elisp
+(autoload-if-found '(org-mode) "ox-hugo" nil t)
+#+end_src
 *** org hydra
 #+begin_src elisp
 (defun my:org-goto-project ()
@@ -939,7 +945,7 @@ nil
   (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
   (setq skk-use-azik t)
   (setq skk-azik-keyboard-type "en")
-  (setq skk-search-katakana t)
+  (setq skk-search-katakana nil)
   (setq skk-share-private-jisyo t)
   (setq skk-save-jisyo-instantly t))
 

@@ -87,6 +87,7 @@ in {
       copilot-language-server
       texlab
       auctex
+      hugo
     ];
     file = {
       ".config/nvim" = {

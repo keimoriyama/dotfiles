@@ -36,4 +36,5 @@ in
     oj
     dashboard
     htmlize
+    ox-hugo
   ]

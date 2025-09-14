@@ -7,3 +7,21 @@
 # --
 import ipdb;ipdb.set_trace()
 #+end_src
+** org-mode
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: hugo-blog
+# key: hugo
+# --
+
+#+AUTHOR: keimoriyama
+#+DESCRIPTION: ${1:description}
+#+DATE: ${2:`(format-time-string "%Y-%m-%dT%T%z")`}
+#+HUGO_BASE_DIR: ~/ghq/github.com/keimoriyama/portfolio/
+#+HUGO_CATEGORIES: ${3:fleeting}
+#+HUGO_SECTION: post/$3
+#+HUGO_TAGS: $3 $4
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+#+end_src

@@ -1,52 +1,48 @@
-[ai]
-rules = ""
-mode = "manual"
+[snippets]
+include_default_snippets = true
+custom_paths = []
 
-[ai.google]
-
-[ai.anthropic]
-
-[ai.bedrock]
-
-[ai.open_ai]
+[save]
+autosave = "after_delay"
+format_on_save = true
+autosave_delay = 1000
 
 [experimental]
 
-[completion]
-copilot = false
-activate_on_typing = true
-
-[snippets]
-custom_paths = []
-include_default_snippets = true
-
-[server]
-follow_symlink = false
-browser = "default"
-
 [display]
-default_table_page_size = 10
-default_table_max_columns = 50
 theme = "light"
-cell_output = "above"
+default_table_max_columns = 50
 code_editor_font_size = 14
-dataframes = "rich"
-reference_highlighting = false
+cell_output = "above"
 default_width = "medium"
+reference_highlighting = false
+dataframes = "rich"
+default_table_page_size = 10
 
-[runtime]
-output_max_bytes = 8000000
-default_sql_output = "auto"
-auto_reload = "off"
-on_cell_change = "autorun"
-std_stream_max_bytes = 1000000
-default_auto_download = []
-auto_instantiate = true
-watcher_on_save = "lazy"
-reactive_tests = true
+[language_servers.ty]
+enabled = true
+
+[language_servers.pylsp]
+enable_flake8 = false
+enabled = true
+enable_pylint = false
+enable_mypy = true
+enable_pydocstyle = false
+enable_pyflakes = false
+enable_ruff = true
 
 [formatting]
 line_length = 79
+
+[server]
+browser = "default"
+follow_symlink = false
+
+[keymap]
+destructive_delete = true
+preset = "default"
+
+[keymap.overrides]
 
 [package_management]
 manager = "pip"
@@ -54,25 +50,33 @@ manager = "pip"
 [diagnostics]
 enabled = true
 
-[language_servers.ty]
-enabled = true
+[completion]
+copilot = false
+activate_on_typing = true
 
-[language_servers.pylsp]
-enable_pyflakes = false
-enable_ruff = true
-enable_pydocstyle = false
-enable_mypy = true
-enable_pylint = false
-enabled = true
-enable_flake8 = false
+[runtime]
+default_auto_download = []
+reactive_tests = true
+default_sql_output = "auto"
+auto_reload = "off"
+on_cell_change = "autorun"
+output_max_bytes = 8000000
+std_stream_max_bytes = 1000000
+auto_instantiate = true
+watcher_on_save = "lazy"
 
-[save]
-format_on_save = true
-autosave_delay = 1000
-autosave = "after_delay"
+[ai]
+mode = "manual"
+rules = ""
 
-[keymap]
-destructive_delete = true
-preset = "default"
+[ai.open_ai]
 
-[keymap.overrides]
+[ai.bedrock]
+
+[ai.google]
+
+[ai.models]
+displayed_models = []
+custom_models = []
+
+[ai.anthropic]
