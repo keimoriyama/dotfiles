@@ -38,4 +38,5 @@ in
     htmlize
     ox-hugo
     org-roam
+    org-super-agenda
   ]

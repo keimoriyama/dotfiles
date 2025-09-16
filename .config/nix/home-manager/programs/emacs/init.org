@@ -488,8 +488,8 @@ nil
 (keymap-global-set "C-c y" #'consult-yasnippet)
 (keymap-global-set "C-c C-y" #'consult-yasnippet)
 #+end_src
-** org mode
-*** org mode
+** org-mode
+*** org-mode
 #+begin_src elisp
 (setq org-directory "~/Documents/org-mode")
 
@@ -500,10 +500,41 @@ nil
 
 (autoload-if-found '(org-mode) "org" nil t)
 (with-eval-after-load 'org
-  (setq org-startup-folded 'content)
-  (setq org-deadline-warning-day  30)
-  (setq org-enforce-todo-dependencies t)
-  ;; Resize Org headings
+  (setq org-startup-folded 'content
+        org-deadline-warning-day  30
+        org-enforce-todo-dependencies t
+    
+        org-enforce-todo-dependencies t
+        org-html-htmlize-output-type 'inline-css
+        org-html-htmlize-output-type nil
+        org-html-htmlize-output-type 'css
+        org-adapt-indentation t
+        org-hide-leading-stars t
+        org-hide-emphasis-markers t
+        org-pretty-entities t
+	    org-ellipsis "  ·"
+        org-src-fontify-natively t
+	    org-src-tab-acts-natively t
+        org-edit-src-content-indentation 0
+        org-lowest-priority ?F  ;; Gives us priorities A through F
+        org-default-priority ?E ;; If an item has no priority, it is considered [#E].
+
+        org-priority-faces
+        '((65 . "#BF616A")
+          (66 . "#EBCB8B")
+          (67 . "#B48EAD")
+          (68 . "#81A1C1")
+          (69 . "#5E81AC")
+          (70 . "#4C566A"))
+        org-todo-keywords
+        '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
+        org-todo-keyword-faces
+        '(("TODO"   :foreground "#A3BE8C" :weight bold)
+          ("DOING"  :foreground "#88C0D0" :weight bold)
+		  ("WAIT"   :foreground "#88C0D0" :weight bold)
+          ("DONE"   :foreground "#ff40ff" :weight bold)))
+  (add-hook 'org-mode-hook 'visual-line-mode)
+
   (dolist (face '((org-level-1 . 1.35)
                   (org-level-2 . 1.3)
                   (org-level-3 . 1.2)
@@ -511,43 +542,13 @@ nil
                   (org-level-5 . 1.1)
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
-                  (org-level-8 . 1.1))))
-  (setq org-enforce-todo-dependencies t)
-  (setq org-html-htmlize-output-type 'inline-css)
-  (setq org-html-htmlize-output-type nil)
-  (setq org-html-htmlize-output-type 'css)
-  (setq org-adapt-indentation t
-      org-hide-leading-stars t
-      org-hide-emphasis-markers t
-      org-pretty-entities t
-	  org-ellipsis "  ·")
-  (setq org-src-fontify-natively t
-	  org-src-tab-acts-natively t
-      org-edit-src-content-indentation 0)
-  (add-hook 'org-mode-hook 'visual-line-mode)
-  (setq org-lowest-priority ?F)  ;; Gives us priorities A through F
-  (setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
-
-  (setq org-priority-faces
-      '((65 . "#BF616A")
-        (66 . "#EBCB8B")
-        (67 . "#B48EAD")
-        (68 . "#81A1C1")
-        (69 . "#5E81AC")
-        (70 . "#4C566A")))
-  (setq org-todo-keywords
-      '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)")))
-  (setq org-todo-keyword-faces
-      '(("TODO"   :foreground "#A3BE8C" :weight bold)
-        ("DOING"  :foreground "#88C0D0" :weight bold)
-		("WAIT"   :foreground "#88C0D0" :weight bold)
-        ("DONE"   :foreground "#ff40ff" :weight bold)
-        )))
+                  (org-level-8 . 1.1)))))
 #+end_src
-*** org capture
+*** org-capture
 #+begin_src elisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory))
+
 (with-eval-after-load 'org
   (setq org-capture-templates 
         '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
@@ -562,7 +563,7 @@ nil
            "\n* %? ")))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
-*** org roam
+*** org-roam
 #+begin_src elisp
 (autoload-if-found '(org-mode) "org-roam" nil t)
 (with-eval-after-load 'org-roam
@@ -576,7 +577,7 @@ nil
   (keymap-global-set "C-c n t" #'org-roam-buffer-toggle)
   (keymap-global-set "C-c n a" #'org-roam-alias-add))
 #+end_src
-*** org indent
+*** org-indent
 #+begin_src elisp
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
@@ -602,7 +603,7 @@ nil
   (setopt org-superstart-special-todo-items t))
 #+end_src
 
-*** org babel
+*** org-babel
 #+begin_src elisp
 (org-babel-do-load-languages
 'org-babel-load-languages
@@ -623,8 +624,25 @@ nil
 (with-eval-after-load 'ob-lisp
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
+*** org-super-agenda
+#+begin_src elisp
+;(autoload-if-found '(org-agenda) "org-super-agenda" nil t)
+(require 'org-super-agenda)
+(with-eval-after-load 'org-super-agenda
+  (org-super-agenda-mode t)
+  (setq org-super-agenda-groups
+         '(;; Each group has an implicit boolean OR operator between its selectors.
+           (:name "PAST DEADLINESS"
+                  :deadline past)
+           (:name "Doing Task"  ; Optionally specify section name
+                  :time-grid t  ; Items that appear on the time grid
+                  :todo "DOING")  ; Items that have this TODO keyword
+           (:todo ("TODO"))
+           (:todo ("WAIT")))))
+#+end_src
 
-*** org agenda
+
+*** org-agenda
 #+begin_src elisp
 (autoload-if-found '(org-agenda) "org-agenda" nil t)
 
@@ -632,29 +650,29 @@ nil
   (setq org-agenda-custom-commands 
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
-          ))
-  (setq org-agenda-start-on-weekday 3)
-  (setq org-xagenda-span 'week)
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-agenda-skip-deadline-if-done t)
-  (setq org-return-follows-link t)  ;; RET to follow link
-  ;(setq org-agenda-columns-add-appointments-to-effort-sum nil)
-  (setq org-agenda-time-grid
-                        '((daily today require-timed)
-                          (0900 1200 1300 1800) "......" "----------------"))
-  (setq org-columns-default-format
-                              "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
-  (setq org-clock-out-remove-zero-time-clocks t)
-  (setq org-agenda-use-time-grid t)
-  (setq org-clock-clocked-in-display          'both)
-  (setq org-agenda-start-with-log-mode         t)
-  (setq org-agenda-files  (list org-directory org-prj-dir)))
+          )
+        
+        org-agenda-start-on-weekday 3
+        org-xagenda-span 'week
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-return-follows-link t  ;; RET to follow link
+        org-agenda-time-grid
+        '((daily today require-timed)
+          (0900 1200 1300 1800) "......" "----------------")
+        org-columns-default-format
+        "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}"
+        org-clock-out-remove-zero-time-clocks t
+        org-agenda-use-time-grid t
+        org-clock-clocked-in-display 'both
+        org-agenda-start-with-log-mode t
+        org-agenda-files (list org-directory org-prj-dir)))
  
 (plist-put org-format-latex-options :scale 1.2)
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src
 
-*** org pomodoro
+*** org-pomodoro
 #+begin_src elisp
 (autoload-if-found '(org-pomodoro) "org-pomodoro" nil t)
 ;(keymap-global-set "M-p" #'org-pomodoro)
@@ -686,7 +704,7 @@ nil
 #+begin_src elisp
 (autoload-if-found '(org-mode) "ox-hugo" nil t)
 #+end_src
-*** org hydra
+*** org-hydra
 #+begin_src elisp
 (defun my:org-goto-project ()
     (interactive)
@@ -706,7 +724,6 @@ nil
    "agenda"
    (("c" org-capture "capture"))))
 #+end_src
-
 ** lsp
 
 *** lsp-mode
