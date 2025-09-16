@@ -37,4 +37,5 @@ in
     dashboard
     htmlize
     ox-hugo
+    org-roam
   ]

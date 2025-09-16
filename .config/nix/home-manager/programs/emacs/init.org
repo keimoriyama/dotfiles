@@ -491,8 +491,7 @@ nil
 ** org mode
 *** org mode
 #+begin_src elisp
-(setq org-directory "~/Documents/org-mode"
-      org-memo-file (format "%s/memo.org" org-directory))
+(setq org-directory "~/Documents/org-mode")
 
 (defun create-new-org-file (path)
   (let ((name (read-string "Name: ")))
@@ -503,14 +502,6 @@ nil
 (with-eval-after-load 'org
   (setq org-startup-folded 'content)
   (setq org-deadline-warning-day  30)
-  (setq org-capture-templates 
-    '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
-      ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
-      ("p" "Projects" entry (file
-                               (lambda () (create-new-org-file
-                                     org-directory)))
-       "\n* %? ")))
-  (keymap-global-set "C-c c" #'org-capture)
   (setq org-enforce-todo-dependencies t)
   ;; Resize Org headings
   (dolist (face '((org-level-1 . 1.35)
@@ -553,7 +544,38 @@ nil
         ("DONE"   :foreground "#ff40ff" :weight bold)
         )))
 #+end_src
-
+*** org capture
+#+begin_src elisp
+(setq org-memo-file (format "%s/memo.org" org-directory)
+      org-prj-dir (format "%s/projects" org-directory))
+(with-eval-after-load 'org
+  (setq org-capture-templates 
+        '(("m" "Memo" entry (file org-memo-file) "** %U\n%?\n" :empty-lines 1)
+          ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
+          ("p" "Projects" entry (file
+                                 (lambda () (create-new-org-file
+                                             org-prj-dir)))
+           "\n* %? ")
+          ("f" "Feelings" entry (file
+                                 (lambda () (create-new-org-file
+                                             (format "%s/feeling" org-directory))))
+           "\n* %? ")))
+  (keymap-global-set "C-c c" #'org-capture))
+#+end_src
+*** org roam
+#+begin_src elisp
+(autoload-if-found '(org-mode) "org-roam" nil t)
+(with-eval-after-load 'org-roam
+  (setq org-roam-db-update-method 'immediate
+        org-roam-db-location (format "%s/org-roam.db" org-directory)
+        org-roam-directory (format "%s/org-roam" org-directory)
+        org-roam-index-file (format "%s/index.org" org-directory))
+  (org-roam-db-autosync-mode)
+  (keymap-global-set "C-c n f" #'org-roam-node-find)
+  (keymap-global-set "C-c n i" #'org-roam-node-insert)
+  (keymap-global-set "C-c n t" #'org-roam-buffer-toggle)
+  (keymap-global-set "C-c n a" #'org-roam-alias-add))
+#+end_src
 *** org indent
 #+begin_src elisp
 (require 'org-indent)
@@ -626,8 +648,8 @@ nil
   (setq org-agenda-use-time-grid t)
   (setq org-clock-clocked-in-display          'both)
   (setq org-agenda-start-with-log-mode         t)
-  (setq org-agenda-files  '("~/Documents/org-mode/")))
-
+  (setq org-agenda-files  (list org-directory org-prj-dir)))
+ 
 (plist-put org-format-latex-options :scale 1.2)
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src
