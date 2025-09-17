@@ -574,7 +574,7 @@ nil
   (org-roam-db-autosync-mode)
   (keymap-global-set "C-c n f" #'org-roam-node-find)
   (keymap-global-set "C-c n i" #'org-roam-node-insert)
-  (keymap-global-set "C-c n t" #'org-roam-buffer-toggle)
+  (keymap-global-set "C-c n t" #'org-roam-tag-add)
   (keymap-global-set "C-c n a" #'org-roam-alias-add))
 #+end_src
 *** org-indent
@@ -631,16 +631,24 @@ nil
 (with-eval-after-load 'org-super-agenda
   (org-super-agenda-mode t)
   (setq org-super-agenda-groups
-         '(;; Each group has an implicit boolean OR operator between its selectors.
+         '((:name "Log"
+            :log t)
            (:name "PAST DEADLINESS"
                   :deadline past)
            (:name "Doing Task"  ; Optionally specify section name
                   :time-grid t  ; Items that appear on the time grid
-                  :todo "DOING")  ; Items that have this TODO keyword
-           (:todo ("TODO"))
-           (:todo ("WAIT")))))
+                  :todo "DOING")
+           (:name "Scheduled TODO Items"
+                  :todo "TODO"
+                  :children t)
+            (:name "Today"
+                :scheduled today)
+            (:name "Due soon"
+                :deadline future)
+            (:name "Priority"
+                   :priority>="B")
+            (:discard (:anything t))))
 #+end_src
-
 
 *** org-agenda
 #+begin_src elisp

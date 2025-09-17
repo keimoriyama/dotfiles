@@ -25,3 +25,17 @@ import ipdb;ipdb.set_trace()
 #+STARTUP: content
 #+STARTUP: nohideblocks
 #+end_src
+
+** yatex-mode
+
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: base_ref
+# key: base_ref
+# --
+
+\newcommand{\Fig}[1]{Fig.\ref{fig:#1}}
+\newcommand{\Table}[1]{Table~\ref{tab:#1}}
+\newcommand{\Eq}[1]{Eq.(\ref{eq:#1})}
+\newcommand{\threeEq}[3]{Eq.(\ref{eq:#1}),(\ref{eq:#2}) and (\ref{eq:#3})}
+#+end_src
