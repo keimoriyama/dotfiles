@@ -1,5 +1,6 @@
 * Snippets
 ** python-mode
+*** ipdb
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/template") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: ipdb
@@ -8,6 +9,7 @@
 import ipdb;ipdb.set_trace()
 #+end_src
 ** org-mode
+*** hugo header
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/template") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: hugo-blog
@@ -28,7 +30,8 @@ import ipdb;ipdb.set_trace()
 
 ** yatex-mode
 
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/template") :mkdirp yes :noweb yes
+*** reference template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/template") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: base_ref
 # key: base_ref

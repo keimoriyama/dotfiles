@@ -22,11 +22,5 @@ Brewfile.lock.json
 *.elc
 *.bib
 *.~undo-tree~
-.config/nix/v:null
-.config/nix/config.nix
-/.config/nix/local.conf
-/.config/nix/home-manager/programs/emacs/#init.org#
-/.config/fish/*
-/.config/git/*
-nix.conf
-.config/github-copilot/*
+.config/*
+!.config/nix/*

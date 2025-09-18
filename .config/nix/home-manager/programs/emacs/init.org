@@ -473,15 +473,7 @@ nil
 *** yasnippet
 #+begin_src elisp
 (autoload-if-found '(yas-global-mode) "yasnippet" nil t)
-(add-hook 'emacs-startup-hook #'yas-global-mode)
-(with-eval-after-load 'yasnippet
-  (pretty-hydra-define yasnippet
-    (:title "snippet" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-    ("Basic"
-     (("a" yas-new-snippet "add new snippet")
-      ("i" yas-insert-snippet "insert snippet")
-      ("e" yas-visit-snippet-file "edit snippet")))))
-  ;(keymap-global-set "C-c y" #'yasnippet/body))
+(add-hook 'emacs-startup-hook #'yas-global-mode))
 
 (autoload-if-found '(consult-yasnippet) "consult-yasnippet" nil t)
 
@@ -532,7 +524,9 @@ nil
         '(("TODO"   :foreground "#A3BE8C" :weight bold)
           ("DOING"  :foreground "#88C0D0" :weight bold)
 		  ("WAIT"   :foreground "#88C0D0" :weight bold)
-          ("DONE"   :foreground "#ff40ff" :weight bold)))
+          ("DONE"   :foreground "#ff40ff" :weight bold))
+        org-tag-alist '(("Lab" . ?l) ("RA" . ?r)))
+  
   (add-hook 'org-mode-hook 'visual-line-mode)
 
   (dolist (face '((org-level-1 . 1.35)
@@ -565,17 +559,16 @@ nil
 #+end_src
 *** org-roam
 #+begin_src elisp
-(autoload-if-found '(org-mode) "org-roam" nil t)
-(with-eval-after-load 'org-roam
-  (setq org-roam-db-update-method 'immediate
-        org-roam-db-location (format "%s/org-roam.db" org-directory)
-        org-roam-directory (format "%s/org-roam" org-directory)
-        org-roam-index-file (format "%s/index.org" org-directory))
-  (org-roam-db-autosync-mode)
-  (keymap-global-set "C-c n f" #'org-roam-node-find)
-  (keymap-global-set "C-c n i" #'org-roam-node-insert)
-  (keymap-global-set "C-c n t" #'org-roam-tag-add)
-  (keymap-global-set "C-c n a" #'org-roam-alias-add))
+(require 'org-roam)
+(setq org-roam-db-update-method 'immediate
+      org-roam-db-location (format "%s/org-roam.db" org-directory)
+      org-roam-directory (format "%s/org-roam" org-directory)
+      org-roam-index-file (format "%s/index.org" org-directory))
+(org-roam-db-autosync-mode)
+(keymap-global-set "C-c n f" #'org-roam-node-find)
+(keymap-global-set "C-c n i" #'org-roam-node-insert)
+(keymap-global-set "C-c n t" #'org-roam-tag-add)
+(keymap-global-set "C-c n a" #'org-roam-alias-add)
 #+end_src
 *** org-indent
 #+begin_src elisp
@@ -628,28 +621,8 @@ nil
 #+begin_src elisp
 ;(autoload-if-found '(org-agenda) "org-super-agenda" nil t)
 (require 'org-super-agenda)
-(with-eval-after-load 'org-super-agenda
-  (org-super-agenda-mode t)
-  (setq org-super-agenda-groups
-         '((:name "Log"
-            :log t)
-           (:name "PAST DEADLINESS"
-                  :deadline past)
-           (:name "Doing Task"  ; Optionally specify section name
-                  :time-grid t  ; Items that appear on the time grid
-                  :todo "DOING")
-           (:name "Scheduled TODO Items"
-                  :todo "TODO"
-                  :children t)
-            (:name "Today"
-                :scheduled today)
-            (:name "Due soon"
-                :deadline future)
-            (:name "Priority"
-                   :priority>="B")
-            (:discard (:anything t))))
+(org-super-agenda-mode t)
 #+end_src
-
 *** org-agenda
 #+begin_src elisp
 (autoload-if-found '(org-agenda) "org-agenda" nil t)
@@ -658,12 +631,35 @@ nil
   (setq org-agenda-custom-commands 
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
-          )
-        
+          ("v" "My super agenda"
+           ((agenda "" ((org-agenda-span 'day)
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t
+                                  :date today
+                                  :scheduled today
+                                  :order 1)))))
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:name "今日締切のタスク"
+                                   :deadline today)
+                            (:name "今日予定のタスク"
+                                   :scheduled today)
+                            (:name "締切を過ぎたタスク"
+                                   :deadline past)
+                            (:name "予定が近いタスク"
+                                   :deadline future)
+                            (:name "研究室のTODO"
+                                   :tag "Lab")
+                            (:name "RAのTODO"
+                                   :tag "RA")
+                            )))))))
+
         org-agenda-start-on-weekday 3
-        org-xagenda-span 'week
+        org-agenda-span 'week
         org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
+        org-agenda-include-deadlines t
         org-return-follows-link t  ;; RET to follow link
         org-agenda-time-grid
         '((daily today require-timed)
@@ -675,10 +671,16 @@ nil
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
         org-agenda-files (list org-directory org-prj-dir)))
- 
+
 (plist-put org-format-latex-options :scale 1.2)
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src
+
+#+RESULTS:
+:results:
+org-agenda
+:end:
+
 
 *** org-pomodoro
 #+begin_src elisp
@@ -958,7 +960,7 @@ nil
 #+end_src
 
 *** reftex
-    
+
 #+begin_src elisp
 (autoload-if-found '(reftex-mode) "reftex" nil t)
 (add-to-list 'yatex-mode-hook #'reftex-mode)
@@ -1164,7 +1166,7 @@ LOGIN-CALLBACK takes two arguments, the buffer created by `marimo:notebooklist-o
            nil))
    (when (marimo:server-process)
      (error "marimo:server-start: First `M-x marimo:stop`"))
-   
+
    )
   )
 #+end_src
