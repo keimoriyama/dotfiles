@@ -642,17 +642,23 @@ nil
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
                           '((:name "今日締切のタスク"
-                                   :deadline today)
+                                   :deadline today
+                                   :order 2)
                             (:name "今日予定のタスク"
-                                   :scheduled today)
+                                   :scheduled today
+                                   :order 3)
                             (:name "締切を過ぎたタスク"
-                                   :deadline past)
+                                   :deadline past
+                                   :order 4)
                             (:name "予定が近いタスク"
-                                   :deadline future)
+                                   :deadline future
+                                   :order 5)
                             (:name "研究室のTODO"
-                                   :tag "Lab")
+                                   :tag "Lab"
+                                   :order 6)
                             (:name "RAのTODO"
-                                   :tag "RA")
+                                   :tag "RA"
+                                   :order 7)
                             )))))))
 
         org-agenda-start-on-weekday 3
