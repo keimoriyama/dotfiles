@@ -18,10 +18,6 @@ lib*
 
 Brewfile.lock.json
 
-.emacs.d/*
-!.emacs.d/init.el
-!.emacs.d/my-init.org
-!.emacs.d/snippets/*
 # Compiled
 *.elc
 *.bib
@@ -30,5 +26,7 @@ Brewfile.lock.json
 .config/nix/config.nix
 /.config/nix/local.conf
 /.config/nix/home-manager/programs/emacs/#init.org#
+/.config/fish/*
+/.config/git/*
 nix.conf
 .config/github-copilot/*
