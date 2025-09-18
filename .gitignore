@@ -25,3 +25,4 @@ Brewfile.lock.json
 .config/*
 !.config/nix/*
 !.config/nvim/*
+!.config/karabiner/karabiner.json
