@@ -24,3 +24,4 @@ Brewfile.lock.json
 *.~undo-tree~
 .config/*
 !.config/nix/*
+!.config/nvim/*
