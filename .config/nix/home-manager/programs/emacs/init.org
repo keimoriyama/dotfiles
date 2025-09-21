@@ -445,11 +445,6 @@ binding))))))))
             :around #'embark-hide-which-key-indicator)
 #+end_src
 
-#+RESULTS:
-:results:
-nil
-:end:
-
 *** affe
 #+begin_src elisp
 (autoload-if-found '(affe-find
@@ -473,7 +468,7 @@ nil
 *** yasnippet
 #+begin_src elisp
 (autoload-if-found '(yas-global-mode) "yasnippet" nil t)
-(add-hook 'emacs-startup-hook #'yas-global-mode))
+(add-hook 'emacs-startup-hook #'yas-global-mode)
 
 (autoload-if-found '(consult-yasnippet) "consult-yasnippet" nil t)
 
@@ -483,61 +478,61 @@ nil
 ** org-mode
 *** org-mode
 #+begin_src elisp
-(setq org-directory "~/Documents/org-mode")
+  (setq org-directory "~/Documents/org-mode")
 
-(defun create-new-org-file (path)
-  (let ((name (read-string "Name: ")))
-    (expand-file-name (format "%s.org"
-                              name) path)))
+  (defun create-new-org-file (path)
+    (let ((name (read-string "Name: ")))
+      (expand-file-name (format "%s.org"
+                                name) path)))
 
-(autoload-if-found '(org-mode) "org" nil t)
-(with-eval-after-load 'org
-  (setq org-startup-folded 'content
-        org-deadline-warning-day  30
-        org-enforce-todo-dependencies t
+  (autoload-if-found '(org-mode) "org" nil t)
+  (with-eval-after-load 'org
+    (setq org-startup-folded 'content
+          org-deadline-warning-day  30
+          org-enforce-todo-dependencies t
+          org-enforce-todo-dependencies t
+          org-html-htmlize-output-type 'inline-css
+          org-html-htmlize-output-type nil
+          org-html-htmlize-output-type 'css
+          org-adapt-indentation t
+          org-hide-leading-stars t
+          org-hide-emphasis-markers t
+          org-pretty-entities t
+  	    org-ellipsis "  ·"
+          org-src-fontify-natively t
+  	    org-src-tab-acts-natively t
+          org-edit-src-content-indentation 0
+          org-lowest-priority ?F  ;; Gives us priorities A through F
+          org-default-priority ?E ;; If an item has no priority, it is considered [#E].
+
+          org-priority-faces
+          '((65 . "#BF616A")
+            (66 . "#EBCB8B")
+            (67 . "#B48EAD")
+            (68 . "#81A1C1")
+            (69 . "#5E81AC")
+            (70 . "#4C566A"))
+          org-todo-keywords
+          '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
+          org-todo-keyword-faces
+          '(("TODO"   :foreground "#A3BE8C" :weight bold)
+            ("DOING"  :foreground "#88C0D0" :weight bold)
+  		  ("WAIT"   :foreground "#88C0D0" :weight bold)
+            ("DONE"   :foreground "#ff40ff" :weight bold))
+          org-tag-alist '(("Lab" . ?l) ("RA" . ?r) ("Private" . ?p)))
     
-        org-enforce-todo-dependencies t
-        org-html-htmlize-output-type 'inline-css
-        org-html-htmlize-output-type nil
-        org-html-htmlize-output-type 'css
-        org-adapt-indentation t
-        org-hide-leading-stars t
-        org-hide-emphasis-markers t
-        org-pretty-entities t
-	    org-ellipsis "  ·"
-        org-src-fontify-natively t
-	    org-src-tab-acts-natively t
-        org-edit-src-content-indentation 0
-        org-lowest-priority ?F  ;; Gives us priorities A through F
-        org-default-priority ?E ;; If an item has no priority, it is considered [#E].
+    (add-hook 'org-mode-hook 'visual-line-mode)
 
-        org-priority-faces
-        '((65 . "#BF616A")
-          (66 . "#EBCB8B")
-          (67 . "#B48EAD")
-          (68 . "#81A1C1")
-          (69 . "#5E81AC")
-          (70 . "#4C566A"))
-        org-todo-keywords
-        '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
-        org-todo-keyword-faces
-        '(("TODO"   :foreground "#A3BE8C" :weight bold)
-          ("DOING"  :foreground "#88C0D0" :weight bold)
-		  ("WAIT"   :foreground "#88C0D0" :weight bold)
-          ("DONE"   :foreground "#ff40ff" :weight bold))
-        org-tag-alist '(("Lab" . ?l) ("RA" . ?r)))
-  
-  (add-hook 'org-mode-hook 'visual-line-mode)
-
-  (dolist (face '((org-level-1 . 1.35)
-                  (org-level-2 . 1.3)
-                  (org-level-3 . 1.2)
-                  (org-level-4 . 1.1)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))))
+    (dolist (face '((org-level-1 . 1.35)
+                    (org-level-2 . 1.3)
+                    (org-level-3 . 1.2)
+                    (org-level-4 . 1.1)
+                    (org-level-5 . 1.1)
+                    (org-level-6 . 1.1)
+                    (org-level-7 . 1.1)
+                    (org-level-8 . 1.1)))))
 #+end_src
+
 *** org-capture
 #+begin_src elisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
@@ -557,6 +552,7 @@ nil
            "\n* %? ")))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
+
 *** org-roam
 #+begin_src elisp
 (require 'org-roam)
@@ -570,6 +566,7 @@ nil
 (keymap-global-set "C-c n t" #'org-roam-tag-add)
 (keymap-global-set "C-c n a" #'org-roam-alias-add)
 #+end_src
+
 *** org-indent
 #+begin_src elisp
 (require 'org-indent)
@@ -659,6 +656,9 @@ nil
                             (:name "RAのTODO"
                                    :tag "RA"
                                    :order 7)
+                            (:name "PrivateのTODO"
+                                   :tag "Private"
+                                   :order 7)
                             )))))))
 
         org-agenda-start-on-weekday 3
@@ -686,7 +686,6 @@ nil
 :results:
 org-agenda
 :end:
-
 
 *** org-pomodoro
 #+begin_src elisp
