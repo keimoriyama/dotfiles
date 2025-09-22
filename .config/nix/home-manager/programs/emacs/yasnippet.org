@@ -1,7 +1,7 @@
 * Snippets
 ** python-mode
 *** ipdb
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/template") :mkdirp yes :noweb yes
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/ipdb") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: ipdb
 # key: ipdb
@@ -10,7 +10,7 @@ import ipdb;ipdb.set_trace()
 #+end_src
 ** org-mode
 *** hugo header
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/template") :mkdirp yes :noweb yes
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/hugo") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: hugo-blog
 # key: hugo
@@ -28,10 +28,27 @@ import ipdb;ipdb.set_trace()
 #+STARTUP: nohideblocks
 #+end_src
 
+*** sniippet template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/snippet_template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: snippet_template
+# key: snippet
+# --
+
+,#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/${1:lang}/${2:name}") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: $2
+# key: $2
+# --
+
+,#+end_src
+
+#+end_src
+
 ** yatex-mode
 
 *** reference template
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/template") :mkdirp yes :noweb yes
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/base_ref") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: base_ref
 # key: base_ref
@@ -41,4 +58,55 @@ import ipdb;ipdb.set_trace()
 \newcommand{\Table}[1]{Table~\ref{tab:#1}}
 \newcommand{\Eq}[1]{Eq.(\ref{eq:#1})}
 \newcommand{\threeEq}[3]{Eq.(\ref{eq:#1}),(\ref{eq:#2}) and (\ref{eq:#3})}
+#+end_src
+
+*** prompt template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/prompt_fig") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: prompt_fig
+# key: prompt_fig
+# --
+\begin{figure*}[t]
+    \centering
+    \fbox{
+        \parbox{0.9\linewidth}{
+            
+        }
+    }
+    \caption{${1:caption}}
+    \label{fig:${2:label}}
+\end{figure*}
+#+end_src
+
+*** figure template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/figure") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: figure
+# key: figure
+# --
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{${1:fig_source}}
+    \caption{${2:caption}}
+    \label{fig:${3:placeholder}}
+\end{figure}
+
+#+end_src
+
+*** table template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/table") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: table
+# key: table
+# --
+\begin{table}[tbh]
+    \centering
+    \begin{tabular}{c|c}
+         &  \\
+         & 
+    \end{tabular}
+    \caption{${1:caption}}
+    \label{tab:${2:placeholder}}
+\end{table}
 #+end_src

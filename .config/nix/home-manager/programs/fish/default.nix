@@ -36,6 +36,7 @@
     };
     loginShellInit = "
 set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"
+# set -x PATH \"$HOME/.nix-profile/lib/node_modules\" \"$PATH\"
 set -x PATH \"$HOME/.nix-profile/bin\" \"$PATH\"
 set -x PATH \"$PATH\" \"/opt/homebrew/bin\"
 set -x PATH \"$PATH\" \"$HOME/.cargo/bin\" 
