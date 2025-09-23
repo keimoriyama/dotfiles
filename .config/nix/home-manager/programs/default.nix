@@ -20,5 +20,5 @@ in [
   copilot-language-server
   neovim
   git
-  textlint
+  # textlint
 ]
