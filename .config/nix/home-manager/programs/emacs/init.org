@@ -1016,9 +1016,9 @@ nil
 
 ** LLM (ellama)
 #+begin_src elisp
-  (require 'ellama)
-  (with-eval-after-load 'ellama
-    (setopt ellama-language "Japanese"))
+(require 'ellama)
+(with-eval-after-load 'ellama
+  (setopt ellama-language "Japanese"))
 #+end_src
 
 ** hydra menu 

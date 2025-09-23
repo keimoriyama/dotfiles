@@ -88,7 +88,6 @@ in {
       texlab
       auctex
       hugo
-      nushell
     ];
     file = {
       ".config/nvim" = {

@@ -12,7 +12,7 @@
   copilot-language-server = import ./copilot-language-server {inherit pkgs nodePkgs;};
   neovim = import ./neovim {inherit pkgs sources config;};
   git = import ./git;
-  # textlint = import ./textlint {inherit pkgs;};
+  nushell = import ./nushell {inherit pkgs;};
 in [
   emacs
   fish
@@ -20,5 +20,5 @@ in [
   copilot-language-server
   neovim
   git
-  # textlint
+  nushell
 ]

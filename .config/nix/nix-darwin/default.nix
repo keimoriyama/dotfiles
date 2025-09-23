@@ -63,7 +63,7 @@
       # "docker"
       # "google-chrome"
       # "google-drive"
-      "ollama"
+      "ollama-app"
       "macskk"
       # "1password"
     ];
