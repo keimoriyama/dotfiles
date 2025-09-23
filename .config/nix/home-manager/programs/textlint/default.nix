@@ -1,7 +1,7 @@
 {pkgs}: {
   home = {
     file = {
-      ".textlintrc".source = ./.textlintrc;
+      ".textlintrc.json".source = ./.textlintrc.json;
     };
     packages = with pkgs; [
       textlint

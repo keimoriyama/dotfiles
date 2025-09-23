@@ -1,0 +1,5 @@
+{
+  "plugins": ["org", "latex2e"],
+  "filters": {},
+  "rules": {}
+}
