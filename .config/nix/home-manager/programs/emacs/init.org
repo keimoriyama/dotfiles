@@ -942,6 +942,9 @@ nil
 (add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
+
+(add-hook 'yatex-mode-hook #'yas-minor-mode)
+
 (with-eval-after-load 'yatex
   (setopt YaTeX-inhibit-prefix-letter  t)
   (setopt tex-command  "platex -kanji=utf8")
