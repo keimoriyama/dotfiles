@@ -34,9 +34,13 @@ jobs:
           cd .config/nix/node2nix/
           nix-shell -p nodePackages.node2nix --command "node2nix -i ./node-packages.json -o node-packages.nix"
       - name: Run flake update
-        run: nix flake update
+        run: |
+          cd .config/nix
+          nix flake update
       - name: Run fmt
-        run: nix fmt
+        run: |
+          cd .config/nix
+          nix fmt
       - name: Commit changes
         run: |
           git add .
