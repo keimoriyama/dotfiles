@@ -27,6 +27,7 @@ jobs:
         run: |
           export LANG=en_US.UTF-8
           export LC_ALL=en_US.UTF-8
+          cd .config/nix
           nix run nixpkgs#nvfetcher
       - name: Run node2nix
         run: |

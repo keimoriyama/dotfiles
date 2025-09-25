@@ -1,11 +1,11 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: /.config/nix
+    directory: /
     schedule:
       interval: daily
     target-branch: main
   - package-ecosystem: github-actions
-    directory: /.config/nix
+    directory: /
     schedule:
       interval: daily
