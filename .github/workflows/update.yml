@@ -37,10 +37,6 @@ jobs:
         run: |
           cd .config/nix
           nix flake update
-      - name: Run fmt
-        run: |
-          cd .config/nix
-          nix fmt
       - name: Commit changes
         run: |
           git add .
