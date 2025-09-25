@@ -41,6 +41,10 @@ jobs:
           nix flake update
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+      - name: Enable Pull Request Automerge
+        run: gh pr merge --merge --auto "1"
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
       # run: |
       #     cd .config/nix
       #     nix fmt
