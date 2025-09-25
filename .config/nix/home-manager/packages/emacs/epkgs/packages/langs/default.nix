@@ -15,13 +15,11 @@ in
     yaml-mode
     nix-mode
     dockerfile-mode
-    # yatex
+    markdown-mode
     lsp-latex
+    auctex
     packages.yatex
     yasnippet
     consult-yasnippet
     packages.copilot
-    # flyspell
-    # consult-reftex
-    # reftex
   ]

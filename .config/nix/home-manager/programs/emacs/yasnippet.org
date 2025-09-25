@@ -57,6 +57,7 @@ import ipdb;ipdb.set_trace()
 \newcommand{\Fig}[1]{Fig.\ref{fig:#1}}
 \newcommand{\Table}[1]{Table~\ref{tab:#1}}
 \newcommand{\Eq}[1]{Eq.(\ref{eq:#1})}
+\newcommand{\Sec}[1]{Sec.\ref{sec:#1}}
 \newcommand{\threeEq}[3]{Eq.(\ref{eq:#1}),(\ref{eq:#2}) and (\ref{eq:#3})}
 #+end_src
 
@@ -70,11 +71,11 @@ import ipdb;ipdb.set_trace()
     \centering
     \fbox{
         \parbox{0.9\linewidth}{
-            
+        $0
         }
     }
     \caption{${1:caption}}
-    \label{fig:${2:label}}
+    \label{fig:${2:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}
 \end{figure*}
 #+end_src
 
@@ -89,7 +90,7 @@ import ipdb;ipdb.set_trace()
     \centering
     \includegraphics[width=\linewidth]{${1:fig_source}}
     \caption{${2:caption}}
-    \label{fig:${3:placeholder}}
+    \label{fig:${3:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}
 \end{figure}
 
 #+end_src
@@ -107,6 +108,6 @@ import ipdb;ipdb.set_trace()
          & 
     \end{tabular}
     \caption{${1:caption}}
-    \label{tab:${2:placeholder}}
+    \label{tab:${2:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}
 \end{table}
 #+end_src

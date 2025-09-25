@@ -39,4 +39,6 @@ in
     ox-hugo
     org-roam
     org-super-agenda
+    gcmh
+    beacon
   ]

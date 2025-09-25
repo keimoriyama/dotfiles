@@ -292,6 +292,33 @@
 (dashboard-setup-startup-hook)
 #+end_src
 
+*** gcmh
+#+begin_src elisp
+(require 'gcmh)
+(with-eval-after-load 'gcmh
+  (setq gcmh-verbose t))
+#+end_src
+
+*** beacon
+#+begin_src elisp
+(require 'beacon)
+(with-eval-after-load 'beacon
+  (beacon-mode 1))
+#+end_src
+
+*** recentf
+#+begin_src elisp
+(require 'recentf)
+(with-eval-after-load 'recentf
+  (setq refentf-max-saved-items 2000
+        recentf-exclude '(".recentf" ".~undo-tree~")
+        recentf-auto-cleanup 10
+        recentf-auto-save-timer
+        (run-with-idle-timer 30 t 'recentf-save-list))
+  (recentf-mode 1))
+#+end_src
+
+
 ** Completion
 *** corfu
 
@@ -875,11 +902,6 @@ org-agenda
   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
 #+end_src
 
-#+RESULTS:
-:results:
-nil
-:end:
-
 *** rust
 #+begin_src elisp
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
@@ -924,6 +946,12 @@ nil
 (with-eval-after-load 'copilot
   (setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
   (keymap-set copilot-mode-map "C-<tab>" #'copilot-accept-completion))
+#+end_src
+
+*** markdown
+#+begin_src elisp
+(autoload-if-found '(markdown-mode) "markdown-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 #+end_src
 
 ** latex
@@ -1000,12 +1028,14 @@ nil
 (with-eval-after-load 'skk-vars
   (setq skk-jisyo
  "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
-  (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L")
-  (setq skk-use-azik t)
-  (setq skk-azik-keyboard-type "en")
-  (setq skk-search-katakana nil)
-  (setq skk-share-private-jisyo t)
-  (setq skk-save-jisyo-instantly t))
+  (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L"
+        skk-use-azik t
+        skk-azik-keyboard-type "en"
+        skk-server-host "localhost"
+        skk-server-portnum 1178
+        skk-search-katakana nil
+        skk-share-private-jisyo t
+        skk-save-jisyo-instantly t))
 
 (autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
 

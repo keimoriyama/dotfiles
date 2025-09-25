@@ -1,0 +1,18 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /Users/kei/dotfiles/.config/nix/home-manager/programs/emacs/init.org
+
+
+* markdown
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-24 Wed 09:45
+:ARCHIVE_FILE: ~/dotfiles/.config/nix/home-manager/programs/emacs/init.org
+:ARCHIVE_OLPATH: program
+:ARCHIVE_CATEGORY: init
+:END:
+#+begin_src elisp
+(autoload-if-found '(markdown-mode) "markdown-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+#+end_src
+
