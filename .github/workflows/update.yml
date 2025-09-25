@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    # steps:
+    steps:
     #   - name: Import GPG key
     #     uses: crazy-max/ghaction-import-gpg@v6
     #     with:
