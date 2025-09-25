@@ -15,9 +15,10 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          # git_user_signingkey: true
-          # git_commit_gpgsign: true
-          # git_config_global: true
+          fingerprint: C0FD3B801CC6BCF942E61992163E8CC3BFEFF441
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_config_global: true
       - uses: actions/checkout@v5
       - name: Setup nix
         uses: ./.github/actions/setup-nix
