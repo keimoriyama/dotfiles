@@ -32,7 +32,7 @@
     inherit pkgs;
   };
   programs.fish.enable = true;
- emacsPkg = emacs.emacs-stable;
+  emacsPkg = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
@@ -41,7 +41,7 @@
   };
 in {
   imports = defaultPrograms;
-
+  
   home = {
     username = username;
     homeDirectory = "/Users/${username}";

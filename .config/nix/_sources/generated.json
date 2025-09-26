@@ -145,47 +145,5 @@
             "type": "github"
         },
         "version": "dd7cfad4cd0409b5e0eb05e90077de5a225185fa"
-    },
-    "skk-dict": {
-        "cargoLocks": null,
-        "date": "2024-08-29",
-        "extract": null,
-        "name": "skk-dict",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "skk-dev",
-            "repo": "dict",
-            "rev": "4eb91a3bbfef70bde940668ec60f3beae291e971",
-            "sha256": "sha256-sWz85Q6Bu2WoKsckSp5SlcuPUQN2mcq+BHMqNXQ/aho=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "4eb91a3bbfef70bde940668ec60f3beae291e971"
-    },
-    "yaskkserv2": {
-        "cargoLocks": null,
-        "date": "2025-05-16",
-        "extract": null,
-        "name": "yaskkserv2",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "wachikun",
-            "repo": "yaskkserv2",
-            "rev": "7341a0fd2e9d05f371de1dd0e797c92662e35443",
-            "sha256": "sha256-d037sMzr/9fa0Osl0ciQJT6FjdGlxqE7F/K+Iu+HJlw=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "7341a0fd2e9d05f371de1dd0e797c92662e35443"
     }
 }
