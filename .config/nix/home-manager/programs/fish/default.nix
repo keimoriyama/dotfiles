@@ -39,7 +39,8 @@ set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"
 set -x PATH \"$HOME/.nix-profile/bin\" \"$PATH\"
 set -x PATH \"$PATH\" \"/opt/homebrew/bin\"
 set -x PATH \"$PATH\" \"$HOME/.cargo/bin\" 
-set -x PATH \"$PATH\" \"$HOME/.local/bin\" 
+set -x PATH \"$PATH\" \"$HOME/.local/bin\"
+set -x PATH \"$PATH\" \"$HOME/.roswell/bin/\"
 # Fish git prompt
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'

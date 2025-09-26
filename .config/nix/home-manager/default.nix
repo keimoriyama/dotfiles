@@ -87,8 +87,7 @@ in {
       texlab
       auctex
       hugo
-      gnupg
-    ];
+      ];
     file = {
       ".config/nvim" = {
         target = ".config/nvim";
