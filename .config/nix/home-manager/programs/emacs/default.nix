@@ -1,13 +1,14 @@
 {
   pkgs,
   org-babel,
-  emacsPkg,
+  emacsPkgs,
+  sources
 }: let
   tangle = org-babel.lib.tangleOrgBabel {languages = ["elisp"];};
 in {
   programs.emacs = {
     enable = true;
-    package = emacsPkg;
+    package = emacsPkgs;
   };
   home = {
     file = {
@@ -18,13 +19,5 @@ in {
     packages = with pkgs; [
       emacs-lsp-booster
     ];
-    # packages = with pkgs; [
-    #   (emacs-lsp-booster.overrideAttrs (
-    #     old: {
-    #       doCheck = false;
-    #       nativeCheckInputs = [];
-    #     }
-    #   ))
-    # ];
   };
 }

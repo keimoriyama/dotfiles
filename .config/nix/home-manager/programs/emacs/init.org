@@ -943,9 +943,8 @@ org-agenda
 #+begin_src elisp
 (autoload-if-found '(copilot-mode) "copilot" nil t)
 (add-hook 'prog-mode-hook #'copilot-mode)
-(with-eval-after-load 'copilot
-  (setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
-  (keymap-set copilot-mode-map "C-<tab>" #'copilot-accept-completion))
+;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
+(keymap-global-set "C-<tab>" #'copilot-accept-completion)
 #+end_src
 
 *** markdown
