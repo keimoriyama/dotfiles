@@ -41,7 +41,7 @@
   };
 in {
   imports = defaultPrograms;
-  
+
   home = {
     username = username;
     homeDirectory = "/Users/${username}";
@@ -87,7 +87,7 @@ in {
       texlab
       auctex
       hugo
-      ];
+    ];
     file = {
       ".config/nvim" = {
         target = ".config/nvim";

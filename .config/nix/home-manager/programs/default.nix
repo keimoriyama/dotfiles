@@ -21,4 +21,4 @@ in [
   neovim
   git
   nushell
-  ]
+]

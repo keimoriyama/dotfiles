@@ -3,8 +3,8 @@
   pkgs,
   sources,
 }: let
-    dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
   override = final: prev: {
+    dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
       preBuild = null;
     });
   };
