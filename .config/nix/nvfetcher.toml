@@ -33,12 +33,3 @@ src.git="https://github.com/Shougo/dpp-protocol-git"
 src.branch="main"
 fetch.github="Shougo/dpp-protocol-git"
 
-[yaskkserv2]
-src.git="https://github.com/wachikun/yaskkserv2"
-src.branch="master"
-fetch.github="wachikun/yaskkserv2"
-
-[skk-dict]
-src.git="https://github.com/skk-dev/dict"
-src.branch="master"
-fetch.github="skk-dev/dict"

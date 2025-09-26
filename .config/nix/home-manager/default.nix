@@ -32,8 +32,7 @@
     inherit pkgs;
   };
   programs.fish.enable = true;
-
-  emacsPkg = emacs.emacs-stable;
+ emacsPkg = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
@@ -102,6 +101,5 @@ in {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../../karabiner/karabiner.json;
     };
   };
-
   programs.home-manager.enable = true;
 }
