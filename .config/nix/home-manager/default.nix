@@ -10,7 +10,6 @@
 }: let
   username = "kei";
   sources = pkgs.callPackage ../_sources/generated.nix {};
-  lib = nixpkgs.lib;
 
   pkgs = import nixpkgs {
     inherit system;
@@ -27,21 +26,16 @@
     inherit (nixpkgs) lib;
     inherit pkgs sources;
   };
-  python = import ./packages/python {
-    inherit (nixpkgs) lib;
-    inherit pkgs;
-  };
-  programs.fish.enable = true;
-  emacsPkg = emacs.emacs-stable;
+  emacsPkgs = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
-    inherit org-babel emacsPkg nodePkgs sources config;
+    inherit org-babel emacsPkgs nodePkgs sources config;
   };
 in {
   imports = defaultPrograms;
-  
+
   home = {
     username = username;
     homeDirectory = "/Users/${username}";
@@ -87,7 +81,6 @@ in {
       texlab
       auctex
       hugo
-      gnupg
     ];
     file = {
       ".config/nvim" = {
