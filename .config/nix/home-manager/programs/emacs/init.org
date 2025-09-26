@@ -1020,10 +1020,22 @@ org-agenda
               ("x~" nil "~")
               (":" nil "ー")))
 
+(setq default-input-method "japanese-skk")
 (with-eval-after-load 'skk
   (setq skk-preload t)
-  (setq default-input-method "japanese-skk")
   (keymap-global-set "C-l" #'skk-latin-mode))
+
+(defun skk-open-server-decoding-utf-8 ()
+  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
+  (unless (skk-server-live-p)
+    (setq skkserv-process (skk-open-server-1))
+    (when (skk-server-live-p)
+      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+	(set-process-coding-system skkserv-process 'utf-8 code))))
+  skkserv-process)
+(setq skk-mode-hook
+      '(lambda()
+         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
 
 (with-eval-after-load 'skk-vars
   (setq skk-jisyo
@@ -1043,6 +1055,11 @@ org-agenda
   ;; hooks
   (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+END_SRC
+
+#+RESULTS:
+:results:
+(ddskk-posframe-mode (lambda nil (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+:end:
 
 ** LLM (ellama)
 #+begin_src elisp
