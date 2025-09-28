@@ -1,1 +1,1 @@
-/nix/store/5ss6zp38r24awwaljqjhgmcf8aiha20m-home-manager-files/.config/nushell/config.nu
+/nix/store/wcjdpwawx6031j5s1lyxpjiy0a5382xh-home-manager-files/.config/nushell/config.nu

@@ -704,7 +704,8 @@ binding))))))))
         org-agenda-use-time-grid t
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
-        org-agenda-files (list org-directory org-prj-dir)))
+        org-agenda-files (list org-directory org-prj-dir)
+        org-agenda-archives-mode t))
 
 (plist-put org-format-latex-options :scale 1.2)
 (keymap-global-set "C-c a" #'org-agenda)
