@@ -2,7 +2,7 @@
   pkgs,
   org-babel,
   emacsPkgs,
-  sources
+  sources,
 }: let
   tangle = org-babel.lib.tangleOrgBabel {languages = ["elisp"];};
 in {

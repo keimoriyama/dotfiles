@@ -704,17 +704,12 @@ binding))))))))
         org-agenda-use-time-grid t
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
-        org-agenda-files (list org-directory org-prj-dir)
+        org-agenda-files (list org-directory org-prj-dir (format "%s/org-roam" org-directory))
         org-agenda-archives-mode t))
 
 (plist-put org-format-latex-options :scale 1.2)
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src
-
-#+RESULTS:
-:results:
-org-agenda
-:end:
 
 *** org-pomodoro
 #+begin_src elisp

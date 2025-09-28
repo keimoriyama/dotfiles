@@ -7,7 +7,8 @@ in
   with epkgs; [
     # utils
     olivetti
-    dash f
+    dash
+    f
     nerd-icons
     nerd-icons-completion
     solarized-theme
