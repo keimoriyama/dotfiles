@@ -290,6 +290,7 @@
 #+begin_src elisp
 (autoload-if-found '(dashboard-startup-hook) "dashboard" nil t)
 (dashboard-setup-startup-hook)
+(keymap-global-set "C-c d" #'dashboard-open)
 #+end_src
 
 *** gcmh
@@ -704,7 +705,7 @@ binding))))))))
         org-agenda-use-time-grid t
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
-        org-agenda-files (list org-directory org-prj-dir (format "%s/org-roam" org-directory))
+        org-agenda-files (list org-directory org-prj-dir org-roam-directory)
         org-agenda-archives-mode t))
 
 (plist-put org-format-latex-options :scale 1.2)
@@ -947,6 +948,12 @@ binding))))))))
 #+begin_src elisp
 (autoload-if-found '(markdown-mode) "markdown-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+#+end_src
+
+*** webmode
+#+begin_src elisp
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+end_src
 
 ** latex
