@@ -45,9 +45,9 @@ jobs:
         run: gh pr merge --merge create-pull-request/patch 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # run: |
-      #     cd .config/nix
-      #     nix fmt
+      run: |
+          cd .config/nix
+          nix run nixpkgs#alejandra .
       # - name: Commit changes
       #   run: |
       #     git add .
