@@ -27,3 +27,4 @@ Brewfile.lock.json
 /.config/git/
 /.config/fish/
 /.config/aquaskk/
+/.config/nushell/
