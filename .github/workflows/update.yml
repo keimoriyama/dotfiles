@@ -43,7 +43,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
       - name: Enable Pull Request Automerge
         run: |
-          gh pr merge create-pull-request/patch 
+          gh pr merge --merge create-pull-request/patch 
           gh pr close create-pull-request/patch 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
