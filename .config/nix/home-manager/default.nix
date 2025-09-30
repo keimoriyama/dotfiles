@@ -28,6 +28,8 @@
   };
   emacsPkgs = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
+
+  yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs;};
   
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
@@ -81,6 +83,8 @@ in {
       texlab
       auctex
       hugo
+
+      yaskkserv2
     ];
     file = {
       ".config/nvim" = {
