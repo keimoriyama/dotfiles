@@ -34,6 +34,13 @@ src.branch="main"
 fetch.github="Shougo/dpp-protocol-git"
 
 [yaskkserv2]
-src.git="https://github.com/wachikun/yaskkserv2"
+src.github="wachikun/yaskkserv2"
 src.branch="master"
 fetch.github="wachikun/yaskkserv2"
+cargo_lock = ["Cargo.lock"]
+
+# [rustdeck]
+# src.github = "rustdesk/rustdesk"
+# fetch.github = "rustdesk/rustdesk"
+# # Compute outputHashes for git dependencies in cargo lock
+# cargo_lock = ["Cargo.lock"]

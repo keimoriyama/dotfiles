@@ -10,7 +10,6 @@
 #     description = "A Japanese input method server compatible with SKK";
 #   };
 #   }
-# icat.nix
 {
   pkgs
 }:
