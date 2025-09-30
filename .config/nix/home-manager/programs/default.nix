@@ -13,7 +13,6 @@
   neovim = import ./neovim {inherit pkgs sources config;};
   git = import ./git;
   nushell = import ./nushell {inherit pkgs;};
-  yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs;};
 in [
   emacs
   fish
@@ -22,5 +21,4 @@ in [
   neovim
   git
   nushell
-  # yaskkserv2
 ]

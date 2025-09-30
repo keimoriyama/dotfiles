@@ -29,8 +29,8 @@
   emacsPkgs = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
-  yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs;};
-  
+  yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
+
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
     inherit org-babel emacsPkgs nodePkgs sources config;

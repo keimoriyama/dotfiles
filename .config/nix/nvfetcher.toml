@@ -37,7 +37,7 @@ fetch.github="Shougo/dpp-protocol-git"
 src.github="wachikun/yaskkserv2"
 src.branch="master"
 fetch.github="wachikun/yaskkserv2"
-cargo_lock = ["Cargo.lock"]
+cargo_locks = ["Cargo.lock"]
 
 # [rustdeck]
 # src.github = "rustdesk/rustdesk"
