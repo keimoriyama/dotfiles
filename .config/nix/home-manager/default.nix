@@ -28,7 +28,7 @@
   };
   emacsPkgs = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
-  
+
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
     inherit org-babel emacsPkgs nodePkgs sources config;
