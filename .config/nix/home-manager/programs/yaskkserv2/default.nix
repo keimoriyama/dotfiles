@@ -5,5 +5,4 @@ pkgs.rustPlatform.buildRustPackage(finalAttrs:{
   meta = with pkgs.lib; {
     description = "A Japanese input method server compatible with SKK";
   };
-}
-)
+})
