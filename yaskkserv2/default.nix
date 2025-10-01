@@ -10,6 +10,5 @@ pkgs.rustPlatform.buildRustPackage {
   meta = with pkgs.lib; {
     description = "A Japanese input method server compatible with SKK";
   };
-  doCheck=false;
+  doCheck = false;
 }
-

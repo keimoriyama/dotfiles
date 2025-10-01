@@ -89,13 +89,13 @@ in {
     file = {
       ".config/nvim" = {
         target = ".config/nvim";
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/nvim";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/programs/neovim/nvim";
       };
-      ".config/nix" = {
-        target = ".config/nix";
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/nix";
-      };
-      ".config/karabiner/karabiner.json".text = builtins.readFile ../../karabiner/karabiner.json;
+      # ".config/nix" = {
+      #   target = ".config/nix";
+      #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/";
+      # };
+      ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
     };
   };
   programs.home-manager.enable = true;

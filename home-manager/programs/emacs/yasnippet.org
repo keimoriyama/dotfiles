@@ -28,7 +28,7 @@ import ipdb;ipdb.set_trace()
 #+STARTUP: nohideblocks
 #+end_src
 
-*** sniippet template
+*** snippet template
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/snippet_template") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: snippet_template
