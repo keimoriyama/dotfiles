@@ -83,6 +83,7 @@ in {
       texlab
       auctex
       hugo
+      texliveBasic
 
       yaskkserv2
     ];
