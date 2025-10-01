@@ -23,6 +23,10 @@ in {
       target = "${dpp_ext_dir}/dpp-protocol-git";
       source = config.lib.file.mkOutOfStoreSymlink plugins.dpp-protocol-git.outPath;
     };
+    ".config/nvim" = {
+      target = ".config/nvim";
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/programs/neovim/nvim";
+    };
   };
   programs.neovim = {
     # defaultEditor = true;

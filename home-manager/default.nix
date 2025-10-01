@@ -87,10 +87,10 @@ in {
       yaskkserv2
     ];
     file = {
-      ".config/nvim" = {
-        target = ".config/nvim";
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/programs/neovim/nvim";
-      };
+      # ".config/nvim" = {
+      #   target = ".config/nvim";
+      #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/programs/neovim/nvim";
+      # };
       # ".config/nix" = {
       #   target = ".config/nix";
       #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/";
