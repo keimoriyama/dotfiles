@@ -36,7 +36,6 @@ jobs:
       #     nix-shell -p nodePackages.node2nix --command "node2nix -i ./node-packages.json -o node-packages.nix"
       - name: Run flake update
         run: |
-          cd .config/nix
           nix flake update
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
