@@ -125,6 +125,27 @@
         },
         "version": "6a2ad80489b8a0d021df95293eb7ac370aea140b"
     },
+    "emacs-yaml-mode": {
+        "cargoLocks": null,
+        "date": "2024-10-03",
+        "extract": null,
+        "name": "emacs-yaml-mode",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "yoshiki",
+            "repo": "yaml-mode",
+            "rev": "d91f878729312a6beed77e6637c60497c5786efa",
+            "sha256": "sha256-BxIHvMOEWwW0C+lWGnxhvqtpK2bVHA7pLBaut3LpsmQ=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "d91f878729312a6beed77e6637c60497c5786efa"
+    },
     "emacs-yatex": {
         "cargoLocks": null,
         "date": "2025-02-24",

@@ -28,3 +28,4 @@ Brewfile.lock.json
 /.config/fish/
 /.config/aquaskk/
 /.config/nushell/
+.config

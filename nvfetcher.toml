@@ -39,8 +39,7 @@ src.branch="master"
 fetch.github="wachikun/yaskkserv2"
 cargo_locks = ["Cargo.lock"]
 
-# [rustdeck]
-# src.github = "rustdesk/rustdesk"
-# fetch.github = "rustdesk/rustdesk"
-# # Compute outputHashes for git dependencies in cargo lock
-# cargo_lock = ["Cargo.lock"]
+[emacs-yaml-mode]
+src.git="https://github.com/yoshiki/yaml-mode"
+src.branch="master"
+fetch.github="yoshiki/yaml-mode"

@@ -956,6 +956,19 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+end_src
 
+*** yaml mode
+#+begin_src elisp
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+#+end_src
+
+*** toml mode
+#+begin_src elisp
+(require 'toml-mode)
+(add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
+#+end_src
+
 ** latex
 *** texlab
 #+begin_src elisp

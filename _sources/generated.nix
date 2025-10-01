@@ -77,6 +77,18 @@
     };
     date = "2025-09-16";
   };
+  emacs-yaml-mode = {
+    pname = "emacs-yaml-mode";
+    version = "d91f878729312a6beed77e6637c60497c5786efa";
+    src = fetchFromGitHub {
+      owner = "yoshiki";
+      repo = "yaml-mode";
+      rev = "d91f878729312a6beed77e6637c60497c5786efa";
+      fetchSubmodules = false;
+      sha256 = "sha256-BxIHvMOEWwW0C+lWGnxhvqtpK2bVHA7pLBaut3LpsmQ=";
+    };
+    date = "2024-10-03";
+  };
   emacs-yatex = {
     pname = "emacs-yatex";
     version = "dd7cfad4cd0409b5e0eb05e90077de5a225185fa";

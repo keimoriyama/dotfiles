@@ -15,4 +15,9 @@
     # files =''("*[^0-9]*.el")'';
     patches = [./yatexlib.diff];
   };
+  yaml-mode = epkgs.melpaBuild {
+    pname = "yaml-mode";
+    src = sources.emacs-yaml-mode.src;
+    version = "0.0.1";
+  };
 }

@@ -79,6 +79,8 @@ in
     consult-yasnippet
     packages.copilot
     web-mode
+    packages.yaml-mode
+    toml-mode
 
     # lsp
     lsp-mode
