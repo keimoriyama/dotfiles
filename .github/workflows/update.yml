@@ -29,7 +29,6 @@ jobs:
         run: |
           export LANG=en_US.UTF-8
           export LC_ALL=en_US.UTF-8
-          cd .config/nix
           nix run nixpkgs#nvfetcher
       # - name: Run node2nix
       #   run: |
@@ -47,7 +46,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Format nix files
         run: |
-          cd .config/nix
           nix run nixpkgs#alejandra .
       # - name: Commit changes
       #   run: |
