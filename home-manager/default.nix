@@ -87,7 +87,7 @@ in {
       texliveBasic
 
       yaskkserv2
-      # pkgs-textlint
+      pkgs-textlint
     ];
     file = {
       # ".config/nvim" = {
