@@ -84,22 +84,10 @@ in {
       auctex
       hugo
       texliveBasic
-      # pnpm_10
-      # textlint
-      # textlint-rule-max-comma
-      # textlint-rule-write-good
-      
+            
       yaskkserv2
       ];
     file = {
-      # ".config/nvim" = {
-      #   target = ".config/nvim";
-      #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/programs/neovim/nvim";
-      # };
-      # ".config/nix" = {
-      #   target = ".config/nix";
-      #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/";
-      # };
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
     };
   };
