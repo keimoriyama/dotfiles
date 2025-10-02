@@ -1,6 +1,9 @@
-{pkgs, sources}:
+{
+  pkgs,
+  sources,
+}:
 pkgs.buildNpmPackage {
-  pname="textlint";
-  version=sources.textlint.version;
-  src=sources.textlint.src;
+  pname = "textlint";
+  version = sources.textlint.version;
+  src = sources.textlint.src;
 }
