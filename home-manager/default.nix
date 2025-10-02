@@ -30,8 +30,7 @@
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
-  pkgs-textlint = pkgs.callPackage ../textlint {inherit pkgs sources;};
-
+  
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
     inherit org-babel emacsPkgs nodePkgs sources config;
@@ -88,8 +87,7 @@ in {
       pnpm_10
       
       yaskkserv2
-      pkgs-textlint
-    ];
+      ];
     file = {
       # ".config/nvim" = {
       #   target = ".config/nvim";
