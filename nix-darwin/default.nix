@@ -61,7 +61,7 @@
       # "notion-mail"
       "wezterm"
       # "docker"
-      # "google-chrome"
+      "google-chrome"
       # "google-drive"
       "ollama-app"
       "macskk"
