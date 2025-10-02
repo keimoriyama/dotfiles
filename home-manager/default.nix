@@ -30,6 +30,7 @@
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
+  pkgs-textlint = pkgs.callPackage ../textlint {inherit pkgs sources;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
@@ -86,6 +87,7 @@ in {
       texliveBasic
 
       yaskkserv2
+      pkgs-textlint
     ];
     file = {
       # ".config/nvim" = {

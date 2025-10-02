@@ -43,3 +43,8 @@ cargo_locks = ["Cargo.lock"]
 src.git="https://github.com/yoshiki/yaml-mode"
 src.branch="master"
 fetch.github="yoshiki/yaml-mode"
+
+[textlint]
+src.git="https://github.com/textlint/textlint"
+src.branch="master"
+fetch.github="textlint/textlint"

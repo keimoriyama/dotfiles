@@ -167,6 +167,27 @@
         },
         "version": "dd7cfad4cd0409b5e0eb05e90077de5a225185fa"
     },
+    "textlint": {
+        "cargoLocks": null,
+        "date": "2025-10-02",
+        "extract": null,
+        "name": "textlint",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "textlint",
+            "repo": "textlint",
+            "rev": "9ace490a3413693fb0c9bbf2cd1c2d3570ac3a78",
+            "sha256": "sha256-hEaCQOaz7cR6pdzPWFBK5P7uNq378TnGT/CI0SNyclI=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "9ace490a3413693fb0c9bbf2cd1c2d3570ac3a78"
+    },
     "yaskkserv2": {
         "cargoLocks": {
             "Cargo.lock": [
