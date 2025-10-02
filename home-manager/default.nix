@@ -84,7 +84,10 @@ in {
       auctex
       hugo
       texliveBasic
-      pnpm_10
+      # pnpm_10
+      # textlint
+      # textlint-rule-max-comma
+      # textlint-rule-write-good
       
       yaskkserv2
       ];
