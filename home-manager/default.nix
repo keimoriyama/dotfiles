@@ -85,7 +85,8 @@ in {
       auctex
       hugo
       texliveBasic
-
+      pnpm_10
+      
       yaskkserv2
       pkgs-textlint
     ];
