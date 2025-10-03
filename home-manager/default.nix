@@ -28,10 +28,9 @@
   };
   emacsPkgs = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
-  textlint_sample_preset = pkgs.callPackage ../textlint-rule-preset-ja-technical-writing {inherit pkgs sources;};
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
-  
+
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
     inherit org-babel emacsPkgs nodePkgs sources config;
@@ -85,6 +84,7 @@ in {
       auctex
       hugo
       texliveBasic
+      corepack
 
       textlint
       textlint-plugin-org
@@ -92,9 +92,8 @@ in {
       textlint-rule-preset-ja-technical-writing
       textlint-rule-write-good
 
-   textlint_sample_preset          
       yaskkserv2
-      ];
+    ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
     };
