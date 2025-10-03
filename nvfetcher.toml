@@ -48,4 +48,3 @@ fetch.github="yoshiki/yaml-mode"
 src.git="https://github.com/skk-dev/dict"
 src.branch="master"
 fetch.github="skk-dev/dict"
-
