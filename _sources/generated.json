@@ -167,11 +167,11 @@
         },
         "version": "dd7cfad4cd0409b5e0eb05e90077de5a225185fa"
     },
-    "textlint": {
+    "skk-dicts": {
         "cargoLocks": null,
-        "date": "2025-10-02",
+        "date": "2024-08-29",
         "extract": null,
-        "name": "textlint",
+        "name": "skk-dicts",
         "passthru": null,
         "pinned": false,
         "src": {
@@ -179,14 +179,14 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "owner": "textlint",
-            "repo": "textlint",
-            "rev": "9ace490a3413693fb0c9bbf2cd1c2d3570ac3a78",
-            "sha256": "sha256-hEaCQOaz7cR6pdzPWFBK5P7uNq378TnGT/CI0SNyclI=",
+            "owner": "skk-dev",
+            "repo": "dict",
+            "rev": "4eb91a3bbfef70bde940668ec60f3beae291e971",
+            "sha256": "sha256-sWz85Q6Bu2WoKsckSp5SlcuPUQN2mcq+BHMqNXQ/aho=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "9ace490a3413693fb0c9bbf2cd1c2d3570ac3a78"
+        "version": "4eb91a3bbfef70bde940668ec60f3beae291e971"
     },
     "yaskkserv2": {
         "cargoLocks": {

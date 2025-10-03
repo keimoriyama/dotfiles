@@ -84,6 +84,12 @@ in {
       auctex
       hugo
       texliveBasic
+
+      textlint
+      textlint-plugin-org
+      textlint-plugin-latex2e
+      textlint-rule-preset-ja-technical-writing
+      textlint-rule-write-good
             
       yaskkserv2
       ];
