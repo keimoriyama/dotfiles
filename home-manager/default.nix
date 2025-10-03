@@ -28,6 +28,7 @@
   };
   emacsPkgs = emacs.emacs-stable;
   nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
+  textlint_sample_preset = pkgs.callPackage ../textlint-rule-preset-ja-technical-writing {inherit pkgs sources;};
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
   
@@ -90,7 +91,8 @@ in {
       textlint-plugin-latex2e
       textlint-rule-preset-ja-technical-writing
       textlint-rule-write-good
-            
+
+   textlint_sample_preset          
       yaskkserv2
       ];
     file = {
