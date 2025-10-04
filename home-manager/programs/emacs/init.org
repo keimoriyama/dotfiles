@@ -1032,10 +1032,12 @@ binding))))))))
 ** ddskk
 
 #+begin_src elisp
-(autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
-
+; (autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
+(require 'ddskk-autoloads)
 (keymap-global-set "C-x j" #'skk-mode)
 (keymap-global-set "C-x C-j" #'skk-mode)
+(setq default-input-method "japanese-skk")
+
 (defvar skk-azik-keyboard-specific-additional-rom-kana-rule-list
  '(("l" nil skk-toggle-characters)
               ("x@" nil skk-today)
@@ -1056,9 +1058,9 @@ binding))))))))
       '(lambda()
          (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
 
-(setq default-input-method "japanese-skk")
+(setq skk-preload t)
+
 (with-eval-after-load 'skk
-  (setq skk-preload t)
   (keymap-global-set "C-l" #'skk-latin-mode))
 
 (with-eval-after-load 'skk-vars
