@@ -16,7 +16,7 @@ vim.cmd([[
           \ })
 ]])
 
-local dictdir = vim.fn.getenv("DPP_BASE") .. "/repos/github.com/skk-dev/dict"
+local dictdir = ".skk-dict/"
 vim.fn["skkeleton#config"]({
 	kanaTable = "azik",
 	-- sources = {
