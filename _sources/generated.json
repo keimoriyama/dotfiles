@@ -22,7 +22,7 @@
     },
     "dpp-ext-lazy": {
         "cargoLocks": null,
-        "date": "2025-09-11",
+        "date": "2025-10-06",
         "extract": null,
         "name": "dpp-ext-lazy",
         "passthru": null,
@@ -34,12 +34,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-ext-lazy",
-            "rev": "b723904ebca49c51f3390b4cd602396c27fbb7b2",
-            "sha256": "sha256-Tre8NvXcmlRS0nUpD0fdvl/fa4eL7jtA3L6JWjbfOQQ=",
+            "rev": "e19c8e01398c3822a7d8b7235ae5d1608923dd10",
+            "sha256": "sha256-f+8XoYou73ySIl5j82+dP9or3ebyjlUyZOErlYOCQPc=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "b723904ebca49c51f3390b4cd602396c27fbb7b2"
+        "version": "e19c8e01398c3822a7d8b7235ae5d1608923dd10"
     },
     "dpp-ext-toml": {
         "cargoLocks": null,
@@ -166,27 +166,6 @@
             "type": "github"
         },
         "version": "dd7cfad4cd0409b5e0eb05e90077de5a225185fa"
-    },
-    "skk-dicts": {
-        "cargoLocks": null,
-        "date": "2024-08-29",
-        "extract": null,
-        "name": "skk-dicts",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "skk-dev",
-            "repo": "dict",
-            "rev": "4eb91a3bbfef70bde940668ec60f3beae291e971",
-            "sha256": "sha256-sWz85Q6Bu2WoKsckSp5SlcuPUQN2mcq+BHMqNXQ/aho=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "4eb91a3bbfef70bde940668ec60f3beae291e971"
     },
     "yaskkserv2": {
         "cargoLocks": {
