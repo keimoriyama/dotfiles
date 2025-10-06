@@ -84,7 +84,7 @@ in {
       auctex
       hugo
       texliveBasic
-      # corepack
+      skktools
 
       # textlint
       # textlint-plugin-org
@@ -96,6 +96,7 @@ in {
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
+      ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
     };
   };
   programs.home-manager.enable = true;

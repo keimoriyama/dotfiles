@@ -43,8 +43,3 @@ cargo_locks = ["Cargo.lock"]
 src.git="https://github.com/yoshiki/yaml-mode"
 src.branch="master"
 fetch.github="yoshiki/yaml-mode"
-
-[skk-dicts]
-src.git="https://github.com/skk-dev/dict"
-src.branch="master"
-fetch.github="skk-dev/dict"
