@@ -319,7 +319,6 @@
   (recentf-mode 1))
 #+end_src
 
-
 ** Completion
 *** corfu
 
@@ -942,8 +941,8 @@ binding))))))))
 (autoload-if-found '(copilot-mode) "copilot" nil t)
 (add-hook 'prog-mode-hook #'copilot-mode)
 ;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
+(setq copilot-indent-offset-warning-disable t)
 (with-eval-after-load 'copilot-mode
-  (setq copilot-indent-offset-warning-disable t)
   (define-key copilot-completion-map (kbd"C-<tab>") #'copilot-accept-completion)
   (add-to-list 'copilot-indentation-alist '(prog-mode . 2))
   (add-to-list 'copilot-indentation-alist '(org-mode . 2))
@@ -1030,7 +1029,6 @@ binding))))))))
 #+end_src
 
 ** ddskk
-
 #+begin_src elisp
 ; (autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
 (require 'ddskk-autoloads)
@@ -1066,7 +1064,7 @@ binding))))))))
 (with-eval-after-load 'skk-vars
   (setq skk-jisyo
  "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
-  (setq skk-large-jisyo "~/.cache/dpp/repos/github.com/skk-dev/dict/SKK-JISYO.L"
+  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
         skk-use-azik t
         skk-azik-keyboard-type "en"
         skk-search-katakana nil
