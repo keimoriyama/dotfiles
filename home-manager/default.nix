@@ -97,7 +97,6 @@ in {
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
-      ".skk-dict/SKK-JISYO.propernoun".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.fullname";
     };
   };
   programs.home-manager.enable = true;
