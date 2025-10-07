@@ -97,18 +97,6 @@
     };
     date = "2018-05-28";
   };
-  emacs-phantom-inline-comment = {
-    pname = "emacs-phantom-inline-comment";
-    version = "795ef52d9cb7372ef27e2fa9845ff72087637202";
-    src = fetchFromGitHub {
-      owner = "blue0513";
-      repo = "phantom-inline-comment";
-      rev = "795ef52d9cb7372ef27e2fa9845ff72087637202";
-      fetchSubmodules = false;
-      sha256 = "sha256-oBDBgXY7y8nvDReajyQTamBrZhYu4C7x75xZ3GRY618=";
-    };
-    date = "2019-05-20";
-  };
   emacs-yaml-mode = {
     pname = "emacs-yaml-mode";
     version = "d91f878729312a6beed77e6637c60497c5786efa";
