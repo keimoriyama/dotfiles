@@ -30,4 +30,4 @@
     src = sources.emacs-instant-maximized-window.src;
     version = "0.0.1";
   };
-  }
+}
