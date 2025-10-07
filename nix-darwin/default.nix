@@ -55,7 +55,7 @@
       # "spotify"
       "karabiner-elements"
       "zoom"
-      "mactex"
+      # "mactex"
       "notion"
       # "notion-calendar"
       # "notion-mail"

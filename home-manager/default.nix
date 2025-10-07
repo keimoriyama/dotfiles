@@ -83,7 +83,8 @@ in {
       texlab
       auctex
       hugo
-      texliveBasic
+      # texliveBasic
+      texliveFull
       skktools
 
       # textlint

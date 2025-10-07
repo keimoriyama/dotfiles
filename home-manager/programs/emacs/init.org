@@ -338,6 +338,13 @@
 #+begin_src elisp
 (add-hook 'after-init-hook 'global-color-identifiers-mode)
 #+end_src
+*** pdf-tools
+#+begin_src elisp
+(require 'pdf-tools)
+(add-hook 'after-init-hook
+          (lambda ()
+            (pdf-tools-install)))
+#+end_src
 ** Completion
 *** corfu
 

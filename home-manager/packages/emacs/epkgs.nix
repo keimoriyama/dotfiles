@@ -47,6 +47,7 @@ in
     color-identifiers-mode
     packages.dmacro
     packages.instant-maximized-window
+    pdf-tools
 
     # completion
     corfu
