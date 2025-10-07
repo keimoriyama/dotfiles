@@ -167,27 +167,6 @@
         },
         "version": "e6b82419bf9c154df881c72c5800bbd43887ec0d"
     },
-    "emacs-phantom-inline-comment": {
-        "cargoLocks": null,
-        "date": "2019-05-20",
-        "extract": null,
-        "name": "emacs-phantom-inline-comment",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "blue0513",
-            "repo": "phantom-inline-comment",
-            "rev": "795ef52d9cb7372ef27e2fa9845ff72087637202",
-            "sha256": "sha256-oBDBgXY7y8nvDReajyQTamBrZhYu4C7x75xZ3GRY618=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "795ef52d9cb7372ef27e2fa9845ff72087637202"
-    },
     "emacs-yaml-mode": {
         "cargoLocks": null,
         "date": "2024-10-03",
