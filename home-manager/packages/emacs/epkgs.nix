@@ -43,7 +43,12 @@ in
     org-super-agenda
     gcmh
     beacon
-
+	symbol-overlay
+	dimmer
+	  color-identifiers-mode
+    packages.dmacro
+    packages.instant-maximized-window
+    
     # completion
     corfu
     nerd-icons-corfu

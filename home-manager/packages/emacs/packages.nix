@@ -20,4 +20,14 @@
     src = sources.emacs-yaml-mode.src;
     version = "0.0.1";
   };
-}
+  dmacro = epkgs.melpaBuild {
+    pname = "dmacro";
+    src = sources.emacs-dmacro.src;
+    version = "0.0.1";
+  };
+  instant-maximized-window = epkgs.melpaBuild {
+    pname = "instant-maximized-window";
+    src = sources.emacs-instant-maximized-window.src;
+    version = "0.0.1";
+  };
+  }

@@ -43,3 +43,14 @@ cargo_locks = ["Cargo.lock"]
 src.git="https://github.com/yoshiki/yaml-mode"
 src.branch="master"
 fetch.github="yoshiki/yaml-mode"
+
+[emacs-dmacro]
+src.git="https://github.com/emacs-jp/dmacro"
+src.branch='master'
+fetch.github='emacs-jp/dmacro'
+
+[emacs-instant-maximized-window]
+src.git="https://github.com/blue0513/instant-maximized-window/"
+src.branch='master'
+fetch.github='blue0513/instant-maximized-window'
+

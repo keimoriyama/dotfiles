@@ -226,20 +226,20 @@
 
 *** puni.el
 #+begin_src elisp
-  (autoload-if-found '(puni-global-mode) "puni" nil t)
+(autoload-if-found '(puni-global-mode) "puni" nil t)
 
-  (add-hook 'emacs-startup-hook #'puni-global-mode)
-    
-  (with-eval-after-load 'puni
-    (keymap-global-set "C-(" #'puni-slurp-forward)
-    (keymap-global-set "C-}" #'puni-barf-forward)
-    (keymap-global-set "M-(" #'puni-wrap-round)
-    (keymap-global-set "M-s" #'puni-splice)
-    (keymap-global-set "M-r" #'puni-raise)
-    (keymap-global-set "M-U" #'puni-splice-killing-backward)
-    (keymap-global-set "M-z" #'puni-squeeze))
+(add-hook 'emacs-startup-hook #'puni-global-mode)
+  
+(with-eval-after-load 'puni
+  (keymap-global-set "C-(" #'puni-slurp-forward)
+  (keymap-global-set "C-}" #'puni-barf-forward)
+  (keymap-global-set "M-(" #'puni-wrap-round)
+  (keymap-global-set "M-s" #'puni-splice)
+  (keymap-global-set "M-r" #'puni-raise)
+  (keymap-global-set "M-U" #'puni-splice-killing-backward)
+  (keymap-global-set "M-z" #'puni-squeeze))
 
-  (electric-pair-mode 1)
+(electric-pair-mode 1)
 #+end_src
 
 *** autorevert.el
@@ -258,14 +258,14 @@
 
 *** doom-modeline
 #+begin_src elisp
-  (autoload-if-found '(doom-modeline-mode) "doom-modeline" nil t)
-  (add-hook 'emacs-startup-hook #'doom-modeline-mode)
+(autoload-if-found '(doom-modeline-mode) "doom-modeline" nil t)
+(add-hook 'emacs-startup-hook #'doom-modeline-mode)
 #+end_src
 
 *** which-key
 #+begin_src elisp
-  (autoload-if-found '(which-key-mode) "which-key" nil t)
-  (add-hook 'emacs-startup-hook #'which-key-mode)
+(autoload-if-found '(which-key-mode) "which-key" nil t)
+(add-hook 'emacs-startup-hook #'which-key-mode)
 #+end_src
 
 *** magit
@@ -319,6 +319,31 @@
   (recentf-mode 1))
 #+end_src
 
+*** dmacro
+#+begin_src elisp
+(require 'dmacro)
+(setq dmacro-key (kbd "C-S-e"))
+(global-dmacro-mode t)
+#+end_src
+*** instant-maximized-window
+#+begin_src elisp
+(require 'instant-maximized-window)
+(keymap-global-set "C-c m" #'window-temp-maximize)
+#+end_src
+*** symbol overlay
+#+begin_src elisp
+(require 'symbol-overlay)
+#+end_src
+*** dimmer
+#+begin_src elisp
+  (require 'dimmer)
+  (dimmer-configure-which-key)
+  (dimmer-mode t)
+#+end_src
+*** color-idendifiers-mode
+#+begin_src elisp
+(add-hook 'after-init-hook 'global-color-identifiers-mode)
+#+end_src
 ** Completion
 *** corfu
 
@@ -943,7 +968,7 @@ binding))))))))
 ;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
 (setq copilot-indent-offset-warning-disable t)
 (with-eval-after-load 'copilot-mode
-  (define-key copilot-completion-map (kbd"C-<tab>") #'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "C-<tab>") #'copilot-accept-completion)
   (add-to-list 'copilot-indentation-alist '(prog-mode . 2))
   (add-to-list 'copilot-indentation-alist '(org-mode . 2))
   (add-to-list 'copilot-indentation-alist '(text-mode . 2))
