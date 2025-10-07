@@ -334,12 +334,6 @@
 #+begin_src elisp
 (require 'symbol-overlay)
 #+end_src
-*** dimmer
-#+begin_src elisp
-  (require 'dimmer)
-  (dimmer-configure-which-key)
-  (dimmer-mode t)
-#+end_src
 *** color-idendifiers-mode
 #+begin_src elisp
 (add-hook 'after-init-hook 'global-color-identifiers-mode)
@@ -799,9 +793,9 @@ binding))))))))
 
 (autoload-if-found '(lsp lsp-deferred lsp-org lsp-register-client make-lsp-client) "lsp-mode" nil t)
 (defcustom lsp-client-packages
-  '( lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
+  '(lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
      lsp-json lsp-latex lsp-lua lsp-fennel lsp-magik lsp-markdown 
-     lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex)
+     lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex lsp-lua)
   "List of the clients to be automatically required."
   :group 'lsp-mode
   :type '(repeat symbol))
@@ -812,7 +806,8 @@ binding))))))))
   (setopt lsp-file-watch-threshold 500)
   (setopt lsp-completion-provider :none)
   (setopt lsp-ruff-lsp-server-command '("ruff" "server"))
-  (setq lsp-disabled-clients '(lsp-ruff)))
+  (setq lsp-clients-lua-language-server-bin
+        (format "%s/.nix-profile/bin/lua-language-server" (getenv "HOME"))))
 #+end_src
 
 *** lsp-booster
@@ -894,7 +889,7 @@ binding))))))))
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 ** program
-*** python
+*** python mode
 #+begin_src elisp
 ; python
 (add-hook 'python-mode-hook #'lsp)
@@ -924,7 +919,7 @@ binding))))))))
   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
 #+end_src
 
-*** rust
+*** rust mode
 #+begin_src elisp
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
 (add-hook 'rust-mode-hook #'lsp)
@@ -934,21 +929,21 @@ binding))))))))
 (with-eval-after-load 'rust-mode
   (setq rust-format-on-save t))
 #+end_src
-*** yaml
+*** yaml mode
 #+begin_src elisp
 (autoload-if-found '(yaml-mode) "yaml-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 #+end_src
 
-*** nix
+*** nix mode
 #+begin_src elisp
 (autoload-if-found '(nix-mode) "nix-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 (add-hook 'nix-mode-hook #'lsp)
 #+end_src
 
-*** dockerfile
+*** dockerfile mode
 #+begin_src elisp
 (autoload-if-found '(dockerfile-mode) "dockerfile-mode" nil t)
 
@@ -961,7 +956,7 @@ binding))))))))
   (add-hook 'dockerfile-mode-hook #'flycheck-mode))
 #+end_src
 
-*** copilot
+*** copilot mode
 #+begin_src elisp
 (autoload-if-found '(copilot-mode) "copilot" nil t)
 (add-hook 'prog-mode-hook #'copilot-mode)
@@ -999,6 +994,14 @@ binding))))))))
 #+begin_src elisp
 (require 'toml-mode)
 (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
+#+end_src
+
+*** lua mode
+#+begin_src elisp
+(require 'lua-mode)
+(add-hook 'lua-mode-hook #'lsp)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 #+end_src
 
 ** latex

@@ -43,8 +43,7 @@ in
     org-super-agenda
     gcmh
     beacon
-	symbol-overlay
-	dimmer
+	  symbol-overlay
 	  color-identifiers-mode
     packages.dmacro
     packages.instant-maximized-window
@@ -86,6 +85,7 @@ in
     web-mode
     packages.yaml-mode
     toml-mode
+    lua-mode
 
     # lsp
     lsp-mode
