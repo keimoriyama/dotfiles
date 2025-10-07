@@ -805,9 +805,7 @@ binding))))))))
   (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 500)
   (setopt lsp-completion-provider :none)
-  (setopt lsp-ruff-lsp-server-command '("ruff" "server"))
-  (setq lsp-clients-lua-language-server-bin
-        (format "%s/.nix-profile/bin/lua-language-server" (getenv "HOME"))))
+  (setopt lsp-ruff-lsp-server-command '("ruff" "server")))
 #+end_src
 
 *** lsp-booster
@@ -999,7 +997,6 @@ binding))))))))
 *** lua mode
 #+begin_src elisp
 (require 'lua-mode)
-(add-hook 'lua-mode-hook #'lsp)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 #+end_src
