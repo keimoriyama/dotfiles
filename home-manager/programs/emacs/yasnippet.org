@@ -76,7 +76,6 @@ ${0}
 
 #+end_src
 
-
 ** yatex-mode
 
 *** reference template
