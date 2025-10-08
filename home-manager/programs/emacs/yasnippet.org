@@ -41,9 +41,41 @@ import ipdb;ipdb.set_trace()
 # key: $2
 # --
 
+${0}
+
 ,#+end_src
 
 #+end_src
+
+*** paper template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/paper-template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: paper-template
+# key: paper-template
+# --
+
+,*** 🔑この論文のキーメッセージ
+
+- （1, 2文でまとめる）
+
+,*** 🎓どういう問題に取り組んだのか
+
+- 
+
+,*** 🧑‍🎓その問題に取り組むことがなぜ重要なのか
+
+- 
+
+,*** 💡問題解決に向けたキーアイデアは何か
+
+- 
+
+,*** 👀新たに分かったことは何か
+
+,*** ❓疑問点は何か
+
+#+end_src
+
 
 ** yatex-mode
 

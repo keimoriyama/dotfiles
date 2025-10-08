@@ -969,7 +969,7 @@ binding))))))))
 ;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
 (setq copilot-indent-offset-warning-disable t)
 (with-eval-after-load 'copilot-mode
-  (define-key copilot-completion-map (kbd "C-<tab>") #'copilot-accept-completion)
+  (define-key copilot-mode-map (kbd "C-<tab>") #'copilot-accept-completion)
   (add-to-list 'copilot-indentation-alist '(prog-mode . 2))
   (add-to-list 'copilot-indentation-alist '(org-mode . 2))
   (add-to-list 'copilot-indentation-alist '(text-mode . 2))
