@@ -209,6 +209,90 @@
         },
         "version": "dd7cfad4cd0409b5e0eb05e90077de5a225185fa"
     },
+    "fish-autols": {
+        "cargoLocks": null,
+        "date": "2025-01-26",
+        "extract": null,
+        "name": "fish-autols",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "yuys13",
+            "repo": "fish-autols",
+            "rev": "74c52a3f66b5b9f589871c4383e7d7c2e543032c",
+            "sha256": "sha256-5yb6UjPu+QFsR+fe1rzYgSUczQ6olbFgILUQNTGvnf8=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "74c52a3f66b5b9f589871c4383e7d7c2e543032c"
+    },
+    "fish-cdf": {
+        "cargoLocks": null,
+        "date": "2025-01-27",
+        "extract": null,
+        "name": "fish-cdf",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "yuys13",
+            "repo": "fish-cdf",
+            "rev": "467f549ef6f8b1d8d18a429639f87870b23eef62",
+            "sha256": "sha256-ZA5ZLE/5w9EhT7uB1hlkj0h/C0b5WQl46PpvOz8SlSU=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "467f549ef6f8b1d8d18a429639f87870b23eef62"
+    },
+    "fish-fzf-bd": {
+        "cargoLocks": null,
+        "date": "2025-01-27",
+        "extract": null,
+        "name": "fish-fzf-bd",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "yuys13",
+            "repo": "fish-fzf-bd",
+            "rev": "fcbe9f6a75510365638dc6f790544c55ecb0ec3b",
+            "sha256": "sha256-NAErU+F7CTf0wOfR1zfxw2TRBLPIHe5QDjEhyjCNLJE=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "fcbe9f6a75510365638dc6f790544c55ecb0ec3b"
+    },
+    "fish-ghq-fzf": {
+        "cargoLocks": null,
+        "date": "2025-01-27",
+        "extract": null,
+        "name": "fish-ghq-fzf",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "yuys13",
+            "repo": "fish-ghq-fzf",
+            "rev": "9798eadadda71c3cb43502f88cfce1f9521ee185",
+            "sha256": "sha256-64y5nTQsdz8Qyn0VjEtfI4FvTMjF5XVYW7yTsrkIS30=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
+    },
     "yaskkserv2": {
         "cargoLocks": {
             "Cargo.lock": [

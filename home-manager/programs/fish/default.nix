@@ -1,4 +1,4 @@
-{pkgs}: {
+{pkgs, sources}: {
   programs.fish = {
     enable = true;
     plugins = [
@@ -9,6 +9,22 @@
       {
         name = "git-abbr";
         src = pkgs.fishPlugins.git-abbr.src;
+      }
+      {
+        name="autols";
+        src=sources.fish-autols.src;
+      }
+      {
+        name="ghq-fzf";
+        src=sources.fish-ghq-fzf.src;
+      }
+      {
+        name="fish-cdf";
+        src=sources.fish-cdf.src;
+      }
+      {
+        name="fish-fzf-bd";
+        src=sources.fish-fzf-bd.src;
       }
     ];
     shellAliases = {

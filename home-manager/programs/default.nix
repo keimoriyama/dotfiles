@@ -7,7 +7,7 @@
   sources,
 }: let
   emacs = import ./emacs {inherit pkgs emacsPkgs org-babel sources;};
-  fish = import ./fish {inherit pkgs;};
+  fish = import ./fish {inherit pkgs sources;};
   wezterm = import ./wezterm {inherit pkgs;};
   copilot-language-server = import ./copilot-language-server {inherit pkgs nodePkgs;};
   neovim = import ./neovim {inherit pkgs sources config;};

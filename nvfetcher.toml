@@ -54,3 +54,22 @@ src.git="https://github.com/blue0513/instant-maximized-window/"
 src.branch='master'
 fetch.github='blue0513/instant-maximized-window'
 
+[fish-autols]
+src.git="https://github.com/yuys13/fish-autols"
+src.branch="main"
+fetch.github="yuys13/fish-autols"
+
+[fish-ghq-fzf]
+src.git="https://github.com/yuys13/fish-ghq-fzf"
+src.branch="main"
+fetch.github="yuys13/fish-ghq-fzf"
+
+[fish-cdf]
+src.git="https://github.com/yuys13/fish-cdf"
+src.branch="main"
+fetch.github="yuys13/fish-cdf"
+
+[fish-fzf-bd]
+src.git="https://github.com/yuys13/fish-fzf-bd"
+src.branch="main"
+fetch.github="yuys13/fish-fzf-bd"

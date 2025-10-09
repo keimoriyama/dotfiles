@@ -85,7 +85,7 @@ in {
       hugo
       # texliveBasic
       texliveFull
-      skktools
+      fzf
 
       # textlint
       # textlint-plugin-org
