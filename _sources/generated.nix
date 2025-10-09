@@ -157,6 +157,18 @@
     };
     date = "2025-01-27";
   };
+  fish-gcd = {
+    pname = "fish-gcd";
+    version = "e42ccc3c48ecaf2a8efb8a12d7426a8a7fd077e3";
+    src = fetchFromGitHub {
+      owner = "yuys13";
+      repo = "fish-gcd";
+      rev = "e42ccc3c48ecaf2a8efb8a12d7426a8a7fd077e3";
+      fetchSubmodules = false;
+      sha256 = "sha256-uoqU5XGdMRvhsUQ0C+0rNyaD4fJQX7gf1G6zsC5L4iU=";
+    };
+    date = "2025-01-25";
+  };
   fish-ghq-fzf = {
     pname = "fish-ghq-fzf";
     version = "9798eadadda71c3cb43502f88cfce1f9521ee185";

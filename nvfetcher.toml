@@ -73,3 +73,8 @@ fetch.github="yuys13/fish-cdf"
 src.git="https://github.com/yuys13/fish-fzf-bd"
 src.branch="main"
 fetch.github="yuys13/fish-fzf-bd"
+
+[fish-gcd]
+src.git="https://github.com/yuys13/fish-gcd"
+src.branch="main"
+fetch.github="yuys13/fish-gcd"

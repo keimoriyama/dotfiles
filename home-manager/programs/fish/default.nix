@@ -26,6 +26,10 @@
         name="fish-fzf-bd";
         src=sources.fish-fzf-bd.src;
       }
+      {
+        name="fish-gcd";
+        src=sources.fish-gcd.src;
+      }
     ];
     shellAliases = {
       # g = "git";
