@@ -21,7 +21,6 @@ in
     bufferlo
     puni
     spaceline
-    mistty
     which-key
     exec-path-from-shell
     ddskk

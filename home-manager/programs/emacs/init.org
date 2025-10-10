@@ -137,15 +137,6 @@
 
 ** Utils
 
-*** mistty
-#+begin_src elisp
-(keymap-global-set "C-c s" #'mistty)
-(with-eval-after-load 'mistty
-  (define-key mistty-prompt-map (kbd "M-<up>") 'mistty-send-key)
-  (define-key mistty-prompt-map (kbd "M-<down>") 'mistty-send-key)
-  (define-key mistty-prompt-map (kbd "M-<left>") 'mistty-send-key)
-  (define-key mistty-prompt-map (kbd "M-<right>") 'mistty-send-key))
-#+end_src
 *** moccur
 #+begin_src elisp
 (defadvice moccur-edit-change-file
@@ -321,8 +312,8 @@
 
 *** dmacro
 #+begin_src elisp
-(require 'dmacro)
 (setq dmacro-key (kbd "C-c e"))
+(require 'dmacro)
 (global-dmacro-mode t)
 #+end_src
 *** instant-maximized-window
