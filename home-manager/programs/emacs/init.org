@@ -218,18 +218,7 @@
 *** puni.el
 #+begin_src elisp
 (autoload-if-found '(puni-global-mode) "puni" nil t)
-
 (add-hook 'emacs-startup-hook #'puni-global-mode)
-  
-(with-eval-after-load 'puni
-  (keymap-global-set "C-(" #'puni-slurp-forward)
-  (keymap-global-set "C-}" #'puni-barf-forward)
-  (keymap-global-set "M-(" #'puni-wrap-round)
-  (keymap-global-set "M-s" #'puni-splice)
-  (keymap-global-set "M-r" #'puni-raise)
-  (keymap-global-set "M-U" #'puni-splice-killing-backward)
-  (keymap-global-set "M-z" #'puni-squeeze))
-
 (electric-pair-mode 1)
 #+end_src
 
@@ -329,13 +318,6 @@
 #+begin_src elisp
 (add-hook 'after-init-hook 'global-color-identifiers-mode)
 #+end_src
-*** pdf-tools
-#+begin_src elisp
-(require 'pdf-tools)
-(add-hook 'after-init-hook
-          (lambda ()
-            (pdf-tools-install)))
-#+end_src
 ** Completion
 *** corfu
 
@@ -364,7 +346,7 @@
   (add-to-list 'completion-at-point-functions #'cape-history))
 #+end_src
 
-*** NerdIcon-completion
+*** nerdIcon-completion
 #+begin_src elisp
 (autoload 'corfu-mode "nerd-icons-completion")
 #+end_src
@@ -1154,6 +1136,24 @@ binding))))))))
 #+end_src
 
 #+begin_src elisp
+(pretty-hydra-define hydra-edit
+  (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
+  ("Puni"
+   (("f" puni-slurp-forward "forward" :exit nil)
+    ("b" puni-barf-forward "backward" :exit nil)
+    ("r" puni-wrap-round "round" :exit nil)
+    ("s" puni-slice "slice" :exit nil)
+    ("R" puni-raise "raise" :exit nil)
+    ("u" puni-splice-killing-backward "kill backward" :exit nil)
+    ("z" puni-squeeze "squeeze" :exit nil))
+   "String"
+   (("S" replace-string "replace"))))
+
+
+(keymap-global-set "C-M-;" #'hydra-edit/body)
+#+end_src
+
+#+begin_src emacs-lisp
 (pretty-hydra-define hydra-toggle2
   (:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
    ("Basic"
@@ -1178,11 +1178,11 @@ binding))))))))
     "Window"
     (("t" toggle-window-transparency "transparency" :toggle t)
      ("m" toggle-window-maximize "maximize" :toggle t)
-     ("p" presentation-mode "presentation" :toggle t))))
+     ("p" presentation-mode "presentation" :toggle t)))))
 (keymap-global-set "M-t" #'hydra-toggle2/body)
 #+end_src
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (pretty-hydra-define hydra-search
   (:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Buffer"
@@ -1193,12 +1193,12 @@ binding))))))))
     (("f" affe-find "find")
      ("r" affe-grep "grep"))
     "Document"
-    (("df" consult-find-doc "find")
-     ("dd" consult-grep-doc "grep"))))
+    (("df" consult-find "find")
+     ("dd" consult-grep "grep"))))
 (keymap-global-set "C-s" #'hydra-search/body)
 #+end_src
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (pretty-hydra-define hydra-git
   (:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Basic"
@@ -1233,7 +1233,7 @@ binding))))))))
 #+end_src
 
 ** OJ
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; (require 'oj)
 ;; (setopt oj-home-dir
 ;;         (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
