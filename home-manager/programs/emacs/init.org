@@ -1147,7 +1147,8 @@ binding))))))))
     ("u" puni-splice-killing-backward "kill backward" :exit nil)
     ("z" puni-squeeze "squeeze" :exit nil))
    "String"
-   (("S" replace-string "replace"))))
+   (("S" replace-string "replace")
+    ("U" undo-tree-visualize "undo"))))
 
 
 (keymap-global-set "C-M-;" #'hydra-edit/body)
