@@ -172,12 +172,23 @@
 
 *** projectile.el
 #+begin_src emacs-lisp
-  (autoload-if-found '(projectile-mode) "projectile" nil t)
-  (add-hook 'emacs-startup-hook #'projectile-mode)
-  (keymap-global-set "C-c p" #'projectile-command-map)
-  (with-eval-after-load 'projectile
-    (setopt projectile-sort-order  'recently-active)
-    (add-to-list 'projectile-project-root-files ".projectile"))
+(autoload-if-found '(projectile-mode) "projectile" nil t)
+(add-hook 'emacs-startup-hook #'projectile-mode)
+(defun format-string-in-list (str-list str-const format-spec)
+  "Formats each string in STR-LIST according to FORMAT-SPEC."
+  (mapcar (lambda (s) (format format-spec str-const s)) str-list))
+
+(keymap-global-set "C-c p" #'projectile-command-map)
+(with-eval-after-load 'projectile
+  (setopt projectile-sort-order  'recently-active)
+  (add-to-list 'projectile-project-root-files ".projectile")
+  (setq projectile-project-search-path
+        (format-string-in-list
+         (split-string
+          (shell-command-to-string "ghq list") "\n")
+         (getenv "HOME")
+         "%s/ghq/%s"))
+  (projectile-discover-projects-in-search-path))
 #+end_src
 
 *** bufferlo.el
