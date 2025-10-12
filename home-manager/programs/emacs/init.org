@@ -188,6 +188,7 @@
           (shell-command-to-string "ghq list") "\n")
          (getenv "HOME")
          "%s/ghq/%s"))
+  (add-to-list 'projectile-project-search-path "~/Documents/org-mode/")
   (projectile-discover-projects-in-search-path))
 #+end_src
 
