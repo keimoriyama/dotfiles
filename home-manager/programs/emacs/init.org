@@ -1,7 +1,7 @@
 #+STARTUP:
 ** 基本設定
 *** 本当の基本設定
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;;; init.el:
 (when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
@@ -16,11 +16,11 @@
 (setq create-lockfiles nil)
 #+end_src
 *** C-tでバッファを切り変える
-#+begin_src elisp
+#+begin_src emacs-lisp
 (define-key global-map (kbd "C-t") 'other-window)
 #+end_src
 *** C-x C-cでEmacsを終了しない
-#+begin_src elisp
+#+begin_src emacs-lisp
 (global-set-key (kbd "C-x C-c") 'magit)
 (global-set-key (kbd "C-x C-z") 'your-favorite-command)
 ;; I never use C-x C-c
@@ -28,7 +28,7 @@
 #+end_src
 *** 何かサーバーが動くらしい
 行番号を表示しない、スクロールバーを表示しない、時間を24時間フォーマットで表示する
-#+begin_src elisp
+#+begin_src emacs-lisp
 (server-start)
 (column-number-mode -1)
 (scroll-bar-mode -1)
@@ -38,31 +38,31 @@
 #+end_src
 *** 日本語にする
 文字コードはutf-8
-#+begin_src elisp
+#+begin_src emacs-lisp
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 (setq frame-title-format "%f")
 #+end_src
 *** タブは4文字
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 #+end_src
 *** フォントはMenloを使用する
-#+begin_src elisp
+#+begin_src emacs-lisp
 (set-face-attribute 'default nil
                     :family "udev-gothic"
                     :height 200)
 #+end_src
 *** 中間ファイルを生成しない(はず)
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq backup-directory-alist
       `((".*".,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory)))
 #+end_src
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (global-auto-revert-mode t)
 
 (add-hook 'after-save-hook
@@ -70,19 +70,19 @@
 #+end_src
 
 *** M-*をmacのcommandキーにマップする
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq mac-command-modifier 'meta)
 #+end_src
 
 *** yes or noをy、nにする
-#+begin_src elisp
+#+begin_src emacs-lisp
 (add-hook 'emacs-startup-hook
           #'(lambda ()
               (fset 'yes-or-no-p 'y-or-n-p)))
 #+end_src
 
 *** Native Comp周りの設定
-#+begin_src elisp
+#+begin_src emacs-lisp
 (with-eval-after-load 'comp-run
   ;; config
   (setopt native-comp-async-jobs-number 8)
@@ -93,24 +93,24 @@
   ;; config
   (setopt warning-suppress-types '((comp))))
 
-(defun elisp-mode-hooks ()
+(defun emacs-lisp-mode-hooks ()
   "list-mode-hooks"
   (when (require 'eldoc nil t)
     (setq eldoc-idle-delay 0.2)
     (setq eldoc-echo-area-use-multiline-p t)
     (turn-on-eldoc-mode)))
-(add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
+(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-mode-hooks)
 #+end_src
 
 *** 環境変数の設定
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; load environment value
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
 #+end_src
 
 *** シェルの設定
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq-default shell-file-name
               (expand-file-name "~/.nix-profile/bin/fish"))
 (setq-default sh-shell-file
@@ -118,7 +118,7 @@
 #+end_src
 
 *** Melpaの設定
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -126,7 +126,7 @@
 
 ** autoload-if-found
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defun autoload-if-found (functions file &optional docstring interactive type)
   "set autoload iff. FILE has found."
   (when (locate-library file)
@@ -138,32 +138,32 @@
 ** Utils
 
 *** moccur
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
 #+end_src
 
 *** theme(catppuccin-theme)
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'catppuccin-theme)
 (load-theme 'catppuccin t)
 #+end_src
 
 *** volatile-highlights
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found  '(volatile-highlights-mode) "volatile-highlights" nil t)
 (add-hook 'emacs-startup-hook #'volatile-highlights-mode)
 #+end_src
 
 *** cua-mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 #+end_src
 
 *** projectile.el
-#+begin_src elisp
+#+begin_src emacs-lisp
   (autoload-if-found '(projectile-mode) "projectile" nil t)
   (add-hook 'emacs-startup-hook #'projectile-mode)
   (keymap-global-set "C-c p" #'projectile-command-map)
@@ -173,19 +173,19 @@
 #+end_src
 
 *** bufferlo.el
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(bufferlo-mode) "bufferlo" nil t)
 (add-hook 'emacs-startup-hook #'bufferlo-mode)
 #+end_src
 
 *** expand region
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
 
 *** undo-tree
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(global-undo-tree-mode) "undo-tree" nil t)
 (add-hook 'emacs-startup-hook #'global-undo-tree-mode)
 (with-eval-after-load 'undo-tree
@@ -194,42 +194,42 @@
 #+end_src
 
 *** git-gutter.el
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(global-git-gutter-mode) "git-gutter" nil t)
 (add-hook 'emacs-startup-hook #'global-git-gutter-mode)
 #+end_src
 
 *** rainbow-delimiters.el
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(rainbow-delimiters-mode) "rainbow-delimiters" nil t)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 
 *** hl-line.el
-#+begin_src elisp
+#+begin_src emacs-lisp
   (autoload-if-found '(global-hl-line-mode) "hl-line" nil t)
   (add-hook 'emacs-startup-hook #'global-hl-line-mode)
 #+end_src
 *** free-keys.el
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'free-keys)
 #+end_src
 
 *** puni.el
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(puni-global-mode) "puni" nil t)
 (add-hook 'emacs-startup-hook #'puni-global-mode)
 (electric-pair-mode 1)
 #+end_src
 
 *** autorevert.el
-#+begin_src elisp
+#+begin_src emacs-lisp
   (autoload-if-found '(global-auto-revert-mode) "autorevert" nil t)
   (add-hook 'emacs-startup-hook #'global-auto-revert-mode)
 #+end_src
 
 *** simple
-#+begin_src elisp
+#+begin_src emacs-lisp
   (require 'simple)
   (with-eval-after-load 'simple
     (setopt kill-whole-line t)
@@ -237,24 +237,24 @@
 #+end_src
 
 *** doom-modeline
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(doom-modeline-mode) "doom-modeline" nil t)
 (add-hook 'emacs-startup-hook #'doom-modeline-mode)
 #+end_src
 
 *** which-key
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(which-key-mode) "which-key" nil t)
 (add-hook 'emacs-startup-hook #'which-key-mode)
 #+end_src
 
 *** magit
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'magit)
 #+end_src
 
 *** exec-path-from-shell
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'exec-path-from-shell)
 (setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
 (exec-path-from-shell-initialize)
@@ -262,33 +262,33 @@
 
 *** olivetti-mode
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(olivetti-mode) "olivetti" nil t)
 #+end_src
 
 *** dashboard
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(dashboard-startup-hook) "dashboard" nil t)
 (dashboard-setup-startup-hook)
 (keymap-global-set "C-c d" #'dashboard-open)
 #+end_src
 
 *** gcmh
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'gcmh)
 (with-eval-after-load 'gcmh
   (setq gcmh-verbose t))
 #+end_src
 
 *** beacon
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'beacon)
 (with-eval-after-load 'beacon
   (beacon-mode 1))
 #+end_src
 
 *** recentf
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'recentf)
 (with-eval-after-load 'recentf
   (setq refentf-max-saved-items 2000
@@ -300,28 +300,28 @@
 #+end_src
 
 *** dmacro
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq dmacro-key (kbd "C-c e"))
 (require 'dmacro)
 (global-dmacro-mode t)
 #+end_src
 *** instant-maximized-window
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'instant-maximized-window)
 (keymap-global-set "C-c m" #'window-temp-maximize)
 #+end_src
 *** symbol overlay
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'symbol-overlay)
 #+end_src
 *** color-idendifiers-mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (add-hook 'after-init-hook 'global-color-identifiers-mode)
 #+end_src
 ** Completion
 *** corfu
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(global-corfu-mode) "corfu" nil t)
 (add-hook 'emacs-startup-hook #'global-corfu-mode)
 (with-eval-after-load 'corfu
@@ -333,25 +333,25 @@
 #+end_src
 
 *** cape
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(cape-dabbrev
                      cape-file
-                     cape-elisp-block
+                     cape-emacs-lisp-block
                      cape-history) "cape" nil t)
 (with-eval-after-load 'minibuffer
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (add-to-list 'completion-at-point-functions #'cape-emacs-lisp-block)
   (add-to-list 'completion-at-point-functions #'cape-history))
 #+end_src
 
 *** nerdIcon-completion
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload 'corfu-mode "nerd-icons-completion")
 #+end_src
 *** vertico
-#+begin_src elisp
+#+begin_src emacs-lisp
 (savehist-mode)
 (autoload-if-found '(vertico-mode) "vertico" nil t)
 (add-hook 'emacs-startup-hook #'vertico-mode)
@@ -362,19 +362,19 @@
 #+end_src
 
 *** marginalia
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(marginalia-mode) "marginalia" nil t)
 (add-hook 'emacs-startup-hook #'marginalia-mode)
 #+end_src
 
 *** avy
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'avy)
 (require 'avy-zap)
 #+end_src
 
 *** consult
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defvar my-consult--source-buffer
   `(:name "Other Buffers"
     :narrow   ?b
@@ -416,7 +416,7 @@
 #+end_src
 
 *** embark
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(embark-dwim
                      embark-act
                      embark-bindings) "embark" nil t)
@@ -472,7 +472,7 @@ binding))))))))
 #+end_src
 
 *** affe
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(affe-find
                      affe-grep) "affe" nil t)
 (with-eval-after-load 'affe
@@ -481,7 +481,7 @@ binding))))))))
 #+end_src
 
 *** orderless
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(orderless-all-completions) "orderless" nil t)
 (with-eval-after-load 'minibuffer
   ;; config
@@ -492,7 +492,7 @@ binding))))))))
 #+end_src
 
 *** yasnippet
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(yas-global-mode) "yasnippet" nil t)
 (add-hook 'emacs-startup-hook #'yas-global-mode)
 
@@ -503,7 +503,7 @@ binding))))))))
 #+end_src
 ** org-mode
 *** org-mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq org-directory "~/Documents/org-mode")
 
 (defun create-new-org-file (path)
@@ -561,7 +561,7 @@ binding))))))))
 #+end_src
 
 *** org-capture
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory))
 
@@ -581,7 +581,7 @@ binding))))))))
 #+end_src
 
 *** org-roam
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'org-roam)
 (setq org-roam-db-update-method 'immediate
       org-roam-db-location (format "%s/org-roam.db" org-directory)
@@ -595,7 +595,7 @@ binding))))))))
 #+end_src
 
 *** org-indent
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
@@ -612,7 +612,7 @@ binding))))))))
 (plist-put org-format-latex-options :scale 2)
 #+end_src
 *** org-superstar
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(org-superstar-mode) "org-superstar" nil t)
 (add-hook 'org-mode-hook #'org-superstar-mode)
 (with-eval-after-load 'org-superstar
@@ -621,7 +621,7 @@ binding))))))))
 #+end_src
 
 *** org-babel
-#+begin_src elisp
+#+begin_src emacs-lisp
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((python . t)
@@ -642,13 +642,13 @@ binding))))))))
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
 *** org-super-agenda
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;(autoload-if-found '(org-agenda) "org-super-agenda" nil t)
 (require 'org-super-agenda)
 (org-super-agenda-mode t)
 #+end_src
 *** org-agenda
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(org-agenda) "org-agenda" nil t)
 
 (with-eval-after-load 'org
@@ -712,7 +712,7 @@ binding))))))))
 #+end_src
 
 *** org-pomodoro
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(org-pomodoro) "org-pomodoro" nil t)
 ;(keymap-global-set "M-p" #'org-pomodoro)
 ; (global-unset-key (kbd "M-p"))
@@ -733,18 +733,18 @@ binding))))))))
 #+end_src
 
 *** ox-gfm
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;(require 'ox-gfm)
 (autoload-if-found '(org-mode) "ox-gfm" nil t)
 #+end_src
 
 *** ox-hugo
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(org-mode) "ox-hugo" nil t)
 #+end_src
 *** org-hydra
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defun my:org-goto-project ()
     (interactive)
     (find-file org-project-file))
@@ -766,7 +766,7 @@ binding))))))))
 ** lsp
 
 *** lsp-mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defun my/lsp-mode-completion ()
    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
          '(orderless)))
@@ -790,7 +790,7 @@ binding))))))))
   (setq lsp-enable-suggest-server-download nil))
 #+end_src
 *** lsp-booster
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
 (setq gc-cons-threshold 200000000)
 
@@ -827,7 +827,7 @@ binding))))))))
 #+end_src
 
 *** lsp-ui
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(lsp-ui-mode) "lsp-ui" nil t)
 
 (with-eval-after-load 'lsp-mode
@@ -857,19 +857,19 @@ binding))))))))
 #+end_src
 
 *** flycheck
-#+begin_src elisp
+#+begin_src emacs-lisp
 ; grammar check
 (autoload-if-found '(global-flycheck-mode) "flycheck" nil t)
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
 #+end_src
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(highlight-indent-guides-mode) "highlight-indent-guides" nil t)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 ** program
 *** python mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 ; python
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'python-mode-hook #'ruff-format-on-save-mode)
@@ -899,7 +899,7 @@ binding))))))))
 #+end_src
 
 *** rust mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
 (add-hook 'rust-mode-hook #'lsp)
 (add-hook 'rust-mode-hook  #'cargo-minor-mode)
@@ -909,21 +909,21 @@ binding))))))))
   (setq rust-format-on-save t))
 #+end_src
 *** yaml mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(yaml-mode) "yaml-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 #+end_src
 
 *** nix mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(nix-mode) "nix-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 (add-hook 'nix-mode-hook #'lsp)
 #+end_src
 
 *** dockerfile mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(dockerfile-mode) "dockerfile-mode" nil t)
 
 (add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
@@ -936,7 +936,7 @@ binding))))))))
 #+end_src
 
 *** copilot mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(copilot-mode) "copilot" nil t)
 (add-hook 'prog-mode-hook #'copilot-mode)
 ;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
@@ -951,32 +951,32 @@ binding))))))))
 #+end_src
 
 *** markdown
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(markdown-mode) "markdown-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 #+end_src
 
 *** webmode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+end_src
 
 *** yaml mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 #+end_src
 
 *** toml mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'toml-mode)
 (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
 #+end_src
 
 *** lua mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'lua-mode)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
@@ -999,12 +999,12 @@ binding))))))))
 
 ** latex
 *** texlab
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'lsp-latex)
 (add-hook 'yatex-mode-hook #'lsp)
 #+end_src
 *** yatex
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(yatex-mode) "yatex" nil t)
 (add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
@@ -1034,14 +1034,14 @@ binding))))))))
 #+end_src
 
 *** flyspell
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(flyspell-mode) "flyspell" nil t)
 (add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 
 *** reftex
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (autoload-if-found '(reftex-mode) "reftex" nil t)
 (add-to-list 'yatex-mode-hook #'reftex-mode)
 (with-eval-after-load 'reftex
@@ -1050,7 +1050,7 @@ binding))))))))
 #+end_src
 
 ** ddskk
-#+begin_src elisp
+#+begin_src emacs-lisp
 ; (autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
 (require 'ddskk-autoloads)
 (keymap-global-set "C-x j" #'skk-mode)
@@ -1102,14 +1102,14 @@ binding))))))))
 #+END_SRC
 
 ** LLM (ellama)
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'ellama)
 (with-eval-after-load 'ellama
   (setopt ellama-language "Japanese"))
 #+end_src
 
 ** hydra menu 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (pretty-hydra-define hydra-goto
   (:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Got"
@@ -1135,7 +1135,7 @@ binding))))))))
 (keymap-global-set "M-j" #'hydra-goto/body)
 #+end_src
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (pretty-hydra-define hydra-edit
   (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
   ("Puni"
@@ -1179,7 +1179,7 @@ binding))))))))
     "Window"
     (("t" toggle-window-transparency "transparency" :toggle t)
      ("m" toggle-window-maximize "maximize" :toggle t)
-     ("p" presentation-mode "presentation" :toggle t)))))
+     ("p" presentation-mode "presentation" :toggle t))))
 (keymap-global-set "M-t" #'hydra-toggle2/body)
 #+end_src
 

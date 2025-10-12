@@ -4,7 +4,7 @@
   emacsPkgs,
   sources,
 }: let
-  tangle = org-babel.lib.tangleOrgBabel {languages = ["emacs lisp"];};
+  tangle = org-babel.lib.tangleOrgBabel {languages = ["emacs-lisp"];};
 in {
   programs.emacs = {
     enable = true;
