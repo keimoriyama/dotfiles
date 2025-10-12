@@ -155,6 +155,7 @@
 *** theme(catppuccin-theme)
 #+begin_src emacs-lisp
 (require 'catppuccin-theme)
+(setq catppuccin-flavor 'frappe)
 (load-theme 'catppuccin t)
 #+end_src
 
@@ -1047,7 +1048,8 @@ binding))))))))
   (major-mode-hydra-define yatex-mode
      (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("reftex"
-    (("r" reftex-citation "references"))
+    (("r" reftex-citation "references")
+     ("t" reftex-toc "toc"))
     "yatex"
     (("m" YaTeX-typeset-menu "typeset")
      ("b" YaTeX-make-begin-end "begin env")
