@@ -124,6 +124,14 @@
 (package-initialize)
 #+end_src
 
+*** reload init.el
+#+begin_src emacs-lisp
+(defun reload-init-file ()
+  "reload init.el"
+  (interactive)
+  (load-file (format "%s/.emacs.d/init.el" (getenv "HOME"))))
+#+end_src
+
 ** autoload-if-found
 
 #+begin_src emacs-lisp
@@ -320,35 +328,36 @@
 #+end_src
 ** Completion
 *** corfu
-
 #+begin_src emacs-lisp
-(autoload-if-found '(global-corfu-mode) "corfu" nil t)
+(require 'corfu)
+(corfu-popupinfo-mode 1)
+(corfu-history-mode 1)
 (add-hook 'emacs-startup-hook #'global-corfu-mode)
 (with-eval-after-load 'corfu
-  (setopt corfu-auto t)
-  (setopt corfu-auto-delay 0.1)
-  (setopt corfu-cycle t)
-  (setopt corfu-auto-prefix 3)
-  (setopt text-mode-ispell-word-completion nil))
+  (setq corfu-auto t
+        corfu-auto-delay 0.1
+        corfu-cycle t
+        corfu-auto-prefix 3
+        text-mode-ispell-word-completion nil
+        corfu-popupinfo-delay 0.3))
 #+end_src
 
 *** cape
 #+begin_src emacs-lisp
-(autoload-if-found '(cape-dabbrev
-                     cape-file
-                     cape-emacs-lisp-block
-                     cape-history) "cape" nil t)
-(with-eval-after-load 'minibuffer
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-dict)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-emacs-lisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-history))
+(defvar completion-at-point-functions '(tags-completion-at-point-function))
+(require 'cape)
+(add-to-list 'completion-at-point-functions #'cape-dabbrev)
+(add-to-list 'completion-at-point-functions #'cape-dict)
+(add-to-list 'completion-at-point-functions #'cape-file)
+(add-to-list 'completion-at-point-functions #'cape-history)
+(add-to-list 'completion-at-point-functions #'cape-elisp-block)
+(add-to-list 'completion-at-point-functions #'cape-tex)
+(add-to-list 'completion-at-point-functions #'cape-emoji)
 #+end_src
 
-*** nerdIcon-completion
+*** nerd-icons-corfu
 #+begin_src emacs-lisp
-(autoload 'corfu-mode "nerd-icons-completion")
+(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
 #+end_src
 *** vertico
 #+begin_src emacs-lisp
@@ -1148,9 +1157,10 @@ binding))))))))
     ("z" puni-squeeze "squeeze" :exit nil))
    "String"
    (("S" replace-string "replace")
-    ("U" undo-tree-visualize "undo"))))
-
-
+    ("U" undo-tree-visualize "undo"))
+   "Macros"
+   (("i" reload-init-file "reload init.el")
+    ("d" dmacro-exec "exec dmacro" :exit nil))))
 (keymap-global-set "C-M-;" #'hydra-edit/body)
 #+end_src
 
