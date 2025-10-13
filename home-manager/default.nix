@@ -86,6 +86,7 @@ in {
       # texliveBasic
       texliveFull
       fzf
+      python313Packages.debugpy
 
       # textlint
       # textlint-plugin-org

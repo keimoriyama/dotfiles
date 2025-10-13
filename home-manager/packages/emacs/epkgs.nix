@@ -46,6 +46,7 @@ in
     color-identifiers-mode
     packages.dmacro
     packages.instant-maximized-window
+    neotree
 
     # completion
     corfu
@@ -89,7 +90,7 @@ in
     # lsp
     lsp-mode
     lsp-ui
-    # dap-mode
+    dap-mode
     flycheck
     highlight-indent-guides
 

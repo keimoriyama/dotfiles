@@ -339,6 +339,11 @@
 #+begin_src emacs-lisp
 (add-hook 'after-init-hook 'global-color-identifiers-mode)
 #+end_src
+*** neotree
+#+begin_src emacs-lisp
+(require 'neotree)
+(keymap-global-set "M-n" #'neotree-toggle)
+#+end_src
 ** Completion
 *** corfu
 #+begin_src emacs-lisp
@@ -526,60 +531,59 @@ binding))))))))
 ** org-mode
 *** org-mode
 #+begin_src emacs-lisp
-(setq org-directory "~/Documents/org-mode")
+  (setq org-directory "~/Documents/org-mode")
 
-(defun create-new-org-file (path)
-  (let ((name (read-string "Name: ")))
-    (expand-file-name (format "%s.org"
-                              name) path)))
+  (defun create-new-org-file (path)
+    (let ((name (read-string "Name: ")))
+      (expand-file-name (format "%s.org"
+                                name) path)))
 
-(autoload-if-found '(org-mode) "org" nil t)
-(with-eval-after-load 'org
-  (setq org-startup-folded 'content
-        org-deadline-warning-day  30
-        org-enforce-todo-dependencies t
-        org-html-htmlize-output-type 'inline-css
-        org-html-htmlize-output-type nil
-        org-html-htmlize-output-type 'css
-        org-adapt-indentation t
-        org-hide-leading-stars t
-        org-hide-emphasis-markers t
-        org-pretty-entities t
-	    org-ellipsis "  ·"
-        org-src-fontify-natively t
-	    org-src-tab-acts-natively t
-        org-edit-src-content-indentation 0
-        org-lowest-priority ?F  ;; Gives us priorities A through F
-        org-default-priority ?E ;; If an item has no priority, it is considered [#E].
-        org-use-sub-superscripts '{}
-        org-export-with-sub-superscripts nil
-        org-priority-faces
-        '((65 . "#BF616A")
-          (66 . "#EBCB8B")
-          (67 . "#B48EAD")
-          (68 . "#81A1C1")
-          (69 . "#5E81AC")
-          (70 . "#4C566A"))
-        org-todo-keywords
-        '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
-        org-todo-keyword-faces
-        '(("TODO"   :foreground "#A3BE8C" :weight bold)
-          ("DOING"  :foreground "#88C0D0" :weight bold)
-		  ("WAIT"   :foreground "#88C0D0" :weight bold)
-          ("DONE"   :foreground "#ff40ff" :weight bold))
-        org-tag-alist '(("Lab" . ?l) ("RA" . ?r) ("Private" . ?p))
-        org-global-properties '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30")))
-  
-  (add-hook 'org-mode-hook 'visual-line-mode)
+  (autoload-if-found '(org-mode) "org" nil t)
+  (with-eval-after-load 'org
+    (setq org-startup-folded 'content
+          org-deadline-warning-day  30
+          org-enforce-todo-dependencies t
+          org-html-htmlize-output-type 'inline-css
+          org-html-htmlize-output-type nil
+          org-html-htmlize-output-type 'css
+          org-adapt-indentation t
+          org-hide-leading-stars t
+          org-hide-emphasis-markers t
+          org-pretty-entities t
+  	    org-ellipsis "  ·"
+          org-src-fontify-natively t
+  	    org-src-tab-acts-natively t
+          org-edit-src-content-indentation 0
+          org-lowest-priority ?F  ;; Gives us priorities A through F
+          org-default-priority ?E ;; If an item has no priority, it is considered [#E].
+          org-use-sub-superscripts '{}
+          org-export-with-sub-superscripts nil
+          org-priority-faces '((65 . "#BF616A")
+                               (66 . "#EBCB8B")
+                               (67 . "#B48EAD")
+                               (68 . "#81A1C1")
+                               (69 . "#5E81AC")
+            (70 . "#4C566A"))
+          org-todo-keywords
+          '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
+          org-todo-keyword-faces
+          '(("TODO"   :foreground "#A3BE8C" :weight bold)
+            ("DOING"  :foreground "#88C0D0" :weight bold)
+  		  ("WAIT"   :foreground "#88C0D0" :weight bold)
+            ("DONE"   :foreground "#ff40ff" :weight bold))
+          org-tag-alist '(("Lab" . ?l) ("RA" . ?r) ("Private" . ?p))
+          org-global-properties '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30")))
+    
+    (add-hook 'org-mode-hook 'visual-line-mode)
 
-  (dolist (face '((org-level-1 . 1.35)
-                  (org-level-2 . 1.3)
-                  (org-level-3 . 1.2)
-                  (org-level-4 . 1.1)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))))
+    (dolist (face '((org-level-1 . 1.35)
+                    (org-level-2 . 1.3)
+                    (org-level-3 . 1.2)
+                    (org-level-4 . 1.1)
+                    (org-level-5 . 1.1)
+                    (org-level-6 . 1.1)
+                    (org-level-7 . 1.1)
+                    (org-level-8 . 1.1)))))
 #+end_src
 
 *** org-capture
@@ -890,6 +894,11 @@ binding))))))))
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 ** program
+*** dap-mode
+#+begin_src emacs-lisp
+(add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra)))
+#+end_src
 *** python mode
 #+begin_src emacs-lisp
 ; python
@@ -918,6 +927,11 @@ binding))))))))
   (pet-flycheck-setup)
   (setopt lsp-pyright-disable-tagged-hints t)
   (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
+
+(require 'dap-python)
+;; if you installed debugpy, you need to set this
+;; https://github.com/emacs-lsp/dap-mode/issues/306
+(setq dap-python-debugger 'debugpy)
 #+end_src
 
 *** rust mode
@@ -1009,6 +1023,7 @@ binding))))))))
       lsp-clients-lua-language-server-bin (format "%s/.nix-profile/bin/lua-language-server" (getenv "HOME"))
       lsp-clients-lua-language-server-main-location (format "%s/.lua-language-server/main.lua" (getenv "HOME")))
 ; reference : https://github.com/emacs-lsp/lsp-mode/issues/4688#issuecomment-3138937688
+
 (defun my/lsp-clients-lua-language-server-test ()
   "(Improved) Test Lua language server binaries and files."
   (or (and (f-exists? lsp-clients-lua-language-server-main-location)
