@@ -22,6 +22,7 @@
     };
     org-babel.url = "github:emacs-twist/org-babel";
     flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs = {
