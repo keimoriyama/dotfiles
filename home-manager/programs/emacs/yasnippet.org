@@ -142,3 +142,14 @@ ${0}
     \label{tab:${2:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}
 \end{table}
 #+end_src
+
+*** footnote-url
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/footnote-url") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: footnote-url
+# key: footnote-url
+# --
+
+\footnote{\url{$1}}
+
+#+end_src

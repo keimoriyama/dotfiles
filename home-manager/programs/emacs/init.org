@@ -345,6 +345,7 @@
       (message "Could not find git project root."))))
 ;(setq projectile-switch-project-action 'neotree-projectile-action)
 (keymap-global-set "M-n" #'neotree-project-dir)
+
 (with-eval-after-load 'major-mode-hydra 
   (major-mode-hydra-define neotree-mode
                     (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
@@ -796,7 +797,9 @@ binding))))))))
   ("visit file"
    (("m" my:org-goto-memo "memo"))
    "agenda"
-   (("c" org-capture "capture"))))
+   (("c" org-capture "capture"))
+   "insert"
+   (("h" org-insert-heading "header"))))
 #+end_src
 ** lsp
 
@@ -1133,8 +1136,6 @@ binding))))))))
   (keymap-global-set "C-l" #'skk-latin-mode))
 
 (with-eval-after-load 'skk-vars
-  (setq skk-jisyo
- "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
   (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
         skk-use-azik t
         skk-azik-keyboard-type "en"
