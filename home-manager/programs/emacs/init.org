@@ -345,6 +345,23 @@
       (message "Could not find git project root."))))
 ;(setq projectile-switch-project-action 'neotree-projectile-action)
 (keymap-global-set "M-n" #'neotree-project-dir)
+(with-eval-after-load 'major-mode-hydra 
+  (major-mode-hydra-define neotree-mode
+                    (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
+                    ("Navi"
+                     (("u" neotree-select-up-node "Up")
+                      ("g" neotree-refresh "Refresh")
+                      ("Q" neotree-hide "Hide"))
+                     "File"
+                     (("a" neo-open-file-ace-window "Ace")
+                      ("n" neotree-create-node "Create")
+                      ("r" neotree-rename-node "Rename")
+                      ("c" neotree-copy-node "Copy")
+                      ("d" neotree-delete-node "Delete")
+                      ("SPC" neotree-quick-look))
+                     "Toggle"
+                     (("z" neotree-stretch-toggle     "Size"        :toggle (not (neo-window--minimize-p)))
+                      ("h" neotree-hidden-file-toggle "Hidden file" :toggle neo-buffer--show-hidden-file-p)))))
 #+end_src
 ** Completion
 *** corfu
@@ -1074,9 +1091,13 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'reftex)
 (add-to-list 'yatex-mode-hook #'reftex-mode)
-(with-eval-after-load 'reftex
-  (setq reftex-default-bibliography
-        (directory-files-recursively (projectile-project-root) "\\.bib$")))
+(add-hook 'yatex-mode-hook
+		#'(lambda ()
+		(setq reftex-default-bibliography
+        (directory-files-recursively (projectile-project-root) "\\.bib$"))))
+;(with-eval-after-load 'reftex
+;  (setq reftex-default-bibliography
+;        (directory-files-recursively (projectile-project-root) "\\.bib$")))
 #+end_src
 
 ** ddskk
