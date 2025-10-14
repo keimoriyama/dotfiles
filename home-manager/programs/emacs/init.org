@@ -132,17 +132,6 @@
   (load-file (format "%s/.emacs.d/init.el" (getenv "HOME"))))
 #+end_src
 
-** autoload-if-found
-
-#+begin_src emacs-lisp
-(defun autoload-if-found (functions file &optional docstring interactive type)
-  "set autoload iff. FILE has found."
-  (when (locate-library file)
-    (dolist (f functions)
-      (autoload f file docstring interactive type))
-    t))
-#+end_src
-
 ** Utils
 
 *** moccur
@@ -161,7 +150,7 @@
 
 *** volatile-highlights
 #+begin_src emacs-lisp
-(autoload-if-found  '(volatile-highlights-mode) "volatile-highlights" nil t)
+(require 'volatile-highlights)
 (add-hook 'emacs-startup-hook #'volatile-highlights-mode)
 #+end_src
 
@@ -173,7 +162,7 @@
 
 *** projectile.el
 #+begin_src emacs-lisp
-(autoload-if-found '(projectile-mode) "projectile" nil t)
+(require 'projectile)
 (add-hook 'emacs-startup-hook #'projectile-mode)
 (defun format-string-in-list (str-list str-const format-spec)
   "Formats each string in STR-LIST according to FORMAT-SPEC."
@@ -195,7 +184,7 @@
 
 *** bufferlo.el
 #+begin_src emacs-lisp
-(autoload-if-found '(bufferlo-mode) "bufferlo" nil t)
+(require 'bufferlo)
 (add-hook 'emacs-startup-hook #'bufferlo-mode)
 #+end_src
 
@@ -207,7 +196,7 @@
 
 *** undo-tree
 #+begin_src emacs-lisp
-(autoload-if-found '(global-undo-tree-mode) "undo-tree" nil t)
+(require 'undo-tree)
 (add-hook 'emacs-startup-hook #'global-undo-tree-mode)
 (with-eval-after-load 'undo-tree
   (keymap-global-set "C-x u" #'undo-tree-visualize)
@@ -216,20 +205,20 @@
 
 *** git-gutter.el
 #+begin_src emacs-lisp
-(autoload-if-found '(global-git-gutter-mode) "git-gutter" nil t)
+(require 'git-gutter)
 (add-hook 'emacs-startup-hook #'global-git-gutter-mode)
 #+end_src
 
 *** rainbow-delimiters.el
 #+begin_src emacs-lisp
-(autoload-if-found '(rainbow-delimiters-mode) "rainbow-delimiters" nil t)
+(require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 
 *** hl-line.el
 #+begin_src emacs-lisp
-  (autoload-if-found '(global-hl-line-mode) "hl-line" nil t)
-  (add-hook 'emacs-startup-hook #'global-hl-line-mode)
+(require 'hl-line)
+(add-hook 'emacs-startup-hook #'global-hl-line-mode)
 #+end_src
 *** free-keys.el
 #+begin_src emacs-lisp
@@ -238,15 +227,15 @@
 
 *** puni.el
 #+begin_src emacs-lisp
-(autoload-if-found '(puni-global-mode) "puni" nil t)
+(require 'puni)
 (add-hook 'emacs-startup-hook #'puni-global-mode)
 (electric-pair-mode 1)
 #+end_src
 
 *** autorevert.el
 #+begin_src emacs-lisp
-  (autoload-if-found '(global-auto-revert-mode) "autorevert" nil t)
-  (add-hook 'emacs-startup-hook #'global-auto-revert-mode)
+(require 'autorevert)
+(add-hook 'emacs-startup-hook #'global-auto-revert-mode)
 #+end_src
 
 *** simple
@@ -259,13 +248,13 @@
 
 *** doom-modeline
 #+begin_src emacs-lisp
-(autoload-if-found '(doom-modeline-mode) "doom-modeline" nil t)
+(require 'doom-modeline)
 (add-hook 'emacs-startup-hook #'doom-modeline-mode)
 #+end_src
 
 *** which-key
 #+begin_src emacs-lisp
-(autoload-if-found '(which-key-mode) "which-key" nil t)
+(require 'which-key)
 (add-hook 'emacs-startup-hook #'which-key-mode)
 #+end_src
 
@@ -284,12 +273,12 @@
 *** olivetti-mode
 
 #+begin_src emacs-lisp
-(autoload-if-found '(olivetti-mode) "olivetti" nil t)
+(require 'olivetti)
 #+end_src
 
 *** dashboard
 #+begin_src emacs-lisp
-(autoload-if-found '(dashboard-startup-hook) "dashboard" nil t)
+(require 'dashboard)
 (dashboard-setup-startup-hook)
 (keymap-global-set "C-c d" #'dashboard-open)
 #+end_src
@@ -393,7 +382,7 @@
 *** vertico
 #+begin_src emacs-lisp
 (savehist-mode)
-(autoload-if-found '(vertico-mode) "vertico" nil t)
+(require 'vertico)
 (add-hook 'emacs-startup-hook #'vertico-mode)
 (advice-add #'vertico--setup :after
             (lambda (&rest _)
@@ -403,7 +392,7 @@
 
 *** marginalia
 #+begin_src emacs-lisp
-(autoload-if-found '(marginalia-mode) "marginalia" nil t)
+(require 'marginalia)
 (add-hook 'emacs-startup-hook #'marginalia-mode)
 #+end_src
 
@@ -448,19 +437,12 @@
         (consult-line (thing-at-point 'symbol))
       (consult-line)))
 
-(autoload-if-found '(consult-line
-                     consult-buffer
-                     consult-project-buffer
-                     consult-goto-line
-                     consult-history) "consult" nil t)
+(require 'consult)
 #+end_src
 
 *** embark
 #+begin_src emacs-lisp
-(autoload-if-found '(embark-dwim
-                     embark-act
-                     embark-bindings) "embark" nil t)
-
+(require 'embark)
 (keymap-global-set "C-." #'embark-act)
 (keymap-global-set "C-;" #'embark-dwim)
 
@@ -469,7 +451,7 @@
                nil
                (window-parameters (mode-line-format . none))))
 
-(autoload-if-found '(embark-consult) "embark-consult" nil t)
+(require 'embark-consult)
 
 (defun embark-which-key-indicator ()
   "An embark indicator that displays keymaps using which-key.
@@ -513,8 +495,7 @@ binding))))))))
 
 *** affe
 #+begin_src emacs-lisp
-(autoload-if-found '(affe-find
-                     affe-grep) "affe" nil t)
+(require 'affe)
 (with-eval-after-load 'affe
   (setopt affe-highlight-function 'orderless-highlight-matches)
   (setopt affe-regexp-function 'orderless-pattern-compiler))
@@ -522,7 +503,7 @@ binding))))))))
 
 *** orderless
 #+begin_src emacs-lisp
-(autoload-if-found '(orderless-all-completions) "orderless" nil t)
+(require 'orderless)
 (with-eval-after-load 'minibuffer
   ;; config
   (add-to-list 'completion-styles-alist '(orderless orderless-try-completion orderless-all-completions
@@ -533,70 +514,69 @@ binding))))))))
 
 *** yasnippet
 #+begin_src emacs-lisp
-(autoload-if-found '(yas-global-mode) "yasnippet" nil t)
+(require 'yasnippet)
 (add-hook 'emacs-startup-hook #'yas-global-mode)
 
-(autoload-if-found '(consult-yasnippet) "consult-yasnippet" nil t)
-
+(require 'consult-yasnippet)
 (keymap-global-set "C-c y" #'consult-yasnippet)
 (keymap-global-set "C-c C-y" #'consult-yasnippet)
 #+end_src
 ** org-mode
 *** org-mode
 #+begin_src emacs-lisp
-  (setq org-directory "~/Documents/org-mode")
+(setq org-directory "~/Documents/org-mode")
 
-  (defun create-new-org-file (path)
-    (let ((name (read-string "Name: ")))
-      (expand-file-name (format "%s.org"
-                                name) path)))
+(defun create-new-org-file (path)
+  (let ((name (read-string "Name: ")))
+    (expand-file-name (format "%s.org"
+                              name) path)))
 
-  (autoload-if-found '(org-mode) "org" nil t)
-  (with-eval-after-load 'org
-    (setq org-startup-folded 'content
-          org-deadline-warning-day  30
-          org-enforce-todo-dependencies t
-          org-html-htmlize-output-type 'inline-css
-          org-html-htmlize-output-type nil
-          org-html-htmlize-output-type 'css
-          org-adapt-indentation t
-          org-hide-leading-stars t
-          org-hide-emphasis-markers t
-          org-pretty-entities t
-  	    org-ellipsis "  ·"
-          org-src-fontify-natively t
-  	    org-src-tab-acts-natively t
-          org-edit-src-content-indentation 0
-          org-lowest-priority ?F  ;; Gives us priorities A through F
-          org-default-priority ?E ;; If an item has no priority, it is considered [#E].
-          org-use-sub-superscripts '{}
-          org-export-with-sub-superscripts nil
-          org-priority-faces '((65 . "#BF616A")
-                               (66 . "#EBCB8B")
-                               (67 . "#B48EAD")
-                               (68 . "#81A1C1")
-                               (69 . "#5E81AC")
-            (70 . "#4C566A"))
-          org-todo-keywords
-          '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
-          org-todo-keyword-faces
-          '(("TODO"   :foreground "#A3BE8C" :weight bold)
-            ("DOING"  :foreground "#88C0D0" :weight bold)
-  		  ("WAIT"   :foreground "#88C0D0" :weight bold)
-            ("DONE"   :foreground "#ff40ff" :weight bold))
-          org-tag-alist '(("Lab" . ?l) ("RA" . ?r) ("Private" . ?p))
-          org-global-properties '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30")))
-    
-    (add-hook 'org-mode-hook 'visual-line-mode)
+(require 'org)
+(with-eval-after-load 'org
+  (setq org-startup-folded 'content
+        org-deadline-warning-day  30
+        org-enforce-todo-dependencies t
+        org-html-htmlize-output-type 'inline-css
+        org-html-htmlize-output-type nil
+        org-html-htmlize-output-type 'css
+        org-adapt-indentation t
+        org-hide-leading-stars t
+        org-hide-emphasis-markers t
+        org-pretty-entities t
+	    org-ellipsis "  ·"
+        org-src-fontify-natively t
+	    org-src-tab-acts-natively t
+        org-edit-src-content-indentation 0
+        org-lowest-priority ?F  ;; Gives us priorities A through F
+        org-default-priority ?E ;; If an item has no priority, it is considered [#E].
+        org-use-sub-superscripts '{}
+        org-export-with-sub-superscripts nil
+        org-priority-faces '((65 . "#BF616A")
+                             (66 . "#EBCB8B")
+                             (67 . "#B48EAD")
+                             (68 . "#81A1C1")
+                             (69 . "#5E81AC")
+          (70 . "#4C566A"))
+        org-todo-keywords
+        '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
+        org-todo-keyword-faces
+        '(("TODO"   :foreground "#A3BE8C" :weight bold)
+          ("DOING"  :foreground "#88C0D0" :weight bold)
+		  ("WAIT"   :foreground "#88C0D0" :weight bold)
+          ("DONE"   :foreground "#ff40ff" :weight bold))
+        org-tag-alist '(("Lab" . ?l) ("RA" . ?r) ("Private" . ?p))
+        org-global-properties '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30")))
+  
+  (add-hook 'org-mode-hook 'visual-line-mode)
 
-    (dolist (face '((org-level-1 . 1.35)
-                    (org-level-2 . 1.3)
-                    (org-level-3 . 1.2)
-                    (org-level-4 . 1.1)
-                    (org-level-5 . 1.1)
-                    (org-level-6 . 1.1)
-                    (org-level-7 . 1.1)
-                    (org-level-8 . 1.1)))))
+  (dolist (face '((org-level-1 . 1.35)
+                  (org-level-2 . 1.3)
+                  (org-level-3 . 1.2)
+                  (org-level-4 . 1.1)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))))
 #+end_src
 
 *** org-capture
@@ -652,7 +632,7 @@ binding))))))))
 #+end_src
 *** org-superstar
 #+begin_src emacs-lisp
-(autoload-if-found '(org-superstar-mode) "org-superstar" nil t)
+(require 'org-superstar)
 (add-hook 'org-mode-hook #'org-superstar-mode)
 (with-eval-after-load 'org-superstar
   (setopt org-superstart-special-todo-items " ")
@@ -688,7 +668,7 @@ binding))))))))
 #+end_src
 *** org-agenda
 #+begin_src emacs-lisp
-(autoload-if-found '(org-agenda) "org-agenda" nil t)
+(require 'org-agenda)
 
 (with-eval-after-load 'org
   (setq org-agenda-custom-commands 
@@ -752,7 +732,7 @@ binding))))))))
 
 *** org-pomodoro
 #+begin_src emacs-lisp
-(autoload-if-found '(org-pomodoro) "org-pomodoro" nil t)
+(require 'org-pomodoro)
 ;(keymap-global-set "M-p" #'org-pomodoro)
 ; (global-unset-key (kbd "M-p"))
 (with-eval-after-load 'org-pomodoro
@@ -773,14 +753,13 @@ binding))))))))
 
 *** ox-gfm
 #+begin_src emacs-lisp
-;(require 'ox-gfm)
-(autoload-if-found '(org-mode) "ox-gfm" nil t)
+(require 'ox-gfm)
 #+end_src
 
 *** ox-hugo
 
 #+begin_src emacs-lisp
-(autoload-if-found '(org-mode) "ox-hugo" nil t)
+(require 'ox-hugo)
 #+end_src
 *** org-hydra
 #+begin_src emacs-lisp
@@ -810,7 +789,7 @@ binding))))))))
    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
          '(orderless)))
 
-(autoload-if-found '(lsp lsp-deferred lsp-org lsp-register-client make-lsp-client) "lsp-mode" nil t)
+(require 'lsp-mode)
 
 (defcustom lsp-client-packages
   '(lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
@@ -867,7 +846,7 @@ binding))))))))
 
 *** lsp-ui
 #+begin_src emacs-lisp
-(autoload-if-found '(lsp-ui-mode) "lsp-ui" nil t)
+(require 'lsp-ui)
 
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-ui-mode))
@@ -898,12 +877,12 @@ binding))))))))
 *** flycheck
 #+begin_src emacs-lisp
 ; grammar check
-(autoload-if-found '(global-flycheck-mode) "flycheck" nil t)
+(require 'flycheck)
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
 #+end_src
 
 #+begin_src emacs-lisp
-(autoload-if-found '(highlight-indent-guides-mode) "highlight-indent-guides" nil t)
+(require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 ** program
@@ -918,9 +897,9 @@ binding))))))))
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'python-mode-hook #'ruff-format-on-save-mode)
 
-(autoload-if-found '(python-mode) "python-mode" nil t)
-(autoload-if-found '(python-mode) "lsp-pyright" nil t)
-(autoload-if-found '(python-mode) "pet" nil t)
+(require 'python-mode)
+(require 'lsp-pyright)
+(require 'pet)
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
@@ -952,28 +931,28 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
 (add-hook 'rust-mode-hook #'lsp)
 (add-hook 'rust-mode-hook  #'cargo-minor-mode)
-(autoload-if-found '(rust-mode) "rust-mode" nil t)
+(require 'rust-mode)
 
 (with-eval-after-load 'rust-mode
   (setq rust-format-on-save t))
 #+end_src
 *** yaml mode
 #+begin_src emacs-lisp
-(autoload-if-found '(yaml-mode) "yaml-mode" nil t)
+(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 #+end_src
 
 *** nix mode
 #+begin_src emacs-lisp
-(autoload-if-found '(nix-mode) "nix-mode" nil t)
+(require 'nix-mode)
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 (add-hook 'nix-mode-hook #'lsp)
 #+end_src
 
 *** dockerfile mode
 #+begin_src emacs-lisp
-(autoload-if-found '(dockerfile-mode) "dockerfile-mode" nil t)
+(require 'dockerfile-mode)
 
 (add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
@@ -986,7 +965,7 @@ binding))))))))
 
 *** copilot mode
 #+begin_src emacs-lisp
-(autoload-if-found '(copilot-mode) "copilot" nil t)
+(require 'copilot)
 (add-hook 'prog-mode-hook #'copilot-mode)
 ;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
 (setq copilot-indent-offset-warning-disable t)
@@ -1001,7 +980,7 @@ binding))))))))
 
 *** markdown
 #+begin_src emacs-lisp
-(autoload-if-found '(markdown-mode) "markdown-mode" nil t)
+(require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 #+end_src
 
@@ -1055,7 +1034,7 @@ binding))))))))
 #+end_src
 *** yatex
 #+begin_src emacs-lisp
-(autoload-if-found '(yatex-mode) "yatex" nil t)
+(require 'yatex)
 (add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
@@ -1086,14 +1065,14 @@ binding))))))))
 
 *** flyspell
 #+begin_src emacs-lisp
-(autoload-if-found '(flyspell-mode) "flyspell" nil t)
+(require 'flyspell)
 (add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 
 *** reftex
 
 #+begin_src emacs-lisp
-(autoload-if-found '(reftex-mode) "reftex" nil t)
+(require 'reftex)
 (add-to-list 'yatex-mode-hook #'reftex-mode)
 (with-eval-after-load 'reftex
   (setq reftex-default-bibliography
@@ -1102,7 +1081,6 @@ binding))))))))
 
 ** ddskk
 #+begin_src emacs-lisp
-; (autoload-if-found '(skk-mode) "ddskk-autoloads" nil t)
 (require 'ddskk-autoloads)
 (keymap-global-set "C-x j" #'skk-mode)
 (keymap-global-set "C-x C-j" #'skk-mode)
@@ -1145,7 +1123,7 @@ binding))))))))
         skk-server-host "localhost"
         skk-server-portnum 1178))
 
-(autoload-if-found '(ddskk-posframe-mode) "ddskk-posframe" nil t)
+(require 'ddskk-posframe)
 
 (with-eval-after-load 'skk
   ;; hooks
