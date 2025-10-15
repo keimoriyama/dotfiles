@@ -1287,8 +1287,8 @@ binding))))))))
 
 ** OJ
 #+begin_src emacs-lisp
-;; (require 'oj)
-;; (setopt oj-home-dir
-;;         (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
+(require 'oj)
+(setopt oj-home-dir
+        (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
 #+end_src
 

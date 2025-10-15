@@ -88,7 +88,7 @@ in {
       python313Packages.debugpy
       docker
 
-	online-judge-tools
+      online-judge-tools
       # textlint
       # textlint-plugin-org
       # textlint-plugin-latex2e
