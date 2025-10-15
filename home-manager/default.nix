@@ -27,13 +27,13 @@
     inherit pkgs sources;
   };
   emacsPkgs = emacs.emacs-stable;
-  nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
+  # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
-    inherit org-babel emacsPkgs nodePkgs sources config;
+    inherit org-babel emacsPkgs sources config;
   };
 in {
   imports = defaultPrograms;
@@ -88,6 +88,7 @@ in {
       python313Packages.debugpy
       docker
 
+	online-judge-tools
       # textlint
       # textlint-plugin-org
       # textlint-plugin-latex2e
