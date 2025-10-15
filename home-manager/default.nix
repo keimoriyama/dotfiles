@@ -83,10 +83,10 @@ in {
       texlab
       auctex
       hugo
-      # texliveBasic
       texliveFull
       fzf
       python313Packages.debugpy
+      docker
 
       # textlint
       # textlint-plugin-org

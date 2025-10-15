@@ -52,20 +52,13 @@
       "discord"
       "slack"
       "font-hack-nerd-font"
-      # "spotify"
+      "spotify"
       "karabiner-elements"
       "zoom"
-      # "mactex"
-      "notion"
-      # "notion-calendar"
-      # "notion-mail"
       "wezterm"
-      # "docker"
       "google-chrome"
-      # "google-drive"
       "ollama-app"
       "macskk"
-      # "1password"
     ];
   };
 }
