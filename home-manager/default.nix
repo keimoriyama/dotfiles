@@ -44,66 +44,68 @@ in {
   imports = defaultPrograms;
 
   programs.home-manager.enable = true;
-  home.stateVersion = "25.11";
-  home.username = username;
-  home.homeDirectory = "/Users/${username}";
+  home = {
+    stateVersion = "25.11";
+    username = username;
+    homeDirectory = "/Users/${username}";
 
-  home.packages = with pkgs; [
-    # git
-    curl
-    uv
-    nodejs_24
-    typescript
-    lua
-    alejandra
-    peco
-    ghq
-    gh
-    deno
-    rustc
-    rustup
-    ripgrep
-    vim
-    tree-sitter
-    pyright
-    ruff
-    isort
-    yaml-language-server
-    lua-language-server
-    stylua
-    typescript-language-server
-    nvfetcher
-    udev-gothic
-    ghostscript
-    wezterm
-    cbc
-    sl
-    ispell
-    typst
-    tdf
-    perl
-    nixd
-    copilot-language-server
-    texlab
-    auctex
-    hugo
-    texliveFull
-    fzf
-    python313Packages.debugpy
-    docker
+    packages = with pkgs; [
+      # git
+      curl
+      uv
+      nodejs_24
+      typescript
+      lua
+      alejandra
+      peco
+      ghq
+      gh
+      deno
+      rustc
+      rustup
+      ripgrep
+      vim
+      tree-sitter
+      pyright
+      ruff
+      isort
+      yaml-language-server
+      lua-language-server
+      stylua
+      typescript-language-server
+      nvfetcher
+      udev-gothic
+      ghostscript
+      wezterm
+      cbc
+      sl
+      ispell
+      typst
+      tdf
+      perl
+      nixd
+      copilot-language-server
+      texlab
+      auctex
+      hugo
+      texliveFull
+      fzf
+      python313Packages.debugpy
+      docker
 
-    online-judge-tools
-    # textlint
-    # textlint-plugin-org
-    # textlint-plugin-latex2e
-    # textlint-rule-preset-ja-technical-writing
-    # textlint-rule-write-good
+      online-judge-tools
+      # textlint
+      # textlint-plugin-org
+      # textlint-plugin-latex2e
+      # textlint-rule-preset-ja-technical-writing
+      # textlint-rule-write-good
 
-    yaskkserv2
-  ];
-  home.file = {
-    ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
-    ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
-    ".lua-language-server/main.lua".source = "${pkgs.lua-language-server.outPath}/share/lua-language-server/main.lua";
+      yaskkserv2
+    ];
+    file = {
+      ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
+      ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
+      ".lua-language-server/main.lua".source = "${pkgs.lua-language-server.outPath}/share/lua-language-server/main.lua";
+    };
   };
 }
