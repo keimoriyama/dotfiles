@@ -48,7 +48,7 @@ telescope.setup({
 })
 
 telescope.load_extension("ui-select")
-telescope.load_extension('bibtex')
+telescope.load_extension("bibtex")
 -- telescope.load_extension("file_browser")
 vim.keymap.set("n", "<leader>ff", function()
 	require("telescope.builtin").find_files({ hidden = true })

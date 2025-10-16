@@ -33,7 +33,12 @@
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
-    inherit org-babel emacsPkgs sources config;
+    inherit
+      org-babel
+      emacsPkgs
+      sources
+      config
+      ;
   };
 in {
   imports = defaultPrograms;

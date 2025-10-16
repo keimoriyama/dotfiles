@@ -6,7 +6,14 @@
   # nodePkgs,
   sources,
 }: let
-  emacs = import ./emacs {inherit pkgs emacsPkgs org-babel sources;};
+  emacs = import ./emacs {
+    inherit
+      pkgs
+      emacsPkgs
+      org-babel
+      sources
+      ;
+  };
   fish = import ./fish {inherit pkgs sources;};
   wezterm = import ./wezterm {inherit pkgs;};
   # copilot-language-server = import ./copilot-language-server {inherit pkgs nodePkgs;};

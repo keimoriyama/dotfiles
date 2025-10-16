@@ -1,6 +1,8 @@
 {pkgs}: {
   home = {
-    file = {".config/nushell/config.nu".source = ./config.nu;};
+    file = {
+      ".config/nushell/config.nu".source = ./config.nu;
+    };
     packages = [pkgs.nushell];
   };
   programs.nushell = {

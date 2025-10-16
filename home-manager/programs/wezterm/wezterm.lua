@@ -123,7 +123,7 @@ return {
 			mods = "CMD",
 			action = wezterm.action.CloseCurrentPane({ confirm = true }),
 		},
-        { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
+		{ key = "[", mods = "LEADER", action = act.ActivateCopyMode },
 	},
 	key_tables = {
 		copy_mode = {

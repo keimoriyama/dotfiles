@@ -11,15 +11,15 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-    #   - name: Import GPG key
-    #     uses: crazy-max/ghaction-import-gpg@v6
-    #     with:
-    #       gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-    #       passphrase: ${{ secrets.PASSPHRASE }}
-    #       fingerprint: C0FD3B801CC6BCF942E61992163E8CC3BFEFF441
-    #       git_user_signingkey: true
-    #       git_commit_gpgsign: true
-    #       git_config_global: true
+      #   - name: Import GPG key
+      #     uses: crazy-max/ghaction-import-gpg@v6
+      #     with:
+      #       gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      #       passphrase: ${{ secrets.PASSPHRASE }}
+      #       fingerprint: C0FD3B801CC6BCF942E61992163E8CC3BFEFF441
+      #       git_user_signingkey: true
+      #       git_commit_gpgsign: true
+      #       git_config_global: true
       - uses: actions/checkout@v5
       - name: Setup nix
         uses: ./.github/actions/setup-nix
@@ -40,14 +40,14 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
       - name: Enable Pull Request Automerge
-        run: gh pr merge --merge create-pull-request/patch 
+        run: gh pr merge --merge create-pull-request/patch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Format nix files
         run: |
           nix run nixpkgs#alejandra .
-      # - name: Commit changes
-      #   run: |
-      #     git add .
-      #     git commit -S -m "Update lockfile"
-      #     git push origin HEAD
+    # - name: Commit changes
+    #   run: |
+    #     git add .
+    #     git commit -S -m "Update lockfile"
+    #     git push origin HEAD
