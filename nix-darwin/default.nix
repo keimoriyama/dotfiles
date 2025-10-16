@@ -1,4 +1,10 @@
 {pkgs, ...}: {
+  # Nixデーモンの自動アップグレードを有効化
+  nix.package = pkgs.nix;
+  environment.systemPackages = [];
+  # 非自由パッケージを許可
+  nixpkgs.config.allowUnfree = true;
+
   nix = {
     optimise.automatic = true;
     # enable = false;

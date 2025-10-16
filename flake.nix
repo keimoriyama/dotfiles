@@ -38,32 +38,12 @@
   } @ inputs: let
     system = "aarch64-darwin";
     pkgs = import nixpkgs {inherit system;};
-    username = "kei";
-    # configuration = {...}: {
-    #   users.users.${username}.home = "/Users/${username}";
-    # };
-  in {
+    in {
     darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
-      inherit pkgs system;
-      inherit (inputs.nixpkgs) lib;
-      specialArgs = {
-        inherit username pkgs;
-      };
-      # system = system;
+       system = system;
       modules = [
-        # configuration
         ./nix-darwin/default.nix
-        # home-manager.darwinModules.home-manager
-        # {
-        #   home-manager.useGlobalPkgs = true;
-        #   home-manager.useUserPackages = true;
-        #   home-manager.extraSpecialArgs = {
-        #     inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay;
-        #     inherit (home-manager.lib) homeManagerConfiguration;
-        #   };
-        #   home-manager.users."${username}" = import ./home-manager/default.nix;
-        # }
-      ];
+        ];
     };
 
     homeConfigurations = {

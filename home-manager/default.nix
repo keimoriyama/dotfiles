@@ -50,7 +50,6 @@ in {
     homeDirectory = "/Users/${username}";
 
     packages = with pkgs; [
-      # git
       curl
       uv
       nodejs_24
@@ -101,6 +100,12 @@ in {
       # textlint-rule-write-good
 
       yaskkserv2
+      slack
+      discord
+      spotify
+      wezterm
+      ollama
+      zoom-us
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;

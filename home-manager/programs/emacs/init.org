@@ -364,6 +364,10 @@
                      (("z" neotree-stretch-toggle     "Size"        :toggle (not (neo-window--minimize-p)))
                       ("h" neotree-hidden-file-toggle "Hidden file" :toggle neo-buffer--show-hidden-file-p)))))
 #+end_src
+*** nerd-icons
+#+begin_src emacs-lisp
+(require 'nerd-icons)
+#+end_src
 ** Completion
 *** corfu
 #+begin_src emacs-lisp
