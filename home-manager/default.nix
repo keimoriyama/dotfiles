@@ -43,6 +43,7 @@
 in {
   imports = defaultPrograms;
 
+  programs.home-manager.enable = true;
   home = {
     username = username;
     homeDirectory = "/Users/${username}";
@@ -108,5 +109,4 @@ in {
       ".lua-language-server/main.lua".source = "${pkgs.lua-language-server.outPath}/share/lua-language-server/main.lua";
     };
   };
-  programs.home-manager.enable = true;
 }
