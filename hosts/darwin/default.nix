@@ -16,7 +16,7 @@ in
     };
     modules = [
       configuration
-      ../../nix-darwin
+      ../../nix-darwin/default.nix
       home-manager.darwinModules.home-manager
       {
         home-manager = {

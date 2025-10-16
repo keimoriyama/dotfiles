@@ -23,54 +23,49 @@
     org-babel.url = "github:emacs-twist/org-babel";
     flake-utils.url = "github:numtide/flake-utils";
     flake-parts.url = "github:hercules-ci/flake-parts";
+	 treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
-    self,
-    nixpkgs,
-    nix-darwin,
-    home-manager,
-    emacs-overlay,
-    org-babel,
-    neovim-nightly-overlay,
-    flake-utils,
+    flake-parts,
+	treefmt-nix,
     ...
-  } @ inputs: let
-    system = "aarch64-darwin";
-    pkgs = import nixpkgs {inherit system;};
-  in {
-    darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
-      system = system;
-      modules = [
-        ./nix-darwin/default.nix
+  } @ inputs: 
+  flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-linux"
       ];
-    };
 
-    homeConfigurations = {
-      myHomeConfig = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
-        extraSpecialArgs = {
-          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay;
-          inherit (home-manager.lib) homeManagerConfiguration;
+      imports = [ treefmt-nix.flakeModule ];
+
+      flake = {
+        darwinConfigurations = {
+          darwin = import ./hosts/darwin { inherit inputs; };
         };
-        modules = [
-          ./home-manager/default.nix
-        ];
       };
+
+      perSystem =
+        { ... }:
+        {
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs = {
+              actionlint.enable = true;
+              nixfmt.enable = true;
+              taplo.enable = true;
+              jsonfmt.enable = true;
+              yamlfmt.enable = true;
+              fish_indent.enable = true;
+              stylua.enable = true;
+              shfmt.enable = true;
+              prettier.enable = true;
+            };
+          };
+        };
     };
-    apps.${system}.update = {
-      type = "app";
-      program = toString (pkgs.writeShellScript "update-script" ''
-        set -e
-        echo "Updating home-manager..."
-        nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-        echo "Updating nix-darwin..."
-        sudo nix run nix-darwin -- switch --flake .#kei-darwin
-        echo "update complete"
-        nix fmt .
-        echo "done!!!"
-      '');
-    };
-    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
-  };
 }
