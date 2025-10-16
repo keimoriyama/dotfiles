@@ -40,6 +40,7 @@
     onActivation = {
       autoUpdate = true;
       # !! 注意 !!
+      upgrade = true;
       cleanup = "uninstall";
     };
     taps = [
