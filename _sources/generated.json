@@ -336,7 +336,12 @@
         "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
     },
     "yaskkserv2": {
-        "cargoLocks": null,
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./yaskkserv2-0.1.7/Cargo.lock",
+                {}
+            ]
+        },
         "date": null,
         "extract": null,
         "name": "yaskkserv2",
