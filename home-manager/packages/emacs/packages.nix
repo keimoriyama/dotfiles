@@ -30,9 +30,9 @@
     src = sources.emacs-instant-maximized-window.src;
     version = "0.0.1";
   };
-  nano-modeline = epkgs.melpaBuild{
-    pname="nano-modeline";
-    src=sources.emacs-nano-modeline.src;
-    version="0.0.1"
-  }
+  nano-modeline = epkgs.melpaBuild {
+    pname = "nano-modeline";
+    src = sources.emacs-nano-modeline.src;
+    version = "0.0.1";
+  };
 }

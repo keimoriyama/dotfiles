@@ -270,6 +270,24 @@
 (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode)
 #+end_src
 
+*** moody
+#+begin_src emacs-lisp
+(require 'moody)
+(setq x-underline-at-descent-line t)
+(moody-replace-mode-line-buffer-identification)
+(moody-replace-vc-mode)
+;; 以下を追加
+(when (eq system-type 'darwin)
+  (setq moody-slant-function 'moody-slant-apple-rgb))
+#+end_src
+
+*** minions
+#+begin_src emacs-lisp
+(require 'minions)
+(minions-mode)
+(setq minions-mode-line-lighter "[+]")
+#+end_src
+
 *** which-key
 #+begin_src emacs-lisp
 (require 'which-key)

@@ -48,6 +48,8 @@ in
     packages.dmacro
     packages.instant-maximized-window
     packages.nano-modeline
+    moody
+    minions
     neotree
 
     # completion
