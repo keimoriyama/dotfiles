@@ -167,6 +167,27 @@
         },
         "version": "e6b82419bf9c154df881c72c5800bbd43887ec0d"
     },
+    "emacs-nano-modeline": {
+        "cargoLocks": null,
+        "date": "2024-04-29",
+        "extract": null,
+        "name": "emacs-nano-modeline",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "rougier",
+            "repo": "nano-modeline",
+            "rev": "04676d57a1e602123a593836745a744d1b2028fb",
+            "sha256": "sha256-CoADZ4L4JpoF3JRMb793z2nAq8s1VE3uqb3gqFD7IOA=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "04676d57a1e602123a593836745a744d1b2028fb"
+    },
     "emacs-yaml-mode": {
         "cargoLocks": null,
         "date": "2024-10-03",
@@ -313,31 +334,5 @@
             "type": "github"
         },
         "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
-    },
-    "yaskkserv2": {
-        "cargoLocks": {
-            "Cargo.lock": [
-                "./yaskkserv2-0.1.7/Cargo.lock",
-                {}
-            ]
-        },
-        "date": null,
-        "extract": null,
-        "name": "yaskkserv2",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "wachikun",
-            "repo": "yaskkserv2",
-            "rev": "0.1.7",
-            "sha256": "sha256-bF8OHP6nvGhxXNvvnVCuOVFarK/n7WhGRktRN4X5ZjE=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "0.1.7"
     }
 }

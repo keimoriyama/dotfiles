@@ -8,6 +8,11 @@ src.git="https://github.com/hiroseyuuji/yatex"
 src.branch="master"
 fetch.github='hiroseyuuji/yatex'
 
+[emacs-nano-modeline]
+src.git="https://github.com/rougier/nano-modeline"
+src.branch="master"
+fetch.github="rougier/nano-modeline"
+
 [dpp-vim]
 src.git="https://github.com/Shougo/dpp.vim"
 src.branch="main"

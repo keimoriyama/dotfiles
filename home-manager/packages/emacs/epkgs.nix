@@ -9,6 +9,7 @@ in
     olivetti
     dash
     f
+    all-the-icons
     nerd-icons
     nerd-icons-completion
     solarized-theme
@@ -33,7 +34,7 @@ in
     quickrun
     avy-zap
     ellama
-    doom-modeline
+    # doom-modeline
     oj
     dashboard
     htmlize
@@ -46,6 +47,7 @@ in
     color-identifiers-mode
     packages.dmacro
     packages.instant-maximized-window
+    packages.nano-modeline
     neotree
 
     # completion
