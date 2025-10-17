@@ -38,12 +38,12 @@
   } @ inputs: let
     system = "aarch64-darwin";
     pkgs = import nixpkgs {inherit system;};
-    in {
+  in {
     darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
-       system = system;
+      system = system;
       modules = [
         ./nix-darwin/default.nix
-        ];
+      ];
     };
 
     homeConfigurations = {
