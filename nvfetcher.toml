@@ -40,9 +40,9 @@ fetch.github="Shougo/dpp-protocol-git"
 
 [yaskkserv2]
 src.github="wachikun/yaskkserv2"
-src.branch="master"
+# src.branch="master"
 fetch.github="wachikun/yaskkserv2"
-cargo_lock = ["Cargo.lock"]
+cargo_locks = ["Cargo.lock"]
 
 [emacs-yaml-mode]
 src.git="https://github.com/yoshiki/yaml-mode"
