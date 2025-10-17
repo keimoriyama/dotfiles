@@ -203,5 +203,11 @@
       fetchSubmodules = false;
       sha256 = "sha256-bF8OHP6nvGhxXNvvnVCuOVFarK/n7WhGRktRN4X5ZjE=";
     };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./yaskkserv2-0.1.7/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
   };
 }
