@@ -1334,5 +1334,6 @@ binding))))))))
 (require 'oj)
 (setopt oj-home-dir
         (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
+(setq oj-default-online-judge 'atcoder)
 #+end_src
 

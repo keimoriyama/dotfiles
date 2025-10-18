@@ -93,6 +93,7 @@ in {
       docker
 
       online-judge-tools
+      online-judge-template-generator
       # textlint
       # textlint-plugin-org
       # textlint-plugin-latex2e
