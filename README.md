@@ -1,5 +1,8 @@
 # dotfiles
 
 ```sh
-sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#darwin --show-trace
+# install non determinate nix
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+
+nix run .#update
 ```

@@ -1,8 +1,10 @@
 {
   programs.git = {
     enable = true;
-    userName = "keimoriyama";
-    userEmail = "kei_moriyama@icloud.com";
+    settings = {
+      user.name = "keimoriyama";
+      user.email = "kei_moriyama@icloud.com";
+    };
     ignores = [
       # macOS
       ".DS_Store"
