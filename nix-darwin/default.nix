@@ -10,6 +10,7 @@
     # enable = false;
     settings = {
       experimental-features = "nix-command flakes";
+      # sandbox = true;
       max-jobs = 8;
     };
   };

@@ -90,6 +90,7 @@ in
     packages.yaml-mode
     toml-mode
     lua-mode
+    packages.typst-ts-mode
 
     # lsp
     lsp-mode

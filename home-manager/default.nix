@@ -6,9 +6,9 @@
   org-babel,
   system,
   neovim-nightly-overlay,
+  username,
   ...
 }: let
-  username = "kei";
   sources = pkgs.callPackage ../_sources/generated.nix {};
 
   pkgs = import nixpkgs {
@@ -45,7 +45,7 @@ in {
 
   programs.home-manager.enable = true;
   home = {
-    stateVersion = "25.11";
+    stateVersion = "24.11";
     username = username;
     homeDirectory = "/Users/${username}";
 

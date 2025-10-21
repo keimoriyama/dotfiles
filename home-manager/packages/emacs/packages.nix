@@ -35,4 +35,9 @@
     src = sources.emacs-nano-modeline.src;
     version = "0.0.1";
   };
+  typst-ts-mode = epkgs.melpaBuild{
+    pname="typst-ts-mode";
+    src = sources.emacs-typst-ts-mode.src;
+    version="0.0.1";
+  };
 }

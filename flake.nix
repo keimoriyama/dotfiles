@@ -37,6 +37,7 @@
     ...
   } @ inputs: let
     system = "aarch64-darwin";
+    username = "kei";
     pkgs = import nixpkgs {inherit system;};
   in {
     darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
@@ -50,7 +51,7 @@
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {
-          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay;
+          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username;
           inherit (home-manager.lib) homeManagerConfiguration;
         };
         modules = [

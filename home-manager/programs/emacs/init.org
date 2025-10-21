@@ -841,9 +841,15 @@ binding))))))))
   ("visit file"
    (("m" my:org-goto-memo "memo"))
    "agenda"
-   (("c" org-capture "capture"))
+   (("a" org-agenda "agenda")
+    ("c" org-capture "capture"))
    "insert"
-   (("h" org-insert-heading "header"))))
+   (("h" org-insert-heading "header")
+    ("l" org-insert-link "link")
+    ("t" org-table-create "table"))
+   "export"
+   (("H" org-hugo-export-as-md "hugo md")
+    ("d" org-export-dispatch "dispatch"))))
 #+end_src
 ** lsp
 
@@ -949,7 +955,7 @@ binding))))))))
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
-** program
+** program mode
 *** dap-mode
 #+begin_src emacs-lisp
 (add-hook 'dap-stopped-hook

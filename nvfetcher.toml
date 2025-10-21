@@ -59,6 +59,11 @@ src.git="https://github.com/blue0513/instant-maximized-window/"
 src.branch='master'
 fetch.github='blue0513/instant-maximized-window'
 
+[emacs-typst-ts-mode]
+src.git="https://github.com/Ziqi-Yang/typst-ts-mode"
+src.branch='main'
+fetch.github="Ziqi-Yang/typst-ts-mode"
+
 [fish-autols]
 src.git="https://github.com/yuys13/fish-autols"
 src.branch="main"
@@ -83,3 +88,4 @@ fetch.github="yuys13/fish-fzf-bd"
 src.git="https://github.com/yuys13/fish-gcd"
 src.branch="main"
 fetch.github="yuys13/fish-gcd"
+
