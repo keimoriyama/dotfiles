@@ -91,6 +91,7 @@ in {
       fzf
       python313Packages.debugpy
       docker
+      tinymist
 
       online-judge-tools
       online-judge-template-generator

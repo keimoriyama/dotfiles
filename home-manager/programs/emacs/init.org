@@ -1073,6 +1073,12 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
 #+end_src
 
+*** typst mode
+#+begin_src emacs-lisp
+(require 'typst-ts-mode)
+(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+(add-hook 'typst-ts-mode-hook #'lsp)
+#+end_src
 *** lua mode
 #+begin_src emacs-lisp
 (require 'lua-mode)
