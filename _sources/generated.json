@@ -188,6 +188,27 @@
         },
         "version": "04676d57a1e602123a593836745a744d1b2028fb"
     },
+    "emacs-typst-ts-mode": {
+        "cargoLocks": null,
+        "date": "2025-01-18",
+        "extract": null,
+        "name": "emacs-typst-ts-mode",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Ziqi-Yang",
+            "repo": "typst-ts-mode",
+            "rev": "aee8ff090cff6f39a70ac2c9035b1eb2b69924d7",
+            "sha256": "sha256-oZ4uq87PeqXGIy8Dmx7ppGzrxDhiJEGOH8nXerZ03ik=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "aee8ff090cff6f39a70ac2c9035b1eb2b69924d7"
+    },
     "emacs-yaml-mode": {
         "cargoLocks": null,
         "date": "2024-10-03",
