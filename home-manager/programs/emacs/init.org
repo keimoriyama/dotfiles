@@ -414,6 +414,7 @@
         (go "https://github.com/tree-sitter/tree-sitter-go")
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (python "https://github.com/tree-sitter/tree-sitter-python")
+        (typst "https://github.com/uben0/tree-sitter-typst")
         ))
 ;; Treesitがインストールされてない場合は自動でインストールする
 (dolist (element treesit-language-source-alist)
@@ -889,6 +890,8 @@ binding))))))))
   :type '(repeat symbol))
 
 (setq lsp-server-install-dir (format "%s/.nix-profile/bin" (getenv "HOME")))
+
+(setq lsp-auto-guess-root t)
 
 (with-eval-after-load 'lsp-mode
   (setopt lsp-enable-file-watchers nil)

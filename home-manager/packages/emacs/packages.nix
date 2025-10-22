@@ -40,9 +40,9 @@
     src = sources.emacs-typst-ts-mode.src;
     version = "0.0.1";
   };
-  bimove = epkgs.melpaBuild{
-  pname = "bimove";
-  src = sources.emacs-bimove.src;
-  version="0.0.1";
+  bimove = epkgs.melpaBuild {
+    pname = "bimove";
+    src = sources.emacs-bimove.src;
+    version = "0.0.1";
   };
 }
