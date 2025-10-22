@@ -856,8 +856,8 @@ binding))))))))
 *** lsp-mode
 #+begin_src emacs-lisp
 (defun my/lsp-mode-completion ()
-   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-         '(orderless)))
+  (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+        '(orderless)))
 
 (require 'lsp-mode)
 

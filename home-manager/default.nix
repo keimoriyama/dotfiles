@@ -82,7 +82,8 @@ in {
       typst
       tdf
       perl
-      nixd
+      # nixd
+      nil
       copilot-language-server
       texlab
       auctex
