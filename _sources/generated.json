@@ -104,6 +104,27 @@
         },
         "version": "e742a0779fb1ebe98ffb8e6dec432fb82498a30f"
     },
+    "emacs-bimove": {
+        "cargoLocks": null,
+        "date": "2025-10-22",
+        "extract": null,
+        "name": "emacs-bimove",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "conao3",
+            "repo": "bimove.el",
+            "rev": "221b77f448a15a59c7735c421513fd91cb5b59ae",
+            "sha256": "sha256-ReT7fJnsEf6wOx+JgnqkWxSqFggQIpkWTDZpXnjafb4=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "221b77f448a15a59c7735c421513fd91cb5b59ae"
+    },
     "emacs-copilot": {
         "cargoLocks": null,
         "date": "2025-09-16",
