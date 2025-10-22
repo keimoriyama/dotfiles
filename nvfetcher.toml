@@ -65,7 +65,7 @@ src.branch='main'
 fetch.github="Ziqi-Yang/typst-ts-mode"
 
 [emacs-bimove]
-srg.git="https://github.com/conao3/bimove.el"
+src.git="https://github.com/conao3/bimove.el"
 src.branch="master"
 fetch.github="conao3/bimove.el"
 

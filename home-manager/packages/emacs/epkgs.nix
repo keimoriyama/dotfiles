@@ -50,8 +50,9 @@ in
     packages.nano-modeline
     moody
     minions
-	packages.bimove
+	  packages.bimove
     neotree
+    tree-sitter
 
     # completion
     corfu

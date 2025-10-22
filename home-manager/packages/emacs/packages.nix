@@ -43,6 +43,6 @@
   bimove = epkgs.melpaBuild{
   pname = "bimove";
   src = sources.emacs-bimove.src;
-  version="0.0.1"
+  version="0.0.1";
   };
 }
