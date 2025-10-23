@@ -874,91 +874,91 @@ binding))))))))
 ** lsp
 *** lsp-mode
 #+begin_src emacs-lisp
-;; (defun my/lsp-mode-completion ()
-;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-;;         '(orderless)))
+(defun my/lsp-mode-completion ()
+  (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+        '(orderless)))
 
-;; (require 'lsp-mode)
+(require 'lsp-mode)
 
-;; (defcustom lsp-client-packages
-;;   '(lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
-;;      lsp-json lsp-latex lsp-lua lsp-fennel lsp-magik lsp-markdown 
-;;      lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex lsp-lua)
-;;   "List of the clients to be automatically required."
-;;   :group 'lsp-mode
-;;   :type '(repeat symbol))
+(defcustom lsp-client-packages
+  '(lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
+     lsp-json lsp-latex lsp-lua lsp-fennel lsp-magik lsp-markdown 
+     lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex lsp-lua)
+  "List of the clients to be automatically required."
+  :group 'lsp-mode
+  :type '(repeat symbol))
 
-;; (setq lsp-server-install-dir (format "%s/.nix-profile/bin" (getenv "HOME")))
+(setq lsp-server-install-dir (format "%s/.nix-profile/bin" (getenv "HOME")))
 
-;; (setq lsp-auto-guess-root t)
+(setq lsp-auto-guess-root t)
 
-;; (with-eval-after-load 'lsp-mode
-;;   (setopt lsp-enable-file-watchers nil)
-;;   (setopt lsp-file-watch-threshold 500)
-;;   (setopt lsp-completion-provider :none)
-;;   (setq lsp-enable-suggest-server-download nil))
+(with-eval-after-load 'lsp-mode
+  (setopt lsp-enable-file-watchers nil)
+  (setopt lsp-file-watch-threshold 500)
+  (setopt lsp-completion-provider :none)
+  (setq lsp-enable-suggest-server-download nil))
 #+end_src
 *** lsp-booster
 #+begin_src emacs-lisp
-;; (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
-;; (setq gc-cons-threshold 200000000)
+(setq read-process-output-max (* 5 1024 1024)) ;; 10mb
+(setq gc-cons-threshold 200000000)
 
-;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
-;;   "Try to parse bytecode instead of json."
-;;   (or
-;;    (when (equal (following-char) ?#)
-;;      (let ((bytecode (read (current-buffer))))
-;;        (when (byte-code-function-p bytecode)
-;;          (funcall bytecode))))
-;;    (apply old-fn args)))
-;; (advice-add (if (progn (require 'json)
-;;                        (fboundp 'json-parse-buffer))
-;;                 'json-parse-buffer
-;;               'json-read)
-;;             :around
-;;             #'lsp-booster--advice-json-parse)
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
 
-;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-;;   "Prepend emacs-lsp-booster command to lsp CMD."
-;;   (let ((orig-result (funcall old-fn cmd test?)))
-;;     (if (and (not test?)                             ;; for check lsp-server-present?
-;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-;;              lsp-use-plists
-;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
-;;              (executable-find "emacs-lsp-booster"))
-;;         (progn
-;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-;;             (setcar orig-result command-from-exec-path))
-;;           (message "Using emacs-lsp-booster for %s!" orig-result)
-;;           (cons "emacs-lsp-booster" orig-result))
-;;       orig-result)))
-;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+            (setcar orig-result command-from-exec-path))
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
 
 *** lsp-ui
 #+begin_src emacs-lisp
-;; (require 'lsp-ui)
+(require 'lsp-ui)
 
-;; (with-eval-after-load 'lsp-mode
-;;   (add-hook 'lsp-mode-hook #'lsp-ui-mode))
-;; (with-eval-after-load 'lsp-ui
-;;   (setopt lsp-ui-doc-enable t)
-;;   (setopt lsp-ui-doc-position 'top)
-;;   (setopt lsp-ui-doc-side 'right)
-;;   (setopt lsp-ui-doc-show-with-cursor t)
-;;   (setopt lsp-ui-doc-show-with-mouse nil)
-;;   (setopt lsp-ui-imenu-auto-refresh t)
-;;   (pretty-hydra-define lsp-mode
-;;     (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;    ("peek"
-;;     (("d" lsp-ui-peek-find-definitions "definitions")
-;;      ("r" lsp-ui-peek-find-references "references")
-;;      ("b" xref-go-back "go back to previous location"))
-;;     "code action"
-;;     (("n" lsp-rename "rename")
-;;      ("c" lsp-execute-code-action "code action")
-;;      ("p" lsp-ui-peek "peek"))))
-;;   (keymap-global-set "C-c l" #'lsp-mode/body))
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
+(with-eval-after-load 'lsp-ui
+  (setopt lsp-ui-doc-enable t)
+  (setopt lsp-ui-doc-position 'top)
+  (setopt lsp-ui-doc-side 'right)
+  (setopt lsp-ui-doc-show-with-cursor t)
+  (setopt lsp-ui-doc-show-with-mouse nil)
+  (setopt lsp-ui-imenu-auto-refresh t)
+  (pretty-hydra-define lsp-mode
+    (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("peek"
+    (("d" lsp-ui-peek-find-definitions "definitions")
+     ("r" lsp-ui-peek-find-references "references")
+     ("b" xref-go-back "go back to previous location"))
+    "code action"
+    (("n" lsp-rename "rename")
+     ("c" lsp-execute-code-action "code action")
+     ("p" lsp-ui-peek "peek"))))
+  (keymap-global-set "C-c l" #'lsp-mode/body))
 #+end_src
 
 *** flycheck
@@ -990,100 +990,97 @@ binding))))))))
 "code action"
 (("n" eglot-rename "rename")
  ("c" eglot-code-actions "code action"))))
- (keymap-global-set "C-c l" #'eglot/body)
+; (keymap-global-set "C-c l" #'eglot/body)
 #+end_src
 ** program mode
 *** dap-mode
 #+begin_src emacs-lisp
-(add-hook 'dap-stopped-hook
-          (lambda (arg) (call-interactively #'dap-hydra)))
+;; (add-hook 'dap-stopped-hook
+;;           (lambda (arg) (call-interactively #'dap-hydra)))
 #+end_src
 *** python mode
 #+begin_src emacs-lisp
 ; python
-; (add-hook 'python-mode-hook #'lsp)
-(add-hook 'python-mode-hook #'ruff-format-on-save-mode)
-(add-hook 'python-mode-hook #'eglot-ensure)
+;; (add-hook 'python-mode-hook #'lsp)
+;; (add-hook 'python-mode-hook #'ruff-format-on-save-mode)
+;; (add-hook 'python-mode-hook #'eglot-ensure)
+;; (add-hook 'python-mode-hook #'pet-mode)
 
-(require 'python-mode)
-(require 'lsp-pyright)
-(require 'pet)
+;; (require 'python-mode)
+;; (require 'lsp-pyright)
+;; (require 'pet)
+;; (with-eval-after-load 'python-mode
+;;   (define-key python-mode-map (kbd "C-c C-p") 'undefined)
+;;   (setq python-shell-completion-native-enable nil))
 
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-
-(with-eval-after-load 'python-mode
-  (keymap-global-set "C-c C-p" nil))
-
-(with-eval-after-load 'pet
-  (pet-mode)
-  (setq-local python-shell-interpreter (pet-executable-find "python"))
-  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
-  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
-  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-  (setq-local lsp-ruff-python-path python-shell-interpreter)
-  (when-let ((ruff-executable (pet-executable-find "ruff")))
-                (setq-local ruff-format-command ruff-executable)
-                (ruff-format-on-save-mode))
-  (pet-flycheck-setup)
-  (setopt lsp-pyright-disable-tagged-hints t)
-  (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
+;;(with-eval-after-load 'pet
+;; (setq-local python-shell-interpreter (pet-executable-find "python"))
+;;  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
+;;  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
+;;  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
+;;  (setq-local lsp-ruff-python-path python-shell-interpreter)
+;;  (when-let ((ruff-executable (pet-executable-find "ruff")))
+;;                (setq-local ruff-format-command ruff-executable)
+;;                (ruff-format-on-save-mode))
+;;  (pet-flycheck-setup)
+;;  (setopt lsp-pyright-disable-tagged-hints t)
+;;  (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
 
 (require 'dap-python)
 ;; if you installed debugpy, you need to set this
 ;; https://github.com/emacs-lsp/dap-mode/issues/306
 (setq dap-python-debugger 'debugpy)
 #+end_src
-
 *** rust mode
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
-;(add-hook 'rust-mode-hook #'lsp)
-(add-hook 'rust-mode-hook  #'cargo-minor-mode)
-(require 'rust-mode)
+;; (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
+;; ;(add-hook 'rust-mode-hook #'lsp)
+;; (add-hook 'rust-mode-hook  #'cargo-minor-mode)
+;; (require 'rust-mode)
 
-(with-eval-after-load 'rust-mode
-  (setq rust-format-on-save t))
+;; (with-eval-after-load 'rust-mode
+;;   (setq rust-format-on-save t))
 #+end_src
 *** yaml mode
 #+begin_src emacs-lisp
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+;; (require 'yaml-mode)
+;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+;; (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 #+end_src
 
 *** nix mode
 #+begin_src emacs-lisp
-(require 'nix-mode)
-(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
+;; (require 'nix-mode)
+;; (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 ;(add-hook 'nix-mode-hook #'lsp)
 #+end_src
 
 *** dockerfile mode
 #+begin_src emacs-lisp
-(require 'dockerfile-mode)
+;; (require 'dockerfile-mode)
 
-(add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
+;; (add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
+;; (add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
+;; (add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
 
-(with-eval-after-load 'dockerfile-mode
-  ;; hooks
-  (add-hook 'dockerfile-mode-hook #'flycheck-mode))
+;; (with-eval-after-load 'dockerfile-mode
+;;   ;; hooks
+;;   (add-hook 'dockerfile-mode-hook #'flycheck-mode))
 #+end_src
 
 *** copilot mode
 #+begin_src emacs-lisp
-(require 'copilot)
-(add-hook 'prog-mode-hook #'copilot-mode)
-;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
-(setq copilot-indent-offset-warning-disable t)
-(with-eval-after-load 'copilot
-  (keymap-global-set "C-<tab>" #'copilot-accept-completion)
-  (add-to-list 'copilot-indentation-alist '(prog-mode . 2))
-  (add-to-list 'copilot-indentation-alist '(org-mode . 2))
-  (add-to-list 'copilot-indentation-alist '(text-mode . 2))
-  (add-to-list 'copilot-indentation-alist '(closure-mode . 2))
-  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode . 2)))
+;; (require 'copilot)
+;; (add-hook 'prog-mode-hook #'copilot-mode)
+;; ;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
+;; (setq copilot-indent-offset-warning-disable t)
+;; (with-eval-after-load 'copilot
+;;   (keymap-global-set "C-<tab>" #'copilot-accept-completion)
+;;   (add-to-list 'copilot-indentation-alist '(prog-mode . 2))
+;;   (add-to-list 'copilot-indentation-alist '(org-mode . 2))
+;;   (add-to-list 'copilot-indentation-alist '(text-mode . 2))
+;;   (add-to-list 'copilot-indentation-alist '(closure-mode . 2))
+;;   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode . 2)))
 #+end_src
 
 *** markdown
@@ -1094,8 +1091,8 @@ binding))))))))
 
 *** webmode
 #+begin_src emacs-lisp
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+;; (require 'web-mode)
+;; (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+end_src
 
 *** yaml mode
@@ -1107,8 +1104,8 @@ binding))))))))
 
 *** toml mode
 #+begin_src emacs-lisp
-(require 'toml-mode)
-(add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
+;; (require 'toml-mode)
+;; (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
 #+end_src
 
 *** typst mode
@@ -1119,31 +1116,31 @@ binding))))))))
 #+end_src
 *** lua mode
 #+begin_src emacs-lisp
-(require 'lua-mode)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-;(add-hook 'lua-mode-hook #'lsp)
+;; (require 'lua-mode)
+;; (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+;; (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+;; ;(add-hook 'lua-mode-hook #'lsp)
 
-; lua-language-serverにおいて必要な設定
-(setq lsp-clients-lua-language-server-command "lua-language-server"
-      lsp-clients-lua-language-server-bin (format "%s/.nix-profile/bin/lua-language-server" (getenv "HOME"))
-      lsp-clients-lua-language-server-main-location (format "%s/.lua-language-server/main.lua" (getenv "HOME")))
-; reference : https://github.com/emacs-lsp/lsp-mode/issues/4688#issuecomment-3138937688
+;; ; lua-language-serverにおいて必要な設定
+;; (setq lsp-clients-lua-language-server-command "lua-language-server"
+;;       lsp-clients-lua-language-server-bin (format "%s/.nix-profile/bin/lua-language-server" (getenv "HOME"))
+;;       lsp-clients-lua-language-server-main-location (format "%s/.lua-language-server/main.lua" (getenv "HOME")))
+;; ; reference : https://github.com/emacs-lsp/lsp-mode/issues/4688#issuecomment-3138937688
 
-(defun my/lsp-clients-lua-language-server-test ()
-  "(Improved) Test Lua language server binaries and files."
-  (or (and (f-exists? lsp-clients-lua-language-server-main-location)
-           (f-exists? lsp-clients-lua-language-server-bin))
-      (f-exists? (car (split-string lsp-clients-lua-language-server-command)))))
+;; (defun my/lsp-clients-lua-language-server-test ()
+;;   "(Improved) Test Lua language server binaries and files."
+;;   (or (and (f-exists? lsp-clients-lua-language-server-main-location)
+;;            (f-exists? lsp-clients-lua-language-server-bin))
+;;       (f-exists? (car (split-string lsp-clients-lua-language-server-command)))))
 
-(advice-add #'lsp-clients-lua-language-server-test
-            :override #'my/lsp-clients-lua-language-server-test)
+;; (advice-add #'lsp-clients-lua-language-server-test
+;;             :override #'my/lsp-clients-lua-language-server-test)
 #+end_src
 
 ** latex
 *** texlab
 #+begin_src emacs-lisp
-;(require 'lsp-latex)
+(require 'lsp-latex)
 #+end_src
 *** yatex
 #+begin_src emacs-lisp
@@ -1156,11 +1153,12 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
 
-(add-to-list 'eglot-server-programs
-             '(yatex-mode "texlab"))
+;; (add-to-list 'eglot-server-programs
+;;              '(yatex-mode "texlab"))
 
 (add-hook 'yatex-mode-hook #'yas-minor-mode)
 (add-hook 'yatex-mode-hook #'eglot-ensure)
+(add-hook 'yatex-mode-hook #'lsp)
 
 (with-eval-after-load 'yatex
   (setopt YaTeX-inhibit-prefix-letter  t)
