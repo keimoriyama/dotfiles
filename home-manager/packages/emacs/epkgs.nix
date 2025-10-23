@@ -100,6 +100,7 @@ in
     dap-mode
     flycheck
     highlight-indent-guides
+    eglot-booster
 
     # org
     org-superstar
