@@ -37,20 +37,22 @@ class BaseDpsTestRunner {
   private denops: Denops;
   constructor(bufnr: number, denops: Denops) {
     this.bufnr = bufnr;
-	this.denops = denops
+    this.denops = denops;
   }
 
   init() {
   }
   // open buffer
-  async open_result_buffer(parsed_results: string[]){
-      const bufopts = await open(this.denops, "[TestResult]", { opener: "split" });
-      await this.denops.cmd("setlocal buftype=nofile");
-      await this.denops.cmd("setlocal bufhidden=hide");
-      await this.denops.cmd("setlocal filetype=denops-test-runner");
-      await this.denops.cmd("setlocal noswapfile");
-      const bufnr = bufopts["bufnr"];
-      await setbufline(this.denops, bufnr, 1, parsed_results);
+  async open_result_buffer(parsed_results: string[]) {
+    const bufopts = await open(this.denops, "[TestResult]", {
+      opener: "split",
+    });
+    await this.denops.cmd("setlocal buftype=nofile");
+    await this.denops.cmd("setlocal bufhidden=hide");
+    await this.denops.cmd("setlocal filetype=denops-test-runner");
+    await this.denops.cmd("setlocal noswapfile");
+    const bufnr = bufopts["bufnr"];
+    await setbufline(this.denops, bufnr, 1, parsed_results);
   }
   //
   // run test
@@ -64,7 +66,7 @@ class BaseDpsTestRunner {
   // rerun only selected test
 }
 
-class DenoDpsTestRunner extends BaseDpsTestRunner{}
+class DenoDpsTestRunner extends BaseDpsTestRunner {}
 
 function parse_test_result(parsed_result: TestResult[]): string[] {
   let results = [];

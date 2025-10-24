@@ -26,4 +26,6 @@ vim.keymap.set("n", "r", '<cmd>call ddu#ui#do_action("itemAction", {"name": "ren
 vim.keymap.set("n", "y", '<cmd>call ddu#ui#do_action("itemAction", {"name": "yank"})<cr>', opt)
 vim.keymap.set("n", "c", '<cmd>call ddu#ui#do_action("itemAction", {"name": "copy"})<cr>', opt)
 vim.keymap.set("n", "p", '<cmd>call ddu#ui#do_action("itemAction", {"name": "paste"})<cr>', opt)
+vim.keymap.set("n", "u", '<cmd>call ddu#ui#do_action("itemAction", {"name" :"undo"})<cr>', opt)
+vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<cr>', opt)
 -- }}}

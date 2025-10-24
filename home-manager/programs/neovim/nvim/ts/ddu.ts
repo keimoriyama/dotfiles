@@ -29,14 +29,7 @@ export class Config extends BaseConfig {
           previewFloatingTitle: "preview",
           previewFloatingTitlePos: "center",
         } as Partial<FfParams>,
-        filer: {
-          split: "horizontal",
-          //floatingBorder: "rounded",
-          //floatingTitle: "filer",
-          //floatingTitlePos: "center",
-          toggle: true,
-          sort: "filename",
-        } as Partial<FilerParams>,
+        filer: {} as Partial<FilerParams>,
       },
       sourceOptions: {
         _: {
@@ -107,10 +100,16 @@ export class Config extends BaseConfig {
       },
       uiParams: {
         filer: {
-          split: "floating",
+          split: "horizontal",
           floatingBorder: "rounded",
           floatingTitle: "filer",
           floatingTitlePos: "center",
+          toggle: true,
+          sort: "filename",
+          startAutoAction: true,
+          autoAction: {
+            name: "preview",
+          },
         },
       },
     });
