@@ -1,5 +1,5 @@
 -- lua_add {{{
--- vim.keymap.set("n", "<Leader>sf", "<cmd>Ddu file -name=filer<cr>")
+vim.keymap.set("n", "<Leader>sf", "<cmd>Ddu file -name=filer<cr>")
 --}}}
 
 -- lua_ddu-filer{{{

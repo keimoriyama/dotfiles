@@ -164,20 +164,11 @@
 #+begin_src emacs-lisp
 (require 'projectile)
 (add-hook 'emacs-startup-hook #'projectile-mode)
-(defun format-string-in-list (str-list str-const format-spec)
-  "Formats each string in STR-LIST according to FORMAT-SPEC."
-  (mapcar (lambda (s) (format format-spec str-const s)) str-list))
 
 (keymap-global-set "C-c p" #'projectile-command-map)
 (with-eval-after-load 'projectile
   (setopt projectile-sort-order  'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
-  (setq projectile-project-search-path
-        (format-string-in-list
-         (split-string
-          (shell-command-to-string "ghq list") "\n")
-         (getenv "HOME")
-         "%s/ghq/%s"))
   (add-to-list 'projectile-project-search-path "~/Documents/org-mode/")
   (projectile-discover-projects-in-search-path))
 #+end_src
@@ -972,176 +963,14 @@ binding))))))))
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
-*** eglot
+** typst mode
 #+begin_src emacs-lisp
-(require 'eglot)
-
-(require 'eglot-booster)
-(eglot-booster-mode 1)
-; for completion of eglot-booster-mode
-(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-
-(pretty-hydra-define eglot
-(:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-("peek"
-(("d" xref-find-definitions "definitions")
- ("r" xref-find-references "references")
- ("b" xref-go-back "go back to previous location"))
-"code action"
-(("n" eglot-rename "rename")
- ("c" eglot-code-actions "code action"))))
-; (keymap-global-set "C-c l" #'eglot/body)
-#+end_src
-** program mode
-*** dap-mode
-#+begin_src emacs-lisp
-;; (add-hook 'dap-stopped-hook
-;;           (lambda (arg) (call-interactively #'dap-hydra)))
-#+end_src
-*** python mode
-#+begin_src emacs-lisp
-; python
-;; (add-hook 'python-mode-hook #'lsp)
-;; (add-hook 'python-mode-hook #'ruff-format-on-save-mode)
-;; (add-hook 'python-mode-hook #'eglot-ensure)
-;; (add-hook 'python-mode-hook #'pet-mode)
-
-;; (require 'python-mode)
-;; (require 'lsp-pyright)
-;; (require 'pet)
-;; (with-eval-after-load 'python-mode
-;;   (define-key python-mode-map (kbd "C-c C-p") 'undefined)
-;;   (setq python-shell-completion-native-enable nil))
-
-;;(with-eval-after-load 'pet
-;; (setq-local python-shell-interpreter (pet-executable-find "python"))
-;;  (setq-local python-shell-virtualenv-root (pet-virtualenv-root))
-;;  (setq-local lsp-pyright-venv-path python-shell-virtualenv-root)
-;;  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter)
-;;  (setq-local lsp-ruff-python-path python-shell-interpreter)
-;;  (when-let ((ruff-executable (pet-executable-find "ruff")))
-;;                (setq-local ruff-format-command ruff-executable)
-;;                (ruff-format-on-save-mode))
-;;  (pet-flycheck-setup)
-;;  (setopt lsp-pyright-disable-tagged-hints t)
-;;  (setopt lsp-pyright-basedpyright-inlay-hints-variable-types nil))
-
-(require 'dap-python)
-;; if you installed debugpy, you need to set this
-;; https://github.com/emacs-lsp/dap-mode/issues/306
-(setq dap-python-debugger 'debugpy)
-#+end_src
-*** rust mode
-#+begin_src emacs-lisp
-;; (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
-;; ;(add-hook 'rust-mode-hook #'lsp)
-;; (add-hook 'rust-mode-hook  #'cargo-minor-mode)
-;; (require 'rust-mode)
-
-;; (with-eval-after-load 'rust-mode
-;;   (setq rust-format-on-save t))
-#+end_src
-*** yaml mode
-#+begin_src emacs-lisp
-;; (require 'yaml-mode)
-;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-;; (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
-#+end_src
-
-*** nix mode
-#+begin_src emacs-lisp
-;; (require 'nix-mode)
-;; (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
-;(add-hook 'nix-mode-hook #'lsp)
-#+end_src
-
-*** dockerfile mode
-#+begin_src emacs-lisp
-;; (require 'dockerfile-mode)
-
-;; (add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
-;; (add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
-;; (add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
-
-;; (with-eval-after-load 'dockerfile-mode
-;;   ;; hooks
-;;   (add-hook 'dockerfile-mode-hook #'flycheck-mode))
-#+end_src
-
-*** copilot mode
-#+begin_src emacs-lisp
-;; (require 'copilot)
-;; (add-hook 'prog-mode-hook #'copilot-mode)
-;; ;(setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
-;; (setq copilot-indent-offset-warning-disable t)
-;; (with-eval-after-load 'copilot
-;;   (keymap-global-set "C-<tab>" #'copilot-accept-completion)
-;;   (add-to-list 'copilot-indentation-alist '(prog-mode . 2))
-;;   (add-to-list 'copilot-indentation-alist '(org-mode . 2))
-;;   (add-to-list 'copilot-indentation-alist '(text-mode . 2))
-;;   (add-to-list 'copilot-indentation-alist '(closure-mode . 2))
-;;   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode . 2)))
-#+end_src
-
-*** markdown
-#+begin_src emacs-lisp
-(require 'markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-#+end_src
-
-*** webmode
-#+begin_src emacs-lisp
-;; (require 'web-mode)
-;; (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-#+end_src
-
-*** yaml mode
-#+begin_src emacs-lisp
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
-#+end_src
-
-*** toml mode
-#+begin_src emacs-lisp
-;; (require 'toml-mode)
-;; (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
-#+end_src
-
-*** typst mode
-#+begin_src emacs-lisp
-(require 'typst-ts-mode)
-(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+;; (require 'typst-ts-mode)
+;; (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
 ;(add-hook 'typst-ts-mode-hook #'lsp)
-#+end_src
-*** lua mode
-#+begin_src emacs-lisp
-;; (require 'lua-mode)
-;; (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-;; (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-;; ;(add-hook 'lua-mode-hook #'lsp)
-
-;; ; lua-language-serverにおいて必要な設定
-;; (setq lsp-clients-lua-language-server-command "lua-language-server"
-;;       lsp-clients-lua-language-server-bin (format "%s/.nix-profile/bin/lua-language-server" (getenv "HOME"))
-;;       lsp-clients-lua-language-server-main-location (format "%s/.lua-language-server/main.lua" (getenv "HOME")))
-;; ; reference : https://github.com/emacs-lsp/lsp-mode/issues/4688#issuecomment-3138937688
-
-;; (defun my/lsp-clients-lua-language-server-test ()
-;;   "(Improved) Test Lua language server binaries and files."
-;;   (or (and (f-exists? lsp-clients-lua-language-server-main-location)
-;;            (f-exists? lsp-clients-lua-language-server-bin))
-;;       (f-exists? (car (split-string lsp-clients-lua-language-server-command)))))
-
-;; (advice-add #'lsp-clients-lua-language-server-test
-;;             :override #'my/lsp-clients-lua-language-server-test)
 #+end_src
 
 ** latex
-*** texlab
-#+begin_src emacs-lisp
-(require 'lsp-latex)
-#+end_src
 *** yatex
 #+begin_src emacs-lisp
 (require 'yatex)
@@ -1153,12 +982,8 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
 
-;; (add-to-list 'eglot-server-programs
-;;              '(yatex-mode "texlab"))
 
 (add-hook 'yatex-mode-hook #'yas-minor-mode)
-(add-hook 'yatex-mode-hook #'eglot-ensure)
-(add-hook 'yatex-mode-hook #'lsp)
 
 (with-eval-after-load 'yatex
   (setopt YaTeX-inhibit-prefix-letter  t)

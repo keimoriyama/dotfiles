@@ -72,27 +72,11 @@ in
     magit
 
     # langs
-    python-mode
-    pet
-    lsp-pyright
-    ruff-format
-    rust-mode
-    cargo
-    yaml-mode
-    nix-mode
-    dockerfile-mode
-    markdown-mode
-    lsp-latex
     auctex
     packages.yatex
     yasnippet
     consult-yasnippet
     packages.copilot
-    web-mode
-    packages.yaml-mode
-    toml-mode
-    lua-mode
-    packages.typst-ts-mode
 
     # lsp
     lsp-mode
