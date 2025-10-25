@@ -130,3 +130,10 @@ on_map = { n = '<C-d>', i = '<C-d>' }
 lua_source='''
 vim.keymap.set({ "i", "n" }, '<C-d>', '<Plug>(dmacro-play-macro)<CR>')
 '''
+
+[[plugins]]
+repo = 'mbbill/undotree'
+on_map = { n = '<leader>u' }
+lua_source = '''
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+'''
