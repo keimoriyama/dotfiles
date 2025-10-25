@@ -217,6 +217,18 @@
     };
     date = "2025-01-27";
   };
+  mocword = {
+    pname = "mocword";
+    version = "096316545837ca70498023486390f74f6b7c8fd3";
+    src = fetchFromGitHub {
+      owner = "high-moctane";
+      repo = "mocword";
+      rev = "096316545837ca70498023486390f74f6b7c8fd3";
+      fetchSubmodules = false;
+      sha256 = "sha256-aDwqj9myaGRkAcVkC2upHtQT+uq/ZRk72teWz6egCsc=";
+    };
+    date = "2022-05-02";
+  };
   yaskkserv2 = {
     pname = "yaskkserv2";
     version = "0.1.7";
