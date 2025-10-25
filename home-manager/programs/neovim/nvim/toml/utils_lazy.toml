@@ -41,6 +41,7 @@ require('treesitter-context').setup()
 [[plugins]]
 repo="JoosepAlviste/nvim-ts-context-commentstring"
 on_event = ["VimEnter"]
+depends='nvim-treesitter'
 
 [[plugins]]
 repo="kana/vim-smartword"
@@ -99,7 +100,7 @@ hooks_file="$BASE_DIR/lua/memolist.lua"
 
 [[plugins]]
 repo='akinsho/toggleterm.nvim'
-on_event = ["VimEnter"]
+on_map= {n = "<C-t>"}
 lua_source='''
 require("toggleterm").setup({  
   size = 100,
@@ -123,3 +124,9 @@ require("diffview").setup()
 vim.keymap.set('n', '<leader>df', ':DiffviewOpen<CR>', { noremap = true, silent = true })
 '''
 
+[[plugins]]
+repo = 'tani/dmacro.nvim'
+on_map = { n = '<C-d>', i = '<C-d>' }
+lua_source='''
+vim.keymap.set({ "i", "n" }, '<C-d>', '<Plug>(dmacro-play-macro)<CR>')
+'''

@@ -1052,8 +1052,6 @@ binding))))))))
 
 (setq skk-preload t)
 
-(with-eval-after-load 'skk
-  (keymap-global-set "C-l" #'skk-latin-mode))
 
 (with-eval-after-load 'skk-vars
   (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
@@ -1069,7 +1067,8 @@ binding))))))))
 
 (with-eval-after-load 'skk
   ;; hooks
-  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+  (add-hook 'skk-mode-hook #'ddskk-posframe-mode)
+  (keymap-global-set "C-l" #'skk-latin-mode))
 #+END_SRC
 
 ** LLM (ellama)
