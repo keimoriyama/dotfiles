@@ -74,7 +74,7 @@ end)
 return {
 	font = wezterm.font_with_fallback({ "UDEV Gothic", "HackGen35" }),
 	font_size = 18,
-	color_scheme = "Catppuccin Flappe",
+	color_scheme = "Catppuccin Frappe",
 	hyperlink_rules = hyperlink_rules,
 	-- mouse_bindings = mouse_binding,
 	hide_tab_bar_if_only_one_tab = true,
