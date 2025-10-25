@@ -1,11 +1,12 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
-# depends=['denops.vim']
+# depends='denops.vim'
 hooks_file="$BASE_DIR/lua/ddu.lua"
 
 [[plugins]]
 repo = "Shougo/ddu-commands.vim"
 depends = 'ddu.vim'
+on_cmd = "Ddu"
 
 [[plugins]]
 repo = "Shougo/ddu-kind-file"
