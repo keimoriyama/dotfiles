@@ -112,7 +112,7 @@ in {
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
-      ".lua-language-server/main.lua".source = "${pkgs.lua-language-server.outPath}/share/lua-language-server/main.lua";
+      # ".lua-language-server/main.lua".source = "${pkgs.lua-language-server.outPath}/share/lua-language-server/main.lua";
     };
   };
 }
