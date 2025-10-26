@@ -80,6 +80,14 @@ set __fish_git_prompt_char_untrackedfiles '☡'
 set __fish_git_prompt_char_stashstate '↩'
 set __fish_git_prompt_char_upstream_ahead '+'
 set __fish_git_prompt_char_upstream_behind '-'
+
+if test -f $HOME/.local/mocword-data/mocword.sqlite 
+	echo 'mocword data is installed'
+else
+	mkdir $HOME/.local/mocword-data/
+	curl -OL --output-dir $HOME/.local/mocword-data/ https://github.com/high-moctane/mocword-data/releases/download/eng20200217/mocword.sqlite.gz
+	gzip -d $HOME/.local/mocword-data/mocword.sqlite.gz 
+end
 ";
     interactiveShellInit = "
 set -gx MOCWORD_DATA $HOME/.local/mocword-data/mocword.sqlite
