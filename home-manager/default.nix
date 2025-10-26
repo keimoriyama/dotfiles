@@ -31,7 +31,6 @@
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
   mocword = pkgs.callPackage ../mocword {inherit pkgs sources;};
-  mocword-data = pkgs.callPackage ../mocword {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
@@ -112,7 +111,6 @@ in {
       ollama
       zoom-us
       mocword
-      mocword-data
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
