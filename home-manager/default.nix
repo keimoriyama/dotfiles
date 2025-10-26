@@ -31,7 +31,7 @@
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
   mocword = pkgs.callPackage ../mocword {inherit pkgs sources;};
-  mocword-data = pkgs.callPackage ../mocword-data {inherit pkgs sources;};
+  mocword-data = pkgs.callPackage ../mocword {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
@@ -94,6 +94,7 @@ in {
       python313Packages.debugpy
       docker
       tinymist
+      go
 
       online-judge-tools
       online-judge-template-generator
@@ -110,8 +111,8 @@ in {
       wezterm
       ollama
       zoom-us
-	  mocword
-	  mocword-data
+      mocword
+      mocword-data
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
