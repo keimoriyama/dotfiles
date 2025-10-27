@@ -56,30 +56,20 @@ class BaseDpsTestRunner {
   }
   //
   // run test
-  //
+  run(denops: Denops): Promise<TestResult[]> {
+  }
   // parse test result
-  //
+  parse_result() {}
+  // build test name and path
+  build_test_name_and_path() {}
   // select item
-  //
+
   // rerun test
-  //
+
   // rerun only selected test
 }
 
-class DenoDpsTestRunner extends BaseDpsTestRunner {}
-
-function parse_test_result(parsed_result: TestResult[]): string[] {
-  let results = [];
-  let template = "File: ${filename} Test: ${testname} Result: ${result}";
-  for (const result of parsed_result) {
-    const res = result["result"] ? "✅" : "❌";
-    const output = template.replace("${filename}", result["filename"]).replace(
-      "${testname}",
-      result["testname"],
-    ).replace("${result}", res);
-    results.push(output);
-  }
-  return results;
+class DenoDpsTestRunner extends BaseDpsTestRunner {
 }
 
 async function run_deno_test(denops: Denops): Promise<TestResult[]> {

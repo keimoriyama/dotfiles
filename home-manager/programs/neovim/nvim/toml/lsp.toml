@@ -5,12 +5,19 @@ hooks_file="$BASE_DIR/lua/lsp.lua"
 
 [[plugins]]
 repo = "nvimtools/none-ls.nvim"
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["LspAttach"]
 depends = "nvim-lspconfig"
 hooks_file="$BASE_DIR/lua/none_ls.lua"
 
 [[plugins]]
 repo = 'ray-x/lsp_signature.nvim'
-on_event = ['BufNewFile', 'BufRead']
+on_event = ["LspAttach"]
 depends='nvim-lspconfig'
 hooks_file="$BASE_DIR/lua/lsp_signature_config.lua"
+
+[[plugins]]
+repo = "onsails/lspkind.nvim"
+on_event = ["LspAttach"]
+lua_source = '''
+require('lspkind').init()
+'''
