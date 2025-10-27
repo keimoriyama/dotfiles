@@ -439,7 +439,7 @@
 #+begin_src emacs-lisp
 (defvar completion-at-point-functions '(tags-completion-at-point-function))
 (require 'cape)
-(add-to-list 'completion-at-point-functions #'cape-dabbrev)
+;(add-to-list 'completion-at-point-functions #'cape-dabbrev)
 (add-to-list 'completion-at-point-functions #'cape-dict)
 (add-to-list 'completion-at-point-functions #'cape-file)
 (add-to-list 'completion-at-point-functions #'cape-history)
@@ -965,8 +965,13 @@ binding))))))))
 #+end_src
 ** typst mode
 #+begin_src emacs-lisp
-;; (require 'typst-ts-mode)
-;; (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+(require 'typst-ts-mode)
+(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+(major-mode-hydra-define typst-ts-mode
+       (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("menu"
+    (("c" typst-ts-compile "compile")
+     ("p" typst-ts-preview "preview"))))
 ;(add-hook 'typst-ts-mode-hook #'lsp)
 #+end_src
 

@@ -77,6 +77,7 @@ in
     yasnippet
     consult-yasnippet
     packages.copilot
+    packages.typst-ts-mode
 
     # lsp
     lsp-mode

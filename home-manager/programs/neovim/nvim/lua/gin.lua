@@ -25,6 +25,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		local keymap = vim.keymap.set
 		local opts = { buffer = true, noremap = true }
 		keymap({ "n" }, "h", "<Plug>(gin-action-stage)", opts)
+		keymap({ "n" }, "a", "<Plug>(gin-action-add)", opts)
 		keymap({ "n" }, "l", "<Plug>(gin-action-unstage)", opts)
 	end,
 })

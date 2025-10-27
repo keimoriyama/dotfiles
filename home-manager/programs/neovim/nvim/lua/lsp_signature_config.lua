@@ -20,5 +20,4 @@ local cfg = {
 	end,
 }
 require("lsp_signature").setup(cfg)
-
 -- }}}

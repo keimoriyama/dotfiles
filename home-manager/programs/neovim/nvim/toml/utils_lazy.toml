@@ -116,13 +116,13 @@ require("toggleterm").setup({
   close_on_exit = true,})
 '''
 
-[[plugins]]
-repo='sindrets/diffview.nvim'
-on_event = ["VimEnter"]
-lua_source='''
-require("diffview").setup()
-vim.keymap.set('n', '<leader>df', ':DiffviewOpen<CR>', { noremap = true, silent = true })
-'''
+# [[plugins]]
+# repo='sindrets/diffview.nvim'
+# on_event = ["VimEnter"]
+# lua_source='''
+# require("diffview").setup()
+# vim.keymap.set('n', '<leader>df', ':DiffviewOpen<CR>', { noremap = true, silent = true })
+# '''
 
 [[plugins]]
 repo = 'tani/dmacro.nvim'

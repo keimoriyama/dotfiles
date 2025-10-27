@@ -78,7 +78,7 @@ ${0}
 
 ** yatex-mode
 
-*** reference template
+*** reference 
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/base_ref") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: base_ref
@@ -92,7 +92,7 @@ ${0}
 \newcommand{\threeEq}[3]{Eq.(\ref{eq:#1}),(\ref{eq:#2}) and (\ref{eq:#3})}
 #+end_src
 
-*** prompt template
+*** prompt 
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/prompt_fig") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: prompt_fig
@@ -110,7 +110,7 @@ ${0}
 \end{figure*}
 #+end_src
 
-*** figure template
+*** figure 
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/figure") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: figure
@@ -126,7 +126,7 @@ ${0}
 
 #+end_src
 
-*** table template
+*** table 
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/table") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: table
@@ -151,5 +151,50 @@ ${0}
 # --
 
 \footnote{\url{$1}}
+
+#+end_src
+
+*** compile config
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/compile") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: compile
+# key: compile
+# --
+
+%#!pdflatex ${1:main_file}.tex
+
+#+end_src
+
+** typst-ts-mode
+*** header
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/header") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: header
+# key: header
+# --
+
+#import "@preview/touying:0.6.1": *
+#import themes.simple: *
+
+#set text(
+    font: "BIZ UDGothic"
+)
+
+#show: simple-theme.with(aspect-ratio: "16-9")
+#+end_src
+
+*** Image
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/image") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: image
+# key: image
+# --
+
+#figure(
+  #image("${1:name}"),
+  caption : [
+  ${2}
+  ]
+)<${1}>
 
 #+end_src

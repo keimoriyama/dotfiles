@@ -22,6 +22,7 @@ require("nvim-treesitter.configs").setup({
 		"markdown_inline",
 		"latex",
 	},
+	auto_install=true,
 	autotag = { enable = true },
 	yati = { enable = true, indent = { enable = false } },
 })
