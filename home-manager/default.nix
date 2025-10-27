@@ -94,7 +94,7 @@ in {
       docker
       tinymist
       go
-	  prettierd
+      prettierd
 
       online-judge-tools
       online-judge-template-generator

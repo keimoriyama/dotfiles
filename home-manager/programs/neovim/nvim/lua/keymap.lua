@@ -28,8 +28,8 @@ vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j", opts)
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", opts)
 -- vim.api.nvim_set_keymap("n", "<C-m>", "<cmd>messages<cr>", opts)
 --
-vim.api.nvim_set_keymap("n", "<leader>ss", "<C-w>s", opts)
-vim.api.nvim_set_keymap("n", "<leader>sv", "<C-w>v", opts)
+vim.api.nvim_set_keymap("n", "<C-x>2", "<C-w>s", opts)
+vim.api.nvim_set_keymap("n", "<C-x>3", "<C-w>v", opts)
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 --
 -- -- vim.api.nvim_create_autocmd("InsertLeave", {

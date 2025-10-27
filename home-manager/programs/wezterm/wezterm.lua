@@ -99,7 +99,7 @@ return {
 			inactive_tab_edge = "none",
 		},
 	},
-	leader = { key = "c", mods = "CTRL", timeout_milliseconds = 2000 },
+	leader = { key = "[", mods = "CTRL", timeout_milliseconds = 2000 },
 	keys = {
 		{
 			key = "v",
