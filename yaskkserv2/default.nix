@@ -6,14 +6,9 @@ pkgs.rustPlatform.buildRustPackage {
   name = "yaskkserv2";
   src = sources.yaskkserv2.src;
   cargBuildFlags = ["--release"];
-  cargoLock = {
-    lockFile = ./Cargo.lock;
-  };
+  cargoLock = sources.yaskkserv2.cargoLock."Cargo.lock";
   meta = with pkgs.lib; {
     description = "A Japanese input method server compatible with SKK";
   };
-  postPatch = ''
-    ln -s ${./Cargo.lock} Cargo.lock
-  '';
   doCheck = false;
 }
