@@ -60,6 +60,12 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
+vim.lsp.config("tinymist", {
+	cmd = { "tinymist" },
+	filetypes = { "typst" },
+	single_file_support = true,
+})
+
 vim.lsp.enable({
 	"lua_ls",
 	"ruff",
@@ -71,6 +77,7 @@ vim.lsp.enable({
 	"copilot",
 	"nixd",
 	"texlab",
+	"tinymist",
 })
 -- }}}
 
