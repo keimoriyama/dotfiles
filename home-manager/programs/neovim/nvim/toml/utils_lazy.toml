@@ -6,10 +6,29 @@ require("nvim-autopairs").setup({ disable_filetype = { "vim" },
 })
 '''
 
+# [[plugins]]
+# repo="lukas-reineke/indent-blankline.nvim"
+# on_event = ["VimEnter"]
+# hooks_file="$BASE_DIR/lua/ibl_config.lua"
 [[plugins]]
-repo="lukas-reineke/indent-blankline.nvim"
-on_event = ["VimEnter"]
-hooks_file="$BASE_DIR/lua/ibl_config.lua"
+repo="shellRaining/hlchunk.nvim"
+on_event = ["BufReadPre", "BufNewFile"]
+lua_source='''
+require("hlchunk").setup({
+	chunk = {
+		enable = true
+	},
+	indent = {
+		enable = true
+	},
+	line_num = {
+		enable = true
+	},
+	blank = {
+		enable = true
+	}
+})
+'''
 
 
 # surround
@@ -136,4 +155,38 @@ repo = 'mbbill/undotree'
 on_map = { n = '<leader>u' }
 lua_source = '''
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+'''
+
+[[plugins]]
+repo = "kevinhwang91/nvim-ufo"
+on_map = ['z']
+lua_source = '''
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+require("ufo").setup()
+'''
+
+[[plugins]]
+repo="nvim-treesitter/nvim-treesitter-textobjects"
+depends='nvim-treesitter'
+
+[[plugins]]
+repo = "terryma/vim-expand-region"
+on_event = ["VimEnter"]
+hook_source= '''
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :0,
+      \ 'ia'  :0,
+      \ 'i)'  :1,
+      \ 'il'  :1,       
+	  \ 'if'  :1, 
+      \ 'af'  :1, 
+      \ 'it'  :1, 
+      \ 'ie'  :0, 
+      \ }
 '''

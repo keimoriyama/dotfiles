@@ -19,12 +19,28 @@ repo='nvim-tree/nvim-web-devicons'
 repo="nvim-lualine/lualine.nvim"
 hooks_file="$BASE_DIR/lua/lualine_config.lua"
 
-# [[plugins]]
-# repo = 'shortcuts/no-neck-pain.nvim'
-# hooks_file = "$BASE_DIR/lua/no_neck.lua"
+[[plugins]]
+repo = 'shortcuts/no-neck-pain.nvim'
+hooks_file = "$BASE_DIR/lua/no_neck.lua"
 
 [[plugins]]
 repo="ethanholz/nvim-lastplace"
 lua_add='''
 require("nvim-lastplace").setup()
 '''
+
+[[plugins]]
+repo="kevinhwang91/promise-async"
+lua_add = '''
+require('async')
+'''
+
+[[plugins]]
+repo='kana/vim-textobj-user'
+
+[[plugins]]
+repo='kana/vim-textobj-entire'
+
+[[plugins]]
+repo='kana/vim-textobj-line'
+
