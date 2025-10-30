@@ -92,6 +92,8 @@ in {
       fzf
       python313Packages.debugpy
       docker
+      docker-language-server
+      yaml-language-server
       tinymist
       go
       prettierd

@@ -111,11 +111,6 @@ require('mini.bufremove').setup()
 vim.keymap.set("n", "<leader>bd", function()MiniBufremove.delete() end)
 '''
 
-[[plugins]]
-repo="glidenote/memolist.vim"
-on_event = ["VimEnter"]
-hooks_file="$BASE_DIR/lua/memolist.lua"
-
 
 [[plugins]]
 repo='akinsho/toggleterm.nvim'

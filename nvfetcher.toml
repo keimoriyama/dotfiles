@@ -64,10 +64,10 @@ src.git="https://github.com/Ziqi-Yang/typst-ts-mode"
 src.branch='main'
 fetch.github="Ziqi-Yang/typst-ts-mode"
 
-[emacs-bimove]
-src.git="https://github.com/conao3/bimove.el"
+[emacs-ddskk]
+src.git="https://github.com/skk-dev/ddskk"
 src.branch="master"
-fetch.github="conao3/bimove.el"
+fetch.github="skk-dev/ddskk"
 
 [fish-autols]
 src.git="https://github.com/yuys13/fish-autols"

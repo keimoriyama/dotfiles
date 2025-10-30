@@ -78,6 +78,8 @@ vim.lsp.enable({
 	"nixd",
 	"texlab",
 	"tinymist",
+	"dockerls",
+	"yamlls",
 })
 -- }}}
 

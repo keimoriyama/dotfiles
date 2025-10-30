@@ -30,6 +30,7 @@ vim.opt.modifiable = true
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
 vim.opt.splitright = true
+vim.opt.wildmenu = false
 
 vim.opt.scrolloff = 0
 if vim.fn.has("mac") == 1 then
@@ -42,5 +43,3 @@ vim.opt.mouse = ""
 
 require("keymap")
 require("dpp_config")
--- require("lsp")
--- require("mini_config")

@@ -16,7 +16,7 @@ vim.cmd([[
           \ })
 ]])
 
-local dictdir = ".skk-dict/"
+local dictdir = "~/.skk-dict"
 vim.fn["skkeleton#config"]({
 	kanaTable = "azik",
 	-- sources = {
@@ -25,10 +25,10 @@ vim.fn["skkeleton#config"]({
 	userDictionary = userDict,
 	globalDictionaries = {
 		vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
-		vim.fs.joinpath(dictdir, "SKK-JISYO.edict"),
-		vim.fs.joinpath(dictdir, "SKK-JISYO.edict2"),
-		vim.fs.joinpath(dictdir, "SKK-JISYO.fullname"),
-		vim.fs.joinpath(dictdir, "SKK-JISYO.propernoun"),
+		-- vim.fs.joinpath(dictdir, "SKK-JISYO.edict"),
+		-- vim.fs.joinpath(dictdir, "SKK-JISYO.edict2"),
+		-- vim.fs.joinpath(dictdir, "SKK-JISYO.fullname"),
+		-- vim.fs.joinpath(dictdir, "SKK-JISYO.propernoun"),
 	},
 	debug = false,
 })
