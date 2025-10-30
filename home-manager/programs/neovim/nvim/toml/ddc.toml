@@ -8,12 +8,12 @@ hooks_file="$BASE_DIR/lua/ddc.lua"
 on_souce='ddc.vim'
 repo="Shougo/pum.vim"
 
-# [[plugins]]
-# repo="github/copilot.vim"
-# on_source="ddc.vim"
-# lua_add='''
-# vim.g.copilot_no_maps = true
-# '''
+[[plugins]]
+repo="github/copilot.vim"
+on_source="ddc.vim"
+lua_add='''
+vim.g.copilot_no_maps = true
+'''
 
 [[plugins]]
 repo="Shougo/ddc-nvim-lsp"
