@@ -104,27 +104,6 @@
         },
         "version": "e742a0779fb1ebe98ffb8e6dec432fb82498a30f"
     },
-    "emacs-bimove": {
-        "cargoLocks": null,
-        "date": "2025-10-22",
-        "extract": null,
-        "name": "emacs-bimove",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "conao3",
-            "repo": "bimove.el",
-            "rev": "221b77f448a15a59c7735c421513fd91cb5b59ae",
-            "sha256": "sha256-ReT7fJnsEf6wOx+JgnqkWxSqFggQIpkWTDZpXnjafb4=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "221b77f448a15a59c7735c421513fd91cb5b59ae"
-    },
     "emacs-copilot": {
         "cargoLocks": null,
         "date": "2025-10-30",
@@ -145,6 +124,27 @@
             "type": "github"
         },
         "version": "952fc7a8ae06091a46995d32ebde4380e0c71142"
+    },
+    "emacs-ddskk": {
+        "cargoLocks": null,
+        "date": "2024-12-28",
+        "extract": null,
+        "name": "emacs-ddskk",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "skk-dev",
+            "repo": "ddskk",
+            "rev": "f81ed803e617ccd8175d4bf57a3062bc5ffe1945",
+            "sha256": "sha256-Lt3PPDWiosRUgO/jN/OV0EjxSQT1d/imTK8jWh9+boI=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "f81ed803e617ccd8175d4bf57a3062bc5ffe1945"
     },
     "emacs-dmacro": {
         "cargoLocks": null,
