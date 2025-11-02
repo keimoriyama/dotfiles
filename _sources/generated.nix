@@ -3,15 +3,15 @@
 {
   dpp-ext-installer = {
     pname = "dpp-ext-installer";
-    version = "25ed2c4c0c7415950476be4a8e7e0c541127cefa";
+    version = "92569aacc6cf9ac0535dad5d5350b13755a290eb";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-ext-installer";
-      rev = "25ed2c4c0c7415950476be4a8e7e0c541127cefa";
+      rev = "92569aacc6cf9ac0535dad5d5350b13755a290eb";
       fetchSubmodules = false;
-      sha256 = "sha256-LnYjCg3DTq74wgVO19xAe/EdonJeiZUufgdTrOAV4HY=";
+      sha256 = "sha256-uLRnat8QGD3kCPj9MCL8DYBEPmVkWSSIAcz5lwDx8Cc=";
     };
-    date = "2025-09-12";
+    date = "2025-11-02";
   };
   dpp-ext-lazy = {
     pname = "dpp-ext-lazy";
@@ -51,15 +51,15 @@
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "4c3043e9125554a71f4ef3da159703e49445bbb8";
+    version = "5aa1e20d50c5680e48ecc19b0cd289c455384a50";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "4c3043e9125554a71f4ef3da159703e49445bbb8";
+      rev = "5aa1e20d50c5680e48ecc19b0cd289c455384a50";
       fetchSubmodules = false;
-      sha256 = "sha256-SjIzu0gpVxLStAdS5u+CGn1qqQpxFhW6YtgISX3XAVE=";
+      sha256 = "sha256-dihlj6KZZHFocrRqpywD7TxhHlpEn2nolfcfZw6SZdo=";
     };
-    date = "2025-11-01";
+    date = "2025-11-02";
   };
   emacs-copilot = {
     pname = "emacs-copilot";
