@@ -50,7 +50,6 @@ in
     packages.nano-modeline
     moody
     minions
-    packages.bimove
     neotree
     tree-sitter
 

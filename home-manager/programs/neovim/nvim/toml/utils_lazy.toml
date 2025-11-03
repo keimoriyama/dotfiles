@@ -6,10 +6,6 @@ require("nvim-autopairs").setup({ disable_filetype = { "vim" },
 })
 '''
 
-# [[plugins]]
-# repo="lukas-reineke/indent-blankline.nvim"
-# on_event = ["VimEnter"]
-# hooks_file="$BASE_DIR/lua/ibl_config.lua"
 [[plugins]]
 repo="shellRaining/hlchunk.nvim"
 on_event = ["BufReadPre", "BufNewFile"]
@@ -170,6 +166,12 @@ require('ufo').setup({
 
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter-textobjects"
+on_event = ["VimEnter"]
+depends='nvim-treesitter'
+
+[[plugins]]
+repo="andersevenrud/nvim_context_vt"
+on_event = ["VimEnter"]
 depends='nvim-treesitter'
 
 [[plugins]]
