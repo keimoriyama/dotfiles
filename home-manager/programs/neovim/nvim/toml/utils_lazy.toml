@@ -26,6 +26,10 @@ require("hlchunk").setup({
 })
 '''
 
+[[plugins]]
+repo = "hrsh7th/nvim-insx"
+on_event = ['InsertEnter']
+hooks_file="$BASE_DIR/lua/insx.lua"
 
 # surround
 [[plugins]]
@@ -47,7 +51,7 @@ vim.g.sonictemplate_vim_template_dir = "~/.dotfiles/.config/nvim/template"
 
 [[plugins]]
 repo='nvim-treesitter/nvim-treesitter-context'
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 depends='nvim-treesitter'
 lua_source='''
 require('treesitter-context').setup()
@@ -55,7 +59,7 @@ require('treesitter-context').setup()
 
 [[plugins]]
 repo="JoosepAlviste/nvim-ts-context-commentstring"
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 depends='nvim-treesitter'
 
 [[plugins]]
@@ -79,29 +83,25 @@ repo="chrisbra/Recover.vim"
 
 [[plugins]]
 repo='phaazon/hop.nvim'
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 hooks_file ="$BASE_DIR/lua/hop_config.lua"
 
-[[plugins]]
-repo = "hrsh7th/nvim-insx.git"
-on_event=["InsertEnter"]
-hooks_file="$BASE_DIR/lua/insx.lua"
 
 [[plugins]]
 repo='echasnovski/mini.diff'
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 lua_source='''
 require('mini.diff').setup()
 '''
 
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter"
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 hooks_file="$BASE_DIR/lua/treesitter.lua"
 
 [[plugins]]
 repo='echasnovski/mini.bufremove'
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 lua_source='''
 require('mini.bufremove').setup()
 vim.keymap.set("n", "<leader>bd", function()MiniBufremove.delete() end)
@@ -125,14 +125,6 @@ require("toggleterm").setup({
   direction = 'float',
   close_on_exit = true,})
 '''
-
-# [[plugins]]
-# repo='sindrets/diffview.nvim'
-# on_event = ["VimEnter"]
-# lua_source='''
-# require("diffview").setup()
-# vim.keymap.set('n', '<leader>df', ':DiffviewOpen<CR>', { noremap = true, silent = true })
-# '''
 
 [[plugins]]
 repo = 'tani/dmacro.nvim'
@@ -166,17 +158,17 @@ require('ufo').setup({
 
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter-textobjects"
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 depends='nvim-treesitter'
 
 [[plugins]]
 repo="andersevenrud/nvim_context_vt"
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 depends='nvim-treesitter'
 
 [[plugins]]
 repo = "terryma/vim-expand-region"
-on_event = ["VimEnter"]
+on_event = ["BufReadPre", "BufNewFile"]
 hook_source= '''
 let g:expand_region_text_objects = {
       \ 'iw'  :0,
@@ -190,4 +182,19 @@ let g:expand_region_text_objects = {
       \ 'it'  :1, 
       \ 'ie'  :0, 
       \ }
+'''
+
+[[plugins]]
+repo = "lambdalisue/vim-file-protocol"
+on_event = ["BufReadPre", "BufNewFile"]
+
+[[plugins]]
+repo="lambdalisue/vim-gf-improved"
+on_map = { n = 'g' }
+on_source = '''
+let g:gf_improved_no_mappings = 1
+
+" Define your own mappings
+nmap <Leader>gf <Plug>(gf-improved-gf)
+nmap <Leader>gF <Plug>(gf-improved-gF)
 '''

@@ -144,7 +144,7 @@
 *** theme(catppuccin-theme)
 #+begin_src emacs-lisp
 (require 'catppuccin-theme)
-(setq catppuccin-flavor 'frappe)
+(setq catppuccin-flavor 'latte)
 (load-theme 'catppuccin t)
 #+end_src
 

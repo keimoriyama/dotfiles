@@ -74,12 +74,10 @@ end)
 return {
 	font = wezterm.font_with_fallback({ "UDEV Gothic", "HackGen35" }),
 	font_size = 18,
-	color_scheme = "Catppuccin Frappe",
+	color_scheme = "Catppuccin Latte",
 	hyperlink_rules = hyperlink_rules,
-	-- mouse_bindings = mouse_binding,
 	hide_tab_bar_if_only_one_tab = true,
 	use_ime = false,
-	-- disable_default_mouse_bindings = true,
 	hide_mouse_cursor_when_typing = true,
 	force_reverse_video_cursor = true,
 	window_background_opacity = 0.85,
@@ -89,11 +87,11 @@ return {
 		inactive_titlebar_bg = "none",
 		active_titlebar_bg = "none",
 	},
-	window_background_gradient = {
-		colors = { "#000000" },
-	},
-	-- show_new_tab_button_in_tab_bar = false,
-	-- show_close_tab_button_in_tabs=false,
+	-- window_background_gradient = {
+	-- 	colors = { "#000000" },
+	-- },
+	show_new_tab_button_in_tab_bar = false,
+	show_close_tab_button_in_tabs = false,
 	colors = {
 		tab_bar = {
 			inactive_tab_edge = "none",
