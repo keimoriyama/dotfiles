@@ -74,7 +74,7 @@ vim.lsp.enable({
 	"denols",
 	"ts_ls",
 	"rust_analyzer",
-	"copilot",
+	-- "copilot",
 	"nixd",
 	"texlab",
 	"tinymist",
