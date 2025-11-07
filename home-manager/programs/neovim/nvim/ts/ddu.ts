@@ -44,6 +44,9 @@ export class Config extends BaseConfig {
           matchers: ["matcher_kensaku"],
           sorters: ["sorter_line"],
         },
+        buffer: {
+          sorters: ["sorter_alpha"],
+        },
         git_status: {
           converters: ["converter_git_status", "converter_devicon"],
         },
@@ -154,6 +157,7 @@ export class Config extends BaseConfig {
             "notebooks",
             ".ruff_cache",
             ".pytest_cache",
+            "__pycache__",
           ],
         },
       },
