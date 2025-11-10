@@ -19,7 +19,7 @@ import ipdb;ipdb.set_trace()
 #+AUTHOR: keimoriyama
 #+DESCRIPTION: ${1:description}
 #+DATE: ${2:`(format-time-string "%Y-%m-%dT%T%z")`}
-#+HUGO_BASE_DIR: ~/ghq/github.com/keimoriyama/portfolio/
+#+HUGO_BASE_DIR: ~/ghq/github.com/keimoriyama/keimoriyama.github.io/
 #+HUGO_CATEGORIES: ${3:fleeting}
 #+HUGO_SECTION: post/$3
 #+HUGO_TAGS: $3 $4
@@ -53,6 +53,11 @@ ${0}
 # name: paper-template
 # key: paper-template
 # --
+
+,*** 📄論文情報
+ - 
+ - 
+ - 
 
 ,*** 🔑この論文のキーメッセージ
 

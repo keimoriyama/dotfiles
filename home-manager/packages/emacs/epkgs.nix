@@ -71,20 +71,20 @@ in
     magit
 
     # langs
-    auctex
-    packages.yatex
-    yasnippet
-    consult-yasnippet
-    packages.copilot
-    packages.typst-ts-mode
+    # auctex
+    # packages.yatex
+    # yasnippet
+    # consult-yasnippet
+    # packages.copilot
+    # packages.typst-ts-mode
 
     # lsp
-    lsp-mode
-    lsp-ui
-    dap-mode
-    flycheck
-    highlight-indent-guides
-    eglot-booster
+    # lsp-mode
+    # lsp-ui
+    # dap-mode
+    # flycheck
+    # highlight-indent-guides
+    # eglot-booster
 
     # org
     org-superstar

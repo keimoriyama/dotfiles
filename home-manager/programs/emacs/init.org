@@ -830,7 +830,6 @@ binding))))))))
 #+end_src
 
 *** ox-hugo
-
 #+begin_src emacs-lisp
 (require 'ox-hugo)
 #+end_src
@@ -859,170 +858,175 @@ binding))))))))
     ("l" org-insert-link "link")
     ("t" org-table-create "table"))
    "export"
-   (("H" org-hugo-export-as-md "hugo md")
-    ("d" org-export-dispatch "dispatch"))))
+   (("H" org-hugo-export-to-md "hugo md")
+    ("d" org-export-dispatch "dispatch"))
+   "roam"
+   (("f" org-roam-node-find "find")
+    ("i" org-roam-node-insert "insert")
+    ("t" org-roam-tag-add "tag")
+    ("a" org-roam-alias-add "alias"))))
 #+end_src
 ** lsp
 *** lsp-mode
 #+begin_src emacs-lisp
-(defun my/lsp-mode-completion ()
-  (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-        '(orderless)))
+;; (defun my/lsp-mode-completion ()
+;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+;;         '(orderless)))
 
-(require 'lsp-mode)
+;; (require 'lsp-mode)
 
-(defcustom lsp-client-packages
-  '(lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
-     lsp-json lsp-latex lsp-lua lsp-fennel lsp-magik lsp-markdown 
-     lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex lsp-lua)
-  "List of the clients to be automatically required."
-  :group 'lsp-mode
-  :type '(repeat symbol))
+;; (defcustom lsp-client-packages
+;;   '(lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
+;;      lsp-json lsp-latex lsp-lua lsp-fennel lsp-magik lsp-markdown 
+;;      lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex lsp-lua)
+;;   "List of the clients to be automatically required."
+;;   :group 'lsp-mode
+;;   :type '(repeat symbol))
 
-(setq lsp-server-install-dir (format "%s/.nix-profile/bin" (getenv "HOME")))
+;; (setq lsp-server-install-dir (format "%s/.nix-profile/bin" (getenv "HOME")))
 
-(setq lsp-auto-guess-root t)
+;; (setq lsp-auto-guess-root t)
 
-(with-eval-after-load 'lsp-mode
-  (setopt lsp-enable-file-watchers nil)
-  (setopt lsp-file-watch-threshold 500)
-  (setopt lsp-completion-provider :none)
-  (setq lsp-enable-suggest-server-download nil))
+;; (with-eval-after-load 'lsp-mode
+;;   (setopt lsp-enable-file-watchers nil)
+;;   (setopt lsp-file-watch-threshold 500)
+;;   (setopt lsp-completion-provider :none)
+;;   (setq lsp-enable-suggest-server-download nil))
 #+end_src
 *** lsp-booster
 #+begin_src emacs-lisp
-(setq read-process-output-max (* 5 1024 1024)) ;; 10mb
-(setq gc-cons-threshold 200000000)
+;; (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
+;; (setq gc-cons-threshold 200000000)
 
-(defun lsp-booster--advice-json-parse (old-fn &rest args)
-  "Try to parse bytecode instead of json."
-  (or
-   (when (equal (following-char) ?#)
-     (let ((bytecode (read (current-buffer))))
-       (when (byte-code-function-p bytecode)
-         (funcall bytecode))))
-   (apply old-fn args)))
-(advice-add (if (progn (require 'json)
-                       (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-              'json-read)
-            :around
-            #'lsp-booster--advice-json-parse)
+;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   "Try to parse bytecode instead of json."
+;;   (or
+;;    (when (equal (following-char) ?#)
+;;      (let ((bytecode (read (current-buffer))))
+;;        (when (byte-code-function-p bytecode)
+;;          (funcall bytecode))))
+;;    (apply old-fn args)))
+;; (advice-add (if (progn (require 'json)
+;;                        (fboundp 'json-parse-buffer))
+;;                 'json-parse-buffer
+;;               'json-read)
+;;             :around
+;;             #'lsp-booster--advice-json-parse)
 
-(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  "Prepend emacs-lsp-booster command to lsp CMD."
-  (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)                             ;; for check lsp-server-present?
-             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-             lsp-use-plists
-             (not (functionp 'json-rpc-connection))  ;; native json-rpc
-             (executable-find "emacs-lsp-booster"))
-        (progn
-          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-            (setcar orig-result command-from-exec-path))
-          (message "Using emacs-lsp-booster for %s!" orig-result)
-          (cons "emacs-lsp-booster" orig-result))
-      orig-result)))
-(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+;;   "Prepend emacs-lsp-booster command to lsp CMD."
+;;   (let ((orig-result (funcall old-fn cmd test?)))
+;;     (if (and (not test?)                             ;; for check lsp-server-present?
+;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+;;              lsp-use-plists
+;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+;;              (executable-find "emacs-lsp-booster"))
+;;         (progn
+;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+;;             (setcar orig-result command-from-exec-path))
+;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+;;           (cons "emacs-lsp-booster" orig-result))
+;;       orig-result)))
+;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
 
 *** lsp-ui
 #+begin_src emacs-lisp
-(require 'lsp-ui)
+;; (require 'lsp-ui)
 
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
-(with-eval-after-load 'lsp-ui
-  (setopt lsp-ui-doc-enable t)
-  (setopt lsp-ui-doc-position 'top)
-  (setopt lsp-ui-doc-side 'right)
-  (setopt lsp-ui-doc-show-with-cursor t)
-  (setopt lsp-ui-doc-show-with-mouse nil)
-  (setopt lsp-ui-imenu-auto-refresh t)
-  (pretty-hydra-define lsp-mode
-    (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("peek"
-    (("d" lsp-ui-peek-find-definitions "definitions")
-     ("r" lsp-ui-peek-find-references "references")
-     ("b" xref-go-back "go back to previous location"))
-    "code action"
-    (("n" lsp-rename "rename")
-     ("c" lsp-execute-code-action "code action")
-     ("p" lsp-ui-peek "peek"))))
-  (keymap-global-set "C-c l" #'lsp-mode/body))
+;; (with-eval-after-load 'lsp-mode
+;;   (add-hook 'lsp-mode-hook #'lsp-ui-mode))
+;; (with-eval-after-load 'lsp-ui
+;;   (setopt lsp-ui-doc-enable t)
+;;   (setopt lsp-ui-doc-position 'top)
+;;   (setopt lsp-ui-doc-side 'right)
+;;   (setopt lsp-ui-doc-show-with-cursor t)
+;;   (setopt lsp-ui-doc-show-with-mouse nil)
+;;   (setopt lsp-ui-imenu-auto-refresh t)
+;;   (pretty-hydra-define lsp-mode
+;;     (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;    ("peek"
+;;     (("d" lsp-ui-peek-find-definitions "definitions")
+;;      ("r" lsp-ui-peek-find-references "references")
+;;      ("b" xref-go-back "go back to previous location"))
+;;     "code action"
+;;     (("n" lsp-rename "rename")
+;;      ("c" lsp-execute-code-action "code action")
+;;      ("p" lsp-ui-peek "peek"))))
+;;   (keymap-global-set "C-c l" #'lsp-mode/body))
 #+end_src
 
 *** flycheck
 #+begin_src emacs-lisp
 ; grammar check
-(require 'flycheck)
-(add-hook 'emacs-startup-hook #'global-flycheck-mode)
+;(require 'flycheck)
+;(add-hook 'emacs-startup-hook #'global-flycheck-mode)
 #+end_src
 
 #+begin_src emacs-lisp
-(require 'highlight-indent-guides)
-(add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
+;(require 'highlight-indent-guides)
+;(add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 ** typst mode
 #+begin_src emacs-lisp
-(require 'typst-ts-mode)
-(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
-(major-mode-hydra-define typst-ts-mode
-       (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("menu"
-    (("c" typst-ts-compile "compile")
-     ("p" typst-ts-preview "preview"))))
+;; (require 'typst-ts-mode)
+;; (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+;; (major-mode-hydra-define typst-ts-mode
+;;        (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;    ("menu"
+;;     (("c" typst-ts-compile "compile")
+;;      ("p" typst-ts-preview "preview"))))
 ;(add-hook 'typst-ts-mode-hook #'lsp)
 #+end_src
 
 ** latex
 *** yatex
 #+begin_src emacs-lisp
-(require 'yatex)
-(add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.sty$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
+;; (require 'yatex)
+;; (add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.sty$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
 
 
-(add-hook 'yatex-mode-hook #'yas-minor-mode)
+;; (add-hook 'yatex-mode-hook #'yas-minor-mode)
 
-(with-eval-after-load 'yatex
-  (setopt YaTeX-inhibit-prefix-letter  t)
-  (setopt tex-command  "platex -kanji=utf8")
-  (setopt YaTeX-dvi2-command-ext-alist
-     '(("Skim" . ".pdf")))
-  (setopt dvi2-command "open -a Skim")
-  (setopt tex-pdfview-command "open -a Skim")
-  (major-mode-hydra-define yatex-mode
-     (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("reftex"
-    (("r" reftex-citation "references")
-     ("t" reftex-toc "toc"))
-    "yatex"
-    (("m" YaTeX-typeset-menu "typeset")
-     ("b" YaTeX-make-begin-end "begin env")
-     ("s" YaTeX-make-section "section env")))))
+;; (with-eval-after-load 'yatex
+;;   (setopt YaTeX-inhibit-prefix-letter  t)
+;;   (setopt tex-command  "platex -kanji=utf8")
+;;   (setopt YaTeX-dvi2-command-ext-alist
+;;      '(("Skim" . ".pdf")))
+;;   (setopt dvi2-command "open -a Skim")
+;;   (setopt tex-pdfview-command "open -a Skim")
+;;   (major-mode-hydra-define yatex-mode
+;;      (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;    ("reftex"
+;;     (("r" reftex-citation "references")
+;;      ("t" reftex-toc "toc"))
+;;     "yatex"
+;;     (("m" YaTeX-typeset-menu "typeset")
+;;      ("b" YaTeX-make-begin-end "begin env")
+;;      ("s" YaTeX-make-section "section env")))))
 #+end_src
 
 *** flyspell
 #+begin_src emacs-lisp
-(require 'flyspell)
-(add-hook 'yatex-mode-hook #'flyspell-mode)
+;; (require 'flyspell)
+;; (add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 
 *** reftex
 
 #+begin_src emacs-lisp
-(require 'reftex)
-(add-to-list 'yatex-mode-hook #'reftex-mode)
-(add-hook 'yatex-mode-hook
-		#'(lambda ()
-		(setq reftex-default-bibliography
-        (directory-files-recursively (projectile-project-root) "\\.bib$"))))
+;; (require 'reftex)
+;; (add-to-list 'yatex-mode-hook #'reftex-mode)
+;; (add-hook 'yatex-mode-hook
+;; 		#'(lambda ()
+;; 		(setq reftex-default-bibliography
+;;         (directory-files-recursively (projectile-project-root) "\\.bib$"))))
 ;(with-eval-after-load 'reftex
 ;  (setq reftex-default-bibliography
 ;        (directory-files-recursively (projectile-project-root) "\\.bib$")))
@@ -1079,13 +1083,6 @@ binding))))))))
   (add-hook 'skk-mode-hook #'ddskk-posframe-mode)
   (keymap-global-set "C-l" #'skk-latin-mode))
 #+END_SRC
-
-** LLM (ellama)
-#+begin_src emacs-lisp
-(require 'ellama)
-(with-eval-after-load 'ellama
-  (setopt ellama-language "Japanese"))
-#+end_src
 
 ** hydra menu 
 #+begin_src emacs-lisp
