@@ -59,7 +59,6 @@
     };
     loginShellInit = "
 set -x PATH \"/nix/var/nix/profiles/default/bin\" \"$PATH\"
-set -x PATH \"/run/current-system/sw/bin/\" \"$PATH\"
 set -x PATH \"$HOME/.nix-profile/bin\" \"$PATH\"
 set -x PATH \"$PATH\" \"/opt/homebrew/bin\"
 set -x PATH \"$PATH\" \"$HOME/.cargo/bin\" 
