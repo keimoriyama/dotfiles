@@ -91,7 +91,7 @@ return {
 	-- 	colors = { "#000000" },
 	-- },
 	show_new_tab_button_in_tab_bar = false,
-	show_close_tab_button_in_tabs = false,
+	-- show_close_tab_button_in_tabs = false,
 	colors = {
 		tab_bar = {
 			inactive_tab_edge = "none",

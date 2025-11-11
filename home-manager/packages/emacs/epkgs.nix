@@ -35,6 +35,8 @@ in
     avy-zap
     ellama
     # doom-modeline
+    yasnippet
+    consult-yasnippet
     oj
     dashboard
     htmlize
@@ -73,8 +75,6 @@ in
     # langs
     # auctex
     # packages.yatex
-    # yasnippet
-    # consult-yasnippet
     # packages.copilot
     # packages.typst-ts-mode
 
