@@ -63,15 +63,15 @@
   };
   emacs-copilot = {
     pname = "emacs-copilot";
-    version = "952fc7a8ae06091a46995d32ebde4380e0c71142";
+    version = "8e43edf1f3efe094ea42a21863b3b742a339742c";
     src = fetchFromGitHub {
       owner = "copilot-emacs";
       repo = "copilot.el";
-      rev = "952fc7a8ae06091a46995d32ebde4380e0c71142";
+      rev = "8e43edf1f3efe094ea42a21863b3b742a339742c";
       fetchSubmodules = false;
-      sha256 = "sha256-0MRTmWgM8UhdBIkVrM0jseLu/LGOTkeTQQv+DlO+nyw=";
+      sha256 = "sha256-HT9gV/zJC1qVICkDS+1+AVcYhE6ntA3gvwl2DJa8mAI=";
     };
-    date = "2025-10-30";
+    date = "2025-11-17";
   };
   emacs-ddskk = {
     pname = "emacs-ddskk";
