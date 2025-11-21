@@ -66,7 +66,7 @@
       "wezterm"
       "google-chrome"
       "ollama-app"
-	  "notion"
+      "notion"
       "macskk"
     ];
   };

@@ -100,18 +100,13 @@ in {
 
       online-judge-tools
       online-judge-template-generator
-      # textlint
-      # textlint-plugin-org
-      # textlint-plugin-latex2e
-      # textlint-rule-preset-ja-technical-writing
-      # textlint-rule-write-good
 
       yaskkserv2
       slack
       discord
       spotify
       wezterm
-      ollama
+      # ollama
       zoom-us
       mocword
     ];

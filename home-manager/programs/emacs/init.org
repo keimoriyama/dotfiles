@@ -659,7 +659,7 @@ binding))))))))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
-        '(("m" "Memo" entry (file org-memo-file) "** %U\n **%?\n" :empty-lines 1)
+        '(("m" "Memo" entry (file org-memo-file) "** %U\n" :empty-lines 1)
           ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
           ("p" "Projects" entry (file
                                  (lambda () (create-new-org-file
