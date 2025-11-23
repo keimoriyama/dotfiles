@@ -64,7 +64,7 @@
     },
     "dpp-protocol-git": {
         "cargoLocks": null,
-        "date": "2025-10-29",
+        "date": "2025-11-23",
         "extract": null,
         "name": "dpp-protocol-git",
         "passthru": null,
@@ -76,12 +76,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-protocol-git",
-            "rev": "589f2aae1aabb99c3ea14a52f8906c2ba958638b",
-            "sha256": "sha256-nbj3TpAMcjStRgL4NErpUFQRQszFJwzNoDkkUniwoM4=",
+            "rev": "f8f82aceca64a421dbd0674bcd3ef6247766871c",
+            "sha256": "sha256-+MRRHciMZeysyP302oESQkofnRm8GZQwyrC2xuCcSHs=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "589f2aae1aabb99c3ea14a52f8906c2ba958638b"
+        "version": "f8f82aceca64a421dbd0674bcd3ef6247766871c"
     },
     "dpp-vim": {
         "cargoLocks": null,

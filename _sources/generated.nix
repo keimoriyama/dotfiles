@@ -39,15 +39,15 @@
   };
   dpp-protocol-git = {
     pname = "dpp-protocol-git";
-    version = "589f2aae1aabb99c3ea14a52f8906c2ba958638b";
+    version = "f8f82aceca64a421dbd0674bcd3ef6247766871c";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-protocol-git";
-      rev = "589f2aae1aabb99c3ea14a52f8906c2ba958638b";
+      rev = "f8f82aceca64a421dbd0674bcd3ef6247766871c";
       fetchSubmodules = false;
-      sha256 = "sha256-nbj3TpAMcjStRgL4NErpUFQRQszFJwzNoDkkUniwoM4=";
+      sha256 = "sha256-+MRRHciMZeysyP302oESQkofnRm8GZQwyrC2xuCcSHs=";
     };
-    date = "2025-10-29";
+    date = "2025-11-23";
   };
   dpp-vim = {
     pname = "dpp-vim";
