@@ -19,9 +19,9 @@ repo='nvim-tree/nvim-web-devicons'
 repo="nvim-lualine/lualine.nvim"
 hooks_file="$BASE_DIR/lua/lualine_config.lua"
 
-[[plugins]]
-repo = 'shortcuts/no-neck-pain.nvim'
-hooks_file = "$BASE_DIR/lua/no_neck.lua"
+# [[plugins]]
+# repo = 'shortcuts/no-neck-pain.nvim'
+# hooks_file = "$BASE_DIR/lua/no_neck.lua"
 
 [[plugins]]
 repo="ethanholz/nvim-lastplace"

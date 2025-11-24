@@ -92,7 +92,7 @@ vim.lsp.config("docker-language-server", {
 vim.lsp.enable({
 	"lua_ls",
 	"ruff",
-	"pyright",
+	-- "pyright",
 	"ty",
 	"denols",
 	"ts_ls",

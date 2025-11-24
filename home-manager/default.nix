@@ -68,6 +68,7 @@ in {
       tree-sitter
       pyright
       ruff
+      ty
       isort
       yaml-language-server
       lua-language-server
@@ -90,7 +91,6 @@ in {
       hugo
       texliveFull
       fzf
-      python313Packages.debugpy
       docker
       docker-language-server
       yaml-language-server
