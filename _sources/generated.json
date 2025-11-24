@@ -64,7 +64,7 @@
     },
     "dpp-protocol-git": {
         "cargoLocks": null,
-        "date": "2025-11-23",
+        "date": "2025-11-24",
         "extract": null,
         "name": "dpp-protocol-git",
         "passthru": null,
@@ -76,16 +76,16 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-protocol-git",
-            "rev": "f8f82aceca64a421dbd0674bcd3ef6247766871c",
-            "sha256": "sha256-+MRRHciMZeysyP302oESQkofnRm8GZQwyrC2xuCcSHs=",
+            "rev": "2ed9cd0798da0309eacb1785da9424de9d8f6ac1",
+            "sha256": "sha256-T+CUVJn+WjQn+Ky0Vs5P+zn07Vrm0HPD3QRMnphHs54=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "f8f82aceca64a421dbd0674bcd3ef6247766871c"
+        "version": "2ed9cd0798da0309eacb1785da9424de9d8f6ac1"
     },
     "dpp-vim": {
         "cargoLocks": null,
-        "date": "2025-11-02",
+        "date": "2025-11-24",
         "extract": null,
         "name": "dpp-vim",
         "passthru": null,
@@ -97,12 +97,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp.vim",
-            "rev": "5aa1e20d50c5680e48ecc19b0cd289c455384a50",
-            "sha256": "sha256-dihlj6KZZHFocrRqpywD7TxhHlpEn2nolfcfZw6SZdo=",
+            "rev": "9498e1ac303d3d092e73fcede7b89bc56b38305d",
+            "sha256": "sha256-bmEl5JVbsmu3n6UR7Ya+y1poPp9nMBQuKjgKR7wJTWU=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "5aa1e20d50c5680e48ecc19b0cd289c455384a50"
+        "version": "9498e1ac303d3d092e73fcede7b89bc56b38305d"
     },
     "emacs-copilot": {
         "cargoLocks": null,
