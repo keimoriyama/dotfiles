@@ -58,9 +58,8 @@
       "skim"
       "font-hack-nerd-font"
       "karabiner-elements"
-      "google-chrome"
+      # "google-chrome"
       "ollama-app"
-      "notion"
       "macskk"
     ];
   };

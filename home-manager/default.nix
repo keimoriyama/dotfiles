@@ -112,13 +112,26 @@ in {
       # ollama
       zoom-us
       mocword
+      notion-app
 
       # brewCasks.marta
       # brewCasks.font-hack-nerd-font
       # brewCasks.skim
       # brewCasks.karabiner-elements
-      # brewCasks.macskk
-      # brewCasks.google-chrome
+      # (brewCasks.macskk.overrideAttrs
+      #   (old: {
+      #     src = pkgs.fetchurl {
+      #       url = "https://github.com/mtgto/macSKK/releases/download/2.6.0/macSKK-2.6.0.dmg";
+      #       sha256 = "sha256-X3ZXR8NX0bNw5T2KE2cA1rD2tYD6aXrXZu9Ge4u35oI=";
+      #     };
+      #   }))
+      (brewCasks.google-chrome.overrideAttrs
+        (old: {
+          src = pkgs.fetchurl {
+            url = builtins.head old.src.urls;
+            sha256 = "sha256-3tGFRcWoAu8EUMRpKWBfKRBsBuJtVl2mZurujkmiUcA=";
+          };
+        }))
       # brewCasks.ollama-app
       # brewCasks.notion
     ];
