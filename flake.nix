@@ -23,6 +23,14 @@
     org-babel.url = "github:emacs-twist/org-babel";
     flake-utils.url = "github:numtide/flake-utils";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    brew-nix = {
+      url = "github:BatteredBunny/brew-nix";
+      inputs.brew-api.follows = "brew-api";
+    };
+    brew-api = {
+      url = "github:BatteredBunny/brew-api";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -34,6 +42,7 @@
     org-babel,
     neovim-nightly-overlay,
     flake-utils,
+    brew-nix,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -51,7 +60,7 @@
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {
-          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username;
+          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix;
           inherit (home-manager.lib) homeManagerConfiguration;
         };
         modules = [

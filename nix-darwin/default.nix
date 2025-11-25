@@ -68,6 +68,7 @@
       "ollama-app"
       "notion"
       "macskk"
+      # "raycast"
     ];
   };
 }

@@ -7,6 +7,7 @@
   system,
   neovim-nightly-overlay,
   username,
+  brew-nix,
   ...
 }: let
   sources = pkgs.callPackage ../_sources/generated.nix {};
@@ -20,6 +21,7 @@
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;
       inherit neovim-nightly-overlay;
+      inherit brew-nix;
     };
   };
   emacs = import ./packages/emacs {
@@ -109,6 +111,8 @@ in {
       # ollama
       zoom-us
       mocword
+
+      # brewCasks.marta
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;

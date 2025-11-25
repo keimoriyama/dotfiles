@@ -26,6 +26,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.prettier,
+		null_ls.builtins.formatting.alejandra,
 	},
 	on_attach = on_attach,
 })
