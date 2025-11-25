@@ -54,6 +54,7 @@ in {
 
     packages = with pkgs; [
       curl
+      rsync
       uv
       nodejs_24
       typescript
@@ -118,5 +119,11 @@ in {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
     };
+    activation.trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
+      ${builtins.readFile ./trampoline-apps.sh}
+      fromDir="$HOME/Applications/Home Manager Apps"
+      toDir="$HOME/Applications/Home Manager Trampolines"
+      sync_trampolines "$fromDir" "$toDir"
+    '';
   };
 }
