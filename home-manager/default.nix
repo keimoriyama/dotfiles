@@ -114,6 +114,13 @@ in {
       mocword
 
       # brewCasks.marta
+      # brewCasks.font-hack-nerd-font
+      # brewCasks.skim
+      # brewCasks.karabiner-elements
+      # brewCasks.macskk
+      # brewCasks.google-chrome
+      # brewCasks.ollama-app
+      # brewCasks.notion
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;

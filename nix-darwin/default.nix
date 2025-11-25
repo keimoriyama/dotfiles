@@ -55,15 +55,9 @@
     ];
     casks = [
       # ここにGUIアプリの記述
-      # "aquaskk"
       "skim"
-      "discord"
-      "slack"
       "font-hack-nerd-font"
-      "spotify"
       "karabiner-elements"
-      "zoom"
-      "wezterm"
       "google-chrome"
       "ollama-app"
       "notion"
