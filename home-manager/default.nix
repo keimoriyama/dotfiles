@@ -110,34 +110,17 @@ in {
       spotify
       wezterm
       # ollama
-      zoom-us
+      # zoom-us
       mocword
       notion-app
-
-      # brewCasks.marta
-      # brewCasks.font-hack-nerd-font
-      # brewCasks.skim
-      # brewCasks.karabiner-elements
-      # (brewCasks.macskk.overrideAttrs
-      #   (old: {
-      #     src = pkgs.fetchurl {
-      #       url = "https://github.com/mtgto/macSKK/releases/download/2.6.0/macSKK-2.6.0.dmg";
-      #       sha256 = "sha256-X3ZXR8NX0bNw5T2KE2cA1rD2tYD6aXrXZu9Ge4u35oI=";
-      #     };
-      #   }))
-      (brewCasks.google-chrome.overrideAttrs
-        (old: {
-          src = pkgs.fetchurl {
-            url = builtins.head old.src.urls;
-            sha256 = "sha256-3tGFRcWoAu8EUMRpKWBfKRBsBuJtVl2mZurujkmiUcA=";
-          };
-        }))
-      # brewCasks.ollama-app
-      # brewCasks.notion
+      macskk
+      google-chrome
+      brewCasks.skim
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
+      "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;
     };
     activation.trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
       ${builtins.readFile ./trampoline-apps.sh}

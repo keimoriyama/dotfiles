@@ -1,7 +1,10 @@
 {pkgs, ...}: {
   # Nixデーモンの自動アップグレードを有効化
   nix.package = pkgs.nix;
-  environment.systemPackages = [];
+  environment.systemPackages = [
+    pkgs.zoom-us
+    pkgs.macskk
+  ];
   # 非自由パッケージを許可
   nixpkgs.config.allowUnfree = true;
 
@@ -36,9 +39,10 @@
         tilesize = 32;
       };
     };
-    # keyboard = {
-    #   remapCapsLockToControl = true;
-    # };
+    keyboard = {
+      enableKeyMapping = true;
+      remapCapsLockToControl = true;
+    };
   };
 
   # homebrewの設定
@@ -50,17 +54,13 @@
       upgrade = true;
       cleanup = "uninstall";
     };
-    taps = [
-      "wtsnjp/tex2img"
-    ];
+    # taps = [
+    #   "wtsnjp/tex2img"
+    # ];
     casks = [
       # ここにGUIアプリの記述
-      "skim"
-      "font-hack-nerd-font"
-      "karabiner-elements"
-      # "google-chrome"
-      "ollama-app"
       "macskk"
+      # "zoom"
     ];
   };
 }
