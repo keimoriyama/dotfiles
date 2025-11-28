@@ -51,15 +51,15 @@
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "9ba68f471036699e893ab82d0057bdcf03adc47e";
+    version = "3f303dfc6d0cee80aa4f1a58a2d0b34f6848a068";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "9ba68f471036699e893ab82d0057bdcf03adc47e";
+      rev = "3f303dfc6d0cee80aa4f1a58a2d0b34f6848a068";
       fetchSubmodules = false;
-      sha256 = "sha256-wVIKTRONrgohYgks0mCEOC/Se7fPY36y9cBKT1xKxug=";
+      sha256 = "sha256-KLOiqfotrrCIpgArrEvXzgKfhe1++LSjBeWA0uofqvI=";
     };
-    date = "2025-11-26";
+    date = "2025-11-27";
   };
   emacs-copilot = {
     pname = "emacs-copilot";
