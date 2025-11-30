@@ -3,7 +3,7 @@
   nix.package = pkgs.nix;
   environment.systemPackages = [
     # pkgs.zoom-us
-    pkgs.macskk
+    # pkgs.macskk
   ];
   # 非自由パッケージを許可
   nixpkgs.config.allowUnfree = true;
@@ -54,14 +54,10 @@
       upgrade = true;
       cleanup = "uninstall";
     };
-    # taps = [
-    #   "wtsnjp/tex2img"
-    # ];
     casks = [
       # ここにGUIアプリの記述
       "macskk"
-      "zoom"
-      # "steam"
+      # "zoom"
     ];
   };
 }

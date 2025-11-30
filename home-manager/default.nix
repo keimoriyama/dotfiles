@@ -114,10 +114,14 @@ in {
         # zoom-us
         mocword
         notion-app
-        macskk
         google-chrome
       ]
+      ++ lib.optionals stdenv.isLinux [
+        zoom-us
+      ]
       ++ lib.optionals stdenv.isDarwin [
+        macskk
+        brewCasks.zoom
         brewCasks.skim
         brewCasks.docker-desktop
         (brewCasks.steam.overrideAttrs
