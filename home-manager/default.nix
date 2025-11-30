@@ -115,7 +115,9 @@ in {
       notion-app
       macskk
       google-chrome
+
       brewCasks.skim
+      brewCasks.docker-desktop
     ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;

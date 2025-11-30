@@ -748,7 +748,8 @@ binding))))))))
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ("v" "My super agenda"
-           ((agenda "" ((org-agenda-span 'day)
+           (
+            (agenda "" ((org-agenda-span 'day)
                         (org-super-agenda-groups
                          '((:name "Today's Log"
                                   :time-grid t
@@ -758,27 +759,28 @@ binding))))))))
                            (:discard (:anything t))))))
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
-                          '((:name "今日締切のタスク"
-                                   :deadline today
-                                   :order 2)
-                            (:name "今日予定のタスク"
-                                   :scheduled today
-                                   :order 3)
-                            (:name "締切を過ぎたタスク"
-                                   :deadline past
-                                   :order 4)
-                            (:name "予定が近いタスク"
-                                   :deadline future
-                                   :order 5)
-                            (:name "研究室のTODO"
-                                   :tag "Lab"
-                                   :order 6)
-                            (:name "RAのTODO"
-                                   :tag "RA"
-                                   :order 7)
-                            (:name "PrivateのTODO"
-                                   :tag "Private"
-                                   :order 7)
+                          '((:auto-category t)
+                            ;; (:name "今日締切のタスク"
+                            ;;        :deadline today
+                            ;;        :order 2)
+                            ;; (:name "今日予定のタスク"
+                            ;;        :scheduled today
+                            ;;        :order 3)
+                            ;; (:name "締切を過ぎたタスク"
+                            ;;        :deadline past
+                            ;;        :order 4)
+                            ;; (:name "予定が近いタスク"
+                            ;;        :deadline future
+                            ;;        :order 5)
+                            ;; (:name "研究室のTODO"
+                            ;;        :tag "Lab"
+                            ;;        :order 6)
+                            ;; (:name "RAのTODO"
+                            ;;        :tag "RA"
+                            ;;        :order 7)
+                            ;; (:name "PrivateのTODO"
+                            ;;        :tag "Private"
+                            ;;        :order 7)
                             )))))))
 
         org-agenda-start-on-weekday 3

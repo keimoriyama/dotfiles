@@ -2,7 +2,7 @@
   # Nixデーモンの自動アップグレードを有効化
   nix.package = pkgs.nix;
   environment.systemPackages = [
-    pkgs.zoom-us
+    # pkgs.zoom-us
     pkgs.macskk
   ];
   # 非自由パッケージを許可
@@ -60,7 +60,8 @@
     casks = [
       # ここにGUIアプリの記述
       "macskk"
-      # "zoom"
+      "zoom"
+      "steam"
     ];
   };
 }
