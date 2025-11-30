@@ -61,7 +61,7 @@
       # ここにGUIアプリの記述
       "macskk"
       "zoom"
-      "steam"
+      # "steam"
     ];
   };
 }

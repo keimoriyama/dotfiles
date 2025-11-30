@@ -52,73 +52,82 @@ in {
     username = username;
     homeDirectory = "/Users/${username}";
 
-    packages = with pkgs; [
-      curl
-      rsync
-      uv
-      nodejs_24
-      typescript
-      lua
-      alejandra
-      peco
-      ghq
-      gh
-      deno
-      rustc
-      rustup
-      ripgrep
-      vim
-      tree-sitter
-      pyright
-      ruff
-      ty
-      isort
-      yaml-language-server
-      lua-language-server
-      stylua
-      typescript-language-server
-      nvfetcher
-      udev-gothic
-      ghostscript
-      wezterm
-      cbc
-      sl
-      ispell
-      typst
-      tdf
-      perl
-      nixd
-      copilot-language-server
-      texlab
-      auctex
-      hugo
-      texliveFull
-      fzf
-      docker
-      docker-language-server
-      yaml-language-server
-      tinymist
-      go
-      prettierd
+    packages = with pkgs;
+      [
+        curl
+        rsync
+        uv
+        nodejs_24
+        typescript
+        lua
+        alejandra
+        peco
+        ghq
+        gh
+        deno
+        rustc
+        rustup
+        ripgrep
+        vim
+        tree-sitter
+        pyright
+        ruff
+        ty
+        isort
+        yaml-language-server
+        lua-language-server
+        stylua
+        typescript-language-server
+        nvfetcher
+        udev-gothic
+        ghostscript
+        wezterm
+        cbc
+        sl
+        ispell
+        typst
+        tdf
+        perl
+        nixd
+        copilot-language-server
+        texlab
+        auctex
+        hugo
+        texliveFull
+        fzf
+        docker
+        docker-language-server
+        yaml-language-server
+        tinymist
+        go
+        prettierd
 
-      online-judge-tools
-      online-judge-template-generator
+        online-judge-tools
+        online-judge-template-generator
 
-      yaskkserv2
-      slack
-      discord
-      spotify
-      wezterm
-      # ollama
-      # zoom-us
-      mocword
-      notion-app
-      macskk
-      google-chrome
-
-      brewCasks.skim
-      brewCasks.docker-desktop
-    ];
+        yaskkserv2
+        slack
+        discord
+        spotify
+        wezterm
+        # ollama
+        # zoom-us
+        mocword
+        notion-app
+        macskk
+        google-chrome
+      ]
+      ++ lib.optionals stdenv.isDarwin [
+        brewCasks.skim
+        brewCasks.docker-desktop
+        (brewCasks.steam.overrideAttrs
+          (oldAttrs: {
+            src = pkgs.fetchurl {
+              url = builtins.head oldAttrs.src.urls;
+              hash = "sha256-X1VnDJGv02A6ihDYKhedqQdE/KmPAQZkeJHudA6oS6M=";
+            };
+          }))
+      ];
     file = {
       ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
