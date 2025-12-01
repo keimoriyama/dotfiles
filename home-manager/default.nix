@@ -110,17 +110,15 @@ in {
         discord
         spotify
         wezterm
-        # ollama
-        # zoom-us
         mocword
         notion-app
         google-chrome
+        wget
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us
       ]
       ++ lib.optionals stdenv.isDarwin [
-        macskk
         brewCasks.zoom
         brewCasks.skim
         brewCasks.docker-desktop

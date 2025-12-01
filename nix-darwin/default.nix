@@ -46,18 +46,18 @@
   };
 
   # homebrewの設定
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-      # !! 注意 !!
-      upgrade = true;
-      cleanup = "uninstall";
-    };
-    casks = [
-      # ここにGUIアプリの記述
-      "macskk"
-      # "zoom"
-    ];
-  };
+  # homebrew = {
+  #   enable = true;
+  #   onActivation = {
+  #     autoUpdate = true;
+  #     # !! 注意 !!
+  #     upgrade = true;
+  #     cleanup = "uninstall";
+  #   };
+  #   casks = [
+  #     # ここにGUIアプリの記述
+  #     # "macskk"
+  #     # "zoom"
+  #   ];
+  # };
 }
