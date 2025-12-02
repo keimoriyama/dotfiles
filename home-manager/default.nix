@@ -99,6 +99,7 @@ in {
         docker-language-server
         yaml-language-server
         tinymist
+        typstyle
         go
         prettierd
 

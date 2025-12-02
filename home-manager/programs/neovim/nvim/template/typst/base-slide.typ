@@ -37,4 +37,4 @@
 
 #title-slide()
 
-{{__cursor__}}
+{{_cursor_}}
