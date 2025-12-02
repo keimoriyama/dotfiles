@@ -8,13 +8,30 @@ on_ft = "csv"
 hooks_file = "$BASE_DIR/lua/csv_tools.lua"
 
 [[plugins]]
-repo = 'gw31415/vim-partedit'
+repo = 'thinca/vim-partedit'
 on_cmd = 'Partedit'
 on_func = 'partedit#start'
 hook_add = '''
     let g:partedit#prefix_pattern = '\s*'
     let g:partedit#auto_prefix = 0
 '''
+
+# [plugins.ftplugin]
+# toml_markdown = '''
+#     nnoremap <buffer> <leader>p <Cmd>call <SID>operator_partedit()<CR>
+#     function! s:operator_partedit() abort
+#       let context = context_filetype#get()
+#       if context.range == [[0, 0], [0, 0]]
+#         echohl WarningMsg
+#         echomsg 'Context is not found'
+#         echohl NONE
+#         return
+#       endif
+#       call partedit#start(context.range[0][0], context.range[1][0],
+#             \ {'filetype': context.filetype})
+#       nnoremap <buffer><nowait> Q <Cmd>w<CR><Cmd>ParteditEnd<CR>
+#     endfunction
+# '''
 
 [[plugins]]
 repo = "lervag/vimtex"

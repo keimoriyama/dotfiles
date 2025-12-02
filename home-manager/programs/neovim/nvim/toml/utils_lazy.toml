@@ -51,6 +51,11 @@ vim.g.sonictemplate_vim_template_dir = "~/dotfiles/home-manager/programs/neovim/
 '''
 
 [[plugins]]
+repo="nvim-treesitter/nvim-treesitter"
+on_event = ["BufReadPre", "BufNewFile"]
+hooks_file="$BASE_DIR/lua/treesitter.lua"
+
+[[plugins]]
 repo='nvim-treesitter/nvim-treesitter-context'
 on_event = ["BufReadPre", "BufNewFile"]
 depends='nvim-treesitter'
@@ -60,6 +65,26 @@ require('treesitter-context').setup({
 	min_window_height = 20,
 })
 '''
+
+[[plugins]]
+repo = 'monaqa/nvim-treesitter-clipping'
+depends = ['nvim-treesitter', 'vim-partedit']
+on_lua = 'nvim-treesitter-clipping'
+lua_add = '''
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "toml", "markdown" },
+      callback = function()
+        vim.keymap.set("n", "<C-p>", function()
+          require("nvim-treesitter-clipping").clip()
+          vim.keymap.set("n", "Q", "<Cmd>w<CR><Cmd>ParteditEnd<CR>", { buffer = true })
+        end, { buffer = true })
+      end,
+    })
+'''
+
+[[plugins]]
+repo='nvim-treesitter/nvim-treesitter'
+depends = ['nvim-treesitter']
 
 [[plugins]]
 repo="JoosepAlviste/nvim-ts-context-commentstring"
@@ -97,11 +122,6 @@ on_event = ["BufReadPre", "BufNewFile"]
 lua_source='''
 require('mini.diff').setup()
 '''
-
-[[plugins]]
-repo="nvim-treesitter/nvim-treesitter"
-on_event = ["BufReadPre", "BufNewFile"]
-hooks_file="$BASE_DIR/lua/treesitter.lua"
 
 [[plugins]]
 repo='echasnovski/mini.bufremove'
