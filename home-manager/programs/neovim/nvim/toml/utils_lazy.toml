@@ -257,3 +257,4 @@ on_event = ["BufReadPre", "BufNewFile"]
 lua_source='''
 require('modes').setup()
 '''
+
