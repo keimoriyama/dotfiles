@@ -4,7 +4,7 @@ treesitter.setup({
 	install_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "site"),
 })
 
-local installed_parser = { "nix", "c", "lua", "vim", "vimdoc", "python", "toml", "json" }
+local installed_parser = { "nix", "c", "lua", "vim", "vimdoc", "python", "toml", "json", "latex", "typst" }
 treesitter.install(installed_parser, {})
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
