@@ -1,0 +1,3 @@
+;; extends
+(comment) @text.strong
+

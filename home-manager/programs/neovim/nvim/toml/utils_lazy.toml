@@ -31,8 +31,6 @@ repo = "hrsh7th/nvim-insx"
 on_event = ['InsertEnter']
 hooks_file="$BASE_DIR/lua/insx_config.lua"
 
-
-# surround
 [[plugins]]
 repo="kylechui/nvim-surround"
 on_map = ['y', 'd']
