@@ -52,7 +52,9 @@ vim.g.sonictemplate_vim_template_dir = "~/dotfiles/home-manager/programs/neovim/
 
 [[plugins]]
 repo="nvim-treesitter/nvim-treesitter"
-on_event = ["BufReadPre", "BufNewFile"]
+on_event = ["BufRead", "CursorHold"]
+rev='main'
+hook_post_update='TSUpdate'
 hooks_file="$BASE_DIR/lua/treesitter.lua"
 
 [[plugins]]
@@ -65,6 +67,11 @@ require('treesitter-context').setup({
 	min_window_height = 20,
 })
 '''
+[[plugins]]
+repo="nvim-treesitter/nvim-treesitter-textobjects"
+on_event = ["BufReadPre", "BufNewFile"]
+depends='nvim-treesitter'
+rev='main'
 
 [[plugins]]
 repo = 'monaqa/nvim-treesitter-clipping'
@@ -81,10 +88,6 @@ lua_add = '''
       end,
     })
 '''
-
-[[plugins]]
-repo='nvim-treesitter/nvim-treesitter'
-depends = ['nvim-treesitter']
 
 [[plugins]]
 repo="JoosepAlviste/nvim-ts-context-commentstring"
@@ -164,11 +167,6 @@ lua_source = '''
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 '''
 
-
-[[plugins]]
-repo="nvim-treesitter/nvim-treesitter-textobjects"
-on_event = ["BufReadPre", "BufNewFile"]
-depends='nvim-treesitter'
 
 [[plugins]]
 repo="andersevenrud/nvim_context_vt"
