@@ -31,7 +31,6 @@ export class Config extends BaseConfig {
       ["utils_lazy.toml", true],
       ["ddc.toml", true],
       ["ddu.toml", true],
-      //["telescope.toml", false],
       ["ftplugin.toml", true],
     ];
     const base_dir = "~/.config/nvim/toml/";

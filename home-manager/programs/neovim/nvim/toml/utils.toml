@@ -36,3 +36,16 @@ repo='kana/vim-textobj-entire'
 [[plugins]]
 repo='kana/vim-textobj-line'
 
+[[plugins]]
+repo='rcarriga/nvim-notify'
+lua_source='''
+vim.notify = require("notify")
+'''
+
+[[plugins]]
+repo='mvllow/modes.nvim'
+lua_source='''
+require('modes').setup()
+vim.opt.cmdheight = 0
+'''
+

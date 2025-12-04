@@ -28,7 +28,6 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 -- ファイルの変更評価
 vim.opt.modifiable = true
--- vim.opt.cmdheight = 0
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
 vim.opt.splitright = true

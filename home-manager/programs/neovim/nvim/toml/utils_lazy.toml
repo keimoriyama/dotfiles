@@ -249,12 +249,6 @@ require('incline').setup(
 )
 '''
 
-[[plugins]]
-repo='mvllow/modes.nvim'
-on_event = ["BufReadPre", "BufNewFile"]
-lua_source='''
-require('modes').setup()
-'''
 
 [[plugins]]
 repo="monaqa/dial.nvim"
@@ -286,9 +280,3 @@ vim.keymap.set("x", "g<C-x>", function()
 end)
 '''
 
-[[plugins]]
-repo='rcarriga/nvim-notify'
-on_event = ["BufReadPre", "BufNewFile"]
-lua_source='''
-vim.notify = require("notify")
-'''
