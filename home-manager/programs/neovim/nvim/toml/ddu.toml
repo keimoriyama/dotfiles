@@ -92,3 +92,14 @@ on_source = "ddu.vim"
 repo = "uga-rosa/ddu-filter-converter_devicon"
 on_source = "ddu.vim"
 
+[[plugins]]
+repo = 'Shougo/cmdline.vim'
+on_source = ['ddu.vim']
+hook_add = '''
+  cnoremap <CR>  <Cmd>call cmdline#disable()<CR><CR>
+'''
+hook_source = '''
+  call cmdline#set_option(#{
+    \   highlight_window: 'None',
+    \ })
+'''

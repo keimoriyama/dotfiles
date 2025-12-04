@@ -7,7 +7,9 @@ vim.opt.relativenumber = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 -- 最下ウィンドウにいつステータス行を表示するか
-vim.opt.laststatus = 3
+vim.opt.laststatus = 0
+vim.opt.statusline = "─"
+vim.opt.fillchars:append({ stl = "─", stlnc = "─" })
 -- コマンドライン補完の有効化
 vim.opt.wildmenu = true
 -- 直前の行から新しいインデントを指定する
@@ -30,6 +32,7 @@ vim.opt.modifiable = true
 -- コピペの共通化
 vim.opt.clipboard:append({ unnamedplus = true })
 vim.opt.splitright = true
+vim.opt.wildmenu = false
 
 vim.opt.scrolloff = 0
 if vim.fn.has("mac") == 1 then
@@ -38,40 +41,4 @@ else
 	vim.cmd([[set clipboard^=unnamedplus]])
 end
 
--- local notify = vim.notify
--- vim.notify = function(msg, ...)
--- 	if msg:match("warning: multiple different client offset_encodings") then
--- 		return
--- 	end
--- 	notify(msg, ...)
--- end
-
--- vim.g.loaded_man = 1
--- vim.g.did_install_default_menus = 1
--- vim.g.did_install_syntax_menu = 1
--- vim.g.did_indent_on = 1
--- vim.g.did_load_ftplugin = 1
--- vim.g.loaded_2html_plugin = 1
--- vim.g.loaded_gzip = 1
--- vim.g.loaded_man = 1
--- vim.g.loaded_matchit = 1
--- vim.g.loaded_tar = 1
--- vim.g.loaded_matchparen = 1
--- vim.g.loaded_netrwPlugin = 1
--- vim.g.loaded_remote_plugins = 1
--- vim.g.loaded_shada_plugin = 1
--- vim.g.loaded_spellfile_plugin = 1
--- vim.g.loaded_tarPlugin = 1
--- vim.g.loaded_tutor_mode_plugin = 1
--- vim.g.loaded_zip = 1
--- vim.g.loaded_zipPlugin = 1
--- vim.g.skip_loading_mswin = 1
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
--- vim.g.loaded_netrwSettings = 1
--- vim.g.loaded_netrwFileHandlers = 1
--- vim.g.loaded_getscript = 1
--- vim.g.loaded_getscriptPlugin = 1
-
-vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
 vim.opt.mouse = ""

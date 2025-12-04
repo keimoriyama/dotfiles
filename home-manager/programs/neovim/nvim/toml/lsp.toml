@@ -14,4 +14,3 @@ repo = 'ray-x/lsp_signature.nvim'
 on_event = ["LspAttach"]
 depends='nvim-lspconfig'
 hooks_file="$BASE_DIR/lua/lsp_signature_config.lua"
-

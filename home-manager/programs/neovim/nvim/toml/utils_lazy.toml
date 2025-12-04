@@ -2,8 +2,7 @@
 repo="windwp/nvim-autopairs"
 on_event = ['InsertEnter']
 lua_source='''
-require("nvim-autopairs").setup({ disable_filetype = { "vim" },
-})
+require("nvim-autopairs").setup({ disable_filetype = { "vim" }})
 '''
 
 [[plugins]]
@@ -76,15 +75,15 @@ repo = 'monaqa/nvim-treesitter-clipping'
 depends = ['nvim-treesitter', 'vim-partedit']
 on_lua = 'nvim-treesitter-clipping'
 lua_add = '''
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "toml", "markdown" },
-      callback = function()
-        vim.keymap.set("n", "<C-p>", function()
-          require("nvim-treesitter-clipping").clip()
-          vim.keymap.set("n", "Q", "<Cmd>w<CR><Cmd>ParteditEnd<CR>", { buffer = true })
-        end, { buffer = true })
-      end,
-    })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "toml", "markdown" },
+  callback = function()
+	vim.keymap.set("n", "<C-p>", function()
+	  require("nvim-treesitter-clipping").clip()
+	  vim.keymap.set("n", "Q", "<Cmd>w<CR><Cmd>ParteditEnd<CR>", { buffer = true })
+	end, { buffer = true })
+  end,
+})
 '''
 
 [[plugins]]
@@ -125,15 +124,6 @@ require('mini.diff').setup()
 '''
 
 [[plugins]]
-repo='echasnovski/mini.bufremove'
-on_event = ["BufReadPre", "BufNewFile"]
-lua_source='''
-require('mini.bufremove').setup()
-vim.keymap.set("n", "<leader>bd", function()MiniBufremove.delete() end)
-'''
-
-
-[[plugins]]
 repo='akinsho/toggleterm.nvim'
 on_map= {n = "<C-t>"}
 lua_source='''
@@ -157,14 +147,6 @@ on_map = { n = '<C-d>', i = '<C-d>' }
 lua_source='''
 vim.keymap.set({ "i", "n" }, '<C-d>', '<Plug>(dmacro-play-macro)<CR>')
 '''
-
-[[plugins]]
-repo = 'mbbill/undotree'
-on_map = { n = '<leader>u' }
-lua_source = '''
-vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-'''
-
 
 [[plugins]]
 repo="andersevenrud/nvim_context_vt"
@@ -274,3 +256,39 @@ lua_source='''
 require('modes').setup()
 '''
 
+[[plugins]]
+repo="monaqa/dial.nvim"
+on_map = { n = '<C-a>',  i = '<C-a>',  v = '<C-a>' }
+lua_source='''
+vim.keymap.set("n", "<C-a>", function()
+    require("dial.map").manipulate("increment", "normal")
+end)
+vim.keymap.set("n", "<C-x>", function()
+    require("dial.map").manipulate("decrement", "normal")
+end)
+vim.keymap.set("n", "g<C-a>", function()
+    require("dial.map").manipulate("increment", "gnormal")
+end)
+vim.keymap.set("n", "g<C-x>", function()
+    require("dial.map").manipulate("decrement", "gnormal")
+end)
+vim.keymap.set("x", "<C-a>", function()
+    require("dial.map").manipulate("increment", "visual")
+end)
+vim.keymap.set("x", "<C-x>", function()
+    require("dial.map").manipulate("decrement", "visual")
+end)
+vim.keymap.set("x", "g<C-a>", function()
+    require("dial.map").manipulate("increment", "gvisual")
+end)
+vim.keymap.set("x", "g<C-x>", function()
+    require("dial.map").manipulate("decrement", "gvisual")
+end)
+'''
+
+[[plugins]]
+repo='rcarriga/nvim-notify'
+on_event = ["BufReadPre", "BufNewFile"]
+lua_source='''
+vim.notify = require("notify")
+'''
