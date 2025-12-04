@@ -11,7 +11,8 @@ vim.keymap.set({ "i", "c" }, "<C-n>", "<cmd>call pum#map#insert_relative(+1, 'lo
 vim.keymap.set({ "i", "c" }, "<C-p>", "<cmd>call pum#map#insert_relative(-1, 'loop')<cr>")
 vim.keymap.set({ "i", "c" }, "<C-y>", "<cmd>call pum#map#confirm()<cr>")
 vim.keymap.set({ "i", "c" }, "<C-e>", "<cmd>call pum#map#cancel()<cr>")
-vim.keymap.set("n", ";;", "<cmd>call cmdline#enable()<cr><cmd>lua CommandlinePre(':')<cr>:")
+vim.keymap.set("n", ";", "<cmd>call cmdline#enable()<cr><cmd>lua CommandlinePre(':')<cr>:")
+vim.keymap.set("n", ":", "<cmd>lua CommandlinePre(':')<cr>:")
 
 vim.fn["ddc#custom#load_config"](vim.fn.expand("$HOME/.config/nvim/ts/ddc.ts"))
 -- }}}

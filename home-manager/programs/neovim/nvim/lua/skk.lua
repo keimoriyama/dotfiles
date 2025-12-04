@@ -19,9 +19,10 @@ vim.cmd([[
 local dictdir = "~/.skk-dict"
 vim.fn["skkeleton#config"]({
 	kanaTable = "azik",
-	-- sources = {
-	-- 	"skk_server"
-	-- },
+	sources = {
+		"skk_dictionary",
+		"skk_server",
+	},
 	userDictionary = userDict,
 	globalDictionaries = {
 		vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
