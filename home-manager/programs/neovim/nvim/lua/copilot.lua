@@ -13,6 +13,5 @@ if string.match(current_dir, "Atcoder") == nil then
 			},
 		},
 	})
-	vim.keymap.set("i", "<C-c><C-t>", "<cmd>Copilot toggle<cr>")
 end
 -- }}}

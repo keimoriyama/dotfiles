@@ -249,7 +249,6 @@ require('incline').setup(
 )
 '''
 
-
 [[plugins]]
 repo="monaqa/dial.nvim"
 on_map = { n = '<C-a>',  i = '<C-a>',  v = '<C-a>' }
@@ -279,4 +278,3 @@ vim.keymap.set("x", "g<C-x>", function()
     require("dial.map").manipulate("decrement", "gvisual")
 end)
 '''
-
