@@ -30,3 +30,7 @@ body = """
 	$0
 \\end{block}
 """
+
+[footnote-url]
+prefix='fnurl'
+body = """\\footnote{\\url{$1}}"""

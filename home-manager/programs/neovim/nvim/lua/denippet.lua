@@ -3,6 +3,9 @@ local snip_dir = vim.fn.expand("$HOME/.config/nvim/snippets")
 for _, file in ipairs(vim.fn.glob(snip_dir .. "/*.toml", false, true)) do
 	vim.fn["denippet#load"](file)
 end
+for _, file in ipairs(vim.fn.glob(snip_dir .. "/*.ts", false, true)) do
+	vim.fn["denippet#load"](file)
+end
 vim.cmd([[
 inoremap <C-e> <Plug>(denippet-expand)
 inoremap <expr> <Tab> denippet#jumpable() ? '<Plug>(denippet-jump-next)' : '<Tab>'

@@ -152,6 +152,11 @@ vim.keymap.set({ "i", "n" }, '<C-d>', '<Plug>(dmacro-play-macro)<CR>')
 repo="andersevenrud/nvim_context_vt"
 on_event = ["BufReadPre", "BufNewFile"]
 depends='nvim-treesitter'
+lua_source='''
+require("nvim_context_vt").setup({
+	min_rows=5
+})
+'''
 
 [[plugins]]
 repo = "terryma/vim-expand-region"
@@ -277,4 +282,18 @@ end)
 vim.keymap.set("x", "g<C-x>", function()
     require("dial.map").manipulate("decrement", "gvisual")
 end)
+'''
+
+# [[plugins]]
+# repo='anuvyklack/pretty-fold.nvim'
+# on_event = ["BufReadPre", "BufNewFile"]
+# lua_source='''
+# require('pretty-fold').setup()
+# '''
+
+[[plugins]]
+repo='norcalli/nvim-colorizer.lua'
+on_event = ["BufReadPre", "BufNewFile"]
+lua_source='''
+require('colorizer').setup()
 '''

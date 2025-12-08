@@ -51,5 +51,4 @@ vim.notify = require("notify")
 
 [[plugins]]
 repo="nvim-mini/mini.sessions"
-on_event = ["BufReadPre", "BufNewFile"]
 
