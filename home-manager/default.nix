@@ -132,7 +132,6 @@ in {
           }))
       ];
     file = {
-      ".config/karabiner/karabiner.json".text = builtins.readFile ../karabiner/karabiner.json;
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
       "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;
     };
