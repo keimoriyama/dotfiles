@@ -11,8 +11,10 @@ repo="Shougo/pum.vim"
 [[plugins]]
 repo="github/copilot.vim"
 on_source="ddc.vim"
-lua_add='''
-vim.g.copilot_no_maps = true
+hook_source='''
+let g:copilot_no_maps = v:true
+let g:copilot_hide_during_completion = 0
+imap <silent><expr> <C-g> copilot#Accept()
 '''
 
 [[plugins]]
@@ -50,9 +52,9 @@ on_source="ddc.vim"
 repo="Shougo/ddc-source-lsp"
 on_source="ddc.vim"
 
-# [[plugins]]
-# repo='Shougo/ddc-source-copilot'
-# on_source="ddc.vim"
+[[plugins]]
+repo='Shougo/ddc-source-copilot'
+on_source="ddc.vim"
 
 [[plugins]]
 repo="uga-rosa/ddc-source-nvim-lua"

@@ -8,7 +8,19 @@ body="""
 
 [item]
 prefix='it'
-body="""\\item"""
+body="""
+\\begin{itemize}
+	\\item $0
+\\end{itemize}
+"""
+
+[enumerate]
+prefix='enu'
+body="""
+\\begin{enumerate}
+	\\item $0
+\\end{enumerate}
+"""
 
 
 [frame]

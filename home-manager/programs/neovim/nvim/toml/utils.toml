@@ -42,12 +42,12 @@ lua_source='''
 vim.notify = require("notify")
 '''
 
-# [[plugins]]
-# repo='mvllow/modes.nvim'
-# lua_source='''
-# require('modes').setup()
-# vim.opt.cmdheight = 0
-# '''
+[[plugins]]
+repo='mvllow/modes.nvim'
+lua_source='''
+require('modes').setup()
+vim.opt.cmdheight = 0
+'''
 
 [[plugins]]
 repo="nvim-mini/mini.sessions"

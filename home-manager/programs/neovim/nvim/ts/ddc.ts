@@ -7,7 +7,7 @@ export class Config extends BaseConfig {
       ui: "pum",
       sources: [
         "denippet",
-        // "copilot",
+        "copilot",
         "lsp",
         "skkeleton",
         "file",
@@ -51,10 +51,10 @@ export class Config extends BaseConfig {
         cmdline: { mark: "[cmdline]" },
         denippet: { mark: "[denippet]" },
         buffer: { mark: "[buffer]" },
-        // copilot: {
-        //   mark: "[copilot]",
-        //   minAutoCompleteLength: 2,
-        // },
+        copilot: {
+          mark: "[copilot]",
+          minAutoCompleteLength: 2,
+        },
         lsp: {
           mark: "[lsp]",
           keywordPattern: "\\k*",
