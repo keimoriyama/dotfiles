@@ -39,15 +39,15 @@
   };
   dpp-protocol-git = {
     pname = "dpp-protocol-git";
-    version = "2ed9cd0798da0309eacb1785da9424de9d8f6ac1";
+    version = "5278462d01aae90aa890f7a49fa776ae1079be37";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-protocol-git";
-      rev = "2ed9cd0798da0309eacb1785da9424de9d8f6ac1";
+      rev = "5278462d01aae90aa890f7a49fa776ae1079be37";
       fetchSubmodules = false;
-      sha256 = "sha256-T+CUVJn+WjQn+Ky0Vs5P+zn07Vrm0HPD3QRMnphHs54=";
+      sha256 = "sha256-IfGVLJJHmZnljKHzi0UoRI5XNNtxkB+puS3O0SSnY/A=";
     };
-    date = "2025-11-24";
+    date = "2025-12-09";
   };
   dpp-vim = {
     pname = "dpp-vim";
@@ -63,15 +63,15 @@
   };
   emacs-copilot = {
     pname = "emacs-copilot";
-    version = "8e43edf1f3efe094ea42a21863b3b742a339742c";
+    version = "45b9822fced343bce3914c07a1af74df69fad309";
     src = fetchFromGitHub {
       owner = "copilot-emacs";
       repo = "copilot.el";
-      rev = "8e43edf1f3efe094ea42a21863b3b742a339742c";
+      rev = "45b9822fced343bce3914c07a1af74df69fad309";
       fetchSubmodules = false;
-      sha256 = "sha256-HT9gV/zJC1qVICkDS+1+AVcYhE6ntA3gvwl2DJa8mAI=";
+      sha256 = "sha256-BiURw7pqdCSpOTV+RPiZ2xi/XNfppg1fKBkcsM4c4So=";
     };
-    date = "2025-11-17";
+    date = "2025-12-09";
   };
   emacs-ddskk = {
     pname = "emacs-ddskk";

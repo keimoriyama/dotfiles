@@ -64,7 +64,7 @@
     },
     "dpp-protocol-git": {
         "cargoLocks": null,
-        "date": "2025-11-24",
+        "date": "2025-12-09",
         "extract": null,
         "name": "dpp-protocol-git",
         "passthru": null,
@@ -76,12 +76,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-protocol-git",
-            "rev": "2ed9cd0798da0309eacb1785da9424de9d8f6ac1",
-            "sha256": "sha256-T+CUVJn+WjQn+Ky0Vs5P+zn07Vrm0HPD3QRMnphHs54=",
+            "rev": "5278462d01aae90aa890f7a49fa776ae1079be37",
+            "sha256": "sha256-IfGVLJJHmZnljKHzi0UoRI5XNNtxkB+puS3O0SSnY/A=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "2ed9cd0798da0309eacb1785da9424de9d8f6ac1"
+        "version": "5278462d01aae90aa890f7a49fa776ae1079be37"
     },
     "dpp-vim": {
         "cargoLocks": null,
@@ -106,7 +106,7 @@
     },
     "emacs-copilot": {
         "cargoLocks": null,
-        "date": "2025-11-17",
+        "date": "2025-12-09",
         "extract": null,
         "name": "emacs-copilot",
         "passthru": null,
@@ -118,12 +118,12 @@
             "name": null,
             "owner": "copilot-emacs",
             "repo": "copilot.el",
-            "rev": "8e43edf1f3efe094ea42a21863b3b742a339742c",
-            "sha256": "sha256-HT9gV/zJC1qVICkDS+1+AVcYhE6ntA3gvwl2DJa8mAI=",
+            "rev": "45b9822fced343bce3914c07a1af74df69fad309",
+            "sha256": "sha256-BiURw7pqdCSpOTV+RPiZ2xi/XNfppg1fKBkcsM4c4So=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "8e43edf1f3efe094ea42a21863b3b742a339742c"
+        "version": "45b9822fced343bce3914c07a1af74df69fad309"
     },
     "emacs-ddskk": {
         "cargoLocks": null,
