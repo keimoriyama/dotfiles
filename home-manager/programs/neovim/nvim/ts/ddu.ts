@@ -1,7 +1,7 @@
-import { BaseConfig } from "https://deno.land/x/ddu_vim@v3.7.0/types.ts";
-import { ConfigArguments } from "https://deno.land/x/ddu_vim@v3.7.0/base/config.ts";
-import { Params as FfParams } from "https://deno.land/x/ddu_ui_ff@v1.1.0/ff.ts";
-import { Params as FilerParams } from "https://deno.land/x/ddu_ui_filer@v1.1.0/filer.ts";
+import { BaseConfig } from "jsr:@shougo/ddu-vim/config";
+import { type ConfigArguments } from "jsr:@shougo/ddu-vim/config";
+import { type Params as FfParams } from "jsr:@shougo/ddu-ui-ff";
+import { type Params as FilerParams } from "jsr:@shougo/ddu-ui-filer";
 
 export class Config extends BaseConfig {
   override config(args: ConfigArguments): Promise<void> {

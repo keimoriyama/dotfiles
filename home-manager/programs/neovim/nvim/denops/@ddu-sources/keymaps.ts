@@ -1,24 +1,19 @@
-import {
-  BaseSource,
-  DduOptions,
-  Item,
-  SourceOptions,
-} from "https://deno.land/x/ddu_vim@v3.10.1/types.ts";
-import { Denops } from "https://deno.land/x/ddu_vim@v3.8.1/deps.ts";
-import { ActionData } from "https://deno.land/x/ddu_kind_file@v0.3.2/file.ts";
-import { nvim_get_keymap } from "https://deno.land/x/denops_std@v5.2.0/function/nvim/mod.ts";
+import { DduOptions, Item, SourceOptions } from "jsr:@shougo/ddu-vim/types";
+import { BaseSource } from "jsr:@shougo/ddu-vim/source";
+import type { Denops } from "jsr:@denops/std";
+import { type DduActionData } from "jsr:@shougo/ddu-vim/types";
+import { nvim_get_keymap } from "jsr:@denops/std/function/nvim";
 
 type Params = Record<never, never>;
 
 export class Source extends BaseSource<Params> {
-  kind = "ff";
   override gather(args: {
     denops: Denops;
     options: DduOptions;
     sourceOptions: SourceOptions;
     sourceParams: Params;
     iput: string;
-  }): ReadableStream<Item<ActionData>[]> {
+  }): ReadableStream<Item<DduActionData>[]> {
     return new ReadableStream({
       async start(controller) {
         const host = args.denops.meta.host;

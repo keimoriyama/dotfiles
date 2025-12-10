@@ -1,4 +1,4 @@
-[[plugins]]
+
 repo="windwp/nvim-autopairs"
 on_event = ['InsertEnter']
 lua_source='''
@@ -240,13 +240,18 @@ require('incline').setup(
 		        }
 		-- modified indicator
 		local modified_icon = {}
-			if vim.api.nvim_get_option_value('modified', { buf = props.buf, }) then
-		 	  modified_icon = vim.tbl_extend('force', { '● ' }, {guifg='#968c81'})
-		 	end
+		if vim.api.nvim_get_option_value('modified', { buf = props.buf, }) then
+		  modified_icon = vim.tbl_extend('force', { '● ' }, {guifg='#968c81'})
+		end
+		local linenr = vim.api.nvim_win_get_cursor(0)[1]
 		return {
-          devicon,
-          bufname,
-          modified_icon,
+			"l:" .. linenr,
+			" ",
+			devicon,
+			" ",
+			bufname,
+			" ",
+			modified_icon,
 		}
         end
 	end

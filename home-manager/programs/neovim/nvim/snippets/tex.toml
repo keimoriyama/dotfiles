@@ -22,6 +22,14 @@ body="""
 \\end{enumerate}
 """
 
+[description]
+prefix='de'
+body="""
+\\begin{description}
+	\\item[$1] $0
+\\end{description}
+"""
+
 
 [frame]
 prefix='fr'
