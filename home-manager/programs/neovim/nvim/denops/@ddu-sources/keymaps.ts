@@ -39,7 +39,7 @@ export class Source extends BaseSource<Params> {
             // "nox",
             // "nos",
           ];
-          let items: Item<ActionData>[] = [];
+          let items: Item<DduActionData>[] = [];
           if (host == "nvim") {
             for (const m of modes) {
               // コマンド毎の一覧を取得
@@ -67,14 +67,16 @@ export class Source extends BaseSource<Params> {
 async function neovim_get_keymaps(
   denops: Denops,
   mode: string,
-): Promise<Item<ActionData>[]> {
+): Promise<Item<DduActionData>[]> {
   const keymaps = await nvim_get_keymap(denops, mode);
-  const items: Item<ActionData>[] = [];
+  const items: Item<DduActionData>[] = [];
   for (const keymap of keymaps) {
-    const words = keymap.mode + " " + keymap.lhs + " " + keymap.rhs + " " +
+    const mapping = keymap.lhs;
+    const display = keymap.mode + " " + keymap.lhs + " " + keymap.rhs + " " +
       keymap.desc;
     items.push({
-      word: words,
+      word: mapping,
+      display: display,
     });
   }
   return items;
