@@ -39,5 +39,7 @@ if vim.fn.has("mac") == 1 then
 else
 	vim.cmd([[set clipboard^=unnamedplus]])
 end
-
+vim.cmd([[
+	set omnifunc=v:lua.vim.lsp.omnifunc
+]])
 vim.opt.mouse = ""

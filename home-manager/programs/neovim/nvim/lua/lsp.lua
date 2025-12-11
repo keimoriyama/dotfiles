@@ -1,4 +1,4 @@
--- lua_add {{{
+-- lua_source {{{
 vim.lsp.config("lua_ls", {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
@@ -103,9 +103,7 @@ vim.lsp.enable({
 	"docker-language-server",
 	"yamlls",
 })
--- }}}
 
--- lua_source {{{
 local opts = { noremap = true, silent = true }
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = true })
@@ -121,7 +119,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
 		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 		local opt = { noremap = true, silent = true, buffer = ev.buf }
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions

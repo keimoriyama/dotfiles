@@ -136,7 +136,7 @@ export class Config extends BaseConfig {
 
     args.contextBuilder.patchFiletype("tex", {
       sources: [
-        "omni",
+        // "omni",
         "denippet",
         "around",
         "skkeleton",
@@ -147,7 +147,7 @@ export class Config extends BaseConfig {
     });
     args.contextBuilder.patchFiletype("bib", {
       sources: [
-        "omni",
+        // "omni",
         "denippet",
         "around",
         "skkeleton",

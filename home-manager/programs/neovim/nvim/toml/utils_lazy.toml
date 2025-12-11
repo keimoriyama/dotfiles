@@ -1,4 +1,4 @@
-
+[[plugins]]
 repo="windwp/nvim-autopairs"
 on_event = ['InsertEnter']
 lua_source='''
