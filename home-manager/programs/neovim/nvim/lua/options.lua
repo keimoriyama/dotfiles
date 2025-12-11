@@ -34,6 +34,8 @@ vim.opt.splitright = true
 vim.opt.wildmenu = false
 -- vim.opt.cmdheight = 0
 vim.opt.scrolloff = 0
+vim.opt.cursorline = true
+vim.opt.cursorcolumn = true
 if vim.fn.has("mac") == 1 then
 	vim.cmd([[set clipboard+=unnamed]])
 else
