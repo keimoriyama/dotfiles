@@ -7,6 +7,7 @@ import { nvim_get_keymap } from "jsr:@denops/std/function/nvim";
 type Params = Record<never, never>;
 
 export class Source extends BaseSource<Params> {
+  override kind = "file";
   override gather(args: {
     denops: Denops;
     options: DduOptions;
