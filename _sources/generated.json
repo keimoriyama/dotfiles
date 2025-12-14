@@ -1,7 +1,7 @@
 {
     "dpp-ext-installer": {
         "cargoLocks": null,
-        "date": "2025-12-13",
+        "date": "2025-12-14",
         "extract": null,
         "name": "dpp-ext-installer",
         "passthru": null,
@@ -13,12 +13,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-ext-installer",
-            "rev": "e1887960b0a32f331943410a68edf239e0b7b4ed",
-            "sha256": "sha256-Jglyj+q/piLAm4ChIGi1ttXGVZl3w1N39eYAFcLmRHs=",
+            "rev": "6820e701192dfd4ca723cd4f924a070e40326fab",
+            "sha256": "sha256-p1EMdKNIACQKTaW8fVD29tdB2699i82I2fcBGeK2TpE=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "e1887960b0a32f331943410a68edf239e0b7b4ed"
+        "version": "6820e701192dfd4ca723cd4f924a070e40326fab"
     },
     "dpp-ext-lazy": {
         "cargoLocks": null,
@@ -64,7 +64,7 @@
     },
     "dpp-protocol-git": {
         "cargoLocks": null,
-        "date": "2025-12-09",
+        "date": "2025-12-14",
         "extract": null,
         "name": "dpp-protocol-git",
         "passthru": null,
@@ -76,16 +76,16 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-protocol-git",
-            "rev": "5278462d01aae90aa890f7a49fa776ae1079be37",
-            "sha256": "sha256-IfGVLJJHmZnljKHzi0UoRI5XNNtxkB+puS3O0SSnY/A=",
+            "rev": "472af5df5f7b8997767713a9e835ffb77e306cb3",
+            "sha256": "sha256-cV+4UkMu/L/ebm/hcbsWgeTea2bJuhs6DGGnVFLXdrE=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "5278462d01aae90aa890f7a49fa776ae1079be37"
+        "version": "472af5df5f7b8997767713a9e835ffb77e306cb3"
     },
     "dpp-vim": {
         "cargoLocks": null,
-        "date": "2025-12-13",
+        "date": "2025-12-14",
         "extract": null,
         "name": "dpp-vim",
         "passthru": null,
@@ -97,12 +97,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp.vim",
-            "rev": "e4ea21df0264ce3938a36811e7900e3e35f8b303",
-            "sha256": "sha256-ZZCN1BM8OoF9B6A8guAIaCx+KZ7S8by+JJF8e7ZQEe0=",
+            "rev": "190d45a8bf221ed7a22efeb146aeabbfb2a48762",
+            "sha256": "sha256-tCoX6MhPfm6jm90u9cOXFKrGxETMZqevZCw4+QMulys=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "e4ea21df0264ce3938a36811e7900e3e35f8b303"
+        "version": "190d45a8bf221ed7a22efeb146aeabbfb2a48762"
     },
     "emacs-copilot": {
         "cargoLocks": null,
