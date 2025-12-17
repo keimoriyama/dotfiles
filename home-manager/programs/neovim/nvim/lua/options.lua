@@ -9,7 +9,7 @@ vim.opt.incsearch = true
 -- 最下ウィンドウにいつステータス行を表示するか
 vim.opt.laststatus = 0
 vim.opt.statusline = "─"
-vim.opt.fillchars:append({ stl = "─", stlnc = "─" })
+-- vim.opt.fillchars:append({ stl = "─", stlnc = "─" })
 -- コマンドライン補完の有効化
 vim.opt.wildmenu = true
 -- 直前の行から新しいインデントを指定する
@@ -41,7 +41,4 @@ if vim.fn.has("mac") == 1 then
 else
 	vim.cmd([[set clipboard^=unnamedplus]])
 end
-vim.cmd([[
-	set omnifunc=v:lua.vim.lsp.omnifunc
-]])
 vim.opt.mouse = ""

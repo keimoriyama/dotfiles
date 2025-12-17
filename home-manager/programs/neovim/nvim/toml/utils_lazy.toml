@@ -289,12 +289,6 @@ vim.keymap.set("x", "g<C-x>", function()
 end)
 '''
 
-[[plugins]]
-repo='anuvyklack/pretty-fold.nvim'
-on_event = ["BufReadPre", "BufNewFile"]
-lua_source='''
-require('pretty-fold').setup()
-'''
 
 [[plugins]]
 repo='norcalli/nvim-colorizer.lua'
@@ -302,3 +296,4 @@ on_event = ["BufReadPre", "BufNewFile"]
 lua_source='''
 require('colorizer').setup()
 '''
+

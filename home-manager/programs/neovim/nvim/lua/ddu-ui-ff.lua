@@ -34,4 +34,5 @@ vim.keymap.set("n", "q", '<cmd>call ddu#ui#do_action("quit")<CR>', opt)
 vim.keymap.set("n", "K", '<cmd>call ddu#ui#do_action("kensaku")<CR>', opt)
 vim.keymap.set("n", "<C-p>", '<cmd>call ddu#ui#do_action("togglePreview")<CR>', opt)
 vim.keymap.set("n", "<C-c>", '<cmd>call ddu#ui#do_action("closePreviewWindow")<CR>', opt)
+vim.keymap.set("n", "D", '<cmd>call ddu#ui#do_action("itemAction", {"name":"delete"})<CR>', opt)
 -- }}}
