@@ -101,7 +101,7 @@ in {
         tinymist
         typstyle
         go
-        prettierd
+        prettier
 
         online-judge-tools
         online-judge-template-generator
