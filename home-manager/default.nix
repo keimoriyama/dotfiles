@@ -115,6 +115,12 @@ in {
         notion-app
         google-chrome
         wget
+
+        (textlint.withPackages [
+          textlint-rule-preset-ja-technical-writing
+          textlint-plugin-org
+          textlint-plugin-latex2e
+        ])
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us
