@@ -79,8 +79,6 @@
         echo "Updating nix-darwin..."
         sudo nix run nix-darwin -- switch --flake .#kei-darwin
         echo "update complete"
-        nix fmt .
-        echo "done!!!"
       '');
     };
     formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
