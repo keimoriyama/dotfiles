@@ -6,6 +6,26 @@ require("nvim-autopairs").setup({ disable_filetype = { "vim" }})
 '''
 
 [[plugins]]
+repo="github/copilot.vim"
+on_cmd='Copilot'
+hook_source='''
+let g:copilot_no_maps = v:true
+let g:copilot_hide_during_completion = 0
+imap <silent><expr> <C-g> copilot#Accept()
+imap <silent><expr> <Tab> copilot#Next()
+imap <silent><expr> <S-Tab> copilot#Previous()
+
+let g:copilot_filetypes = #{
+\   gitcommit: v:true,
+\   markdown: v:true,
+\   python: v:true,
+\   text: v:true,
+\   typescript: v:true,
+\   vim: v:true,
+\   yaml: v:true,
+\ }
+'''
+[[plugins]]
 repo="shellRaining/hlchunk.nvim"
 on_event = ["BufReadPre", "BufNewFile"]
 lua_source='''

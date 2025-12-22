@@ -40,7 +40,7 @@ vim.notify = require("notify")
 repo='mvllow/modes.nvim'
 lua_source='''
 require('modes').setup()
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 '''
 
 # [[plugins]]

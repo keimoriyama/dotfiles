@@ -8,15 +8,6 @@ on_souce='ddc.vim'
 repo="Shougo/pum.vim"
 
 [[plugins]]
-repo="github/copilot.vim"
-on_source="ddc.vim"
-hook_source='''
-let g:copilot_no_maps = v:true
-let g:copilot_hide_during_completion = 0
-imap <silent><expr> <C-g> copilot#Accept()
-'''
-
-[[plugins]]
 repo="Shougo/ddc-nvim-lsp"
 on_source="ddc.vim"
 
