@@ -104,48 +104,6 @@
         },
         "version": "190d45a8bf221ed7a22efeb146aeabbfb2a48762"
     },
-    "emacs-copilot": {
-        "cargoLocks": null,
-        "date": "2025-12-10",
-        "extract": null,
-        "name": "emacs-copilot",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "copilot-emacs",
-            "repo": "copilot.el",
-            "rev": "7ee4758bb748beac7d29e62de5d2e752ebafb858",
-            "sha256": "sha256-jzrf6k9yJEMR0H1hOkf1LY2p5ik++poMoAlrhrYPD2U=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "7ee4758bb748beac7d29e62de5d2e752ebafb858"
-    },
-    "emacs-ddskk": {
-        "cargoLocks": null,
-        "date": "2024-12-28",
-        "extract": null,
-        "name": "emacs-ddskk",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "skk-dev",
-            "repo": "ddskk",
-            "rev": "f81ed803e617ccd8175d4bf57a3062bc5ffe1945",
-            "sha256": "sha256-Lt3PPDWiosRUgO/jN/OV0EjxSQT1d/imTK8jWh9+boI=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "f81ed803e617ccd8175d4bf57a3062bc5ffe1945"
-    },
     "emacs-dmacro": {
         "cargoLocks": null,
         "date": "2024-10-27",
