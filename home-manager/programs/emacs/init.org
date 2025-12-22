@@ -874,18 +874,12 @@ binding))))))))
 ;; (defun my/lsp-mode-completion ()
 ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
 ;;         '(orderless)))
+;; ;(add-hook 'lsp-completion-mode-hook 'my/lsp-mode-completion)
 
 ;; (require 'lsp-mode)
 
-;; (defcustom lsp-client-packages
-;;   '(lsp-copilot lsp-dockerfile lsp-go lsp-golangci-lint 
-;;      lsp-json lsp-latex lsp-lua lsp-fennel lsp-magik lsp-markdown 
-;;      lsp-nix lsp-pyright lsp-python-ty lsp-rust lsp-tex lsp-lua)
-;;   "List of the clients to be automatically required."
-;;   :group 'lsp-mode
-;;   :type '(repeat symbol))
-
 ;; (setq lsp-server-install-dir (format "%s/.nix-profile/bin" (getenv "HOME")))
+;; (setq lsp-disabled-clients '("lsp-ruff" "lsp-python-ty"))
 
 ;; (setq lsp-auto-guess-root t)
 
@@ -893,7 +887,9 @@ binding))))))))
 ;;   (setopt lsp-enable-file-watchers nil)
 ;;   (setopt lsp-file-watch-threshold 500)
 ;;   (setopt lsp-completion-provider :none)
-;;   (setq lsp-enable-suggest-server-download nil))
+;;   (setq lsp-enable-suggest-server-download nil)
+  
+;;   (add-hook 'lsp-configure-hook #'corfu-mode))
 #+end_src
 *** lsp-booster
 #+begin_src emacs-lisp
@@ -958,80 +954,129 @@ binding))))))))
 ;;   (keymap-global-set "C-c l" #'lsp-mode/body))
 #+end_src
 
+*** eglot
+#+begin_src emacs-lisp
+(require 'eglot)
+(pretty-hydra-define eglot
+  (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  ("peek"
+   (("d" xref-find-definitions "definitions")
+    ("r" xref-find-references "references")
+    ("b" xref-go-back "go back to previous location"))
+   "code action"
+   (("n" eglot-rename "rename")
+    ("c" eglot-code-actions "code action"))))
+(keymap-global-set "C-c l" #'eglot/body)
+;; Option 1: Specify explicitly to use Orderless for Eglot
+(setq completion-category-overrides '((eglot (styles orderless))
+                                      (eglot-capf (styles orderless))))
+
+;; Option 2: Undo the Eglot modification of completion-category-defaults
+(with-eval-after-load 'eglot
+   (setq completion-category-defaults nil))
+
+;; Enable cache busting, depending on if your server returns
+;; sufficiently many candidates in the first place.
+(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+#+end_src
+
 *** flycheck
 #+begin_src emacs-lisp
 ; grammar check
-;(require 'flycheck)
-;(add-hook 'emacs-startup-hook #'global-flycheck-mode)
+(require 'flycheck)
+(add-hook 'emacs-startup-hook #'global-flycheck-mode)
 #+end_src
 
 #+begin_src emacs-lisp
-;(require 'highlight-indent-guides)
-;(add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
+(require 'highlight-indent-guides)
+(add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
+
+** Program
+
+*** python mode
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(add-hook 'python-mode-hook 'eglot-ensure)
+(with-eval-after-load 'python
+  (setopt python-shell-completion-native-enable nil))
+(add-hook 'python-mode-hook 'ruff-format-on-save-mode)
+;; (require 'python-isort)
+;; (add-hook 'python-mode-hook 'python-isort-on-save-mode)
+#+end_src
+
+*** nix mode
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
+(add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+(add-hook 'nix-mode-hook 'eglot-ensure)
+#+end_src
+
 ** typst mode
 #+begin_src emacs-lisp
-;; (require 'typst-ts-mode)
-;; (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
-;; (major-mode-hydra-define typst-ts-mode
-;;        (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;    ("menu"
-;;     (("c" typst-ts-compile "compile")
-;;      ("p" typst-ts-preview "preview"))))
-;(add-hook 'typst-ts-mode-hook #'lsp)
+(require 'typst-ts-mode)
+(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+(major-mode-hydra-define typst-ts-mode
+       (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("menu"
+    (("c" typst-ts-compile "compile")
+     ("p" typst-ts-preview "preview"))))
+(add-hook 'typst-ts-mode-hook #'lsp)
 #+end_src
 
 ** latex
 *** yatex
 #+begin_src emacs-lisp
-;; (require 'yatex)
-;; (add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
-;; (add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
-;; (add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
-;; (add-to-list 'auto-mode-alist '("\\.sty$" . yatex-mode))
-;; (add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
-;; (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
-;; (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
+(require 'yatex)
+(add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.sty$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
+(add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
 
 
-;; (add-hook 'yatex-mode-hook #'yas-minor-mode)
+(add-hook 'yatex-mode-hook #'yas-minor-mode)
 
-;; (with-eval-after-load 'yatex
-;;   (setopt YaTeX-inhibit-prefix-letter  t)
-;;   (setopt tex-command  "platex -kanji=utf8")
-;;   (setopt YaTeX-dvi2-command-ext-alist
-;;      '(("Skim" . ".pdf")))
-;;   (setopt dvi2-command "open -a Skim")
-;;   (setopt tex-pdfview-command "open -a Skim")
-;;   (major-mode-hydra-define yatex-mode
-;;      (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;    ("reftex"
-;;     (("r" reftex-citation "references")
-;;      ("t" reftex-toc "toc"))
-;;     "yatex"
-;;     (("m" YaTeX-typeset-menu "typeset")
-;;      ("b" YaTeX-make-begin-end "begin env")
-;;      ("s" YaTeX-make-section "section env")))))
+(with-eval-after-load 'yatex
+  (setopt YaTeX-inhibit-prefix-letter  t)
+  (setopt tex-command  "platex -kanji=utf8")
+  (setopt YaTeX-dvi2-command-ext-alist
+     '(("Skim" . ".pdf")))
+  (setopt dvi2-command "open -a Skim")
+  (setopt tex-pdfview-command "open -a Skim")
+  (major-mode-hydra-define yatex-mode
+     (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("reftex"
+    (("r" reftex-citation "references")
+     ("t" reftex-toc "toc"))
+    "yatex"
+    (("m" YaTeX-typeset-menu "typeset")
+     ("b" YaTeX-make-begin-end "begin env")
+     ("s" YaTeX-make-section "section env")))))
 #+end_src
-
 *** flyspell
 #+begin_src emacs-lisp
-;; (require 'flyspell)
-;; (add-hook 'yatex-mode-hook #'flyspell-mode)
+(require 'flyspell)
+(add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 
 *** reftex
 
 #+begin_src emacs-lisp
-;; (require 'reftex)
-;; (add-to-list 'yatex-mode-hook #'reftex-mode)
-;; (add-hook 'yatex-mode-hook
-;; 		#'(lambda ()
-;; 		(setq reftex-default-bibliography
-;;         (directory-files-recursively (projectile-project-root) "\\.bib$"))))
-;(with-eval-after-load 'reftex
-;  (setq reftex-default-bibliography
-;        (directory-files-recursively (projectile-project-root) "\\.bib$")))
+(require 'reftex)
+(add-to-list 'yatex-mode-hook #'reftex-mode)
+
+(with-eval-after-load 'reftex
+  (setq reftex-default-bibliography
+      (let ((root (projectile-project-root)))
+        (when root
+          (directory-files-recursively root "\\.bib$"))))
+
+ ;; (setq reftex-default-bibliography
+ ;;       (directory-files-recursively (projectile-project-root) "\\.bib$"))
+  )
 #+end_src
 
 ** ddskk
@@ -1086,6 +1131,11 @@ binding))))))))
   (keymap-global-set "C-l" #'skk-latin-mode))
 #+END_SRC
 
+** copilot
+#+begin_src emacs-lisp
+(require 'copilot)
+(add-hook 'prog-mode-hook 'copilot-mode)
+#+end_src
 ** hydra menu 
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-goto
@@ -1219,4 +1269,3 @@ binding))))))))
         (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
 (setq oj-default-online-judge 'atcoder)
 #+end_src
-

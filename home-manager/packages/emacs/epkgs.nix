@@ -73,18 +73,24 @@ in
     magit
 
     # langs
-    # auctex
-    # packages.yatex
-    # packages.copilot
-    # packages.typst-ts-mode
+    auctex
+    packages.yatex
+    copilot
+    packages.typst-ts-mode
+    python-mode
+    pet
+    lsp-pyright
+    nix-mode
+    ruff-format
+    
 
     # lsp
-    # lsp-mode
-    # lsp-ui
-    # dap-mode
-    # flycheck
-    # highlight-indent-guides
-    # eglot-booster
+    lsp-mode
+    lsp-ui
+    dap-mode
+    flycheck
+    highlight-indent-guides
+    eglot-booster
 
     # org
     org-superstar

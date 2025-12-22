@@ -71,6 +71,7 @@ in {
         vim
         tree-sitter
         pyright
+        basedpyright
         ruff
         ty
         isort
@@ -88,7 +89,7 @@ in {
         typst
         tdf
         perl
-        nixd
+        nil
         copilot-language-server
         texlab
         auctex
