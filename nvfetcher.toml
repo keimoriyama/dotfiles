@@ -1,8 +1,3 @@
-[emacs-copilot]
-src.git = "https://github.com/copilot-emacs/copilot.el"
-src.branch = "main"
-fetch.github = "copilot-emacs/copilot.el"
-
 [emacs-yatex]
 src.git="https://github.com/hiroseyuuji/yatex"
 src.branch="master"
@@ -64,10 +59,6 @@ src.git="https://github.com/Ziqi-Yang/typst-ts-mode"
 src.branch='main'
 fetch.github="Ziqi-Yang/typst-ts-mode"
 
-[emacs-ddskk]
-src.git="https://github.com/skk-dev/ddskk"
-src.branch="master"
-fetch.github="skk-dev/ddskk"
 
 [fish-autols]
 src.git="https://github.com/yuys13/fish-autols"
