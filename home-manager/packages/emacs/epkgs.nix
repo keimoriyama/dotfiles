@@ -99,7 +99,7 @@ in
     # lsp-ui
     dap-mode
     flycheck
-    flycheck-pos-tip
+    flycheck-posframe
     highlight-indent-guides
     eglot-booster
 

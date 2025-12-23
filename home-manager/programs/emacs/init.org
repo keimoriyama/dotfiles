@@ -985,7 +985,8 @@ binding))))))))
 (require 'flycheck)
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
 (with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode))
+  (require 'flycheck-posframe)
+  (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 #+end_src
 
 #+begin_src emacs-lisp
