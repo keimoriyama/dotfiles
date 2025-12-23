@@ -170,9 +170,8 @@
 (with-eval-after-load 'projectile
   (setopt projectile-sort-order  'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
-  ;(add-to-list 'projectile-project-search-path '("~/Documents/org-mode/"))
-  (setq projectile-project-search-path '("~/Documents/org-mode/"))
-  (Projectile-discover-projects-in-search-path))
+  (add-to-list 'projectile-project-search-path '("~/Documents/org-mode/" "~/ghq/"))
+  (projectile-discover-projects-in-search-path))
 #+end_src
 
 *** bufferlo.el
@@ -985,6 +984,8 @@ binding))))))))
 ; grammar check
 (require 'flycheck)
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1105,6 +1106,7 @@ binding))))))))
   :args ("--stdout" "--atomic" (buffer-file-name)))
 (add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
 (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
+(setq python-pytest-executable "uv run pytest")
 #+end_src
 *** nix mode
 #+begin_src emacs-lisp

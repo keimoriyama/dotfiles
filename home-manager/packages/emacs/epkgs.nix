@@ -92,11 +92,14 @@ in
     toml-mode
     yaml-mode
 
+    python-pytest
+
     # lsp
     # lsp-mode
     # lsp-ui
     dap-mode
     flycheck
+    flycheck-pos-tip
     highlight-indent-guides
     eglot-booster
 
