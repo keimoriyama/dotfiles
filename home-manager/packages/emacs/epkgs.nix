@@ -79,14 +79,22 @@ in
     packages.typst-ts-mode
     python-mode
     pet
-    lsp-pyright
+    # lsp-pyright
     nix-mode
-    ruff-format
-    
+    reformatter
+    csv-mode
+    docker-compose-mode
+    dockerfile-mode
+    dotenv-mode
+    git-modes
+    json-mode
+    ssh-config-mode
+    toml-mode
+    yaml-mode
 
     # lsp
-    lsp-mode
-    lsp-ui
+    # lsp-mode
+    # lsp-ui
     dap-mode
     flycheck
     highlight-indent-guides
@@ -95,6 +103,7 @@ in
     # org
     org-superstar
     ox-gfm
+    ox-typst
     org-modern
     org-pomodoro
   ]

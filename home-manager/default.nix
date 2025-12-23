@@ -116,7 +116,7 @@ in {
         notion-app
         google-chrome
         wget
-
+tree
         (textlint.withPackages [
           textlint-rule-preset-ja-technical-writing
           textlint-plugin-org

@@ -166,11 +166,13 @@
 (add-hook 'emacs-startup-hook #'projectile-mode)
 
 (keymap-global-set "C-c p" #'projectile-command-map)
+
 (with-eval-after-load 'projectile
   (setopt projectile-sort-order  'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
-  (add-to-list 'projectile-project-search-path "~/Documents/org-mode/")
-  (projectile-discover-projects-in-search-path))
+  ;(add-to-list 'projectile-project-search-path '("~/Documents/org-mode/"))
+  (setq projectile-project-search-path '("~/Documents/org-mode/"))
+  (Projectile-discover-projects-in-search-path))
 #+end_src
 
 *** bufferlo.el
@@ -322,18 +324,6 @@
 (require 'beacon)
 (with-eval-after-load 'beacon
   (beacon-mode 1))
-#+end_src
-
-*** recentf
-#+begin_src emacs-lisp
-(require 'recentf)
-(with-eval-after-load 'recentf
-  (setq refentf-max-saved-items 2000
-        recentf-exclude '(".recentf" ".~undo-tree~")
-        recentf-auto-cleanup 10
-        recentf-auto-save-timer
-        (run-with-idle-timer 30 t 'recentf-save-list))
-  (recentf-mode 1))
 #+end_src
 
 *** dmacro
@@ -511,6 +501,7 @@
       (consult-line)))
 
 (require 'consult)
+(keymap-global-set "C-x b" #'consult-buffer)
 #+end_src
 
 *** embark
@@ -655,12 +646,13 @@ binding))))))))
 *** org-capture
 #+begin_src emacs-lisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
-      org-prj-dir (format "%s/projects" org-directory))
+      org-prj-dir (format "%s/projects" org-directory)
+      org-misc-file (format "%s/projects/misc.org" org-directory))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
         '(("m" "Memo" entry (file org-memo-file) "** %U\n" :empty-lines 1)
-          ("t" "Tasks" entry (file+datetree org-daily-todo-file) "** TODO %?")
+          ("t" "Tasks" entry (file org-misc-file) "** TODO %?")
           ("p" "Projects" entry (file
                                  (lambda () (create-new-org-file
                                              org-prj-dir)))
@@ -671,6 +663,7 @@ binding))))))))
            "\n* %? ")))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
+
 
 *** org-roam
 #+begin_src emacs-lisp
@@ -835,6 +828,12 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'ox-hugo)
 #+end_src
+
+*** ox-typst
+#+begin_src emacs-lisp
+(require 'ox-typst)
+#+end_src
+
 *** org-hydra
 #+begin_src emacs-lisp
 (defun my:org-goto-project ()
@@ -978,6 +977,7 @@ binding))))))))
 ;; Enable cache busting, depending on if your server returns
 ;; sufficiently many candidates in the first place.
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+(eglot-booster-mode)
 #+end_src
 
 *** flycheck
@@ -993,35 +993,167 @@ binding))))))))
 #+end_src
 
 ** Program
+*** formatter
+#+begin_src emacs-lisp
+(require 'reformatter)
+#+end_src
+*** csv mode
+#+begin_src emacs-lisp
+(require 'csv-mode)
+(add-to-list 'auto-mode-alist '("\\.csv$" . csv-mode))
 
+(with-eval-after-load 'csv-mode
+  ;; hook
+  (add-hook 'csv-mode-hook #'view-mode))
+#+end_src
+*** docker compose mode
+#+begin_src emacs-lisp
+(require 'docker-compose-mode)
+
+(add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
+
+(with-eval-after-load 'docker-compose-mode
+  ;; hook
+  (add-hook 'docker-compose-mode-hook #'view-mode))
+#+end_src
+*** dockerfile mode
+#+begin_src emacs-lisp
+(require 'dockerfile-mode)
+
+(add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
+(add-to-list 'auto-mode-alist '("\\Dockerfile.dev$" . dockerfile-mode))
+(add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
+(add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
+
+(with-eval-after-load 'dockerfile-mode
+  ;; hooks
+  (add-hook 'dockerfile-mode-hook #'flycheck-mode))
+#+end_src
+*** dotenv mode
+#+begin_src emacs-lisp
+(require 'dotenv-mode)
+
+(add-to-list 'auto-mode-alist '(".env$" . dotenv-mode))
+
+(with-eval-after-load 'dotenv-mode
+  (add-hook 'dotenv-mode-hook #'view-mode))
+#+end_src
+*** git modest
+#+begin_src emacs-lisp
+(require 'git-modes)
+;; gitignore-mode
+(add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("CODEOWNERS" . gitignore-mode))
+
+(with-eval-after-load 'gitignore-mode
+  ;; hook
+  (add-hook 'gitignore-mode-hook #'view-mode))
+
+;; gitconfig-mode
+(add-to-list 'auto-mode-alist '("\\.git-pr-release$" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("\\.editorconfig$" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("\\.gitconfig$" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/\\.git/config\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/modules/.*/config\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/git/config\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/\\.gitmodules\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/etc/gitconfig\\'" . gitconfig-mode))
+
+(with-eval-after-load 'gitconfig-mode
+  ;; hook
+  (add-hook 'gitconfig-mode-hook #'view-mode))
+
+;; gitattributes
+(add-to-list 'auto-mode-alist '("/\\.gitattributes\\'" . gitattributes-mode))
+(add-to-list 'auto-mode-alist '("\.gitattributes$" . gitattributes-mode))
+(add-to-list 'auto-mode-alist '("/info/attributes\\'" . gitattributes-mode))
+(add-to-list 'auto-mode-alist '("/git/attributes\\'" . gitattributes-mode))
+
+(with-eval-after-load 'gitattributes-mode
+  ;; hook
+  (add-hook 'gitattributes-mode-hook #'view-mode))
+#+end_src
+*** json mode
+#+begin_src emacs-lisp
+(require 'json-mode)
+(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.textlintrc$" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
+
+(with-eval-after-load 'json-mode
+  ;; hooks
+  (add-hook 'json-mode-hook #'flycheck-mode))
+
+#+end_src
+*** ssh config mode
 *** python mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-hook 'python-mode-hook 'eglot-ensure)
 (with-eval-after-load 'python
   (setopt python-shell-completion-native-enable nil))
-(add-hook 'python-mode-hook 'ruff-format-on-save-mode)
-;; (require 'python-isort)
-;; (add-hook 'python-mode-hook 'python-isort-on-save-mode)
+(reformatter-define python-ruff-format
+  :program "ruff"
+  :args ("format" "--stdin-filename" (buffer-file-name)))
+(reformatter-define python-isort-format
+  :program "isort"
+  :args ("--stdout" "--atomic" (buffer-file-name)))
+(add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
+(add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
 #+end_src
-
 *** nix mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
 (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
 (add-hook 'nix-mode-hook 'eglot-ensure)
+(reformatter-define nix-alejandra-format
+  :program "alejandra")
+(add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
 #+end_src
+*** toml mode
+#+begin_src emacs-lisp
+(require 'toml-mode)
 
+(add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
+
+(with-eval-after-load 'toml-mode
+  ;; hooks
+  (add-hook 'toml-mode-hook #'flycheck-mode)
+  (add-hook 'toml-mode-hook #'view-mode))
+#+end_src
+*** yaml mode
+#+begin_src emacs-lisp
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
+
+(with-eval-after-load 'yaml-mode
+  ;; hooks
+  (add-hook 'yaml-mode-hook #'flycheck-mode)
+  (add-hook 'yaml-mode-hook #'view-mode))
+#+end_src
 ** typst mode
 #+begin_src emacs-lisp
 (require 'typst-ts-mode)
 (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+(with-eval-after-load 'typst-ts-mode
+  (add-to-list 'eglot-server-programs
+               `((typst-ts-mode) .
+                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
+                                        "tinymist"
+                                        "typst-lsp")))))
+
 (major-mode-hydra-define typst-ts-mode
-       (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("menu"
-    (("c" typst-ts-compile "compile")
-     ("p" typst-ts-preview "preview"))))
-(add-hook 'typst-ts-mode-hook #'lsp)
+  (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  ("menu"
+   (("c" typst-ts-compile "compile")
+    ("p" typst-ts-preview "preview"))))
+(add-hook 'typst-ts-mode-hook #'eglot-ensure)
 #+end_src
 
 ** latex
@@ -1038,6 +1170,7 @@ binding))))))))
 
 
 (add-hook 'yatex-mode-hook #'yas-minor-mode)
+(add-hook 'yatex-mode-hook #'eglot-ensure)
 
 (with-eval-after-load 'yatex
   (setopt YaTeX-inhibit-prefix-letter  t)
@@ -1133,10 +1266,11 @@ binding))))))))
 
 ** copilot
 #+begin_src emacs-lisp
+(setq copilot-indent-offset-warning-disable t)
 (require 'copilot)
 (add-hook 'prog-mode-hook 'copilot-mode)
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+(keymap-global-set "C-<tab>" #'copilot-accept-completion)
+;(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 #+end_src
 ** hydra menu 
 #+begin_src emacs-lisp
