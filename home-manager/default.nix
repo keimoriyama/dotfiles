@@ -33,6 +33,7 @@
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
   mocword = pkgs.callPackage ../mocword {inherit pkgs sources;};
+  rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
@@ -116,12 +117,14 @@ in {
         notion-app
         google-chrome
         wget
-tree
+        tree
         (textlint.withPackages [
           textlint-rule-preset-ja-technical-writing
           textlint-plugin-org
           textlint-plugin-latex2e
         ])
+
+        rassumfrassum
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us

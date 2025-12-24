@@ -963,7 +963,8 @@ binding))))))))
     ("b" xref-go-back "go back to previous location"))
    "code action"
    (("n" eglot-rename "rename")
-    ("c" eglot-code-actions "code action"))))
+    ("c" eglot-code-actions "code action")
+    ("f" eglot-format-buffer "format"))))
 (keymap-global-set "C-c l" #'eglot/body)
 ;; Option 1: Specify explicitly to use Orderless for Eglot
 (setq completion-category-overrides '((eglot (styles orderless))
@@ -1097,22 +1098,24 @@ binding))))))))
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-hook 'python-mode-hook 'eglot-ensure)
+
+(add-to-list 'eglot-server-programs
+             '(python-mode
+               . ("rass" "--" "ty" "server" "--" "ruff" "server")))
+
 (with-eval-after-load 'python
   (setopt python-shell-completion-native-enable nil))
-(reformatter-define python-ruff-format
-  :program "ruff"
-  :args ("format" "--stdin-filename" (buffer-file-name)))
+
 (reformatter-define python-isort-format
   :program "isort"
   :args ("--stdout" "--atomic" (buffer-file-name)))
-(add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
 (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
 #+end_src
 *** nix mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
-(add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+;(add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
 (add-hook 'nix-mode-hook 'eglot-ensure)
 (reformatter-define nix-alejandra-format
   :program "alejandra")
