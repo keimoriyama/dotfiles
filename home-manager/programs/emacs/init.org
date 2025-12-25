@@ -663,7 +663,6 @@ binding))))))))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
 
-
 *** org-roam
 #+begin_src emacs-lisp
 (require 'org-roam)
@@ -1108,7 +1107,7 @@ binding))))))))
 
 (reformatter-define python-isort-format
   :program "isort"
-  :args ("--stdout" "--atomic" (buffer-file-name)))
+  :args `("--quiet" "--atomic" ,buffer-file-name "-"))
 (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
 #+end_src
