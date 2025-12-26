@@ -962,8 +962,7 @@ binding))))))))
     ("b" xref-go-back "go back to previous location"))
    "code action"
    (("n" eglot-rename "rename")
-    ("c" eglot-code-actions "code action")
-    ("f" eglot-format-buffer "format"))))
+    ("c" eglot-code-actions "code action"))))
 (keymap-global-set "C-c l" #'eglot/body)
 ;; Option 1: Specify explicitly to use Orderless for Eglot
 (setq completion-category-overrides '((eglot (styles orderless))
@@ -1107,7 +1106,10 @@ binding))))))))
 
 (reformatter-define python-isort-format
   :program "isort"
-  :args `("--quiet" "--atomic" ,buffer-file-name "-"))
+  :args '("-")
+  :stdin t  ; バッファ内容を標準入力 (STDIN) に渡す
+  :lighter "isort"
+  :group 'python-isort)
 (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
 #+end_src
