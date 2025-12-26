@@ -1111,8 +1111,13 @@ binding))))))))
   :lighter "isort"
   :group 'python-isort)
 (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
+(reformatter-define python-ruff-format
+  :program "ruff"
+  :args `("format" "--stdin-filename" ,buffer-file-name))
+(add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
 #+end_src
+
 *** nix mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
