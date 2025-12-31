@@ -63,6 +63,7 @@ in
     marginalia
     avy
     consult
+    consult-flycheck
     embark
     embark-consult
     affe

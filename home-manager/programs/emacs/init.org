@@ -959,7 +959,8 @@ binding))))))))
   ("peek"
    (("d" xref-find-definitions "definitions")
     ("r" xref-find-references "references")
-    ("b" xref-go-back "go back to previous location"))
+    ("b" xref-go-back "go back")
+    ("c" consult-flycheck "diagnostic"))
    "code action"
    (("n" eglot-rename "rename")
     ("c" eglot-code-actions "code action"))))
