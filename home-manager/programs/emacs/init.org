@@ -989,7 +989,21 @@ binding))))))))
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
+** Dap
+#+begin_src emacs-lisp
+(require 'dap-mode)
+(require 'dap-hydra)
+(require 'dap-ui)
 
+(with-eval-after-load 'dap-mode
+  ;; keybind
+  (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
+
+  ;; hooks
+  (add-hook 'dap-mode-hook #'dap-ui-mode)
+  (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
+  (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
+#+end_src
 * Program
 ** formatter
 #+begin_src emacs-lisp
@@ -1099,7 +1113,7 @@ binding))))))))
              '(python-mode
                . ("rass" "--" "ty" "server" "--" "ruff" "server")))
 
-(with-eval-after-load 'python
+(with-eval-after-load 'python-mode
   (setopt python-shell-completion-native-enable nil))
 
 (reformatter-define python-isort-format
@@ -1114,6 +1128,13 @@ binding))))))))
   :args `("format" "--stdin-filename" ,buffer-file-name))
 (add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
+
+(require 'dap-python)
+;; if you installed debugpy, you need to set this
+;; https://github.com/emacs-lsp/dap-mode/issues/306
+(setq dap-python-debugger 'debugpy)
+(add-hook 'python-mode-hook '(lambda ()
+                               (setq dap-python-executable (format "%s.venv/bin/python" (projectile-project-root)))))
 #+end_src
 
 *** nix mode
@@ -1147,21 +1168,7 @@ binding))))))))
   (add-hook 'yaml-mode-hook #'flycheck-mode)
   (add-hook 'yaml-mode-hook #'view-mode))
 #+end_src
-** Dap
-#+begin_src emacs-lisp
-(require 'dap-mode)
-(require 'dap-hydra)
-(require 'dap-ui)
 
-(with-eval-after-load 'dap-mode
-  ;; keybind
-  (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
-
-  ;; hooks
-  (add-hook 'dap-mode-hook #'dap-ui-mode)
-  (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
-  (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
-#+end_src
 * Typset
 ** typst mode
 #+begin_src emacs-lisp
