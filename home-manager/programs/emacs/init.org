@@ -1,6 +1,6 @@
 #+STARTUP:
-** 基本設定
-*** 本当の基本設定
+* 基本設定
+** 本当の基本設定
 #+BEGIN_SRC emacs-lisp
 ;;; init.el:
 (when (< emacs-major-version 23)
@@ -15,18 +15,18 @@
 (setq auto-save-list-file-prefix nil)
 (setq create-lockfiles nil)
 #+end_src
-*** C-tでバッファを切り変える
+** C-tでバッファを切り変える
 #+begin_src emacs-lisp
 (define-key global-map (kbd "C-t") 'other-window)
 #+end_src
-*** C-x C-cでEmacsを終了しない
+** C-x C-cでEmacsを終了しない
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-x C-c") 'magit)
 (global-set-key (kbd "C-x C-z") 'your-favorite-command)
 ;; I never use C-x C-c
 (defalias 'exit 'save-buffers-kill-emacs)
 #+end_src
-*** 何かサーバーが動くらしい
+** 何かサーバーが動くらしい
 行番号を表示しない、スクロールバーを表示しない、時間を24時間フォーマットで表示する
 #+begin_src emacs-lisp
 (server-start)
@@ -36,25 +36,25 @@
 (setq display-time-24hr-format t)
 (display-time-mode t)
 #+end_src
-*** 日本語にする
+** 日本語にする
 文字コードはutf-8
 #+begin_src emacs-lisp
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 (setq frame-title-format "%f")
 #+end_src
-*** タブは4文字
+** タブは4文字
 #+begin_src emacs-lisp
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 #+end_src
-*** フォントはMenloを使用する
+** フォントはMenloを使用する
 #+begin_src emacs-lisp
 (set-face-attribute 'default nil
                     :family "udev-gothic"
                     :height 200)
 #+end_src
-*** 中間ファイルを生成しない(はず)
+** 中間ファイルを生成しない(はず)
 #+begin_src emacs-lisp
 (setq backup-directory-alist
       `((".*".,temporary-file-directory)))
@@ -69,19 +69,19 @@
           'executable-make-buffer-file-executable-if-script-p)
 #+end_src
 
-*** M-*をmacのcommandキーにマップする
+** M-*をmacのcommandキーにマップする
 #+begin_src emacs-lisp
 (setq mac-command-modifier 'meta)
 #+end_src
 
-*** yes or noをy、nにする
+** yes or noをy、nにする
 #+begin_src emacs-lisp
 (add-hook 'emacs-startup-hook
           #'(lambda ()
               (fset 'yes-or-no-p 'y-or-n-p)))
 #+end_src
 
-*** Native Comp周りの設定
+** Native Comp周りの設定
 #+begin_src emacs-lisp
 (with-eval-after-load 'comp-run
   ;; config
@@ -102,14 +102,14 @@
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-mode-hooks)
 #+end_src
 
-*** 環境変数の設定
+** 環境変数の設定
 #+begin_src emacs-lisp
 ;; load environment value
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
 #+end_src
 
-*** シェルの設定
+** シェルの設定
 #+begin_src emacs-lisp
 (setq-default shell-file-name
               (expand-file-name "~/.nix-profile/bin/fish"))
@@ -117,50 +117,49 @@
               (expand-file-name "~/.nix-profile/bin/fish"))
 #+end_src
 
-*** Melpaの設定
+** Melpaの設定
 #+begin_src emacs-lisp
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 #+end_src
 
-*** reload init.el
+** reload init.el
 #+begin_src emacs-lisp
 (defun reload-init-file ()
   "reload init.el"
   (interactive)
   (load-file (format "%s/.emacs.d/init.el" (getenv "HOME"))))
 #+end_src
+* Utils
 
-** Utils
-
-*** moccur
+** moccur
 #+begin_src emacs-lisp
 (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)
   (save-buffer))
 #+end_src
 
-*** theme(catppuccin-theme)
+** theme(catppuccin-theme)
 #+begin_src emacs-lisp
 (require 'catppuccin-theme)
 (setq catppuccin-flavor 'latte)
 (load-theme 'catppuccin t)
 #+end_src
 
-*** volatile-highlights
+** volatile-highlights
 #+begin_src emacs-lisp
 (require 'volatile-highlights)
 (add-hook 'emacs-startup-hook #'volatile-highlights-mode)
 #+end_src
 
-*** cua-mode
+** cua-mode
 #+begin_src emacs-lisp
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 #+end_src
 
-*** projectile.el
+** projectile.el
 #+begin_src emacs-lisp
 (require 'projectile)
 (add-hook 'emacs-startup-hook #'projectile-mode)
@@ -174,19 +173,19 @@
   (projectile-discover-projects-in-search-path))
 #+end_src
 
-*** bufferlo.el
+** bufferlo.el
 #+begin_src emacs-lisp
 (require 'bufferlo)
 (add-hook 'emacs-startup-hook #'bufferlo-mode)
 #+end_src
 
-*** expand region
+** expand region
 #+begin_src emacs-lisp
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
 
-*** undo-tree
+** undo-tree
 #+begin_src emacs-lisp
 (require 'undo-tree)
 (add-hook 'emacs-startup-hook #'global-undo-tree-mode)
@@ -195,42 +194,42 @@
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 #+end_src
 
-*** git-gutter.el
+** git-gutter.el
 #+begin_src emacs-lisp
 (require 'git-gutter)
 (add-hook 'emacs-startup-hook #'global-git-gutter-mode)
 #+end_src
 
-*** rainbow-delimiters.el
+** rainbow-delimiters.el
 #+begin_src emacs-lisp
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 
-*** hl-line.el
+** hl-line.el
 #+begin_src emacs-lisp
 (require 'hl-line)
 (add-hook 'emacs-startup-hook #'global-hl-line-mode)
 #+end_src
-*** free-keys.el
+** free-keys.el
 #+begin_src emacs-lisp
 (require 'free-keys)
 #+end_src
 
-*** puni.el
+** puni.el
 #+begin_src emacs-lisp
 (require 'puni)
 (add-hook 'emacs-startup-hook #'puni-global-mode)
 (electric-pair-mode 1)
 #+end_src
 
-*** autorevert.el
+** autorevert.el
 #+begin_src emacs-lisp
 (require 'autorevert)
 (add-hook 'emacs-startup-hook #'global-auto-revert-mode)
 #+end_src
 
-*** simple
+** simple
 #+begin_src emacs-lisp
   (require 'simple)
   (with-eval-after-load 'simple
@@ -238,13 +237,13 @@
     (setopt kill-read-only-ok t))
 #+end_src
 
-*** doom-modeline
+** doom-modeline
 #+begin_src emacs-lisp
 ;(require 'doom-modeline)
 ;(add-hook 'emacs-startup-hook #'doom-modeline-mode)
 #+end_src
 
-*** nano-modeline
+** nano-modeline
 #+begin_src emacs-lisp
 (require 'nano-modeline)
 (add-hook 'prog-mode-hook            #'nano-modeline-prog-mode)
@@ -262,7 +261,7 @@
 (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode)
 #+end_src
 
-*** moody
+** moody
 #+begin_src emacs-lisp
 (require 'moody)
 (setq x-underline-at-descent-line t)
@@ -273,78 +272,77 @@
   (setq moody-slant-function 'moody-slant-apple-rgb))
 #+end_src
 
-*** minions
+** minions
 #+begin_src emacs-lisp
 (require 'minions)
 (minions-mode)
 (setq minions-mode-line-lighter "[+]")
 #+end_src
 
-*** which-key
+** which-key
 #+begin_src emacs-lisp
 (require 'which-key)
 (add-hook 'emacs-startup-hook #'which-key-mode)
 #+end_src
 
-*** magit
+** magit
 #+begin_src emacs-lisp
 (require 'magit)
 #+end_src
 
-*** exec-path-from-shell
+** exec-path-from-shell
 #+begin_src emacs-lisp
 (require 'exec-path-from-shell)
 (setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
 (exec-path-from-shell-initialize)
 #+end_src
 
-*** olivetti-mode
+** olivetti-mode
 
 #+begin_src emacs-lisp
 (require 'olivetti)
 #+end_src
 
-*** dashboard
+** dashboard
 #+begin_src emacs-lisp
 (require 'dashboard)
 (dashboard-setup-startup-hook)
-(keymap-global-set "C-c d" #'dashboard-open)
 #+end_src
 
-*** gcmh
+** gcmh
 #+begin_src emacs-lisp
 (require 'gcmh)
 (with-eval-after-load 'gcmh
   (setq gcmh-verbose t))
 #+end_src
 
-*** beacon
+** beacon
 #+begin_src emacs-lisp
 (require 'beacon)
 (with-eval-after-load 'beacon
   (beacon-mode 1))
 #+end_src
 
-*** dmacro
+** dmacro
 #+begin_src emacs-lisp
 (setq dmacro-key (kbd "C-c e"))
 (require 'dmacro)
 (global-dmacro-mode t)
 #+end_src
-*** instant-maximized-window
+** instant-maximized-window
 #+begin_src emacs-lisp
 (require 'instant-maximized-window)
 (keymap-global-set "C-c m" #'window-temp-maximize)
 #+end_src
-*** symbol overlay
+** symbol overlay
 #+begin_src emacs-lisp
 (require 'symbol-overlay)
 #+end_src
-*** color-idendifiers-mode
+** color-idendifiers-mode
 #+begin_src emacs-lisp
 (add-hook 'after-init-hook 'global-color-identifiers-mode)
 #+end_src
-*** neotree
+** neotree
 #+begin_src emacs-lisp
 (require 'neotree)
 (defun neotree-project-dir ()
@@ -380,11 +378,11 @@
                      (("z" neotree-stretch-toggle     "Size"        :toggle (not (neo-window--minimize-p)))
                       ("h" neotree-hidden-file-toggle "Hidden file" :toggle neo-buffer--show-hidden-file-p)))))
 #+end_src
-*** nerd-icons
+** nerd-icons
 #+begin_src emacs-lisp
 (require 'nerd-icons)
 #+end_src
-*** tree-sitter
+** tree-sitter
 #+begin_src emacs-lisp
 ;; Treesitの設定
 (setq treesit-language-source-alist
@@ -404,12 +402,12 @@
       (message "treesit: %s is not installed" lang)
       (treesit-install-language-grammar lang))))
 #+end_src
-*** all-the-icons
+** all-the-icons
 #+begin_src emacs-lisp
 (require 'all-the-icons)
 #+end_src
-** Completion
-*** corfu
+* Completion
+** corfu
 #+begin_src emacs-lisp
 (require 'corfu)
 (corfu-popupinfo-mode 1)
@@ -424,7 +422,7 @@
         corfu-popupinfo-delay 0.3))
 #+end_src
 
-*** cape
+** cape
 #+begin_src emacs-lisp
 (defvar completion-at-point-functions '(tags-completion-at-point-function))
 (require 'cape)
@@ -437,11 +435,11 @@
 (add-to-list 'completion-at-point-functions #'cape-emoji)
 #+end_src
 
-*** nerd-icons-corfu
+** nerd-icons-corfu
 #+begin_src emacs-lisp
 (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
 #+end_src
-*** vertico
+** vertico
 #+begin_src emacs-lisp
 (savehist-mode)
 (require 'vertico)
@@ -452,19 +450,19 @@
                           completion-show-inline-help nil)))
 #+end_src
 
-*** marginalia
+** marginalia
 #+begin_src emacs-lisp
 (require 'marginalia)
 (add-hook 'emacs-startup-hook #'marginalia-mode)
 #+end_src
 
-*** avy
+** avy
 #+begin_src emacs-lisp
 (require 'avy)
 (require 'avy-zap)
 #+end_src
 
-*** consult
+** consult
 #+begin_src emacs-lisp
 (defvar my-consult--source-buffer
   `(:name "Other Buffers"
@@ -503,7 +501,7 @@
 (keymap-global-set "C-x b" #'consult-buffer)
 #+end_src
 
-*** embark
+** embark
 #+begin_src emacs-lisp
 (require 'embark)
 (keymap-global-set "C-." #'embark-act)
@@ -556,7 +554,7 @@ binding))))))))
             :around #'embark-hide-which-key-indicator)
 #+end_src
 
-*** affe
+** affe
 #+begin_src emacs-lisp
 (require 'affe)
 (with-eval-after-load 'affe
@@ -564,7 +562,7 @@ binding))))))))
   (setopt affe-regexp-function 'orderless-pattern-compiler))
 #+end_src
 
-*** orderless
+** orderless
 #+begin_src emacs-lisp
 (require 'orderless)
 (with-eval-after-load 'minibuffer
@@ -575,7 +573,7 @@ binding))))))))
   (setopt completion-category-overrides '((file (styles flex basic partial-completion)))))
 #+end_src
 
-*** yasnippet
+** yasnippet
 #+begin_src emacs-lisp
 (require 'yasnippet)
 (add-hook 'emacs-startup-hook #'yas-global-mode)
@@ -584,8 +582,8 @@ binding))))))))
 (keymap-global-set "C-c y" #'consult-yasnippet)
 (keymap-global-set "C-c C-y" #'consult-yasnippet)
 #+end_src
+* org-mode
 ** org-mode
-*** org-mode
 #+begin_src emacs-lisp
 (setq org-directory "~/Documents/org-mode")
 
@@ -642,28 +640,26 @@ binding))))))))
                   (org-level-8 . 1.1)))))
 #+end_src
 
-*** org-capture
+** org-capture
 #+begin_src emacs-lisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory)
-      org-misc-file (format "%s/projects/misc.org" org-directory))
+      org-misc-file (format "%s/projects/misc.org" org-directory)
+      org-diary-file (format "%s/diary.org" org-directory))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
         '(("m" "Memo" entry (file org-memo-file) "** %U\n" :empty-lines 1)
           ("t" "Tasks" entry (file org-misc-file) "** TODO %?")
+          ("d" "Diary" entry (file org-diary-file) "** %<%Y-%m-%d> \n\n%?" :empty-lines 1)
           ("p" "Projects" entry (file
                                  (lambda () (create-new-org-file
                                              org-prj-dir)))
-           "\n* %? ")
-          ("f" "Feelings" entry (file
-                                 (lambda () (create-new-org-file
-                                             (format "%s/feeling" org-directory))))
            "\n* %? ")))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
 
-*** org-roam
+** org-roam
 #+begin_src emacs-lisp
 (require 'org-roam)
 (setq org-roam-db-update-method 'immediate
@@ -677,7 +673,7 @@ binding))))))))
 (keymap-global-set "C-c n a" #'org-roam-alias-add)
 #+end_src
 
-*** org-indent
+** org-indent
 #+begin_src emacs-lisp
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
@@ -694,7 +690,7 @@ binding))))))))
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 (plist-put org-format-latex-options :scale 2)
 #+end_src
-*** org-superstar
+** org-superstar
 #+begin_src emacs-lisp
 (require 'org-superstar)
 (add-hook 'org-mode-hook #'org-superstar-mode)
@@ -703,7 +699,7 @@ binding))))))))
   (setopt org-superstart-special-todo-items t))
 #+end_src
 
-*** org-babel
+** org-babel
 #+begin_src emacs-lisp
 (org-babel-do-load-languages
 'org-babel-load-languages
@@ -724,13 +720,13 @@ binding))))))))
 (with-eval-after-load 'ob-lisp
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
-*** org-super-agenda
+** org-super-agenda
 #+begin_src emacs-lisp
 ;(autoload-if-found '(org-agenda) "org-super-agenda" nil t)
 (require 'org-super-agenda)
 (org-super-agenda-mode t)
 #+end_src
-*** org-agenda
+** org-agenda
 #+begin_src emacs-lisp
 (require 'org-agenda)
 
@@ -796,7 +792,7 @@ binding))))))))
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src
 
-*** org-pomodoro
+** org-pomodoro
 #+begin_src emacs-lisp
 (require 'org-pomodoro)
 ;(keymap-global-set "M-p" #'org-pomodoro)
@@ -817,22 +813,22 @@ binding))))))))
   (org-pomodoro-killed))
 #+end_src
 
-*** ox-gfm
+** ox-gfm
 #+begin_src emacs-lisp
 (require 'ox-gfm)
 #+end_src
 
-*** ox-hugo
+** ox-hugo
 #+begin_src emacs-lisp
 (require 'ox-hugo)
 #+end_src
 
-*** ox-typst
+** ox-typst
 #+begin_src emacs-lisp
 (require 'ox-typst)
 #+end_src
 
-*** org-hydra
+** org-hydra
 #+begin_src emacs-lisp
 (defun my:org-goto-project ()
     (interactive)
@@ -865,8 +861,8 @@ binding))))))))
     ("t" org-roam-tag-add "tag")
     ("a" org-roam-alias-add "alias"))))
 #+end_src
-** lsp
-*** lsp-mode
+* lsp
+** lsp-mode
 #+begin_src emacs-lisp
 ;; (defun my/lsp-mode-completion ()
 ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
@@ -888,7 +884,7 @@ binding))))))))
   
 ;;   (add-hook 'lsp-configure-hook #'corfu-mode))
 #+end_src
-*** lsp-booster
+** lsp-booster
 #+begin_src emacs-lisp
 ;; (setq read-process-output-max (* 5 1024 1024)) ;; 10mb
 ;; (setq gc-cons-threshold 200000000)
@@ -925,7 +921,7 @@ binding))))))))
 ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
 
-*** lsp-ui
+** lsp-ui
 #+begin_src emacs-lisp
 ;; (require 'lsp-ui)
 
@@ -951,7 +947,7 @@ binding))))))))
 ;;   (keymap-global-set "C-c l" #'lsp-mode/body))
 #+end_src
 
-*** eglot
+** eglot
 #+begin_src emacs-lisp
 (require 'eglot)
 (pretty-hydra-define eglot
@@ -979,7 +975,7 @@ binding))))))))
 (eglot-booster-mode)
 #+end_src
 
-*** flycheck
+** flycheck
 #+begin_src emacs-lisp
 ; grammar check
 (require 'flycheck)
@@ -994,11 +990,12 @@ binding))))))))
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 
-** Program
-*** formatter
+* Program
+** formatter
 #+begin_src emacs-lisp
 (require 'reformatter)
 #+end_src
+** langs
 *** csv mode
 #+begin_src emacs-lisp
 (require 'csv-mode)
@@ -1150,6 +1147,22 @@ binding))))))))
   (add-hook 'yaml-mode-hook #'flycheck-mode)
   (add-hook 'yaml-mode-hook #'view-mode))
 #+end_src
+** Dap
+#+begin_src emacs-lisp
+(require 'dap-mode)
+(require 'dap-hydra)
+(require 'dap-ui)
+
+(with-eval-after-load 'dap-mode
+  ;; keybind
+  (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
+
+  ;; hooks
+  (add-hook 'dap-mode-hook #'dap-ui-mode)
+  (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
+  (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
+#+end_src
+* Typset
 ** typst mode
 #+begin_src emacs-lisp
 (require 'typst-ts-mode)
@@ -1170,7 +1183,7 @@ binding))))))))
 #+end_src
 
 ** latex
-*** yatex
+** yatex
 #+begin_src emacs-lisp
 (require 'yatex)
 (add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
@@ -1202,30 +1215,25 @@ binding))))))))
      ("b" YaTeX-make-begin-end "begin env")
      ("s" YaTeX-make-section "section env")))))
 #+end_src
-*** flyspell
+** flyspell
 #+begin_src emacs-lisp
 (require 'flyspell)
 (add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 
-*** reftex
+** reftex
 
 #+begin_src emacs-lisp
 (require 'reftex)
 (add-to-list 'yatex-mode-hook #'reftex-mode)
-
-(with-eval-after-load 'reftex
-  (setq reftex-default-bibliography
-      (let ((root (projectile-project-root)))
-        (when root
-          (directory-files-recursively root "\\.bib$"))))
-
- ;; (setq reftex-default-bibliography
- ;;       (directory-files-recursively (projectile-project-root) "\\.bib$"))
-  )
+(add-hook 'reftex-mode-hook '(lambda()
+                               (setq reftex-default-bibliography
+                                     (let ((root (projectile-project-root)))
+                                       (when root
+                                         (directory-files-recursively root "\\.bib$"))))))
 #+end_src
 
-** ddskk
+* ddskk
 #+begin_src emacs-lisp
 (require 'ddskk-autoloads)
 (keymap-global-set "C-x j" #'skk-mode)
@@ -1277,7 +1285,7 @@ binding))))))))
   (keymap-global-set "C-l" #'skk-latin-mode))
 #+END_SRC
 
-** copilot
+* copilot
 #+begin_src emacs-lisp
 (setq copilot-indent-offset-warning-disable t)
 (require 'copilot)
@@ -1285,7 +1293,7 @@ binding))))))))
 (keymap-global-set "C-<tab>" #'copilot-accept-completion)
 ;(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 #+end_src
-** hydra menu 
+* hydra menu 
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-goto
   (:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
@@ -1411,7 +1419,7 @@ binding))))))))
 (keymap-global-set "M-\'" #'major-mode-hydra)
 #+end_src
 
-** OJ
+* OJ
 #+begin_src emacs-lisp
 (require 'oj)
 (setopt oj-home-dir
