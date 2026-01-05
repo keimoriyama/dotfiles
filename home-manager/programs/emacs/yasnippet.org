@@ -190,9 +190,9 @@ ${0}
 # --
 \begin{table}[tbh]
     \centering
-    \begin{tabular}{c|c}
-         &  \\
-         & 
+    \begin{tabular}{c|c}\toprule
+         &  \\\\midrule
+         & \\bottomrule
     \end{tabular}
     \caption{${1:caption}}
     \label{tab:${2:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}

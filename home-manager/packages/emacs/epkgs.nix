@@ -64,6 +64,7 @@ in
     avy
     consult
     consult-flycheck
+    consult-eglot
     embark
     embark-consult
     affe

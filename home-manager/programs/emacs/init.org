@@ -965,14 +965,12 @@ binding))))))))
 (setq completion-category-overrides '((eglot (styles orderless))
                                       (eglot-capf (styles orderless))))
 
-;; Option 2: Undo the Eglot modification of completion-category-defaults
-(with-eval-after-load 'eglot
-   (setq completion-category-defaults nil))
-
 ;; Enable cache busting, depending on if your server returns
 ;; sufficiently many candidates in the first place.
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (eglot-booster-mode)
+
+(require 'consult-eglot)
 #+end_src
 
 ** flycheck
@@ -1200,7 +1198,9 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
-
+(add-to-list 'eglot-server-programs
+             '(yatex-mode
+               . ("texlab")))
 
 (add-hook 'yatex-mode-hook #'yas-minor-mode)
 (add-hook 'yatex-mode-hook #'eglot-ensure)
