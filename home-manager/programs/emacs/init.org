@@ -955,11 +955,13 @@ binding))))))))
   ("peek"
    (("d" xref-find-definitions "definitions")
     ("r" xref-find-references "references")
-    ("b" xref-go-back "go back")
-    ("c" consult-flycheck "diagnostic"))
+    ("b" xref-go-back "go back"))
    "code action"
    (("n" eglot-rename "rename")
-    ("c" eglot-code-actions "code action"))))
+    ("c" eglot-code-actions "code action"))
+   "search"
+   (("e" consult-eglot-symbols "symbols")
+    ("D" consult-flycheck "diagnostic"))))
 (keymap-global-set "C-c l" #'eglot/body)
 ;; Option 1: Specify explicitly to use Orderless for Eglot
 (setq completion-category-overrides '((eglot (styles orderless))
@@ -969,8 +971,6 @@ binding))))))))
 ;; sufficiently many candidates in the first place.
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (eglot-booster-mode)
-
-(require 'consult-eglot)
 #+end_src
 
 ** flycheck

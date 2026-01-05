@@ -65,6 +65,7 @@ in
     consult
     consult-flycheck
     consult-eglot
+    consult-eglot-embark
     embark
     embark-consult
     affe
