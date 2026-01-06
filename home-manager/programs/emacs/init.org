@@ -586,6 +586,9 @@ binding))))))))
 ** org-mode
 #+begin_src emacs-lisp
 (setq org-directory "~/Documents/org-mode")
+(setq org-archive-files (format "%s/_org_archive.org::" org-directory))
+(if (not (file-exists-p org-archive-files))
+    (make-empty-file org-archive-files))
 
 (defun create-new-org-file (path)
   (let ((name (read-string "Name: ")))
@@ -626,7 +629,8 @@ binding))))))))
 		  ("WAIT"   :foreground "#88C0D0" :weight bold)
           ("DONE"   :foreground "#ff40ff" :weight bold))
         org-tag-alist '(("Lab" . ?l) ("RA" . ?r) ("Private" . ?p))
-        org-global-properties '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30")))
+        org-global-properties '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30"))
+        org-archive-location org-archive-files)
   
   (add-hook 'org-mode-hook 'visual-line-mode)
 
