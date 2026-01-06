@@ -91,10 +91,11 @@ in
     dotenv-mode
     git-modes
     json-mode
+    rust-mode
+    cargo
     ssh-config-mode
     toml-mode
     yaml-mode
-
     python-pytest
 
     # lsp

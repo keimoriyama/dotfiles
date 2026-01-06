@@ -163,6 +163,13 @@
 (setq cua-enable-cua-keys nil)
 #+end_src
 
+** exec-path-from-shell
+#+begin_src emacs-lisp
+(require 'exec-path-from-shell)
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
+(exec-path-from-shell-initialize)
+#+end_src
+
 ** projectile.el
 #+begin_src emacs-lisp
 (require 'projectile)
@@ -170,15 +177,22 @@
 
 (keymap-global-set "C-c p" #'projectile-command-map)
 
+
+(defun add-prefix-to-list (prefix string-list)
+  (mapcar (lambda (s) (concat prefix s)) string-list))
+
 (with-eval-after-load 'projectile
   (setopt projectile-sort-order 'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
-  (add-to-list 'projectile-project-search-path '("~/Documents/org-mode/"))
   (add-to-list 'projectile-known-projects
-               (mapcar 'expand-file-name
-                       (split-string
-                        (shell-command-to-string "ghq list"))))
-  (projectile-discover-projects-in-search-path))
+               "~/Documents/org-mode/")
+  (dolist
+      (dir
+       (add-prefix-to-list "~/ghq/" (split-string
+                                     (string-trim
+                                      (shell-command-to-string "ghq list"))
+                                     "\n" t)))
+    (add-to-list 'projectile-known-projects dir)))
 #+end_src
 
 ** bufferlo.el
@@ -291,14 +305,6 @@
 #+begin_src emacs-lisp
 (require 'magit)
 #+end_src
-
-** exec-path-from-shell
-#+begin_src emacs-lisp
-(require 'exec-path-from-shell)
-(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
-(exec-path-from-shell-initialize)
-#+end_src
-
 ** olivetti-mode
 
 #+begin_src emacs-lisp
@@ -1110,6 +1116,24 @@ binding))))))))
   (add-hook 'json-mode-hook #'flycheck-mode))
 
 #+end_src
+*** rust mode
+#+begin_src emacs-lisp
+(require 'rust-mode)
+(require 'cargo)
+(add-hook 'rust-mode-hook #'eglot-ensure)
+(add-hook 'rust-mode-hook #'cargo-minor-mode)
+(with-eval-after-load 'rust-mode
+  (setq rust-format-on-save t
+        rust-mode-treesitter-derive t))
+(major-mode-hydra-define rust-mode
+  (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  ("run"
+   (("r" rust-run "run")
+   ("c" rust-compile "compile")
+   ("t" rust-test "test")
+   ("c" rust-check "check"))))
+#+end_src
+
 *** ssh config mode
 *** python mode
 #+begin_src emacs-lisp
