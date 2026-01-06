@@ -245,12 +245,6 @@
     (setopt kill-read-only-ok t))
 #+end_src
 
-** doom-modeline
-#+begin_src emacs-lisp
-;(require 'doom-modeline)
-;(add-hook 'emacs-startup-hook #'doom-modeline-mode)
-#+end_src
-
 ** nano-modeline
 #+begin_src emacs-lisp
 (require 'nano-modeline)
@@ -320,15 +314,13 @@
 ** gcmh
 #+begin_src emacs-lisp
 (require 'gcmh)
-(with-eval-after-load 'gcmh
-  (setq gcmh-verbose t))
-#+end_src
+(setq gcmh-verbose t)
 
+#+end_src
 ** beacon
 #+begin_src emacs-lisp
 (require 'beacon)
-(with-eval-after-load 'beacon
-  (beacon-mode 1))
+(beacon-mode 1)
 #+end_src
 
 ** dmacro
