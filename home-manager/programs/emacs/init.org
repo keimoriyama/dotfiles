@@ -587,8 +587,10 @@ binding))))))))
 #+begin_src emacs-lisp
 (setq org-directory "~/Documents/org-mode")
 (setq org-archive-files (format "%s/_org_archive.org::" org-directory))
-(if (not (file-exists-p org-archive-files))
-    (make-empty-file org-archive-files))
+(defun create-file (filename)
+  (if (not (file-exists-p filename))
+      (make-empty-file filename)))
+(create-file org-archive-files)
 
 (defun create-new-org-file (path)
   (let ((name (read-string "Name: ")))
@@ -650,6 +652,8 @@ binding))))))))
       org-prj-dir (format "%s/projects" org-directory)
       org-misc-file (format "%s/projects/misc.org" org-directory)
       org-diary-file (format "%s/diary.org" org-directory))
+(mapc #'create-file
+      (list org-memo-file org-misc-file org-diary-file))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
