@@ -42,6 +42,10 @@
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 (setq frame-title-format "%f")
+;; EmacsのデフォルトエンコーディングをUTF-8に設定
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
 #+end_src
 ** タブは4文字
 #+begin_src emacs-lisp
@@ -167,9 +171,13 @@
 (keymap-global-set "C-c p" #'projectile-command-map)
 
 (with-eval-after-load 'projectile
-  (setopt projectile-sort-order  'recently-active)
+  (setopt projectile-sort-order 'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
-  (add-to-list 'projectile-project-search-path '("~/Documents/org-mode/" "~/ghq/"))
+  (add-to-list 'projectile-project-search-path '("~/Documents/org-mode/"))
+  (add-to-list 'projectile-known-projects
+               (mapcar 'expand-file-name
+                       (split-string
+                        (shell-command-to-string "ghq list"))))
   (projectile-discover-projects-in-search-path))
 #+end_src
 
@@ -970,6 +978,7 @@ binding))))))))
 ;; Enable cache busting, depending on if your server returns
 ;; sufficiently many candidates in the first place.
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+(setq eglot-booster-io-only t)
 (eglot-booster-mode)
 #+end_src
 
