@@ -131,6 +131,18 @@ ${0}
 
 #+end_src
 
+*** task template with date
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/weekly-report-task-template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: task-with-date-template
+# key: task-with-date-template
+# --
+
+,* ${1:title}(`(format-time-string "%Y-%m-%d")`)
+
+${0}
+#+end_src
+
 
 ** yatex-mode
 
@@ -217,7 +229,7 @@ ${0}
 # key: compile
 # --
 
-%#!pdflatex ${1:main_file}.tex
+%#!{1:command} ${2:main_file}.tex
 
 #+end_src
 
