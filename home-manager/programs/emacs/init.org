@@ -982,8 +982,8 @@ binding))))))))
 ;; Enable cache busting, depending on if your server returns
 ;; sufficiently many candidates in the first place.
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-(setq eglot-booster-io-only t)
 (eglot-booster-mode)
+(setq eglot-booster-io-only t)
 #+end_src
 
 ** flycheck
@@ -1144,9 +1144,9 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-hook 'python-mode-hook 'eglot-ensure)
 
-(add-to-list 'eglot-server-programs
-             '(python-mode
-               . ("rass" "--" "ty" "server" "--" "ruff" "server")))
+;; (add-to-list 'eglot-server-programs
+;;              '(python-mode
+;;                . ("rass" "--" "ty" "server" "--" "ruff" "server")))
 
 (with-eval-after-load 'python-mode
   (setopt python-shell-completion-native-enable nil))
@@ -1185,12 +1185,17 @@ binding))))))))
   "subcommand to add new dependencies"
   :type 'string)
 
-(defun uv-project-root ())
+; check the existence of pyproject.toml in projectile-project-root
+(defun uv-project-root-p ()
+  (interactive)
+  (file-exists-p
+   (format "%spyproject.toml" (projectile-project-root))))
 
 (defun uv-add-deps ()
   (interactive)
-  (let* ((package-name (read-string "Package Name: ")))
-    (print package-name)))
+  (if (uv-project-root-p)
+      (let* ((package-name (read-string "Package Name: ")))
+        (print package-name))))
 #+end_src
 **** hydra menu
 #+begin_src emacs-lisp
