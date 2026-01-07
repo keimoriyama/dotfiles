@@ -125,6 +125,7 @@ in {
         ])
 
         rassumfrassum
+        codex
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us
@@ -133,6 +134,8 @@ in {
         brewCasks.zoom
         brewCasks.skim
         brewCasks.docker-desktop
+        brewCasks.chatgpt
+        brewCasks.chatgpt-atlas
         # (brewCasks.steam.overrideAttrs
         #   (oldAttrs: {
         #     src = pkgs.fetchurl {

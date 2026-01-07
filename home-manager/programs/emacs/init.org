@@ -869,11 +869,9 @@ binding))))))))
    "export"
    (("H" org-hugo-export-to-md "hugo md")
     ("d" org-export-dispatch "dispatch"))
-   "roam"
-   (("f" org-roam-node-find "find")
-    ("i" org-roam-node-insert "insert")
-    ("t" org-roam-tag-add "tag")
-    ("a" org-roam-alias-add "alias"))))
+   "move"
+   (("n" org-move-subtree-down "down" :exit nil)
+    ("u" org-move-subtree-up "up" :exit nil))))
 #+end_src
 * lsp
 ** lsp-mode
@@ -995,6 +993,7 @@ binding))))))))
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
 (with-eval-after-load 'flycheck
   (require 'flycheck-posframe)
+  (add-to-list 'flycheck-textlint-plugin-alist '(yatex-mode . "latex2e"))
   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 #+end_src
 
@@ -1161,6 +1160,7 @@ binding))))))))
   :lighter "isort"
   :group 'python-isort)
 (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
+
 (reformatter-define python-ruff-format
   :program "ruff"
   :args `("format" "--stdin-filename" ,buffer-file-name))
@@ -1175,6 +1175,22 @@ binding))))))))
 (setq dap-python-debugger 'debugpy)
 (add-hook 'python-mode-hook '(lambda ()
                                (setq dap-python-executable (format "%s.venv/bin/python" (projectile-project-root)))))
+#+end_src
+**** uv config
+#+begin_src emacs-lisp
+(defcustom uv-command "uv"
+  "command for running uv"
+  :type 'string)
+(defcustom uv-command--add "add"
+  "subcommand to add new dependencies"
+  :type 'string)
+
+(defun uv-project-root ())
+
+(defun uv-add-deps ()
+  (interactive)
+  (let* ((package-name (read-string "Package Name: ")))
+    (print package-name)))
 #+end_src
 **** hydra menu
 #+begin_src emacs-lisp
