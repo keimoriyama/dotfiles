@@ -1117,6 +1117,7 @@ binding))))))))
 
 #+end_src
 *** rust mode
+**** basic and lsp
 #+begin_src emacs-lisp
 (require 'rust-mode)
 (require 'cargo)
@@ -1125,17 +1126,21 @@ binding))))))))
 (with-eval-after-load 'rust-mode
   (setq rust-format-on-save t
         rust-mode-treesitter-derive t))
+#+end_src
+**** hydra-menu
+#+begin_src emacs-lisp
 (major-mode-hydra-define rust-mode
   (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("run"
    (("r" rust-run "run")
-   ("c" rust-compile "compile")
-   ("t" rust-test "test")
-   ("c" rust-check "check"))))
+    ("c" rust-compile "compile")
+    ("t" rust-test "test")
+    ("c" rust-check "check"))))
 #+end_src
 
 *** ssh config mode
 *** python mode
+**** basic and lsp
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-hook 'python-mode-hook 'eglot-ensure)
@@ -1146,7 +1151,9 @@ binding))))))))
 
 (with-eval-after-load 'python-mode
   (setopt python-shell-completion-native-enable nil))
-
+#+end_src
+**** formatter
+#+begin_src emacs-lisp
 (reformatter-define python-isort-format
   :program "isort"
   :args '("-")
@@ -1159,7 +1166,9 @@ binding))))))))
   :args `("format" "--stdin-filename" ,buffer-file-name))
 (add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
-
+#+end_src
+**** DAP
+#+begin_src emacs-lisp
 (require 'dap-python)
 ;; if you installed debugpy, you need to set this
 ;; https://github.com/emacs-lsp/dap-mode/issues/306
@@ -1167,7 +1176,13 @@ binding))))))))
 (add-hook 'python-mode-hook '(lambda ()
                                (setq dap-python-executable (format "%s.venv/bin/python" (projectile-project-root)))))
 #+end_src
-
+**** hydra menu
+#+begin_src emacs-lisp
+(major-mode-hydra-define python-mode
+  (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  ("run"
+   (("t" python-pytest-dispatch "test"))))
+#+end_src
 *** nix mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
