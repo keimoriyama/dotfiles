@@ -1181,8 +1181,12 @@ binding))))))))
 (defcustom uv-command "uv"
   "command for running uv"
   :type 'string)
+
+(defcustom uv-command--remove "remove"
+  "subcommand to remove packages"
+  :type 'string)
 (defcustom uv-command--add "add"
-  "subcommand to add new dependencies"
+  "subcommand to add new package"
   :type 'string)
 
 ; check the existence of pyproject.toml in projectile-project-root
@@ -1191,23 +1195,35 @@ binding))))))))
   (file-exists-p
    (format "%spyproject.toml" (projectile-project-root))))
 
-(defun uv-add-deps ()
+(defun uv-remove-package ()
+  "function to remove package in current project"
   (interactive)
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
-        (print package-name))))
+        (shell-command
+         (concat uv-command " " uv-command--remove " " package-name )))))
+
+(defun uv-add-package ()
+  "function to add new package in current project"
+  (if (uv-project-root-p)
+      (let* ((package-name (read-string "Package Name: ")))
+        (shell-command
+         (concat uv-command " " uv-command--add " " package-name)))))
 #+end_src
 **** hydra menu
 #+begin_src emacs-lisp
 (major-mode-hydra-define python-mode
   (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("run"
-   (("t" python-pytest-dispatch "test"))))
+   (("t" python-pytest-dispatch "test"))
+   "package(uv)"
+   (("a" uv-add-package "add"))))
 #+end_src
 *** nix mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
-;(add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+; (add-to-list 'eglot-server-programs '(nix-mode . ("nixd")))
+
 (add-hook 'nix-mode-hook 'eglot-ensure)
 (reformatter-define nix-alejandra-format
   :program "alejandra")

@@ -91,6 +91,7 @@ in {
         tdf
         perl
         nil
+        # nixd
         copilot-language-server
         texlab
         auctex
