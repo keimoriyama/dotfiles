@@ -125,7 +125,6 @@ in {
         ])
 
         rassumfrassum
-        codex
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us
