@@ -23,7 +23,7 @@ import ipdb;ipdb.set_trace()
 #+HUGO_CATEGORIES: ${3:fleeting}
 #+HUGO_SECTION: post/$3
 #+HUGO_TAGS: $3 $4
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 #+end_src

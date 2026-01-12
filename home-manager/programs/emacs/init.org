@@ -982,6 +982,7 @@ binding))))))))
 ;; Enable cache busting, depending on if your server returns
 ;; sufficiently many candidates in the first place.
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+(setq eglot-connect-timeout nil)
 (eglot-booster-mode)
 (setq eglot-booster-io-only t)
 #+end_src
@@ -1181,13 +1182,25 @@ binding))))))))
 (defcustom uv-command "uv"
   "command for running uv"
   :type 'string)
-
 (defcustom uv-command--remove "remove"
   "subcommand to remove packages"
   :type 'string)
 (defcustom uv-command--add "add"
   "subcommand to add new package"
   :type 'string)
+(defcustom uv-command--list-pack "pip list"
+  "subcommand to list packages in .venv"
+  :type 'string)
+
+(defun uv-list-packages ()
+  (interactive)
+  (print
+   ; 空白でsplitして、最初の要素を取り出す
+   (cddr
+    (split-string
+     (shell-command-to-string
+      (concat uv-command " " uv-command--list-pack))
+     "\n" t))))
 
 ; check the existence of pyproject.toml in projectile-project-root
 (defun uv-project-root-p ()
@@ -1195,9 +1208,17 @@ binding))))))))
   (file-exists-p
    (format "%spyproject.toml" (projectile-project-root))))
 
+(defun uv-check-package-existance()
+  (interactive))
+
+(defun uv-project-existence(package-name)
+  "evaluate if the package-name exists in the current project"
+  )
+
 (defun uv-remove-package ()
   "function to remove package in current project"
   (interactive)
+  ; パッケージの存在
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
         (shell-command
@@ -1205,6 +1226,7 @@ binding))))))))
 
 (defun uv-add-package ()
   "function to add new package in current project"
+  ; パッケージが存在する時も実行しない
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
         (shell-command
