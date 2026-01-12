@@ -1194,13 +1194,16 @@ binding))))))))
 
 (defun uv-list-packages ()
   (interactive)
-  (print
    ; 空白でsplitして、最初の要素を取り出す
-   (cddr
-    (split-string
-     (shell-command-to-string
-      (concat uv-command " " uv-command--list-pack))
-     "\n" t))))
+  (let* ((output (shell-command-to-string
+                        (concat uv-command " " uv-command--list-pack)))
+         (lines (cddr (split-string output "\n" t)))
+         (installed-packages (mapcar (lambda (line)
+                                       (car (split-string line " " t)))
+                                     lines)))
+    (when (called-interactively-p 'interactive)
+      (print installed-packages))
+    installed-packages))
 
 ; check the existence of pyproject.toml in projectile-project-root
 (defun uv-project-root-p ()
@@ -1232,6 +1235,12 @@ binding))))))))
         (shell-command
          (concat uv-command " " uv-command--add " " package-name)))))
 #+end_src
+
+#+RESULTS:
+:results:
+uv-add-package
+:end:
+
 **** hydra menu
 #+begin_src emacs-lisp
 (major-mode-hydra-define python-mode
