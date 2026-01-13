@@ -657,9 +657,10 @@ binding))))))))
 (setq org-memo-file (format "%s/memo.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory)
       org-misc-file (format "%s/projects/misc.org" org-directory)
-      org-diary-file (format "%s/diary.org" org-directory))
+      org-diary-file (format "%s/diary.org" org-directory)
+      org-weekly-log-file(format "%s/weekly-log.org" org-directory))
 (mapc #'create-file
-      (list org-memo-file org-misc-file org-diary-file))
+      (list org-memo-file org-misc-file org-diary-file org-weekly-log-file))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
@@ -669,9 +670,11 @@ binding))))))))
           ("p" "Projects" entry (file
                                  (lambda () (create-new-org-file
                                              org-prj-dir)))
-           "\n* %? ")))
+           "\n* %? ")
+          ("w" "weekly" entry (file org-weekly-log-file) "* %<%Y-%m-%d> \n\n%?" :empty-lines 1)))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
+
 
 ** org-roam
 #+begin_src emacs-lisp
