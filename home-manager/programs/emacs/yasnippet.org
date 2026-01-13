@@ -143,6 +143,18 @@ ${0}
 ${0}
 #+end_src
 
+*** org-clocktable
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: org-clocktable
+# key: org-clocktable
+# --
+
+,#+BEGIN: clocktable :maxlevel 2 :scope agenda :tend "`(format-time-string "%Y-%m-%d" (current-time))`" :tstart "`(format-time-string "%Y-%m-%d"(time-subtract (current-time) (* 60 60 24 7)))`" :stepskip0 t :fileskip0 t
+,#+END:
+
+#+end_src
+
 
 ** yatex-mode
 
