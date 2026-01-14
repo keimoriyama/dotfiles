@@ -972,7 +972,7 @@ binding))))))))
     ("r" xref-find-references "references")
     ("b" xref-go-back "go back"))
    "code action"
-   (("n" eglot-rename "rename")
+   (("R" eglot-rename "rename")
     ("c" eglot-code-actions "code action"))
    "search"
    (("e" consult-eglot-symbols "symbols")
@@ -1197,16 +1197,16 @@ binding))))))))
 
 (defun uv-list-packages ()
   (interactive)
-   ; 空白でsplitして、最初の要素を取り出す
-  (let* ((output (shell-command-to-string
-                  (concat uv-command " " uv-command--list-pack)))
-         (lines (cddr (split-string output "\n" t)))
-         (installed-packages (mapcar (lambda (line)
-                                       (car (split-string line " " t)))
-                                     lines)))
-    (when (called-interactively-p 'interactive)
-      (print installed-packages))
-    installed-packages))
+  (if (uv-project-root-p)
+      (let* ((output (shell-command-to-string
+                      (concat uv-command " " uv-command--list-pack)))
+             (lines (cddr (split-string output "\n" t)))
+             (installed-packages (mapcar (lambda (line)
+                                           (car (split-string line " " t)))
+                                         lines)))
+        (when (called-interactively-p 'interactive)
+          (print installed-packages))
+        installed-packages)))
 
 ; check the existence of pyproject.toml in projectile-project-root
 (defun uv-project-root-p ()
@@ -1214,29 +1214,28 @@ binding))))))))
   (file-exists-p
    (format "%spyproject.toml" (projectile-project-root))))
 
-(defun uv-check-package-existance()
-  (interactive))
-
-(defun uv-project-existence(package-name)
-  "evaluate if the package-name exists in the current project"
-  )
+(defun uv-package-existance-p (package-name)
+  (member package-name (uv-list-packages)))
 
 (defun uv-remove-package ()
   "function to remove package in current project"
-  (interactive)
   ; パッケージの存在
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
-        (shell-command
-         (concat uv-command " " uv-command--remove " " package-name )))))
+        (if (not (uv-package-existance-p package-name))
+            (message "%s does not exist in current project" package-name)
+          (shell-command
+           (concat uv-command " " uv-command--remove " " package-name ))))))
 
 (defun uv-add-package ()
   "function to add new package in current project"
   ; パッケージが存在する時も実行しない
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
-        (shell-command
-         (concat uv-command " " uv-command--add " " package-name)))))
+        (if (uv-package-existance-p package-name)
+            (message "%s is already installed in current project" package-name)
+          (shell-command
+           (concat uv-command " " uv-command--add " " package-name))))))
 #+end_src
 
 **** hydra menu
@@ -1246,7 +1245,8 @@ binding))))))))
   ("run"
    (("t" python-pytest-dispatch "test"))
    "package(uv)"
-   (("a" uv-add-package "add"))))
+   (("a" uv-add-package "add")
+    ("r" uv-remove-package "remove"))))
 #+end_src
 *** nix mode
 #+begin_src emacs-lisp
