@@ -658,9 +658,10 @@ binding))))))))
       org-prj-dir (format "%s/projects" org-directory)
       org-misc-file (format "%s/projects/misc.org" org-directory)
       org-diary-file (format "%s/diary.org" org-directory)
-      org-weekly-log-file(format "%s/weekly-log.org" org-directory))
+      org-weekly-log-file (format "%s/weekly-log.org" org-directory)
+      org-weekly-todo (format "%s/weekly-todo.org" org-directory))
 (mapc #'create-file
-      (list org-memo-file org-misc-file org-diary-file org-weekly-log-file))
+      (list org-memo-file org-misc-file org-diary-file org-weekly-log-file org-weekly-todo))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
@@ -674,7 +675,6 @@ binding))))))))
           ("w" "weekly" entry (file org-weekly-log-file) "* %<%Y-%m-%d> \n\n%?" :empty-lines 1)))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
-
 
 ** org-roam
 #+begin_src emacs-lisp
@@ -1361,29 +1361,11 @@ binding))))))))
 (keymap-global-set "C-x C-j" #'skk-mode)
 (setq default-input-method "japanese-skk")
 
-   ;; (add-hook 'skk-azik-load-hook #'(lambda ()
-   ;;                             (print "azik is loaded")
-   ;;                             (setq skk-azik-keyboard-specific-additional-rom-kana-rule-list
-   ;;                                   '(("x\'" nil "'")
-   ;;                                     ("\'" nil skk-toggle-characters)
-   ;;                                     ("{" nil skk-set-henkan-point-subr)))
-   ;;                             (delete '("'" nil "ー") skk-rom-kana-rule-list)))
-
-(defun skk-open-server-decoding-utf-8 ()
-  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-  (unless (skk-server-live-p)
-    (setq skkserv-process (skk-open-server-1))
-    (when (skk-server-live-p)
-      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-	(set-process-coding-system skkserv-process 'utf-8 code))))
-  skkserv-process)
-
 (setq skk-mode-hook
       '(lambda()
          (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
 
 (setq skk-preload t)
-
 
 (with-eval-after-load 'skk-vars
   (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
@@ -1393,10 +1375,10 @@ binding))))))))
         skk-share-private-jisyo t
         skk-save-jisyo-instantly t
         skk-server-host "localhost"
-        skk-server-portnum 1178)
-  (delete '("'" nil "ー") skk-rom-kana-rule-list)
-  (delete '("[" nil skk-toggle-characters) skk-rom-kana-rule-list)
-  (add-to-list 'skk-rom-kana-rule-list '("'" nil skk-toggle-characters)))
+        skk-server-portnum 1178))
+  ;; (delete '("'" nil "ー") skk-rom-kana-rule-list)
+  ;; (delete '("[" nil skk-toggle-characters) skk-rom-kana-rule-list)
+  ;; (add-to-list 'skk-rom-kana-rule-list '("'" nil skk-toggle-characters)))
 
 (require 'ddskk-posframe)
 

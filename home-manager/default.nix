@@ -68,6 +68,7 @@ in {
         deno
         rustc
         rustup
+        cargo-generate
         ripgrep
         vim
         tree-sitter
