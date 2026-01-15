@@ -33,7 +33,8 @@
 
   yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
   mocword = pkgs.callPackage ../mocword {inherit pkgs sources;};
-  rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
+  cargo-compete = pkgs.callPackage ../cargo-compete {inherit pkgs;};
+  # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
     inherit pkgs;
@@ -66,13 +67,13 @@ in {
         ghq
         gh
         deno
-        rustc
+        # rustc
         rustup
         cargo-generate
         ripgrep
         vim
         tree-sitter
-        pyright
+
         basedpyright
         ruff
         ty
@@ -81,7 +82,6 @@ in {
         lua-language-server
         stylua
         typescript-language-server
-        nvfetcher
         udev-gothic
         ghostscript
         wezterm
@@ -96,6 +96,8 @@ in {
         copilot-language-server
         texlab
         auctex
+
+        nvfetcher
         hugo
         texliveFull
         fzf
@@ -109,6 +111,7 @@ in {
 
         online-judge-tools
         online-judge-template-generator
+        cargo-compete
 
         yaskkserv2
         slack
@@ -126,7 +129,7 @@ in {
           textlint-plugin-latex2e
         ])
 
-        rassumfrassum
+        # rassumfrassum
         codex
       ]
       ++ lib.optionals stdenv.isLinux [
