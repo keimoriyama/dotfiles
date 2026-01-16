@@ -1127,6 +1127,7 @@ binding))))))))
 (add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'cargo-minor-mode)
 
+; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
 (defun my/find-rust-project-root (dir)                                                                           
    (when-let ((root (locate-dominating-file dir "Cargo.toml")))                                                         
      (list 'vc 'Git root)))
