@@ -1126,6 +1126,16 @@ binding))))))))
 (require 'cargo)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'cargo-minor-mode)
+
+(defun my/find-rust-project-root (dir)                                                                           
+   (when-let ((root (locate-dominating-file dir "Cargo.toml")))                                                         
+     (list 'vc 'Git root)))
+
+(defun my/rust-mode-hook ()
+  (setq-local project-find-functions (list #'my/find-rust-project-root)))
+
+(add-hook 'rust-mode-hook #'my/rust-mode-hook)
+
 (with-eval-after-load 'rust-mode
   (setq rust-format-on-save t
         rust-mode-treesitter-derive t))
