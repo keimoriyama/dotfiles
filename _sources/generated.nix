@@ -32,15 +32,15 @@
   };
   dpp-ext-lazy = {
     pname = "dpp-ext-lazy";
-    version = "0edbfc603eba41b3ad3705806602ce5f751918ee";
+    version = "8859a9f78cea4e35dddb673e706e68da4b8e081a";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-ext-lazy";
-      rev = "0edbfc603eba41b3ad3705806602ce5f751918ee";
+      rev = "8859a9f78cea4e35dddb673e706e68da4b8e081a";
       fetchSubmodules = false;
-      sha256 = "sha256-Vs5pge9EEo2Ww7x4ItGkvhZmRNG7mL4uhJOWV9Cm/co=";
+      sha256 = "sha256-oJ4gHG9IjoZgi/WNInEImfk+qiiGPWKGr6p8DN6j+kc=";
     };
-    date = "2025-10-07";
+    date = "2026-01-18";
   };
   dpp-ext-toml = {
     pname = "dpp-ext-toml";
@@ -68,15 +68,15 @@
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "d4f38d28b7d9d3360ccc579567f23e130046c832";
+    version = "fb68a09358585cccaae0bf837f47281e94afe802";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "d4f38d28b7d9d3360ccc579567f23e130046c832";
+      rev = "fb68a09358585cccaae0bf837f47281e94afe802";
       fetchSubmodules = false;
-      sha256 = "sha256-nMcQzW2+Iih4hJc9W7z6Yiw5k29Y5ChTS1dJuR2fJXU=";
+      sha256 = "sha256-knY0TMsS5TSz/B4OejYY3PJKEumwz6EfPK+V4WTan7E=";
     };
-    date = "2026-01-03";
+    date = "2026-01-18";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
