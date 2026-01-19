@@ -99,8 +99,6 @@ in
     python-pytest
 
     # lsp
-    # lsp-mode
-    # lsp-ui
     dap-mode
     flycheck
     flycheck-posframe
