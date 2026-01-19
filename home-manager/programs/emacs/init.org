@@ -1005,7 +1005,7 @@ binding))))))))
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
-** Dap
+** dap
 #+begin_src emacs-lisp
 (require 'dap-mode)
 (require 'dap-hydra)
