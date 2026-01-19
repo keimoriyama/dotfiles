@@ -308,3 +308,16 @@ ${0}
 )<${1}>
 
 #+end_src
+
+** rust-mode
+
+*** proconio input
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/rust-mode/proconio-input") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: proconio-input
+# key: proconio-input
+# --
+
+use proconio::input;
+
+#+end_src
