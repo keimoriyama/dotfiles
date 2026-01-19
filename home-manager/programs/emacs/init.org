@@ -1177,7 +1177,13 @@ binding))))))))
 *** nix mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
-; (add-to-list 'eglot-server-programs '(nix-mode . ("nixd")))
+;; (setq-default
+;;  eglot-workspace-configuration
+;;  '(:nixd
+;;    (:options
+;;     (:home-manager
+;;      (:expr
+;;       "(builtins.getFlake (builtins.toString ./.)).homeConfigurations.myHomeConfig.options")))))
 
 (add-hook 'nix-mode-hook 'eglot-ensure)
 (reformatter-define nix-alejandra-format
