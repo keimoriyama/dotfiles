@@ -186,6 +186,8 @@
   (add-to-list 'projectile-project-root-files ".projectile")
   (add-to-list 'projectile-known-projects
                "~/Documents/org-mode/")
+  (add-to-list 'projectile-known-projects
+               "~/dotfiles/")
   (dolist
       (dir
        (add-prefix-to-list "~/ghq/" (split-string
@@ -886,12 +888,15 @@ binding))))))))
    (("d" xref-find-definitions "definitions")
     ("r" xref-find-references "references")
     ("b" xref-go-back "go back"))
-   "code action"
+   "action"
    (("R" eglot-rename "rename")
-    ("c" eglot-code-actions "code action"))
+    ("a" eglot-code-actions "action"))
    "search"
    (("e" consult-eglot-symbols "symbols")
-    ("D" consult-flycheck "diagnostic"))))
+    ("D" consult-flycheck "diagnostic"))
+   "flycheck"
+   (("n" flycheck-next-error "next")
+    ("p" flycheck-previous-error "prev"))))
 (keymap-global-set "C-c l" #'eglot/body)
 ;; Option 1: Specify explicitly to use Orderless for Eglot
 (setq completion-category-overrides '((eglot (styles orderless))
