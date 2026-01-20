@@ -445,7 +445,7 @@
 
 ** nerd-icons-corfu
 #+begin_src emacs-lisp
-(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+;; (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
 #+end_src
 ** vertico
 #+begin_src emacs-lisp
@@ -902,14 +902,43 @@ binding))))))))
 (setq completion-category-overrides '((eglot (styles orderless))
                                       (eglot-capf (styles orderless))))
 
-;; Enable cache busting, depending on if your server returns
-;; sufficiently many candidates in the first place.
+; Enable cache busting, depending on if your server returns
+; sufficiently many candidates in the first place.
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (setq eglot-connect-timeout nil)
 (eglot-booster-mode)
 (setq eglot-booster-io-only t)
 #+end_src
+** lsp-bridge
+#+begin_src emacs-lisp
+;; (require 'lsp-bridge)
+;; (global-lsp-bridge-mode)
 
+;; (pretty-hydra-define lsp-bridge
+;;   (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;   ("peek"
+;;    (("d" lsp-bridge-find-def "def")
+;;     ("r" lsp-bridge-find-references "ref")
+;;     ("i" lsp-bridge-find-impl "impl")
+;;     ("b" xref-go-back "go back"))
+;;    "action"
+;;    (("R" lsp-bridge-rename "rename")
+;;     ("a" lsp-bridge-code-action "action"))
+;;    "search"
+;;    (("e" lsp-bridge-workspace-list-symbols "symbols")
+;;     ("D" lsp-bridge-diagnostic-list "diagnostic"))
+;;    "flycheck"
+;;    (("n" flycheck-next-error "next")
+;;     ("p" flycheck-previous-error "prev"))))
+;; (keymap-global-set "C-c l" #'lsp-bridge/body)
+
+;; (setq acm-enable-tabnine                  nil
+;;       acm-enable-copilot                  t
+;;       acm-enable-quick-access             t
+;;       lsp-bridge-enable-hover-diagnostic  t
+;;       acm-backend-yas-candidates-number   5
+;;       lsp-bridge-log-level "debug")
+#+end_src
 ** flycheck
 #+begin_src emacs-lisp
 ; grammar check
@@ -1049,8 +1078,8 @@ binding))))))))
 
 ; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
 (defun my/find-rust-project-root (dir)                                                                           
-   (when-let ((root (locate-dominating-file dir "Cargo.toml")))                                                         
-     (list 'vc 'Git root)))
+  (when-let ((root (locate-dominating-file dir "Cargo.toml")))                                                         
+    (list 'vc 'Git root)))
 
 (defun my/rust-mode-hook ()
   (setq-local project-find-functions (list #'my/find-rust-project-root)))
@@ -1182,13 +1211,6 @@ binding))))))))
 *** nix mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
-;; (setq-default
-;;  eglot-workspace-configuration
-;;  '(:nixd
-;;    (:options
-;;     (:home-manager
-;;      (:expr
-;;       "(builtins.getFlake (builtins.toString ./.)).homeConfigurations.myHomeConfig.options")))))
 
 (add-hook 'nix-mode-hook 'eglot-ensure)
 (reformatter-define nix-alejandra-format
@@ -1238,7 +1260,6 @@ binding))))))))
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 #+end_src
 
-** latex
 ** yatex
 #+begin_src emacs-lisp
 (require 'yatex)
@@ -1250,11 +1271,10 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
 (add-to-list 'eglot-server-programs
-             '(yatex-mode
-               . ("texlab")))
+             '(yatex-mode . ("texlab")))
 
 (add-hook 'yatex-mode-hook #'yas-minor-mode)
-(add-hook 'yatex-mode-hook #'eglot-ensure)
+;; (add-hook 'yatex-mode-hook #'eglot-ensure)
 
 (with-eval-after-load 'yatex
   (setopt YaTeX-inhibit-prefix-letter  t)
