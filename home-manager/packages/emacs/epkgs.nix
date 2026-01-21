@@ -101,7 +101,7 @@ in
     copilot-chat
 
     # lsp
-    # lsp-bridge
+    lsp-bridge
     # lsp-mode
     dap-mode
     flycheck
