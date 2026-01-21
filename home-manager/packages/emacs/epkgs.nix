@@ -78,7 +78,6 @@ in
     # langs
     auctex
     packages.yatex
-    copilot
     packages.typst-ts-mode
     python-mode
     pet
@@ -98,8 +97,12 @@ in
     yaml-mode
     python-pytest
 
+    copilot
+    copilot-chat
+
     # lsp
     # lsp-bridge
+    # lsp-mode
     dap-mode
     flycheck
     flycheck-posframe

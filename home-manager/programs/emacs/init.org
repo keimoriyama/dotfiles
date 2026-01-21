@@ -445,7 +445,7 @@
 
 ** nerd-icons-corfu
 #+begin_src emacs-lisp
-;; (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
 #+end_src
 ** vertico
 #+begin_src emacs-lisp
@@ -1349,6 +1349,7 @@ binding))))))))
 #+begin_src emacs-lisp
 (setq copilot-indent-offset-warning-disable t)
 (require 'copilot)
+(require 'copilot-chat)
 (add-hook 'prog-mode-hook 'copilot-mode)
 (keymap-global-set "C-<tab>" #'copilot-accept-completion)
 ;(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
