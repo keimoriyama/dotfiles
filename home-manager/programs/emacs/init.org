@@ -1018,7 +1018,7 @@ binding))))))))
 (with-eval-after-load 'dotenv-mode
   (add-hook 'dotenv-mode-hook #'view-mode))
 #+end_src
-*** git modest
+*** git mode
 #+begin_src emacs-lisp
 (require 'git-modes)
 ;; gitignore-mode
@@ -1112,7 +1112,7 @@ binding))))))))
 **** basic and lsp
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(add-hook 'python-mode-hook 'eglot-ensure)
+;; (add-hook 'python-mode-hook 'eglot-ensure)
 
 ;; (add-to-list 'eglot-server-programs
 ;;              '(python-mode
@@ -1218,7 +1218,7 @@ binding))))))))
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
 
-(add-hook 'nix-mode-hook 'eglot-ensure)
+; (add-hook 'nix-mode-hook 'eglot-ensure)
 (reformatter-define nix-alejandra-format
   :program "alejandra")
 (add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
@@ -1251,19 +1251,19 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'typst-ts-mode)
 (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
-(with-eval-after-load 'typst-ts-mode
-  (add-to-list 'eglot-server-programs
-               `((typst-ts-mode) .
-                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
-                                        "tinymist"
-                                        "typst-lsp")))))
+;; (with-eval-after-load 'typst-ts-mode
+;;   (add-to-list 'eglot-server-programs
+;;                `((typst-ts-mode) .
+;;                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
+;;                                         "tinymist"
+;;                                         "typst-lsp")))))
 
 (major-mode-hydra-define typst-ts-mode
   (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("menu"
    (("c" typst-ts-compile "compile")
     ("p" typst-ts-preview "preview"))))
-(add-hook 'typst-ts-mode-hook #'eglot-ensure)
+;; (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 #+end_src
 
 ** yatex
@@ -1276,7 +1276,7 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
-(add-to-list 'eglot-server-programs
+;; (add-to-list 'eglot-server-programs
              '(yatex-mode . ("texlab")))
 
 (add-hook 'yatex-mode-hook #'yas-minor-mode)
