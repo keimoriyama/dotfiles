@@ -321,3 +321,14 @@ ${0}
 use proconio::input;
 
 #+end_src
+
+*** grph
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/rust/type_graph") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: type_graph
+# key: type_graph
+# --
+
+type Edges = Vec<Vec<${1}>>;
+
+#+end_src
