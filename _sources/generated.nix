@@ -20,15 +20,15 @@
   };
   dpp-ext-installer = {
     pname = "dpp-ext-installer";
-    version = "30b46fd9b18109bd3995898611c0197b02210b61";
+    version = "1cc082a2c4539441d8a2b1b3620bf8d924234b29";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-ext-installer";
-      rev = "30b46fd9b18109bd3995898611c0197b02210b61";
+      rev = "1cc082a2c4539441d8a2b1b3620bf8d924234b29";
       fetchSubmodules = false;
-      sha256 = "sha256-1f6xUVGC0Ub+wZVyYlWTXyB3kcuJyEaVd1EuLjKifMs=";
+      sha256 = "sha256-xcI9P/kkRZxCif0joG/U0nc8X4Jp+8WxUv2055mv4ZE=";
     };
-    date = "2026-01-16";
+    date = "2026-01-21";
   };
   dpp-ext-lazy = {
     pname = "dpp-ext-lazy";
