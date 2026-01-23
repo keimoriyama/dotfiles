@@ -881,7 +881,51 @@ binding))))))))
     ("u" org-move-subtree-up "up" :exit nil))))
 #+end_src
 * lsp
+** lsp-mode
+*** basic config
+#+begin_src emacs-lisp
+;; (require 'lsp-mode)
+#+end_src
+*** language specific config
+#+begin_src emacs-lisp
+#+end_src
+*** lsp-booster
+#+begin_src emacs-lisp
+;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   "Try to parse bytecode instead of json."
+;;   (or
+;;    (when (equal (following-char) ?#)
+;;      (let ((bytecode (read (current-buffer))))
+;;        (when (byte-code-function-p bytecode)
+;;          (funcall bytecode))))
+;;    (apply old-fn args)))
+
+;; (advice-add (if (progn (require 'json)
+;;                        (fboundp 'json-parse-buffer))
+;;                 'json-parse-buffer
+;;               'json-read)
+;;             :around
+;;             #'lsp-booster--advice-json-parse)
+
+;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+;;   "Prepend emacs-lsp-booster command to lsp CMD."
+;;   (let ((orig-result (funcall old-fn cmd test?)))
+;;     (if (and (not test?)                             ;; for check lsp-server-present?
+;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+;;              lsp-use-plists
+;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+;;              (executable-find "emacs-lsp-booster"))
+;;         (progn
+;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+;;             (setcar orig-result command-from-exec-path))
+;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+;;           (cons "emacs-lsp-booster" orig-result))
+;;       orig-result)))
+
+;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+#+end_src
 ** eglot
+*** basic
 #+begin_src emacs-lisp
 (require 'eglot)
 (pretty-hydra-define eglot
@@ -910,6 +954,37 @@ binding))))))))
 (setq eglot-booster-io-only t)
 #+end_src
 
+*** language specific config
+#+begin_src emacs-lisp
+(add-hook 'rust-mode-hook #'eglot-ensure)
+; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
+(defun my/find-rust-project-root (dir)
+  (when-let ((root (locate-dominating-file dir "Cargo.toml")))
+    (list 'vc 'git root)))
+
+;; (defun my/find-cargo-root (filename)
+;;  (expand-file-name
+;;   (locate-dominating-file filename "Cargo.toml")))
+
+(defun my/rust-mode-hook ()
+  (setq-local project-find-functions (list #'my/find-rust-project-root)))
+  ;(setq-local lsp-bridge-get-project-path-by-filepath #'my/find-cargo-root))
+(add-hook 'rust-mode-hook #'my/rust-mode-hook)
+
+(add-hook 'python-mode-hook 'eglot-ensure)
+(add-hook 'nix-mode-hook 'eglot-ensure)
+
+(add-hook 'typst-ts-mode-hook #'eglot-ensure)
+(add-to-list 'eglot-server-programs
+               `((typst-ts-mode) .
+                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
+                                        "tinymist"
+                                        "typst-lsp"))))
+
+(add-to-list 'eglot-server-programs
+             '(yatex-mode . ("texlab")))
+(add-hook 'yatex-mode-hook #'eglot-ensure)
+#+end_src
 
 ** lsp-bridge
 #+begin_src emacs-lisp
@@ -1076,21 +1151,7 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'rust-mode)
 (require 'cargo)
-(add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'cargo-minor-mode)
-
-; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
-(defun my/find-rust-project-root (dir)
-  (when-let ((root (locate-dominating-file dir "Cargo.toml")))                                                             (list 'vc 'Git root)))
-
-(defun my/find-cargo-root (filename)
- (expand-file-name
-  (locate-dominating-file filename "Cargo.toml")))
-
-(defun my/rust-mode-hook ()
-  (setq-local project-find-functions (list #'my/find-rust-project-root)))
-  ;(setq-local lsp-bridge-get-project-path-by-filepath #'my/find-cargo-root))
-(add-hook 'rust-mode-hook #'my/rust-mode-hook)
 
 (with-eval-after-load 'rust-mode
   (setq rust-format-on-save t
@@ -1112,11 +1173,6 @@ binding))))))))
 **** basic and lsp
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(add-hook 'python-mode-hook 'eglot-ensure)
-
-;; (add-to-list 'eglot-server-programs
-;;              '(python-mode
-;;                . ("rass" "--" "ty" "server" "--" "ruff" "server")))
 
 (with-eval-after-load 'python-mode
   (setopt python-shell-completion-native-enable nil))
@@ -1218,7 +1274,6 @@ binding))))))))
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
 
-(add-hook 'nix-mode-hook 'eglot-ensure)
 (reformatter-define nix-alejandra-format
   :program "alejandra")
 (add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
@@ -1251,19 +1306,12 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'typst-ts-mode)
 (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
-(with-eval-after-load 'typst-ts-mode
-  (add-to-list 'eglot-server-programs
-               `((typst-ts-mode) .
-                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
-                                        "tinymist"
-                                        "typst-lsp")))))
 
 (major-mode-hydra-define typst-ts-mode
   (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("menu"
    (("c" typst-ts-compile "compile")
     ("p" typst-ts-preview "preview"))))
-(add-hook 'typst-ts-mode-hook #'eglot-ensure)
 #+end_src
 
 ** yatex
@@ -1276,11 +1324,8 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
 (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
-(add-to-list 'eglot-server-programs
-             '(yatex-mode . ("texlab")))
 
 (add-hook 'yatex-mode-hook #'yas-minor-mode)
-(add-hook 'yatex-mode-hook #'eglot-ensure)
 
 (with-eval-after-load 'yatex
   (setopt YaTeX-inhibit-prefix-letter  t)

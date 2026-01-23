@@ -54,6 +54,7 @@ in
     minions
     neotree
     tree-sitter
+    centered-cursor-mode
 
     # completion
     corfu
