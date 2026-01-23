@@ -420,7 +420,8 @@
 (require 'corfu)
 (corfu-popupinfo-mode 1)
 (corfu-history-mode 1)
-(add-hook 'emacs-startup-hook #'global-corfu-mode)
+;; (add-hook 'emacs-startup-hook #'global-corfu-mode)
+(add-hook 'org-mode-hook #'corfu-mode)
 (with-eval-after-load 'corfu
   (setq corfu-auto t
         corfu-auto-delay 0.1
@@ -644,8 +645,7 @@ binding))))))))
         org-archive-location org-archive-files)
   
   (add-hook 'org-mode-hook 'visual-line-mode)
-  (add-hook 'org-mode-hook 'corfu-mode)
-
+  
   (dolist (face '((org-level-1 . 1.35)
                   (org-level-2 . 1.3)
                   (org-level-3 . 1.2)
@@ -927,96 +927,121 @@ binding))))))))
 ** eglot
 *** basic
 #+begin_src emacs-lisp
-(require 'eglot)
-(pretty-hydra-define eglot
-  (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ("peek"
-   (("d" xref-find-definitions "definitions")
-    ("r" xref-find-references "references")
-    ("b" xref-go-back "go back"))
-   "action"
-   (("R" eglot-rename "rename")
-    ("a" eglot-code-actions "action"))
-   "search"
-   (("e" consult-eglot-symbols "symbols")
-    ("D" consult-flycheck "diagnostic"))
-   "flycheck"
-   (("n" flycheck-next-error "next")
-    ("p" flycheck-previous-error "prev"))))
-(keymap-global-set "C-c l" #'eglot/body)
-;; Option 1: Specify explicitly to use Orderless for Eglot
-(setq completion-category-overrides '((eglot (styles orderless))
-                                      (eglot-capf (styles orderless))))
+;; (require 'eglot)
+;; (pretty-hydra-define eglot
+;;   (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;   ("peek"
+;;    (("d" xref-find-definitions "definitions")
+;;     ("r" xref-find-references "references")
+;;     ("b" xref-go-back "go back"))
+;;    "action"
+;;    (("R" eglot-rename "rename")
+;;     ("a" eglot-code-actions "action"))
+;;    "search"
+;;    (("e" consult-eglot-symbols "symbols")
+;;     ("D" consult-flycheck "diagnostic"))
+;;    "flycheck"
+;;    (("n" flycheck-next-error "next")
+;;     ("p" flycheck-previous-error "prev"))))
+;; (keymap-global-set "C-c l" #'eglot/body)
+;; ;; Option 1: Specify explicitly to use Orderless for Eglot
+;; (setq completion-category-overrides '((eglot (styles orderless))
+;;                                       (eglot-capf (styles orderless))))
 
-(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-(setq eglot-connect-timeout nil)
-(eglot-booster-mode)
-(setq eglot-booster-io-only t)
+;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+;; (setq eglot-connect-timeout nil)
+;; (eglot-booster-mode)
+;; (setq eglot-booster-io-only t)
 #+end_src
 
 *** language specific config
 #+begin_src emacs-lisp
-(add-hook 'rust-mode-hook #'eglot-ensure)
-; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
-(defun my/find-rust-project-root (dir)
-  (when-let ((root (locate-dominating-file dir "Cargo.toml")))
-    (list 'vc 'git root)))
+;; (add-hook 'rust-mode-hook #'eglot-ensure)
+;; ; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
+;; (defun my/find-rust-project-root (dir)
+;;   (when-let ((root (locate-dominating-file dir "Cargo.toml")))
+;;     (list 'vc 'git root)))
 
-;; (defun my/find-cargo-root (filename)
-;;  (expand-file-name
-;;   (locate-dominating-file filename "Cargo.toml")))
+;; (defun my/rust-mode-hook ()
+;;   (setq-local project-find-functions (list #'my/find-rust-project-root)))
+  
+;; (add-hook 'rust-mode-hook #'my/rust-mode-hook)
 
-(defun my/rust-mode-hook ()
-  (setq-local project-find-functions (list #'my/find-rust-project-root)))
-  ;(setq-local lsp-bridge-get-project-path-by-filepath #'my/find-cargo-root))
-(add-hook 'rust-mode-hook #'my/rust-mode-hook)
+;; (add-hook 'python-mode-hook #'eglot-ensure)
+;; (add-hook 'nix-mode-hook #'eglot-ensure)
 
-(add-hook 'python-mode-hook 'eglot-ensure)
-(add-hook 'nix-mode-hook 'eglot-ensure)
+;; (add-hook 'typst-ts-mode-hook #'eglot-ensure)
+;; (with-eval-after-load 'typst-ts-mode
+;;   (add-to-list 'eglot-server-programs
+;;                `((typst-ts-mode) .
+;;                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
+;;                                         "tinymist"
+;;                                         "typst-lsp")))))
 
-(add-hook 'typst-ts-mode-hook #'eglot-ensure)
-(add-to-list 'eglot-server-programs
-               `((typst-ts-mode) .
-                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
-                                        "tinymist"
-                                        "typst-lsp"))))
-
-(add-to-list 'eglot-server-programs
-             '(yatex-mode . ("texlab")))
-(add-hook 'yatex-mode-hook #'eglot-ensure)
+;; (add-to-list 'eglot-server-programs
+;;              '(yatex-mode . ("texlab")))
+;; (add-hook 'yatex-mode-hook #'eglot-ensure)
 #+end_src
 
 ** lsp-bridge
+
+*** basic config
 #+begin_src emacs-lisp
-;; (require 'lsp-bridge)
-;; (global-lsp-bridge-mode)
+(require 'lsp-bridge)
 
-;; (pretty-hydra-define lsp-bridge
-;;   (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;   ("peek"
-;;    (("d" lsp-bridge-find-def "def")
-;;     ("r" lsp-bridge-find-references "ref")
-;;     ("i" lsp-bridge-find-impl "impl")
-;;     ("b" xref-go-back "go back"))
-;;    "action"
-;;    (("R" lsp-bridge-rename "rename")
-;;     ("a" lsp-bridge-code-action "action"))
-;;    "search"
-;;    (("e" lsp-bridge-workspace-list-symbols "symbols")
-;;     ("D" lsp-bridge-diagnostic-list "diagnostic"))
-;;    "flycheck"
-;;    (("n" flycheck-next-error "next")
-;;     ("p" flycheck-previous-error "prev"))))
-;; (keymap-global-set "C-c l" #'lsp-bridge/body)
+(pretty-hydra-define lsp-bridge
+  (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  ("peek"
+   (("d" lsp-bridge-find-def "def")
+    ("r" lsp-bridge-find-references "ref")
+    ("i" lsp-bridge-find-impl "impl")
+    ("s" lsp-bridge-workspace-list-symbols "symbols")
+    ("b" xref-go-back "go back"))
+   "action"
+   (("R" lsp-bridge-rename "rename")
+    ("a" lsp-bridge-code-action "action"))
+   "diagnostic"
+   (("D" lsp-bridge-diagnostic-list "diagnostic")
+    ("n" lsp-bridge-diagnostic-jump-next "next")
+    ("p" lsp-bridge-diagnostic-jump-prev "prev"))))
+(keymap-global-set "C-c l" #'lsp-bridge/body)
 
-;; (with-eval-after-load 'lsp-bridge
-;;   (setq acm-enable-tabnine                  nil
-;;         acm-enable-copilot                  t
-;;         acm-enable-quick-access             t
-;;         lsp-bridge-enable-hover-diagnostic  t
-;;         acm-backend-yas-candidates-number   5
-;;         lsp-bridge-log-level ""))
+(with-eval-after-load 'lsp-bridge
+  (setq acm-enable-tabnine                  nil
+        acm-enable-copilot                  t
+        acm-enable-quick-access             t
+        acm-backend-yas-candidates-number   5
+        acm-candidate-match-function 'orderless-literal
+        acm-backend-lsp-show-progress t
+        lsp-bridge-enable-hover-diagnostic  t
+        lsp-bridge-enable-inlay-hint t
+        lsp-bridge-diagnostic-fetch-idle 0.1
+        lsp-bridge-log-level ""
+        lsp-bridge-enable-auto-format-code nil))
 #+end_src
+
+*** language specific config
+#+begin_src emacs-lisp
+(defun my/find-cargo-root (filename)
+ (expand-file-name
+  (locate-dominating-file filename "Cargo.toml")))
+
+(defun my/rust-mode-hook ()
+  (setq-local lsp-bridge-get-project-path-by-filepath #'my/find-cargo-root))
+(add-hook 'rust-mode-hook #'my/find-cargo-root)
+(add-hook 'rust-mode-hook #'lsp-bridge-mode)
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq lsp-bridge-python-command "uv run")
+            (remove '((python-mode python-ts-mode) . lsp-bridge-python-multi-lsp-server) lsp-bridge-multi-lang-server-mode-list)
+            (lsp-bridge-mode)))
+
+
+(add-hook 'nix-mode-hook #'lsp-bridge-mode)
+(add-hook 'yatex-mode-hook #'lsp-bridge-mode)
+(add-hook 'typst-ts-mode-hook #'lsp-bridge-mode)
+#+end_src
+
 ** flycheck
 #+begin_src emacs-lisp
 ; grammar check
