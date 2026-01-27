@@ -1034,7 +1034,6 @@ binding))))))))
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (setq lsp-bridge-python-command "uv run")
             (remove '((python-mode python-ts-mode) . lsp-bridge-python-multi-lsp-server) lsp-bridge-multi-lang-server-mode-list)
             (lsp-bridge-mode)))
 
