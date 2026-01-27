@@ -194,7 +194,8 @@
                                      (string-trim
                                       (shell-command-to-string "ghq list"))
                                      "\n" t)))
-    (add-to-list 'projectile-known-projects dir)))
+    (add-to-list 'projectile-known-projects
+                 (format "%s/" dir))))
 #+end_src
 
 ** bufferlo.el
@@ -1008,7 +1009,7 @@ binding))))))))
 
 (with-eval-after-load 'lsp-bridge
   (setq acm-enable-tabnine                  nil
-        acm-enable-copilot                  t
+        acm-enable-copilot                  nil
         acm-enable-quick-access             t
         acm-backend-yas-candidates-number   5
         acm-candidate-match-function 'orderless-literal
@@ -1023,13 +1024,14 @@ binding))))))))
 *** language specific config
 #+begin_src emacs-lisp
 (defun my/find-cargo-root (filename)
- (expand-file-name
-  (locate-dominating-file filename "Cargo.toml")))
+  (expand-file-name
+   (locate-dominating-file filename "Cargo.toml")))
 
-(defun my/rust-mode-hook ()
-  (setq-local lsp-bridge-get-project-path-by-filepath #'my/find-cargo-root))
-(add-hook 'rust-mode-hook #'my/find-cargo-root)
-(add-hook 'rust-mode-hook #'lsp-bridge-mode)
+(add-hook 'rust-mode-hook
+          (lambda ()
+            (setq-local lsp-bridge-get-project-path-by-filepath #'my/find-cargo-root)
+            (lsp-bridge-mode)))
+
 (add-hook 'python-mode-hook
           (lambda ()
             (setq lsp-bridge-python-command "uv run")

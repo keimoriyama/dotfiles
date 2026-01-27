@@ -108,7 +108,7 @@ in
     flycheck
     flycheck-posframe
     highlight-indent-guides
-    eglot-booster
+    # eglot-booster
 
     # org
     org-superstar
