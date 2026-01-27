@@ -1,6 +1,6 @@
 {
     "cargo-compete": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": null,
         "extract": null,
         "name": "cargo-compete",
@@ -21,7 +21,7 @@
         "version": "v0.10.7"
     },
     "dpp-ext-installer": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2026-01-23",
         "extract": null,
         "name": "dpp-ext-installer",
@@ -42,7 +42,7 @@
         "version": "7d99b59363a31a546d21a30413ce926ab4043931"
     },
     "dpp-ext-lazy": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2026-01-18",
         "extract": null,
         "name": "dpp-ext-lazy",
@@ -63,7 +63,7 @@
         "version": "8859a9f78cea4e35dddb673e706e68da4b8e081a"
     },
     "dpp-ext-toml": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-08-30",
         "extract": null,
         "name": "dpp-ext-toml",
@@ -84,7 +84,7 @@
         "version": "9a441896eebb09ca5f9b93fec79d094799ae3cde"
     },
     "dpp-protocol-git": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2026-01-16",
         "extract": null,
         "name": "dpp-protocol-git",
@@ -105,7 +105,7 @@
         "version": "a8cf869768a1e65b0b5044de57e64734d1809057"
     },
     "dpp-vim": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2026-01-26",
         "extract": null,
         "name": "dpp-vim",
@@ -126,7 +126,7 @@
         "version": "a00aa1774595f9426a626e3216aad2b3c81d36d1"
     },
     "emacs-dmacro": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2024-10-27",
         "extract": null,
         "name": "emacs-dmacro",
@@ -147,7 +147,7 @@
         "version": "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468"
     },
     "emacs-instant-maximized-window": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2018-05-28",
         "extract": null,
         "name": "emacs-instant-maximized-window",
@@ -168,7 +168,7 @@
         "version": "e6b82419bf9c154df881c72c5800bbd43887ec0d"
     },
     "emacs-nano-modeline": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2024-04-29",
         "extract": null,
         "name": "emacs-nano-modeline",
@@ -189,7 +189,7 @@
         "version": "04676d57a1e602123a593836745a744d1b2028fb"
     },
     "emacs-typst-ts-mode": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-01-18",
         "extract": null,
         "name": "emacs-typst-ts-mode",
@@ -210,7 +210,7 @@
         "version": "aee8ff090cff6f39a70ac2c9035b1eb2b69924d7"
     },
     "emacs-yaml-mode": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2024-10-03",
         "extract": null,
         "name": "emacs-yaml-mode",
@@ -231,7 +231,7 @@
         "version": "d91f878729312a6beed77e6637c60497c5786efa"
     },
     "emacs-yatex": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-02-24",
         "extract": null,
         "name": "emacs-yatex",
@@ -252,7 +252,7 @@
         "version": "dd7cfad4cd0409b5e0eb05e90077de5a225185fa"
     },
     "fish-autols": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-01-26",
         "extract": null,
         "name": "fish-autols",
@@ -273,7 +273,7 @@
         "version": "74c52a3f66b5b9f589871c4383e7d7c2e543032c"
     },
     "fish-cdf": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-01-27",
         "extract": null,
         "name": "fish-cdf",
@@ -294,7 +294,7 @@
         "version": "467f549ef6f8b1d8d18a429639f87870b23eef62"
     },
     "fish-fzf-bd": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-01-27",
         "extract": null,
         "name": "fish-fzf-bd",
@@ -315,7 +315,7 @@
         "version": "fcbe9f6a75510365638dc6f790544c55ecb0ec3b"
     },
     "fish-gcd": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-01-25",
         "extract": null,
         "name": "fish-gcd",
@@ -336,7 +336,7 @@
         "version": "e42ccc3c48ecaf2a8efb8a12d7426a8a7fd077e3"
     },
     "fish-ghq-fzf": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2025-01-27",
         "extract": null,
         "name": "fish-ghq-fzf",
@@ -357,7 +357,7 @@
         "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
     },
     "mocword": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": "2022-05-02",
         "extract": null,
         "name": "mocword",
@@ -378,7 +378,7 @@
         "version": "096316545837ca70498023486390f74f6b7c8fd3"
     },
     "yaskkserv2": {
-        "cargoLock": null,
+        "cargoLocks": null,
         "date": null,
         "extract": null,
         "name": "yaskkserv2",
