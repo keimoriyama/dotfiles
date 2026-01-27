@@ -5,7 +5,10 @@
 pkgs.rustPlatform.buildRustPackage {
   name = "carg-compete";
   src = sources.cargo-compete.src;
-  cargoLock = sources.cargo-compete.cargoLock."Cargo.lock";
+  # cargoLock = sources.cargo-compete.cargoLock."Cargo.lock";
+  cargoLock = {
+    lockFile = ./Cargo.lock;
+  };
   doCheck = false;
   nativeBuildInputs = [
     pkgs.pkg-config
