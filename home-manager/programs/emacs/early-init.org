@@ -1,6 +1,4 @@
-
 #+begin_src emacs-lisp
-;(setenv "LSP_USE_PLISTS" "true")
 (setq debug-on-error t)
 (setq toggle-debug-on-error t)
 #+end_src
@@ -13,7 +11,6 @@
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 #+end_src
 
-* Tree-sitter performance enhancement
 #+begin_src emacs-lisp
 (setenv "LSP_USE_PLISTS" "true")
 (setq lsp-use-plists t)
@@ -40,18 +37,18 @@
 * Suppress the startup, *scratch* buffer will be home buffer.
 #+begin_src emacs-lisp
 (setq
-inhibit-splash-screen t
-inhibit-startup-screen t
-inhibit-startup-message t
-inhibit-startup-buffer-menu t)
+ inhibit-splash-screen t
+ inhibit-startup-screen t
+ inhibit-startup-message t
+ inhibit-startup-buffer-menu t)
 #+end_src
 
 * Disable backup files and modeline while loading.
 #+begin_src emacs-lisp
 (setq
-mode-line-format nil
-make-backup-files nil
-backup-directory-alist '((".*" . "~/.local/share/Trash/files")))
+ mode-line-format nil
+ make-backup-files nil
+ backup-directory-alist '((".*" . "~/.local/share/Trash/files")))
 #+end_src
 
 * Scratch with fundamental-mode
