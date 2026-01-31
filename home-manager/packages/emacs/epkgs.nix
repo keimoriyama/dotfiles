@@ -82,7 +82,7 @@ in
     packages.typst-ts-mode
     python-mode
     pet
-    # lsp-pyright
+    lsp-pyright
     nix-mode
     reformatter
     csv-mode
@@ -103,12 +103,12 @@ in
 
     # lsp
     lsp-bridge
-    # lsp-mode
+    lsp-mode
     dap-mode
     flycheck
     flycheck-posframe
     highlight-indent-guides
-    # eglot-booster
+    eglot-booster
 
     # org
     org-superstar
