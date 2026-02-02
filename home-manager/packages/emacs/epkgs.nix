@@ -107,8 +107,10 @@ in
     dap-mode
     flycheck
     flycheck-posframe
+    flycheck-rust
     highlight-indent-guides
     eglot-booster
+    eldoc-box
 
     # org
     org-superstar

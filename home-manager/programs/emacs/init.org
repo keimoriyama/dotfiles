@@ -937,7 +937,7 @@ binding))))))))
    (("R" eglot-rename "rename")
     ("a" eglot-code-actions "action"))
    "search"
-   (("e" consult-eglot-symbols "symbols")
+   (("s" consult-eglot-symbols "symbols")
     ("D" consult-flycheck "diagnostic"))
    "flycheck"
    (("n" flycheck-next-error "next")
@@ -1175,6 +1175,8 @@ binding))))))))
 (require 'rust-mode)
 (require 'cargo)
 (add-hook 'rust-mode-hook #'cargo-minor-mode)
+(with-eval-after-load 'rust-mode
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (with-eval-after-load 'rust-mode
   (setq rust-format-on-save t
