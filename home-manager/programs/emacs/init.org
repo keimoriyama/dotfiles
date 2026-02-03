@@ -97,13 +97,13 @@
   ;; config
   (setopt warning-suppress-types '((comp))))
 
-(defun emacs-lisp-mode-hooks ()
+(defun my/emacs-lisp-mode-hooks ()
   "list-mode-hooks"
   (when (require 'eldoc nil t)
     (setq eldoc-idle-delay 0.2)
     (setq eldoc-echo-area-use-multiline-p t)
     (turn-on-eldoc-mode)))
-(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-mode-hooks)
+(add-hook 'emacs-lisp-mode-hook #'my/emacs-lisp-mode-hooks)
 #+end_src
 
 ** 環境変数の設定
