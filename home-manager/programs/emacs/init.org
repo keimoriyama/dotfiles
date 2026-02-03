@@ -390,6 +390,8 @@
 ** nerd-icons
 #+begin_src emacs-lisp
 (require 'nerd-icons)
+(setq nerd-icons-font-family "Symbols Nerd Font Mono")
+(add-hook 'emact-startup-hook #'nerd-icons-completion-mode)
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
@@ -951,6 +953,7 @@ binding))))))))
     (require 'consult-eglot-embark)
     (consult-eglot-embark-mode)))
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+
 (setq eglot-connect-timeout nil)
 (eglot-booster-mode)
 (setq eglot-booster-io-only t)
@@ -972,17 +975,24 @@ binding))))))))
 (add-hook 'rust-mode-hook #'my/rust-mode-hook)
 
 (add-hook 'python-mode-hook #'eglot-ensure)
+
 (add-hook 'nix-mode-hook #'eglot-ensure)
 
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
+(add-hook 'typst-ts-mode-hook #'eldoc-box-hover-at-point-mode)
 (with-eval-after-load 'typst-ts-mode
   (add-to-list 'eglot-server-programs
                `((typst-ts-mode) .
                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
-                                        "tinymist"
-                                        "typst-lsp")))))
-(setq-default eglot-workspace-configuration
-                '(:tinymist (:exportPdf "onSave")))
+                                        "tinymist"))))
+  ;; (setq-default eglot-workspace-configuration
+  ;;               '(:tinymist (:exportPdf "onSave")))
+  (setq-default eglot-workspace-configuration
+                '(:tinymist (:formatterMode "typstyle")))
+  (setq-local eglot-ignored-server-capabilities '(:hoverProvider)))
+
+
+
 
 (add-to-list 'eglot-server-programs
              '(yatex-mode . ("texlab")))
