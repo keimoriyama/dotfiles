@@ -27,5 +27,5 @@ in [
   # copilot-language-server
   neovim
   git
-  nushell
+  # nushell
 ]
