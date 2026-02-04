@@ -391,7 +391,8 @@
 #+begin_src emacs-lisp
 (require 'nerd-icons)
 (setq nerd-icons-font-family "Symbols Nerd Font Mono")
-(add-hook 'emact-startup-hook #'nerd-icons-completion-mode)
+; (add-hook 'emact-startup-hook #'nerd-icons-completion-mode)
+(nerd-icons-completion-mode)
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
@@ -466,6 +467,7 @@
 #+begin_src emacs-lisp
 (require 'marginalia)
 (add-hook 'emacs-startup-hook #'marginalia-mode)
+(add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)
 #+end_src
 
 ** avy
