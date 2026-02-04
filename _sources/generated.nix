@@ -31,15 +31,15 @@
   };
   dpp-ext-lazy = {
     pname = "dpp-ext-lazy";
-    version = "fe93a9196d28cdd6d7674a3a468eb5aeeb1de506";
+    version = "a448376d3bbd787e811b54118634c65ca880774d";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-ext-lazy";
-      rev = "fe93a9196d28cdd6d7674a3a468eb5aeeb1de506";
+      rev = "a448376d3bbd787e811b54118634c65ca880774d";
       fetchSubmodules = false;
-      sha256 = "sha256-y+j0WhvFRHul7JkenpivG/38fWQlJEKwSD7QUc14BcU=";
+      sha256 = "sha256-5fmIXqvBrN4h8ayvH8OX8Pui1wkRzyrqDRzpLCefXww=";
     };
-    date = "2026-02-02";
+    date = "2026-02-03";
   };
   dpp-ext-toml = {
     pname = "dpp-ext-toml";
