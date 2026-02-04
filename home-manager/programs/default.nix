@@ -25,7 +25,7 @@ in [
   fish
   wezterm
   # copilot-language-server
-  neovim
+  # neovim
   git
   # nushell
 ]

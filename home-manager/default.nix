@@ -31,9 +31,9 @@
   emacsPkgs = emacs.emacs-stable;
   # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
 
-  yaskkserv2 = pkgs.callPackage ../yaskkserv2 {inherit pkgs sources;};
-  mocword = pkgs.callPackage ../mocword {inherit pkgs sources;};
-  cargo-compete = pkgs.callPackage ../cargo-compete {inherit pkgs sources;};
+  yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
+  mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
+  cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   defaultPrograms = import ./programs/default.nix {
