@@ -956,13 +956,17 @@ binding))))))))
     (consult-eglot-embark-mode)))
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
-(setq eglot-connect-timeout nil)
-(eglot-booster-mode)
-(setq eglot-booster-io-only t)
-(require 'eldoc-box)
-(add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode)
+(with-eval-after-load 'eglot
+  (setq eglot-connect-timeout nil)
+  (eglot-booster-mode)
+  (setq eglot-booster-io-only t))
 #+end_src
-
+*** eldoc
+#+begin_src emacs-lisp
+; (require 'eldoc-box)
+(global-eldoc-mode -1)
+(setq eldoc-idle-delay 0.5)
+#+end_src
 *** language specific config
 #+begin_src emacs-lisp
 (add-hook 'rust-mode-hook #'eglot-ensure)
@@ -981,7 +985,6 @@ binding))))))))
 (add-hook 'nix-mode-hook #'eglot-ensure)
 
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
-(add-hook 'typst-ts-mode-hook #'eldoc-box-hover-at-point-mode)
 (with-eval-after-load 'typst-ts-mode
   (add-to-list 'eglot-server-programs
                `((typst-ts-mode) .
@@ -992,8 +995,6 @@ binding))))))))
   (setq-default eglot-workspace-configuration
                 '(:tinymist (:formatterMode "typstyle")))
   (setq-local eglot-ignored-server-capabilities '(:hoverProvider)))
-
-
 
 
 (add-to-list 'eglot-server-programs

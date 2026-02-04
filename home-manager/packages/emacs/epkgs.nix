@@ -55,6 +55,7 @@ in
     neotree
     tree-sitter
     centered-cursor-mode
+    pdf-tools
 
     # completion
     corfu
