@@ -1,0 +1,334 @@
+* Snippets
+** python-mode
+*** ipdb
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/ipdb") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: ipdb
+# key: ipdb
+# --
+import ipdb;ipdb.set_trace()
+#+end_src
+** org-mode
+*** hugo header
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/hugo") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: hugo-blog
+# key: hugo
+# --
+
+#+AUTHOR: keimoriyama
+#+DESCRIPTION: ${1:description}
+#+DATE: ${2:`(format-time-string "%Y-%m-%dT%T%z")`}
+#+HUGO_BASE_DIR: ~/ghq/github.com/keimoriyama/keimoriyama.github.io/
+#+HUGO_CATEGORIES: ${3:fleeting}
+#+HUGO_SECTION: post/$3
+#+HUGO_TAGS: $3 $4
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+#+end_src
+
+*** snippet template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/snippet_template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: snippet_template
+# key: snippet
+# --
+
+,#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/${1:lang}/${2:name}") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: $2
+# key: $2
+# --
+
+${0}
+
+,#+end_src
+
+#+end_src
+
+*** paper template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/paper-template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: paper-template
+# key: paper-template
+# --
+
+,*** 📄論文情報
+ - 
+ - 
+ - 
+
+,*** 🔑この論文のキーメッセージ
+
+- （1, 2文でまとめる）
+
+,*** 🎓どういう問題に取り組んだのか
+
+- 
+
+,*** 🧑‍🎓その問題に取り組むことがなぜ重要なのか
+
+- 
+
+,*** 💡問題解決に向けたキーアイデアは何か
+
+- 
+
+,*** 👀新たに分かったことは何か
+
+,*** ❓疑問点は何か
+
+#+end_src
+
+*** typst slide template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/ox-typst-slide-template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: typst-slide-template
+# key: typst-slide-template
+# --
+
+,#+BEGIN_EXPORT typst
+#import "@preview/touying:0.6.1": *
+#import themes.university: *
+#set text(font: "Times New Roman") // 全体フォント指定（明朝体＝セリフ体）
+#show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(
+  font: "YuKyokasho Yoko",
+) // 漢字かなカナのみ指定（ゴシック体＝サン?リフ体）
+
+#show: university-theme.with(
+  aspect-ratio: "16-9",
+  // align: horizon,
+  // config-common(handout: true),
+  config-info(
+    title: [Title],
+    subtitle: [Subtitle],
+    author: [Authors],
+    date: datetime.today(),
+    institution: [Institution],
+    // logo: emoji.school,
+  ),
+  config-colors(
+    primary: rgb("#04364A"),
+    secondary: rgb("#04364A"),
+    tertiary: rgb("#04366A"),
+  ),
+  progress-bar: false,
+  footer-a: self => none,
+  footer-b: self => none,
+  footer-c: self => {
+    h(1fr)
+    utils.display-info-date(self)
+    h(1fr)
+    context utils.slide-counter.display() + " / " + utils.last-slide-number
+    h(1fr)
+  },
+)
+
+#title-slide()
+
+,#+END_EXPORT
+
+#+end_src
+
+*** task template with date
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/weekly-report-task-template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: task-with-date-template
+# key: task-with-date-template
+# --
+
+,* ${1:title}(`(format-time-string "%Y-%m-%d")`)
+
+${0}
+#+end_src
+
+*** org-clocktable
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: org-clocktable
+# key: org-clocktable
+# --
+
+,#+BEGIN: clocktable :maxlevel 2 :scope agenda :tend "`(format-time-string "%Y-%m-%d" (current-time))`" :tstart "`(format-time-string "%Y-%m-%d"(time-subtract (current-time) (* 60 60 24 7)))`" :stepskip0 t :fileskip0 t
+,#+END:
+
+#+end_src
+
+
+** yatex-mode
+
+*** reference 
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/base_ref") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: base_ref
+# key: base_ref
+# --
+
+\newcommand{\Fig}[1]{Fig.\ref{fig:#1}}
+\newcommand{\Table}[1]{Table~\ref{tab:#1}}
+\newcommand{\Eq}[1]{Eq.(\ref{eq:#1})}
+\newcommand{\Sec}[1]{Sec.\ref{sec:#1}}
+\newcommand{\threeEq}[3]{Eq.(\ref{eq:#1}),(\ref{eq:#2}) and (\ref{eq:#3})}
+#+end_src
+
+*** prompt 
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/prompt_fig") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: prompt_fig
+# key: prompt_fig
+# --
+\begin{figure*}[t]
+    \centering
+    \fbox{
+        \parbox{0.9\linewidth}{
+        $0
+        }
+    }
+    \caption{${1:caption}}
+    \label{fig:${2:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}
+\end{figure*}
+#+end_src
+
+*** figure 
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/figure") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: figure
+# key: figure
+# --
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{${1:fig_source}}
+    \caption{${2:caption}}
+    \label{fig:${3:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}
+\end{figure}
+
+#+end_src
+
+*** table 
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/table") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: table
+# key: table
+# --
+\begin{table}[tbh]
+    \centering
+    \begin{tabular}{c|c}\toprule
+         &  \\\\midrule
+         & \\bottomrule
+    \end{tabular}
+    \caption{${1:caption}}
+    \label{tab:${2:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}}
+\end{table}
+#+end_src
+
+*** footnote-url
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/footnote-url") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: footnote-url
+# key: footnote-url
+# --
+
+\footnote{\url{$1}}
+
+#+end_src
+
+*** compile config
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/compile") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: compile
+# key: compile
+# --
+
+%#!{1:command} ${2:main_file}.tex
+
+#+end_src
+
+** typst-ts-mode
+*** header
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/header") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: header
+# key: header
+# --
+
+#import "@preview/touying:0.6.1": *
+#import themes.university: *
+#set text(font: "Times New Roman") // 全体フォント指定（明朝体＝セリフ体）
+#show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(
+  font: "YuKyokasho Yoko",
+) // 漢字かなカナのみ指定（ゴシック体＝サン?リフ体）
+
+#show: university-theme.with(
+  aspect-ratio: "16-9",
+  // align: horizon,
+  // config-common(handout: true),
+  config-info(
+    title: [Title],
+    subtitle: [Subtitle],
+    author: [Authors],
+    date: datetime.today(),
+    institution: [Institution],
+    // logo: emoji.school,
+  ),
+  config-colors(
+    primary: rgb("#04364A"),
+    secondary: rgb("#04364A"),
+    tertiary: rgb("#04366A"),
+  ),
+  progress-bar: false,
+  footer-a: self => none,
+  footer-b: self => none,
+  footer-c: self => {
+    h(1fr)
+    utils.display-info-date(self)
+    h(1fr)
+    context utils.slide-counter.display() + " / " + utils.last-slide-number
+    h(1fr)
+  },
+)
+
+#title-slide()
+
+#+end_src
+
+*** Image
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/image") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: image
+# key: image
+# --
+
+#figure(
+  #image("${1:name}"),
+  caption : [
+  ${2}
+  ]
+)<${1}>
+
+#+end_src
+
+** rust-mode
+
+*** proconio input
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/rust-mode/proconio-input") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: proconio-input
+# key: proconio-input
+# --
+
+use proconio::input;
+
+#+end_src
+
+*** grph
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/rust/type_graph") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: type_graph
+# key: type_graph
+# --
+
+type Edges = Vec<Vec<${1}>>;
+
+#+end_src

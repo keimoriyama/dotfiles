@@ -103,8 +103,8 @@ in
     copilot-chat
 
     # lsp
-    lsp-bridge
-    lsp-mode
+    # lsp-bridge
+    # lsp-mode
     dap-mode
     flycheck
     flycheck-posframe

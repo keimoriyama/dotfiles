@@ -25,7 +25,7 @@ in {
     };
     ".config/nvim" = {
       target = ".config/nvim";
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/neovim/nvim";
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/programs/neovim/nvim";
     };
   };
   programs.neovim = {

@@ -1,0 +1,56 @@
+[begin]
+prefix='be'
+body="""
+\\begin{$1}
+	$0
+\\end{$1}
+"""
+
+[item]
+prefix='it'
+body="""
+\\begin{itemize}
+	\\item $0
+\\end{itemize}
+"""
+
+[enumerate]
+prefix='enu'
+body="""
+\\begin{enumerate}
+	\\item $0
+\\end{enumerate}
+"""
+
+[description]
+prefix='de'
+body="""
+\\begin{description}
+	\\item[$1] $0
+\\end{description}
+"""
+
+
+[frame]
+prefix='fr'
+body="""
+\\begin{frame}[t]{$1}
+	$0
+\\end{frame}
+"""
+
+[section]
+prefix='sec'
+body="""\\section{$1}"""
+
+[block]
+prefix='br'
+body = """
+\\begin{block}{$1}
+	$0
+\\end{block}
+"""
+
+[footnote-url]
+prefix='fnurl'
+body = """\\footnote{\\url{$1}}"""

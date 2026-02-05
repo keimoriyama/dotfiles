@@ -1,0 +1,58 @@
+#+begin_src emacs-lisp
+(setq debug-on-error t)
+(setq toggle-debug-on-error t)
+#+end_src
+
+* Increase 'gc-cons-threshold' to 100MB for lsp heavy buffers.
+#+begin_src emacs-lisp
+(setq gc-cons-threshold 100000000) ;;
+
+;; Improve performance with language servers.
+(setq read-process-output-max (* 1024 1024)) ;; 1 MB
+#+end_src
+
+#+begin_src emacs-lisp
+(setenv "LSP_USE_PLISTS" "true")
+(setq lsp-use-plists t)
+#+end_src
+
+* Disable *startup/file-name-handler-alist* than enable it later for speed.
+#+begin_src emacs-lisp
+;; Disable "file-name-handler-alist" than enable it later for speed.
+(defvar startup/file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq file-name-handler-alist startup/file-name-handler-alist)
+            (makunbound 'startup/file-name-handler-alist)))
+#+end_src
+
+* Speed up package loading and loads package only when needed
+#+begin_src emacs-lisp
+(setq package-quickstart t)
+
+(setq use-package-always-defer t)
+#+end_src
+
+* Suppress the startup, *scratch* buffer will be home buffer.
+#+begin_src emacs-lisp
+(setq
+ inhibit-splash-screen t
+ inhibit-startup-screen t
+ inhibit-startup-message t
+ inhibit-startup-buffer-menu t)
+#+end_src
+
+* Disable backup files and modeline while loading.
+#+begin_src emacs-lisp
+(setq
+ mode-line-format nil
+ make-backup-files nil
+ backup-directory-alist '((".*" . "~/.local/share/Trash/files")))
+#+end_src
+
+* Scratch with fundamental-mode
+Important to setup the scratch buffer to open with 'fundamental-mode' so it doesn't increase load time.
+#+begin_src emacs-lisp
+(setq initial-major-mode 'fundamental-mode)
+#+end_src
