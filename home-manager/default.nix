@@ -36,16 +36,6 @@
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
-  defaultPrograms = import ./programs/default.nix {
-    inherit pkgs;
-    inherit
-      org-babel
-      emacsPkgs
-      sources
-      config
-      ;
-  };
-
   wezterm-config = import ./wezterm {inherit pkgs;};
   emacs-config = import ./emacs {
     inherit
