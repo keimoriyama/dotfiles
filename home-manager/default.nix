@@ -129,7 +129,7 @@ in {
         wezterm
         mocword
         notion-app
-        google-chrome
+        # google-chrome
         wget
         tree
         (textlint.withPackages [
@@ -149,7 +149,14 @@ in {
         brewCasks.skim
         brewCasks.docker-desktop
         brewCasks.chatgpt
-        brewCasks.chatgpt-atlas
+        # brewCasks.chatgpt-atlas
+        (brewCasks.google-chrome.overrideAttrs
+          (oldAttrs: {
+            src = pkgs.fetchurl {
+              url = builtins.head oldAttrs.src.urls;
+              hash = "sha256-P1TxSLJRp8hmnHWPk3dLR4frHTWS9JOS+kAVxVEyaWA=";
+            };
+          }))
         # (brewCasks.steam.overrideAttrs
         #   (oldAttrs: {
         #     src = pkgs.fetchurl {
@@ -160,7 +167,7 @@ in {
       ];
     file = {
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
-      "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;
+      "Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;
     };
     activation.trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
       ${builtins.readFile ./trampoline-apps.sh}
