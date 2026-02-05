@@ -45,8 +45,27 @@
       config
       ;
   };
+
+  wezterm-config = import ./wezterm {inherit pkgs;};
+  emacs-config = import ./emacs {
+    inherit
+      pkgs
+      emacsPkgs
+      org-babel
+      sources
+      ;
+  };
+  fish-config = import ./fish {inherit pkgs sources;};
+  neovim-config = import ./neovim {inherit pkgs sources config;};
+  git-config = import ./git;
 in {
-  imports = defaultPrograms;
+  imports = [
+    wezterm-config
+    fish-config
+    emacs-config
+    git-config
+    neovim-config
+  ];
 
   programs.home-manager.enable = true;
   home = {
