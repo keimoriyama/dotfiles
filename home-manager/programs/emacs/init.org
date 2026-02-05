@@ -983,6 +983,13 @@ binding))))))))
 (add-hook 'python-mode-hook #'eglot-ensure)
 
 (add-hook 'nix-mode-hook #'eglot-ensure)
+(with-eval-after-load 'nix-mode
+  (setq-default eglot-workspace-configuration
+                '(:nil
+                  (:nix
+                   (:flake
+                    (:autoArchive t
+                     :AutoEvalInputs t))))))
 
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 (with-eval-after-load 'typst-ts-mode

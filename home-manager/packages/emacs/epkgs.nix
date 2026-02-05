@@ -101,6 +101,7 @@ in
 
     copilot
     copilot-chat
+    ai-code
 
     # lsp
     lsp-bridge
