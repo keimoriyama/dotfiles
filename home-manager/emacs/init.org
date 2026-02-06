@@ -966,7 +966,6 @@ binding))))))))
 ; (require 'eldoc-box)
 (global-eldoc-mode -1)
 (setq eldoc-idle-delay 0.5)
-(with)
 #+end_src
 *** language specific config
 #+begin_src emacs-lisp
