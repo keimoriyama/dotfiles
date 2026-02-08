@@ -1448,11 +1448,32 @@ binding))))))))
   (keymap-global-set "C-l" #'skk-latin-mode))
 #+END_SRC
 
-* copilot
+* LLMs
+** gptel
+#+begin_src emacs-lisp
+(require 'gptel)
+(require 'gptel-org)
+(setq gptel-default-mode #'org-mode
+      gptel-backend
+      (gptel-make-gh-copilot "Copilot" :stream t))
+#+end_src
+** mcp
+#+begin_src emacs-lisp
+(require 'gptel-integrations)
+(require 'mcp)
+(setq mcp-hub-servers
+      '(("filesystem" . (:command "npx" 
+                         :args ("-y" "@modelcontextprotocol/server-filesystem")
+                         :roots ("/home/lizqwer/MyProject/")))
+        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+
+;; (add-hook 'after-init-hook
+;;           #'mcp-hub-start-all-server)
+#+end_src
+** copilot
 #+begin_src emacs-lisp
 (setq copilot-indent-offset-warning-disable t)
 (require 'copilot)
-(require 'copilot-chat)
 (add-hook 'prog-mode-hook 'copilot-mode)
 (keymap-global-set "C-<tab>" #'copilot-accept-completion)
 ;(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
