@@ -960,6 +960,14 @@ binding))))))))
   (setq eglot-connect-timeout nil)
   (eglot-booster-mode)
   (setq eglot-booster-io-only t))
+
+(setq-default eglot-workspace-configuration
+                '(:nil
+                  (:nix
+                   (:flake
+                    (:autoArchive t
+                     :AutoEvalInputs t)))
+                  :tinymist (:formatterMode "typstyle")))
 #+end_src
 *** eldoc
 #+begin_src emacs-lisp
@@ -983,31 +991,22 @@ binding))))))))
 (add-hook 'python-mode-hook #'eglot-ensure)
 
 (add-hook 'nix-mode-hook #'eglot-ensure)
-(with-eval-after-load 'nix-mode
-  (setq-default eglot-workspace-configuration
-                '(:nil
-                  (:nix
-                   (:flake
-                    (:autoArchive t
-                     :AutoEvalInputs t))))))
+
 
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 (with-eval-after-load 'typst-ts-mode
+  (setq-local eglot-ignored-server-capabilities '(:hoverProvider))
   (add-to-list 'eglot-server-programs
                `((typst-ts-mode) .
                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
-                                        "tinymist"))))
-  ;; (setq-default eglot-workspace-configuration
-  ;;               '(:tinymist (:exportPdf "onSave")))
-  (setq-default eglot-workspace-configuration
-                '(:tinymist (:formatterMode "typstyle")))
-  (setq-local eglot-ignored-server-capabilities '(:hoverProvider)))
+                                        "tinymist")))))
 
 
 (add-to-list 'eglot-server-programs
              '(yatex-mode . ("texlab")))
 (add-hook 'yatex-mode-hook #'eglot-ensure)
 #+end_src
+
 
 ** lsp-bridge
 *** basic config
@@ -1227,7 +1226,8 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
 (with-eval-after-load 'python-mode
-  (setopt python-shell-completion-native-enable nil))
+  (setopt python-shell-completion-native-enable nil)
+  (pet-mode t))
 #+end_src
 **** formatter
 #+begin_src emacs-lisp

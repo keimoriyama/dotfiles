@@ -100,7 +100,8 @@ in
     python-pytest
 
     copilot
-    copilot-chat
+    gptel
+    mcp
 
     # lsp
     # lsp-bridge
