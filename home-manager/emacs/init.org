@@ -1454,8 +1454,12 @@ binding))))))))
 (require 'gptel)
 (require 'gptel-org)
 (setq gptel-default-mode #'org-mode
+      gptel-model 'gpt-oss:20b
       gptel-backend
-      (gptel-make-gh-copilot "Copilot" :stream t))
+      (gptel-make-ollama "Ollama"
+        :host "localhost:11434"
+        :stream t
+        :models '(gpt-oss:20b)))
 #+end_src
 ** mcp
 #+begin_src emacs-lisp
@@ -1464,7 +1468,7 @@ binding))))))))
 (setq mcp-hub-servers
       '(("filesystem" . (:command "npx" 
                          :args ("-y" "@modelcontextprotocol/server-filesystem")
-                         :roots ("/home/lizqwer/MyProject/")))
+                         :roots ("")))
         ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
 
 ;; (add-hook 'after-init-hook

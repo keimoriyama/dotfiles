@@ -157,6 +157,7 @@ in {
               hash = "sha256-P1TxSLJRp8hmnHWPk3dLR4frHTWS9JOS+kAVxVEyaWA=";
             };
           }))
+        brewCasks.ollama-app
         # (brewCasks.steam.overrideAttrs
         #   (oldAttrs: {
         #     src = pkgs.fetchurl {
