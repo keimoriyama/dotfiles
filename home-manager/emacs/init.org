@@ -1449,34 +1449,37 @@ binding))))))))
 #+END_SRC
 
 * LLMs
-** gptel
+** llm
 #+begin_src emacs-lisp
-(require 'gptel)
-(require 'gptel-org)
-(setq gptel-default-mode #'org-mode
-      gptel-model 'gpt-oss:20b
-      gptel-backend
-      (gptel-make-ollama "Ollama"
-        :host "localhost:11434"
-        :stream t
-        :models '(gpt-oss:20b)))
+(require 'llm)
+(require 'llm-ollama)
+(with-eval-after-load 'llm
+  ;; config
+  (setopt llm-warn-on-nonfree nil))
 #+end_src
-** mcp
+** ellama
 #+begin_src emacs-lisp
-(require 'gptel-integrations)
-(require 'mcp)
-(setq mcp-hub-servers
-      '(("filesystem" . (:command "npx" 
-                         :args ("-y" "@modelcontextprotocol/server-filesystem")
-                         :roots ("")))
-        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+(require 'ellama)
+(require 'ellama-transient)
+(with-eval-after-load 'ellama
+  (setopt ellama-language "日本語")
+  (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
+        (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
+        (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
+    (setopt ellama-provider gemma2)
+    (setopt ellama-translation-provider gemma2)
+    (setopt ellama-summarization-provider gemma2)
+    (setopt ellama-coding-provider codellama)
+    (setopt ellama-providers
+            `(("gemma2" . ,gemma2)
+              ("codellama" . ,codellama)
+              ("llama3" . ,llama3)))))
+#+end_src
 
-;; (add-hook 'after-init-hook
-;;           #'mcp-hub-start-all-server)
-#+end_src
 ** copilot
 #+begin_src emacs-lisp
 (setq copilot-indent-offset-warning-disable t)
+(require 'copilot-chat)
 (require 'copilot)
 (add-hook 'prog-mode-hook 'copilot-mode)
 (keymap-global-set "C-<tab>" #'copilot-accept-completion)
