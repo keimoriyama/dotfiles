@@ -349,7 +349,7 @@
 #+end_src
 ** color-idendifiers-mode
 #+begin_src emacs-lisp
-(add-hook 'after-init-hook 'global-color-identifiers-mode)
+(add-hook 'after-init-hook #'global-color-identifiers-mode)
 #+end_src
 ** neotree
 #+begin_src emacs-lisp
@@ -400,9 +400,12 @@
 (setq treesit-language-source-alist
       '((json "https://github.com/tree-sitter/tree-sitter-json")
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-        (go "https://github.com/tree-sitter/tree-sitter-go")
-        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+        (json "https://github.com/tree-sitter/tree-sitter-json")
+        (rust "https://github.com/tree-sitter/tree-sitter-rust")
+        (toml "https://github.com/tree-sitter/tree-sitter-toml")
         (python "https://github.com/tree-sitter/tree-sitter-python")
         (typst "https://github.com/uben0/tree-sitter-typst")
         ))
@@ -1452,6 +1455,15 @@ binding))))))))
 #+END_SRC
 
 * LLMs
+** mcp
+#+begin_src emacs-lisp
+(require 'mcp)
+(setq mcp-hub-servers
+      `(("filesystem" . (:command "npx" 
+                                  :args ("-y" "@modelcontextprotocol/server-filesystem")
+                                  :roots ("/home/Document/org-mode" "/home/ghq/")))
+        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+#+end_src
 ** llm
 #+begin_src emacs-lisp
 (require 'llm)
@@ -1466,7 +1478,6 @@ binding))))))))
 (require 'ellama-transient)
 (keymap-global-set "C-c e" #'ellama-transient-main-menu)
 
-
 (with-eval-after-load 'ellama
   (setopt ellama-language "日本語")
   (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
@@ -1479,9 +1490,16 @@ binding))))))))
     (setopt ellama-providers
             `(("gemma2" . ,gemma2)
               ("codellama" . ,codellama)
-              ("llama3" . ,llama3)))))
+              ("llama3" . ,llama3))))
+  (require 'mcp-hub)
+  (mcp-hub-start-all-server
+   (lambda ()
+     (let ((tools (mcp-hub-get-all-tool :asyncp t :categoryp t)))
+       (mapcar #'(lambda (tool)
+		   (apply #'ellama-tools-define-tool
+			  (list tool)))
+	       tools)))))
 #+end_src
-
 ** copilot
 #+begin_src emacs-lisp
 (setq copilot-indent-offset-warning-disable t)

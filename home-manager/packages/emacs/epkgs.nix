@@ -99,10 +99,12 @@ in
     yaml-mode
     python-pytest
 
+    # ai
     copilot
     ellama
-		llm
+    llm
     copilot-chat
+    mcp
 
     # lsp
     # lsp-bridge
