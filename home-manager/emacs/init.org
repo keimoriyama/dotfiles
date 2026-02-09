@@ -995,7 +995,11 @@ binding))))))))
 
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 (with-eval-after-load 'typst-ts-mode
-  (setq-local eglot-ignored-server-capabilities '(:hoverProvider))
+  (setq-local eglot-ignored-server-capabilities
+              '(:hoverProvider
+                :inlayHintProvider
+                :signatureHelp 
+                :didChangeConfiguration))
   (add-to-list 'eglot-server-programs
                `((typst-ts-mode) .
                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
@@ -1006,7 +1010,6 @@ binding))))))))
              '(yatex-mode . ("texlab")))
 (add-hook 'yatex-mode-hook #'eglot-ensure)
 #+end_src
-
 
 ** lsp-bridge
 *** basic config
