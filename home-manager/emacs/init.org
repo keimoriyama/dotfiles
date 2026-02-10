@@ -603,7 +603,7 @@ binding))))))))
 ** org-mode
 #+begin_src emacs-lisp
 (setq org-directory "~/Documents/org-mode")
-(setq org-archive-files (format "%s/_org_archive.org::" org-directory))
+(setq org-archive-files (format "%s/projects/_org_archive.org::" org-directory))
 
 (defun create-file (filename)
   (if (not (file-exists-p filename))
@@ -814,7 +814,7 @@ binding))))))))
         org-agenda-use-time-grid t
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
-        org-agenda-files (list org-directory org-prj-dir org-roam-directory)
+        org-agenda-files (list org-prj-dir)
         org-agenda-archives-mode t))
 
 (plist-put org-format-latex-options :scale 1.2)
@@ -970,13 +970,15 @@ binding))))))))
                    (:flake
                     (:autoArchive t
                      :AutoEvalInputs t)))
-                  :tinymist (:formatterMode "typstyle")))
+                  :tinymist
+                  (:formatterMode "typstyle")))
 #+end_src
 *** eldoc
 #+begin_src emacs-lisp
 ; (require 'eldoc-box)
 (global-eldoc-mode -1)
 (setq eldoc-idle-delay 0.5)
+(add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
 #+end_src
 *** language specific config
 #+begin_src emacs-lisp
@@ -998,11 +1000,11 @@ binding))))))))
 
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 (with-eval-after-load 'typst-ts-mode
-  (setq-local eglot-ignored-server-capabilities
-              '(:hoverProvider
-                :inlayHintProvider
-                :signatureHelp 
-                :didChangeConfiguration))
+  ;; (setq-local eglot-ignored-server-capabilities
+  ;;             '(:hoverProvider
+  ;;               :inlayHintProvider
+  ;;               :signatureHelp 
+  ;;               :didChangeConfiguration))
   (add-to-list 'eglot-server-programs
                `((typst-ts-mode) .
                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
