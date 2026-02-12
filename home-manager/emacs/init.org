@@ -640,7 +640,7 @@ binding))))))))
                              (67 . "#B48EAD")
                              (68 . "#81A1C1")
                              (69 . "#5E81AC")
-          (70 . "#4C566A"))
+                             (70 . "#4C566A"))
         org-todo-keywords
         '((sequence "TODO(t)" "DOING(n)" "WAIT(w)" "|" "DONE(d)"))
         org-todo-keyword-faces
@@ -652,6 +652,7 @@ binding))))))))
                         ("ra" . ?r)
                         ("paper" . ?p)
                         ("task" . ?t)
+                        ("analysis" . ?a)
                         ("bug" . ?b))
         org-global-properties
         '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30"))
@@ -746,7 +747,7 @@ binding))))))))
   (setq org-superstar-todo-bullet-alist
         '(("TODO"  . 9744)
           ("WAIT"  . 9744)
-          ("READ"  . 9744)
+          ("DOING"  . 9744)
           ("PROG"  . 9744)
 		  ("DONE"  . 9745))))
 #+end_src
@@ -997,12 +998,16 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   (push '("SCHEDULED:" . ?🕘) prettify-symbols-alist)
   (push '("DEADLINE:" . ?⏰) prettify-symbols-alist)
   ;; Tags
+  (push '(":PROPERTIES:" . ?≫) prettify-symbols-alist)
+  (push '(":LOGBOOK:" . ?≫) prettify-symbols-alist)
+  (push '(":END:" . ?≫) prettify-symbols-alist)
   (push '(":projects:" . ?🚀) prettify-symbols-alist)
-  (push '(":task:"     . "") prettify-symbols-alist)
+  (push '(":task:"     . ?✅) prettify-symbols-alist)
   (push '(":paper:"   . ?📝) prettify-symbols-alist)
   (push '(":lab:"   . ?🥼) prettify-symbols-alist)
   (push '(":ra:"   . ?📖) prettify-symbols-alist)
   (push '(":bug:"   . ?🐛) prettify-symbols-alist)
+  (push '(":analysis:" . ?📈) prettify-symbols-alist)
   (prettify-symbols-mode))
 
 (add-hook 'org-mode-hook        #'my/prettify-symbols-setup)
