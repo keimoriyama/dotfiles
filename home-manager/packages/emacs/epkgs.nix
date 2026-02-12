@@ -98,6 +98,7 @@ in
     toml-mode
     yaml-mode
     python-pytest
+    fish-mode
 
     # ai
     copilot

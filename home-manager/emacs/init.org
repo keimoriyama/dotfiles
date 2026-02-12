@@ -1486,7 +1486,11 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   (add-hook 'yaml-mode-hook #'flycheck-mode)
   (add-hook 'yaml-mode-hook #'view-mode))
 #+end_src
-
+*** fish mode
+#+begin_src emacs-lisp
+(require 'fish-mode)
+(add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
+#+end_src
 * Typset
 ** typst mode
 #+begin_src emacs-lisp
