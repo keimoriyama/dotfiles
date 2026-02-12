@@ -140,6 +140,7 @@ in {
 
         # rassumfrassum
         codex
+        openai
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us

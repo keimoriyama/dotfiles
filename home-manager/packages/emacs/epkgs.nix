@@ -123,4 +123,5 @@ in
     ox-typst
     org-modern
     org-pomodoro
+    svg-tag-mode
   ]
