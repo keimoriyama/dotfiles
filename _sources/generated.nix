@@ -89,6 +89,18 @@
     };
     date = "2024-10-27";
   };
+  emacs-hide-lines = {
+    pname = "emacs-hide-lines";
+    version = "803443035c7feb85ea1ad83e49629c54dfc48e8d";
+    src = fetchFromGitHub {
+      owner = "vapniks";
+      repo = "hide-lines";
+      rev = "803443035c7feb85ea1ad83e49629c54dfc48e8d";
+      fetchSubmodules = false;
+      sha256 = "sha256-duzCjFVY5Mq3GBz0udPjFgP2otL2bSnyViBStMJictk=";
+    };
+    date = "2025-05-23";
+  };
   emacs-instant-maximized-window = {
     pname = "emacs-instant-maximized-window";
     version = "e6b82419bf9c154df881c72c5800bbd43887ec0d";

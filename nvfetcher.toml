@@ -65,6 +65,10 @@ src.git="https://github.com/Ziqi-Yang/typst-ts-mode"
 src.branch='main'
 fetch.github="Ziqi-Yang/typst-ts-mode"
 
+[emacs-hide-lines]
+src.git="https://github.com/vapniks/hide-lines"
+src.branch="master"
+fetch.github="vapniks/hide-lines"
 
 [fish-autols]
 src.git="https://github.com/yuys13/fish-autols"
@@ -95,4 +99,3 @@ fetch.github="yuys13/fish-gcd"
 src.git="https://github.com/high-moctane/mocword"
 src.branch="main"
 fetch.github="high-moctane/mocword"
-

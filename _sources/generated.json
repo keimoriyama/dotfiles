@@ -146,6 +146,27 @@
         },
         "version": "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468"
     },
+    "emacs-hide-lines": {
+        "cargoLock": null,
+        "date": "2025-05-23",
+        "extract": null,
+        "name": "emacs-hide-lines",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "vapniks",
+            "repo": "hide-lines",
+            "rev": "803443035c7feb85ea1ad83e49629c54dfc48e8d",
+            "sha256": "sha256-duzCjFVY5Mq3GBz0udPjFgP2otL2bSnyViBStMJictk=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "803443035c7feb85ea1ad83e49629c54dfc48e8d"
+    },
     "emacs-instant-maximized-window": {
         "cargoLock": null,
         "date": "2018-05-28",

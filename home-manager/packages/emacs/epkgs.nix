@@ -40,9 +40,6 @@ in
     oj
     dashboard
     htmlize
-    ox-hugo
-    org-roam
-    org-super-agenda
     gcmh
     beacon
     symbol-overlay
@@ -125,4 +122,9 @@ in
     org-modern
     org-pomodoro
     svg-tag-mode
+    ox-hugo
+    org-roam
+    org-super-agenda
+    org-appear
+    packages.hide-lines
   ]

@@ -40,4 +40,9 @@
     src = sources.emacs-typst-ts-mode.src;
     version = "0.0.1";
   };
+  hide-lines = epkgs.melpaBuild {
+    pname = "hide-lines";
+    src = sources.emacs-hide-lines.src;
+    version = "0.0.1";
+  };
 }

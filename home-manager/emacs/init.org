@@ -911,7 +911,25 @@ binding))))))))
    (("n" org-move-subtree-down "down" :exit nil)
     ("u" org-move-subtree-up "up" :exit nil))))
 #+end_src
+** hide-lines
+#+begin_src emacs-lisp
+(defun hide-done-tasks ()
+  (interactive)
+  (hide-lines-matching "* DONE"))
 
+(defun show-done-tasks ()
+  (interactive)
+  (hide-lines-show-all))
+#+end_src
+** org-appear
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'org-appear-mode)
+(setq org-hide-emphasis-markers t)  ;; Must be activated for org-appear to work
+(setq org-appear-autoemphasis   t   ;; Show bold, italics, verbatim, etc.
+        org-appear-autolinks      t   ;; Show links
+        org-appear-autosubmarkers t)
+
+#+end_src
 ** SVG Elements
 #+begin_src emacs-lisp
   (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
