@@ -603,12 +603,10 @@ binding))))))))
 ** org-mode
 #+begin_src emacs-lisp
 (setq org-directory "~/Documents/org-mode")
-(setq org-archive-files (format "%s/projects/_org_archive.org::" org-directory))
 
 (defun create-file (filename)
   (if (not (file-exists-p filename))
       (make-empty-file filename)))
-(create-file org-archive-files)
 
 (defun create-new-org-file (path)
   (let ((name (read-string "Name: ")))
@@ -655,8 +653,7 @@ binding))))))))
                         ("analysis" . ?a)
                         ("bug" . ?b))
         org-global-properties
-        '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30"))
-        org-archive-location org-archive-files)
+        '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30")))
   
   (add-hook 'org-mode-hook 'visual-line-mode)
   
@@ -671,7 +668,7 @@ binding))))))))
   (setq org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-edit-src-content-indentation 0)
-  (setq lorg-log-done                       t
+  (setq org-log-done 'time
 	  org-auto-align-tags                t
 	  org-tags-column                    -80
 	  org-fold-catch-invisible-edits     'show-and-error
@@ -798,29 +795,8 @@ binding))))))))
                            (:discard (:anything t))))))
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
-                          '((:auto-category t)
-                            ;; (:name "今日締切のタスク"
-                            ;;        :deadline today
-                            ;;        :order 2)
-                            ;; (:name "今日予定のタスク"
-                            ;;        :scheduled today
-                            ;;        :order 3)
-                            ;; (:name "締切を過ぎたタスク"
-                            ;;        :deadline past
-                            ;;        :order 4)
-                            ;; (:name "予定が近いタスク"
-                            ;;        :deadline future
-                            ;;        :order 5)
-                            ;; (:name "研究室のTODO"
-                            ;;        :tag "Lab"
-                            ;;        :order 6)
-                            ;; (:name "RAのTODO"
-                            ;;        :tag "RA"
-                            ;;        :order 7)
-                            ;; (:name "PrivateのTODO"
-                            ;;        :tag "Private"
-                            ;;        :order 7)
-                            )))))))
+                          '((:auto-planning t)
+                            (:auto-category t))))))))
 
         org-agenda-start-on-weekday 3
         org-agenda-span 'week

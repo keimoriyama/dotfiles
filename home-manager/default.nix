@@ -155,7 +155,7 @@ in {
           (oldAttrs: {
             src = pkgs.fetchurl {
               url = builtins.head oldAttrs.src.urls;
-              hash = "sha256-IOqACKlFjzjY+KIi3NuFLp/z9fIfmz+097RYpdAWTxI=";
+              hash = "sha256-cd7BMMLERir77uokTMTv9KOuejpB11YxNJRjBrWRuhk=";
             };
           }))
         brewCasks.ollama-app
