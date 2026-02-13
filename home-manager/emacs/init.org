@@ -783,7 +783,7 @@ binding))))))))
   (setq org-agenda-custom-commands 
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
-          ("v" "My super agenda"
+          ("v" "List of TODOs"
            (
             ;; (agenda "" ((org-agenda-span 'day)
             ;;             (org-super-agenda-groups
