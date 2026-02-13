@@ -1015,6 +1015,7 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   
   (push '("SCHEDULED:" . ?🕘) prettify-symbols-alist)
   (push '("DEADLINE:" . ?⏰) prettify-symbols-alist)
+  (push '("CLOCK:" . ?🕒) prettify-symbols-alist)
   ;; Tags
   (push '(":PROPERTIES:" . ?≫) prettify-symbols-alist)
   (push '(":LOGBOOK:" . ?≫) prettify-symbols-alist)
