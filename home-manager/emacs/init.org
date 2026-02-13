@@ -785,18 +785,21 @@ binding))))))))
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ("v" "My super agenda"
            (
-            (agenda "" ((org-agenda-span 'day)
-                        (org-super-agenda-groups
-                         '((:name "Today's Log"
-                                  :time-grid t
-                                  :date today
-                                  :scheduled today
-                                  :order 1)
-                           (:discard (:anything t))))))
-            (alltodo "" ((org-agenda-overriding-header "")
+            ;; (agenda "" ((org-agenda-span 'day)
+            ;;             (org-super-agenda-groups
+            ;;              '((:name "Today's Log"
+            ;;                       :time-grid t
+            ;;                       :date today
+            ;;                       :scheduled today
+            ;;                       :order 1)
+            ;;               (:discard (:anything t))))))
+            (alltodo "" ((org-super-agenda-groups
+                            '((:name "実行中..." :todo "DOING")
+                              (:discard (:anything t))))))
+            (alltodo "" ((org-agenda-overriding-header "締切リスト")
                          (org-super-agenda-groups
-                          '((:auto-planning t)
-                            (:auto-category t))))))))
+                          '((:name "スケジュール" :auto-planning t)
+                            (:name "" :auto-category t))))))))
 
         org-agenda-start-on-weekday 3
         org-agenda-span 'week
