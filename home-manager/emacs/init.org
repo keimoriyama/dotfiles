@@ -1007,8 +1007,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   (push '("#+begin_src" . ?≫) prettify-symbols-alist)
   (push '("#+end_src" . ?≫) prettify-symbols-alist)
 
-  (push '("#+BEGIN_QUOTE" . ?❝) prettify-symbols-alist)
-  (push '("#+END_QUOTE" . ?❞) prettify-symbols-alist)
+  (push '("#+begin_quote" . ?❝) prettify-symbols-alist)
+  (push '("#+end_quote" . ?❞) prettify-symbols-alist)
 
   ;; Drawers
   (push '(":PROPERTIES:" . ?) prettify-symbols-alist)
