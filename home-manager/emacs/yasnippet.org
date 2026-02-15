@@ -246,6 +246,7 @@ ${0}
 #+end_src
 
 ** typst-ts-mode
+
 *** header
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/header") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
@@ -255,10 +256,6 @@ ${0}
 
 #import "@preview/touying:0.6.1": *
 #import themes.university: *
-#set text(font: "Times New Roman") // 全体フォント指定（明朝体＝セリフ体）
-#show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(
-  font: "YuKyokasho Yoko",
-) // 漢字かなカナのみ指定（ゴシック体＝サン?リフ体）
 
 #show: university-theme.with(
   aspect-ratio: "16-9",
@@ -307,6 +304,54 @@ ${0}
   ]
 )<${1}>
 
+#+end_src
+
+*** font
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/font") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: font
+# key: font
+# --
+#set text(font: "Times New Roman") // 全体フォント指定（明朝体＝セリフ体）
+#show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(
+    font: "UDDigiKyokasho Pro",
+)// 日本語は教科書体
+#+end_src
+
+
+*** poster heading
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/poster-heading") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: poster-heading
+# key: poster-heading
+# --
+#import "@preview/peace-of-posters:0.5.6": *
+#set page("a0", margin: 1cm)
+#set-poster-layout(layout-a0)
+#title-box(
+    [${1:title}],
+    authors: [${2:authors}],
+    institutes: [${3:institutions}],
+    keywords: none
+)
+
+${0}
+#+end_src
+
+*** poster one line
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/poset-one-line") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: poset-one-line
+# key: poset-one-line
+# --
+
+#column-box(
+    heading:[${1:header}]
+)[
+${2}
+]
+
+${0}
 #+end_src
 
 ** rust-mode

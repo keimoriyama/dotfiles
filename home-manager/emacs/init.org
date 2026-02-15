@@ -991,10 +991,11 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 
   ;; Drawers
   (push '(":PROPERTIES:" . ?) prettify-symbols-alist)
+  (push '("CLOSED:" . ?✅) prettify-symbols-alist)
   
   (push '("SCHEDULED:" . ?🕘) prettify-symbols-alist)
   (push '("DEADLINE:" . ?⏰) prettify-symbols-alist)
-  (push '("CLOCK:" . ?🕒) prettify-symbols-alist)
+  (push '("CLOSED:" . ?🕒) prettify-symbols-alist)
   ;; Tags
   (push '(":PROPERTIES:" . ?≫) prettify-symbols-alist)
   (push '(":LOGBOOK:" . ?≫) prettify-symbols-alist)
@@ -1476,7 +1477,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 *** yaml mode
 #+begin_src emacs-lisp
 (require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
 
 (with-eval-after-load 'yaml-mode
