@@ -991,11 +991,11 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 
   ;; Drawers
   (push '(":PROPERTIES:" . ?) prettify-symbols-alist)
-  (push '("CLOSED:" . ?✅) prettify-symbols-alist)
-  
+    
   (push '("SCHEDULED:" . ?🕘) prettify-symbols-alist)
   (push '("DEADLINE:" . ?⏰) prettify-symbols-alist)
-  (push '("CLOSED:" . ?🕒) prettify-symbols-alist)
+  (push '("CLOSED:" . ?✅) prettify-symbols-alist)
+
   ;; Tags
   (push '(":PROPERTIES:" . ?≫) prettify-symbols-alist)
   (push '(":LOGBOOK:" . ?≫) prettify-symbols-alist)
