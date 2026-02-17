@@ -22,7 +22,7 @@ in {
       parallelBuildAttrs
       // {
         buildInputs = old.buildInputs ++ lib.optional pkgs.stdenv.isDarwin [pkgs.apple-sdk];
-        configureFlags = old.configureFlags ++ ["--with-xwidgets"];
+        configureFlags = old.configureFlags;
         env = (old.env or {}) // parallelBuildAttrs.env;
       });
     extraEmacsPackages = import ./epkgs.nix {inherit pkgs sources;};
