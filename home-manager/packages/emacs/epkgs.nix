@@ -102,7 +102,7 @@ in
     ellama
     llm
     copilot-chat
-    mcp
+    # mcp
 
     # lsp
     # lsp-bridge

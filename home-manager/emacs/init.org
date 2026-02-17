@@ -705,15 +705,52 @@ binding))))))))
 (require 'org-roam)
 (setq org-roam-db-update-method 'immediate
       org-roam-db-location (format "%s/org-roam.db" org-directory)
-      org-roam-directory (format "%s/org-roam" org-directory)
+      org-roam-directory org-directory
       org-roam-index-file (format "%s/index.org" org-directory))
 (org-roam-db-autosync-mode)
 (keymap-global-set "C-c n f" #'org-roam-node-find)
 (keymap-global-set "C-c n i" #'org-roam-node-insert)
 (keymap-global-set "C-c n t" #'org-roam-tag-add)
 (keymap-global-set "C-c n a" #'org-roam-alias-add)
+(keymap-global-set "C-c n c" #'org-roam-capture)
+(with-eval-after-load 'org-roam-node
+  (setq org-roam-completion-everywhere t))
 #+end_src
 
+** org-roam-db
+#+begin_src emacs-lisp
+(require 'org-roam-db)
+(with-eval-after-load 'org-roam-db
+  (setq org-roam-database-connector 'sqlite)
+  (setq org-roam-db-gc-threshold (* 4 gc-cons-threshold)))
+#+end_src
+
+** org-roam-capture
+#+begin_src emacs-lisp
+(require 'org-roam-capture)
+(with-eval-after-load 'org-roam-capture
+  (setopt org-roam-capture-templates
+          '(("f" "Fleeting" plain "%?"
+             :target (file+head
+                      "fleeting/%<%Y%m%d%H%M%S>-${slug}.org"
+                      "#+TITLE: ${title}\n")
+             :unnarrowed t)
+            ("p" "Projects" plain "%?"
+             :target (file+head
+                      "projects/${slug}.org"
+                      "#+TITLE ${title}\n")
+             :unnarrowed t)
+            ("l" "Literature" plain "%?"
+             :target (file+head
+                      "literatures/%<%Y%m%d%H%M%S>-${slug}.org"
+                      "#+TITLE ${title}\n")
+             :unnarrowed t)
+            ("b" "books" plain "%?"
+             :target (file+head
+                      "books/%<%Y%m%d%H%M%S>-${slug}.org"
+                      "#+TITLE ${title}\n")
+             :unnarrowed t))))
+#+end_src
 ** org-indent
 #+begin_src emacs-lisp
 (require 'org-indent)
@@ -1595,12 +1632,12 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 * LLMs
 ** mcp
 #+begin_src emacs-lisp
-(require 'mcp)
-(setq mcp-hub-servers
-      `(("filesystem" . (:command "npx" 
-                                  :args ("-y" "@modelcontextprotocol/server-filesystem")
-                                  :roots ("/home/Document/org-mode" "/home/ghq/")))
-        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+;; (require 'mcp)
+;; (setq mcp-hub-servers
+;;       `(("filesystem" . (:command "npx" 
+;;                                   :args ("-y" "@modelcontextprotocol/server-filesystem")
+;;                                   :roots ("/home/Document/org-mode" "/home/ghq/")))
+;;         ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
 #+end_src
 ** llm
 #+begin_src emacs-lisp
