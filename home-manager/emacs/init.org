@@ -334,7 +334,7 @@
 
 ** dmacro
 #+begin_src emacs-lisp
-; ; (setq dmacro-key (kbd "C-c e"))
+(setq dmacro-key (kbd "C-M-e"))
 (require 'dmacro)
 (global-dmacro-mode t)
 #+end_src
@@ -1503,6 +1503,11 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   ("menu"
    (("c" typst-ts-compile "compile")
     ("p" typst-ts-preview "preview"))))
+
+(reformatter-define typst-typstyle
+  :program "typstyle"
+  :stdin t)
+(add-hook 'typst-ts-mode-hook #'typst-typstyle-on-save-mode)
 #+end_src
 
 ** yatex
