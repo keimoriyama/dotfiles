@@ -12,7 +12,6 @@
     enableParallelBuilding = true;
     env = {
       NATIVE_COMP_JOBS = "0";
-      LSP_USE_PLISTS = "1";
     };
   };
 in {
@@ -22,7 +21,7 @@ in {
       parallelBuildAttrs
       // {
         buildInputs = old.buildInputs ++ lib.optional pkgs.stdenv.isDarwin [pkgs.apple-sdk];
-        configureFlags = old.configureFlags;
+        configureFlags = old.configureFlags ++ ["--with-xwidgets" "--with-dbus"];
         env = (old.env or {}) // parallelBuildAttrs.env;
       });
     extraEmacsPackages = import ./epkgs.nix {inherit pkgs sources;};

@@ -142,8 +142,7 @@ in {
         codex
         openai
 
-        dbus
-        glib
+        terminal-notifier
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us
