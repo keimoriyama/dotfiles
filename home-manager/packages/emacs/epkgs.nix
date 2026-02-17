@@ -124,7 +124,7 @@ in
     svg-tag-mode
     ox-hugo
     org-roam
-    org-roam-consult
+    consult-org-roam
     org-super-agenda
     org-appear
     packages.hide-lines
