@@ -1169,6 +1169,7 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 ; (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
 #+end_src
 *** language specific config
+**** rust
 #+begin_src emacs-lisp
 (add-hook 'rust-mode-hook #'eglot-ensure)
 ; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
@@ -1180,12 +1181,17 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   (setq-local project-find-functions (list #'my/find-rust-project-root)))
   
 (add-hook 'rust-mode-hook #'my/rust-mode-hook)
-
+#+end_src
+**** python
+#+begin_src emacs-lisp
 (add-hook 'python-mode-hook #'eglot-ensure)
-
+#+end_src
+**** nix
+#+begin_src emacs-lisp
 (add-hook 'nix-mode-hook #'eglot-ensure)
-
-
+#+end_src
+**** typst
+#+begin_src emacs-lisp
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 (with-eval-after-load 'typst-ts-mode
   ;; (setq-local eglot-ignored-server-capabilities
@@ -1197,13 +1203,13 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
                `((typst-ts-mode) .
                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
                                         "tinymist")))))
-
-
+#+end_src
+**** yatex(Latex)
+#+begin_src emacs-lisp
 (add-to-list 'eglot-server-programs
              '(yatex-mode . ("texlab")))
 (add-hook 'yatex-mode-hook #'eglot-ensure)
 #+end_src
-
 ** lsp-bridge
 *** basic config
 #+begin_src emacs-lisp
