@@ -96,6 +96,7 @@ in
     yaml-mode
     python-pytest
     fish-mode
+    haskell-mode
 
     # ai
     copilot

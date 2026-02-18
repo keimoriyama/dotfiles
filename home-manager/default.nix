@@ -91,7 +91,8 @@ in {
         lua-language-server
         stylua
         typescript-language-server
-        udev-gothic
+        haskell-language-server
+
         ghostscript
         wezterm
         cbc
@@ -117,6 +118,9 @@ in {
         typstyle
         go
         prettier
+        ghc
+
+        udev-gothic
 
         online-judge-tools
         online-judge-template-generator

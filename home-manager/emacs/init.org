@@ -1554,6 +1554,13 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (require 'fish-mode)
 (add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
 #+end_src
+*** haskell
+#+begin_src emacs-lisp
+(require 'haskell-mode)
+(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+(add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
+
+#+end_src
 * Typset
 ** typst mode
 #+begin_src emacs-lisp
