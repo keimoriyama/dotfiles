@@ -91,9 +91,8 @@ ${0}
 ,#+BEGIN_EXPORT typst
 #import "@preview/touying:0.6.1": *
 #import themes.university: *
-#set text(font: "Times New Roman") // 全体フォント指定（明朝体＝セリフ体）
-#show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(
-  font: "YuKyokasho Yoko",
+#set text(
+  font: "UDDigiKyokasho Pro",
 ) // 漢字かなカナのみ指定（ゴシック体＝サン?リフ体）
 
 #show: university-theme.with(
@@ -143,17 +142,69 @@ ${0}
 ${0}
 #+end_src
 
-*** org-clocktable
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable") :mkdirp yes :noweb yes
+*** org-clocktable-weekly
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-week") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
-# name: org-clocktable
-# key: org-clocktable
+# name: org-clocktable-week
+# key: org-clocktable-week
 # --
 
 ,#+BEGIN: clocktable :maxlevel 2 :scope agenda :tend "`(format-time-string "%Y-%m-%d" (current-time))`" :tstart "`(format-time-string "%Y-%m-%d"(time-subtract (current-time) (* 60 60 24 7)))`" :stepskip0 t :fileskip0 t
 ,#+END:
 
 #+end_src
+
+*** org-clocktable-daily
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: org-clocktable-daily
+# key: org-clocktable-daily
+# --
+,** `(format-time-string %Y-%m-%d" (current-time))`
+,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+end:
+
+,*** メモ
+#+end_src
+
+*** org-paper-elaboration-todo
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/paper-elaboration-todo") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: paper-elaboration-todo
+# key: paper-elaboration-todo
+# --
+,** ${1} th turn
+,*** TODO Abstract
+:PROPERTIES:
+:Effort:   0:25
+:END:
+
+,*** TODO Introduction
+:PROPERTIES:
+:Effort:   0:50
+:END:
+
+,*** TODO Related work
+:PROPERTIES:
+:Effort:   0:50
+:END:
+
+,*** TODO Method
+:PROPERTIES:
+:Effort:   0:50
+:END:
+
+,*** TODO Experiment
+:PROPERTIES:
+:Effort:   0:50
+:END:
+
+,*** TODO Result
+:PROPERTIES:
+:Effort:   0:50
+:END:
+#+end_src
+
 
 
 ** yatex-mode
@@ -247,7 +298,7 @@ ${0}
 
 ** typst-ts-mode
 
-*** header
+*** slide header
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/header") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: header
@@ -287,7 +338,6 @@ ${0}
 )
 
 #title-slide()
-
 #+end_src
 
 *** Image
@@ -312,12 +362,10 @@ ${0}
 # name: font
 # key: font
 # --
-#set text(font: "Times New Roman") // 全体フォント指定（明朝体＝セリフ体）
-#show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(
+set text(
     font: "UDDigiKyokasho Pro",
 )// 日本語は教科書体
 #+end_src
-
 
 *** poster heading
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/poster-heading") :mkdirp yes :noweb yes
