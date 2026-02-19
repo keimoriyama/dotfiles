@@ -83,7 +83,7 @@ in {
         vim
         tree-sitter
 
-        basedpyright
+        # basedpyright
         ruff
         ty
         isort

@@ -714,7 +714,7 @@ binding))))))))
 (keymap-global-set "C-c n a" #'org-roam-alias-add)
 (keymap-global-set "C-c n c" #'org-roam-capture)
 (with-eval-after-load 'org-roam-node
-  (setq org-roam-completion-everywhere t))
+  (setq org-roam-completion-everywhere nil))
 #+end_src
 
 ** org-roam-db
@@ -1703,15 +1703,15 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
     (setopt ellama-providers
             `(("gemma2" . ,gemma2)
               ("codellama" . ,codellama)
-              ("llama3" . ,llama3))))
-  (require 'mcp-hub)
-  (mcp-hub-start-all-server
-   (lambda ()
-     (let ((tools (mcp-hub-get-all-tool :asyncp t :categoryp t)))
-       (mapcar #'(lambda (tool)
-		   (apply #'ellama-tools-define-tool
-			  (list tool)))
-	       tools)))))
+              ("llama3" . ,llama3)))))
+  ;; (require 'mcp-hub)
+  ;; (mcp-hub-start-all-server
+  ;;  (lambda ()
+  ;;    (let ((tools (mcp-hub-get-all-tool :asyncp t :categoryp t)))
+  ;;      (mapcar #'(lambda (tool)
+  ;;   	   (apply #'ellama-tools-define-tool
+  ;;   		  (list tool)))
+  ;;          tools)))))
 #+end_src
 ** copilot
 #+begin_src emacs-lisp
