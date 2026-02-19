@@ -90,6 +90,7 @@ in
     git-modes
     json-mode
     rust-mode
+    # rustowl
     cargo
     ssh-config-mode
     toml-mode

@@ -165,6 +165,7 @@ in {
             };
           }))
         brewCasks.ollama-app
+        brewCasks.alt-tab
         # (brewCasks.steam.overrideAttrs
         #   (oldAttrs: {
         #     src = pkgs.fetchurl {

@@ -863,7 +863,7 @@ binding))))))))
 ** org-pomodoro
 #+begin_src emacs-lisp
 (require 'org-pomodoro)
-;(keymap-global-set "M-p" #'org-pomodoro)
+(keymap-global-set "M-p" #'org-pomodoro)
 ; (global-unset-key (kbd "M-p"))
 (with-eval-after-load 'org-pomodoro
   (setopt org-pomodoro-play-sournds  nil)
@@ -891,19 +891,23 @@ binding))))))))
 ;; org-pomodoro mode hooks
 (add-hook 'org-pomodoro-finished-hook
           (lambda ()
-          (notify-osx "Pomodoro completed!" "Time for a break.")))
+          (notify-osx "Pomodoro completed!" "Time for a break.☕")))
 
 (add-hook 'org-pomodoro-break-finished-hook
           (lambda ()
-          (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
+          (notify-osx "Pomodoro Short Break Finished" "Ready for Another?📝")))
 
 (add-hook 'org-pomodoro-long-break-finished-hook
           (lambda ()
             (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
 
+(add-hook 'org-pomodoro-started-hook
+          (lambda ()
+            (notify-osx "Pomodoro Started! " "GO!🏃GO!🏃GO!🏃")))
+
 (add-hook 'org-pomodoro-killed-hook
           (lambda ()
-          (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
+          (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!🔪")))
 #+end_src
 
 ** ox-gfm
