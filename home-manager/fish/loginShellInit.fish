@@ -33,6 +33,6 @@ if pgrep -x yaskkserv2 > /dev/null
 	echo 'yaskkserv2 is running'
 else
 	echo 'yaskkserv2 is not running'
-	yaskkserv2_make_dictionary --dictionary-filename=$HOME/.skk-dict/dict.yaskkserv2 $HOME/.skk-dict/SKK-JISYO.L 
+	yaskkserv2_make_dictionary --utf8 --dictionary-filename=$HOME/.skk-dict/dict.yaskkserv2 $HOME/.skk-dict/SKK-JISYO.L 
 	yaskkserv2 ~/.skk-dict/dict.yaskkserv2 
 end
