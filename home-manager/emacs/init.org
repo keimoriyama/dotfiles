@@ -653,7 +653,7 @@ binding))))))))
                         ("analysis" . ?a)
                         ("bug" . ?b))
         org-global-properties
-        '(("Effort_ALL" . "0 0:30 1:00 1:30 2:00 2:30")))
+        '(("Effort_ALL" . "0 0:25 0:50 1:15 1:40")))
   
   (add-hook 'org-mode-hook 'visual-line-mode)
   
@@ -821,16 +821,41 @@ binding))))))))
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ("v" "List of TODOs"
-           (
-            (alltodo "" ((org-super-agenda-groups
-                            '((:name "実行中..." :todo "DOING")
-                              (:discard (:anything t))))))
-            (alltodo "" ((org-agenda-overriding-header "締切リスト")
+           ((agenda "" ((org-agenda-span 'day)
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t
+                                  :date today
+                                  :scheduled today)))))
+            (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
-                          '((:name "スケジュール" :auto-planning t)
-                            (:name "" :auto-category t))))))))
-
-        org-agenda-start-on-weekday 3
+                          '((:name "Doing"
+                                   :todo "DOING"
+                                   :order 1)
+                            (:name "Important"
+                                   :priority "A"
+                                   :order 2)
+                            (:name "Due Today"
+                                   :deadline today
+                                   :order 3)
+                            (:name "Due Soon"
+                                   :deadline future
+                                   :order 4)
+                            (:name "Wait"
+                                   :todo "WAIT"
+                                   :order 5)
+                            (:name "Overdue"
+                                   :deadline past
+                                   :order 5)
+                            (:name "Implementation"
+                                   :tag "coding"
+                                   :order 6)
+                            (:name "Paper"
+                                   :tag "paper"
+                                   :order 7)
+                            (:discard (:anything t))))))))))
+  
+  (setq org-agenda-start-on-weekday 3
         org-agenda-span 'week
         org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
