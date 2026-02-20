@@ -829,11 +829,11 @@ binding))))))))
                                   :scheduled today)))))
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
-                          '((:name "Doing"
-                                   :todo "DOING"
-                                   :order 1)
-                            (:name "Important"
+                          '((:name "Important"
                                    :priority "A"
+                                   :order 1)
+                            (:name "Doing"
+                                   :todo "DOING"
                                    :order 2)
                             (:name "Due Today"
                                    :deadline today
