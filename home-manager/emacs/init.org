@@ -890,41 +890,39 @@ binding))))))))
   (setopt org-pomodoro-manual-break nil)
   (setopt org-pomodoro-format "Working %s")
   (setopt org-pomodoro-length 25)
-  (setopt org-pomodoro-short-break-length 5))
+  (setopt org-pomodoro-short-break-length 5)
+  (setq org-pomodoro-keep-killed-pomodoro-time t)
+  
+  (defun org-pomodoro-kill ()
+    "Kill the current timer, reset the phase and update the modeline."
+    (interactive)
+    (org-clock-out)
+    (org-pomodoro-killed))
 
-(defun org-pomodoro-kill ()
-  "Kill the current timer, reset the phase and update the modeline."
-  (org-clock-out)
-  (org-pomodoro-killed))
-
-(defun notify-osx (title message)
-  (call-process "terminal-notifier"
-                nil 0 nil
-                "-group" "Emacs"
-                "-title" title
-                "-sender" "org.gnu.Emacs"
-                "-message" message))
+  (defun notify-osx (title message)
+    (call-process "terminal-notifier"
+                  nil 0 nil
+                  "-group" "Emacs"
+                  "-title" title
+                  "-sender" "org.gnu.Emacs"
+                  "-message" message))
                 
-;; org-pomodoro mode hooks
-(add-hook 'org-pomodoro-finished-hook
-          (lambda ()
-          (notify-osx "Pomodoro completed!" "Time for a break.☕")))
+  ;; org-pomodoro mode hooks
+  (add-hook 'org-pomodoro-finished-hook
+            (lambda ()
+              (notify-osx "Pomodoro completed!" "Time for a break.☕")))
 
-(add-hook 'org-pomodoro-break-finished-hook
-          (lambda ()
-          (notify-osx "Pomodoro Short Break Finished" "Ready for Another?📝")))
+  (add-hook 'org-pomodoro-break-finished-hook
+            (lambda ()
+              (notify-osx "Pomodoro Short Break Finished" "Ready for Another?📝")))
+  
+  (add-hook 'org-pomodoro-started-hook
+            (lambda ()
+              (notify-osx "Pomodoro Started! " "GO!🏃GO!🏃GO!🏃")))
 
-;; (add-hook 'org-pomodoro-long-break-finished-hook
-;;           (lambda ()
-;;             (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
-
-(add-hook 'org-pomodoro-started-hook
-          (lambda ()
-            (notify-osx "Pomodoro Started! " "GO!🏃GO!🏃GO!🏃")))
-
-(add-hook 'org-pomodoro-killed-hook
-          (lambda ()
-          (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!🔪")))
+  (add-hook 'org-pomodoro-killed-hook
+            (lambda ()
+              (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!🔪"))))
 #+end_src
 
 ** ox-gfm
