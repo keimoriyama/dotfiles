@@ -415,7 +415,7 @@ use proconio::input;
 
 #+end_src
 
-*** grph
+*** graph
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/rust/type_graph") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: type_graph

@@ -822,14 +822,6 @@ binding))))))))
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ("v" "List of TODOs"
            (
-            ;; (agenda "" ((org-agenda-span 'day)
-            ;;             (org-super-agenda-groups
-            ;;              '((:name "Today's Log"
-            ;;                       :time-grid t
-            ;;                       :date today
-            ;;                       :scheduled today
-            ;;                       :order 1)
-            ;;               (:discard (:anything t))))))
             (alltodo "" ((org-super-agenda-groups
                             '((:name "実行中..." :todo "DOING")
                               (:discard (:anything t))))))
