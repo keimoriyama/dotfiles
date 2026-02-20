@@ -910,9 +910,9 @@ binding))))))))
           (lambda ()
           (notify-osx "Pomodoro completed!" "Time for a break.☕")))
 
-;; (add-hook 'org-pomodoro-break-finished-hook
-;;           (lambda ()
-;;           (notify-osx "Pomodoro Short Break Finished" "Ready for Another?📝")))
+(add-hook 'org-pomodoro-break-finished-hook
+          (lambda ()
+          (notify-osx "Pomodoro Short Break Finished" "Ready for Another?📝")))
 
 ;; (add-hook 'org-pomodoro-long-break-finished-hook
 ;;           (lambda ()
