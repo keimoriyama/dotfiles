@@ -45,4 +45,13 @@
     src = sources.emacs-hide-lines.src;
     version = "0.0.1";
   };
+  org-hyperscheduler = epkgs.melpaBuild {
+    pname = "org-hyperscheduler";
+    src = sources.emacs-org-hyperscheduler.src;
+    version = "0.0.1";
+    packageRequires = [
+      epkgs.websocket
+      epkgs.log4e
+    ];
+  };
 }

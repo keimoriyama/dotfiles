@@ -125,6 +125,18 @@
     };
     date = "2024-04-29";
   };
+  emacs-org-hyperscheduler = {
+    pname = "emacs-org-hyperscheduler";
+    version = "f40e3df279452dc0cb8506de3bfb6acbf2df79c1";
+    src = fetchFromGitHub {
+      owner = "dmitrym0";
+      repo = "org-hyperscheduler";
+      rev = "f40e3df279452dc0cb8506de3bfb6acbf2df79c1";
+      fetchSubmodules = false;
+      sha256 = "sha256-/KpmgpHET+5/GDCQwkEQxssX4kkzhZbJ+wxbUAoppIA=";
+    };
+    date = "2025-07-16";
+  };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
     version = "aee8ff090cff6f39a70ac2c9035b1eb2b69924d7";

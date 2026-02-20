@@ -3,6 +3,11 @@ src.git="https://github.com/hiroseyuuji/yatex"
 src.branch="master"
 fetch.github='hiroseyuuji/yatex'
 
+[emacs-org-hyperscheduler]
+src.git="https://github.com/dmitrym0/org-hyperscheduler"
+src.branch="main"
+fetch.github='dmitrym0/org-hyperscheduler'
+
 [emacs-nano-modeline]
 src.git="https://github.com/rougier/nano-modeline"
 src.branch="master"

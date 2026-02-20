@@ -130,4 +130,5 @@ in
     org-super-agenda
     org-appear
     packages.hide-lines
+    packages.org-hyperscheduler
   ]
