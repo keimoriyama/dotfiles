@@ -133,7 +133,7 @@ in {
         wezterm
         mocword
         notion-app
-        # google-chrome
+        google-chrome
         wget
         tree
         (textlint.withPackages [
@@ -157,13 +157,13 @@ in {
         brewCasks.docker-desktop
         brewCasks.chatgpt
         # brewCasks.chatgpt-atlas
-        (brewCasks.google-chrome.overrideAttrs
-          (oldAttrs: {
-            src = pkgs.fetchurl {
-              url = builtins.head oldAttrs.src.urls;
-              hash = "sha256-cd7BMMLERir77uokTMTv9KOuejpB11YxNJRjBrWRuhk=";
-            };
-          }))
+        # (brewCasks.google-chrome.overrideAttrs
+        #   (oldAttrs: {
+        #     src = pkgs.fetchurl {
+        #       url = builtins.head oldAttrs.src.urls;
+        #       hash = "sha256-cd7BMMLERir77uokTMTv9KOuejpB11YxNJRjBrWRuhk=";
+        #     };
+        #   }))
         brewCasks.ollama-app
         brewCasks.alt-tab
         # (brewCasks.steam.overrideAttrs
