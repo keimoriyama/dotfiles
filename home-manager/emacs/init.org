@@ -594,6 +594,12 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'yasnippet)
 (add-hook 'emacs-startup-hook #'yas-global-mode)
+(setq yas-prompt-functions '(yas-ido-prompt))
+;; pythonのインデントバグを修正する関数
+(defun yasnippet-snippets--fixed-indent ()
+  "Set `yas-indent-line' to `fixed'."
+  (set (make-local-variable 'yas-indent-line) 'fixed))
+(add-hook 'python-mode-hook #'yasnippet-snippets--fixed-indent)
 
 (require 'consult-yasnippet)
 (keymap-global-set "C-c y" #'consult-yasnippet)
@@ -680,23 +686,14 @@ binding))))))))
 #+begin_src emacs-lisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory)
-      org-misc-file (format "%s/projects/misc.org" org-directory)
-      org-diary-file (format "%s/diary.org" org-directory)
-      org-weekly-log-file (format "%s/weekly-log.org" org-directory)
-      org-weekly-todo (format "%s/weekly-todo.org" org-directory))
+      org-journal-dir (format "%s/journal" org-directory)
+      org-misc-file (format "%s/projects/misc.org" org-directory))
 (mapc #'create-file
-      (list org-memo-file org-misc-file org-diary-file org-weekly-log-file org-weekly-todo))
+      (list org-memo-file org-misc-file))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
-        '(("m" "Memo" entry (file org-memo-file) "-  %U\n")
-          ("t" "Tasks" entry (file org-misc-file) "** TODO %?")
-          ("d" "Diary" entry (file org-diary-file) "** %<%Y-%m-%d> \n\n%?")
-          ("p" "Projects" entry (file
-                                 (lambda () (create-new-org-file
-                                             org-prj-dir)))
-           "\n* %? ")
-          ("w" "weekly" entry (file org-weekly-log-file) "* %<%Y-%m-%d> \n\n%?" :empty-lines 1)))
+        '(("m" "Memo" entry (file org-memo-file) "-  %U\n"))))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
 
@@ -870,7 +867,7 @@ binding))))))))
         org-agenda-use-time-grid t
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
-        org-agenda-files (list org-prj-dir)
+        org-agenda-files (list org-prj-dir org-journal-dir)
         org-agenda-archives-mode t))
 
 (plist-put org-format-latex-options :scale 1.2)

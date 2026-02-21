@@ -8,6 +8,27 @@
 # --
 import ipdb;ipdb.set_trace()
 #+end_src
+*** if
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/if") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: if
+# key: i
+# --
+
+if ${1:condition}:
+  ${0}
+#+end_src
+*** def
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/def") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: def
+# key: f
+# --
+
+def ${1:name}(${2:args}):
+  ${0}
+#+end_src
+
 ** org-mode
 *** hugo header
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/hugo") :mkdirp yes :noweb yes
@@ -154,19 +175,49 @@ ${0}
 
 #+end_src
 
-*** org-clocktable-daily
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily") :mkdirp yes :noweb yes
+*** org-clocktable-daily-other-day
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-other") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
-# name: org-clocktable-daily
-# key: org-clocktable-daily
+# name: org-clocktable-daily-other
+# key: org-clocktable-daily-other
 # --
-,** `(format-time-string %Y-%m-%d" (current-time))`
+,** `(format-time-string "%Y-%m-%d" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
 
 ,*** メモ
 #+end_src
 
+*** org-clocktable-daily-wednesday
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-wednesday") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: org-clocktable-daily-wednesday
+# key: org-clocktable-daily-wednesday
+# --
+,** `(format-time-string "%Y-%m-%d" (current-time))`
+,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+end:
+,*** DONE ゼミ
+:LOGBOOK:
+CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Wed 10:00]--[`(format-time-string "%Y-%m-%d" (current-time))` Wed 12:30] =>  2:30
+:END:
+,*** メモ
+#+end_src
+*** org-clocktable-daily-thrusday
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-wednesday") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: org-clocktable-daily-wednesday
+# key: org-clocktable-daily-wednesday
+# --
+,** `(format-time-string "%Y-%m-%d" (current-time))`
+,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+end:
+,*** DONE エージェントMTG
+:LOGBOOK:
+CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Thu 11:30]--[`(format-time-string "%Y-%m-%d" (current-time))` Thu 12:00] =>  0:30
+:END:
+,*** メモ
+#+end_src
 *** org-paper-elaboration-todo
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/paper-elaboration-todo") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
@@ -204,7 +255,6 @@ ${0}
 :Effort:   0:50
 :END:
 #+end_src
-
 
 ** yatex-mode
 
