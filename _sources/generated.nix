@@ -67,15 +67,15 @@
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "bfb253b94698c8baee2fd00e4e02f7691c1da251";
+    version = "16ce424b8512e624bd88ce4dc0cf5728d1f6b0ed";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "bfb253b94698c8baee2fd00e4e02f7691c1da251";
+      rev = "16ce424b8512e624bd88ce4dc0cf5728d1f6b0ed";
       fetchSubmodules = false;
-      sha256 = "sha256-kIB1LlfyviKLHsQZcfgFnet2GUbcpHwIwi8dS7wG/hc=";
+      sha256 = "sha256-6a+qXgmo40E/cSs98ZFIlrada+dEQKMR8YFa6sWAQcg=";
     };
-    date = "2026-02-02";
+    date = "2026-02-22";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
