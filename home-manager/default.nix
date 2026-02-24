@@ -34,7 +34,7 @@
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
   mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
-  # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
+  rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
   emacs-config = import ./emacs {
@@ -142,7 +142,7 @@ in {
           textlint-plugin-latex2e
         ])
 
-        # rassumfrassum
+        rassumfrassum
         codex
         openai
 

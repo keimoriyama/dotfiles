@@ -54,4 +54,9 @@
       epkgs.log4e
     ];
   };
+  yasnippet-capf = epkgs.melpaBuild {
+    pname = "yasnippet-capf";
+    src = sources.emacs-yasnippet-capf.src;
+    version = "0.0.1";
+  };
 }

@@ -184,7 +184,7 @@ ${0}
 ,** `(format-time-string "%Y-%m-%d" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
-
+,*** タスク
 ,*** メモ
 #+end_src
 
@@ -197,7 +197,8 @@ ${0}
 ,** `(format-time-string "%Y-%m-%d" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
-,*** DONE ゼミ
+,*** タスク
+,**** DONE ゼミ
 :LOGBOOK:
 CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Wed 10:00]--[`(format-time-string "%Y-%m-%d" (current-time))` Wed 12:30] =>  2:30
 :END:
@@ -212,7 +213,8 @@ CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Wed 10:00]--[`(format-t
 ,** `(format-time-string "%Y-%m-%d" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
-,*** DONE エージェントMTG
+,*** タスク
+,**** DONE エージェントMTG
 :LOGBOOK:
 CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Thu 11:30]--[`(format-time-string "%Y-%m-%d" (current-time))` Thu 12:00] =>  0:30
 :END:
@@ -224,7 +226,7 @@ CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Thu 11:30]--[`(format-t
 # name: paper-elaboration-todo
 # key: paper-elaboration-todo
 # --
-,** ${1} th turn
+,** TODO ${1} th turn
 ,*** TODO Abstract
 :PROPERTIES:
 :Effort:   0:25

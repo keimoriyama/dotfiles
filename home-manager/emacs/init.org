@@ -604,6 +604,8 @@ binding))))))))
 (require 'consult-yasnippet)
 (keymap-global-set "C-c y" #'consult-yasnippet)
 (keymap-global-set "C-c C-y" #'consult-yasnippet)
+(require 'yasnippet-capf)
+(add-to-list 'completion-at-point-functions #'yasnippet-capf)
 #+end_src
 * org-mode
 ** org-mode
@@ -693,7 +695,7 @@ binding))))))))
 
 (with-eval-after-load 'org
   (setq org-capture-templates 
-        '(("m" "Memo" entry (file org-memo-file) "-  %U\n"))))
+        '(("m" "Memo" entry (file org-memo-file) "-  %U\n")))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
 
@@ -1201,6 +1203,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 **** python
 #+begin_src emacs-lisp
 (add-hook 'python-mode-hook #'eglot-ensure)
+(add-to-list 'eglot-server-programs
+              '(python-mode . ("rass" "--" "ty" "server" "--" "ruff" "server")))
 #+end_src
 **** nix
 #+begin_src emacs-lisp

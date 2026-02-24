@@ -13,6 +13,11 @@ src.git="https://github.com/rougier/nano-modeline"
 src.branch="master"
 fetch.github="rougier/nano-modeline"
 
+[emacs-ysnippet-capf]
+src.git="https://github.com/elken/yasnippet-capf"
+src.branch="master"
+fetch.github="elken/yasnippet-capf"
+
 [dpp-vim]
 src.git="https://github.com/Shougo/dpp.vim"
 src.branch="main"

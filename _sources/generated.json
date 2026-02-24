@@ -293,6 +293,27 @@
         },
         "version": "dd7cfad4cd0409b5e0eb05e90077de5a225185fa"
     },
+    "emacs-ysnippet-capf": {
+        "cargoLock": null,
+        "date": "2025-05-20",
+        "extract": null,
+        "name": "emacs-ysnippet-capf",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "elken",
+            "repo": "yasnippet-capf",
+            "rev": "f53c42a996b86fc95b96bdc2deeb58581f48c666",
+            "sha256": "sha256-KWh8trHgrU+v+52cF0e1aJQ3oc9y8D25dg2UwIvKmsM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "f53c42a996b86fc95b96bdc2deeb58581f48c666"
+    },
     "fish-autols": {
         "cargoLock": null,
         "date": "2025-01-26",

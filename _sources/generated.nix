@@ -173,6 +173,18 @@
     };
     date = "2025-02-24";
   };
+  emacs-ysnippet-capf = {
+    pname = "emacs-ysnippet-capf";
+    version = "f53c42a996b86fc95b96bdc2deeb58581f48c666";
+    src = fetchFromGitHub {
+      owner = "elken";
+      repo = "yasnippet-capf";
+      rev = "f53c42a996b86fc95b96bdc2deeb58581f48c666";
+      fetchSubmodules = false;
+      sha256 = "sha256-KWh8trHgrU+v+52cF0e1aJQ3oc9y8D25dg2UwIvKmsM=";
+    };
+    date = "2025-05-20";
+  };
   fish-autols = {
     pname = "fish-autols";
     version = "74c52a3f66b5b9f589871c4383e7d7c2e543032c";

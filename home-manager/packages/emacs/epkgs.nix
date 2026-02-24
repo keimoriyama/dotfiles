@@ -37,6 +37,7 @@ in
     # doom-modeline
     yasnippet
     consult-yasnippet
+    yasnippet-capf
     oj
     dashboard
     htmlize
@@ -130,5 +131,5 @@ in
     org-super-agenda
     org-appear
     packages.hide-lines
-    packages.org-hyperscheduler
+    #packages.org-hyperscheduler
   ]
