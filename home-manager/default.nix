@@ -119,6 +119,7 @@ in {
         go
         prettier
         ghc
+		fourmolu
 
         udev-gothic
 
