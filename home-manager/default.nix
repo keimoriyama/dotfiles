@@ -119,7 +119,7 @@ in {
         go
         prettier
         ghc
-		fourmolu
+        fourmolu
 
         udev-gothic
 
@@ -146,7 +146,7 @@ in {
         rassumfrassum
         codex
         openai
-
+        github-copilot-cli
         terminal-notifier
       ]
       ++ lib.optionals stdenv.isLinux [

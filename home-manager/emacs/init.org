@@ -136,7 +136,6 @@
   (load-file (format "%s/.emacs.d/init.el" (getenv "HOME"))))
 #+end_src
 
-
 ** auto save files
 ref: http://0xcc.net/misc/auto-save/
 #+begin_src emacs-lisp
@@ -182,7 +181,7 @@ ref: http://0xcc.net/misc/auto-save/
       (message "auto-save-buffers on")
     (message "auto-save-buffers off")))
 
-(run-with-idle-timer 5 t 'auto-save-buffers)
+(run-with-idle-timer 2 t 'auto-save-buffers)
 #+end_src
 
 * Utils
