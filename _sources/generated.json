@@ -125,6 +125,27 @@
         },
         "version": "16ce424b8512e624bd88ce4dc0cf5728d1f6b0ed"
     },
+    "emacs-acp": {
+        "cargoLock": null,
+        "date": "2026-02-21",
+        "extract": null,
+        "name": "emacs-acp",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "xenodium",
+            "repo": "acp.el",
+            "rev": "49de56f0de328ad9022e2784f52acd73170f7e75",
+            "sha256": "sha256-5jIUMV0qabU4WaD/W3pvOKvPIwLJB9snUh/dXZGWLCA=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "49de56f0de328ad9022e2784f52acd73170f7e75"
+    },
     "emacs-dmacro": {
         "cargoLock": null,
         "date": "2024-10-27",
