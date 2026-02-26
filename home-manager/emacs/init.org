@@ -831,8 +831,8 @@ binding))))))))
   (setq org-superstar-todo-bullet-alist
         '(("TODO"  . 9744)
           ("WAIT"  . 9744)
-          ("DOING"  . 9744)
-          ("PROG"  . 9744)
+          ("DOING" . 9744)
+          ("NEXT"  . 9744)
 		  ("DONE"  . 9745))))
 #+end_src
 ** org-babel
@@ -1750,8 +1750,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 
 (with-eval-after-load 'skk
   ;; hooks
-  (add-hook 'skk-mode-hook #'ddskk-posframe-mode)
-  (keymap-global-set "C-l" #'skk-latin-mode))
+  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+  ;;(keymap-global-set "C-l" #'skk-latin-mode))
 #+END_SRC
 
 * LLMs

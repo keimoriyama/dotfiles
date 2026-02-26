@@ -59,4 +59,9 @@
     src = sources.emacs-yasnippet-capf.src;
     version = "0.0.1";
   };
+  acp = epkgs.melpaBuild {
+    pname = "acp";
+    src = sources.emacs-acp.src;
+    version = "0.0.1";
+  };
 }

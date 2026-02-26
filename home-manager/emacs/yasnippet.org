@@ -204,11 +204,11 @@ CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Wed 10:00]--[`(format-t
 :END:
 ,*** メモ
 #+end_src
-*** org-clocktable-daily-thrusday
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-wednesday") :mkdirp yes :noweb yes
+*** org-clocktable-daily-thursday
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-thursday") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
-# name: org-clocktable-daily-wednesday
-# key: org-clocktable-daily-wednesday
+# name: org-clocktable-daily-thursday
+# key: org-clocktable-daily-thursday
 # --
 ,** `(format-time-string "%Y-%m-%d" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t

@@ -105,7 +105,7 @@ in
     ellama
     llm
     copilot-chat
-    # mcp
+    agent-shell
 
     # lsp
     # lsp-bridge
