@@ -130,6 +130,7 @@ in
     consult-org-roam
     org-super-agenda
     org-appear
+    ob-rust
     packages.hide-lines
     #packages.org-hyperscheduler
   ]

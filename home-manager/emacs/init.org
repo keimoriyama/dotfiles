@@ -839,7 +839,9 @@ binding))))))))
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((python . t)
-  (shell . t)))
+  (shell . t)
+  (rust . t)
+  (haskell . t)))
 
 (setq org-babel-python-command "../.venv/bin/python")
 (require 'ob-core)
@@ -1813,6 +1815,15 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (require 'copilot-chat)
 
 (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
+#+end_src
+
+
+** Agent shell
+#+begin_src emacs-lisp
+(require 'acp)
+(require 'agent-shell)
+(setq agent-shell-openai-authentication
+      (agent-shell-openai-make-authentication :login t))
 #+end_src
 
 * hydra menu 
