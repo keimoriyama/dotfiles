@@ -1638,8 +1638,10 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 *** haskell
 #+begin_src emacs-lisp
 (require 'haskell-mode)
+(require 'inf-haskell)
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
+(add-hook 'haskell-mode-hook #'inferior-haskell-mode)
 (reformatter-define haskell-fourmolu-format
   :program "fourmolu"
   ;;:stdin t

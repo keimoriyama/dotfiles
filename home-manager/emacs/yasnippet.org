@@ -257,6 +257,22 @@ CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Thu 11:30]--[`(format-t
 :Effort:   0:50
 :END:
 #+end_src
+*** org babel haskell
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-babel-haskell") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: org-babel-haskell
+# key: org-babel-haskell
+# --
+
+,#+begin_src haskell :results output :compile yes
+
+${0}
+
+main = do
+  print $ 
+,#+end_src
+
+#+end_src
 
 ** yatex-mode
 
