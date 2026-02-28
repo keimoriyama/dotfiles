@@ -546,7 +546,7 @@ binding))))))))
       (when-let* ((file (buffer-file-name))
                   (branch (substring-no-properties vc-mode 5))
                   (state (vc-state file)))
-        (propertize (format "(%s%s, %s)" (or symbol " ") branch state)
+        (propertize (format "(%s%s, %s)" (or symbol " ") branch state)
                     'face (nano-modeline-face 'primary)))))
 #+end_src
 
