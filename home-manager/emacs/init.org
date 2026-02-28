@@ -327,6 +327,16 @@ ref: http://0xcc.net/misc/auto-save/
 (add-hook 'messages-buffer-mode-hook #'nano-modeline-message-mode)
 (add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode)
 (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode)
+
+(defun nano-modeline-git-info (&optional symbol)
+  "Git information as (branch, file status)"
+
+  (when vc-mode
+      (when-let* ((file (buffer-file-name))
+                  (branch (substring-no-properties vc-mode 5))
+                  (state (vc-state file)))
+        (propertize (format "(%s%s, %s)" (or symbol " ") branch state)
+                    'face (nano-modeline-face 'primary)))))
 #+end_src
 
 ** moody
