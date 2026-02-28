@@ -127,6 +127,7 @@ in
     svg-tag-mode
     ox-hugo
     org-roam
+    org-roam-ui
     consult-org-roam
     org-super-agenda
     org-appear
