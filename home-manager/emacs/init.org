@@ -185,6 +185,42 @@ ref: http://0xcc.net/misc/auto-save/
 #+end_src
 
 * エディタ基本機能
+** ユーティリティ
+*** キーバインド
+**** which-key
+#+begin_src emacs-lisp
+(require 'which-key)
+(add-hook 'emacs-startup-hook #'which-key-mode)
+#+end_src
+
+**** free-keys
+#+begin_src emacs-lisp
+(require 'free-keys)
+#+end_src
+
+*** システム連携
+**** exec-path-from-shell
+#+begin_src emacs-lisp
+(require 'exec-path-from-shell)
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
+(exec-path-from-shell-initialize)
+#+end_src
+
+*** パフォーマンス
+**** gcmh
+#+begin_src emacs-lisp
+(require 'gcmh)
+(setq gcmh-verbose t)
+#+end_src
+
+*** その他
+**** moccur
+#+begin_src emacs-lisp
+(defadvice moccur-edit-change-file
+    (after save-after-moccur-edit-buffer activate)
+  (save-buffer))
+#+end_src
+
 ** 編集支援
 *** テキスト操作
 **** expand-region
@@ -548,42 +584,6 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'dashboard)
 (dashboard-setup-startup-hook)
-#+end_src
-
-** ユーティリティ
-*** キーバインド
-**** which-key
-#+begin_src emacs-lisp
-(require 'which-key)
-(add-hook 'emacs-startup-hook #'which-key-mode)
-#+end_src
-
-**** free-keys
-#+begin_src emacs-lisp
-(require 'free-keys)
-#+end_src
-
-*** システム連携
-**** exec-path-from-shell
-#+begin_src emacs-lisp
-(require 'exec-path-from-shell)
-(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
-(exec-path-from-shell-initialize)
-#+end_src
-
-*** パフォーマンス
-**** gcmh
-#+begin_src emacs-lisp
-(require 'gcmh)
-(setq gcmh-verbose t)
-#+end_src
-
-*** その他
-**** moccur
-#+begin_src emacs-lisp
-(defadvice moccur-edit-change-file
-    (after save-after-moccur-edit-buffer activate)
-  (save-buffer))
 #+end_src
 
 * 補完システム
