@@ -187,7 +187,8 @@
 (add-hook 'emacs-startup-hook #'global-undo-tree-mode)
 (with-eval-after-load 'undo-tree
   (keymap-global-set "C-x u" #'undo-tree-visualize)
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  (setopt undo-tree-auto-save-history nil))
 #+end_src
 
 **** puni
@@ -789,11 +790,12 @@ binding))))))))
              :target (file+head
                       "books/%<%Y%m%d%H%M%S>-${slug}.org"
                       "#+TITLE ${title}\n")
+                      :unnarrowed t)
              ("P" "parmanent" plain "%?"
               :target (file+head
                       "parmanent/%<%Y%m%d%H%M%S>-${slug}.org"
                       "#+TITLE ${title}\n")
-             :unnarrowed t))))
+                      :unnarrowed t))))
 #+end_src
 
 **** org-roam-ui
