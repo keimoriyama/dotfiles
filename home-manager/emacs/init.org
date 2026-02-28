@@ -184,42 +184,116 @@ ref: http://0xcc.net/misc/auto-save/
 (run-with-idle-timer 2 t 'auto-save-buffers)
 #+end_src
 
-* Utils
-
-** moccur
+* エディタ基本機能
+** 編集支援
+*** テキスト操作
+**** expand-region
 #+begin_src emacs-lisp
-(defadvice moccur-edit-change-file
-    (after save-after-moccur-edit-buffer activate)
-  (save-buffer))
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
 
-** theme(catppuccin-theme)
+**** undo-tree
 #+begin_src emacs-lisp
-(require 'catppuccin-theme)
-(setq catppuccin-flavor 'latte)
-(load-theme 'catppuccin t)
+(require 'undo-tree)
+(add-hook 'emacs-startup-hook #'global-undo-tree-mode)
+(with-eval-after-load 'undo-tree
+  (keymap-global-set "C-x u" #'undo-tree-visualize)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 #+end_src
 
-** volatile-highlights
+**** puni
 #+begin_src emacs-lisp
-(require 'volatile-highlights)
-(add-hook 'emacs-startup-hook #'volatile-highlights-mode)
+(require 'puni)
+(add-hook 'emacs-startup-hook #'puni-global-mode)
+(electric-pair-mode 1)
 #+end_src
 
-** cua-mode
+**** cua-mode
 #+begin_src emacs-lisp
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 #+end_src
 
-** exec-path-from-shell
+**** dmacro
 #+begin_src emacs-lisp
-(require 'exec-path-from-shell)
-(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
-(exec-path-from-shell-initialize)
+(setq dmacro-key (kbd "C-M-e"))
+(require 'dmacro)
+(global-dmacro-mode t)
 #+end_src
 
-** projectile.el
+*** 自動保存・リバート
+**** auto-save-buffers
+#+begin_src emacs-lisp
+;; auto-save-buffers で対象とするファイル名の正規表現
+(defvar auto-save-buffers-regexp ""
+  "*Regexp that matches `buffer-file-name' to be auto-saved.")
+
+;; auto-save-buffers で除外するファイル名の正規表現
+(defvar auto-save-buffers-exclude-regexp "^$"
+  "*Regexp that matches `buffer-file-name' not to be auto-saved.")
+;; nil ならセーブしない (タイマーは回ったまま)
+(defvar auto-save-buffers-active-p t
+  "If non-nil, `auto-save-buffers' saves buffers.")
+
+;; 省略可能の引数で、include/exclude 用の正規表現を指定できる
+(defun auto-save-buffers (&rest regexps)
+  "Save buffers if `buffer-file-name' matches `auto-save-buffers-regexp'."
+  (let ((include-regexp (or (car  regexps) auto-save-buffers-regexp))
+        (exclude-regexp (or (cadr regexps) auto-save-buffers-exclude-regexp))
+        (buffers (buffer-list)))
+    (save-excursion
+      (while buffers
+        (set-buffer (car buffers))
+        (if (and buffer-file-name
+                 auto-save-buffers-active-p
+                 (buffer-modified-p)
+                 (not buffer-read-only)
+                 (string-match include-regexp buffer-file-name)
+                 (not (string-match exclude-regexp buffer-file-name))
+                 (file-writable-p buffer-file-name))
+            (save-buffer))
+        (setq buffers (cdr buffers))))))
+
+;; auto-save-buffers の on/off をトグルで切り替える
+(defun auto-save-buffers-toggle ()
+  "Toggle `auto-save-buffers'"
+  (interactive)
+  (if auto-save-buffers-active-p
+      (setq auto-save-buffers-active-p nil)
+    (setq auto-save-buffers-active-p t))
+  (if auto-save-buffers-active-p
+      (message "auto-save-buffers on")
+    (message "auto-save-buffers off")))
+
+(run-with-idle-timer 2 t 'auto-save-buffers)
+#+end_src
+
+**** autorevert
+#+begin_src emacs-lisp
+(require 'autorevert)
+(add-hook 'emacs-startup-hook #'global-auto-revert-mode)
+#+end_src
+
+*** 行・カラム操作
+**** simple
+#+begin_src emacs-lisp
+(require 'simple)
+(with-eval-after-load 'simple
+  (setopt kill-whole-line t)
+  (setopt kill-read-only-ok t))
+#+end_src
+
+** ナビゲーション
+*** ジャンプ・移動
+**** avy
+#+begin_src emacs-lisp
+(require 'avy)
+(require 'avy-zap)
+#+end_src
+
+*** プロジェクト管理
+**** projectile
 #+begin_src emacs-lisp
 (require 'projectile)
 (add-hook 'emacs-startup-hook #'projectile-mode)
@@ -247,298 +321,22 @@ ref: http://0xcc.net/misc/auto-save/
                  (format "%s/" dir))))
 #+end_src
 
-** bufferlo.el
+**** bufferlo
 #+begin_src emacs-lisp
 (require 'bufferlo)
 (add-hook 'emacs-startup-hook #'bufferlo-mode)
 #+end_src
 
-** expand region
+*** 検索
+**** affe
 #+begin_src emacs-lisp
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(require 'affe)
+(with-eval-after-load 'affe
+  (setopt affe-highlight-function 'orderless-highlight-matches)
+  (setopt affe-regexp-function 'orderless-pattern-compiler))
 #+end_src
 
-** undo-tree
-#+begin_src emacs-lisp
-(require 'undo-tree)
-(add-hook 'emacs-startup-hook #'global-undo-tree-mode)
-(with-eval-after-load 'undo-tree
-  (keymap-global-set "C-x u" #'undo-tree-visualize)
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
-#+end_src
-
-** git-gutter.el
-#+begin_src emacs-lisp
-(require 'git-gutter)
-(add-hook 'emacs-startup-hook #'global-git-gutter-mode)
-#+end_src
-
-** rainbow-delimiters.el
-#+begin_src emacs-lisp
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-#+end_src
-
-** hl-line.el
-#+begin_src emacs-lisp
-(require 'hl-line)
-(add-hook 'emacs-startup-hook #'global-hl-line-mode)
-#+end_src
-** free-keys.el
-#+begin_src emacs-lisp
-(require 'free-keys)
-#+end_src
-
-** puni.el
-#+begin_src emacs-lisp
-(require 'puni)
-(add-hook 'emacs-startup-hook #'puni-global-mode)
-(electric-pair-mode 1)
-#+end_src
-
-** autorevert.el
-#+begin_src emacs-lisp
-(require 'autorevert)
-(add-hook 'emacs-startup-hook #'global-auto-revert-mode)
-#+end_src
-
-** simple
-#+begin_src emacs-lisp
-  (require 'simple)
-  (with-eval-after-load 'simple
-    (setopt kill-whole-line t)
-    (setopt kill-read-only-ok t))
-#+end_src
-
-** nano-modeline
-#+begin_src emacs-lisp
-(require 'nano-modeline)
-(add-hook 'prog-mode-hook            #'nano-modeline-prog-mode)
-(add-hook 'text-mode-hook            #'nano-modeline-text-mode)
-(add-hook 'org-mode-hook             #'nano-modeline-org-mode)
-(add-hook 'pdf-view-mode-hook        #'nano-modeline-pdf-mode)
-(add-hook 'mu4e-headers-mode-hook    #'nano-modeline-mu4e-headers-mode)
-(add-hook 'mu4e-view-mode-hook       #'nano-modeline-mu4e-message-mode)
-(add-hook 'elfeed-show-mode-hook     #'nano-modeline-elfeed-entry-mode)
-(add-hook 'elfeed-search-mode-hook   #'nano-modeline-elfeed-search-mode)
-(add-hook 'term-mode-hook            #'nano-modeline-term-mode)
-(add-hook 'xwidget-webkit-mode-hook  #'nano-modeline-xwidget-mode)
-(add-hook 'messages-buffer-mode-hook #'nano-modeline-message-mode)
-(add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode)
-(add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode)
-
-(defun nano-modeline-git-info (&optional symbol)
-  "Git information as (branch, file status)"
-
-  (when vc-mode
-      (when-let* ((file (buffer-file-name))
-                  (branch (substring-no-properties vc-mode 5))
-                  (state (vc-state file)))
-        (propertize (format "(%s%s, %s)" (or symbol " ") branch state)
-                    'face (nano-modeline-face 'primary)))))
-#+end_src
-
-** moody
-#+begin_src emacs-lisp
-(require 'moody)
-(setq x-underline-at-descent-line t)
-(moody-replace-mode-line-buffer-identification)
-(moody-replace-vc-mode)
-;; 以下を追加
-(when (eq system-type 'darwin)
-  (setq moody-slant-function 'moody-slant-apple-rgb))
-#+end_src
-
-** minions
-#+begin_src emacs-lisp
-(require 'minions)
-(minions-mode)
-(setq minions-mode-line-lighter "[+]")
-#+end_src
-
-** which-key
-#+begin_src emacs-lisp
-(require 'which-key)
-(add-hook 'emacs-startup-hook #'which-key-mode)
-#+end_src
-
-** magit
-#+begin_src emacs-lisp
-(require 'magit)
-#+end_src
-** olivetti-mode
-
-#+begin_src emacs-lisp
-(require 'olivetti)
-#+end_src
-
-** dashboard
-#+begin_src emacs-lisp
-(require 'dashboard)
-(dashboard-setup-startup-hook)
-#+end_src
-
-** gcmh
-#+begin_src emacs-lisp
-(require 'gcmh)
-(setq gcmh-verbose t)
-
-#+end_src
-** beacon
-#+begin_src emacs-lisp
-(require 'beacon)
-(beacon-mode 1)
-#+end_src
-
-** dmacro
-#+begin_src emacs-lisp
-(setq dmacro-key (kbd "C-M-e"))
-(require 'dmacro)
-(global-dmacro-mode t)
-#+end_src
-** instant-maximized-window
-#+begin_src emacs-lisp
-(require 'instant-maximized-window)
-(keymap-global-set "C-c m" #'window-temp-maximize)
-#+end_src
-** symbol overlay
-#+begin_src emacs-lisp
-(require 'symbol-overlay)
-#+end_src
-** color-idendifiers-mode
-#+begin_src emacs-lisp
-(add-hook 'after-init-hook #'global-color-identifiers-mode)
-#+end_src
-** neotree
-#+begin_src emacs-lisp
-(require 'neotree)
-(defun neotree-project-dir ()
-  "Open NeoTree using the git root."
-  (interactive)
-  (let ((project-dir (projectile-project-root))
-        (file-name (buffer-file-name)))
-    (neotree-toggle)
-    (if project-dir
-        (if (neo-global--window-exists-p)
-            (progn
-              (neotree-dir project-dir)
-              (neotree-find file-name)))
-      (message "Could not find git project root."))))
-;(setq projectile-switch-project-action 'neotree-projectile-action)
-(keymap-global-set "M-n" #'neotree-project-dir)
-
-(with-eval-after-load 'major-mode-hydra 
-  (major-mode-hydra-define neotree-mode
-                    (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
-                    ("Navi"
-                     (("u" neotree-select-up-node "Up")
-                      ("g" neotree-refresh "Refresh")
-                      ("Q" neotree-hide "Hide"))
-                     "File"
-                     (("a" neo-open-file-ace-window "Ace")
-                      ("n" neotree-create-node "Create")
-                      ("r" neotree-rename-node "Rename")
-                      ("c" neotree-copy-node "Copy")
-                      ("d" neotree-delete-node "Delete")
-                      ("SPC" neotree-quick-look))
-                     "Toggle"
-                     (("z" neotree-stretch-toggle     "Size"        :toggle (not (neo-window--minimize-p)))
-                      ("h" neotree-hidden-file-toggle "Hidden file" :toggle neo-buffer--show-hidden-file-p)))))
-#+end_src
-** nerd-icons
-#+begin_src emacs-lisp
-(require 'nerd-icons)
-(setq nerd-icons-font-family "Symbols Nerd Font Mono")
-; (add-hook 'emact-startup-hook #'nerd-icons-completion-mode)
-(nerd-icons-completion-mode)
-#+end_src
-** tree-sitter
-#+begin_src emacs-lisp
-;; Treesitの設定
-(setq treesit-language-source-alist
-      '((json "https://github.com/tree-sitter/tree-sitter-json")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-        (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-        (json "https://github.com/tree-sitter/tree-sitter-json")
-        (rust "https://github.com/tree-sitter/tree-sitter-rust")
-        (toml "https://github.com/tree-sitter/tree-sitter-toml")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (typst "https://github.com/uben0/tree-sitter-typst")
-        ))
-;; Treesitがインストールされてない場合は自動でインストールする
-(dolist (element treesit-language-source-alist)
-  (let* ((lang (car element)))
-    (if (treesit-language-available-p lang)
-        (message "treesit: %s is already installed" lang)
-      (message "treesit: %s is not installed" lang)
-      (treesit-install-language-grammar lang))))
-#+end_src
-** all-the-icons
-#+begin_src emacs-lisp
-(require 'all-the-icons)
-#+end_src
-* Completion
-** corfu
-#+begin_src emacs-lisp
-(require 'corfu)
-(corfu-popupinfo-mode 1)
-(corfu-history-mode 1)
-(add-hook 'emacs-startup-hook #'global-corfu-mode)
-;;(add-hook 'org-mode-hook #'corfu-mode)
-(with-eval-after-load 'corfu
-  (setq corfu-auto t
-        corfu-auto-delay 0.1
-        corfu-cycle t
-        corfu-auto-prefix 3
-        text-mode-ispell-word-completion nil
-        corfu-popupinfo-delay 0.3))
-#+end_src
-
-** cape
-#+begin_src emacs-lisp
-(defvar completion-at-point-functions '(tags-completion-at-point-function))
-(require 'cape)
-;(add-to-list 'completion-at-point-functions #'cape-dabbrev)
-(add-to-list 'completion-at-point-functions #'cape-dict)
-(add-to-list 'completion-at-point-functions #'cape-file)
-(add-to-list 'completion-at-point-functions #'cape-history)
-(add-to-list 'completion-at-point-functions #'cape-elisp-block)
-(add-to-list 'completion-at-point-functions #'cape-tex)
-(add-to-list 'completion-at-point-functions #'cape-emoji)
-#+end_src
-
-** nerd-icons-corfu
-#+begin_src emacs-lisp
-(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
-#+end_src
-** vertico
-#+begin_src emacs-lisp
-(savehist-mode)
-(require 'vertico)
-(add-hook 'emacs-startup-hook #'vertico-mode)
-(advice-add #'vertico--setup :after
-            (lambda (&rest _)
-              (setq-local completion-auto-help nil
-                          completion-show-inline-help nil)))
-#+end_src
-
-** marginalia
-#+begin_src emacs-lisp
-(require 'marginalia)
-(add-hook 'emacs-startup-hook #'marginalia-mode)
-(add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)
-#+end_src
-
-** avy
-#+begin_src emacs-lisp
-(require 'avy)
-(require 'avy-zap)
-#+end_src
-
-** consult
+**** consult
 #+begin_src emacs-lisp
 (defvar my-consult--source-buffer
   `(:name "Other Buffers"
@@ -577,7 +375,7 @@ ref: http://0xcc.net/misc/auto-save/
 (keymap-global-set "C-x b" #'consult-buffer)
 #+end_src
 
-** embark
+**** embark
 #+begin_src emacs-lisp
 (require 'embark)
 (keymap-global-set "C-." #'embark-act)
@@ -630,15 +428,203 @@ binding))))))))
             :around #'embark-hide-which-key-indicator)
 #+end_src
 
-** affe
+** 外観・視覚
+*** テーマ・色
+**** catppuccin-theme
 #+begin_src emacs-lisp
-(require 'affe)
-(with-eval-after-load 'affe
-  (setopt affe-highlight-function 'orderless-highlight-matches)
-  (setopt affe-regexp-function 'orderless-pattern-compiler))
+(require 'catppuccin-theme)
+(setq catppuccin-flavor 'latte)
+(load-theme 'catppuccin t)
 #+end_src
 
-** orderless
+**** volatile-highlights
+#+begin_src emacs-lisp
+(require 'volatile-highlights)
+(add-hook 'emacs-startup-hook #'volatile-highlights-mode)
+#+end_src
+
+**** rainbow-delimiters
+#+begin_src emacs-lisp
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+#+end_src
+
+**** hl-line
+#+begin_src emacs-lisp
+(require 'hl-line)
+(add-hook 'emacs-startup-hook #'global-hl-line-mode)
+#+end_src
+
+**** symbol-overlay
+#+begin_src emacs-lisp
+(require 'symbol-overlay)
+#+end_src
+
+**** beacon
+#+begin_src emacs-lisp
+(require 'beacon)
+(beacon-mode 1)
+#+end_src
+
+**** color-identifiers-mode
+#+begin_src emacs-lisp
+(add-hook 'after-init-hook #'global-color-identifiers-mode)
+#+end_src
+
+*** アイコン・視覚要素
+**** all-the-icons
+#+begin_src emacs-lisp
+(require 'all-the-icons)
+#+end_src
+
+**** nerd-icons
+#+begin_src emacs-lisp
+(require 'nerd-icons)
+(setq nerd-icons-font-family "Symbols Nerd Font Mono")
+; (add-hook 'emact-startup-hook #'nerd-icons-completion-mode)
+(nerd-icons-completion-mode)
+#+end_src
+
+*** モードライン
+**** nano-modeline
+#+begin_src emacs-lisp
+(require 'nano-modeline)
+(add-hook 'prog-mode-hook            #'nano-modeline-prog-mode)
+(add-hook 'text-mode-hook            #'nano-modeline-text-mode)
+(add-hook 'org-mode-hook             #'nano-modeline-org-mode)
+(add-hook 'pdf-view-mode-hook        #'nano-modeline-pdf-mode)
+(add-hook 'mu4e-headers-mode-hook    #'nano-modeline-mu4e-headers-mode)
+(add-hook 'mu4e-view-mode-hook       #'nano-modeline-mu4e-message-mode)
+(add-hook 'elfeed-show-mode-hook     #'nano-modeline-elfeed-entry-mode)
+(add-hook 'elfeed-search-mode-hook   #'nano-modeline-elfeed-search-mode)
+(add-hook 'term-mode-hook            #'nano-modeline-term-mode)
+(add-hook 'xwidget-webkit-mode-hook  #'nano-modeline-xwidget-mode)
+(add-hook 'messages-buffer-mode-hook #'nano-modeline-message-mode)
+(add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode)
+(add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode)
+
+(defun nano-modeline-git-info (&optional symbol)
+  "Git information as (branch, file status)"
+
+  (when vc-mode
+      (when-let* ((file (buffer-file-name))
+                  (branch (substring-no-properties vc-mode 5))
+                  (state (vc-state file)))
+        (propertize (format "(%s%s, %s)" (or symbol " ") branch state)
+                    'face (nano-modeline-face 'primary)))))
+#+end_src
+
+**** moody
+#+begin_src emacs-lisp
+(require 'moody)
+(setq x-underline-at-descent-line t)
+(moody-replace-mode-line-buffer-identification)
+(moody-replace-vc-mode)
+;; 以下を追加
+(when (eq system-type 'darwin)
+  (setq moody-slant-function 'moody-slant-apple-rgb))
+#+end_src
+
+**** minions
+#+begin_src emacs-lisp
+(require 'minions)
+(minions-mode)
+(setq minions-mode-line-lighter "[+]")
+#+end_src
+
+*** ウィンドウ管理
+**** olivetti
+#+begin_src emacs-lisp
+(require 'olivetti)
+#+end_src
+
+**** instant-maximized-window
+#+begin_src emacs-lisp
+(require 'instant-maximized-window)
+(keymap-global-set "C-c m" #'window-temp-maximize)
+#+end_src
+
+**** dashboard
+#+begin_src emacs-lisp
+(require 'dashboard)
+(dashboard-setup-startup-hook)
+#+end_src
+
+** ユーティリティ
+*** キーバインド
+**** which-key
+#+begin_src emacs-lisp
+(require 'which-key)
+(add-hook 'emacs-startup-hook #'which-key-mode)
+#+end_src
+
+**** free-keys
+#+begin_src emacs-lisp
+(require 'free-keys)
+#+end_src
+
+*** システム連携
+**** exec-path-from-shell
+#+begin_src emacs-lisp
+(require 'exec-path-from-shell)
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
+(exec-path-from-shell-initialize)
+#+end_src
+
+*** パフォーマンス
+**** gcmh
+#+begin_src emacs-lisp
+(require 'gcmh)
+(setq gcmh-verbose t)
+#+end_src
+
+*** その他
+**** moccur
+#+begin_src emacs-lisp
+(defadvice moccur-edit-change-file
+    (after save-after-moccur-edit-buffer activate)
+  (save-buffer))
+#+end_src
+
+* 補完システム
+** 補完フレームワーク
+*** インライン補完
+**** corfu
+#+begin_src emacs-lisp
+(require 'corfu)
+(corfu-popupinfo-mode 1)
+(corfu-history-mode 1)
+(add-hook 'emacs-startup-hook #'global-corfu-mode)
+;;(add-hook 'org-mode-hook #'corfu-mode)
+(with-eval-after-load 'corfu
+  (setq corfu-auto t
+        corfu-auto-delay 0.1
+        corfu-cycle t
+        corfu-auto-prefix 3
+        text-mode-ispell-word-completion nil
+        corfu-popupinfo-delay 0.3))
+#+end_src
+
+*** ミニバッファ補完
+**** vertico
+#+begin_src emacs-lisp
+(savehist-mode)
+(require 'vertico)
+(add-hook 'emacs-startup-hook #'vertico-mode)
+(advice-add #'vertico--setup :after
+            (lambda (&rest _)
+              (setq-local completion-auto-help nil
+                          completion-show-inline-help nil)))
+#+end_src
+
+**** marginalia
+#+begin_src emacs-lisp
+(require 'marginalia)
+(add-hook 'emacs-startup-hook #'marginalia-mode)
+(add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)
+#+end_src
+
+**** orderless
 #+begin_src emacs-lisp
 (require 'orderless)
 (with-eval-after-load 'minibuffer
@@ -649,7 +635,23 @@ binding))))))))
   (setopt completion-category-overrides '((file (styles flex basic partial-completion)))))
 #+end_src
 
-** yasnippet
+** 補完ソース
+*** 補完バックエンド
+**** cape
+#+begin_src emacs-lisp
+(defvar completion-at-point-functions '(tags-completion-at-point-function))
+(require 'cape)
+;(add-to-list 'completion-at-point-functions #'cape-dabbrev)
+(add-to-list 'completion-at-point-functions #'cape-dict)
+(add-to-list 'completion-at-point-functions #'cape-file)
+(add-to-list 'completion-at-point-functions #'cape-history)
+(add-to-list 'completion-at-point-functions #'cape-elisp-block)
+(add-to-list 'completion-at-point-functions #'cape-tex)
+(add-to-list 'completion-at-point-functions #'cape-emoji)
+#+end_src
+
+*** スニペット
+**** yasnippet
 #+begin_src emacs-lisp
 (require 'yasnippet)
 (add-hook 'emacs-startup-hook #'yas-global-mode)
@@ -666,8 +668,33 @@ binding))))))))
 (require 'yasnippet-capf)
 (add-to-list 'completion-at-point-functions #'yasnippet-capf)
 #+end_src
-* org-mode
-** org-mode
+
+** 補完UI拡張
+*** アイコン表示
+**** nerd-icons-corfu
+#+begin_src emacs-lisp
+(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+#+end_src
+
+* Git統合
+** Git操作
+*** 基本操作
+**** magit
+#+begin_src emacs-lisp
+(require 'magit)
+#+end_src
+
+*** 差分表示
+**** git-gutter
+#+begin_src emacs-lisp
+(require 'git-gutter)
+(add-hook 'emacs-startup-hook #'global-git-gutter-mode)
+#+end_src
+
+* Org-mode
+** Org基本機能
+*** コア機能
+**** org
 #+begin_src emacs-lisp
 (setq org-directory "~/Documents/org-mode")
 
@@ -692,12 +719,12 @@ binding))))))))
         org-hide-leading-stars t
         org-hide-emphasis-markers t
         org-pretty-entities t
-	    org-ellipsis "  ·"
+    org-ellipsis "  ·"
         org-src-fontify-natively t
-	    org-src-tab-acts-natively t
+    org-src-tab-acts-natively t
         org-edit-src-content-indentation 0
-        org-lowest-priority ?F  ;; Gives us priorities A through F
-        org-default-priority ?E ;; If an item has no priority, it is considered [#E].
+        org-lowest-priority ?F
+        org-default-priority ?E
         org-use-sub-superscripts '{}
         org-export-with-sub-superscripts nil
         org-priority-faces '((65 . "#BF616A")
@@ -712,7 +739,7 @@ binding))))))))
         '(("TODO"   :foreground "#A3BE8C" :weight bold)
           ("DOING"  :foreground "#88C0D0" :weight bold)
           ("NEXT"   :foreground "#88C0D0" :weight bold)
-		  ("WAIT"   :foreground "#88C0D0" :weight bold)
+  ("WAIT"   :foreground "#88C0D0" :weight bold)
           ("DONE"   :foreground "#ff40ff" :weight bold))
         org-tag-alist '(("lab" . ?l)
                         ("ra" . ?r)
@@ -722,9 +749,9 @@ binding))))))))
                         ("bug" . ?b))
         org-global-properties
         '(("Effort_ALL" . "0 0:25 0:50 1:15 1:40")))
-  
+
   (add-hook 'org-mode-hook 'visual-line-mode)
-  
+
   (dolist (face '((org-level-1 . 1.35)
                   (org-level-2 . 1.3)
                   (org-level-3 . 1.2)
@@ -737,14 +764,16 @@ binding))))))))
       org-src-tab-acts-natively t
       org-edit-src-content-indentation 0)
   (setq org-log-done 'time
-	  org-auto-align-tags                t
-	  org-tags-column                    -80
-	  org-fold-catch-invisible-edits     'show-and-error
-	  org-special-ctrl-a/e               t
-	  org-insert-heading-respect-content t))
+  org-auto-align-tags                t
+  org-tags-column                    -80
+  org-fold-catch-invisible-edits     'show-and-error
+  org-special-ctrl-a/e               t
+  org-insert-heading-respect-content t))
 #+end_src
 
-** org-capture
+** Org拡張機能
+*** キャプチャ・ノート機能
+**** org-capture
 #+begin_src emacs-lisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory)
@@ -754,12 +783,12 @@ binding))))))))
       (list org-memo-file org-misc-file))
 
 (with-eval-after-load 'org
-  (setq org-capture-templates 
+  (setq org-capture-templates
         '(("m" "Memo" entry (file org-memo-file) "-  %U\n")))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
 
-** org-roam
+**** org-roam (基本設定)
 #+begin_src emacs-lisp
 (require 'org-roam)
 (setq org-roam-db-update-method 'immediate
@@ -776,7 +805,7 @@ binding))))))))
   (setq org-roam-completion-everywhere nil))
 #+end_src
 
-** org-roam-db
+**** org-roam-db
 #+begin_src emacs-lisp
 (require 'org-roam-db)
 (with-eval-after-load 'org-roam-db
@@ -784,7 +813,7 @@ binding))))))))
   (setq org-roam-db-gc-threshold (* 4 gc-cons-threshold)))
 #+end_src
 
-** org-roam-capture
+**** org-roam-capture
 #+begin_src emacs-lisp
 (require 'org-roam-capture)
 (with-eval-after-load 'org-roam-capture
@@ -810,7 +839,9 @@ binding))))))))
                       "#+TITLE ${title}\n")
              :unnarrowed t))))
 #+end_src
-** org-indent
+
+*** 外観・表示機能
+**** org-indent
 #+begin_src emacs-lisp
 (require 'org-indent)
 (add-hook 'org-mode-hook #'org-indent-mode)
@@ -828,7 +859,8 @@ binding))))))))
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 (plist-put org-format-latex-options :scale 2)
 #+end_src
-** org-superstar
+
+**** org-superstar
 #+begin_src emacs-lisp
 (require 'org-superstar)
 (add-hook 'org-mode-hook #'org-superstar-mode)
@@ -842,9 +874,125 @@ binding))))))))
           ("WAIT"  . 9744)
           ("DOING" . 9744)
           ("NEXT"  . 9744)
-		  ("DONE"  . 9745))))
+          ("DONE"  . 9745))))
 #+end_src
-** org-babel
+
+**** org-appear
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'org-appear-mode)
+(setq org-hide-emphasis-markers t)
+(setq org-appear-autoemphasis   t
+        org-appear-autolinks      t
+        org-appear-autosubmarkers t)
+#+end_src
+
+**** SVG Elements
+#+begin_src emacs-lisp
+(defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
+(defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
+(defconst day-re "[A-Za-z]\\{3\\}")
+(defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)?" day-re time-re))
+
+(defun svg-progress-percent (value)
+  (svg-image (svg-lib-concat
+              (svg-lib-progress-bar (/ (string-to-number value) 100.0)
+                nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+              (svg-lib-tag (concat value "%")
+                nil :stroke 0 :margin 0)) :ascent 'center))
+
+(defun svg-progress-count (value)
+  (let* ((seq (mapcar #'string-to-number (split-string value "/")))
+         (count (float (car seq)))
+         (total (float (cadr seq))))
+    (svg-image (svg-lib-concat
+                 (svg-lib-progress-bar (/ count total) nil
+                   :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+                 (svg-lib-tag value nil
+                   :stroke 0 :margin 0)) :ascent 'center)))
+(setq svg-tag-tags
+    `(
+      ;; Task priority
+      ("\\[#[A-Z]\\]" . ( (lambda (tag)
+                            (svg-tag-make tag :face 'org-priority
+                                          :beg 2 :end -1 :margin 0))))
+
+      ;; Progress
+      ("\\(\\[[0-9]\\{1,3\\}%\\]\\)" . ((lambda (tag)
+        (svg-progress-percent (substring tag 1 -2)))))
+      ("\\(\\[[0-9]+/[0-9]+\\]\\)" . ((lambda (tag)
+        (svg-progress-count (substring tag 1 -1)))))
+
+      ;; Active date (with or without day name, with or without time)
+      (,(format "\\(<%s>\\)" date-re) .
+       ((lambda (tag)
+          (svg-tag-make tag :beg 1 :end -1 :margin 0))))
+      (,(format "\\(<%s \\)%s>" date-re day-time-re) .
+       ((lambda (tag)
+          (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0))))
+      (,(format "<%s \\(%s>\\)" date-re day-time-re) .
+       ((lambda (tag)
+          (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0))))
+
+      ;; Inactive date  (with or without day name, with or without time)
+       (,(format "\\(\\[%s\\]\\)" date-re) .
+        ((lambda (tag)
+           (svg-tag-make tag :beg 1 :end -1 :margin 0 :face 'org-date))))
+       (,(format "\\(\\[%s \\)%s\\]" date-re day-time-re) .
+        ((lambda (tag)
+           (svg-tag-make tag :beg 1 :inverse nil
+                          :crop-right t :margin 0 :face 'org-date))))
+       (,(format "\\[%s \\(%s\\]\\)" date-re day-time-re) .
+        ((lambda (tag)
+           (svg-tag-make tag :end -1 :inverse t
+                          :crop-left t :margin 0 :face 'org-date))))))
+
+(add-hook 'org-mode-hook 'svg-tag-mode)
+#+end_src
+
+**** Prettify Tags & Keywords
+#+begin_src emacs-lisp
+(defun my/prettify-symbols-setup ()
+  ;; Checkboxes
+  (push '("[ ]" . "☐") prettify-symbols-alist)
+  (push '("[X]" . "☑") prettify-symbols-alist)
+  (push '("[-]" . "❍" ) prettify-symbols-alist)
+
+  ;; org-babel
+  (push '("#+BEGIN_SRC" . ?≫) prettify-symbols-alist)
+  (push '("#+END_SRC" . ?≫) prettify-symbols-alist)
+  (push '("#+begin_src" . ?≫) prettify-symbols-alist)
+  (push '("#+end_src" . ?≫) prettify-symbols-alist)
+
+  (push '("#+begin_quote" . ?❝) prettify-symbols-alist)
+  (push '("#+end_quote" . ?❞) prettify-symbols-alist)
+
+  ;; Drawers
+  (push '(":PROPERTIES:" . ?) prettify-symbols-alist)
+
+  (push '("SCHEDULED:" . ?🕘) prettify-symbols-alist)
+  (push '("DEADLINE:" . ?⏰) prettify-symbols-alist)
+  (push '("CLOCK:" . ?⌚) prettify-symbols-alist)
+  (push '("CLOSED:" . ?✅) prettify-symbols-alist)
+
+  ;; Tags
+  (push '(":PROPERTIES:" . ?≫) prettify-symbols-alist)
+  (push '(":LOGBOOK:" . ?≫) prettify-symbols-alist)
+  (push '(":END:" . ?≫) prettify-symbols-alist)
+  (push '(":projects:" . ?🚀) prettify-symbols-alist)
+  (push '(":task:"     . ?✅) prettify-symbols-alist)
+  (push '(":paper:"   . ?📝) prettify-symbols-alist)
+  (push '(":lab:"   . ?🥼) prettify-symbols-alist)
+  (push '(":ra:"   . ?📖) prettify-symbols-alist)
+  (push '(":bug:"   . ?🐛) prettify-symbols-alist)
+  (push '(":analysis:" . ?📈) prettify-symbols-alist)
+  (prettify-symbols-mode))
+
+(add-hook 'org-mode-hook        #'my/prettify-symbols-setup)
+(add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
+#+end_src
+
+*** コード実行・エクスポート機能
+**** org-babel
 #+begin_src emacs-lisp
 (org-babel-do-load-languages
 'org-babel-load-languages
@@ -867,18 +1015,19 @@ binding))))))))
 (with-eval-after-load 'ob-lisp
   (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
 #+end_src
-** org-super-agenda
+
+**** org-super-agenda
 #+begin_src emacs-lisp
-;(autoload-if-found '(org-agenda) "org-super-agenda" nil t)
 (require 'org-super-agenda)
 (org-super-agenda-mode t)
 #+end_src
-** org-agenda
+
+**** org-agenda
 #+begin_src emacs-lisp
 (require 'org-agenda)
 
 (with-eval-after-load 'org
-  (setq org-agenda-custom-commands 
+  (setq org-agenda-custom-commands
         '(("x" "Unscheduled Tasks" tags-todo
            "-SCHEDULED>=\"<today>\"-DEADLINE>=\"<today>\"" nil)
           ("v" "List of TODOs"
@@ -918,13 +1067,13 @@ binding))))))))
                                    :tag "paper"
                                    :order 9)
                             (:discard (:anything t))))))))))
-  
+
   (setq org-agenda-start-on-weekday 3
         org-agenda-span 'week
         org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
         org-agenda-include-deadlines t
-        org-return-follows-link t  ;; RET to follow link
+        org-return-follows-link t
         org-agenda-time-grid
         '((daily today require-timed)
           (0900 1200 1300 1800) "......" "----------------")
@@ -941,11 +1090,10 @@ binding))))))))
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src
 
-** org-pomodoro
+**** org-pomodoro
 #+begin_src emacs-lisp
 (require 'org-pomodoro)
 (keymap-global-set "M-p" #'org-pomodoro)
-; (global-unset-key (kbd "M-p"))
 (with-eval-after-load 'org-pomodoro
   (setopt org-pomodoro-play-sournds  nil)
   (setopt org-pomodoro-finished-sound-p nil)
@@ -956,7 +1104,7 @@ binding))))))))
   (setopt org-pomodoro-length 25)
   (setopt org-pomodoro-short-break-length 5)
   (setq org-pomodoro-keep-killed-pomodoro-time t)
-  
+
   (defun org-pomodoro-kill ()
     "Kill the current timer, reset the phase and update the modeline."
     (interactive)
@@ -970,7 +1118,7 @@ binding))))))))
                   "-title" title
                   "-sender" "org.gnu.Emacs"
                   "-message" message))
-                
+
   ;; org-pomodoro mode hooks
   (add-hook 'org-pomodoro-finished-hook
             (lambda ()
@@ -979,7 +1127,7 @@ binding))))))))
   (add-hook 'org-pomodoro-break-finished-hook
             (lambda ()
               (notify-osx "Pomodoro Short Break Finished" "Ready for Another?📝")))
-  
+
   (add-hook 'org-pomodoro-started-hook
             (lambda ()
               (notify-osx "Pomodoro Started! " "GO!🏃GO!🏃GO!🏃")))
@@ -989,22 +1137,24 @@ binding))))))))
               (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!🔪"))))
 #+end_src
 
-** ox-gfm
+**** エクスポート設定
+***** ox-gfm
 #+begin_src emacs-lisp
 (require 'ox-gfm)
 #+end_src
 
-** ox-hugo
+***** ox-hugo
 #+begin_src emacs-lisp
 (require 'ox-hugo)
 #+end_src
 
-** ox-typst
+***** ox-typst
 #+begin_src emacs-lisp
 (require 'ox-typst)
 #+end_src
 
-** org-hydra
+*** Org操作メニュー
+**** org-hydra
 #+begin_src emacs-lisp
 (defun my:org-goto-project ()
     (interactive)
@@ -1035,7 +1185,8 @@ binding))))))))
    (("n" org-move-subtree-down "down" :exit nil)
     ("u" org-move-subtree-up "up" :exit nil))))
 #+end_src
-** hide-lines
+
+**** hide-lines
 #+begin_src emacs-lisp
 (defun hide-done-tasks ()
   (interactive)
@@ -1045,130 +1196,16 @@ binding))))))))
   (interactive)
   (hide-lines-show-all))
 #+end_src
-** org-appear
-#+begin_src emacs-lisp
-(add-hook 'org-mode-hook #'org-appear-mode)
-(setq org-hide-emphasis-markers t)  ;; Must be activated for org-appear to work
-(setq org-appear-autoemphasis   t   ;; Show bold, italics, verbatim, etc.
-        org-appear-autolinks      t   ;; Show links
-        org-appear-autosubmarkers t)
 
-#+end_src
-** SVG Elements
-#+begin_src emacs-lisp
-  (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
-  (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
-  (defconst day-re "[A-Za-z]\\{3\\}")
-  (defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)?" day-re time-re))
-
-  (defun svg-progress-percent (value)
-	(svg-image (svg-lib-concat
-				(svg-lib-progress-bar (/ (string-to-number value) 100.0)
-			      nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
-				(svg-lib-tag (concat value "%")
-				  nil :stroke 0 :margin 0)) :ascent 'center))
-
-  (defun svg-progress-count (value)
-	(let* ((seq (mapcar #'string-to-number (split-string value "/")))
-           (count (float (car seq)))
-           (total (float (cadr seq))))
-	  (svg-image (svg-lib-concat
-				  (svg-lib-progress-bar (/ count total) nil
-					:margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
-				  (svg-lib-tag value nil
-					:stroke 0 :margin 0)) :ascent 'center)))
-  (setq svg-tag-tags
-      `(
-        ;; Task priority
-        ("\\[#[A-Z]\\]" . ( (lambda (tag)
-                              (svg-tag-make tag :face 'org-priority
-                                            :beg 2 :end -1 :margin 0))))
-
-        ;; Progress
-        ("\\(\\[[0-9]\\{1,3\\}%\\]\\)" . ((lambda (tag)
-          (svg-progress-percent (substring tag 1 -2)))))
-        ("\\(\\[[0-9]+/[0-9]+\\]\\)" . ((lambda (tag)
-          (svg-progress-count (substring tag 1 -1)))))
-
-        ;; Active date (with or without day name, with or without time)
-        (,(format "\\(<%s>\\)" date-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :beg 1 :end -1 :margin 0))))
-        (,(format "\\(<%s \\)%s>" date-re day-time-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0))))
-        (,(format "<%s \\(%s>\\)" date-re day-time-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0))))
-
-        ;; Inactive date  (with or without day name, with or without time)
-         (,(format "\\(\\[%s\\]\\)" date-re) .
-          ((lambda (tag)
-             (svg-tag-make tag :beg 1 :end -1 :margin 0 :face 'org-date))))
-         (,(format "\\(\\[%s \\)%s\\]" date-re day-time-re) .
-          ((lambda (tag)
-             (svg-tag-make tag :beg 1 :inverse nil
-						       :crop-right t :margin 0 :face 'org-date))))
-         (,(format "\\[%s \\(%s\\]\\)" date-re day-time-re) .
-          ((lambda (tag)
-             (svg-tag-make tag :end -1 :inverse t
-						       :crop-left t :margin 0 :face 'org-date))))))
-
-(add-hook 'org-mode-hook 'svg-tag-mode)
-#+end_src
-** Prettify Tags & Keywords
-Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying Emacs Org Mode]]
-#+begin_src emacs-lisp
-(defun my/prettify-symbols-setup ()
-  ;; Checkboxes
-  (push '("[ ]" . "☐") prettify-symbols-alist)
-  (push '("[X]" . "☑") prettify-symbols-alist)
-  (push '("[-]" . "❍" ) prettify-symbols-alist)
-
-  ;; org-babel
-  (push '("#+BEGIN_SRC" . ?≫) prettify-symbols-alist)
-  (push '("#+END_SRC" . ?≫) prettify-symbols-alist)
-  (push '("#+begin_src" . ?≫) prettify-symbols-alist)
-  (push '("#+end_src" . ?≫) prettify-symbols-alist)
-
-  (push '("#+begin_quote" . ?❝) prettify-symbols-alist)
-  (push '("#+end_quote" . ?❞) prettify-symbols-alist)
-
-  ;; Drawers
-  (push '(":PROPERTIES:" . ?) prettify-symbols-alist)
-    
-  (push '("SCHEDULED:" . ?🕘) prettify-symbols-alist)
-  (push '("DEADLINE:" . ?⏰) prettify-symbols-alist)
-  (push '("CLOCK:" . ?⌚) prettify-symbols-alist)
-  (push '("CLOSED:" . ?✅) prettify-symbols-alist)
-
-  ;; Tags
-  (push '(":PROPERTIES:" . ?≫) prettify-symbols-alist)
-  (push '(":LOGBOOK:" . ?≫) prettify-symbols-alist)
-  (push '(":END:" . ?≫) prettify-symbols-alist)
-  (push '(":projects:" . ?🚀) prettify-symbols-alist)
-  (push '(":task:"     . ?✅) prettify-symbols-alist)
-  (push '(":paper:"   . ?📝) prettify-symbols-alist)
-  (push '(":lab:"   . ?🥼) prettify-symbols-alist)
-  (push '(":ra:"   . ?📖) prettify-symbols-alist)
-  (push '(":bug:"   . ?🐛) prettify-symbols-alist)
-  (push '(":analysis:" . ?📈) prettify-symbols-alist)
-  (prettify-symbols-mode))
-
-(add-hook 'org-mode-hook        #'my/prettify-symbols-setup)
-(add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
-#+end_src
-
-* lsp
-** lsp-mode
-*** basic config
+* LSP・開発環境
+** LSP機能
+*** lsp-mode
+**** 基本設定
 #+begin_src emacs-lisp
 ;; (require 'lsp-mode)
 #+end_src
-*** language specific config
-#+begin_src emacs-lisp
-#+end_src
-*** lsp-booster
+
+**** lsp-booster
 #+begin_src emacs-lisp
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
@@ -1188,21 +1225,22 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
   "Prepend emacs-lsp-booster command to lsp CMD."
   (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)                             ;; for check lsp-server-present?
-             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+    (if (and (not test?)
+             (not (file-remote-p default-directory))
              lsp-use-plists
-             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (not (functionp 'json-rpc-connection))
              (executable-find "emacs-lsp-booster"))
         (progn
-          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+          (when-let ((command-from-exec-path (executable-find (car orig-result))))
             (setcar orig-result command-from-exec-path))
           (message "Using emacs-lsp-booster for %s!" orig-result)
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
-** eglot
-*** basic
+
+*** eglot
+**** 基本設定
 #+begin_src emacs-lisp
 (require 'eglot)
 (pretty-hydra-define eglot
@@ -1221,7 +1259,6 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
    (("n" flycheck-next-error "next")
     ("p" flycheck-previous-error "prev"))))
 (keymap-global-set "C-c l" #'eglot/body)
-;; Option 1: Specify explicitly to use Orderless for Eglot
 (setq completion-category-overrides '((eglot (styles orderless))
                                       (eglot-capf (styles orderless))))
 (with-eval-after-load 'embark
@@ -1244,118 +1281,64 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
                   :tinymist
                   (:formatterMode "typstyle")))
 #+end_src
-*** eldoc
+
+**** eldoc
 #+begin_src emacs-lisp
-; (require 'eldoc-box)
 (global-eldoc-mode -1)
 (setq eldoc-idle-delay 2)
-; (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
 #+end_src
-*** language specific config
-**** rust
+
+**** 言語別設定
+***** Rust
 #+begin_src emacs-lisp
 (add-hook 'rust-mode-hook #'eglot-ensure)
-; ref https://syohex.hatenablog.com/entry/2022/11/08/000610
 (defun my/find-rust-project-root (dir)
   (when-let ((root (locate-dominating-file dir "Cargo.toml")))
     (list 'vc 'git root)))
 
 (defun my/rust-mode-hook ()
   (setq-local project-find-functions (list #'my/find-rust-project-root)))
-  
+
 (add-hook 'rust-mode-hook #'my/rust-mode-hook)
 #+end_src
-**** python
+
+***** Python
 #+begin_src emacs-lisp
 (add-hook 'python-mode-hook #'eglot-ensure)
 (add-to-list 'eglot-server-programs
               '(python-mode . ("rass" "--" "ty" "server" "--" "ruff" "server")))
 #+end_src
-**** nix
+
+***** Nix
 #+begin_src emacs-lisp
 (add-hook 'nix-mode-hook #'eglot-ensure)
 #+end_src
-**** typst
+
+***** Typst
 #+begin_src emacs-lisp
 (add-hook 'typst-ts-mode-hook #'eglot-ensure)
 (with-eval-after-load 'typst-ts-mode
-  ;; (setq-local eglot-ignored-server-capabilities
-  ;;             '(:hoverProvider
-  ;;               :inlayHintProvider
-  ;;               :signatureHelp 
-  ;;               :didChangeConfiguration))
   (add-to-list 'eglot-server-programs
                `((typst-ts-mode) .
                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
                                         "tinymist")))))
 #+end_src
-**** yatex(Latex)
+
+***** YaTeX (LaTeX)
 #+begin_src emacs-lisp
 (add-to-list 'eglot-server-programs
              '(yatex-mode . ("texlab")))
 (add-hook 'yatex-mode-hook #'eglot-ensure)
 #+end_src
-** lsp-bridge
-*** basic config
+
+*** lsp-bridge
+**** 基本設定
 #+begin_src emacs-lisp
 ;; (require 'lsp-bridge)
-
-;; (pretty-hydra-define lsp-bridge
-;;   (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;   ("peek"
-;;    (("d" lsp-bridge-find-def "def")
-;;     ("r" lsp-bridge-find-references "ref")
-;;     ("i" lsp-bridge-find-impl "impl")
-;;     ("s" lsp-bridge-workspace-list-symbols "symbols")
-;;     ("b" xref-go-back "go back"))
-;;    "action"
-;;    (("R" lsp-bridge-rename "rename")
-;;     ("a" lsp-bridge-code-action "action"))
-;;    "diagnostic"
-;;    (("D" lsp-bridge-diagnostic-list "diagnostic")
-;;     ("n" lsp-bridge-diagnostic-jump-next "next")
-;;     ("p" lsp-bridge-diagnostic-jump-prev "prev"))))
-;; (keymap-global-set "C-c l" #'lsp-bridge/body)
-
-;; (with-eval-after-load 'lsp-bridge
-;;   (setq acm-enable-tabnine                  nil
-;;         acm-enable-copilot                  nil
-;;         acm-enable-quick-access             t
-;;         acm-backend-yas-candidates-number   5
-;;         acm-candidate-match-function 'orderless-literal
-;;         acm-backend-lsp-show-progress t
-;;         lsp-bridge-enable-hover-diagnostic  t
-;;         lsp-bridge-enable-inlay-hint t
-;;         lsp-bridge-diagnostic-fetch-idle 0.1
-;;         lsp-bridge-log-level ""
-;;         lsp-bridge-enable-auto-format-code nil))
 #+end_src
 
-*** language specific config
+*** flycheck
 #+begin_src emacs-lisp
-;; (defun my/find-cargo-root (filename)
-;;   (expand-file-name
-;;    (locate-dominating-file filename "Cargo.toml")))
-
-;; (add-hook 'rust-mode-hook
-;;           (lambda ()
-;;             (setq-local lsp-bridge-get-project-path-by-filepath #'my/find-cargo-root)
-;;             (lsp-bridge-mode)))
-
-;; (add-hook 'python-mode-hook
-;;           (lambda ()
-;;             (remove '((python-mode python-ts-mode) . lsp-bridge-python-multi-lsp-server) lsp-bridge-multi-lang-server-mode-list)
-;;             (lsp-bridge-mode)))
-
-
-;; (add-hook 'nix-mode-hook #'lsp-bridge-mode)
-;; (add-hook 'yatex-mode-hook #'lsp-bridge-mode)
-;; (add-hook 'typst-ts-mode-hook #'lsp-bridge-mode)
-#+end_src
-
-** flycheck
-#+begin_src emacs-lisp
-; grammar check
 (require 'flycheck)
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
 (with-eval-after-load 'flycheck
@@ -1364,76 +1347,80 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 #+end_src
 
+*** highlight-indent-guides
 #+begin_src emacs-lisp
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
-** dap
+
+** デバッグ機能
+*** dap
 #+begin_src emacs-lisp
 (require 'dap-mode)
 (require 'dap-hydra)
 (require 'dap-ui)
 
 (with-eval-after-load 'dap-mode
-  ;; keybind
   (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
-
-  ;; hooks
   (add-hook 'dap-mode-hook #'dap-ui-mode)
   (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 #+end_src
-* Program
-** formatter
+
+* プログラミング言語
+** フォーマッタ・整形
+*** reformatter
 #+begin_src emacs-lisp
 (require 'reformatter)
 #+end_src
-** langs
-*** csv mode
+
+** 言語別設定
+*** CSV形式
+**** csv-mode
 #+begin_src emacs-lisp
 (require 'csv-mode)
 (add-to-list 'auto-mode-alist '("\\.csv$" . csv-mode))
 
 (with-eval-after-load 'csv-mode
-  ;; hook
   (add-hook 'csv-mode-hook #'view-mode))
 #+end_src
-*** docker compose mode
+
+*** Docker関連
+**** docker-compose-mode
 #+begin_src emacs-lisp
 (require 'docker-compose-mode)
-
 (add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
 
 (with-eval-after-load 'docker-compose-mode
-  ;; hook
   (add-hook 'docker-compose-mode-hook #'view-mode))
 #+end_src
-*** dockerfile mode
+
+**** dockerfile-mode
 #+begin_src emacs-lisp
 (require 'dockerfile-mode)
-
 (add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile.dev$" . dockerfile-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
 
 (with-eval-after-load 'dockerfile-mode
-  ;; hooks
   (add-hook 'dockerfile-mode-hook #'flycheck-mode))
 #+end_src
-*** dotenv mode
+
+*** 環境設定ファイル
+**** dotenv-mode
 #+begin_src emacs-lisp
 (require 'dotenv-mode)
-
 (add-to-list 'auto-mode-alist '(".env$" . dotenv-mode))
 
 (with-eval-after-load 'dotenv-mode
   (add-hook 'dotenv-mode-hook #'view-mode))
 #+end_src
-*** git mode
+
+*** Git関連
+**** git-modes
 #+begin_src emacs-lisp
-(require 'git-modes)
-;; gitignore-mode
+(require 'git-modes')
 (add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
@@ -1442,10 +1429,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (add-to-list 'auto-mode-alist '("CODEOWNERS" . gitignore-mode))
 
 (with-eval-after-load 'gitignore-mode
-  ;; hook
   (add-hook 'gitignore-mode-hook #'view-mode))
 
-;; gitconfig-mode
 (add-to-list 'auto-mode-alist '("\\.git-pr-release$" . gitconfig-mode))
 (add-to-list 'auto-mode-alist '("\\.editorconfig$" . gitconfig-mode))
 (add-to-list 'auto-mode-alist '("\\.gitconfig$" . gitconfig-mode))
@@ -1456,20 +1441,19 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (add-to-list 'auto-mode-alist '("/etc/gitconfig\\'" . gitconfig-mode))
 
 (with-eval-after-load 'gitconfig-mode
-  ;; hook
   (add-hook 'gitconfig-mode-hook #'view-mode))
 
-;; gitattributes
 (add-to-list 'auto-mode-alist '("/\\.gitattributes\\'" . gitattributes-mode))
 (add-to-list 'auto-mode-alist '("\.gitattributes$" . gitattributes-mode))
 (add-to-list 'auto-mode-alist '("/info/attributes\\'" . gitattributes-mode))
 (add-to-list 'auto-mode-alist '("/git/attributes\\'" . gitattributes-mode))
 
 (with-eval-after-load 'gitattributes-mode
-  ;; hook
   (add-hook 'gitattributes-mode-hook #'view-mode))
 #+end_src
-*** json mode
+
+*** JSON形式
+**** json-mode
 #+begin_src emacs-lisp
 (require 'json-mode)
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
@@ -1478,12 +1462,11 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
 
 (with-eval-after-load 'json-mode
-  ;; hooks
   (add-hook 'json-mode-hook #'flycheck-mode))
-
 #+end_src
-*** rust mode
-**** basic and lsp
+
+*** Rust
+**** 基本設定・LSP
 #+begin_src emacs-lisp
 (require 'rust-mode)
 (require 'cargo)
@@ -1495,7 +1478,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   (setq rust-format-on-save t
         rust-mode-treesitter-derive t))
 #+end_src
-**** hydra-menu
+
+**** Hydraメニュー
 #+begin_src emacs-lisp
 (major-mode-hydra-define rust-mode
   (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
@@ -1506,9 +1490,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
     ("c" rust-check "check"))))
 #+end_src
 
-*** ssh config mode
-*** python mode
-**** basic and lsp
+*** Python
+**** 基本設定・LSP
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
@@ -1516,12 +1499,13 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   (setopt python-shell-completion-native-enable nil)
   (pet-mode t))
 #+end_src
-**** formatter
+
+**** フォーマッタ
 #+begin_src emacs-lisp
 (reformatter-define python-isort-format
   :program "isort"
   :args '("-")
-  :stdin t  ; バッファ内容を標準入力 (STDIN) に渡す
+  :stdin t
   :lighter "isort"
   :group 'python-isort)
 (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
@@ -1532,16 +1516,16 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
 #+end_src
-**** DAP
+
+**** デバッグ
 #+begin_src emacs-lisp
 (require 'dap-python)
-;; if you installed debugpy, you need to set this
-;; https://github.com/emacs-lsp/dap-mode/issues/306
 (setq dap-python-debugger 'debugpy)
 (add-hook 'python-mode-hook '(lambda ()
                                (setq dap-python-executable (format "%s.venv/bin/python" (projectile-project-root)))))
 #+end_src
-**** uv config
+
+**** uv設定
 #+begin_src emacs-lisp
 (defcustom uv-command "uv"
   "command for running uv"
@@ -1569,7 +1553,6 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
           (print installed-packages))
         installed-packages)))
 
-; check the existence of pyproject.toml in projectile-project-root
 (defun uv-project-root-p ()
   (interactive)
   (file-exists-p
@@ -1580,7 +1563,6 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 
 (defun uv-remove-package ()
   "function to remove package in current project"
-  ; パッケージの存在
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
         (if (not (uv-package-existance-p package-name))
@@ -1590,7 +1572,6 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 
 (defun uv-add-package ()
   "function to add new package in current project"
-  ; パッケージが存在する時も実行しない
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
         (if (uv-package-existance-p package-name)
@@ -1599,7 +1580,7 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
            (concat uv-command " " uv-command--add " " package-name))))))
 #+end_src
 
-**** hydra menu
+**** Hydraメニュー
 #+begin_src emacs-lisp
 (major-mode-hydra-define python-mode
   (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
@@ -1609,7 +1590,9 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
    (("a" uv-add-package "add")
     ("r" uv-remove-package "remove"))))
 #+end_src
-*** nix mode
+
+*** Nix
+**** nix-mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
 
@@ -1617,18 +1600,20 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
   :program "alejandra")
 (add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
 #+end_src
-*** toml mode
+
+*** TOML形式
+**** toml-mode
 #+begin_src emacs-lisp
 (require 'toml-mode)
-
 (add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
 
 (with-eval-after-load 'toml-mode
-  ;; hooks
   (add-hook 'toml-mode-hook #'flycheck-mode)
   (add-hook 'toml-mode-hook #'view-mode))
 #+end_src
-*** yaml mode
+
+*** YAML形式
+**** yaml-mode
 #+begin_src emacs-lisp
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
@@ -1636,16 +1621,19 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
 
 (with-eval-after-load 'yaml-mode
-  ;; hooks
   (add-hook 'yaml-mode-hook #'flycheck-mode)
   (add-hook 'yaml-mode-hook #'view-mode))
 #+end_src
-*** fish mode
+
+*** Fish
+**** fish-mode
 #+begin_src emacs-lisp
 (require 'fish-mode)
 (add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
 #+end_src
-*** haskell
+
+*** Haskell
+**** haskell-mode
 #+begin_src emacs-lisp
 (require 'haskell-mode)
 (require 'inf-haskell)
@@ -1654,12 +1642,13 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (add-hook 'haskell-mode-hook #'inferior-haskell-mode)
 (reformatter-define haskell-fourmolu-format
   :program "fourmolu"
-  ;;:stdin t
   :args `( ,buffer-file-name))
 (add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
 #+end_src
-* Typset
-** typst mode
+
+* 組版システム
+** Typst
+*** typst-ts-mode
 #+begin_src emacs-lisp
 (require 'typst-ts-mode)
 (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
@@ -1676,7 +1665,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (add-hook 'typst-ts-mode-hook #'typst-typstyle-on-save-mode)
 #+end_src
 
-** yatex
+** LaTeX
+*** yatex
 #+begin_src emacs-lisp
 (require 'yatex)
 (add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
@@ -1706,14 +1696,14 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
      ("b" YaTeX-make-begin-end "begin env")
      ("s" YaTeX-make-section "section env")))))
 #+end_src
-** flyspell
+
+*** flyspell
 #+begin_src emacs-lisp
 (require 'flyspell)
 (add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 
-** reftex
-
+*** reftex
 #+begin_src emacs-lisp
 (require 'reftex)
 (add-to-list 'yatex-mode-hook #'reftex-mode)
@@ -1724,7 +1714,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
                                          (directory-files-recursively root "\\.bib$"))))))
 #+end_src
 
-* ddskk
+* 日本語入力
+** ddskk
 #+begin_src emacs-lisp
 (require 'ddskk-autoloads)
 (keymap-global-set "C-x j" #'skk-mode)
@@ -1737,7 +1728,7 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
     (setq skkserv-process (skk-open-server-1))
     (when (skk-server-live-p)
       (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-	(set-process-coding-system skkserv-process 'utf-8 code))))
+        (set-process-coding-system skkserv-process 'utf-8 code))))
   skkserv-process)
 
 (setq skk-mode-hook
@@ -1755,36 +1746,32 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
         skk-save-jisyo-instantly t
         skk-server-host "localhost"
         skk-server-portnum 1178))
-  ;; (delete '("'" nil "ー") skk-rom-kana-rule-list)
-  ;; (delete '("[" nil skk-toggle-characters) skk-rom-kana-rule-list)
-  ;; (add-to-list 'skk-rom-kana-rule-list '("'" nil skk-toggle-characters)))
 
 (require 'ddskk-posframe)
 
 (with-eval-after-load 'skk
-  ;; hooks
   (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
-  ;;(keymap-global-set "C-l" #'skk-latin-mode))
-#+END_SRC
+#+end_src
 
-* LLMs
-** mcp
+* AI・LLM Integration
+** MCP (Model Context Protocol)
 #+begin_src emacs-lisp
 ;; (require 'mcp)
 ;; (setq mcp-hub-servers
-;;       `(("filesystem" . (:command "npx" 
+;;       `(("filesystem" . (:command "npx"
 ;;                                   :args ("-y" "@modelcontextprotocol/server-filesystem")
 ;;                                   :roots ("/home/Document/org-mode" "/home/ghq/")))
 ;;         ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
 #+end_src
+
 ** llm
 #+begin_src emacs-lisp
 (require 'llm)
 (require 'llm-ollama)
 (with-eval-after-load 'llm
-  ;; config
   (setopt llm-warn-on-nonfree nil))
 #+end_src
+
 ** ellama
 #+begin_src emacs-lisp
 (require 'ellama)
@@ -1804,33 +1791,23 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
             `(("gemma2" . ,gemma2)
               ("codellama" . ,codellama)
               ("llama3" . ,llama3)))))
-  ;; (require 'mcp-hub)
-  ;; (mcp-hub-start-all-server
-  ;;  (lambda ()
-  ;;    (let ((tools (mcp-hub-get-all-tool :asyncp t :categoryp t)))
-  ;;      (mapcar #'(lambda (tool)
-  ;;   	   (apply #'ellama-tools-define-tool
-  ;;   		  (list tool)))
-  ;;          tools)))))
 #+end_src
-** copilot
+
+** Copilot
 #+begin_src emacs-lisp
 (setq copilot-indent-offset-warning-disable t)
 (require 'copilot)
 (add-hook 'prog-mode-hook 'copilot-mode)
 (keymap-global-set "C-<tab>" #'copilot-accept-completion)
-;(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 #+end_src
 
 ** copilot-chat
 #+begin_src emacs-lisp
 (require 'copilot-chat)
-
 (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
 
-
-** Agent shell
+** Agent Shell
 #+begin_src emacs-lisp
 (require 'acp)
 (require 'agent-shell)
@@ -1838,7 +1815,9 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
       (agent-shell-openai-make-authentication :login t))
 #+end_src
 
-* hydra menu 
+* インタラクティブメニュー
+** hydra メニュー群
+*** Goto メニュー
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-goto
   (:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
@@ -1865,6 +1844,7 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (keymap-global-set "M-j" #'hydra-goto/body)
 #+end_src
 
+*** Edit メニュー
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-edit
   (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
@@ -1885,9 +1865,10 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (keymap-global-set "C-M-;" #'hydra-edit/body)
 #+end_src
 
+*** Toggle メニュー
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-toggle2
-  (:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
+  (:title " Toggle" :color blue :quit-key "q" :foreign-keys warn :separator "-")
    ("Basic"
     (("v" view-mode "view mode" :toggle t)
      ("w" whitespace-mode "whitespace" :toggle t)
@@ -1914,6 +1895,7 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (keymap-global-set "M-t" #'hydra-toggle2/body)
 #+end_src
 
+*** Search メニュー
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-search
   (:title "🔍 Search" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
@@ -1930,9 +1912,10 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (keymap-global-set "C-s" #'hydra-search/body)
 #+end_src
 
+*** Git メニュー
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-git
-  (:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  (:title " Git" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
    ("Basic"
     (("w" magit-checkout "checkout")
      ("s" magit-status "status")
@@ -1955,7 +1938,7 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
      ("g" git-gutter:stage-hunk "stage")
      ("v" git-gutter:revert-hunk "revert")
      ("p" git-gutter:popup-hunk "popup"))
-    " GitHub"
+    " GitHub"
     (("C" checkout-gh-pr "checkout PR")
      ("o" browse-at-remote-or-copy"browse at point")
      ("k" browse-at-remote-kill "copy url")
@@ -1964,7 +1947,8 @@ Reference: [[https://sophiebos.io/posts/prettifying-emacs-org-mode/][Prettifying
 (keymap-global-set "M-\'" #'major-mode-hydra)
 #+end_src
 
-* OJ
+* その他ツール
+** OJ (Online Judge)
 #+begin_src emacs-lisp
 (require 'oj)
 (setopt oj-home-dir
