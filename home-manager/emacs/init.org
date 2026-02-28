@@ -1420,7 +1420,7 @@ binding))))))))
 *** Git関連
 **** git-modes
 #+begin_src emacs-lisp
-(require 'git-modes')
+(require 'git-modes)
 (add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
