@@ -967,7 +967,7 @@ binding))))))))
   (push '("#+end_quote" . ?❞) prettify-symbols-alist)
 
   ;; Drawers
-  (push '(":PROPERTIES:" . ?) prettify-symbols-alist)
+  (push '(":PROPERTIES:" . ?≫) prettify-symbols-alist)
 
   (push '("SCHEDULED:" . ?🕘) prettify-symbols-alist)
   (push '("DEADLINE:" . ?⏰) prettify-symbols-alist)
