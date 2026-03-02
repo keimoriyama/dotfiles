@@ -8,6 +8,7 @@
   neovim-nightly-overlay,
   username,
   brew-nix,
+  inputs,
   ...
 }: let
   sources = pkgs.callPackage ../_sources/generated.nix {};
@@ -144,8 +145,8 @@ in {
         ])
 
         rassumfrassum
-        codex
-        openai
+        # codex
+        # openai
         github-copilot-cli
         terminal-notifier
       ]
