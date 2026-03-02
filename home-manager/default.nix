@@ -8,7 +8,7 @@
   neovim-nightly-overlay,
   username,
   brew-nix,
-  inputs,
+  zen-browser,
   ...
 }: let
   sources = pkgs.callPackage ../_sources/generated.nix {};
@@ -56,8 +56,9 @@ in {
     emacs-config
     git-config
     neovim-config
+    zen-browser.homeModules.beta
   ];
-
+  programs.zen-browser.enable = true;
   programs.home-manager.enable = true;
   home = {
     stateVersion = "25.11";

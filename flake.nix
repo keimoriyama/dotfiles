@@ -32,6 +32,14 @@
       url = "github:BatteredBunny/brew-api";
       flake = false;
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        # IMPORTANT: To ensure compatibility with the latest Firefox version, use nixpkgs-unstable.
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
   outputs = {
@@ -44,6 +52,7 @@
     neovim-nightly-overlay,
     flake-utils,
     brew-nix,
+    zen-browser,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -61,7 +70,7 @@
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {
-          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix;
+          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix zen-browser;
           inherit (home-manager.lib) homeManagerConfiguration;
         };
         modules = [

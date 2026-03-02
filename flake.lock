@@ -286,7 +286,8 @@
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_2",
         "org-babel": "org-babel",
-        "vim-src": "vim-src"
+        "vim-src": "vim-src",
+        "zen-browser": "zen-browser"
       }
     },
     "systems": {
@@ -317,6 +318,29 @@
       "original": {
         "owner": "vim",
         "repo": "vim",
+        "type": "github"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772426935,
+        "narHash": "sha256-fLxV/FzP06eaoMFzwrnKk9x0b+kaNNjbFfp6+rsRKGs=",
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
+        "rev": "6caef0bf5e38a793fd269333f000b7299b160900",
+        "type": "github"
+      },
+      "original": {
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }
