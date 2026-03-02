@@ -135,8 +135,8 @@ in {
         spotify
         wezterm
         mocword
-        notion-app
-        google-chrome
+        # notion-app
+        # google-chrome
         wget
         tree
         (textlint.withPackages [
