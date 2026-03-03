@@ -79,15 +79,15 @@
   };
   emacs-acp = {
     pname = "emacs-acp";
-    version = "49de56f0de328ad9022e2784f52acd73170f7e75";
+    version = "f7e20ce831ce342c457bb6860ca3d41eb183152c";
     src = fetchFromGitHub {
       owner = "xenodium";
       repo = "acp.el";
-      rev = "49de56f0de328ad9022e2784f52acd73170f7e75";
+      rev = "f7e20ce831ce342c457bb6860ca3d41eb183152c";
       fetchSubmodules = false;
-      sha256 = "sha256-5jIUMV0qabU4WaD/W3pvOKvPIwLJB9snUh/dXZGWLCA=";
+      sha256 = "sha256-+CrsVZQaUXL6zUY1H0s9yznV6x6eYIRLQufqQWeU8IY=";
     };
-    date = "2026-02-21";
+    date = "2026-03-02";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
