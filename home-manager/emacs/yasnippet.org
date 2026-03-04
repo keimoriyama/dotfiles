@@ -492,3 +492,16 @@ use proconio::input;
 type Edges = Vec<Vec<${1}>>;
 
 #+end_src
+** agent-shell-mode
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/agent-shell-mode/prompt_elaboration") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: prompt_elaboration
+# key: prompt_elaboration
+# --
+
+${1:path}の英文にフィードバックしてください。ACLやICMLなどの国際会議に投稿する予定の論文の一部です。
+${0}
+
+
+#+end_src
+

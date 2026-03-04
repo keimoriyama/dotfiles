@@ -662,7 +662,7 @@ binding))))))))
 
 (require 'org)
 (with-eval-after-load 'org
-  (setq org-startup-folded 'content
+  (setq org-startup-folded 'fold
         org-deadline-warning-day  30
         org-enforce-todo-dependencies t
         org-html-htmlize-output-type 'inline-css
@@ -672,9 +672,9 @@ binding))))))))
         org-hide-leading-stars t
         org-hide-emphasis-markers t
         org-pretty-entities t
-    org-ellipsis "  ·"
+        org-ellipsis "  ·"
         org-src-fontify-natively t
-    org-src-tab-acts-natively t
+        org-src-tab-acts-natively t
         org-edit-src-content-indentation 0
         org-lowest-priority ?F
         org-default-priority ?E
@@ -797,7 +797,6 @@ binding))))))))
                       "#+TITLE ${title}\n")
                       :unnarrowed t))))
 #+end_src
-
 **** org-roam-ui
 #+begin_src emacs-lisp
 (require' org-roam-ui)

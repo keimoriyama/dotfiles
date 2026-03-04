@@ -122,7 +122,6 @@ in {
         prettier
         ghc
         fourmolu
-
         udev-gothic
 
         online-judge-tools
@@ -135,8 +134,6 @@ in {
         spotify
         wezterm
         mocword
-        # notion-app
-        # google-chrome
         wget
         tree
         (textlint.withPackages [
@@ -146,10 +143,9 @@ in {
         ])
 
         rassumfrassum
-        # codex
-        # openai
         github-copilot-cli
         terminal-notifier
+        notion-app
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us
@@ -159,23 +155,8 @@ in {
         brewCasks.skim
         brewCasks.docker-desktop
         brewCasks.chatgpt
-        # brewCasks.chatgpt-atlas
-        # (brewCasks.google-chrome.overrideAttrs
-        #   (oldAttrs: {
-        #     src = pkgs.fetchurl {
-        #       url = builtins.head oldAttrs.src.urls;
-        #       hash = "sha256-cd7BMMLERir77uokTMTv9KOuejpB11YxNJRjBrWRuhk=";
-        #     };
-        #   }))
         brewCasks.ollama-app
         brewCasks.alt-tab
-        # (brewCasks.steam.overrideAttrs
-        #   (oldAttrs: {
-        #     src = pkgs.fetchurl {
-        #       url = builtins.head oldAttrs.src.urls;
-        #       hash = "sha256-X1VnDJGv02A6ihDYKhedqQdE/KmPAQZkeJHudA6oS6M=";
-        #     };
-        #   }))
       ];
     file = {
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
