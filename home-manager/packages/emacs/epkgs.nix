@@ -133,5 +133,4 @@ in
     org-appear
     ob-rust
     packages.hide-lines
-    #packages.org-hyperscheduler
   ]

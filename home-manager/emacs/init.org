@@ -1146,7 +1146,6 @@ binding))))))))
    (("n" org-move-subtree-down "down" :exit nil)
     ("u" org-move-subtree-up "up" :exit nil))))
 #+end_src
-
 **** hide-lines
 #+begin_src emacs-lisp
 (defun hide-done-tasks ()
@@ -1305,7 +1304,8 @@ binding))))))))
 (with-eval-after-load 'flycheck
   (require 'flycheck-posframe)
   (add-to-list 'flycheck-textlint-plugin-alist '(yatex-mode . "latex2e"))
-  (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)
+  (add-to-list 'flycheck-disabled-checkers 'org-lint))
 #+end_src
 
 *** highlight-indent-guides
