@@ -1156,7 +1156,23 @@ binding))))))))
   (interactive)
   (hide-lines-show-all))
 #+end_src
-
+*** カレンダー
+**** calfw
+#+begin_src emacs-lisp
+(require 'calfw)
+#+end_src
+**** calfw-org
+#+begin_src emacs-lisp
+(require 'calfw-org)
+#+end_src
+**** calfw-ical
+#+begin_src emacs-lisp
+(require 'calfw-ical)
+#+end_src
+**** calfw-gcal
+#+begin_src emacs-lisp
+(require 'calfw-gcal)
+#+end_src
 * LSP・開発環境
 ** LSP機能
 *** lsp-mode
