@@ -85,7 +85,7 @@ in {
         vim
         tree-sitter
 
-        # basedpyright
+        basedpyright
         ruff
         ty
         isort
@@ -145,7 +145,7 @@ in {
         rassumfrassum
         github-copilot-cli
         terminal-notifier
-        notion-app
+        # notion-app
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us

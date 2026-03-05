@@ -1264,8 +1264,6 @@ binding))))))))
 ***** Python
 #+begin_src emacs-lisp
 (add-hook 'python-mode-hook #'eglot-ensure)
-(add-to-list 'eglot-server-programs
-              '(python-mode . ("rass" "--" "ty" "server" "--" "ruff" "server")))
 #+end_src
 
 ***** Nix
