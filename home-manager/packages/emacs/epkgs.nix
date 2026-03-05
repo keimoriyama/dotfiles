@@ -133,7 +133,4 @@ in
     org-appear
     ob-rust
     packages.hide-lines
-    calfw
-    calfw-org
-    calfw-gcal
   ]
