@@ -94,6 +94,11 @@ in {
         stylua
         typescript-language-server
         haskell-language-server
+        copilot-language-server
+        docker-language-server
+        yaml-language-server
+        tinymist
+        typstyle
 
         ghostscript
         wezterm
@@ -105,7 +110,6 @@ in {
         perl
         nil
         nixd
-        copilot-language-server
         texlab
         auctex
 
@@ -114,10 +118,6 @@ in {
         texliveFull
         fzf
         docker
-        docker-language-server
-        yaml-language-server
-        tinymist
-        typstyle
         go
         prettier
         ghc
