@@ -774,22 +774,22 @@ binding))))))))
           '(("f" "Fleeting" plain "%?"
              :target (file+head
                       "fleeting/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+TITLE: ${title}\n")
+                      "")
              :unnarrowed t)
             ("p" "Projects" plain "%?"
              :target (file+head
                       "projects/${slug}.org"
-                      "#+TITLE ${title}\n")
+                      "")
              :unnarrowed t)
             ("l" "Literature" plain "%?"
              :target (file+head
                       "literatures/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+TITLE ${title}\n")
+                      "")
              :unnarrowed t)
             ("b" "books" plain "%?"
              :target (file+head
                       "books/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+TITLE ${title}\n")
+                      "")
                       :unnarrowed t)
              ("P" "parmanent" plain "%?"
               :target (file+head
