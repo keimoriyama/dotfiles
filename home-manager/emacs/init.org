@@ -1149,6 +1149,10 @@ binding))))))))
 (with-eval-after-load 'lsp-mode
   ;; enable flycheck
   (add-hook 'lsp-mode-hook #'flycheck-mode)
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(flex)))
+  (add-hook 'lsp-completion-mode #'my/lsp-mode-setup-completion)
 
   ;; enable diagnostics
   (add-hook 'lsp-configure-hook #'lsp-diagnostics-mode)
@@ -1173,10 +1177,12 @@ binding))))))))
   ;; config
   (setopt lsp-completion-no-cache t)
   (setopt lsp-completion-provider :none))
+
 (with-eval-after-load 'lsp-copilot
   ;; config
   (setopt lsp-copilot-enabled nil))
 #+end_src
+
 **** lsp-booster
 #+begin_src emacs-lisp
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
