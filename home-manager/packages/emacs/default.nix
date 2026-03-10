@@ -3,10 +3,15 @@
   pkgs,
   sources,
 }: let
-  override = final: prev: {
-    dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
-      preBuild = null;
+  override = _: prev: {
+    lsp-mode = prev.melpaPackages.lsp-mode.overrideAttrs (old: {
+      env = (old.env or {}) // {
+        LSP_USE_PLISTS = "1";
+      };
     });
+    # dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
+    #   preBuild = null;
+    # });
   };
   parallelBuildAttrs = {
     enableParallelBuilding = true;
@@ -21,7 +26,7 @@ in {
       parallelBuildAttrs
       // {
         buildInputs = old.buildInputs ++ lib.optional pkgs.stdenv.isDarwin [pkgs.apple-sdk];
-        configureFlags = old.configureFlags ++ ["--with-xwidgets" "--with-dbus"];
+        configureFlags = old.configureFlags ++ ["--with-xwidgets"];
         env = (old.env or {}) // parallelBuildAttrs.env;
       });
     extraEmacsPackages = import ./epkgs.nix {inherit pkgs sources;};

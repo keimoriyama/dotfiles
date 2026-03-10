@@ -96,23 +96,7 @@
 (with-eval-after-load 'warnings
   ;; config
   (setopt warning-suppress-types '((comp))))
-
-;; (defun my/emacs-lisp-mode-hooks ()
-;;   "list-mode-hooks"
-;;   (when (require 'eldoc nil t)
-;;     (setq eldoc-idle-delay 0.2)
-;;     (setq eldoc-echo-area-use-multiline-p t)
-;;     (turn-on-eldoc-mode)))
-;; (add-hook 'emacs-lisp-mode-hook #'my/emacs-lisp-mode-hooks)
 #+end_src
-
-** 環境変数の設定
-#+begin_src emacs-lisp
-;; load environment value
-(dolist (path (reverse (split-string (getenv "PATH") ":")))
-  (add-to-list 'exec-path path))
-#+end_src
-
 ** シェルの設定
 #+begin_src emacs-lisp
 (setq-default shell-file-name
@@ -154,7 +138,7 @@
 **** exec-path-from-shell
 #+begin_src emacs-lisp
 (require 'exec-path-from-shell)
-(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH"))
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH" "LSP_USE_PLISTS"))
 (exec-path-from-shell-initialize)
 #+end_src
 
@@ -1161,9 +1145,38 @@ binding))))))))
 *** lsp-mode
 **** 基本設定
 #+begin_src emacs-lisp
-;; (require 'lsp-mode)
-#+end_src
+(require 'lsp-mode)
+(with-eval-after-load 'lsp-mode
+  ;; enable flycheck
+  (add-hook 'lsp-mode-hook #'flycheck-mode)
 
+  ;; enable diagnostics
+  (add-hook 'lsp-configure-hook #'lsp-diagnostics-mode)
+
+  ;; enable completion
+  (add-hook 'lsp-configure-hook #'corfu-mode)
+
+  ;; config
+  (setopt lsp-response-timeout 60)
+  (setopt lsp-idle-delay 0.8)
+  (setopt lsp-enable-links nil)
+  (setopt lsp-log-io nil)
+  (setopt lsp-file-watch-threshold 20000)
+  (setopt lsp-client-packages (delq 'lsp-volar lsp-client-packages))
+  (setopt lsp-modeline-code-actions-enable nil))
+
+(with-eval-after-load 'lsp-diagnostics
+  ;; config
+  (setopt lsp-diagnostics-flycheck-default-level 'warning))
+
+(with-eval-after-load 'lsp-completion
+  ;; config
+  (setopt lsp-completion-no-cache t)
+  (setopt lsp-completion-provider :none))
+(with-eval-after-load 'lsp-copilot
+  ;; config
+  (setopt lsp-copilot-enabled nil))
+#+end_src
 **** lsp-booster
 #+begin_src emacs-lisp
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
@@ -1197,95 +1210,134 @@ binding))))))))
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
+**** lsp-ui
+#+begin_src emacs-lisp
+(require 'lsp-ui)
+(with-eval-after-load 'lsp-mode
+  ;; hooks
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 
+(require 'lsp-ui-peek)
+(with-eval-after-load 'lsp-ui-peek
+  ;; config
+  (setopt lsp-ui-peek-enable nil)
+  (setopt lsp-ui-peek-peek-height 30)
+  (setopt lsp-ui-peek-list-width 60)
+  (setopt lsp-ui-peek-fontify 'on-demand))
+
+(require 'lsp-ui-imenu)
+(with-eval-after-load 'lsp-ui-imenu
+  ;; config
+  (setopt lsp-ui-imenu-enable nil)
+  (setopt lsp-ui-imenu-kind-position 'top))
+
+(require 'lsp-ui-sideline)
+(with-eval-after-load 'lsp-ui-sideline
+  ;; config
+  (setopt lsp-ui-sideline-enable nil)
+  (setopt lsp-ui-sideline-show-hover t))
+(with-eval-after-load 'lsp-mode
+  ;; hooks
+  (define-key lsp-mode-map (kbd "C-c C-r") #'lsp-ui-peek-find-references)
+  (define-key lsp-mode-map (kbd "C-c C-j") #'lsp-ui-peek-find-definitions)
+  (define-key lsp-mode-map (kbd "C-c C-i") #'lsp-ui-peek-find-implementation)
+  (define-key lsp-mode-map (kbd "C-c C-m") #'lsp-ui-imenu)
+  (define-key lsp-mode-map (kbd "C-c C-s") #'lsp-ui-sideline-mode)
+  (define-key lsp-mode-map (kbd "C-c C-d") #'lsp-ui-doc-mode))
+#+end_src
+**** Language specific config
+***** Latex
+#+begin_src emacs-lisp
+
+#+end_src
 *** eglot
 **** 基本設定
 #+begin_src emacs-lisp
-(require 'eglot)
-(pretty-hydra-define eglot
-  (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ("peek"
-   (("d" xref-find-definitions "definitions")
-    ("r" xref-find-references "references")
-    ("b" xref-go-back "go back"))
-   "action"
-   (("R" eglot-rename "rename")
-    ("a" eglot-code-actions "action"))
-   "search"
-   (("s" consult-eglot-symbols "symbols")
-    ("D" consult-flycheck "diagnostic"))
-   "flycheck"
-   (("n" flycheck-next-error "next")
-    ("p" flycheck-previous-error "prev"))))
-(keymap-global-set "C-c l" #'eglot/body)
-(setq completion-category-overrides '((eglot (styles orderless))
-                                      (eglot-capf (styles orderless))))
-(with-eval-after-load 'embark
-  (with-eval-after-load 'consult-eglot
-    (require 'consult-eglot-embark)
-    (consult-eglot-embark-mode)))
-(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+;; (require 'eglot)
+;; (pretty-hydra-define eglot
+;;   (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;   ("peek"
+;;    (("d" xref-find-definitions "definitions")
+;;     ("r" xref-find-references "references")
+;;     ("b" xref-go-back "go back"))
+;;    "action"
+;;    (("R" eglot-rename "rename")
+;;     ("a" eglot-code-actions "action"))
+;;    "search"
+;;    (("s" consult-eglot-symbols "symbols")
+;;     ("D" consult-flycheck "diagnostic"))
+;;    "flycheck"
+;;    (("n" flycheck-next-error "next")
+;;     ("p" flycheck-previous-error "prev"))))
+;; (keymap-global-set "C-c l" #'eglot/body)
+;; (setq completion-category-overrides '((eglot (styles orderless))
+;;                                       (eglot-capf (styles orderless))))
+;; (with-eval-after-load 'embark
+;;   (with-eval-after-load 'consult-eglot
+;;     (require 'consult-eglot-embark)
+;;     (consult-eglot-embark-mode)))
+;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
-(with-eval-after-load 'eglot
-  (setq eglot-connect-timeout nil)
-  (eglot-booster-mode)
-  (setq eglot-booster-io-only t))
+;; (with-eval-after-load 'eglot
+;;   (setq eglot-connect-timeout nil))
+;;    ;;(eglot-booster-mode)
+;;    ;;(setq eglot-booster-io-only t))
 
-(setq-default eglot-workspace-configuration
-                '(:nil
-                  (:nix
-                   (:flake
-                    (:autoArchive t
-                     :AutoEvalInputs t)))
-                  :tinymist
-                  (:formatterMode "typstyle")))
+;; (setq-default eglot-workspace-configuration
+;;                 '(:nil
+;;                   (:nix
+;;                    (:flake
+;;                     (:autoArchive t
+;;                      :AutoEvalInputs t)))
+;;                   :tinymist
+;;                   (:formatterMode "typstyle")))
 #+end_src
 
 **** eldoc
 #+begin_src emacs-lisp
-(global-eldoc-mode -1)
-(setq eldoc-idle-delay 2)
+;; (global-eldoc-mode -1)
+;; (setq eldoc-idle-delay 2)
 #+end_src
 
 **** 言語別設定
 ***** Rust
 #+begin_src emacs-lisp
-(add-hook 'rust-mode-hook #'eglot-ensure)
-(defun my/find-rust-project-root (dir)
-  (when-let ((root (locate-dominating-file dir "Cargo.toml")))
-    (list 'vc 'git root)))
+;; (add-hook 'rust-mode-hook #'eglot-ensure)
+;; (defun my/find-rust-project-root (dir)
+;;   (when-let ((root (locate-dominating-file dir "Cargo.toml")))
+;;     (list 'vc 'git root)))
 
-(defun my/rust-mode-hook ()
-  (setq-local project-find-functions (list #'my/find-rust-project-root)))
+;; (defun my/rust-mode-hook ()
+;;   (setq-local project-find-functions (list #'my/find-rust-project-root)))
 
-(add-hook 'rust-mode-hook #'my/rust-mode-hook)
+;; (add-hook 'rust-mode-hook #'my/rust-mode-hook)
 #+end_src
 
 ***** Python
 #+begin_src emacs-lisp
-(add-hook 'python-mode-hook #'eglot-ensure)
+;; (add-hook 'python-mode-hook #'eglot-ensure)
 #+end_src
 
 ***** Nix
 #+begin_src emacs-lisp
-(add-hook 'nix-mode-hook #'eglot-ensure)
+;;(add-hook 'nix-mode-hook #'eglot-ensure)
 #+end_src
 
 ***** Typst
 #+begin_src emacs-lisp
-(add-hook 'typst-ts-mode-hook #'eglot-ensure)
-(with-eval-after-load 'typst-ts-mode
-  (add-to-list 'eglot-server-programs
-               `((typst-ts-mode) .
-                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
-                                        "tinymist")))))
+;; (add-hook 'typst-ts-mode-hook #'eglot-ensure)
+;; (with-eval-after-load 'typst-ts-mode
+;;   (add-to-list 'eglot-server-programs
+;;                `((typst-ts-mode) .
+;;                  ,(eglot-alternatives `(,typst-ts-lsp-download-path
+;;                                         "tinymist")))))
 #+end_src
 
 ***** YaTeX (LaTeX)
 #+begin_src emacs-lisp
-(add-to-list 'eglot-server-programs
-             '(yatex-mode . ("texlab")))
-(add-hook 'yatex-mode-hook #'eglot-ensure)
+;; (add-to-list 'eglot-server-programs
+;;              '(yatex-mode . ("texlab")))
+;; (add-hook 'yatex-mode-hook #'eglot-ensure)
 #+end_src
 
 *** lsp-bridge
@@ -1314,15 +1366,15 @@ binding))))))))
 ** デバッグ機能
 *** dap
 #+begin_src emacs-lisp
-(require 'dap-mode)
-(require 'dap-hydra)
-(require 'dap-ui)
+;; (require 'dap-mode)
+;; (require 'dap-hydra)
+;; (require 'dap-ui)
 
-(with-eval-after-load 'dap-mode
-  (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
-  (add-hook 'dap-mode-hook #'dap-ui-mode)
-  (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
-  (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
+;; (with-eval-after-load 'dap-mode
+;;   (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
+;;   (add-hook 'dap-mode-hook #'dap-ui-mode)
+;;   (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
+;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 #+end_src
 
 * プログラミング言語
@@ -1477,10 +1529,10 @@ binding))))))))
 
 **** デバッグ
 #+begin_src emacs-lisp
-(require 'dap-python)
-(setq dap-python-debugger 'debugpy)
-(add-hook 'python-mode-hook '(lambda ()
-                               (setq dap-python-executable (format "%s.venv/bin/python" (projectile-project-root)))))
+;; (require 'dap-python)
+;; (setq dap-python-debugger 'debugpy)
+;; (add-hook 'python-mode-hook '(lambda ()
+;;                                (setq dap-python-executable (format "%s.venv/bin/python" (projectile-project-root)))))
 #+end_src
 
 **** uv設定

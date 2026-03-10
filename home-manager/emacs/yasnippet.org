@@ -364,14 +364,12 @@ main = do
 #+end_src
 
 ** typst-ts-mode
-
 *** slide header
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/header") :mkdirp yes :noweb yes
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/slide-header") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
-# name: header
-# key: header
+# name: slide-header
+# key: slide-header
 # --
-
 #import "@preview/touying:0.6.1": *
 #import themes.university: *
 
@@ -380,11 +378,11 @@ main = do
   // align: horizon,
   // config-common(handout: true),
   config-info(
-    title: [Title],
-    subtitle: [Subtitle],
-    author: [Authors],
+    title: [${1}],
+    subtitle: [${2}],
+    author: [${3}],
     date: datetime.today(),
-    institution: [Institution],
+    institution: [${4}],
     // logo: emoji.school,
   ),
   config-colors(
@@ -405,8 +403,9 @@ main = do
 )
 
 #title-slide()
-#+end_src
 
+${0}
+#+end_src
 *** Image
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/image") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
@@ -423,15 +422,16 @@ main = do
 
 #+end_src
 
-*** font
-#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/font") :mkdirp yes :noweb yes
+*** font-ja
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/font-ja") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
-# name: font
-# key: font
+# name: font-ja
+# key: font-ja
 # --
-set text(
+#set text(
     font: "UDDigiKyokasho Pro",
-)// 日本語は教科書体
+    lang: "ja"
+)
 #+end_src
 
 *** poster heading

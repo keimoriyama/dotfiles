@@ -81,7 +81,6 @@ in
     packages.typst-ts-mode
     python-mode
     pet
-    lsp-pyright
     nix-mode
     reformatter
     csv-mode
@@ -109,14 +108,17 @@ in
 
     # lsp
     # lsp-bridge
-    # lsp-mode
-    dap-mode
+    lsp-mode
+    lsp-ui
+    consult-lsp
+    # dap-mode
     flycheck
     flycheck-posframe
     flycheck-rust
     highlight-indent-guides
-    eglot-booster
-    eldoc-box
+    lsp-latex
+    lsp-pyright
+    lsp-haskell
 
     # org
     org-superstar

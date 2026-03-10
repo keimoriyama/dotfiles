@@ -146,6 +146,7 @@ in {
         github-copilot-cli
         terminal-notifier
         # notion-app
+        google-chrome
       ]
       ++ lib.optionals stdenv.isLinux [
         zoom-us

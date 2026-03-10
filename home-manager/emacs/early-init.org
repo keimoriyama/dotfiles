@@ -1,6 +1,8 @@
 #+begin_src emacs-lisp
 (setq debug-on-error t)
 (setq toggle-debug-on-error t)
+;; lsp-use-plists はlsp-mode読み込み前に設定する必要がある
+(setq lsp-use-plists t)
 #+end_src
 
 * Increase 'gc-cons-threshold' to 100MB for lsp heavy buffers.
