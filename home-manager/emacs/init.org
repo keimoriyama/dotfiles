@@ -1246,9 +1246,18 @@ binding))))))))
   (define-key lsp-mode-map (kbd "C-c C-d") #'lsp-ui-doc-mode))
 #+end_src
 **** Language specific config
+
 ***** Latex
 #+begin_src emacs-lisp
+(with-eval-after-load "yatex"
+ (add-hook 'yatex-mode-hook 'lsp))
 
+(with-eval-after-load "bibtex"
+ (add-hook 'bibtex-mode-hook 'lsp))
+#+end_src
+***** typst
+#+begin_src emacs-lisp
+(add-hook 'typst-ts-mode-hook #'lsp)
 #+end_src
 *** eglot
 **** 基本設定
