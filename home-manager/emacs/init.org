@@ -1151,7 +1151,7 @@ binding))))))))
   (add-hook 'lsp-mode-hook #'flycheck-mode)
   (defun my/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(flex)))
+          '(orderless)))
   (add-hook 'lsp-completion-mode #'my/lsp-mode-setup-completion)
 
   ;; enable diagnostics
@@ -1244,12 +1244,12 @@ binding))))))))
   (setopt lsp-ui-sideline-show-hover t))
 (with-eval-after-load 'lsp-mode
   ;; hooks
-  (define-key lsp-mode-map (kbd "C-c C-r") #'lsp-ui-peek-find-references)
-  (define-key lsp-mode-map (kbd "C-c C-j") #'lsp-ui-peek-find-definitions)
-  (define-key lsp-mode-map (kbd "C-c C-i") #'lsp-ui-peek-find-implementation)
-  (define-key lsp-mode-map (kbd "C-c C-m") #'lsp-ui-imenu)
-  (define-key lsp-mode-map (kbd "C-c C-s") #'lsp-ui-sideline-mode)
-  (define-key lsp-mode-map (kbd "C-c C-d") #'lsp-ui-doc-mode))
+  (define-key lsp-mode-map (kbd "C-c l r") #'lsp-ui-peek-find-references)
+  (define-key lsp-mode-map (kbd "C-c l d") #'lsp-ui-peek-find-definitions)
+  (define-key lsp-mode-map (kbd "C-c l i") #'lsp-ui-peek-find-implementation)
+  (define-key lsp-mode-map (kbd "C-c l m") #'lsp-ui-imenu)
+  (define-key lsp-mode-map (kbd "C-c l s") #'lsp-ui-sideline-mode)
+  (define-key lsp-mode-map (kbd "C-c l D") #'lsp-ui-doc-mode))
 #+end_src
 **** Language specific config
 
@@ -1686,7 +1686,9 @@ binding))))))))
 
 (reformatter-define typst-typstyle
   :program "typstyle"
-  :stdin t)
+  :stdin nil
+  :args `(,input-file)
+  :input-file (reformatter-temp-file-in-current-directory "typ"))
 (add-hook 'typst-ts-mode-hook #'typst-typstyle-on-save-mode)
 #+end_src
 
