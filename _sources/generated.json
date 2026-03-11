@@ -146,6 +146,27 @@
         },
         "version": "f7e20ce831ce342c457bb6860ca3d41eb183152c"
     },
+    "emacs-agent-shell-sidebar": {
+        "cargoLock": null,
+        "date": "2025-11-05",
+        "extract": null,
+        "name": "emacs-agent-shell-sidebar",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "cmacrae",
+            "repo": "agent-shell-sidebar",
+            "rev": "10fee0b1463cdf210b0908c23e940a44c8d4a8e2",
+            "sha256": "sha256-Yp+iDtOdDTtcsLn/VxRx6Mh4VOYGAZUXL7XcLHFkACk=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "10fee0b1463cdf210b0908c23e940a44c8d4a8e2"
+    },
     "emacs-dmacro": {
         "cargoLock": null,
         "date": "2024-10-27",
