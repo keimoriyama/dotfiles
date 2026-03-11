@@ -1265,6 +1265,25 @@ binding))))))))
 #+begin_src emacs-lisp
 (add-hook 'typst-ts-mode-hook #'lsp)
 #+end_src
+***** python
+#+begin_src emacs-lisp
+(setopt lsp-ruff-server-command '("ruff" "server"))
+(setopt lsp-ruff-show-notification "off")
+
+(with-eval-after-load 'lsp-mode
+  (setopt lsp-disabled-clients '(ruff)))
+
+(add-hook 'python-mode-hook #'lsp)
+#+end_src
+***** rust
+#+begin_src emacs-lisp
+(add-hook 'rust-mode-hook #'lsp)
+#+end_src
+***** haskell
+#+begin_src emacs-lisp
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-literate-mode-hook #'lsp)
+#+end_src
 *** eglot
 **** 基本設定
 #+begin_src emacs-lisp
