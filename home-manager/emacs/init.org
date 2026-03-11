@@ -758,27 +758,27 @@ binding))))))))
           '(("f" "Fleeting" plain "%?"
              :target (file+head
                       "fleeting/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "")
+                      "#+title: ${title}\n")
              :unnarrowed t)
             ("p" "Projects" plain "%?"
              :target (file+head
                       "projects/${slug}.org"
-                      "")
+                      "#+title: ${title}\n")
              :unnarrowed t)
             ("l" "Literature" plain "%?"
              :target (file+head
                       "literatures/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "")
+                      "#+title: ${title}\n")
              :unnarrowed t)
             ("b" "books" plain "%?"
              :target (file+head
                       "books/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "")
+                      "#+title: ${title}\n")
                       :unnarrowed t)
              ("P" "parmanent" plain "%?"
               :target (file+head
                       "parmanent/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+TITLE ${title}\n")
+                      "#+title: ${title}\n")
                       :unnarrowed t))))
 #+end_src
 **** org-roam-ui
@@ -1252,7 +1252,6 @@ binding))))))))
   (define-key lsp-mode-map (kbd "C-c l D") #'lsp-ui-doc-mode))
 #+end_src
 **** Language specific config
-
 ***** Latex
 #+begin_src emacs-lisp
 (with-eval-after-load "yatex"
@@ -1277,6 +1276,13 @@ binding))))))))
 #+end_src
 ***** rust
 #+begin_src emacs-lisp
+(defun my/find-rust-project-root (dir)
+  (when-let ((root (locate-dominating-file dir "Cargo.toml")))
+    (list 'vc 'git root)))
+
+(defun my/rust-mode-hook ()
+  (setq-local project-find-functions (list #'my/find-rust-project-root)))
+
 (add-hook 'rust-mode-hook #'lsp)
 #+end_src
 ***** haskell
@@ -1857,7 +1863,6 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'acp)
 (require 'agent-shell)
-(require 'agent-shell-sidebar)
 #+end_src
 
 * インタラクティブメニュー
