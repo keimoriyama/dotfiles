@@ -55,7 +55,7 @@ in {
     fish-config
     emacs-config
     git-config
-    neovim-config
+    # neovim-config
     zen-browser.homeModules.beta
   ];
   programs.zen-browser.enable = true;
