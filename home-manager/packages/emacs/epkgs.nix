@@ -105,6 +105,7 @@ in
     llm
     copilot-chat
     agent-shell
+    agent-shell-sidebar
 
     # lsp
     # lsp-bridge

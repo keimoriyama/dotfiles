@@ -23,6 +23,11 @@ src.git="https://github.com/xenodium/acp.el"
 src.branch="main"
 fetch.github="xenodium/acp.el"
 
+[emacs-agent-shell-sidebar]
+src.git="https://github.com/cmacrae/agent-shell-sidebar"
+src.branch="main"
+fetch.github="cmacrae/agent-shell-sidebar"
+
 [dpp-vim]
 src.git="https://github.com/Shougo/dpp.vim"
 src.branch="main"

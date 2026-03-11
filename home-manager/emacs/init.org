@@ -1857,6 +1857,7 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'acp)
 (require 'agent-shell)
+(require 'agent-shell-sidebar)
 #+end_src
 
 * インタラクティブメニュー
