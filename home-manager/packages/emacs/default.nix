@@ -5,9 +5,11 @@
 }: let
   override = _: prev: {
     lsp-mode = prev.melpaPackages.lsp-mode.overrideAttrs (old: {
-      env = (old.env or {}) // {
-        LSP_USE_PLISTS = "1";
-      };
+      env =
+        (old.env or {})
+        // {
+          LSP_USE_PLISTS = "1";
+        };
     });
     # dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
     #   preBuild = null;
@@ -16,7 +18,7 @@
   parallelBuildAttrs = {
     enableParallelBuilding = true;
     env = {
-      NATIVE_COMP_JOBS = "0";
+      #  NATIVE_COMP_JOBS = "0";
     };
   };
 in {
