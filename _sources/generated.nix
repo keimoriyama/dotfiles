@@ -89,18 +89,6 @@
     };
     date = "2026-03-02";
   };
-  emacs-agent-shell-sidebar = {
-    pname = "emacs-agent-shell-sidebar";
-    version = "10fee0b1463cdf210b0908c23e940a44c8d4a8e2";
-    src = fetchFromGitHub {
-      owner = "cmacrae";
-      repo = "agent-shell-sidebar";
-      rev = "10fee0b1463cdf210b0908c23e940a44c8d4a8e2";
-      fetchSubmodules = false;
-      sha256 = "sha256-Yp+iDtOdDTtcsLn/VxRx6Mh4VOYGAZUXL7XcLHFkACk=";
-    };
-    date = "2025-11-05";
-  };
   emacs-dmacro = {
     pname = "emacs-dmacro";
     version = "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468";
