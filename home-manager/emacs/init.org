@@ -1,4 +1,3 @@
-#+STARTUP:
 * 基本設定
 ** 本当の基本設定
 #+BEGIN_SRC emacs-lisp
