@@ -108,7 +108,7 @@ in {
         typst
         tdf
         perl
-        nil
+        # nil
         nixd
         texlab
         auctex
@@ -158,6 +158,7 @@ in {
         brewCasks.chatgpt
         brewCasks.ollama-app
         brewCasks.alt-tab
+        brewCasks.google-drive
         (brewCasks.steam.overrideAttrs
           (oldAttrs: {
             src = pkgs.fetchurl {
