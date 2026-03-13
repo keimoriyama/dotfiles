@@ -119,6 +119,7 @@ in
     lsp-latex
     lsp-pyright
     lsp-haskell
+    lsp-nix
 
     # org
     org-superstar
