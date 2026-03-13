@@ -98,6 +98,7 @@ in
     python-pytest
     fish-mode
     haskell-mode
+    lua-mode
 
     # ai
     copilot
@@ -119,7 +120,7 @@ in
     lsp-latex
     lsp-pyright
     lsp-haskell
-    lsp-nix
+    # lsp-nix
 
     # org
     org-superstar

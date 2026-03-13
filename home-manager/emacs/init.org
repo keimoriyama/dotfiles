@@ -406,7 +406,7 @@ binding))))))))
 **** catppuccin-theme
 #+begin_src emacs-lisp
 (require 'catppuccin-theme)
-(setq catppuccin-flavor 'latte)
+(setq catppuccin-flavor 'frappe)
 (load-theme 'catppuccin t)
 #+end_src
 
@@ -486,7 +486,54 @@ binding))))))))
         (propertize (format "(%s%s, %s)" (or symbol " ") branch state)
                     'face (nano-modeline-face 'primary)))))
 #+end_src
-
+***** face
+#+begin_src emacs-lisp
+;; nano-modeline のフェイスを catppuccin-frappe に合わせる
+(with-eval-after-load 'catppuccin-theme
+  (custom-set-faces
+   ;; --- アクティブウィンドウ（surface1 を背景に）---
+   `(nano-modeline-active
+     ((t (:background ,(catppuccin-get-color 'surface1 'frappe)
+          :foreground ,(catppuccin-get-color 'text     'frappe)))))
+   `(nano-modeline-active-name
+     ((t (:inherit nano-modeline-active :bold t))))
+   `(nano-modeline-active-primary
+     ((t (:inherit nano-modeline-active
+          :foreground ,(catppuccin-get-color 'blue 'frappe)))))
+   `(nano-modeline-active-secondary
+     ((t (:inherit nano-modeline-active
+          :foreground ,(catppuccin-get-color 'overlay1 'frappe)))))
+   `(nano-modeline-active-space
+     ((t (:inherit nano-modeline-active))))
+   ;; ステータス表示（RW=緑、RO=黄、**=赤）
+   `(nano-modeline-active-status-RW
+     ((t (:inherit nano-modeline-active
+          :foreground ,(catppuccin-get-color 'green  'frappe) :bold t))))
+   `(nano-modeline-active-status-RO
+     ((t (:inherit nano-modeline-active
+          :foreground ,(catppuccin-get-color 'yellow 'frappe) :bold t))))
+   `(nano-modeline-active-status-**
+     ((t (:inherit nano-modeline-active
+          :foreground ,(catppuccin-get-color 'red    'frappe) :bold t))))
+   ;; --- 非アクティブウィンドウ（base を背景に、overlay0 でトーンダウン）---
+   `(nano-modeline-inactive
+     ((t (:background ,(catppuccin-get-color 'base     'frappe)
+          :foreground ,(catppuccin-get-color 'overlay0 'frappe)))))
+   `(nano-modeline-inactive-name
+     ((t (:inherit nano-modeline-inactive))))
+   `(nano-modeline-inactive-primary
+     ((t (:inherit nano-modeline-inactive))))
+   `(nano-modeline-inactive-secondary
+     ((t (:inherit nano-modeline-inactive))))
+   `(nano-modeline-inactive-space
+     ((t (:inherit nano-modeline-inactive))))
+   `(nano-modeline-inactive-status-RW
+     ((t (:inherit nano-modeline-inactive))))
+   `(nano-modeline-inactive-status-RO
+     ((t (:inherit nano-modeline-inactive))))
+   `(nano-modeline-inactive-status-**
+     ((t (:inherit nano-modeline-inactive))))))
+#+end_src
 **** moody
 #+begin_src emacs-lisp
 (require 'moody)
@@ -1434,8 +1481,7 @@ binding))))))))
 #+end_src
 
 ** 言語別設定
-*** CSV形式
-**** csv-mode
+*** csv-mode
 #+begin_src emacs-lisp
 (require 'csv-mode)
 (add-to-list 'auto-mode-alist '("\\.csv$" . csv-mode))
@@ -1444,8 +1490,7 @@ binding))))))))
   (add-hook 'csv-mode-hook #'view-mode))
 #+end_src
 
-*** Docker関連
-**** docker-compose-mode
+*** docker-compose-mode
 #+begin_src emacs-lisp
 (require 'docker-compose-mode)
 (add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
@@ -1454,7 +1499,7 @@ binding))))))))
   (add-hook 'docker-compose-mode-hook #'view-mode))
 #+end_src
 
-**** dockerfile-mode
+*** dockerfile-mode
 #+begin_src emacs-lisp
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
@@ -1466,8 +1511,7 @@ binding))))))))
   (add-hook 'dockerfile-mode-hook #'flycheck-mode))
 #+end_src
 
-*** 環境設定ファイル
-**** dotenv-mode
+*** dotenv-mode
 #+begin_src emacs-lisp
 (require 'dotenv-mode)
 (add-to-list 'auto-mode-alist '(".env$" . dotenv-mode))
@@ -1476,8 +1520,7 @@ binding))))))))
   (add-hook 'dotenv-mode-hook #'view-mode))
 #+end_src
 
-*** Git関連
-**** git-modes
+*** git-modes
 #+begin_src emacs-lisp
 (require 'git-modes)
 (add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
@@ -1511,8 +1554,7 @@ binding))))))))
   (add-hook 'gitattributes-mode-hook #'view-mode))
 #+end_src
 
-*** JSON形式
-**** json-mode
+*** json-mode
 #+begin_src emacs-lisp
 (require 'json-mode)
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
@@ -1650,8 +1692,7 @@ binding))))))))
     ("r" uv-remove-package "remove"))))
 #+end_src
 
-*** Nix
-**** nix-mode
+*** nix-mode
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
 
@@ -1660,8 +1701,7 @@ binding))))))))
 (add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
 #+end_src
 
-*** TOML形式
-**** toml-mode
+*** toml-mode
 #+begin_src emacs-lisp
 (require 'toml-mode)
 (add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
@@ -1671,8 +1711,7 @@ binding))))))))
   (add-hook 'toml-mode-hook #'view-mode))
 #+end_src
 
-*** YAML形式
-**** yaml-mode
+*** yaml-mode
 #+begin_src emacs-lisp
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
@@ -1684,15 +1723,13 @@ binding))))))))
   (add-hook 'yaml-mode-hook #'view-mode))
 #+end_src
 
-*** Fish
-**** fish-mode
+*** fish-mode
 #+begin_src emacs-lisp
 (require 'fish-mode)
 (add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
 #+end_src
 
-*** Haskell
-**** haskell-mode
+*** haskell-mode
 #+begin_src emacs-lisp
 (require 'haskell-mode)
 (require 'inf-haskell)
@@ -1703,6 +1740,13 @@ binding))))))))
   :program "fourmolu"
   :args `( ,buffer-file-name))
 (add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
+#+end_src
+
+*** lua-mode
+#+begin_src emacs-lisp
+(require 'lua-mode)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 #+end_src
 
 * 組版システム
