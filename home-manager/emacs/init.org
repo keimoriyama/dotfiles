@@ -717,13 +717,14 @@ binding))))))))
                              (69 . "#5E81AC")
                              (70 . "#4C566A"))
         org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "DOING(i)" "WAIT(w)" "|" "DONE(d)"))
+        '((sequence "TODO(t)" "NEXT(n)" "DOING(i)" "WAIT(w)" "PLANNING(p)" "|" "DONE(d)"))
         org-todo-keyword-faces
         '(("TODO"   :foreground "#A3BE8C" :weight bold)
           ("DOING"  :foreground "#88C0D0" :weight bold)
           ("NEXT"   :foreground "#88C0D0" :weight bold)
-  ("WAIT"   :foreground "#88C0D0" :weight bold)
-          ("DONE"   :foreground "#ff40ff" :weight bold))
+          ("WAIT"   :foreground "#88C0D0" :weight bold)
+          ("DONE"   :foreground "#ff40ff" :weight bold)
+          ("PLANNING"   :foreground "#88C0D0" :weight bold))
         org-tag-alist '(("lab" . ?l)
                         ("ra" . ?r)
                         ("paper" . ?p)
@@ -866,7 +867,8 @@ binding))))))))
           ("WAIT"  . 9744)
           ("DOING" . 9744)
           ("NEXT"  . 9744)
-          ("DONE"  . 9745))))
+          ("DONE"  . 9745)
+          ("PLANNING"  . 9744))))
 #+end_src
 
 **** org-appear
@@ -1343,7 +1345,8 @@ binding))))))))
 (with-eval-after-load 'lsp-nix
   ;; use nixd instead of nil
   (setopt lsp-disabled-clients '(nix-nil))
-  (setopt lsp-nix-nixd-server-path "nixd"))
+  (setopt lsp-nix-nixd-server-path "nixd")
+  (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"]))
 #+end_src
 *** eglot
 **** 基本設定
