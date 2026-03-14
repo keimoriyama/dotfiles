@@ -179,8 +179,14 @@
 (require 'puni)
 (add-hook 'emacs-startup-hook #'puni-global-mode)
 (electric-pair-mode 1)
+(define-key puni-mode-map (kbd "C-)")  #'puni-slurp-forward)
+(define-key puni-mode-map (kbd "C-}")  #'puni-barf-forward)
+(define-key puni-mode-map (kbd "M-(")  #'puni-wrap-forward)
+(define-key puni-mode-map (kbd "M-s")  #'puni-splice)
+(define-key puni-mode-map (kbd "M-r")  #'puni-raise)
+(define-key puni-mode-map (kbd "M-U")  #'puni-splice-killing-forward)
+(define-key puni-mode-map (kbd "M-z")  #'puni-squeeze)
 #+end_src
-
 **** cua-mode
 #+begin_src emacs-lisp
 (cua-mode t)
@@ -1951,23 +1957,23 @@ binding))))))))
 
 *** Edit メニュー
 #+begin_src emacs-lisp
-(pretty-hydra-define hydra-edit
-  (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
-  ("Puni"
-   (("f" puni-slurp-forward "forward" :exit nil)
-    ("b" puni-barf-forward "backward" :exit nil)
-    ("r" puni-wrap-round "round" :exit nil)
-    ("s" puni-slice "slice" :exit nil)
-    ("R" puni-raise "raise" :exit nil)
-    ("u" puni-splice-killing-backward "kill backward" :exit nil)
-    ("z" puni-squeeze "squeeze" :exit nil))
-   "String"
-   (("S" replace-string "replace")
-    ("U" undo-tree-visualize "undo"))
-   "Macros"
-   (("i" reload-init-file "reload init.el")
-    ("d" dmacro-exec "exec dmacro" :exit nil))))
-(keymap-global-set "C-M-;" #'hydra-edit/body)
+;; (pretty-hydra-define hydra-edit
+;;   (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
+;;   ("Puni"
+;;    (("f" puni-slurp-forward "forward" :exit nil)
+;;     ("b" puni-barf-forward "backward" :exit nil)
+;;     ("r" puni-wrap-round "round" :exit nil)
+;;     ("s" puni-slice "slice" :exit nil)
+;;     ("R" puni-raise "raise" :exit nil)
+;;     ("u" puni-splice-killing-backward "kill backward" :exit nil)
+;;     ("z" puni-squeeze "squeeze" :exit nil))
+;;    "String"
+;;    (("S" replace-string "replace")
+;;     ("U" undo-tree-visualize "undo"))
+;;    "Macros"
+;;    (("i" reload-init-file "reload init.el")
+;;     ("d" dmacro-exec "exec dmacro" :exit nil))))
+;; (keymap-global-set "C-M-;" #'hydra-edit/body)
 #+end_src
 
 *** Toggle メニュー

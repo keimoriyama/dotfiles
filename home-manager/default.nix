@@ -99,7 +99,8 @@ in {
         yaml-language-server
         tinymist
         typstyle
-
+        nixd
+        fourmolu
         ghostscript
         wezterm
         cbc
@@ -109,7 +110,6 @@ in {
         tdf
         perl
         # nil
-        nixd
         texlab
         auctex
 
@@ -121,7 +121,6 @@ in {
         go
         prettier
         ghc
-        fourmolu
         udev-gothic
 
         online-judge-tools
