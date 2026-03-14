@@ -4,7 +4,8 @@
   fetchurl,
   fetchFromGitHub,
   dockerTools,
-}: {
+}:
+{
   cargo-compete = {
     pname = "cargo-compete";
     version = "v0.10.7";
@@ -78,15 +79,15 @@
   };
   emacs-acp = {
     pname = "emacs-acp";
-    version = "f7e20ce831ce342c457bb6860ca3d41eb183152c";
+    version = "9737a9678a658a3289229d7d37459c84db1eef24";
     src = fetchFromGitHub {
       owner = "xenodium";
       repo = "acp.el";
-      rev = "f7e20ce831ce342c457bb6860ca3d41eb183152c";
+      rev = "9737a9678a658a3289229d7d37459c84db1eef24";
       fetchSubmodules = false;
-      sha256 = "sha256-+CrsVZQaUXL6zUY1H0s9yznV6x6eYIRLQufqQWeU8IY=";
+      sha256 = "sha256-P3E3CQJde0pn0BHM3liZ/F7mCxoAXzKp8dF8/p2Wf9A=";
     };
-    date = "2026-03-02";
+    date = "2026-03-14";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
