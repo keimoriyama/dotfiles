@@ -26,6 +26,7 @@ in
     exec-path-from-shell
     ddskk
     ddskk-posframe
+    packages.nskk
     rainbow-delimiters
     # hydra
     # pretty-hydra
@@ -34,7 +35,6 @@ in
     quickrun
     avy-zap
     ellama
-    # doom-modeline
     yasnippet
     consult-yasnippet
     yasnippet-capf
