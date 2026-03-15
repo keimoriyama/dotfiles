@@ -8,12 +8,12 @@
     src = sources.emacs-copilot.src;
     packageRequires = [epkgs.f];
   };
-  yatex = epkgs.trivialBuild {
+  yatex = epkgs.melpaBuild {
     pname = "yatex";
     version = "0.0.1";
     src = sources.emacs-yatex.src;
-    # files =''("*[^0-9]*.el")'';
-    patches = [./yatexlib.diff];
+    # patches = [./yatexlib.diff];
+    ignoreCompilationError = true;
   };
   yaml-mode = epkgs.melpaBuild {
     pname = "yaml-mode";
