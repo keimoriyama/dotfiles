@@ -244,12 +244,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "nskk.el",
-            "rev": "a2ee951587e5c9b4278f0aa439ba9359df60035f",
-            "sha256": "sha256-pbDsrRpjXtmVV3tpbnYqNfBFRQUJNez4lj+1YteQyrE=",
+            "rev": "705fba4e5223456cee6506244751448ee458040a",
+            "sha256": "sha256-lHQZ4VstzZJmW4ewDN5uI42KI4fQT4UBJN5PzrELQiw=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "a2ee951587e5c9b4278f0aa439ba9359df60035f"
+        "version": "705fba4e5223456cee6506244751448ee458040a"
     },
     "emacs-org-hyperscheduler": {
         "cargoLock": null,
