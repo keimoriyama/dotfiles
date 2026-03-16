@@ -1348,11 +1348,13 @@ binding))))))))
 ***** nix
 #+begin_src emacs-lisp
 (add-hook 'nix-mode-hook #'lsp)
-(with-eval-after-load 'lsp-nix
-  ;; use nixd instead of nil
-  (setopt lsp-disabled-clients '(nix-nil))
-  (setopt lsp-nix-nixd-server-path "nixd")
-  (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"]))
+(setopt lsp-disabled-clients '(nix-nil))
+
+(setq lsp-nix-nixd-server-path "nixd"
+      lsp-nix-nixd-formatting-command [ "nixfmt" ]
+      lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
+      lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/nb/nixos\").nixosConfigurations.mnd.options"
+      lsp-nix-nixd-home-manager-options-expr "(builtins.getFlake \"/home/nb/nixos\").homeConfigurations.\"nb@mnd\".options")
 #+end_src
 *** eglot
 **** 基本設定
@@ -1830,36 +1832,11 @@ binding))))))))
 * 日本語入力
 ** ddskk
 #+begin_src emacs-lisp
-;; (require 'ddskk-autoloads)
-;; (keymap-global-set "C-x j" #'skk-mode)
-;; (keymap-global-set "C-x C-j" #'skk-mode)
-;; (setq default-input-method "japanese-skk")
+(require 'ddskk-autoloads)
+(keymap-global-set "C-x j" #'skk-mode)
+(keymap-global-set "C-x C-j" #'skk-mode)
+(setq default-input-method "japanese-skk")
 
-
-
-;; (setq skk-mode-hook
-;;       '(lambda()
-;;          (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
-
-;; (setq skk-preload t)
-
-;; (with-eval-after-load 'skk-vars
-;;   (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
-;;         skk-use-azik t
-;;         skk-azik-keyboard-type "en"
-;;         skk-search-katakana nil
-;;         skk-share-private-jisyo t
-;;         skk-save-jisyo-instantly t
-;;         skk-server-host "localhost"
-;;         skk-server-portnum 1178))
-
-;; (require 'ddskk-posframe)
-
-;; (with-eval-after-load 'skk
-;;   (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
-#+end_src
-** skkserver config
-#+begin_src emacs-lisp
 (defun skk-open-server-decoding-utf-8 ()
   "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
   (unless (skk-server-live-p)
@@ -1868,25 +1845,58 @@ binding))))))))
       (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
         (set-process-coding-system skkserv-process 'utf-8 code))))
   skkserv-process)
+
+(setq skk-mode-hook
+      '(lambda()
+         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+
+(setq skk-preload t)
+
+(with-eval-after-load 'skk-vars
+  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+        skk-use-azik t
+        skk-azik-keyboard-type "en"
+        skk-search-katakana nil
+        skk-share-private-jisyo t
+        skk-save-jisyo-instantly t
+        skk-server-host "localhost"
+        skk-server-portnum 1178))
+
+(require 'ddskk-posframe)
+
+(with-eval-after-load 'skk
+  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
 ** nskk
 #+begin_src emacs-lisp
-(require 'nskk)
-(keymap-global-set "C-x C-j" #'nskk-mode)
-(with-eval-after-load 'nskk
-  (setopt nskk-dict-system-dictionary-files
-        '("~/.skk-dict/SKK-JISYO.L"))
-  (setopt nskk-server-enable t)
-  (setopt nskk-server-host "localhost")
-  (setopt nskk-server-portnum 1178)
-  (setopt nskk-server-coding-system 'utf-8)
-  ;; Candidate display
-  (setopt nskk-henkan-show-candidates-nth 2)
-  (setopt nskk-henkan-number-to-display-candidates 7)
-  (setq nskk-converter-romaji-style 'azik)
-  (setq nskk-azik-keyboard-type 'us101))
-#+end_src
+;; (require 'nskk)
+;; (keymap-global-set "C-x C-j" #'nskk-mode)
 
+;; (setopt nskk-dict-system-dictionary-files
+;;         '("~/.skk-dict/SKK-JISYO.L"))
+;; (setopt nskk-server-enable t)
+;; (setopt nskk-server-host "localhost")
+;; (setopt nskk-server-portnum 1178)
+;; (setopt nskk-server-coding-system 'utf-8)
+;; Candidate display
+;; (setopt nskk-henkan-show-candidates-nth 2)
+;; (setopt nskk-henkan-number-to-display-candidates 7)
+;; (setq nskk-converter-romaji-style 'azik)
+;; (setq nskk-azik-keyboard-type 'us101)
+#+end_src
+*** key handler
+#+begin_src emacs-lisp
+;; (require 'nskk-keymap)
+;; (nskk-define-key-handler tab
+;;   "Handle TAB key: dynamic completion in preedit, otherwise pass through.
+;; In preedit mode, searches the dictionary for keys matching the
+;; current reading prefix and completes inline. Repeated TAB cycles.
+;; In other modes, delegates to `indent-for-tab-command'."
+;;   ('dynamic-complete (nskk-dynamic-complete))
+;;   (_ (if (derived-mode-p 'org-mode)
+;;          (org-cycle)
+;;        (indent-for-tab-command))))
+#+end_src
 * AI・LLM Integration
 ** MCP (Model Context Protocol)
 #+begin_src emacs-lisp

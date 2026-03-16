@@ -273,7 +273,18 @@ main = do
 ,#+end_src
 
 #+end_src
+*** mtg time
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/mtg-time") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: mtg-time
+# key: mtg-time
+# --
 
+,**** DONE MTG
+:LOGBOOK:
+CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` ${1:start-time}]--[`(format-time-string "%Y-%m-%d %a" (current-time))` ${2:end-time}] =>  1:00
+:END:
+#+end_src
 ** yatex-mode
 
 *** reference 
