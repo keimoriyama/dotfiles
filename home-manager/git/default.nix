@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       user.name = "keimoriyama";
-      user.email = "kei_moriyama@icloud.com";
+      user.email = "keimoriy4ma@gmail.com";
     };
     ignores = [
       # macOS
