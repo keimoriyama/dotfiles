@@ -26,14 +26,14 @@
       inherit brew-nix;
     };
   };
-  llmAgentsPkgs = llm-agents.packages.${system};
   emacs = import ./packages/emacs {
     inherit (nixpkgs) lib;
     inherit pkgs sources;
   };
   emacsPkgs = emacs.emacs-stable;
-  # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
+  llmAgentsPkgs = llm-agents.packages.${system};
 
+  # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
   mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
@@ -51,11 +51,17 @@
   fish-config = import ./fish {inherit pkgs sources;};
   neovim-config = import ./neovim {inherit pkgs sources config;};
   git-config = import ./git;
+
+  utils = import ./utils.nix {inherit pkgs;};
   langs = import ./langs.nix {inherit pkgs;};
   darwin =
     if pkgs.stdenv.isDarwin
     then import ./darwin.nix {inherit pkgs;}
     else [];
+  gui = import ./gui.nix {inherit pkgs;};
+  llm-agent-pkgs = import ./llm-agent-pkg.nix {
+    inherit llmAgentsPkgs;
+  };
 in {
   imports = [
     wezterm-config
@@ -75,51 +81,20 @@ in {
 
     packages = with pkgs;
       [
-        # utils
-        curl
-        rsync
-        peco
-        ghq
-        # gh
-        ripgrep
-        ghostscript
-        cbc
-        sl
-        ispell
-        tdf
-        nvfetcher
-        hugo
-        # fzf
-        wget
-        tree
-        udev-gothic
-
-        #gui
-        slack
-        discord
-        spotify
-        google-chrome
-
-        #editor
+        #editor & other tools
         vim
         tree-sitter
         # mocword
         terminal-notifier
-
         # online-judge-tools
         # online-judge-template-generator
-
         cargo-compete
-
         yaskkserv2
-
-        # rassumfrassum
-
-        # ai
-        llmAgentsPkgs.copilot-cli
-        llmAgentsPkgs.codex
       ]
+      ++ utils
       ++ langs
+      ++ gui
+      ++ llm-agent-pkgs
       ++ lib.optionals stdenv.isLinux [
         zoom-us
       ]
