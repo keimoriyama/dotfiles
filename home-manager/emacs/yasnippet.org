@@ -187,20 +187,35 @@ ${0}
 ,*** タスク
 ,*** メモ
 #+end_src
-
+*** org-clocktable-daily-tuesday
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-tuesday") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: org-clocktable-daily-tuesday
+# key: org-clocktable-daily-tuesday
+# --
+,** `(format-time-string "%Y-%m-%d %a" (current-time))`
+,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+end:
+,*** タスク
+,**** DONE エージェントチューニングMTG
+:LOGBOOK:
+CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` Tue 11:30]--[`(format-time-string "%Y-%m-%d %a" (current-time))` Thu 12:00] =>  0:30
+:END:
+,*** メモ
+#+end_src
 *** org-clocktable-daily-wednesday
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-wednesday") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: org-clocktable-daily-wednesday
 # key: org-clocktable-daily-wednesday
 # --
-,** `(format-time-string "%Y-%m-%d" (current-time))`
+,** `(format-time-string "%Y-%m-%d %a" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
 ,*** タスク
 ,**** DONE ゼミ
 :LOGBOOK:
-CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Wed 10:00]--[`(format-time-string "%Y-%m-%d" (current-time))` Wed 12:30] =>  2:30
+CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 10:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 12:30] =>  2:30
 :END:
 ,*** メモ
 #+end_src
@@ -210,13 +225,13 @@ CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Wed 10:00]--[`(format-t
 # name: org-clocktable-daily-thursday
 # key: org-clocktable-daily-thursday
 # --
-,** `(format-time-string "%Y-%m-%d" (current-time))`
+,** `(format-time-string "%Y-%m-%d %a" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
 ,*** タスク
 ,**** DONE エージェントMTG
 :LOGBOOK:
-CLOCK: [`(format-time-string "%Y-%m-%d" (current-time))` Thu 11:30]--[`(format-time-string "%Y-%m-%d" (current-time))` Thu 12:00] =>  0:30
+CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 11:30]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 12:00] =>  0:30
 :END:
 ,*** メモ
 #+end_src
