@@ -1351,7 +1351,7 @@ binding))))))))
 (setopt lsp-disabled-clients '(nix-nil))
 
 (setq lsp-nix-nixd-server-path "nixd"
-      lsp-nix-nixd-formatting-command [ "nixfmt" ]
+      lsp-nix-nixd-formatting-command [ "nixpkgs-alejandra" ]
       lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
       lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/nb/nixos\").nixosConfigurations.mnd.options"
       lsp-nix-nixd-home-manager-options-expr "(builtins.getFlake \"/home/nb/nixos\").homeConfigurations.\"nb@mnd\".options")

@@ -35,9 +35,9 @@
 
   # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
-  mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
+  # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
-  rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
+  # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
   emacs-config = import ./emacs {
@@ -49,7 +49,7 @@
       ;
   };
   fish-config = import ./fish {inherit pkgs sources;};
-  neovim-config = import ./neovim {inherit pkgs sources config;};
+  # neovim-config = import ./neovim {inherit pkgs sources config;};
   git-config = import ./git;
 
   utils = import ./utils.nix {inherit pkgs;};
