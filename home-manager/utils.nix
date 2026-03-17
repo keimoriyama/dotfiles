@@ -14,7 +14,7 @@ with pkgs; [
   tdf
   nvfetcher
   hugo
-  # fzf
+  fzf
   wget
   tree
   udev-gothic
