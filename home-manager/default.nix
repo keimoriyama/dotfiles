@@ -8,7 +8,6 @@
   neovim-nightly-overlay,
   username,
   brew-nix,
-  zen-browser,
   llm-agents,
   ...
 }: let
@@ -69,10 +68,8 @@ in {
     emacs-config
     git-config
     # neovim-config
-    zen-browser.homeModules.beta
   ];
 
-  programs.zen-browser.enable = true;
   programs.home-manager.enable = true;
   home = {
     stateVersion = "25.11";
