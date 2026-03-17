@@ -3,4 +3,5 @@ with llmAgentsPkgs; [
   # ai
   copilot-cli
   codex
+  copilot-language-server
 ]

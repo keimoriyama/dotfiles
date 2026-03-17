@@ -27,7 +27,6 @@ with pkgs; [
   stylua
   typescript-language-server
   haskell-language-server
-  copilot-language-server
   docker-language-server
   yaml-language-server
   nixd
