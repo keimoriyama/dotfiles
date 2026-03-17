@@ -9,6 +9,7 @@
   username,
   brew-nix,
   zen-browser,
+  llm-agents,
   ...
 }: let
   sources = pkgs.callPackage ../_sources/generated.nix {};
@@ -25,6 +26,7 @@
       inherit brew-nix;
     };
   };
+  llmAgentsPkgs = llm-agents.packages.${system};
   emacs = import ./packages/emacs {
     inherit (nixpkgs) lib;
     inherit pkgs sources;
@@ -49,6 +51,11 @@
   fish-config = import ./fish {inherit pkgs sources;};
   neovim-config = import ./neovim {inherit pkgs sources config;};
   git-config = import ./git;
+  langs = import ./langs.nix {inherit pkgs;};
+  darwin =
+    if pkgs.stdenv.isDarwin
+    then import ./darwin.nix {inherit pkgs;}
+    else [];
 in {
   imports = [
     wezterm-config
@@ -58,6 +65,7 @@ in {
     # neovim-config
     zen-browser.homeModules.beta
   ];
+
   programs.zen-browser.enable = true;
   programs.home-manager.enable = true;
   home = {
@@ -67,105 +75,55 @@ in {
 
     packages = with pkgs;
       [
+        # utils
         curl
         rsync
-        uv
-        nodejs_24
-        typescript
-        lua
-        alejandra
         peco
         ghq
-        gh
-        deno
-        # rustc
-        rustup
-        cargo-generate
+        # gh
         ripgrep
-        vim
-        tree-sitter
-
-        basedpyright
-        ruff
-        ty
-        isort
-        yaml-language-server
-        lua-language-server
-        stylua
-        typescript-language-server
-        haskell-language-server
-        copilot-language-server
-        docker-language-server
-        yaml-language-server
-        tinymist
-        typstyle
-        nixd
-        fourmolu
         ghostscript
-        wezterm
         cbc
         sl
         ispell
-        typst
         tdf
-        perl
-        # nil
-        texlab
-        auctex
-
         nvfetcher
         hugo
-        texliveFull
-        fzf
-        docker
-        go
-        prettier
-        ghc
+        # fzf
+        wget
+        tree
         udev-gothic
 
-        online-judge-tools
-        online-judge-template-generator
-        cargo-compete
-
-        yaskkserv2
+        #gui
         slack
         discord
         spotify
-        wezterm
-        mocword
-        wget
-        tree
-        (textlint.withPackages [
-          textlint-rule-preset-ja-technical-writing
-          textlint-plugin-org
-          textlint-plugin-latex2e
-        ])
-
-        rassumfrassum
-        github-copilot-cli
-        terminal-notifier
-        # notion-app
         google-chrome
-        codex
+
+        #editor
+        vim
+        tree-sitter
+        # mocword
+        terminal-notifier
+
+        # online-judge-tools
+        # online-judge-template-generator
+
+        cargo-compete
+
+        yaskkserv2
+
+        # rassumfrassum
+
+        # ai
+        llmAgentsPkgs.copilot-cli
+        llmAgentsPkgs.codex
       ]
+      ++ langs
       ++ lib.optionals stdenv.isLinux [
         zoom-us
       ]
-      ++ lib.optionals stdenv.isDarwin [
-        brewCasks.zoom
-        brewCasks.skim
-        brewCasks.docker-desktop
-        brewCasks.chatgpt
-        brewCasks.ollama-app
-        brewCasks.alt-tab
-        (brewCasks.steam.overrideAttrs
-          (oldAttrs: {
-            src = pkgs.fetchurl {
-              url = builtins.head oldAttrs.src.urls;
-              hash = "sha256-X1VnDJGv02A6ihDYKhedqQdE/KmPAQZkeJHudA6oS6M=";
-            };
-          }))
-      ];
+      ++ darwin;
     file = {
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
       "Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;

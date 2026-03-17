@@ -40,6 +40,7 @@
         home-manager.follows = "home-manager";
       };
     };
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs = {
@@ -53,6 +54,7 @@
     flake-utils,
     brew-nix,
     zen-browser,
+    llm-agents,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -70,7 +72,7 @@
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {
-          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix zen-browser;
+          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix zen-browser llm-agents;
           inherit (home-manager.lib) homeManagerConfiguration;
         };
         modules = [
