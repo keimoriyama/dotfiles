@@ -4,4 +4,5 @@ with llmAgentsPkgs; [
   copilot-cli
   codex
   copilot-language-server
+  codex-acp
 ]

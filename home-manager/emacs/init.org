@@ -1878,11 +1878,12 @@ binding))))))))
 ;; (setopt nskk-server-host "localhost")
 ;; (setopt nskk-server-portnum 1178)
 ;; (setopt nskk-server-coding-system 'utf-8)
-;; Candidate display
 ;; (setopt nskk-henkan-show-candidates-nth 2)
 ;; (setopt nskk-henkan-number-to-display-candidates 7)
 ;; (setq nskk-converter-romaji-style 'azik)
 ;; (setq nskk-azik-keyboard-type 'us101)
+;; (setq nskk-debug-enabled t)
+;; (require 'nskk-debug)
 #+end_src
 *** key handler
 #+begin_src emacs-lisp
