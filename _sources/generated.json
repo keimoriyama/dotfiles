@@ -127,7 +127,7 @@
     },
     "emacs-acp": {
         "cargoLock": null,
-        "date": "2026-03-18",
+        "date": "2026-03-20",
         "extract": null,
         "name": "emacs-acp",
         "passthru": null,
@@ -139,12 +139,12 @@
             "name": null,
             "owner": "xenodium",
             "repo": "acp.el",
-            "rev": "7b2b3809f34a7c73f05c02ceee47bf4cb17302c6",
-            "sha256": "sha256-lbYYzt6eypO5gSiEoPciCGFwGH/P+5LwkM9/PR1gEo0=",
+            "rev": "863f2d62c4b4da8b229581be42d490a7403b2eb1",
+            "sha256": "sha256-JblbafhQlCCyFq82wXL09P2gRldrSxXdlTkIeytGISE=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "7b2b3809f34a7c73f05c02ceee47bf4cb17302c6"
+        "version": "863f2d62c4b4da8b229581be42d490a7403b2eb1"
     },
     "emacs-dmacro": {
         "cargoLock": null,
