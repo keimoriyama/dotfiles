@@ -48,8 +48,8 @@ in
     packages.dmacro
     packages.instant-maximized-window
     packages.nano-modeline
-    moody
-    minions
+    # moody
+    # minions
     neotree
     tree-sitter
     centered-cursor-mode
@@ -99,6 +99,7 @@ in
     fish-mode
     haskell-mode
     lua-mode
+    web-mode
 
     # ai
     copilot

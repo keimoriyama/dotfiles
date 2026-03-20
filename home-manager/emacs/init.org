@@ -541,22 +541,26 @@ binding))))))))
 #+end_src
 **** moody
 #+begin_src emacs-lisp
-(require 'moody)
-(setq x-underline-at-descent-line t)
-(moody-replace-mode-line-buffer-identification)
-(moody-replace-vc-mode)
-;; 以下を追加
-(when (eq system-type 'darwin)
-  (setq moody-slant-function 'moody-slant-apple-rgb))
+;; (require 'moody)
+;; (setq x-underline-at-descent-line t)
+;; (moody-replace-mode-line-buffer-identification)
+;; (moody-replace-vc-mode)
+;; ;; 以下を追加
+;; (when (eq system-type 'darwin)
+;;   (setq moody-slant-function 'moody-slant-apple-rgb))
 #+end_src
 
 **** minions
 #+begin_src emacs-lisp
-(require 'minions)
-(minions-mode)
-(setq minions-mode-line-lighter "[+]")
+;; (require 'minions)
+;; (minions-mode)
+;; (setq minions-mode-line-lighter "[+]")
 #+end_src
 
+**** disable mode
+#+begin_src emacs-lisp
+(setq-default mode-line-format nil)
+#+end_src
 *** ウィンドウ管理
 **** olivetti
 #+begin_src emacs-lisp
@@ -1356,6 +1360,10 @@ binding))))))))
       lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/nb/nixos\").nixosConfigurations.mnd.options"
       lsp-nix-nixd-home-manager-options-expr "(builtins.getFlake \"/home/nb/nixos\").homeConfigurations.\"nb@mnd\".options")
 #+end_src
+***** web-mode
+#+begin_src emacs-lisp
+(add-hook 'web-mode-hook #'lsp)
+#+end_src
 *** eglot
 **** 基本設定
 #+begin_src emacs-lisp
@@ -1757,6 +1765,12 @@ binding))))))))
 (require 'lua-mode)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+#+end_src
+
+*** web-mode
+#+begin_src emacs-lisp
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 #+end_src
 
 * 組版システム
