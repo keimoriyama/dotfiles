@@ -139,15 +139,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "705fba4e5223456cee6506244751448ee458040a";
+    version = "beb290de176b636e1ee43c883f20810158a3186c";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "705fba4e5223456cee6506244751448ee458040a";
+      rev = "beb290de176b636e1ee43c883f20810158a3186c";
       fetchSubmodules = false;
-      sha256 = "sha256-lHQZ4VstzZJmW4ewDN5uI42KI4fQT4UBJN5PzrELQiw=";
+      sha256 = "sha256-UOjWHsmIrgvFofURPchUfpd629Z93rmsp3HlwcTrKIc=";
     };
-    date = "2026-03-15";
+    date = "2026-03-21";
   };
   emacs-org-hyperscheduler = {
     pname = "emacs-org-hyperscheduler";
