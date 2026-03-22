@@ -284,7 +284,7 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 11:30]--[`(format-ti
 ${0}
 
 main = do
-  print $ 
+    print $ 
 ,#+end_src
 
 #+end_src

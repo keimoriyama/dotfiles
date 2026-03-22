@@ -1884,8 +1884,8 @@ binding))))))))
 ** nskk
 #+begin_src emacs-lisp
 ;; (require 'nskk)
-;; (keymap-global-set "C-x C-j" #'nskk-mode)
-
+;; ;(keymap-global-set "C-x C-j" #'nskk-mode)
+;; (nskk-global-mode t)
 ;; (setopt nskk-dict-system-dictionary-files
 ;;         '("~/.skk-dict/SKK-JISYO.L"))
 ;; (setopt nskk-server-enable t)
@@ -1901,16 +1901,16 @@ binding))))))))
 #+end_src
 *** key handler
 #+begin_src emacs-lisp
-(require 'nskk-keymap)
-(nskk-define-key-handler tab
-  "Handle TAB key: dynamic completion in preedit, otherwise pass through.
-In preedit mode, searches the dictionary for keys matching the
-current reading prefix and completes inline. Repeated TAB cycles.
-In other modes, delegates to `indent-for-tab-command'."
-  ('dynamic-complete (nskk-dynamic-complete))
-  (_ (if (derived-mode-p 'org-mode)
-         (org-cycle)
-       (indent-for-tab-command))))
+;; (require 'nskk-keymap)
+;; (nskk-define-key-handler tab
+;;   "Handle TAB key: dynamic completion in preedit, otherwise pass through.
+;; In preedit mode, searches the dictionary for keys matching the
+;; current reading prefix and completes inline. Repeated TAB cycles.
+;; In other modes, delegates to `indent-for-tab-command'."
+;;   ('dynamic-complete (nskk-dynamic-complete))
+;;   (_ (if (derived-mode-p 'org-mode)
+;;          (org-cycle)
+;;        (indent-for-tab-command))))
 #+end_src
 * AI・LLM Integration
 ** MCP (Model Context Protocol)

@@ -12,7 +12,6 @@
     pname = "yatex";
     version = "0.0.1";
     src = sources.emacs-yatex.src;
-    # patches = [./yatexlib.diff];
     ignoreCompilationError = true;
   };
   yaml-mode = epkgs.melpaBuild {
@@ -68,5 +67,10 @@
     pname = "nskk";
     src = sources.emacs-nskk.src;
     version = "0.1.11";
+  };
+  kuro = epkgs.melpaBuild {
+    pname = "kuro";
+    src = sources.emacs-kuro.src;
+    version = "0.0.1";
   };
 }

@@ -28,6 +28,11 @@ src.git="https://github.com/takeokunn/nskk.el"
 src.branch="main"
 fetch.github="takeokunn/nskk.el"
 
+[emacs-kuro]
+src.git="https://github.com/takeokunn/kuro"
+src.branch="main"
+fetch.github="takeokunn/kuro"
+
 [emacs-yaml-mode]
 src.git="https://github.com/yoshiki/yaml-mode"
 src.branch="master"
