@@ -1,12 +1,19 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  aerospace = import ./aerospace {inherit pkgs;};
+in {
   # Nixデーモンの自動アップグレードを有効化
-  nix.package = pkgs.nix;
+  imports = [
+    aerospace
+  ];
+  nix.package =
+    pkgs.nix;
   environment.systemPackages = [
     # pkgs.zoom-us
     # pkgs.macskk
   ];
   # 非自由パッケージを許可
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree =
+    true;
 
   nix = {
     optimise.automatic = true;
