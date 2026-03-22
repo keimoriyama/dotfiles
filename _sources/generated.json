@@ -223,12 +223,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "kuro",
-            "rev": "9250d8644bf719dcf039a6271c99cc3f7ca9a395",
-            "sha256": "sha256-P1Aexc+i2BY/evwz7aa5wbGKKbsng1PBWNMcQeN/QL4=",
+            "rev": "634ee8eb64cd95e4400c6993f63389606886b044",
+            "sha256": "sha256-24cAyAiojDQTyAZMYav6fm53BGYlJnEAkQrtbNngTfc=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "9250d8644bf719dcf039a6271c99cc3f7ca9a395"
+        "version": "634ee8eb64cd95e4400c6993f63389606886b044"
     },
     "emacs-nano-modeline": {
         "cargoLock": null,

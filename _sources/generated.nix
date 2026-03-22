@@ -127,13 +127,13 @@
   };
   emacs-kuro = {
     pname = "emacs-kuro";
-    version = "9250d8644bf719dcf039a6271c99cc3f7ca9a395";
+    version = "634ee8eb64cd95e4400c6993f63389606886b044";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "kuro";
-      rev = "9250d8644bf719dcf039a6271c99cc3f7ca9a395";
+      rev = "634ee8eb64cd95e4400c6993f63389606886b044";
       fetchSubmodules = false;
-      sha256 = "sha256-P1Aexc+i2BY/evwz7aa5wbGKKbsng1PBWNMcQeN/QL4=";
+      sha256 = "sha256-24cAyAiojDQTyAZMYav6fm53BGYlJnEAkQrtbNngTfc=";
     };
     date = "2026-03-22";
   };

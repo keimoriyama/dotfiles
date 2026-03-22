@@ -68,9 +68,9 @@
     src = sources.emacs-nskk.src;
     version = "0.1.11";
   };
-  kuro = epkgs.melpaBuild {
-    pname = "kuro";
-    src = sources.emacs-kuro.src;
-    version = "0.0.1";
-  };
+  # kuro = epkgs.melpaBuild {
+  #   pname = "kuro";
+  #   src = sources.emacs-kuro.src;
+  #   version = "0.0.1";
+  # };
 }

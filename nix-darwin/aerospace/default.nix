@@ -127,51 +127,51 @@ in {
       on-window-detected = [
         # FloatingEmacs scratchpad (kitty with specific title)
         {
-          "if".app-id = "net.kovidgoyal.kitty";
+          "if".app-id = "com.apple.Mail";
           # "if".window-title-regex-substring = "FloatingEmacs";
           run = ["layout floating"];
         }
+        # {
+        #   "if".app-id = "com.google.Chrome";
+        #   run = [
+        #     "layout floating"
+        #     "move-node-to-workspace 1"
+        #   ];
+        # }
         {
-          "if".app-id = "com.google.Chrome";
-          run = [
-            "layout floating"
-            "move-node-to-workspace 1"
-          ];
-        }
-        {
-          "if".app-id = "com.apple.Terminal";
+          "if".app-id = "com.github.wez.wezterm";
           run = ["move-node-to-workspace 2"];
         }
         {
           "if".app-id = "org.gnu.Emacs";
           run = ["move-node-to-workspace 3"];
         }
-        {
-          "if".app-id = "com.jgraph.drawio.desktop";
-          run = ["move-node-to-workspace 4"];
-        }
-        {
-          "if".app-id = "com.lambdalisue.Arto";
-          run = ["move-node-to-workspace 4"];
-        }
-        {
-          "if".app-id = "com.sequel-ace.sequel-ace";
-          run = ["move-node-to-workspace 4"];
-        }
-        {
-          "if".app-id = "com.slite.desktop";
-          run = ["move-node-to-workspace 7"];
-        }
+        # {
+        #   "if".app-id = "com.jgraph.drawio.desktop";
+        #   run = ["move-node-to-workspace 4"];
+        # }
+        # {
+        #   "if".app-id = "com.lambdalisue.Arto";
+        #   run = ["move-node-to-workspace 4"];
+        # }
+        # {
+        #   "if".app-id = "com.sequel-ace.sequel-ace";
+        #   run = ["move-node-to-workspace 4"];
+        # }
+        # {
+        #   "if".app-id = "com.slite.desktop";
+        #   run = ["move-node-to-workspace 7"];
+        # }
         {
           "if".app-id = "com.hnc.Discord";
           run = ["move-node-to-workspace 8"];
         }
+        # {
+        #   "if".app-id = "com.clickup.desktop-app";
+        #   run = ["move-node-to-workspace 8"];
+        # }
         {
-          "if".app-id = "com.clickup.desktop-app";
-          run = ["move-node-to-workspace 8"];
-        }
-        {
-          "if".app-id = "com.google.Chrome.app.caidcmannjgahlnbpmidmiecjcoiiigg";
+          "if".app-id = "com.google.Chrome";
           run = ["move-node-to-workspace 9"];
         }
         {

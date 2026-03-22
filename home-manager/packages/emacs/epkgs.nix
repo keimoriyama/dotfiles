@@ -54,7 +54,7 @@ in
     tree-sitter
     centered-cursor-mode
     pdf-tools
-    kuro
+    # packages.kuro
 
     # completion
     corfu
