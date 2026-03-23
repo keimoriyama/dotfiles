@@ -813,11 +813,11 @@ binding))))))))
 (with-eval-after-load 'org-roam-capture
   (setopt org-roam-capture-templates
           '(
-            ;; ("f" "Fleeting" plain "%?"
-            ;;  :target (file+head
-            ;;           "fleeting/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;           "#+title: ${title}\n")
-            ;; :unnarrowed t)
+            ("f" "Fleeting" plain "%?"
+             :target (file+head
+                      "fleeting/%<%Y%m%d%H%M%S>-${slug}.org"
+                      "#+title: ${title}\n")
+            :unnarrowed t)
             ("p" "Projects" plain "%?"
              :target (file+head
                       "projects/${slug}.org"
@@ -1325,13 +1325,15 @@ binding))))))))
 #+end_src
 ***** python
 #+begin_src emacs-lisp
-(setopt lsp-ruff-server-command '("ruff" "server"))
-(setopt lsp-ruff-show-notification "off")
+;; ruff LSPサーバーを完全に無効化
+(setopt lsp-disabled-clients '(ruff-lsp ruff))
 
-(with-eval-after-load 'lsp-mode
-  (setopt lsp-disabled-clients '(ruff)))
+(defun my/python-lsp-setup ()
+  "Python用LSP設定（ruffを除外）"
+  (setq-local lsp-disabled-clients '(ruff-lsp ruff))
+  (lsp-deferred))
 
-(add-hook 'python-mode-hook #'lsp)
+(add-hook 'python-mode-hook #'my/python-lsp-setup)
 #+end_src
 ***** rust
 #+begin_src emacs-lisp

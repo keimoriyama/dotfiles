@@ -221,6 +221,18 @@
     };
     date = "2025-05-20";
   };
+  emcas-arto = {
+    pname = "emcas-arto";
+    version = "e6ff578dd53b545ae120331997ff1c85df0c93de";
+    src = fetchFromGitHub {
+      owner = "arto-app";
+      repo = "arto.el";
+      rev = "e6ff578dd53b545ae120331997ff1c85df0c93de";
+      fetchSubmodules = false;
+      sha256 = "sha256-mztAwebNal2wWlF05PaAaxkHek/UkJR5uQdNcBaYx1k=";
+    };
+    date = "2026-02-01";
+  };
   fish-autols = {
     pname = "fish-autols";
     version = "74c52a3f66b5b9f589871c4383e7d7c2e543032c";

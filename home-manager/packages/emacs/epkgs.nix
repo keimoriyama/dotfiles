@@ -55,6 +55,7 @@ in
     centered-cursor-mode
     pdf-tools
     # packages.kuro
+    packages.arto
 
     # completion
     corfu

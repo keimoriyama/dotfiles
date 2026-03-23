@@ -377,6 +377,27 @@
         },
         "version": "f53c42a996b86fc95b96bdc2deeb58581f48c666"
     },
+    "emcas-arto": {
+        "cargoLock": null,
+        "date": "2026-02-01",
+        "extract": null,
+        "name": "emcas-arto",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "arto-app",
+            "repo": "arto.el",
+            "rev": "e6ff578dd53b545ae120331997ff1c85df0c93de",
+            "sha256": "sha256-mztAwebNal2wWlF05PaAaxkHek/UkJR5uQdNcBaYx1k=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "e6ff578dd53b545ae120331997ff1c85df0c93de"
+    },
     "fish-autols": {
         "cargoLock": null,
         "date": "2025-01-26",

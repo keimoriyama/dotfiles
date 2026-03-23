@@ -33,6 +33,11 @@ src.git="https://github.com/takeokunn/kuro"
 src.branch="main"
 fetch.github="takeokunn/kuro"
 
+[emcas-arto]
+src.git="https://github.com/arto-app/arto.el"
+src.branch="main"
+fetch.github="arto-app/arto.el"
+
 [emacs-yaml-mode]
 src.git="https://github.com/yoshiki/yaml-mode"
 src.branch="master"

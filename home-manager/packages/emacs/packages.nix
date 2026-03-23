@@ -73,4 +73,9 @@
   #   src = sources.emacs-kuro.src;
   #   version = "0.0.1";
   # };
+  arto = epkgs.melpaBuild {
+    pname = "arto";
+    src = sources.emcas-arto.src;
+    version = "0.0.1";
+  };
 }

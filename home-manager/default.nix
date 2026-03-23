@@ -9,6 +9,7 @@
   username,
   brew-nix,
   llm-agents,
+  arto,
   ...
 }: let
   sources = pkgs.callPackage ../_sources/generated.nix {};
@@ -87,6 +88,7 @@ in {
         # online-judge-template-generator
         cargo-compete
         yaskkserv2
+        arto
       ]
       ++ utils
       ++ langs

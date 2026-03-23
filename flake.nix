@@ -33,6 +33,7 @@
       flake = false;
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
+    arto.url = "github:arto-app/Arto";
   };
 
   outputs = {
@@ -46,6 +47,7 @@
     flake-utils,
     brew-nix,
     llm-agents,
+    arto,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -63,7 +65,7 @@
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {
-          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix llm-agents;
+          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix llm-agents arto;
           inherit (home-manager.lib) homeManagerConfiguration;
         };
         modules = [
