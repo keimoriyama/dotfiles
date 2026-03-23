@@ -50,6 +50,10 @@ in {
             alt-8 = "workspace 8";
             alt-9 = "workspace 9";
             alt-0 = "workspace 10";
+            alt-e = "workspace e";
+            alt-c = "workspace c";
+            alt-s = "workspace s";
+            alt-w = "workspace w";
 
             alt-shift-1 = [
               "move-node-to-workspace 1"
@@ -122,6 +126,10 @@ in {
         "8" = "main";
         "9" = "main";
         "10" = "main";
+        e = "main";
+        c = "main";
+        s = "main";
+        w = "main";
       };
 
       on-window-detected = [
@@ -131,52 +139,24 @@ in {
           # "if".window-title-regex-substring = "FloatingEmacs";
           run = ["layout floating"];
         }
-        # {
-        #   "if".app-id = "com.google.Chrome";
-        #   run = [
-        #     "layout floating"
-        #     "move-node-to-workspace 1"
-        #   ];
-        # }
         {
           "if".app-id = "com.github.wez.wezterm";
-          run = ["move-node-to-workspace 2"];
+          run = ["move-node-to-workspace w"];
         }
         {
           "if".app-id = "org.gnu.Emacs";
-          run = ["move-node-to-workspace 3"];
+          run = ["move-node-to-workspace e"];
         }
-        # {
-        #   "if".app-id = "com.jgraph.drawio.desktop";
-        #   run = ["move-node-to-workspace 4"];
-        # }
-        # {
-        #   "if".app-id = "com.lambdalisue.Arto";
-        #   run = ["move-node-to-workspace 4"];
-        # }
-        # {
-        #   "if".app-id = "com.sequel-ace.sequel-ace";
-        #   run = ["move-node-to-workspace 4"];
-        # }
-        # {
-        #   "if".app-id = "com.slite.desktop";
-        #   run = ["move-node-to-workspace 7"];
-        # }
-        {
-          "if".app-id = "com.hnc.Discord";
-          run = ["move-node-to-workspace 8"];
-        }
-        # {
-        #   "if".app-id = "com.clickup.desktop-app";
-        #   run = ["move-node-to-workspace 8"];
-        # }
         {
           "if".app-id = "com.google.Chrome";
-          run = ["move-node-to-workspace 9"];
+          run = [
+            # "layout floating"
+            "move-node-to-workspace c"
+          ];
         }
         {
           "if".app-id = "com.tinyspeck.slackmacgap";
-          run = ["move-node-to-workspace 10"];
+          run = ["move-node-to-workspace s"];
         }
       ];
     };

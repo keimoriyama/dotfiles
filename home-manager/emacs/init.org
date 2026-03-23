@@ -1896,21 +1896,8 @@ binding))))))))
 ;; (setopt nskk-henkan-number-to-display-candidates 7)
 ;; (setq nskk-converter-romaji-style 'azik)
 ;; (setq nskk-azik-keyboard-type 'us101)
-;; (setq nskk-debug-enabled t)
+;; ;;(setq nskk-debug-enabled t)
 ;; (require 'nskk-debug)
-#+end_src
-*** key handler
-#+begin_src emacs-lisp
-;; (require 'nskk-keymap)
-;; (nskk-define-key-handler tab
-;;   "Handle TAB key: dynamic completion in preedit, otherwise pass through.
-;; In preedit mode, searches the dictionary for keys matching the
-;; current reading prefix and completes inline. Repeated TAB cycles.
-;; In other modes, delegates to `indent-for-tab-command'."
-;;   ('dynamic-complete (nskk-dynamic-complete))
-;;   (_ (if (derived-mode-p 'org-mode)
-;;          (org-cycle)
-;;        (indent-for-tab-command))))
 #+end_src
 * AI・LLM Integration
 ** MCP (Model Context Protocol)
