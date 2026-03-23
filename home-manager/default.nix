@@ -32,7 +32,10 @@
   };
   emacsPkgs = emacs.emacs-stable;
   llmAgentsPkgs = llm-agents.packages.${system};
-
+  artoPkg =
+    if pkgs.stdenv.isDarwin
+    then arto.packages.${system}.default
+    else null;
   # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
   # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
@@ -88,7 +91,7 @@ in {
         # online-judge-template-generator
         cargo-compete
         yaskkserv2
-        arto
+        artoPkg
       ]
       ++ utils
       ++ langs
