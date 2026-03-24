@@ -18,4 +18,6 @@ with pkgs; [
   wget
   tree
   udev-gothic
+  pdfpc
+  polylux2pdfpc
 ]
