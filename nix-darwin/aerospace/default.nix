@@ -151,6 +151,7 @@ in {
           "if".app-id = "com.google.Chrome";
           run = [
             # "layout floating"
+            "layout floating"
             "move-node-to-workspace c"
           ];
         }
