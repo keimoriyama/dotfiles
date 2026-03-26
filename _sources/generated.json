@@ -106,7 +106,7 @@
     },
     "dpp-vim": {
         "cargoLock": null,
-        "date": "2026-03-24",
+        "date": "2026-03-26",
         "extract": null,
         "name": "dpp-vim",
         "passthru": null,
@@ -118,16 +118,16 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp.vim",
-            "rev": "e9e3a8af42119dfd547537a71ccf578b72b134a3",
-            "sha256": "sha256-wBB9rYSnJ5b8B9nwM5ZVp6DB7NzyNDUZJVEfrC/4qq0=",
+            "rev": "21fa3ec885384d7d648206c0c5ee32649f6fedac",
+            "sha256": "sha256-WZkqOtleFZ1SUR3272XlqJog8Iab5JiVwUjSCR1XGLI=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "e9e3a8af42119dfd547537a71ccf578b72b134a3"
+        "version": "21fa3ec885384d7d648206c0c5ee32649f6fedac"
     },
     "emacs-acp": {
         "cargoLock": null,
-        "date": "2026-03-20",
+        "date": "2026-03-25",
         "extract": null,
         "name": "emacs-acp",
         "passthru": null,
@@ -139,12 +139,12 @@
             "name": null,
             "owner": "xenodium",
             "repo": "acp.el",
-            "rev": "863f2d62c4b4da8b229581be42d490a7403b2eb1",
-            "sha256": "sha256-JblbafhQlCCyFq82wXL09P2gRldrSxXdlTkIeytGISE=",
+            "rev": "c32fbf8df34ed0095853a8cf55dc783e68b67d90",
+            "sha256": "sha256-mqNOHzlWGwUHRDy3hrA6W4cqG9+1KTy56bkjr80JIUM=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "863f2d62c4b4da8b229581be42d490a7403b2eb1"
+        "version": "c32fbf8df34ed0095853a8cf55dc783e68b67d90"
     },
     "emacs-dmacro": {
         "cargoLock": null,
