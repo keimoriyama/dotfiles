@@ -67,27 +67,27 @@
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "e9e3a8af42119dfd547537a71ccf578b72b134a3";
+    version = "21fa3ec885384d7d648206c0c5ee32649f6fedac";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "e9e3a8af42119dfd547537a71ccf578b72b134a3";
+      rev = "21fa3ec885384d7d648206c0c5ee32649f6fedac";
       fetchSubmodules = false;
-      sha256 = "sha256-wBB9rYSnJ5b8B9nwM5ZVp6DB7NzyNDUZJVEfrC/4qq0=";
+      sha256 = "sha256-WZkqOtleFZ1SUR3272XlqJog8Iab5JiVwUjSCR1XGLI=";
     };
-    date = "2026-03-24";
+    date = "2026-03-26";
   };
   emacs-acp = {
     pname = "emacs-acp";
-    version = "863f2d62c4b4da8b229581be42d490a7403b2eb1";
+    version = "c32fbf8df34ed0095853a8cf55dc783e68b67d90";
     src = fetchFromGitHub {
       owner = "xenodium";
       repo = "acp.el";
-      rev = "863f2d62c4b4da8b229581be42d490a7403b2eb1";
+      rev = "c32fbf8df34ed0095853a8cf55dc783e68b67d90";
       fetchSubmodules = false;
-      sha256 = "sha256-JblbafhQlCCyFq82wXL09P2gRldrSxXdlTkIeytGISE=";
+      sha256 = "sha256-mqNOHzlWGwUHRDy3hrA6W4cqG9+1KTy56bkjr80JIUM=";
     };
-    date = "2026-03-20";
+    date = "2026-03-25";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
