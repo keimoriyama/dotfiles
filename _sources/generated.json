@@ -22,7 +22,7 @@
     },
     "dpp-ext-installer": {
         "cargoLock": null,
-        "date": "2026-02-02",
+        "date": "2026-03-27",
         "extract": null,
         "name": "dpp-ext-installer",
         "passthru": null,
@@ -34,12 +34,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-ext-installer",
-            "rev": "e86a8e1b83be82cd6e71fb49d9b569feccb925a9",
-            "sha256": "sha256-CLlRfCBTydRy8Vke3iFudf2AAV/KV7Bx5/vbUnHn8XE=",
+            "rev": "aabca41d45825a1ca4c91917235b13660a37438c",
+            "sha256": "sha256-dVCKwkpgYgOr0xyOZaRHaY6CZRTjbWLOzyQ/lKO0eK0=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "e86a8e1b83be82cd6e71fb49d9b569feccb925a9"
+        "version": "aabca41d45825a1ca4c91917235b13660a37438c"
     },
     "dpp-ext-lazy": {
         "cargoLock": null,
@@ -85,7 +85,7 @@
     },
     "dpp-protocol-git": {
         "cargoLock": null,
-        "date": "2026-02-02",
+        "date": "2026-03-27",
         "extract": null,
         "name": "dpp-protocol-git",
         "passthru": null,
@@ -97,16 +97,16 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp-protocol-git",
-            "rev": "f92120460b797d2e4707f3bcd18080a27d7bd026",
-            "sha256": "sha256-jKK5wOpQizG2BqEJbLuVqdZkMzy3gF2XlD0ZUb8eTiM=",
+            "rev": "b366a0f6dd1402800d920cbdcf703a83176076ea",
+            "sha256": "sha256-sDXalinC8KgFinVDB9ORueWy41QvjohzFqpJfBIuBkE=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "f92120460b797d2e4707f3bcd18080a27d7bd026"
+        "version": "b366a0f6dd1402800d920cbdcf703a83176076ea"
     },
     "dpp-vim": {
         "cargoLock": null,
-        "date": "2026-03-26",
+        "date": "2026-03-27",
         "extract": null,
         "name": "dpp-vim",
         "passthru": null,
@@ -118,12 +118,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp.vim",
-            "rev": "21fa3ec885384d7d648206c0c5ee32649f6fedac",
-            "sha256": "sha256-WZkqOtleFZ1SUR3272XlqJog8Iab5JiVwUjSCR1XGLI=",
+            "rev": "33a02c9f0bd5420511b637b3ef927f28e164781e",
+            "sha256": "sha256-7wks+WuTyCJVhXkcP8sD/Pr8EfM0N0rXIlIs6WJdJ4k=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "21fa3ec885384d7d648206c0c5ee32649f6fedac"
+        "version": "33a02c9f0bd5420511b637b3ef927f28e164781e"
     },
     "emacs-acp": {
         "cargoLock": null,
@@ -211,7 +211,7 @@
     },
     "emacs-kuro": {
         "cargoLock": null,
-        "date": "2026-03-22",
+        "date": "2026-03-27",
         "extract": null,
         "name": "emacs-kuro",
         "passthru": null,
@@ -223,12 +223,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "kuro",
-            "rev": "634ee8eb64cd95e4400c6993f63389606886b044",
-            "sha256": "sha256-24cAyAiojDQTyAZMYav6fm53BGYlJnEAkQrtbNngTfc=",
+            "rev": "4c49ac949aacd9546226829910606efce299e240",
+            "sha256": "sha256-/BG9F7WfPaykbICp4NR6lQdCL8AUbIDKanVrktz0lmg=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "634ee8eb64cd95e4400c6993f63389606886b044"
+        "version": "4c49ac949aacd9546226829910606efce299e240"
     },
     "emacs-nano-modeline": {
         "cargoLock": null,
