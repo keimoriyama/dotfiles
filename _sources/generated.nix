@@ -19,15 +19,15 @@
   };
   dpp-ext-installer = {
     pname = "dpp-ext-installer";
-    version = "e86a8e1b83be82cd6e71fb49d9b569feccb925a9";
+    version = "aabca41d45825a1ca4c91917235b13660a37438c";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-ext-installer";
-      rev = "e86a8e1b83be82cd6e71fb49d9b569feccb925a9";
+      rev = "aabca41d45825a1ca4c91917235b13660a37438c";
       fetchSubmodules = false;
-      sha256 = "sha256-CLlRfCBTydRy8Vke3iFudf2AAV/KV7Bx5/vbUnHn8XE=";
+      sha256 = "sha256-dVCKwkpgYgOr0xyOZaRHaY6CZRTjbWLOzyQ/lKO0eK0=";
     };
-    date = "2026-02-02";
+    date = "2026-03-27";
   };
   dpp-ext-lazy = {
     pname = "dpp-ext-lazy";
@@ -55,27 +55,27 @@
   };
   dpp-protocol-git = {
     pname = "dpp-protocol-git";
-    version = "f92120460b797d2e4707f3bcd18080a27d7bd026";
+    version = "b366a0f6dd1402800d920cbdcf703a83176076ea";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-protocol-git";
-      rev = "f92120460b797d2e4707f3bcd18080a27d7bd026";
+      rev = "b366a0f6dd1402800d920cbdcf703a83176076ea";
       fetchSubmodules = false;
-      sha256 = "sha256-jKK5wOpQizG2BqEJbLuVqdZkMzy3gF2XlD0ZUb8eTiM=";
+      sha256 = "sha256-sDXalinC8KgFinVDB9ORueWy41QvjohzFqpJfBIuBkE=";
     };
-    date = "2026-02-02";
+    date = "2026-03-27";
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "21fa3ec885384d7d648206c0c5ee32649f6fedac";
+    version = "33a02c9f0bd5420511b637b3ef927f28e164781e";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "21fa3ec885384d7d648206c0c5ee32649f6fedac";
+      rev = "33a02c9f0bd5420511b637b3ef927f28e164781e";
       fetchSubmodules = false;
-      sha256 = "sha256-WZkqOtleFZ1SUR3272XlqJog8Iab5JiVwUjSCR1XGLI=";
+      sha256 = "sha256-7wks+WuTyCJVhXkcP8sD/Pr8EfM0N0rXIlIs6WJdJ4k=";
     };
-    date = "2026-03-26";
+    date = "2026-03-27";
   };
   emacs-acp = {
     pname = "emacs-acp";
@@ -127,15 +127,15 @@
   };
   emacs-kuro = {
     pname = "emacs-kuro";
-    version = "634ee8eb64cd95e4400c6993f63389606886b044";
+    version = "4c49ac949aacd9546226829910606efce299e240";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "kuro";
-      rev = "634ee8eb64cd95e4400c6993f63389606886b044";
+      rev = "4c49ac949aacd9546226829910606efce299e240";
       fetchSubmodules = false;
-      sha256 = "sha256-24cAyAiojDQTyAZMYav6fm53BGYlJnEAkQrtbNngTfc=";
+      sha256 = "sha256-/BG9F7WfPaykbICp4NR6lQdCL8AUbIDKanVrktz0lmg=";
     };
-    date = "2026-03-22";
+    date = "2026-03-27";
   };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
