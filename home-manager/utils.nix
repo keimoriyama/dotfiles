@@ -5,7 +5,7 @@ with pkgs; [
   rsync
   peco
   ghq
-  # gh
+  gh
   ripgrep
   ghostscript
   cbc
