@@ -10,6 +10,7 @@ with pkgs; [
   ghc
   auctex
   perl
+  flix
 
   # frameworks & tools
   deno
