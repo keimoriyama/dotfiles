@@ -127,15 +127,15 @@
   };
   emacs-kuro = {
     pname = "emacs-kuro";
-    version = "4c49ac949aacd9546226829910606efce299e240";
+    version = "4fee822f173e5891e236ab17defecd7175194c9b";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "kuro";
-      rev = "4c49ac949aacd9546226829910606efce299e240";
+      rev = "4fee822f173e5891e236ab17defecd7175194c9b";
       fetchSubmodules = false;
-      sha256 = "sha256-/BG9F7WfPaykbICp4NR6lQdCL8AUbIDKanVrktz0lmg=";
+      sha256 = "sha256-DMf6f/BIv/dZueGXKfganoanf23C2ObP4dda1ATSwzk=";
     };
-    date = "2026-03-27";
+    date = "2026-03-28";
   };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
