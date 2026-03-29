@@ -47,11 +47,11 @@
     "brew-api": {
       "flake": false,
       "locked": {
-        "lastModified": 1774748020,
-        "narHash": "sha256-OGurU25wzGoTfV77h/EwF50D2X3myeDuGxNjmk+e7Ns=",
+        "lastModified": 1774771865,
+        "narHash": "sha256-l/6uDr6xVx1/AxEo2e3PlcL55CtVv/xJGrW2MN2GShs=",
         "owner": "BatteredBunny",
         "repo": "brew-api",
-        "rev": "4dd01747319ebedc157f17bc7db61585d5aae66c",
+        "rev": "7aee3042cab99454ff29987cded68a38ab257bd2",
         "type": "github"
       },
       "original": {
@@ -143,11 +143,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1774715725,
-        "narHash": "sha256-NQxGm28v5E/kszUDJKFiQXBw2NSi7MpYVcqDQQT/+dM=",
+        "lastModified": 1774753964,
+        "narHash": "sha256-vecn1RNL+ur7ovkGrgWH5AyUa7RpI4nLjAHQlXY8CRA=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "ea735098e185ae5764c5676f4df97acb95b7549e",
+        "rev": "d3ba96f83fe40914394fc3f58f705c0723cdceaf",
         "type": "github"
       },
       "original": {
@@ -279,11 +279,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1774731118,
-        "narHash": "sha256-0mGxkRud0ckwABxp5M6aWETFWzh82KSBqfdMjM4+kgY=",
+        "lastModified": 1774757629,
+        "narHash": "sha256-rSqtpeflKF1tT1D1TTRhzI+xpQaGGvGKEXaPXOAKMgA=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "411f27777ea2a5928bb12ec68bb1dbd724ef1825",
+        "rev": "dd6f4e82dc8b11c61fb22ee994a55bae4f126cfd",
         "type": "github"
       },
       "original": {
