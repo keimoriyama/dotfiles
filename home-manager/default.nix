@@ -19,6 +19,9 @@
     config = {
       allowUnfree = true;
       allwoUnfreePredicate = true;
+      problems.handlers = {
+        nss_wrapper.broken = "warn";
+      };
     };
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;

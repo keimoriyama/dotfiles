@@ -52,7 +52,12 @@
   } @ inputs: let
     system = "aarch64-darwin";
     username = "kei";
-    pkgs = import nixpkgs {inherit system;};
+    pkgs = import nixpkgs {
+      inherit system;
+      config.problems.handlers = {
+        nss_wrapper.broken = "warn";
+      };
+    };
   in {
     darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
       system = system;

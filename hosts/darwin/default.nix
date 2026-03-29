@@ -2,7 +2,12 @@
   inherit (inputs) nix-darwin home-manager;
   inherit (inputs) nixpkgs;
   system = "aarch64-darwin";
-  pkgs = import nixpkgs {inherit system;};
+  pkgs = import nixpkgs {
+    inherit system;
+    config.problems.handlers = {
+      nss_wrapper.broken = "warn";
+    };
+  };
   username = "kei";
   configuration = {...}: {
     users.users.${username}.home = "/Users/${username}";
