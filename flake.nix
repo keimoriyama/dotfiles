@@ -1,7 +1,7 @@
 {
   description = "My flake";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-src = {
       url = "github:vim/vim";
@@ -54,9 +54,6 @@
     username = "kei";
     pkgs = import nixpkgs {
       inherit system;
-      config.problems.handlers = {
-        nss_wrapper.broken = "warn";
-      };
     };
   in {
     darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
