@@ -135,11 +135,6 @@ in {
       on-window-detected = [
         # FloatingEmacs scratchpad (kitty with specific title)
         {
-          "if".app-id = "com.apple.Mail";
-          # "if".window-title-regex-substring = "FloatingEmacs";
-          run = ["layout floating"];
-        }
-        {
           "if".app-id = "com.github.wez.wezterm";
           run = ["move-node-to-workspace w"];
         }

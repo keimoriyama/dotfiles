@@ -11,15 +11,9 @@
           LSP_USE_PLISTS = "1";
         };
     });
-    # dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
-    #   preBuild = null;
-    # });
   };
   parallelBuildAttrs = {
     enableParallelBuilding = true;
-    env = {
-      #  NATIVE_COMP_JOBS = "0";
-    };
   };
 in {
   emacs-stable = pkgs.emacsWithPackagesFromUsePackage {

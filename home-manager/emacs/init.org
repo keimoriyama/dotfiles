@@ -1849,59 +1849,70 @@ binding))))))))
 * 日本語入力
 ** ddskk
 #+begin_src emacs-lisp
-;; (require 'ddskk-autoloads)
-;; (keymap-global-set "C-x j" #'skk-mode)
-;; (keymap-global-set "C-x C-j" #'skk-mode)
-;; (setq default-input-method "japanese-skk")
+(require 'ddskk-autoloads)
+(keymap-global-set "C-x j" #'skk-mode)
+(keymap-global-set "C-x C-j" #'skk-mode)
+(setq default-input-method "japanese-skk")
 
-;; (defun skk-open-server-decoding-utf-8 ()
-;;   "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-;;   (unless (skk-server-live-p)
-;;     (setq skkserv-process (skk-open-server-1))
-;;     (when (skk-server-live-p)
-;;       (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-;;         (set-process-coding-system skkserv-process 'utf-8 code))))
-;;   skkserv-process)
+(defun skk-open-server-decoding-utf-8 ()
+  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
+  (unless (skk-server-live-p)
+    (setq skkserv-process (skk-open-server-1))
+    (when (skk-server-live-p)
+      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+        (set-process-coding-system skkserv-process 'utf-8 code))))
+  skkserv-process)
 
-;; (setq skk-mode-hook
-;;       '(lambda()
-;;          (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+(setq skk-mode-hook
+      '(lambda()
+         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
 
-;; (setq skk-preload t)
+(setq skk-preload t)
 
-;; (with-eval-after-load 'skk-vars
-;;   (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
-;;         skk-use-azik t
-;;         skk-azik-keyboard-type "en"
-;;         skk-search-katakana nil
-;;         skk-share-private-jisyo t
-;;         skk-save-jisyo-instantly t
-;;         skk-server-host "localhost"
-;;         skk-server-portnum 1178))
+(with-eval-after-load 'skk-vars
+  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+        skk-use-azik t
+        skk-azik-keyboard-type "en"
+        skk-search-katakana nil
+        skk-share-private-jisyo t
+        skk-save-jisyo-instantly t
+        skk-server-host "localhost"
+        skk-server-portnum 1178))
 
-;; (require 'ddskk-posframe)
+(require 'ddskk-posframe)
 
-;; (with-eval-after-load 'skk
-;;   (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+(with-eval-after-load 'skk
+  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
 ** nskk
 #+begin_src emacs-lisp
-(require 'nskk)
-(keymap-global-set "C-x C-j" #'nskk-mode)
-(nskk-global-mode t)
-(setopt nskk-dict-system-dictionary-files
-        '("~/.skk-dict/SKK-JISYO.L"))
-(setopt nskk-server-enable t)
-(setopt nskk-server-host "localhost")
-(setopt nskk-server-portnum 1178)
-;;(setopt nskk-server-coding-system 'utf-8)
-(setopt nskk-henkan-show-candidates-nth 2)
-(setopt nskk-henkan-number-to-display-candidates 7)
-(setq nskk-converter-romaji-style 'azik)
-(setq nskk-azik-keyboard-type 'us101)
-(setq nskk-debug-enabled t)
-(setq nskk-server-report-response t)
-(require 'nskk-debug)
+;; (require 'nskk)
+;; (keymap-global-set "C-x C-j" #'nskk-mode)
+;; ;(nskk-global-mode t)
+;; (setopt nskk-dict-system-dictionary-files
+;;         '("~/.skk-dict/SKK-JISYO.L"))
+
+;; (setopt nskk-server-enable t)
+;; (setopt nskk-server-host "localhost")
+;; (setopt nskk-server-portnum 1178)
+;; (setopt nskk-henkan-show-candidates-nth 2)
+;; (setopt nskk-henkan-number-to-display-candidates 7)
+;; (setq nskk-converter-romaji-style 'azik)
+;; (setq nskk-azik-keyboard-type 'us101)
+;; (setq nskk-debug-enabled t)
+;; (setq nskk-server-report-response t)
+;; (require 'nskk-debug)
+
+;; ;; Fix for org-element-cache warnings with nskk-self-insert
+;; ;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
+;; (with-eval-after-load 'org
+;;   (defun nskk-org-element-cache-reset-advice (&rest _)
+;;     "Reset org-element cache before nskk operations to prevent cache warnings."
+;;     (when (and (derived-mode-p 'org-mode)
+;;                (boundp 'org-element--cache))
+;;       (org-element-cache-reset)))
+  
+;;   (advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
 #+end_src
 * AI・LLM Integration
 ** MCP (Model Context Protocol)
