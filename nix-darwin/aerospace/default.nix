@@ -133,7 +133,7 @@ in {
       };
 
       on-window-detected = [
-        # FloatingEmacs scratchpad (kitty with specific title)
+        # FloatingEmacs scratchpad (kitty with specific title)x
         {
           "if".app-id = "com.github.wez.wezterm";
           run = ["move-node-to-workspace w"];

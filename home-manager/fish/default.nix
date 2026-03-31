@@ -45,7 +45,7 @@
 	printf \"%s\" (__fish_git_prompt)
 	";
     };
-    loginShellInit = builtins.readFile ./loginShellInit.fish;
+    shellInit = builtins.readFile ./shellInit.fish;
     interactiveShellInit = builtins.readFile ./interactiveShellInit.fish;
   };
 }

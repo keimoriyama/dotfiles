@@ -38,7 +38,7 @@
     else null;
   # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
-  # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
+  mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
@@ -52,7 +52,7 @@
       ;
   };
   fish-config = import ./fish {inherit pkgs sources;};
-  # neovim-config = import ./neovim {inherit pkgs sources config;};
+  neovim-config = import ./neovim {inherit pkgs sources config;};
   git-config = import ./git;
 
   utils = import ./utils.nix {inherit pkgs;};
@@ -71,7 +71,7 @@ in {
     fish-config
     emacs-config
     git-config
-    # neovim-config
+    neovim-config
   ];
 
   programs.home-manager.enable = true;
@@ -85,7 +85,7 @@ in {
         #editor & other tools
         vim
         tree-sitter
-        # mocword
+        mocword
         terminal-notifier
         # online-judge-tools
         # online-judge-template-generator

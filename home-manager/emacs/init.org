@@ -995,6 +995,32 @@ binding))))))))
 (add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
 #+end_src
 
+*** カレンダー設定
+**** calendar
+#+begin_src emacs-lisp
+(with-eval-after-load 'calendar
+  ;; 曜日を日本語で表示（全角文字の表示幅を考慮）
+  (setq calendar-day-header-array ["日" "月" "火" "水" "木" "金" "土"])
+  ;; 曜日の完全名も日本語で設定
+  (setq calendar-day-name-array
+        ["日曜日" "月曜日" "火曜日" "水曜日" "木曜日" "金曜日" "土曜日"])
+  ;; 曜日の省略名を日本語で設定
+  (setq calendar-day-abbrev-array ["日" "月" "火" "水" "木" "金" "土"])
+  ;; 月名を日本語で表示
+  (setq calendar-month-name-array
+        ["1月" "2月" "3月" "4月" "5月" "6月"
+         "7月" "8月" "9月" "10月" "11月" "12月"])
+  ;; 週の開始を日曜日にする（0=日曜日、1=月曜日）
+  (setq calendar-week-start-day 0)
+  ;; 月/日/年の順番で表示
+  (setq calendar-date-style 'iso)
+  ;; 月間カレンダーの左側の余白を調整
+  (setq calendar-left-margin 5)
+  ;; 月と月の間の余白
+  (setq calendar-intermonth-spacing 4)
+  ;; 曜日ヘッダーとカレンダー本体の間の余白
+  (setq calendar-column-width 3))
+#+end_src
 *** コード実行・エクスポート機能
 **** org-babel
 #+begin_src emacs-lisp
@@ -1493,7 +1519,12 @@ binding))))))))
 ;;   (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
 ;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 #+end_src
-
+** ターミナル
+*** kuro
+#+begin_src emacs-lisp
+(add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp")
+(require 'kuro)
+#+end_src
 * プログラミング言語
 ** フォーマッタ・整形
 *** reformatter
@@ -1847,6 +1878,10 @@ binding))))))))
 #+end_src
 
 * 日本語入力
+** ユーザー辞書
+#+begin_src emacs-lisp
+(setq skk-user-dict-path "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8")
+#+end_src
 ** ddskk
 #+begin_src emacs-lisp
 (require 'ddskk-autoloads)
@@ -1914,6 +1949,7 @@ binding))))))))
   
 ;;   (advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
 #+end_src
+
 * AI・LLM Integration
 ** MCP (Model Context Protocol)
 #+begin_src emacs-lisp
@@ -1970,8 +2006,8 @@ binding))))))))
 
 ** Agent Shell
 #+begin_src emacs-lisp
-(require 'acp)
-(require 'agent-shell)
+;; (require 'acp)
+;; (require 'agent-shell)
 #+end_src
 
 * インタラクティブメニュー

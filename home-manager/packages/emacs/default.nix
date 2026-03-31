@@ -14,6 +14,7 @@
   };
   parallelBuildAttrs = {
     enableParallelBuilding = true;
+    env = {};
   };
 in {
   emacs-stable = pkgs.emacsWithPackagesFromUsePackage {
