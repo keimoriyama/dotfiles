@@ -46,6 +46,7 @@
 	";
     };
     shellInit = builtins.readFile ./shellInit.fish;
+    loginShellInit = builtins.readFile ./loginShellInit.fish;
     interactiveShellInit = builtins.readFile ./interactiveShellInit.fish;
   };
 }

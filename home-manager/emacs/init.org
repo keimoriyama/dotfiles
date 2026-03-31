@@ -2001,13 +2001,13 @@ binding))))))))
 ** copilot-chat
 #+begin_src emacs-lisp
 (require 'copilot-chat)
-(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
+;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
 
 ** Agent Shell
 #+begin_src emacs-lisp
-;; (require 'acp)
-;; (require 'agent-shell)
+(require 'acp)
+(require 'agent-shell)
 #+end_src
 
 * インタラクティブメニュー
