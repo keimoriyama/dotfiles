@@ -1,7 +1,8 @@
 {
   description = "My flake";
+
   inputs = {
-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-src = {
       url = "github:vim/vim";
@@ -36,56 +37,80 @@ nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     arto.url = "github:arto-app/Arto";
   };
 
-  outputs = {
-    self,
+  outputs = inputs @ {
+    flake-parts,
     nixpkgs,
     nix-darwin,
     home-manager,
     emacs-overlay,
     org-babel,
     neovim-nightly-overlay,
-    flake-utils,
     brew-nix,
     llm-agents,
     arto,
     ...
-  } @ inputs: let
-    system = "aarch64-darwin";
-    username = "kei";
-    pkgs = import nixpkgs {
-      inherit system;
-    };
-  in {
-    darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
-      system = system;
-      modules = [
-        ./nix-darwin/default.nix
-      ];
-    };
-
-    homeConfigurations = {
-      myHomeConfig = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
-        extraSpecialArgs = {
-          inherit nixpkgs home-manager emacs-overlay org-babel system neovim-nightly-overlay username brew-nix llm-agents arto;
-          inherit (home-manager.lib) homeManagerConfiguration;
-        };
-        modules = [
-          ./home-manager/default.nix
-        ];
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
+      system = "aarch64-darwin";
+      username = "kei";
+      specialArgs = {
+        inherit
+          nixpkgs
+          home-manager
+          emacs-overlay
+          org-babel
+          system
+          neovim-nightly-overlay
+          username
+          brew-nix
+          llm-agents
+          arto
+          ;
+        inherit (home-manager.lib) homeManagerConfiguration;
       };
-    };
-    apps.${system}.update = {
-      type = "app";
-      program = toString (pkgs.writeShellScript "update-script" ''
-        set -e
-        echo "Updating home-manager..."
-        nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-        echo "Updating nix-darwin..."
-        sudo nix run nix-darwin -- switch --flake .#kei-darwin
-        echo "update complete"
-      '');
-    };
-    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
-  };
+    in {
+      systems = [system];
+
+      perSystem = {pkgs, ...}: {
+        apps.update = {
+          type = "app";
+          program = toString (pkgs.writeShellScript "update-script" ''
+            set -e
+            echo "Updating nix-darwin and home-manager..."
+            sudo nix run nix-darwin -- switch --flake ${self.outPath}#kei-darwin
+            echo "update complete"
+          '');
+        };
+
+        formatter = pkgs.alejandra;
+      };
+
+      flake = {
+        darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
+          inherit system specialArgs;
+          modules = [
+            ./hosts/darwin/default.nix
+            home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = false;
+                useUserPackages = true;
+                extraSpecialArgs = specialArgs;
+                users.${username} = {
+                  imports = [./home-manager/default.nix];
+                };
+              };
+            }
+          ];
+        };
+
+        homeConfigurations.myHomeConfig = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {inherit system;};
+          extraSpecialArgs = specialArgs;
+          modules = [
+            ./home-manager/default.nix
+          ];
+        };
+      };
+    });
 }

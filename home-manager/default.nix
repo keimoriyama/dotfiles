@@ -78,7 +78,7 @@ in {
   home = {
     stateVersion = "25.11";
     username = username;
-    homeDirectory = "/Users/${username}";
+    homeDirectory = builtins.toPath "/Users/${username}";
 
     packages = with pkgs;
       [

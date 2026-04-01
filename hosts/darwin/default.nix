@@ -1,30 +1,41 @@
 {pkgs, ...}: let
-  aerospace = import ./aerospace {inherit pkgs;};
+  aerospace = import ../../nix-darwin/aerospace {inherit pkgs;};
+  userShell = builtins.toPath "/etc/profiles/per-user/kei/bin/fish";
 in {
-  # Nixデーモンの自動アップグレードを有効化
   imports = [
     aerospace
   ];
-  nix.package =
-    pkgs.nix;
+
+  nix.package = pkgs.nix;
+
   environment.systemPackages = [
     # pkgs.zoom-us
     # pkgs.macskk
   ];
-  # 非自由パッケージを許可
-  nixpkgs.config.allowUnfree =
-    true;
+  environment.shells = [userShell];
+  environment.etc."shells".knownSha256Hashes = [
+    "9d5aa72f807091b481820d12e693093293ba33c73854909ad7b0fb192c2db193"
+    "135896d22e1bb2cc94d76895b06ea185ec470551648ce841eb7adea623026970"
+  ];
+
+  nixpkgs.config.allowUnfree = true;
 
   nix = {
     optimise.automatic = true;
-    # enable = false;
     settings = {
       experimental-features = "nix-command flakes";
-      # sandbox = true;
       max-jobs = 8;
     };
   };
-  # システムの設定
+
+  programs.fish.enable = true;
+
+  users.users.kei = {
+    name = "kei";
+    home = "/Users/kei";
+    shell = userShell;
+  };
+
   system = {
     primaryUser = "kei";
     stateVersion = 6;
@@ -52,17 +63,14 @@ in {
     };
   };
 
-  # homebrewの設定
   # homebrew = {
   #   enable = true;
   #   onActivation = {
   #     autoUpdate = true;
-  #     # !! 注意 !!
   #     upgrade = true;
   #     cleanup = "uninstall";
   #   };
   #   casks = [
-  #     # ここにGUIアプリの記述
   #     # "macskk"
   #     # "zoom"
   #   ];
