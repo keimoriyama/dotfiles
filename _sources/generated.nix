@@ -127,15 +127,15 @@
   };
   emacs-kuro = {
     pname = "emacs-kuro";
-    version = "6c3bfb7634d398c0b62ef355e67c5c09fc649634";
+    version = "f8f4236d36f0fab318e4cd76293d357ead5ebcca";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "kuro";
-      rev = "6c3bfb7634d398c0b62ef355e67c5c09fc649634";
+      rev = "f8f4236d36f0fab318e4cd76293d357ead5ebcca";
       fetchSubmodules = false;
-      sha256 = "sha256-D2RjI+MAVTI7PRSNnN0HkJyEX17r2Vx+o7hMtebwzv8=";
+      sha256 = "sha256-eTCfsLYo91kucLUr25M3GQTD0fjSkpmgzO5sCAZKvV0=";
     };
-    date = "2026-03-29";
+    date = "2026-04-01";
   };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
@@ -151,15 +151,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "56a0834e83a7110df298eea7c29d10a0ed90b549";
+    version = "5d9c583fd40adc19341bc37d70bc82c283657c74";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "56a0834e83a7110df298eea7c29d10a0ed90b549";
+      rev = "5d9c583fd40adc19341bc37d70bc82c283657c74";
       fetchSubmodules = false;
-      sha256 = "sha256-InvNbLYKf9ws1LGhIKLyCmlqbUHB2FnNfvI+iS0YBwk=";
+      sha256 = "sha256-t6u9slKxv+Kvz9eChZ5VuyufAezXtcGGHteZKJ/JWOM=";
     };
-    date = "2026-03-28";
+    date = "2026-04-01";
   };
   emacs-org-hyperscheduler = {
     pname = "emacs-org-hyperscheduler";
