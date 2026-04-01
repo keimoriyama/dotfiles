@@ -21,7 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     org-babel.url = "github:emacs-twist/org-babel";
-    flake-utils.url = "github:numtide/flake-utils";
     flake-parts.url = "github:hercules-ci/flake-parts";
     brew-nix = {
       url = "github:BatteredBunny/brew-nix";
@@ -53,6 +52,7 @@
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
       system = "aarch64-darwin";
       username = "kei";
+      homeModules = [./home-manager/default.nix];
       specialArgs = {
         inherit
           nixpkgs
@@ -97,7 +97,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = specialArgs;
                 users.${username} = {
-                  imports = [./home-manager/default.nix];
+                  imports = homeModules;
                 };
               };
             }
@@ -107,9 +107,7 @@
         homeConfigurations.myHomeConfig = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {inherit system;};
           extraSpecialArgs = specialArgs;
-          modules = [
-            ./home-manager/default.nix
-          ];
+          modules = homeModules;
         };
       };
     });

@@ -12,8 +12,6 @@
   arto,
   ...
 }: let
-  sources = pkgs.callPackage ../_sources/generated.nix {};
-
   pkgs = import nixpkgs {
     inherit system;
     config = {
@@ -26,6 +24,7 @@
       inherit brew-nix;
     };
   };
+  sources = pkgs.callPackage ../_sources/generated.nix {};
   emacs = import ./packages/emacs {
     inherit (nixpkgs) lib;
     inherit pkgs sources;
@@ -65,6 +64,19 @@
   llm-agent-pkgs = import ./llm-agent-pkg.nix {
     inherit llmAgentsPkgs;
   };
+  basePackages = with pkgs;
+    [
+      # editor & other tools
+      vim
+      tree-sitter
+      mocword
+      terminal-notifier
+      cargo-compete
+      yaskkserv2
+    ]
+    ++ lib.optionals (artoPkg != null) [
+      artoPkg
+    ];
 in {
   imports = [
     wezterm-config
@@ -80,19 +92,8 @@ in {
     username = username;
     homeDirectory = builtins.toPath "/Users/${username}";
 
-    packages = with pkgs;
-      [
-        #editor & other tools
-        vim
-        tree-sitter
-        mocword
-        terminal-notifier
-        # online-judge-tools
-        # online-judge-template-generator
-        cargo-compete
-        yaskkserv2
-        artoPkg
-      ]
+    packages =
+      basePackages
       ++ utils
       ++ langs
       ++ gui
