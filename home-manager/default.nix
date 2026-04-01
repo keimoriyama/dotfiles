@@ -98,8 +98,8 @@ in {
       ++ langs
       ++ gui
       ++ llm-agent-pkgs
-      ++ lib.optionals stdenv.isLinux [
-        zoom-us
+      ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+        pkgs.zoom-us
       ]
       ++ darwin;
     file = {

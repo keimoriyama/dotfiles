@@ -5,6 +5,7 @@ set -x PATH "$PATH" "/opt/homebrew/bin"
 set -x PATH "$PATH" "$HOME/.cargo/bin" 
 set -x PATH "$PATH" "$HOME/.local/bin"
 set -x PATH "$PATH" "$HOME/.roswell/bin/"
+set -gx SHELL "/etc/profiles/per-user/kei/bin/fish"
 # Fish git prompt
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
@@ -21,4 +22,3 @@ set __fish_git_prompt_char_untrackedfiles '☡'
 set __fish_git_prompt_char_stashstate '↩'
 set __fish_git_prompt_char_upstream_ahead '+'
 set __fish_git_prompt_char_upstream_behind '-'
-

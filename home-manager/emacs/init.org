@@ -98,10 +98,8 @@
 #+end_src
 ** シェルの設定
 #+begin_src emacs-lisp
-(setq-default shell-file-name
-              (expand-file-name "~/.nix-profile/bin/fish"))
-(setq-default sh-shell-file
-              (expand-file-name "~/.nix-profile/bin/fish"))
+(setq-default shell-file-name "/etc/profiles/per-user/kei/bin/fish")
+(setq-default sh-shell-name "/etc/profiles/per-user/kei/bin/fish")
 #+end_src
 
 ** Melpaの設定
@@ -137,7 +135,7 @@
 **** exec-path-from-shell
 #+begin_src emacs-lisp
 (require 'exec-path-from-shell)
-(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "COPILOT_LANGUAGE_SERVER_PATH" "LSP_USE_PLISTS"))
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL"))
 (exec-path-from-shell-initialize)
 #+end_src
 
