@@ -80,6 +80,7 @@ in
     # langs
     auctex
     packages.yatex
+    ebib
     packages.typst-ts-mode
     python-mode
     pet
