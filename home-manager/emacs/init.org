@@ -1376,7 +1376,7 @@ binding))))))))
 ***** haskell
 #+begin_src emacs-lisp
 (add-hook 'haskell-mode-hook #'lsp)
-(add-hook 'haskell-literate-mode-hook #'lsp)
+;;(add-hook 'haskell-literate-mode-hook #'lsp)
 #+end_src
 ***** nix
 #+begin_src emacs-lisp
@@ -1787,11 +1787,19 @@ binding))))))))
 (require 'inf-haskell)
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
-(add-hook 'haskell-mode-hook #'inferior-haskell-mode)
+;;(add-hook 'haskell-mode-hook #'inferior-haskell-mode)
 (reformatter-define haskell-fourmolu-format
   :program "fourmolu"
-  :args `( ,buffer-file-name))
+  :args `("--stdin-input-file" ,buffer-file-name)
+  :stdin t)
+(defun kei/haskell-mode-setup ()
+  "Disable legacy haskell-mode save hooks that pull in haskell-process."
+  (setq-local haskell-tags-on-save nil)
+  (remove-hook 'after-save-hook #'haskell-mode-after-save-handler t))
+(add-hook 'haskell-mode-hook #'kei/haskell-mode-setup)
+(add-hook 'literate-haskell-mode-hook #'kei/haskell-mode-setup)
 (add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
+(add-hook 'literate-haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
 #+end_src
 
 *** lua-mode

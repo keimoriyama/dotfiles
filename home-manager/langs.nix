@@ -29,6 +29,7 @@ with pkgs; [
   haskell-language-server
   docker-language-server
   yaml-language-server
+  haskell-language-server
   nixd
   texlab
   prettier
