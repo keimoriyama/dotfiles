@@ -34,6 +34,10 @@
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
     arto.url = "github:arto-app/Arto";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -47,10 +51,12 @@
     brew-nix,
     llm-agents,
     arto,
+    nixos-wsl,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
       system = "aarch64-darwin";
+      nixosSystem = "x86_64-linux";
       username = "kei";
       homeModules = [./home-manager/default.nix];
       specialArgs = {
@@ -65,6 +71,7 @@
           brew-nix
           llm-agents
           arto
+          nixos-wsl
           ;
         inherit (home-manager.lib) homeManagerConfiguration;
       };
@@ -108,6 +115,26 @@
           pkgs = import nixpkgs {inherit system;};
           extraSpecialArgs = specialArgs;
           modules = homeModules;
+        };
+
+        nixosConfigurations.nixos-wsl = nixpkgs.lib.nixosSystem {
+          system = nixosSystem;
+          specialArgs = specialArgs;
+          modules = [
+            nixos-wsl.nixosModules.wsl
+            ./hosts/nixos-wsl/default.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = specialArgs;
+                users.${username} = {
+                  imports = homeModules;
+                };
+              };
+            }
+          ];
         };
       };
     });
