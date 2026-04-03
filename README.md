@@ -66,7 +66,7 @@ cd ~/dotfiles
 nix flake update
 
 # Apply the configuration
-sudo nixos-rebuild switch --flake ~/dotfiles#nixos-wsl
+sudo nixos-rebuild switch --flake .#nixos-wsl
 ```
 
 個別 input だけ更新したい場合:
@@ -74,5 +74,5 @@ sudo nixos-rebuild switch --flake ~/dotfiles#nixos-wsl
 ```sh
 cd ~/dotfiles
 nix flake lock --update-input nixpkgs
-sudo nixos-rebuild switch --flake ~/dotfiles#nixos-wsl
+sudo nixos-rebuild switch --flake .#nixos-wsl
 ```
