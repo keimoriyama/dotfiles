@@ -15,9 +15,6 @@
     defaultUser = "kei";
     startMenuLaunchers = true;
 
-    # Enable native Docker support
-    docker-native.enable = false;
-
     # Enable integration with Windows
     wslConf = {
       automount.root = "/mnt";

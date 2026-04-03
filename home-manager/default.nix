@@ -16,7 +16,7 @@
     inherit system;
     config = {
       allowUnfree = true;
-      allwoUnfreePredicate = true;
+      allowUnfreePredicate = true;
     };
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;
@@ -90,7 +90,11 @@ in {
   home = {
     stateVersion = "25.11";
     username = username;
-    homeDirectory = builtins.toPath "/Users/${username}";
+    homeDirectory = pkgs.lib.mkDefault (
+      if pkgs.stdenv.isDarwin 
+      then builtins.toPath "/Users/${username}"
+      else builtins.toPath "/home/${username}"
+    );
 
     packages =
       basePackages
