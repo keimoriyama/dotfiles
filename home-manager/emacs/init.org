@@ -1301,6 +1301,7 @@ binding))))))))
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
+
 **** lsp-ui
 #+begin_src emacs-lisp
 (require 'lsp-ui)
@@ -1352,16 +1353,41 @@ binding))))))))
 #+end_src
 ***** python
 #+begin_src emacs-lisp
+(require 'pet)
+(setq lsp-pyright-langserver-command "basedpyright")
+(add-hook 'python-base-mode-hook 'pet-mode -10)
+(add-hook 'python-mode-hook (lambda ()
+                              (require 'lsp-pyright)
+                              (lsp)))
 ;; ruff LSPサーバーを完全に無効化
-(setopt lsp-disabled-clients '(ruff-lsp ruff))
+;; (setopt lsp-disabled-clients '(ruff-lsp lsp-python-ty))
 
-(defun my/python-lsp-setup ()
-  "Python用LSP設定（ruffを除外）"
-  (setq-local lsp-disabled-clients '(ruff-lsp ruff))
-  (lsp-deferred))
+;; (defun my/python-lsp-setup ()
+;;   "Python用LSP設定（ruffを除外）"
+;;   (setq-local lsp-disabled-clients '(ruff-lsp lsp-python-ty))
+;;   (lsp-deferred))
 
-(add-hook 'python-mode-hook #'my/python-lsp-setup)
+;; (add-hook 'python-mode-hook #'my/python-lsp-setup)
 #+end_src
+****** ty-ls diagnostics workaround
+#+begin_src emacs-lisp
+
+;; Workaround for ty-ls diagnostics issue with lsp-use-plists
+;; The issue: lsp-diagnostics--update-path receives nil instead of a file path
+;; when processing diagnostics from ty-ls in plist mode
+;; (defun lsp-diagnostics--ty-ls-fix-nil-path (orig-fun file-or-uri stats)
+;;   "Wrapper to handle nil file paths from ty-ls diagnostics with plists.
+;; If FILE-OR-URI is nil, try to get the file path from the current buffer."
+;;   (let ((fixed-file-or-uri (or file-or-uri
+;;                                (when (buffer-file-name)
+;;                                  (lsp--path-to-uri (buffer-file-name))))))
+;;     (when fixed-file-or-uri
+;;       (funcall orig-fun fixed-file-or-uri stats))))
+
+;; (with-eval-after-load 'lsp-diagnostics
+;;   (advice-add 'lsp-diagnostics--update-path :around #'lsp-diagnostics--ty-ls-fix-nil-path))
+#+end_src
+
 ***** rust
 #+begin_src emacs-lisp
 (defun my/find-rust-project-root (dir)
@@ -1643,14 +1669,13 @@ binding))))))))
     ("c" rust-check "check"))))
 #+end_src
 
-*** Python
+*** python-mode
 **** 基本設定・LSP
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
 (with-eval-after-load 'python-mode
-  (setopt python-shell-completion-native-enable nil)
-  (pet-mode t))
+  (setopt python-shell-completion-native-enable nil))
 #+end_src
 
 **** フォーマッタ
@@ -1716,6 +1741,7 @@ binding))))))))
 
 (defun uv-remove-package ()
   "function to remove package in current project"
+  (interactive)
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
         (if (not (uv-package-existance-p package-name))
@@ -1725,6 +1751,7 @@ binding))))))))
 
 (defun uv-add-package ()
   "function to add new package in current project"
+  (interactive)
   (if (uv-project-root-p)
       (let* ((package-name (read-string "Package Name: ")))
         (if (uv-package-existance-p package-name)
@@ -1733,15 +1760,16 @@ binding))))))))
            (concat uv-command " " uv-command--add " " package-name))))))
 #+end_src
 
+
 **** Hydraメニュー
 #+begin_src emacs-lisp
-(major-mode-hydra-define python-mode
-  (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ("run"
-   (("t" python-pytest-dispatch "test"))
-   "package(uv)"
-   (("a" uv-add-package "add")
-    ("r" uv-remove-package "remove"))))
+;; (major-mode-hydra-define python-mode
+;;   (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;   ("run"
+;;    (("t" python-pytest-dispatch "test"))
+;;    "package(uv)"
+;;    (("a" uv-add-package "add")
+;;     ("r" uv-remove-package "remove"))))
 #+end_src
 
 *** nix-mode
@@ -1892,70 +1920,71 @@ binding))))))))
 #+end_src
 ** ddskk
 #+begin_src emacs-lisp
-(require 'ddskk-autoloads)
-(keymap-global-set "C-x j" #'skk-mode)
-(keymap-global-set "C-x C-j" #'skk-mode)
-(setq default-input-method "japanese-skk")
+;; (require 'ddskk-autoloads)
+;; (keymap-global-set "C-x j" #'skk-mode)
+;; (keymap-global-set "C-x C-j" #'skk-mode)
+;; (setq default-input-method "japanese-skk")
 
-(defun skk-open-server-decoding-utf-8 ()
-  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-  (unless (skk-server-live-p)
-    (setq skkserv-process (skk-open-server-1))
-    (when (skk-server-live-p)
-      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-        (set-process-coding-system skkserv-process 'utf-8 code))))
-  skkserv-process)
+;; (defun skk-open-server-decoding-utf-8 ()
+;;   "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
+;;   (unless (skk-server-live-p)
+;;     (setq skkserv-process (skk-open-server-1))
+;;     (when (skk-server-live-p)
+;;       (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+;;         (set-process-coding-system skkserv-process 'utf-8 code))))
+;;   skkserv-process)
 
-(setq skk-mode-hook
-      '(lambda()
-         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+;; (setq skk-mode-hook
+;;       '(lambda()
+;;          (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
 
-(setq skk-preload t)
+;; (setq skk-preload t)
 
-(with-eval-after-load 'skk-vars
-  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
-        skk-use-azik t
-        skk-azik-keyboard-type "en"
-        skk-search-katakana nil
-        skk-share-private-jisyo t
-        skk-save-jisyo-instantly t
-        skk-server-host "localhost"
-        skk-server-portnum 1178))
+;; (with-eval-after-load 'skk-vars
+;;   (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+;;         skk-use-azik t
+;;         skk-azik-keyboard-type "en"
+;;         skk-search-katakana nil
+;;         skk-share-private-jisyo t
+;;         skk-save-jisyo-instantly t
+;;         skk-server-host "localhost"
+;;         skk-server-portnum 1178))
 
-(require 'ddskk-posframe)
+;; (require 'ddskk-posframe)
 
-(with-eval-after-load 'skk
-  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+;; (with-eval-after-load 'skk
+;;   (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
+
 ** nskk
 #+begin_src emacs-lisp
-;; (require 'nskk)
-;; (keymap-global-set "C-x C-j" #'nskk-mode)
-;; ;(nskk-global-mode t)
-;; (setopt nskk-dict-system-dictionary-files
-;;         '("~/.skk-dict/SKK-JISYO.L"))
+(require 'nskk)
+(keymap-global-set "C-x C-j" #'nskk-mode)
+;(nskk-global-mode t)
+(setopt nskk-dict-system-dictionary-files
+        '("~/.skk-dict/SKK-JISYO.L"))
 
-;; (setopt nskk-server-enable t)
-;; (setopt nskk-server-host "localhost")
-;; (setopt nskk-server-portnum 1178)
-;; (setopt nskk-henkan-show-candidates-nth 2)
-;; (setopt nskk-henkan-number-to-display-candidates 7)
-;; (setq nskk-converter-romaji-style 'azik)
-;; (setq nskk-azik-keyboard-type 'us101)
-;; (setq nskk-debug-enabled t)
-;; (setq nskk-server-report-response t)
-;; (require 'nskk-debug)
+(setopt nskk-server-enable t)
+(setopt nskk-server-host "localhost")
+(setopt nskk-server-portnum 1178)
+(setopt nskk-henkan-show-candidates-nth 2)
+(setopt nskk-henkan-number-to-display-candidates 7)
+(setq nskk-converter-romaji-style 'azik)
+(setq nskk-azik-keyboard-type 'us101)
+(setq nskk-debug-enabled t)
+(setq nskk-server-report-response t)
+(require 'nskk-debug)
 
-;; ;; Fix for org-element-cache warnings with nskk-self-insert
-;; ;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
-;; (with-eval-after-load 'org
-;;   (defun nskk-org-element-cache-reset-advice (&rest _)
-;;     "Reset org-element cache before nskk operations to prevent cache warnings."
-;;     (when (and (derived-mode-p 'org-mode)
-;;                (boundp 'org-element--cache))
-;;       (org-element-cache-reset)))
+;; Fix for org-element-cache warnings with nskk-self-insert
+;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
+(with-eval-after-load 'org
+  (defun nskk-org-element-cache-reset-advice (&rest _)
+    "Reset org-element cache before nskk operations to prevent cache warnings."
+    (when (and (derived-mode-p 'org-mode)
+               (boundp 'org-element--cache))
+      (org-element-cache-reset)))
   
-;;   (advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
+  (advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
 #+end_src
 
 * AI・LLM Integration

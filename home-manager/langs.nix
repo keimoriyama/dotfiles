@@ -19,8 +19,8 @@ with pkgs; [
 
   # language server protcols
   basedpyright
-  ruff
-  ty
+  # ruff
+  # ty
   isort
   yaml-language-server
   lua-language-server
