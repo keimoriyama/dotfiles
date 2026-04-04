@@ -27,7 +27,7 @@ in {
           ++ lib.optional pkgs.stdenv.isDarwin [pkgs.apple-sdk]
           ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
             gtk3
-            webkitgtk
+            webkitgtk_6_0
             glib-networking
           ]);
         configureFlags = old.configureFlags ++ ["--with-xwidgets"];
