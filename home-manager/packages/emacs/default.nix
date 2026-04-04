@@ -22,7 +22,14 @@ in {
     package = pkgs.emacs.overrideAttrs (old:
       parallelBuildAttrs
       // {
-        buildInputs = old.buildInputs ++ lib.optional pkgs.stdenv.isDarwin [pkgs.apple-sdk];
+        buildInputs =
+          old.buildInputs
+          ++ lib.optional pkgs.stdenv.isDarwin [pkgs.apple-sdk]
+          ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
+            gtk3
+            webkitgtk
+            glib-networking
+          ]);
         configureFlags = old.configureFlags ++ ["--with-xwidgets"];
         env = (old.env or {}) // parallelBuildAttrs.env;
       });
