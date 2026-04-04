@@ -106,7 +106,7 @@
     },
     "dpp-vim": {
         "cargoLock": null,
-        "date": "2026-03-27",
+        "date": "2026-04-04",
         "extract": null,
         "name": "dpp-vim",
         "passthru": null,
@@ -118,12 +118,12 @@
             "name": null,
             "owner": "Shougo",
             "repo": "dpp.vim",
-            "rev": "33a02c9f0bd5420511b637b3ef927f28e164781e",
-            "sha256": "sha256-7wks+WuTyCJVhXkcP8sD/Pr8EfM0N0rXIlIs6WJdJ4k=",
+            "rev": "78eedc6f3b97555072dad739117896cda8086126",
+            "sha256": "sha256-9wLvRPEgZXoWYxx0gUtALP4DQ1wcuvpVszjz2HKNLXQ=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "33a02c9f0bd5420511b637b3ef927f28e164781e"
+        "version": "78eedc6f3b97555072dad739117896cda8086126"
     },
     "emacs-acp": {
         "cargoLock": null,
@@ -253,7 +253,7 @@
     },
     "emacs-nskk": {
         "cargoLock": null,
-        "date": "2026-04-02",
+        "date": "2026-04-04",
         "extract": null,
         "name": "emacs-nskk",
         "passthru": null,
@@ -265,12 +265,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "nskk.el",
-            "rev": "a6aa127369c1fcaf8ecb463509d7b628e57bdb2b",
-            "sha256": "sha256-o2C34IDuTOxeo286lPtFGWshWnXifKH8zQ9ZNzxO1nY=",
+            "rev": "784edc6c05b4c3f0659d5a6d73d918f2e21b3492",
+            "sha256": "sha256-9NeX2XTAPlCgsJ3QtQIzRFDlXB4igHxj+9LGCeElQnE=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "a6aa127369c1fcaf8ecb463509d7b628e57bdb2b"
+        "version": "784edc6c05b4c3f0659d5a6d73d918f2e21b3492"
     },
     "emacs-org-hyperscheduler": {
         "cargoLock": null,
