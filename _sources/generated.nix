@@ -67,15 +67,15 @@
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "33a02c9f0bd5420511b637b3ef927f28e164781e";
+    version = "78eedc6f3b97555072dad739117896cda8086126";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "33a02c9f0bd5420511b637b3ef927f28e164781e";
+      rev = "78eedc6f3b97555072dad739117896cda8086126";
       fetchSubmodules = false;
-      sha256 = "sha256-7wks+WuTyCJVhXkcP8sD/Pr8EfM0N0rXIlIs6WJdJ4k=";
+      sha256 = "sha256-9wLvRPEgZXoWYxx0gUtALP4DQ1wcuvpVszjz2HKNLXQ=";
     };
-    date = "2026-03-27";
+    date = "2026-04-04";
   };
   emacs-acp = {
     pname = "emacs-acp";
@@ -151,15 +151,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "a6aa127369c1fcaf8ecb463509d7b628e57bdb2b";
+    version = "784edc6c05b4c3f0659d5a6d73d918f2e21b3492";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "a6aa127369c1fcaf8ecb463509d7b628e57bdb2b";
+      rev = "784edc6c05b4c3f0659d5a6d73d918f2e21b3492";
       fetchSubmodules = false;
-      sha256 = "sha256-o2C34IDuTOxeo286lPtFGWshWnXifKH8zQ9ZNzxO1nY=";
+      sha256 = "sha256-9NeX2XTAPlCgsJ3QtQIzRFDlXB4igHxj+9LGCeElQnE=";
     };
-    date = "2026-04-02";
+    date = "2026-04-04";
   };
   emacs-org-hyperscheduler = {
     pname = "emacs-org-hyperscheduler";
