@@ -11,5 +11,8 @@ pkgs.rustPlatform.buildRustPackage {
     description = "A Japanese input method server compatible with SKK";
   };
   doCheck = false;
-  buildInputs = [pkgs.openssl];
+  buildInputs = [
+    pkgs.openssl
+    pkgs.pkgconfig
+  ];
 }
