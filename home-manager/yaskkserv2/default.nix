@@ -13,6 +13,6 @@ pkgs.rustPlatform.buildRustPackage {
   doCheck = false;
   buildInputs = [
     pkgs.openssl
-    pkgs.pkgconfig
+    pkgs.pkg-config
   ];
 }
