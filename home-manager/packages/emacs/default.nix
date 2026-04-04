@@ -15,7 +15,8 @@
   parallelBuildAttrs = {
     enableParallelBuilding = true;
     env = {
-      "WEBKIT_DISABLE_COMPOSITING_MODE" = 1;
+      WEBKIT_DISABLE_COMPOSITING_MODE = "1";
+      NATIVE_COMP_JOBS = "0";
     };
   };
 in {
@@ -26,13 +27,10 @@ in {
       // {
         buildInputs =
           old.buildInputs
-          ++ lib.optional pkgs.stdenv.isDarwin [pkgs.apple-sdk]
-          ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
-            gtk3
-            webkitgtk_6_0
-            glib-networking
-          ]);
-        configureFlags = old.configureFlags ++ ["--with-xwidgets"];
+          ++ lib.optionals pkgs.stdenv.isDarwin [pkgs.apple-sdk];
+        configureFlags =
+          old.configureFlags
+          ++ lib.optional pkgs.stdenv.isDarwin "--with-xwidgets";
         env = (old.env or {}) // parallelBuildAttrs.env;
       });
     extraEmacsPackages = import ./epkgs.nix {inherit pkgs sources;};
