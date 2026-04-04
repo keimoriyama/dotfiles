@@ -60,7 +60,10 @@
     if pkgs.stdenv.isDarwin
     then import ./darwin.nix {inherit pkgs;}
     else [];
-  gui = import ./gui.nix {inherit pkgs;};
+  gui =
+    if pkgs.stdenv.isDarwin
+    then import ./gui.nix {inherit pkgs;}
+    else [];
   llm-agent-pkgs = import ./llm-agent-pkg.nix {
     inherit llmAgentsPkgs;
   };
@@ -70,9 +73,11 @@
       vim
       tree-sitter
       mocword
-      terminal-notifier
       cargo-compete
       yaskkserv2
+    ]
+    ++ lib.optionals pkgs.stdenv.isDarwin [
+      terminal-notifier
     ]
     ++ lib.optionals (artoPkg != null) [
       artoPkg
@@ -91,7 +96,7 @@ in {
     stateVersion = "25.11";
     username = username;
     homeDirectory = pkgs.lib.mkDefault (
-      if pkgs.stdenv.isDarwin 
+      if pkgs.stdenv.isDarwin
       then builtins.toPath "/Users/${username}"
       else builtins.toPath "/home/${username}"
     );
@@ -106,15 +111,20 @@ in {
         pkgs.zoom-us
       ]
       ++ darwin;
-    file = {
-      ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
-      "Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;
+    file =
+      {
+        ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
+      }
+      // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+        "Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;
+      };
+    activation = pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+      trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
+        ${builtins.readFile ./trampoline-apps.sh}
+        fromDir="$HOME/Applications/Home Manager Apps"
+        toDir="$HOME/Applications/Home Manager Trampolines"
+        sync_trampolines "$fromDir" "$toDir"
+      '';
     };
-    activation.trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-      ${builtins.readFile ./trampoline-apps.sh}
-      fromDir="$HOME/Applications/Home Manager Apps"
-      toDir="$HOME/Applications/Home Manager Trampolines"
-      sync_trampolines "$fromDir" "$toDir"
-    '';
   };
 }

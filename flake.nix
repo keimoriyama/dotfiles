@@ -55,17 +55,16 @@
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
-      system = "aarch64-darwin";
+      darwinSystem = "aarch64-darwin";
       nixosSystem = "x86_64-linux";
       username = "kei";
       homeModules = [./home-manager/default.nix];
-      specialArgs = {
+      darwinSpecialArgs = {
         inherit
           nixpkgs
           home-manager
           emacs-overlay
           org-babel
-          system
           neovim-nightly-overlay
           username
           brew-nix
@@ -73,10 +72,27 @@
           arto
           nixos-wsl
           ;
+        system = darwinSystem;
+        inherit (home-manager.lib) homeManagerConfiguration;
+      };
+      nixosSpecialArgs = {
+        inherit
+          nixpkgs
+          home-manager
+          emacs-overlay
+          org-babel
+          neovim-nightly-overlay
+          username
+          brew-nix
+          llm-agents
+          arto
+          nixos-wsl
+          ;
+        system = nixosSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
       };
     in {
-      systems = [system];
+      systems = [darwinSystem nixosSystem];
 
       perSystem = {pkgs, ...}: {
         apps.update = {
@@ -94,7 +110,8 @@
 
       flake = {
         darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
-          inherit system specialArgs;
+          system = darwinSystem;
+          specialArgs = darwinSpecialArgs;
           modules = [
             ./hosts/darwin/default.nix
             home-manager.darwinModules.home-manager
@@ -102,7 +119,7 @@
               home-manager = {
                 useGlobalPkgs = false;
                 useUserPackages = true;
-                extraSpecialArgs = specialArgs;
+                extraSpecialArgs = darwinSpecialArgs;
                 users.${username} = {
                   imports = homeModules;
                 };
@@ -112,14 +129,14 @@
         };
 
         homeConfigurations.myHomeConfig = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {inherit system;};
-          extraSpecialArgs = specialArgs;
+          pkgs = import nixpkgs {system = darwinSystem;};
+          extraSpecialArgs = darwinSpecialArgs;
           modules = homeModules;
         };
 
         nixosConfigurations.nixos-wsl = nixpkgs.lib.nixosSystem {
           system = nixosSystem;
-          specialArgs = specialArgs;
+          specialArgs = nixosSpecialArgs;
           modules = [
             nixos-wsl.nixosModules.wsl
             ./hosts/nixos-wsl/default.nix
@@ -128,7 +145,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = specialArgs;
+                extraSpecialArgs = nixosSpecialArgs;
                 users.${username} = {
                   imports = homeModules;
                 };
