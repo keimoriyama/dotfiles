@@ -14,7 +14,9 @@
   };
   parallelBuildAttrs = {
     enableParallelBuilding = true;
-    env = {};
+    env = {
+      "WEBKIT_DISABLE_COMPOSITING_MODE" = 1;
+    };
   };
 in {
   emacs-stable = pkgs.emacsWithPackagesFromUsePackage {
