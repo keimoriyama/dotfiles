@@ -1257,18 +1257,9 @@ binding))))))))
   ;; config
   (setopt lsp-response-timeout 60)
   (setopt lsp-idle-delay 0.8)
-  (setopt lsp-enable-links nil)
-  (setopt lsp-log-io nil)
-  ;; Disable LSP inline completion to prevent conflicts with copilot
-  (setopt lsp-inline-completion-enable nil)
-  
-  ;; Disable file watchers to prevent file descriptor exhaustion
-  (setopt lsp-enable-file-watchers nil)
-  (setopt lsp-file-watch-threshold 20000)
   
   ;; Prevent automatic workspace folder registration
   (setopt lsp-auto-guess-root t)
-  (setopt lsp-keep-workspace-alive nil)
   
   (setopt lsp-client-packages (delq 'lsp-volar lsp-client-packages))
   (setopt lsp-modeline-code-actions-enable nil))
@@ -1285,6 +1276,7 @@ binding))))))))
 (with-eval-after-load 'lsp-copilot
   ;; config
   (setopt lsp-copilot-enabled nil))
+
 #+end_src
 
 **** lsp-booster
@@ -1557,13 +1549,7 @@ binding))))))))
 ;; (add-hook 'yatex-mode-hook #'eglot-ensure)
 #+end_src
 
-*** lsp-bridge
-**** 基本設定
-#+begin_src emacs-lisp
-;; (require 'lsp-bridge)
-#+end_src
-
-*** flycheck
+** flycheck
 #+begin_src emacs-lisp
 (require 'flycheck)
 (add-hook 'emacs-startup-hook #'global-flycheck-mode)
@@ -1573,25 +1559,10 @@ binding))))))))
   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)
   (add-to-list 'flycheck-disabled-checkers 'org-lint))
 #+end_src
-
-*** highlight-indent-guides
+** highlight-indent-guides
 #+begin_src emacs-lisp
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
-#+end_src
-
-** デバッグ機能
-*** dap
-#+begin_src emacs-lisp
-;; (require 'dap-mode)
-;; (require 'dap-hydra)
-;; (require 'dap-ui)
-
-;; (with-eval-after-load 'dap-mode
-;;   (define-key dap-mode-map (kbd "C-c d") #'dap-breakpoint-toggle)
-;;   (add-hook 'dap-mode-hook #'dap-ui-mode)
-;;   (add-hook 'dap-mode-hook #'dap-ui-controls-mode)
-;;   (add-hook 'dap-stopped-hook #'(lambda (arg) (call-interactively #'dap-hydra))))
 #+end_src
 ** ターミナル
 *** kuro
@@ -1753,11 +1724,6 @@ binding))))))))
 **** 基本設定・LSP
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-ts-mode))
-;; Disable pet file notifications to prevent file descriptor exhaustion
-(require 'pet)
-(setq pet-use-file-notifications nil)
-(add-hook 'python-ts-mode-hook (lambda ()
-                              (pet-mode)))
 (with-eval-after-load 'python-ts-mode
   (setopt python-shell-completion-native-enable nil))
 #+end_src
@@ -2112,15 +2078,17 @@ binding))))))))
 ** Copilot
 #+begin_src emacs-lisp
 (setq copilot-indent-offset-warning-disable t)
+
 (require 'copilot)
+(setq copilot-idle-delay 1.0)
+
 (add-hook 'prog-mode-hook 'copilot-mode)
 (keymap-global-set "C-<tab>" #'copilot-accept-completion)
 #+end_src
-
 ** copilot-chat
 #+begin_src emacs-lisp
-(require 'copilot-chat)
-;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
+(require 'copilot-chat-git)
+(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
 
 ** Agent Shell

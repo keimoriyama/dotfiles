@@ -18,7 +18,7 @@ with pkgs; [
   uv
 
   # language server protcols
-  pyright
+  # pyright
   basedpyright
   ruff
   # ty
