@@ -2087,7 +2087,7 @@ binding))))))))
 #+end_src
 ** copilot-chat
 #+begin_src emacs-lisp
-(require 'copilot-chat-backend)
+(require 'copilot-chat)
 (require 'copilot-chat-git)
 (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
