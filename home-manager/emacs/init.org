@@ -666,7 +666,16 @@ binding))))))))
 *** アイコン表示
 **** nerd-icons-corfu
 #+begin_src emacs-lisp
-(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+;;(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+#+end_src
+
+**** kind-icon
+#+begin_src emacs-lisp
+(require 'kind-icon)
+(setq kind-icon-default-face 'corfu-default
+      kind-icon-blend-background nil
+      kind-icon-blend-frac 0.08)
+(add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
 #+end_src
 
 * Git統合
@@ -1409,11 +1418,21 @@ binding))))))))
 (add-hook 'nix-mode-hook #'lsp)
 (setopt lsp-disabled-clients '(nix-nil))
 
-(setq lsp-nix-nixd-server-path "nixd"
-      lsp-nix-nixd-formatting-command [ "nixpkgs-alejandra" ]
-      lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
-      lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/nb/nixos\").nixosConfigurations.mnd.options"
-      lsp-nix-nixd-home-manager-options-expr "(builtins.getFlake \"/home/nb/nixos\").homeConfigurations.\"nb@mnd\".options")
+(with-eval-after-load 'lsp-nix
+  ;; use nixd instead of nil
+  (setopt lsp-disabled-clients '(nix-nil))
+  (setopt lsp-nix-nixd-server-path "nixd")
+  (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"])
+  ;; nixd completion configuration
+  (let ((flake-path (concat "builtins.getFlake \""
+                            "/Users/kei/dotfiles"
+                            "\"")))
+    (setopt lsp-nix-nixd-nixpkgs-expr
+            (format "import (%s).inputs.nixpkgs { }" flake-path))
+    (setopt lsp-nix-nixd-nixos-options-expr
+            (format "(%s).homeConfigurations.myHomeConfig.options" flake-path))
+    (setopt lsp-nix-nixd-home-manager-options-expr
+            (format "(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []" flake-path))))
 #+end_src
 ***** web-mode
 #+begin_src emacs-lisp
@@ -1552,6 +1571,38 @@ binding))))))))
 (require 'kuro)
 #+end_src
 * プログラミング言語
+** Treesitter
+*** parser config
+#+begin_src emacs-lisp
+;(global-tree-sitter-mode)
+(setq treesit-language-source-alist
+      '((bibtex "https://github.com/latex-lsp/tree-sitter-bibtex" "master" "src")
+        (csv "https://github.com/tree-sitter-grammars/tree-sitter-csv" "master" "csv/src")
+        (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        (fish "https://github.com/ram02z/tree-sitter-fish")
+        (gitignore "https://github.com/shunsambongi/tree-sitter-gitignore")
+        (haskell "https://github.com/tree-sitter/tree-sitter-haskell" "master" "src")
+        ;;(latex "https://github.com/latex-lsp/tree-sitter-latex" "master" "src")
+        (nix "https://github.com/nix-community/tree-sitter-nix")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        (rust "https://github.com/tree-sitter/tree-sitter-rust")
+        (typst "https://github.com/uben0/tree-sitter-typst" "master" "src")))
+;; Treesitがインストールされてない場合は自動でインストールする
+;; エラーを無視して続行
+(dolist (element treesit-language-source-alist)
+  (let* ((lang (car element)))
+    (if (treesit-language-available-p lang)
+        (message "treesit: %s is already installed" lang)
+      (message "treesit: %s is not installed, attempting install..." lang)
+      (treesit-install-language-grammar lang))))
+#+end_src
+
+*** treesitter-context
+#+begin_src emacs-lisp
+;;implement this!!!
+;;(treesit-node-at (point))
+#+end_src
 ** フォーマッタ・整形
 *** reformatter
 #+begin_src emacs-lisp
@@ -1842,7 +1893,6 @@ binding))))))))
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 #+end_src
-
 * 組版システム
 ** Typst
 *** typst-ts-mode

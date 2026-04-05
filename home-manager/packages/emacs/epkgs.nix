@@ -51,7 +51,6 @@ in
     # moody
     # minions
     neotree
-    tree-sitter
     centered-cursor-mode
     pdf-tools
     # packages.kuro
@@ -60,6 +59,7 @@ in
     # completion
     corfu
     nerd-icons-corfu
+    kind-icon
     cape
     vertico
     marginalia
