@@ -127,15 +127,15 @@
   };
   emacs-kuro = {
     pname = "emacs-kuro";
-    version = "9ecf49dbb7448666c025072f4146dce05122a1f6";
+    version = "560b8fb308c165a8e96e478d2454514097e8b50d";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "kuro";
-      rev = "9ecf49dbb7448666c025072f4146dce05122a1f6";
+      rev = "560b8fb308c165a8e96e478d2454514097e8b50d";
       fetchSubmodules = false;
-      sha256 = "sha256-h6GwkiOzgFxNrk+vzUZxL7QJkINLNbipbgIZMGOnywA=";
+      sha256 = "sha256-C9CHEf6whZsdSwMMVuK8e4YZMJdDbfD+ZIyNRyVx54c=";
     };
-    date = "2026-04-04";
+    date = "2026-04-05";
   };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
@@ -172,18 +172,6 @@
       sha256 = "sha256-/KpmgpHET+5/GDCQwkEQxssX4kkzhZbJ+wxbUAoppIA=";
     };
     date = "2025-07-16";
-  };
-  emacs-tree-sitter-langs = {
-    pname = "emacs-tree-sitter-langs";
-    version = "9434bc0d5fc05c25bc004d1aea2b0ae25ca22b90";
-    src = fetchFromGitHub {
-      owner = "emacs-tree-sitter";
-      repo = "tree-sitter-langs";
-      rev = "9434bc0d5fc05c25bc004d1aea2b0ae25ca22b90";
-      fetchSubmodules = false;
-      sha256 = "sha256-4h+t7zAXfwtwyPfFShJD8wouGQJ/9bbF90Uu6tuNUKg=";
-    };
-    date = "2026-03-30";
   };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
