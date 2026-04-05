@@ -18,8 +18,9 @@ with pkgs; [
   uv
 
   # language server protcols
+  pyright
   basedpyright
-  # ruff
+  ruff
   # ty
   isort
   yaml-language-server

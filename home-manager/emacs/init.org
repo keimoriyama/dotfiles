@@ -1259,7 +1259,17 @@ binding))))))))
   (setopt lsp-idle-delay 0.8)
   (setopt lsp-enable-links nil)
   (setopt lsp-log-io nil)
+  ;; Disable LSP inline completion to prevent conflicts with copilot
+  (setopt lsp-inline-completion-enable nil)
+  
+  ;; Disable file watchers to prevent file descriptor exhaustion
+  (setopt lsp-enable-file-watchers nil)
   (setopt lsp-file-watch-threshold 20000)
+  
+  ;; Prevent automatic workspace folder registration
+  (setopt lsp-auto-guess-root t)
+  (setopt lsp-keep-workspace-alive nil)
+  
   (setopt lsp-client-packages (delq 'lsp-volar lsp-client-packages))
   (setopt lsp-modeline-code-actions-enable nil))
 
@@ -1347,7 +1357,7 @@ binding))))))))
   (define-key lsp-mode-map (kbd "C-c l D") #'lsp-ui-doc-mode)
   (define-key lsp-mode-map (kbd "C-c l b") #'xref-go-back))
 #+end_src
-**** Language specific config
+**** language specific config
 ***** Latex
 #+begin_src emacs-lisp
 (with-eval-after-load "yatex"
@@ -1362,21 +1372,37 @@ binding))))))))
 #+end_src
 ***** python
 #+begin_src emacs-lisp
-(require 'pet)
-(setq lsp-pyright-langserver-command "basedpyright")
-(add-hook 'python-base-mode-hook 'pet-mode -10)
-(add-hook 'python-mode-hook (lambda ()
-                              (require 'lsp-pyright)
-                              (lsp)))
-;; ruff LSPサーバーを完全に無効化
-;; (setopt lsp-disabled-clients '(ruff-lsp lsp-python-ty))
+;; Configure flycheck to use ruff for linting
+(with-eval-after-load 'flycheck
+  (flycheck-define-checker python-ruff
+    "A Python syntax and style checker using ruff."
+    :command ("ruff" "check"
+              "--output-format" "pylint"
+              "--stdin-filename" source-original
+              "-")
+    :standard-input t
+    :error-patterns
+    ((error line-start (file-name) ":" line ": [" (id (one-or-more (not (any "]")))) "] " (message) line-end)
+     (warning line-start (file-name) ":" line ": [" (id (one-or-more (not (any "]")))) "] " (message) line-end))
+    :modes (python-mode python-ts-mode))
+  
+  ;; Add ruff checker to python
+  (add-to-list 'flycheck-checkers 'python-ruff))
 
-;; (defun my/python-lsp-setup ()
-;;   "Python用LSP設定（ruffを除外）"
-;;   (setq-local lsp-disabled-clients '(ruff-lsp lsp-python-ty))
-;;   (lsp-deferred))
+(add-hook 'python-ts-mode-hook (lambda ()
+                                 (setq lsp-pyright-langserver-command "basedpyright")
+                                 (require 'lsp-pyright)
+                                 (lsp)))
+(add-hook 'python-mode-hook #'lsp)
 
-;; (add-hook 'python-mode-hook #'my/python-lsp-setup)
+;; Use ty for type checking and ruff for linting
+;; Disable basedpyright and ruff-lsp (we'll use ruff via flycheck for linting only)
+(defun my/python-lsp-setup ()
+  "Setup LSP for Python with ty only, disabling pyright and ruff LSP servers."
+  (setq-local lsp-disabled-clients '(ruff-lsp ruff ty-ls)))
+
+(add-hook 'python-ts-mode-hook #'my/python-lsp-setup)
+(add-hook 'python-mode-hook #'my/python-lsp-setup)
 #+end_src
 ****** ty-ls diagnostics workaround
 #+begin_src emacs-lisp
@@ -1415,12 +1441,15 @@ binding))))))))
 #+end_src
 ***** nix
 #+begin_src emacs-lisp
+(defun my/nix-lsp-setup ()
+  "Setup LSP for Nix, disabling nix-nil in favor of nixd."
+  (setq-local lsp-disabled-clients '(nix-nil)))
+
+(add-hook 'nix-mode-hook #'my/nix-lsp-setup)
 (add-hook 'nix-mode-hook #'lsp)
-(setopt lsp-disabled-clients '(nix-nil))
 
 (with-eval-after-load 'lsp-nix
   ;; use nixd instead of nil
-  (setopt lsp-disabled-clients '(nix-nil))
   (setopt lsp-nix-nixd-server-path "nixd")
   (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"])
   ;; nixd completion configuration
@@ -1695,7 +1724,7 @@ binding))))))))
   (add-hook 'json-mode-hook #'flycheck-mode))
 #+end_src
 
-*** Rust
+*** rust-mode
 **** 基本設定・LSP
 #+begin_src emacs-lisp
 (require 'rust-mode)
@@ -1723,9 +1752,13 @@ binding))))))))
 *** python-mode
 **** 基本設定・LSP
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-
-(with-eval-after-load 'python-mode
+(add-to-list 'auto-mode-alist '("\\.py$" . python-ts-mode))
+;; Disable pet file notifications to prevent file descriptor exhaustion
+(require 'pet)
+(setq pet-use-file-notifications nil)
+(add-hook 'python-ts-mode-hook (lambda ()
+                              (pet-mode)))
+(with-eval-after-load 'python-ts-mode
   (setopt python-shell-completion-native-enable nil))
 #+end_src
 
@@ -1737,12 +1770,12 @@ binding))))))))
   :stdin t
   :lighter "isort"
   :group 'python-isort)
-(add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
+(add-hook 'python-ts-mode-hook #'python-isort-format-on-save-mode)
 
 (reformatter-define python-ruff-format
   :program "ruff"
   :args `("format" "--stdin-filename" ,buffer-file-name))
-(add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
+(add-hook 'python-ts-mode-hook #'python-ruff-format-on-save-mode)
 (setq python-pytest-executable "uv run pytest")
 #+end_src
 
@@ -1810,7 +1843,6 @@ binding))))))))
           (shell-command
            (concat uv-command " " uv-command--add " " package-name))))))
 #+end_src
-
 
 **** Hydraメニュー
 #+begin_src emacs-lisp
