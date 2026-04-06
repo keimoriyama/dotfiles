@@ -140,7 +140,6 @@ export class Config extends BaseConfig {
         "denippet",
         "around",
         "skkeleton",
-        // "mocword",
         "lsp",
         "buffer",
       ],
