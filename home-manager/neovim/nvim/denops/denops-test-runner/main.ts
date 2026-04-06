@@ -107,9 +107,9 @@ class DenoTestFramework implements TestFramework {
   }
 
   async runAll(denops: Denops): Promise<ParsedTestRun> {
-    const script = `cd ${
-      shellQuote(this.#rootDir)
-    } && deno test -A --doc --parallel --shuffle --no-check --reporter junit denops/`;
+    const script = `cd ${shellQuote(
+      this.#rootDir,
+    )} && deno test -A --doc --parallel --shuffle --no-check --reporter junit denops/`;
     const raw = await system(denops, `sh -lc ${shellQuote(script)}`);
     return parseJunit(raw, {
       rootDir: this.#rootDir,
@@ -122,11 +122,11 @@ class DenoTestFramework implements TestFramework {
   async runOne(denops: Denops, test: TestResult): Promise<ParsedTestRun> {
     const filterRegex = `^${escapeForRegex(test.testname)}$`;
     const absFile = test.filename;
-    const script = `cd ${
-      shellQuote(this.#rootDir)
-    } && deno test -A --doc --no-check --filter ${
-      shellQuote(filterRegex)
-    } --reporter junit ${shellQuote(absFile)}`;
+    const script = `cd ${shellQuote(
+      this.#rootDir,
+    )} && deno test -A --doc --no-check --filter ${shellQuote(
+      filterRegex,
+    )} --reporter junit ${shellQuote(absFile)}`;
     const raw = await system(denops, `sh -lc ${shellQuote(script)}`);
     return parseJunit(raw, {
       rootDir: this.#rootDir,
@@ -166,17 +166,19 @@ class PytestFramework implements TestFramework {
     // Best-effort rerun for pytest:
     // - if we have a real file path, pass it
     // - filter by test name using -k (substring/expression match)
-    const filePart = test.filename && test.filename.endsWith(".py") &&
-        fileExists(test.filename)
-      ? ` ${shellQuote(test.filename)}`
-      : "";
+    const filePart =
+      test.filename &&
+      test.filename.endsWith(".py") &&
+      fileExists(test.filename)
+        ? ` ${shellQuote(test.filename)}`
+        : "";
 
     const script = [
       `cd ${shellQuote(this.#rootDir)}`,
       `tmp="$(mktemp -t pytest-junit.XXXXXX)"`,
-      `python -m pytest -q --disable-warnings -k ${
-        shellQuote(test.testname)
-      } --junitxml "$tmp"${filePart}`,
+      `python -m pytest -q --disable-warnings -k ${shellQuote(
+        test.testname,
+      )} --junitxml "$tmp"${filePart}`,
       `cat "$tmp"`,
       `rm -f "$tmp"`,
     ].join(" && ");
@@ -209,7 +211,7 @@ class ResultBufferUI {
     frameworkId?: FrameworkId,
   ): Promise<void> {
     const fw = this.#getFrameworkOrDefault(frameworkId);
-    const prevWinid = await denops.call("win_getid") as number;
+    const prevWinid = (await denops.call("win_getid")) as number;
     const { bufnr } = await open(denops, RESULT_BUFNAME, { opener: "split" });
     await this.#configureBuffer(denops, bufnr, prevWinid);
     await denops.call("setbufvar", bufnr, RESULT_FRAMEWORK_VAR, fw.id);
@@ -226,13 +228,13 @@ class ResultBufferUI {
   }
 
   async rerunAllFromCurrentBuffer(denops: Denops): Promise<void> {
-    const bufnr = await denops.call("bufnr", "%") as number;
-    const fwId = await denops.call(
+    const bufnr = (await denops.call("bufnr", "%")) as number;
+    const fwId = (await denops.call(
       "getbufvar",
       bufnr,
       RESULT_FRAMEWORK_VAR,
       "",
-    ) as string;
+    )) as string;
     const fw = this.#getFrameworkOrDefault(fwId || undefined);
 
     await this.#render(
@@ -249,7 +251,7 @@ class ResultBufferUI {
     denops: Denops,
     lnumInput?: unknown,
   ): Promise<void> {
-    const bufnr = await denops.call("bufnr", "%") as number;
+    const bufnr = (await denops.call("bufnr", "%")) as number;
     const item = await this.#getItemAtLine(denops, bufnr, lnumInput);
     if (!item?.filename) return;
 
@@ -263,19 +265,19 @@ class ResultBufferUI {
       return;
     }
 
-    const prevWinid = await denops.call(
+    const prevWinid = (await denops.call(
       "getbufvar",
       bufnr,
       RESULT_PREV_WINID_VAR,
       0,
-    ) as number;
+    )) as number;
     if (prevWinid) {
       await denops.call("win_gotoid", prevWinid);
     } else {
       await denops.cmd("wincmd p");
     }
 
-    const escaped = await denops.call("fnameescape", jump.filename) as string;
+    const escaped = (await denops.call("fnameescape", jump.filename)) as string;
     await denops.cmd(`keepalt keepjumps edit ${escaped}`);
     if (jump.lnum) {
       await denops.call("cursor", jump.lnum, jump.col ?? 1);
@@ -287,16 +289,16 @@ class ResultBufferUI {
     denops: Denops,
     lnumInput?: unknown,
   ): Promise<void> {
-    const bufnr = await denops.call("bufnr", "%") as number;
+    const bufnr = (await denops.call("bufnr", "%")) as number;
     const item = await this.#getItemAtLine(denops, bufnr, lnumInput);
     if (!item) return;
 
-    const fwId = await denops.call(
+    const fwId = (await denops.call(
       "getbufvar",
       bufnr,
       RESULT_FRAMEWORK_VAR,
       "",
-    ) as string;
+    )) as string;
     const fw = this.#getFrameworkOrDefault(fwId || undefined);
 
     if (!fw.runOne) {
@@ -316,8 +318,10 @@ class ResultBufferUI {
 
   #getFrameworkOrDefault(frameworkId?: FrameworkId): TestFramework {
     const key = (frameworkId ?? "").trim();
-    return this.#frameworks.get(key) ??
-      this.#frameworks.get(this.#defaultFrameworkId)!;
+    return (
+      this.#frameworks.get(key) ??
+      this.#frameworks.get(this.#defaultFrameworkId)!
+    );
   }
 
   async #getItemAtLine(
@@ -325,22 +329,23 @@ class ResultBufferUI {
     bufnr: number,
     lnumInput?: unknown,
   ): Promise<TestResult | null> {
-    const startLnum = await denops.call(
+    const startLnum = (await denops.call(
       "getbufvar",
       bufnr,
       RESULT_START_LNUM_VAR,
       1,
-    ) as number;
-    const items = await denops.call(
+    )) as number;
+    const items = (await denops.call(
       "getbufvar",
       bufnr,
       RESULT_ITEMS_VAR,
       [],
-    ) as unknown;
+    )) as unknown;
 
-    const lnum = typeof lnumInput === "number"
-      ? lnumInput
-      : Number(lnumInput ?? await denops.call("line", "."));
+    const lnum =
+      typeof lnumInput === "number"
+        ? lnumInput
+        : Number(lnumInput ?? (await denops.call("line", ".")));
 
     if (!Array.isArray(items)) return null;
     const idx = lnum - startLnum;
@@ -373,9 +378,7 @@ class ResultBufferUI {
     await denops.cmd(
       `nnoremap <silent><buffer> r :call denops#request('${this.#pluginName}', 'rerun_all', [])<CR>`,
     );
-    await denops.cmd(
-      `nnoremap <silent><buffer> q :bd!<CR>`,
-    );
+    await denops.cmd(`nnoremap <silent><buffer> q :bd!<CR>`);
   }
 
   async #render(
@@ -390,10 +393,10 @@ class ResultBufferUI {
 
     const summary = parsed.summary
       ? `${parsed.summary.passed} passed, ${parsed.summary.failed} failed${
-        parsed.summary.durationMs != null
-          ? ` (${parsed.summary.durationMs}ms)`
-          : ""
-      }`
+          parsed.summary.durationMs != null
+            ? ` (${parsed.summary.durationMs}ms)`
+            : ""
+        }`
       : `${passed} passed, ${failed} failed`;
 
     const header = statusLine ?? `denops-test-runner: ${summary}`;
@@ -476,9 +479,8 @@ function parseJunit(rawOutput: string, opts: JunitParseOptions): ParsedTestRun {
     const skipped = body.includes("<skipped");
 
     const resolved = resolveJunitPath(opts, attrs, classname);
-    const absPath = resolved != null
-      ? toAbsolutePath(opts.rootDir, resolved)
-      : "";
+    const absPath =
+      resolved != null ? toAbsolutePath(opts.rootDir, resolved) : "";
 
     const failureText = failed ? extractFailureText(body) : null;
     const errorLoc = failureText
@@ -597,9 +599,11 @@ function vimString(s: string): string {
   return `'${s.replaceAll("'", "''")}'`;
 }
 
-function pickJumpTarget(
-  r: TestResult,
-): { filename: string; lnum?: number; col?: number } {
+function pickJumpTarget(r: TestResult): {
+  filename: string;
+  lnum?: number;
+  col?: number;
+} {
   if (!r.result && r.errorFile) {
     return { filename: r.errorFile, lnum: r.errorLnum, col: r.errorCol };
   }
@@ -671,7 +675,8 @@ function resolvePytestClassname(
 }
 
 function extractFailureText(testcaseBody: string): string | null {
-  const failure = extractFirstTagText(testcaseBody, "failure") ??
+  const failure =
+    extractFirstTagText(testcaseBody, "failure") ??
     extractFirstTagText(testcaseBody, "error");
   if (!failure) return null;
   const decoded = decodeXmlEntities(failure);
@@ -747,17 +752,20 @@ function findErrorLocation(
 // ----------------
 
 Deno.test("FormatResultLine", () => {
-  const sample: TestResult[] = [{
-    framework: "deno",
-    filename: "./denops/denops-test-runner/main.ts",
-    testname: "ParseDenoTestOutput",
-    result: true,
-  }, {
-    framework: "deno",
-    filename: "./denops/denops-test-runner/main.ts",
-    testname: "SimpleTest",
-    result: false,
-  }];
+  const sample: TestResult[] = [
+    {
+      framework: "deno",
+      filename: "./denops/denops-test-runner/main.ts",
+      testname: "ParseDenoTestOutput",
+      result: true,
+    },
+    {
+      framework: "deno",
+      filename: "./denops/denops-test-runner/main.ts",
+      testname: "SimpleTest",
+      result: false,
+    },
+  ];
   const result = sample.map(formatResultLine);
   const expected = [
     "[PASS] ParseDenoTestOutput (./denops/denops-test-runner/main.ts)",
@@ -781,25 +789,28 @@ Deno.test("ParseJunitOk", () => {
     framework: "deno",
   });
   const expected: ParsedTestRun = {
-    results: [{
-      framework: "deno",
-      filename: "/x/root/denops/denops-test-runner/main.ts",
-      displayPath: "./denops/denops-test-runner/main.ts",
-      classname: "./denops/denops-test-runner/main.ts",
-      testname: "ParseDenoTestOutput",
-      result: true,
-      lnum: 10,
-      col: 6,
-    }, {
-      framework: "deno",
-      filename: "/x/root/denops/denops-test-runner/main.ts",
-      displayPath: "./denops/denops-test-runner/main.ts",
-      classname: "./denops/denops-test-runner/main.ts",
-      testname: "SimpleTest",
-      result: true,
-      lnum: 20,
-      col: 6,
-    }],
+    results: [
+      {
+        framework: "deno",
+        filename: "/x/root/denops/denops-test-runner/main.ts",
+        displayPath: "./denops/denops-test-runner/main.ts",
+        classname: "./denops/denops-test-runner/main.ts",
+        testname: "ParseDenoTestOutput",
+        result: true,
+        lnum: 10,
+        col: 6,
+      },
+      {
+        framework: "deno",
+        filename: "/x/root/denops/denops-test-runner/main.ts",
+        displayPath: "./denops/denops-test-runner/main.ts",
+        classname: "./denops/denops-test-runner/main.ts",
+        testname: "SimpleTest",
+        result: true,
+        lnum: 20,
+        col: 6,
+      },
+    ],
     summary: {
       passed: 2,
       failed: 0,
@@ -827,28 +838,31 @@ Deno.test("ParseJunitFailed", () => {
     framework: "deno",
   });
   const expected: ParsedTestRun = {
-    results: [{
-      framework: "deno",
-      filename: "/x/root/denops/denops-test-runner/main.ts",
-      displayPath: "./denops/denops-test-runner/main.ts",
-      classname: "./denops/denops-test-runner/main.ts",
-      testname: "SimpleTest",
-      result: true,
-      lnum: 10,
-      col: 6,
-    }, {
-      framework: "deno",
-      filename: "/x/root/denops/denops-test-runner/main.ts",
-      displayPath: "./denops/denops-test-runner/main.ts",
-      classname: "./denops/denops-test-runner/main.ts",
-      testname: "ParseDenoTestOutput",
-      result: false,
-      lnum: 22,
-      col: 6,
-      errorFile: "/x/root/denops/denops-test-runner/main.ts",
-      errorLnum: 123,
-      errorCol: 4,
-    }],
+    results: [
+      {
+        framework: "deno",
+        filename: "/x/root/denops/denops-test-runner/main.ts",
+        displayPath: "./denops/denops-test-runner/main.ts",
+        classname: "./denops/denops-test-runner/main.ts",
+        testname: "SimpleTest",
+        result: true,
+        lnum: 10,
+        col: 6,
+      },
+      {
+        framework: "deno",
+        filename: "/x/root/denops/denops-test-runner/main.ts",
+        displayPath: "./denops/denops-test-runner/main.ts",
+        classname: "./denops/denops-test-runner/main.ts",
+        testname: "ParseDenoTestOutput",
+        result: false,
+        lnum: 22,
+        col: 6,
+        errorFile: "/x/root/denops/denops-test-runner/main.ts",
+        errorLnum: 123,
+        errorCol: 4,
+      },
+    ],
     summary: {
       passed: 1,
       failed: 1,
