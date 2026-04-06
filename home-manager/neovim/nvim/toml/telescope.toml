@@ -1,0 +1,13 @@
+[[plugins]]
+repo='nvim-telescope/telescope.nvim'
+hooks_file="$BASE_DIR/rc/hooks/telescope.lua"
+
+[[plugins]]
+repo='nvim-telescope/telescope-ui-select.nvim'
+
+[[plugins]]
+repo='nvim-telescope/telescope-file-browser.nvim'
+
+[[plugins]]
+repo='nvim-telescope/telescope-bibtex.nvim'
+on_ft='tex'
