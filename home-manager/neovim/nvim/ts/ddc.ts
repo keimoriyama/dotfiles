@@ -9,7 +9,7 @@ export class Config extends BaseConfig {
         "denippet",
         "copilot",
         "lsp",
-        "skkeleton",
+        // "skkeleton",
         "file",
         "buffer",
         "around",

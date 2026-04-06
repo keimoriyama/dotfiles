@@ -99,10 +99,10 @@ on_source="ddc.vim"
 repo="uga-rosa/ddc-previewer-floating"
 on_source="ddc.vim"
 
-[[plugins]]
-repo="vim-skk/skkeleton"
-on_source='ddc.vim'
-hooks_file="$BASE_DIR/lua/skk.lua"
+# [[plugins]]
+# repo="vim-skk/skkeleton"
+# on_source='ddc.vim'
+# hooks_file="$BASE_DIR/lua/skk.lua"
 
 [[plugins]]
 repo = 'keimoriyama/skkeleton-azik-kanatable'

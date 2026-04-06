@@ -3,10 +3,15 @@
   "specifiers": {
     "jsr:@core/unknownutil@^4.3.0": "4.3.0",
     "jsr:@denops/core@7": "7.0.1",
+    "jsr:@denops/core@8": "8.0.1",
     "jsr:@denops/std@*": "7.6.0",
     "jsr:@denops/std@7": "7.6.0",
+    "jsr:@denops/std@7.1": "7.1.1",
+    "jsr:@denops/std@8.0": "8.0.0",
     "jsr:@lambdalisue/itertools@^1.1.2": "1.1.2",
     "jsr:@lambdalisue/unreachable@^1.0.1": "1.0.1",
+    "jsr:@shougo/ddu-vim@*": "6.1.0",
+    "jsr:@shougo/ddu-vim@11.0": "11.0.0",
     "jsr:@shougo/ddu-vim@6.1": "6.1.0",
     "jsr:@std/assert@~1.0.2": "1.0.13",
     "jsr:@std/internal@^1.0.6": "1.0.9",
@@ -20,15 +25,30 @@
     "@denops/core@7.0.1": {
       "integrity": "ede39eec60de6d5bf0fbc0337d3e420a9689cc48afea8c71752e6c0fb630bde0"
     },
+    "@denops/core@8.0.1": {
+      "integrity": "699c70b07b2347febb96972c857fb8325ad8efa99936a0a8c0bb2be82a8b8f32"
+    },
+    "@denops/std@7.1.1": {
+      "integrity": "9178027fc9192034842ac4d8d7219ce65ea80cb115b722e681e5c3630b503cb8",
+      "dependencies": [
+        "jsr:@denops/core@7"
+      ]
+    },
     "@denops/std@7.6.0": {
       "integrity": "468a5b4121378a845bbc4cd705fe0075dff9cd0af41fbb8a797870535af5c4c8",
       "dependencies": [
         "jsr:@core/unknownutil",
-        "jsr:@denops/core",
+        "jsr:@denops/core@7",
         "jsr:@lambdalisue/itertools",
         "jsr:@lambdalisue/unreachable",
         "jsr:@std/semver",
         "jsr:@std/ulid"
+      ]
+    },
+    "@denops/std@8.0.0": {
+      "integrity": "1a3e4ba4fab7d88da0de1c5330b6b87b5c959037d55542edb18c51cda054caa2",
+      "dependencies": [
+        "jsr:@denops/core@8"
       ]
     },
     "@lambdalisue/itertools@1.1.2": {
@@ -38,7 +58,16 @@
       "integrity": "24b0743775e92ea0d076beaf0869bfbe4708054ac570742628684fb35ccda0d4"
     },
     "@shougo/ddu-vim@6.1.0": {
-      "integrity": "772a042b413b3f3c0e072ff390221494e2ee04c2c252827693d34b454fd05eac"
+      "integrity": "772a042b413b3f3c0e072ff390221494e2ee04c2c252827693d34b454fd05eac",
+      "dependencies": [
+        "jsr:@denops/std@7.1"
+      ]
+    },
+    "@shougo/ddu-vim@11.0.0": {
+      "integrity": "7dde913385e0cc3eff144d6e9c2e4a7ff02d4c5caaa3cec4c9bdc5732bbdffc2",
+      "dependencies": [
+        "jsr:@denops/std@8.0"
+      ]
     },
     "@std/assert@1.0.13": {
       "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
@@ -768,6 +797,14 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1"
-    ]
+    ],
+    "members": {
+      "denops/@ddu-sources/keymaps": {
+        "dependencies": [
+          "jsr:@denops/std@8.0",
+          "jsr:@shougo/ddu-vim@11.0"
+        ]
+      }
+    }
   }
 }

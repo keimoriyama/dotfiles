@@ -89,6 +89,34 @@ vim.lsp.config("docker-language-server", {
 	},
 })
 
+local flake_path = 'builtins.getFlake "/Users/kei/dotfiles"'
+
+vim.lsp.config("nixd", {
+	cmd = { "nixd" },
+	filetypes = { "nix" },
+	settings = {
+		nixd = {
+			formatting = {
+				command = { "nixfmt-rfc-style" },
+			},
+			options = {
+				nixpkgs = {
+					expr = string.format("import (%s).inputs.nixpkgs { }", flake_path),
+				},
+				nixos = {
+					expr = string.format("(%s).homeConfigurations.myHomeConfig.options", flake_path),
+				},
+				home_manager = {
+					expr = string.format(
+						"(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []",
+						flake_path
+					),
+				},
+			},
+		},
+	},
+})
+
 vim.lsp.enable({
 	"lua_ls",
 	"ruff",
@@ -96,12 +124,13 @@ vim.lsp.enable({
 	"denols",
 	"ts_ls",
 	"rust_analyzer",
-	-- "copilot",
+	"copilot",
 	"nixd",
 	"texlab",
 	"tinymist",
 	"docker-language-server",
 	"yamlls",
+	"hls",
 })
 
 local opts = { noremap = true, silent = true }
@@ -113,7 +142,7 @@ vim.diagnostic.config({
 	virtual_text = true,
 })
 
--- vim.lsp.inline_completion.enable()
+vim.lsp.inline_completion.enable()
 -- LSP handlers
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -135,7 +164,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
-		-- vim.keymap.set("i", "<C-CR>", vim.lsp.inline_completion.get, opts)
+		vim.keymap.set("i", "<C-CR>", vim.lsp.inline_completion.get, opts)
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client.server_capabilities.documentHighlightProvider then
