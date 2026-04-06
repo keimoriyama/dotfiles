@@ -4,7 +4,7 @@
     "jsr:@core/unknownutil@^4.3.0": "4.3.0",
     "jsr:@denops/core@7": "7.0.1",
     "jsr:@denops/core@8": "8.0.1",
-    "jsr:@denops/std@*": "7.6.0",
+    "jsr:@denops/std@*": "8.0.0",
     "jsr:@denops/std@7": "7.6.0",
     "jsr:@denops/std@7.1": "7.1.1",
     "jsr:@denops/std@8.0": "8.0.0",
@@ -16,6 +16,7 @@
     "jsr:@std/assert@~1.0.2": "1.0.13",
     "jsr:@std/internal@^1.0.6": "1.0.9",
     "jsr:@std/semver@1": "1.0.5",
+    "jsr:@std/semver@^1.0.5": "1.0.5",
     "jsr:@std/ulid@1": "1.0.0"
   },
   "jsr": {
@@ -41,14 +42,19 @@
         "jsr:@denops/core@7",
         "jsr:@lambdalisue/itertools",
         "jsr:@lambdalisue/unreachable",
-        "jsr:@std/semver",
+        "jsr:@std/semver@1",
         "jsr:@std/ulid"
       ]
     },
     "@denops/std@8.0.0": {
       "integrity": "1a3e4ba4fab7d88da0de1c5330b6b87b5c959037d55542edb18c51cda054caa2",
       "dependencies": [
-        "jsr:@denops/core@8"
+        "jsr:@core/unknownutil",
+        "jsr:@denops/core@8",
+        "jsr:@lambdalisue/itertools",
+        "jsr:@lambdalisue/unreachable",
+        "jsr:@std/semver@^1.0.5",
+        "jsr:@std/ulid"
       ]
     },
     "@lambdalisue/itertools@1.1.2": {

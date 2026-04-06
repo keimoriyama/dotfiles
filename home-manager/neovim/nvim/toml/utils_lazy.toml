@@ -309,9 +309,8 @@ vim.keymap.set("x", "g<C-x>", function()
 end)
 '''
 
-
 [[plugins]]
-repo='norcalli/nvim-colorizer.lua'
+repo='catgoose/nvim-colorizer.lua'
 on_event = ["BufReadPre", "BufNewFile"]
 lua_source='''
 require('colorizer').setup()
