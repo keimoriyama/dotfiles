@@ -1567,8 +1567,8 @@ binding))))))))
 ** ターミナル
 *** kuro
 #+begin_src emacs-lisp
-(add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp")
-(require 'kuro)
+;; (add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp")
+;; (require 'kuro)
 #+end_src
 * プログラミング言語
 ** Treesitter
@@ -1610,6 +1610,9 @@ binding))))))))
 #+end_src
 
 ** 言語別設定
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook #'view-mode)
+#+end_src
 *** csv-mode
 #+begin_src emacs-lisp
 (require 'csv-mode)
@@ -1890,7 +1893,8 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
-#+end_src
+#+end_src 
+
 * 組版システム
 ** Typst
 *** typst-ts-mode
@@ -2088,8 +2092,7 @@ binding))))))))
 ** copilot-chat
 #+begin_src emacs-lisp
 (require 'copilot-chat)
-(require 'copilot-chat-git)
-(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
+;;(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
 
 ** Agent Shell
