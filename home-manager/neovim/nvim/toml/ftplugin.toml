@@ -5,7 +5,7 @@ repo = 'mzlogin/vim-markdown-toc'
 [[plugins]]
 repo="Decodetalkers/csv-tools.lua"
 on_ft = "csv"
-hooks_file = "$BASE_DIR/lua/csv_tools.lua"
+hooks_file = "$BASE_DIR/lua/plugins/tools/csv_tools.lua"
 
 [[plugins]]
 repo = 'thinca/vim-partedit'

@@ -48,7 +48,7 @@ require("hlchunk").setup({
 [[plugins]]
 repo = "hrsh7th/nvim-insx"
 on_event = ['InsertEnter']
-hooks_file="$BASE_DIR/lua/insx_config.lua"
+hooks_file="$BASE_DIR/lua/plugins/completion/insx_config.lua"
 
 [[plugins]]
 repo="kylechui/nvim-surround"
@@ -72,7 +72,7 @@ repo="nvim-treesitter/nvim-treesitter"
 on_event = ["BufRead", "CursorHold"]
 rev='main'
 hook_post_update='TSUpdate'
-hooks_file="$BASE_DIR/lua/treesitter.lua"
+hooks_file="$BASE_DIR/lua/plugins/lang/treesitter.lua"
 
 [[plugins]]
 repo='nvim-treesitter/nvim-treesitter-context'
@@ -123,7 +123,7 @@ vim.keymap.set("n", "e", "<Plug>(smartword-e)")
 [[plugins]]
 repo='lambdalisue/gin.vim'
 on_cmd = ["GinStatus", "GinLog"]
-hooks_file="$BASE_DIR/lua/gin.lua"
+hooks_file="$BASE_DIR/lua/plugins/git/gin.lua"
 
 # show diff from recover file
 [[plugins]]
@@ -133,7 +133,7 @@ repo="chrisbra/Recover.vim"
 [[plugins]]
 repo='phaazon/hop.nvim'
 on_event = ["BufReadPre", "BufNewFile"]
-hooks_file ="$BASE_DIR/lua/hop_config.lua"
+hooks_file ="$BASE_DIR/lua/plugins/ui/hop_config.lua"
 
 
 [[plugins]]

@@ -1,7 +1,7 @@
 [[plugins]]
 repo='Shougo/ddc.vim'
 on_event = ['InsertEnter', 'CmdlineEnter']
-hooks_file="$BASE_DIR/lua/ddc.lua"
+hooks_file="$BASE_DIR/lua/plugins/completion/ddc.lua"
 
 [[plugins]]
 on_souce='ddc.vim'
@@ -95,7 +95,7 @@ on_source="ddc.vim"
 [[plugins]]
 repo="vim-skk/skkeleton"
 on_source='ddc.vim'
-hooks_file="$BASE_DIR/lua/skk.lua"
+hooks_file="$BASE_DIR/lua/plugins/ui/skk.lua"
 
 [[plugins]]
 repo = 'keimoriyama/skkeleton-azik-kanatable'
@@ -109,7 +109,7 @@ repo="skk-dev/dict"
 [[plugins]]
 repo = "uga-rosa/denippet.vim"
 on_source = "ddc.vim"
-hooks_file="$BASE_DIR/lua/denippet.lua"
+hooks_file="$BASE_DIR/lua/plugins/completion/denippet.lua"
 
 [[plugins]]
 repo="delphinus/skkeleton_indicator.nvim"

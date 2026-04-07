@@ -1,7 +1,7 @@
 [[plugins]]
 repo="Shougo/ddu.vim"
 # depends='denops.vim'
-hooks_file="$BASE_DIR/lua/ddu.lua"
+hooks_file="$BASE_DIR/lua/plugins/fuzzy/ddu.lua"
 
 [[plugins]]
 repo = "Shougo/ddu-commands.vim"
@@ -15,12 +15,12 @@ on_source = "ddu.vim"
 [[plugins]]
 repo = "Shougo/ddu-ui-filer"
 on_source = "ddu.vim"
-hooks_file="$BASE_DIR/lua/ddu-ui-filer.lua"
+hooks_file="$BASE_DIR/lua/plugins/fuzzy/ddu-ui-filer.lua"
 
 [[plugins]]
 repo = "Shougo/ddu-ui-ff"
 on_source = "ddu.vim"
-hooks_file="$BASE_DIR/lua/ddu-ui-ff.lua"
+hooks_file="$BASE_DIR/lua/plugins/fuzzy/ddu-ui-ff.lua"
 
 [[plugins]] repo = "uga-rosa/ddu-source-lsp"
 on_source = "ddu.vim"
