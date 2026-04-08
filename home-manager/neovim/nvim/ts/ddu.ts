@@ -13,9 +13,9 @@ export class Config extends BaseConfig {
             name: "preview",
           },
           startAutoAction: true,
-          split: "floating",
-          winHeight: "&lines - 8",
-          winWidth: "&columns / 2 - 2",
+          split: "horizontal",
+          // winHeight: "&lines - 8",
+          // winWidth: "&columns / 2 - 2",
           winRow: 1,
           winCol: 1,
           prompt: "> ",
@@ -27,11 +27,11 @@ export class Config extends BaseConfig {
             floating: "Normal",
             floatingBorder: "Normal",
           },
-          previewFloating: true,
-          previewHeight: "&lines - 8",
-          previewWidth: "&columns / 2 - 2",
-          previewRow: 1,
-          previewCol: "&columns / 2 + 1",
+          previewFloating: false,
+          // previewHeight: "&lines - 8",
+          // previewWidth: "&columns / 2 - 2",
+          // previewRow: 1,
+          // previewCol: "&columns / 2 + 1",
           previewSplit: "horizontal",
           previewFloatingBorder: "rounded",
           previewFloatingTitle: "preview",
@@ -39,12 +39,12 @@ export class Config extends BaseConfig {
         } as Partial<FfParams>,
         filer: {} as Partial<FilerParams>,
       },
-      uiOptions: {
-        _: {
-          filterInputFunc: "cmdline#input",
-          filterInputOptsFunc: "cmdline#input_opts",
-        },
-      },
+      // uiOptions: {
+      //   _: {
+      //     filterInputFunc: "cmdline#input",
+      //     filterInputOptsFunc: "cmdline#input_opts",
+      //   },
+      // },
       sourceOptions: {
         _: {
           matchers: ["matcher_substring", "matcher_kensaku"],

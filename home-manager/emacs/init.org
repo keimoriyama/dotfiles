@@ -2025,6 +2025,7 @@ binding))))))))
 (setq nskk-azik-keyboard-type 'us101)
 (setq nskk-debug-enabled t)
 (setq nskk-server-report-response t)
+(setq nskk-dict-user-dictionary-file skk-user-dict-path)
 (require 'nskk-debug)
 
 ;; Fix for org-element-cache warnings with nskk-self-insert
