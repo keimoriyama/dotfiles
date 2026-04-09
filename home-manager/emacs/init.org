@@ -410,8 +410,9 @@ binding))))))))
 *** テーマ・色
 **** catppuccin-theme
 #+begin_src emacs-lisp
+(setq cat-flavor 'latte)
 (require 'catppuccin-theme)
-(setq catppuccin-flavor 'frappe)
+(setq catppuccin-flavor cat-flavor)
 (load-theme 'catppuccin t)
 #+end_src
 
@@ -498,32 +499,32 @@ binding))))))))
   (custom-set-faces
    ;; --- アクティブウィンドウ（surface1 を背景に）---
    `(nano-modeline-active
-     ((t (:background ,(catppuccin-get-color 'surface1 'frappe)
-          :foreground ,(catppuccin-get-color 'text     'frappe)))))
+     ((t (:background ,(catppuccin-get-color 'surface1 cat-flavor)
+          :foreground ,(catppuccin-get-color 'text     cat-flavor)))))
    `(nano-modeline-active-name
      ((t (:inherit nano-modeline-active :bold t))))
    `(nano-modeline-active-primary
      ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'blue 'frappe)))))
+          :foreground ,(catppuccin-get-color 'blue cat-flavor)))))
    `(nano-modeline-active-secondary
      ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'overlay1 'frappe)))))
+          :foreground ,(catppuccin-get-color 'overlay1 cat-flavor)))))
    `(nano-modeline-active-space
      ((t (:inherit nano-modeline-active))))
    ;; ステータス表示（RW=緑、RO=黄、**=赤）
    `(nano-modeline-active-status-RW
      ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'green  'frappe) :bold t))))
+          :foreground ,(catppuccin-get-color 'green  cat-flavor) :bold t))))
    `(nano-modeline-active-status-RO
      ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'yellow 'frappe) :bold t))))
+          :foreground ,(catppuccin-get-color 'yellow cat-flavor) :bold t))))
    `(nano-modeline-active-status-**
      ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'red    'frappe) :bold t))))
+          :foreground ,(catppuccin-get-color 'red    cat-flavor) :bold t))))
    ;; --- 非アクティブウィンドウ（base を背景に、overlay0 でトーンダウン）---
    `(nano-modeline-inactive
-     ((t (:background ,(catppuccin-get-color 'base     'frappe)
-          :foreground ,(catppuccin-get-color 'overlay0 'frappe)))))
+     ((t (:background ,(catppuccin-get-color 'base     cat-flavor)
+          :foreground ,(catppuccin-get-color 'overlay0 cat-flavor)))))
    `(nano-modeline-inactive-name
      ((t (:inherit nano-modeline-inactive))))
    `(nano-modeline-inactive-primary

@@ -1,7 +1,7 @@
 [[plugins]]
 repo="catppuccin/nvim"
 hook_add='''
-colorscheme catppuccin
+colorscheme catppuccin-latte
 '''
 
 # dot repeat
