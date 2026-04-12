@@ -19,27 +19,27 @@
   };
   dpp-ext-installer = {
     pname = "dpp-ext-installer";
-    version = "e89faa6d36838b40e741815aa31d1f9e1f4c08d1";
+    version = "2cbae172421388fbe7113a02b0c1080c574de17d";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-ext-installer";
-      rev = "e89faa6d36838b40e741815aa31d1f9e1f4c08d1";
+      rev = "2cbae172421388fbe7113a02b0c1080c574de17d";
       fetchSubmodules = false;
-      sha256 = "sha256-SONExQganOoLB3eNyssQjXTKzBvmtuCPE036JuFl80c=";
+      sha256 = "sha256-ozXLATkX7PUYn4SlkfQ3/I65NEnpGGRQuEeQIZT0nic=";
     };
-    date = "2026-03-31";
+    date = "2026-04-07";
   };
   dpp-ext-lazy = {
     pname = "dpp-ext-lazy";
-    version = "51ad5e2223ad2ca5c3f0c80a0f1063fbacb1fd4e";
+    version = "a6fdbd64d18e2626e3019c83494824bcdd9c9a1e";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp-ext-lazy";
-      rev = "51ad5e2223ad2ca5c3f0c80a0f1063fbacb1fd4e";
+      rev = "a6fdbd64d18e2626e3019c83494824bcdd9c9a1e";
       fetchSubmodules = false;
-      sha256 = "sha256-tNova2vZiJYEdagzBHtJ9x/HN7suXXZlYxbm3ifvtU0=";
+      sha256 = "sha256-ke56TCFKLrbGuD1UdKBWA76ugxbXQ8Q2mPgR3Jeglew=";
     };
-    date = "2026-03-07";
+    date = "2026-04-12";
   };
   dpp-ext-toml = {
     pname = "dpp-ext-toml";
@@ -67,15 +67,15 @@
   };
   dpp-vim = {
     pname = "dpp-vim";
-    version = "78eedc6f3b97555072dad739117896cda8086126";
+    version = "1fc0325fb8703ad8e1eb507287af54c67f49a3e3";
     src = fetchFromGitHub {
       owner = "Shougo";
       repo = "dpp.vim";
-      rev = "78eedc6f3b97555072dad739117896cda8086126";
+      rev = "1fc0325fb8703ad8e1eb507287af54c67f49a3e3";
       fetchSubmodules = false;
-      sha256 = "sha256-9wLvRPEgZXoWYxx0gUtALP4DQ1wcuvpVszjz2HKNLXQ=";
+      sha256 = "sha256-qmmWestNrfkLSFbQ7oWd2HFFFaP+K9wP2LMOMfgvcxE=";
     };
-    date = "2026-04-04";
+    date = "2026-04-12";
   };
   emacs-acp = {
     pname = "emacs-acp";
@@ -127,13 +127,13 @@
   };
   emacs-kuro = {
     pname = "emacs-kuro";
-    version = "6f9e549f9a9b00b5b805a3a9e0f8d5764256b73f";
+    version = "8758810ae9ea7659568a6f9c15f7e10accf69ebe";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "kuro";
-      rev = "6f9e549f9a9b00b5b805a3a9e0f8d5764256b73f";
+      rev = "8758810ae9ea7659568a6f9c15f7e10accf69ebe";
       fetchSubmodules = false;
-      sha256 = "sha256-LZCJ6BCSQl4I706OoeMzwJC0hNglXRZ6yVfgniFRG3A=";
+      sha256 = "sha256-WKkU+S98e/6rnI4i/Act+ATis3I0lUxXPsU8xgGFAy4=";
     };
     date = "2026-04-06";
   };
