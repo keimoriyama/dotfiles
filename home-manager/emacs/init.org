@@ -1277,7 +1277,6 @@ binding))))))))
 (with-eval-after-load 'lsp-copilot
   ;; config
   (setopt lsp-copilot-enabled nil))
-
 #+end_src
 
 **** lsp-booster
@@ -1365,62 +1364,62 @@ binding))))))))
 #+end_src
 ***** python
 #+begin_src emacs-lisp
-(add-hook 'python-base-mode-hook (lambda ()
-                                 (setq lsp-pyright-langserver-command "basedpyright")
-                                 (require 'lsp-pyright)
-                                 (lsp)))
+;; (add-hook 'python-base-mode-hook (lambda ()
+;;                                  (setq lsp-pyright-langserver-command "basedpyright")
+;;                                  (require 'lsp-pyright)
+;;                                  (lsp)))
 
-;; Use ty for type checking and ruff for linting
-;; Disable basedpyright and ruff-lsp (we'll use ruff via flycheck for linting only)
-(defun my/python-lsp-setup ()
-  "Setup LSP for Python with ty only, disabling pyright and ruff LSP servers."
-  (setq-local lsp-disabled-clients '(ruff-lsp ruff ty-ls)))
+;; ;; Use ty for type checking and ruff for linting
+;; ;; Disable basedpyright and ruff-lsp (we'll use ruff via flycheck for linting only)
+;; (defun my/python-lsp-setup ()
+;;   "Setup LSP for Python with ty only, disabling pyright and ruff LSP servers."
+;;   (setq-local lsp-disabled-clients '(ruff-lsp ruff ty-ls)))
 
-(add-hook 'python-base-mode-hook #'my/python-lsp-setup)
+;; (add-hook 'python-base-mode-hook #'my/python-lsp-setup)
 #+end_src
 ***** rust
 #+begin_src emacs-lisp
-(defun my/find-rust-project-root (dir)
-  (when-let ((root (locate-dominating-file dir "Cargo.toml")))
-    (list 'vc 'git root)))
+;; (defun my/find-rust-project-root (dir)
+;;   (when-let ((root (locate-dominating-file dir "Cargo.toml")))
+;;     (list 'vc 'git root)))
 
-(defun my/rust-mode-hook ()
-  (setq-local project-find-functions (list #'my/find-rust-project-root)))
+;; (defun my/rust-mode-hook ()
+;;   (setq-local project-find-functions (list #'my/find-rust-project-root)))
 
-(add-hook 'rust-mode-hook #'lsp)
+;; (add-hook 'rust-mode-hook #'lsp)
 #+end_src
 ***** haskell
 #+begin_src emacs-lisp
-(add-hook 'haskell-mode-hook #'lsp)
+;; (add-hook 'haskell-mode-hook #'lsp)
 ;;(add-hook 'haskell-literate-mode-hook #'lsp)
 #+end_src
 ***** nix
 #+begin_src emacs-lisp
-(defun my/nix-lsp-setup ()
-  "Setup LSP for Nix, disabling nix-nil in favor of nixd."
-  (setq-local lsp-disabled-clients '(nix-nil)))
+;; (defun my/nix-lsp-setup ()
+;;   "Setup LSP for Nix, disabling nix-nil in favor of nixd."
+;;   (setq-local lsp-disabled-clients '(nix-nil)))
 
-(add-hook 'nix-mode-hook #'my/nix-lsp-setup)
-(add-hook 'nix-mode-hook #'lsp)
+;; (add-hook 'nix-mode-hook #'my/nix-lsp-setup)
+;; (add-hook 'nix-mode-hook #'lsp)
 
-(with-eval-after-load 'lsp-nix
-  ;; use nixd instead of nil
-  (setopt lsp-nix-nixd-server-path "nixd")
-  (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"])
-  ;; nixd completion configuration
-  (let ((flake-path (concat "builtins.getFlake \""
-                            "/Users/kei/dotfiles"
-                            "\"")))
-    (setopt lsp-nix-nixd-nixpkgs-expr
-            (format "import (%s).inputs.nixpkgs { }" flake-path))
-    (setopt lsp-nix-nixd-nixos-options-expr
-            (format "(%s).homeConfigurations.myHomeConfig.options" flake-path))
-    (setopt lsp-nix-nixd-home-manager-options-expr
-            (format "(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []" flake-path))))
+;; (with-eval-after-load 'lsp-nix
+;;   ;; use nixd instead of nil
+;;   (setopt lsp-nix-nixd-server-path "nixd")
+;;   (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"])
+;;   ;; nixd completion configuration
+;;   (let ((flake-path (concat "builtins.getFlake \""
+;;                             "/Users/kei/dotfiles"
+;;                             "\"")))
+;;     (setopt lsp-nix-nixd-nixpkgs-expr
+;;             (format "import (%s).inputs.nixpkgs { }" flake-path))
+;;     (setopt lsp-nix-nixd-nixos-options-expr
+;;             (format "(%s).homeConfigurations.myHomeConfig.options" flake-path))
+;;     (setopt lsp-nix-nixd-home-manager-options-expr
+;;             (format "(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []" flake-path))))
 #+end_src
 ***** web-mode
 #+begin_src emacs-lisp
-(add-hook 'web-mode-hook #'lsp)
+;;(add-hook 'web-mode-hook #'lsp)
 #+end_src
 *** eglot
 **** 基本設定
@@ -1573,8 +1572,9 @@ binding))))))))
 #+end_src
 
 ** 言語別設定
+*** プログラムはviewモードにする
 #+begin_src emacs-lisp
-;;(add-hook 'prog-mode-hook #'view-mode)
+(add-hook 'prog-mode-hook #'view-mode)
 #+end_src
 *** csv-mode
 #+begin_src emacs-lisp
@@ -1858,6 +1858,8 @@ binding))))))))
 (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 #+end_src 
 
+
+
 * 組版システム
 ** Typst
 *** typst-ts-mode
@@ -2063,6 +2065,18 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'acp)
 (require 'agent-shell)
+
+;; Work around `agent-shell--extract-tool-parameters' treating a patch STRING as
+;; a sequence of chars (e.g. "*" => 42), which triggers `(car 42)` errors.
+(with-eval-after-load 'agent-shell
+  (when (fboundp 'agent-shell--extract-tool-parameters)
+    (advice-add
+     'agent-shell--extract-tool-parameters
+     :around
+     (lambda (orig tool-parameters)
+       (if (or (null tool-parameters) (stringp tool-parameters))
+           tool-parameters
+         (funcall orig tool-parameters))))))
 #+end_src
 
 * インタラクティブメニュー
