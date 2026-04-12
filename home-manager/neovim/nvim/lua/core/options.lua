@@ -12,6 +12,7 @@ vim.opt.statusline = "─"
 -- vim.opt.fillchars:append({ stl = "─", stlnc = "─" })
 -- コマンドライン補完の有効化
 vim.opt.wildmenu = true
+vim.opt.modeline = false
 -- 直前の行から新しいインデントを指定する
 vim.opt.autoindent = true
 -- vim以外でファイルを編集した時
@@ -32,7 +33,7 @@ vim.opt.modifiable = true
 vim.opt.clipboard:append({ unnamedplus = true })
 vim.opt.splitright = true
 vim.opt.wildmenu = false
--- vim.opt.cmdheight = 0
+vim.opt.cmdheight = 0
 vim.opt.scrolloff = 0
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true

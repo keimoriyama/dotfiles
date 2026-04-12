@@ -9,8 +9,8 @@ colorscheme catppuccin-latte
 repo="tpope/vim-repeat"
 
 # utility
-[[plugins]]
-repo="nvim-lua/plenary.nvim"
+# [[plugins]]
+# repo="nvim-lua/plenary.nvim"
 
 [[plugins]]
 repo='nvim-tree/nvim-web-devicons'

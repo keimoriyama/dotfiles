@@ -107,9 +107,7 @@ class DenoTestFramework implements TestFramework {
   }
 
   async runAll(denops: Denops): Promise<ParsedTestRun> {
-    const script = `cd ${shellQuote(
-      this.#rootDir,
-    )} && deno test -A --doc --parallel --shuffle --no-check --reporter junit denops/`;
+    const script = `cd ${shellQuote(this.#rootDir)} && deno run test`;
     const raw = await system(denops, `sh -lc ${shellQuote(script)}`);
     return parseJunit(raw, {
       rootDir: this.#rootDir,

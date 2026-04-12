@@ -6,7 +6,8 @@ set -x PATH "$PATH" "$HOME/.cargo/bin"
 set -x PATH "$PATH" "$HOME/.local/bin"
 set -x PATH "$PATH" "$HOME/.roswell/bin/"
 set -gx SHELL "/etc/profiles/per-user/kei/bin/fish"
-# Fish git prompt
+set -gx EDITOR "nvim"
+# Fish git prompt 
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showuntrackedfiles 'yes'
