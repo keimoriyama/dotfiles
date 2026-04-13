@@ -61,9 +61,20 @@ local plugin_specs = {
 	"ethanholz/nvim-lastplace",
 	"shellRaining/hlchunk.nvim",
 	"mattn/vim-sonictemplate",
-	{ source = "nvim-treesitter/nvim-treesitter", checkout = "main", hooks = { post_checkout = function() vim.cmd("TSUpdate") end } },
+	{
+		source = "nvim-treesitter/nvim-treesitter",
+		checkout = "main",
+		hooks = {
+			post_checkout = function()
+				vim.cmd("TSUpdate")
+			end,
+		},
+	},
 	{ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } },
-	{ source = "monaqa/nvim-treesitter-clipping", depends = { "nvim-treesitter/nvim-treesitter", "thinca/vim-partedit" } },
+	{
+		source = "monaqa/nvim-treesitter-clipping",
+		depends = { "nvim-treesitter/nvim-treesitter", "thinca/vim-partedit" },
+	},
 	"kana/vim-smartword",
 	"lambdalisue/gin.vim",
 	"chrisbra/Recover.vim",
@@ -77,15 +88,12 @@ local plugin_specs = {
 	"monaqa/dial.nvim",
 	"neovim/nvim-lspconfig",
 	{ source = "nvimtools/none-ls.nvim", depends = { "neovim/nvim-lspconfig" } },
-	"mzlogin/vim-markdown-toc",
-	"Decodetalkers/csv-tools.lua",
 	"thinca/vim-partedit",
-	"lervag/vimtex",
-	"kaarmu/typst.vim",
 	{ source = "vim-skk/skkeleton", depends = { "vim-denops/denops.vim" } },
 	{ source = "keimoriyama/skkeleton-azik-kanatable", depends = { "vim-skk/skkeleton" } },
 	"skk-dev/dict",
 	{ source = "delphinus/skkeleton_indicator.nvim", depends = { "vim-skk/skkeleton" } },
+	"stevearc/conform.nvim",
 }
 
 for _, spec in ipairs(plugin_specs) do
@@ -96,8 +104,8 @@ require("plugins.mini")
 require("plugins.legacy")
 
 require("plugins.lsp.nvim_lspconfig")
-require("plugins.lsp.none_ls")
+require("plugins.lsp.conform")
 require("plugins.git.gin")
 require("plugins.lang.treesitter")
 require("plugins.ui.skkeleton")
-require("plugins.tools.csv_tools")
+-- require("plugins.tools.csv_tools")

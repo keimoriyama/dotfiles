@@ -2,12 +2,8 @@
 
 -- Auto-save buffers on leave
 local function save_all_buffer()
-	local bufnrs = vim.api.nvim_list_bufs()
-	for _, bufnr in ipairs(bufnrs) do
-		local changed = vim.api.nvim_buf_get_option(bufnr, "modified")
-		if changed then
-			vim.api.nvim_command("wq")
-		end
+	if vim.bo.modified then
+		vim.cmd("update")
 	end
 end
 
