@@ -1,4 +1,3 @@
--- lua_source {{{
 local status, null_ls = pcall(require, "null-ls")
 if not status then
 	return
@@ -25,10 +24,9 @@ null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.isort,
-		null_ls.builtins.formatting.prettier,
+		-- null_ls.builtins.formatting.prettier,
 		null_ls.builtins.formatting.alejandra,
 		null_ls.builtins.formatting.typstyle,
 	},
 	on_attach = on_attach,
 })
--- }}}

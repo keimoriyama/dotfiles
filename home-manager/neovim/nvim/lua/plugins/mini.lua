@@ -14,6 +14,8 @@ require("mini.ai").setup()
 require("mini.jump").setup()
 require("mini.diff").setup()
 require("mini.git").setup()
+-- require("mini.tabline").setup()
+require("mini.jump").setup()
 
 local MiniHipatterns = require("mini.hipatterns")
 MiniHipatterns.setup({

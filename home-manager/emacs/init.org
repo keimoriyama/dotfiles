@@ -119,6 +119,17 @@
   (load-file (format "%s/.emacs.d/init.el" (getenv "HOME"))))
 #+end_src
 
+* EVIL
+#+begin_src emacs-lisp
+(require 'evil)
+(evil-mode 1)
+(require 'evil-org)
+(add-hook 'org-mode-hook 'evil-org-mode)
+(evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+(require 'evil-org-agenda)
+(evil-org-agenda-set-keys)
+#+end_src
+
 * エディタ基本機能
 ** ユーティリティ
 *** キーバインド
@@ -1578,137 +1589,137 @@ binding))))))))
 #+end_src
 *** csv-mode
 #+begin_src emacs-lisp
-(require 'csv-mode)
-(add-to-list 'auto-mode-alist '("\\.csv$" . csv-mode))
-
-(with-eval-after-load 'csv-mode
-  (add-hook 'csv-mode-hook #'view-mode))
+;(require 'csv-mode)
+;(add-to-list 'auto-mode-alist '("\\.csv$" . csv-mode))
+;
+;(with-eval-after-load 'csv-mode
+;  (add-hook 'csv-mode-hook #'view-mode))
 #+end_src
 
 *** docker-compose-mode
 #+begin_src emacs-lisp
-(require 'docker-compose-mode)
-(add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
-
-(with-eval-after-load 'docker-compose-mode
-  (add-hook 'docker-compose-mode-hook #'view-mode))
+;(require 'docker-compose-mode)
+;(add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
+;
+;(with-eval-after-load 'docker-compose-mode
+;  (add-hook 'docker-compose-mode-hook #'view-mode))
 #+end_src
 
 *** dockerfile-mode
 #+begin_src emacs-lisp
-(require 'dockerfile-mode)
-(add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\Dockerfile.dev$" . dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
-
-(with-eval-after-load 'dockerfile-mode
-  (add-hook 'dockerfile-mode-hook #'flycheck-mode))
+;(require 'dockerfile-mode)
+;(add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
+;(add-to-list 'auto-mode-alist '("\\Dockerfile.dev$" . dockerfile-mode))
+;(add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
+;(add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
+;
+;(with-eval-after-load 'dockerfile-mode
+;  (add-hook 'dockerfile-mode-hook #'flycheck-mode))
 #+end_src
 
 *** dotenv-mode
 #+begin_src emacs-lisp
-(require 'dotenv-mode)
-(add-to-list 'auto-mode-alist '(".env$" . dotenv-mode))
-
-(with-eval-after-load 'dotenv-mode
-  (add-hook 'dotenv-mode-hook #'view-mode))
+;(require 'dotenv-mode)
+;(add-to-list 'auto-mode-alist '(".env$" . dotenv-mode))
+;
+;(with-eval-after-load 'dotenv-mode
+;  (add-hook 'dotenv-mode-hook #'view-mode))
 #+end_src
 
 *** git-modes
 #+begin_src emacs-lisp
-(require 'git-modes)
-(add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
-(add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
-(add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
-(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
-(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
-(add-to-list 'auto-mode-alist '("CODEOWNERS" . gitignore-mode))
-
-(with-eval-after-load 'gitignore-mode
-  (add-hook 'gitignore-mode-hook #'view-mode))
-
-(add-to-list 'auto-mode-alist '("\\.git-pr-release$" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("\\.editorconfig$" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("\\.gitconfig$" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("/\\.git/config\\'" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("/modules/.*/config\\'" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("/git/config\\'" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("/\\.gitmodules\\'" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("/etc/gitconfig\\'" . gitconfig-mode))
-
-(with-eval-after-load 'gitconfig-mode
-  (add-hook 'gitconfig-mode-hook #'view-mode))
-
-(add-to-list 'auto-mode-alist '("/\\.gitattributes\\'" . gitattributes-mode))
-(add-to-list 'auto-mode-alist '("\.gitattributes$" . gitattributes-mode))
-(add-to-list 'auto-mode-alist '("/info/attributes\\'" . gitattributes-mode))
-(add-to-list 'auto-mode-alist '("/git/attributes\\'" . gitattributes-mode))
-
-(with-eval-after-load 'gitattributes-mode
-  (add-hook 'gitattributes-mode-hook #'view-mode))
+;(require 'git-modes)
+;(add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
+;(add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
+;(add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
+;(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
+;(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
+;(add-to-list 'auto-mode-alist '("CODEOWNERS" . gitignore-mode))
+;
+;(with-eval-after-load 'gitignore-mode
+;  (add-hook 'gitignore-mode-hook #'view-mode))
+;
+;(add-to-list 'auto-mode-alist '("\\.git-pr-release$" . gitconfig-mode))
+;(add-to-list 'auto-mode-alist '("\\.editorconfig$" . gitconfig-mode))
+;(add-to-list 'auto-mode-alist '("\\.gitconfig$" . gitconfig-mode))
+;(add-to-list 'auto-mode-alist '("/\\.git/config\\'" . gitconfig-mode))
+;(add-to-list 'auto-mode-alist '("/modules/.*/config\\'" . gitconfig-mode))
+;(add-to-list 'auto-mode-alist '("/git/config\\'" . gitconfig-mode))
+;(add-to-list 'auto-mode-alist '("/\\.gitmodules\\'" . gitconfig-mode))
+;(add-to-list 'auto-mode-alist '("/etc/gitconfig\\'" . gitconfig-mode))
+;
+;(with-eval-after-load 'gitconfig-mode
+;  (add-hook 'gitconfig-mode-hook #'view-mode))
+;
+;(add-to-list 'auto-mode-alist '("/\\.gitattributes\\'" . gitattributes-mode))
+;(add-to-list 'auto-mode-alist '("\.gitattributes$" . gitattributes-mode))
+;(add-to-list 'auto-mode-alist '("/info/attributes\\'" . gitattributes-mode))
+;(add-to-list 'auto-mode-alist '("/git/attributes\\'" . gitattributes-mode))
+;
+;(with-eval-after-load 'gitattributes-mode
+;  (add-hook 'gitattributes-mode-hook #'view-mode))
 #+end_src
 
 *** json-mode
 #+begin_src emacs-lisp
-(require 'json-mode)
-(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.textlintrc$" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
-
-(with-eval-after-load 'json-mode
-  (add-hook 'json-mode-hook #'flycheck-mode))
+;(require 'json-mode)
+;(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+;(add-to-list 'auto-mode-alist '("\\.textlintrc$" . json-mode))
+;(add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-mode))
+;(add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
+;
+;(with-eval-after-load 'json-mode
+;  (add-hook 'json-mode-hook #'flycheck-mode))
 #+end_src
 
 *** rust-mode
 **** 基本設定・LSP
 #+begin_src emacs-lisp
-(require 'rust-mode)
-(require 'cargo)
-(add-hook 'rust-mode-hook #'cargo-minor-mode)
-(with-eval-after-load 'rust-mode
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-(with-eval-after-load 'rust-mode
-  (setq rust-format-on-save t
-        rust-mode-treesitter-derive t))
+;(require 'rust-mode)
+;(require 'cargo)
+;(add-hook 'rust-mode-hook #'cargo-minor-mode)
+;(with-eval-after-load 'rust-mode
+;  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+;
+;(with-eval-after-load 'rust-mode
+;  (setq rust-format-on-save t
+;        rust-mode-treesitter-derive t))
 #+end_src
 
 **** Hydraメニュー
 #+begin_src emacs-lisp
-(major-mode-hydra-define rust-mode
-  (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ("run"
-   (("r" rust-run "run")
-    ("c" rust-compile "compile")
-    ("t" rust-test "test")
-    ("c" rust-check "check"))))
+;(major-mode-hydra-define rust-mode
+;  (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;  ("run"
+;   (("r" rust-run "run")
+;    ("c" rust-compile "compile")
+;    ("t" rust-test "test")
+;    ("c" rust-check "check"))))
 #+end_src
 
 *** python-mode
 **** 基本設定・LSP
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.py$" . python-ts-mode))
-(with-eval-after-load 'python-ts-mode
-  (setopt python-shell-completion-native-enable nil))
+;(add-to-list 'auto-mode-alist '("\\.py$" . python-ts-mode))
+;(with-eval-after-load 'python-ts-mode
+;  (setopt python-shell-completion-native-enable nil))
 #+end_src
 
 **** フォーマッタ
 #+begin_src emacs-lisp
-(reformatter-define python-isort-format
-  :program "isort"
-  :args '("-")
-  :stdin t
-  :lighter "isort"
-  :group 'python-isort)
-(add-hook 'python-ts-mode-hook #'python-isort-format-on-save-mode)
-
-(reformatter-define python-ruff-format
-  :program "ruff"
-  :args `("format" "--stdin-filename" ,buffer-file-name))
-(add-hook 'python-ts-mode-hook #'python-ruff-format-on-save-mode)
-(setq python-pytest-executable "uv run pytest")
+;(reformatter-define python-isort-format
+;  :program "isort"
+;  :args '("-")
+;  :stdin t
+;  :lighter "isort"
+;  :group 'python-isort)
+;(add-hook 'python-ts-mode-hook #'python-isort-format-on-save-mode)
+;
+;(reformatter-define python-ruff-format
+;  :program "ruff"
+;  :args `("format" "--stdin-filename" ,buffer-file-name))
+;(add-hook 'python-ts-mode-hook #'python-ruff-format-on-save-mode)
+;(setq python-pytest-executable "uv run pytest")
 #+end_src
 
 **** デバッグ
@@ -1721,59 +1732,59 @@ binding))))))))
 
 **** uv設定
 #+begin_src emacs-lisp
-(defcustom uv-command "uv"
-  "command for running uv"
-  :type 'string)
-(defcustom uv-command--remove "remove"
-  "subcommand to remove packages"
-  :type 'string)
-(defcustom uv-command--add "add"
-  "subcommand to add new package"
-  :type 'string)
-(defcustom uv-command--list-pack "pip list"
-  "subcommand to list packages in .venv"
-  :type 'string)
-
-(defun uv-list-packages ()
-  (interactive)
-  (if (uv-project-root-p)
-      (let* ((output (shell-command-to-string
-                      (concat uv-command " " uv-command--list-pack)))
-             (lines (cddr (split-string output "\n" t)))
-             (installed-packages (mapcar (lambda (line)
-                                           (car (split-string line " " t)))
-                                         lines)))
-        (when (called-interactively-p 'interactive)
-          (print installed-packages))
-        installed-packages)))
-
-(defun uv-project-root-p ()
-  (interactive)
-  (file-exists-p
-   (format "%spyproject.toml" (projectile-project-root))))
-
-(defun uv-package-existance-p (package-name)
-  (member package-name (uv-list-packages)))
-
-(defun uv-remove-package ()
-  "function to remove package in current project"
-  (interactive)
-  (if (uv-project-root-p)
-      (let* ((package-name (read-string "Package Name: ")))
-        (if (not (uv-package-existance-p package-name))
-            (message "%s does not exist in current project" package-name)
-          (shell-command
-           (concat uv-command " " uv-command--remove " " package-name ))))))
-
-(defun uv-add-package ()
-  "function to add new package in current project"
-  (interactive)
-  (if (uv-project-root-p)
-      (let* ((package-name (read-string "Package Name: ")))
-        (if (uv-package-existance-p package-name)
-            (message "%s is already installed in current project" package-name)
-          (shell-command
-           (concat uv-command " " uv-command--add " " package-name))))))
+;;(defcustom uv-command "uv"
+;;  "command for running uv"
+;;  :type 'string)
+;;(defcustom uv-command--remove "remove"
+;;  "subcommand to remove packages"
+;;  :type 'string)
+;;(defcustom uv-command--add "add"
+;;  "subcommand to add new package"
+;;  :type 'string)
+;;(defcustom uv-command--list-pack "pip list"
+;;  "subcommand to list packages in .venv"
+;;  :type 'string)
+;;
+;;(defun uv-list-packages ()
+;;  (interactive)
+;;  (if (uv-project-root-p)
+;;      (let* ((output (shell-command-to-string
+;;                      (concat uv-command " " uv-command--list-pack)))
+;;             (lines (cddr (split-string output "\n" t)))
+;;             (installed-packages (mapcar (lambda (line)
+;;                                           (car (split-string line " " t)))
+;;                                         lines)))
+;;        (when (called-interactively-p 'interactive)
+;;          (print installed-packages))
+;;        installed-packages)))
+;;
+;;(defun uv-project-root-p ()
+;;  (interactive)
+;;  (file-exists-p
+;;   (format "%spyproject.toml" (projectile-project-root))))
+;;
+;;(defun uv-package-existance-p (package-name)
+;;  (member package-name (uv-list-packages)))
+;;
+;;(defun uv-remove-package ()
+;;  "function to remove package in current project"
+;;  (interactive)
+;;  (if (uv-project-root-p)
+;;      (let* ((package-name (read-string "Package Name: ")))
+;;        (if (not (uv-package-existance-p package-name))
+;;            (message "%s does not exist in current project" package-name)
+;;          (shell-command
+;;           (concat uv-command " " uv-command--remove " " package-name ))))))
+;;
+;;(defun uv-add-package ()
+;;  "function to add new package in current project"
+;;  (interactive)
+;;  (if (uv-project-root-p)
+;;      (let* ((package-name (read-string "Package Name: ")))
+;;        (if (uv-package-existance-p package-name)
+;;            (message "%s is already installed in current project" package-name)
+;;          (shell-command
+;;           (concat uv-command " " uv-command--add " " package-name))))))
 #+end_src
 
 **** Hydraメニュー
@@ -1789,75 +1800,74 @@ binding))))))))
 
 *** nix-mode
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
-
-(reformatter-define nix-alejandra-format
-  :program "alejandra")
-(add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
+;(add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
+;
+;(reformatter-define nix-alejandra-format
+;  :program "alejandra")
+;(add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
 #+end_src
 
 *** toml-mode
 #+begin_src emacs-lisp
-(require 'toml-mode)
-(add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
-
-(with-eval-after-load 'toml-mode
-  (add-hook 'toml-mode-hook #'flycheck-mode)
-  (add-hook 'toml-mode-hook #'view-mode))
+;(require 'toml-mode)
+;(add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
+;
+;(with-eval-after-load 'toml-mode
+;  (add-hook 'toml-mode-hook #'flycheck-mode)
+;  (add-hook 'toml-mode-hook #'view-mode))
 #+end_src
 
 *** yaml-mode
 #+begin_src emacs-lisp
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
-
-(with-eval-after-load 'yaml-mode
-  (add-hook 'yaml-mode-hook #'flycheck-mode)
-  (add-hook 'yaml-mode-hook #'view-mode))
+;(require 'yaml-mode)
+;(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+;(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+;(add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
+;
+;(with-eval-after-load 'yaml-mode
+;  (add-hook 'yaml-mode-hook #'flycheck-mode)
+;  (add-hook 'yaml-mode-hook #'view-mode))
 #+end_src
 
 *** fish-mode
 #+begin_src emacs-lisp
-(require 'fish-mode)
-(add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
+;(require 'fish-mode)
+;(add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
 #+end_src
 
 *** haskell-mode
 #+begin_src emacs-lisp
-(require 'haskell-mode)
-(require 'inf-haskell)
-(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-(add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
-;;(add-hook 'haskell-mode-hook #'inferior-haskell-mode)
-(reformatter-define haskell-fourmolu-format
-  :program "fourmolu"
-  :args `("--stdin-input-file" ,buffer-file-name)
-  :stdin t)
-(defun kei/haskell-mode-setup ()
-  "Disable legacy haskell-mode save hooks that pull in haskell-process."
-  (setq-local haskell-tags-on-save nil)
-  (remove-hook 'after-save-hook #'haskell-mode-after-save-handler t))
-(add-hook 'haskell-mode-hook #'kei/haskell-mode-setup)
-(add-hook 'literate-haskell-mode-hook #'kei/haskell-mode-setup)
-(add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
-(add-hook 'literate-haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
+;(require 'haskell-mode)
+;(require 'inf-haskell)
+;(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+;(add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
+;;;(add-hook 'haskell-mode-hook #'inferior-haskell-mode)
+;(reformatter-define haskell-fourmolu-format
+;  :program "fourmolu"
+;  :args `("--stdin-input-file" ,buffer-file-name)
+;  :stdin t)
+;(defun kei/haskell-mode-setup ()
+;  "Disable legacy haskell-mode save hooks that pull in haskell-process."
+;  (setq-local haskell-tags-on-save nil)
+;  (remove-hook 'after-save-hook #'haskell-mode-after-save-handler t))
+;(add-hook 'haskell-mode-hook #'kei/haskell-mode-setup)
+;(add-hook 'literate-haskell-mode-hook #'kei/haskell-mode-setup)
+;(add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
+;(add-hook 'literate-haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
 #+end_src
 
 *** lua-mode
 #+begin_src emacs-lisp
-(require 'lua-mode)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+;(require 'lua-mode)
+;(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+;(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 #+end_src
 
 *** web-mode
 #+begin_src emacs-lisp
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
+;(require 'web-mode)
+;(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 #+end_src 
-
 
 
 * 組版システム
