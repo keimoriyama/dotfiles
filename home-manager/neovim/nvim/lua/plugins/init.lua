@@ -1,132 +1,103 @@
--- Plugin manager configuration and plugin loading
-
-dpp_base = vim.fn.expand(os.getenv("DPP_PATH"))
-
-vim.fn.setenv("BASE_DIR", vim.fn.expand("<sfile>:h"))
-vim.fn.setenv("DPP_BASE", dpp_base)
-
--- Check if using dpp or lazy (dpp takes precedence)
-local use_dpp = dpp_base and dpp_base ~= ""
-
-if use_dpp then
-	-- ========================================
-	-- DPP Configuration
-	-- ========================================
-	local dpp = require("dpp")
-	local config_file = vim.fn.expand("~/.config/nvim/ts/dpp_config.ts")
-	
-	if vim.fn["dpp#min#load_state"](dpp_base) == 1 then
-		print("Dpp is not initialized")
-		vim.api.nvim_create_autocmd("User", {
-			pattern = "DenopsReady",
-			callback = function()
-				vim.notify("dpp load_state() is failed")
-				dpp.make_state(dpp_base, config_file)
-			end,
-		})
-	end
-
-	-- Auto-reload on config changes
-	vim.api.nvim_create_autocmd("BufWritePost", {
-		pattern = { "*.lua", "*.vim", "*.toml", "*.ts", "vimrc", ".vimrc" },
-		callback = function()
-			vim.fn["dpp#check_files"]()
-		end,
+local mini_path = vim.fn.stdpath("data") .. "/site/pack/deps/start/mini.nvim"
+if vim.loop.fs_stat(mini_path) == nil then
+	vim.cmd('echo "Installing `mini.nvim`" | redraw')
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/nvim-mini/mini.nvim",
+		mini_path,
 	})
-
-	vim.api.nvim_create_autocmd("User", {
-		pattern = "Dpp:makeStatePost",
-		callback = function()
-			vim.notify("dpp make_state() is done")
-		end,
-	})
-
-	vim.cmd("filetype indent plugin on")
-	if vim.fn.has("syntax") then
-		vim.cmd("syntax on")
-	end
-
-	-- Load local dpp plugins
-	vim.opt.rtp:append(os.getenv("BASE_DIR") .. "/denops/")
-	local plugins = {
-		"dpp-ext-toml",
-		"dpp-ext-lazy",
-		"dpp-ext-installer",
-		"dpp-protocol-git",
-	}
-	for _, plugin in ipairs(plugins) do
-		vim.opt.rtp:append(dpp_base .. "/nix_plugins/" .. plugin)
-	end
-
-	-- DPP user commands
-	vim.api.nvim_create_user_command("DppMakeState", function()
-		dpp.make_state(dpp_base, config_file)
-	end, {})
-
-	vim.api.nvim_create_user_command("DppInstall", function()
-		dpp.async_ext_action("installer", "install")
-	end, {})
-	
-	vim.api.nvim_create_user_command("DppUpdate", function()
-		dpp.async_ext_action("installer", "update")
-	end, {})
-
-	vim.api.nvim_create_user_command("DppGetNotInstalled", function()
-		print(dpp.async_ext_action("installer", "getNotInstalled"))
-	end, {})
-else
-	-- ========================================
-	-- Lazy.nvim Configuration
-	-- ========================================
-	local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-	if not vim.loop.fs_stat(lazypath) then
-		vim.fn.system({
-			"git",
-			"clone",
-			"--filter=blob:none",
-			"https://github.com/folke/lazy.nvim.git",
-			"--branch=stable",
-			lazypath,
-		})
-	end
-	vim.opt.rtp:prepend(lazypath)
-	
-	local status, lazy = pcall(require, "lazy")
-	if not status then
-		print("lazy is not installed")
-		return
-	end
-	
-	local opts = {
-		root = vim.fn.expand("$HOME") .. "/.cache/lazy",
-		defaults = {
-			lazy = true,
-		},
-		change_detection = {
-			enabled = false,
-			notify = false,
-		},
-		performance = {
-			cache = {
-				enabled = true,
-			},
-		},
-	}
-
-	lazy.setup("rc.plugins", opts)
+	vim.cmd("packadd mini.nvim | helptags ALL")
 end
 
--- ========================================
--- Load plugin configurations
--- ========================================
--- Note: Most plugin configurations are managed by dpp.vim/lazy.nvim and loaded
--- automatically. The config files in plugins/* subdirectories contain the actual
--- configurations that will be sourced by the plugin manager at appropriate times.
---
--- Only configs that need to be loaded immediately are required here.
-
--- Load LSP configuration (needs to be loaded early)
-local lsp_ok = pcall(require, "plugins.lsp.lsp")
-if not lsp_ok then
-	vim.notify("LSP config not loaded", vim.log.levels.WARN)
+local ok, MiniDeps = pcall(require, "mini.deps")
+if not ok then
+	vim.notify("mini.deps is not installed", vim.log.levels.ERROR)
+	return
 end
+
+MiniDeps.setup({})
+
+local add = MiniDeps.add
+
+-- Pre-load settings for plugins that read globals on startup.
+-- vim.g.copilot_no_maps = true
+-- vim.g.copilot_hide_during_completion = 0
+-- vim.g.copilot_filetypes = {
+-- 	gitcommit = true,
+-- 	markdown = true,
+-- 	python = true,
+-- 	text = true,
+-- 	typescript = true,
+-- 	vim = true,
+-- 	yaml = true,
+-- }
+
+vim.g.sonictemplate_key = 0
+vim.g.sonictemplate_intelligent_key = 0
+vim.g.sonictemplate_postfix_key = 0
+vim.g.sonictemplate_vim_template_dir = "~/dotfiles/home-manager/programs/neovim/nvim/template/"
+
+vim.g.gf_improved_no_mappings = 1
+
+vim.g.typst_pdf_viewer = "tdf"
+
+vim.g["partedit#prefix_pattern"] = "\\s*"
+vim.g["partedit#auto_prefix"] = 0
+
+vim.g.vimtex_view_method = "skim"
+vim.g.vimtex_view_general_viewer = "skim"
+vim.g.vimtex_view_skim_activate = 1
+vim.g.vimtex_view_skim_synmc = 1
+vim.g.vimtex_view_compiler_latexmk_engines = { "-", "-pdf" }
+vim.g.latex_latexmk_options = "-pdf"
+vim.g.vimtex_syntax_enabled = 0
+
+local plugin_specs = {
+	"vim-denops/denops.vim",
+	"catppuccin/nvim",
+	"tpope/vim-repeat",
+	"ethanholz/nvim-lastplace",
+	"shellRaining/hlchunk.nvim",
+	"mattn/vim-sonictemplate",
+	{ source = "nvim-treesitter/nvim-treesitter", checkout = "main", hooks = { post_checkout = function() vim.cmd("TSUpdate") end } },
+	{ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } },
+	{ source = "monaqa/nvim-treesitter-clipping", depends = { "nvim-treesitter/nvim-treesitter", "thinca/vim-partedit" } },
+	"kana/vim-smartword",
+	"lambdalisue/gin.vim",
+	"chrisbra/Recover.vim",
+	"akinsho/toggleterm.nvim",
+	"tani/dmacro.nvim",
+	{ source = "andersevenrud/nvim_context_vt", depends = { "nvim-treesitter/nvim-treesitter" } },
+	"lambdalisue/vim-file-protocol",
+	"lambdalisue/vim-gf-improved",
+	"skanehira/denops-silicon.vim",
+	"b0o/incline.nvim",
+	"monaqa/dial.nvim",
+	"neovim/nvim-lspconfig",
+	{ source = "nvimtools/none-ls.nvim", depends = { "neovim/nvim-lspconfig" } },
+	"mzlogin/vim-markdown-toc",
+	"Decodetalkers/csv-tools.lua",
+	"thinca/vim-partedit",
+	"lervag/vimtex",
+	"kaarmu/typst.vim",
+	{ source = "vim-skk/skkeleton", depends = { "vim-denops/denops.vim" } },
+	{ source = "keimoriyama/skkeleton-azik-kanatable", depends = { "vim-skk/skkeleton" } },
+	"skk-dev/dict",
+	{ source = "delphinus/skkeleton_indicator.nvim", depends = { "vim-skk/skkeleton" } },
+}
+
+for _, spec in ipairs(plugin_specs) do
+	add(spec)
+end
+
+require("plugins.mini")
+require("plugins.legacy")
+
+require("plugins.lsp.nvim_lspconfig")
+require("plugins.lsp.none_ls")
+require("plugins.git.gin")
+require("plugins.lang.treesitter")
+require("plugins.ui.skkeleton")
+require("plugins.tools.csv_tools")

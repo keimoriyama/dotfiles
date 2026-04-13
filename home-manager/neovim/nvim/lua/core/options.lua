@@ -1,4 +1,4 @@
-vim.g.mapleader = " "
+vim.g.mapleader = ";"
 -- エンコーディングの指定
 vim.opt.fileencodings = "utf-8,iso-2022-jp,euc-jp,sjis"
 -- indexを相対表記にする
@@ -22,7 +22,8 @@ vim.b.noswapfile = true
 vim.b.nobackup = true
 vim.b.nowritebackup = true
 -- カレントバッファの強調表示
-vim.opt.syntax = "enable"
+vim.cmd("filetype plugin indent on")
+vim.cmd("syntax enable")
 -- tabの表示幅の修正
 vim.opt.tabstop = 4
 -- インデントに使うshift幅
@@ -37,6 +38,7 @@ vim.opt.cmdheight = 0
 vim.opt.scrolloff = 0
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
+vim.opt.autoread = true
 if vim.fn.has("mac") == 1 then
 	vim.cmd([[set clipboard+=unnamed]])
 else
