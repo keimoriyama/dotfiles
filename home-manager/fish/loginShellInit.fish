@@ -7,7 +7,7 @@ end
 
 if not pgrep -x yaskkserv2 > /dev/null
 	if not test -f $HOME/.skk-dict/dict.yaskkserv2
-		yaskkserv2_make_dictionary --dictionary-filename=$HOME/.skk-dict/dict.yaskkserv2 $HOME/.skk-dict/SKK-JISYO.L 
+		yaskkserv2_make_dictionary --utf8 --dictionary-filename=$HOME/.skk-dict/dict.yaskkserv2 $HOME/.skk-dict/SKK-JISYO.L 
 	end
 	yaskkserv2 ~/.skk-dict/dict.yaskkserv2 &
 end

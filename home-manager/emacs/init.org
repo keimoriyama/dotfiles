@@ -119,17 +119,6 @@
   (load-file (format "%s/.emacs.d/init.el" (getenv "HOME"))))
 #+end_src
 
-* EVIL
-#+begin_src emacs-lisp
-(require 'evil)
-(evil-mode 1)
-(require 'evil-org)
-(add-hook 'org-mode-hook 'evil-org-mode)
-(evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-(require 'evil-org-agenda)
-(evil-org-agenda-set-keys)
-#+end_src
-
 * エディタ基本機能
 ** ユーティリティ
 *** キーバインド
@@ -214,8 +203,8 @@
 *** 自動保存・リバート
 **** auto-save-buffers
 #+begin_src emacs-lisp
-  ;;auto-save-buffers で対象とするファイル名の正規表現
-  (defvar auto-save-buffers-regexp ""
+;;auto-save-buffers で対象とするファイル名の正規表現
+(defvar auto-save-buffers-regexp ""
     "*Regexp that matches `buffer-file-name' to be auto-saved.")
 
   ;; auto-save-buffers で除外するファイル名の正規表現
@@ -255,7 +244,7 @@
         (message "auto-save-buffers on")
       (message "auto-save-buffers off")))
 
-  (run-with-idle-timer 1 t 'auto-save-buffers)
+;;  (run-with-idle-timer 1 t 'auto-save-buffers)
 #+end_src
 
 **** autorevert
@@ -785,7 +774,21 @@ binding))))))))
         org-special-ctrl-a/e               t
         org-insert-heading-respect-content t))
 #+end_src
-
+**** org-clock
+#+begin_src emacs-lisp
+(defun notify-osx (title message)
+    (call-process "terminal-notifier"
+                nil 0 nil
+                "-group" "Emacs"
+                "-title" title
+                "-sender" "org.gnu.Emacs"
+                "-message" message))
+(add-hook 'org-clock-in-hook
+          (lambda ()
+            (notify-osx "Clock Started" "Working....")))
+(add-hook 'org-clock-out-hook (lambda ()
+                                (notify-osx "Clock Finished" "DONE!!!!")))
+#+end_src
 ** Org拡張機能
 *** キャプチャ・ノート機能
 **** org-capture
@@ -1161,14 +1164,6 @@ binding))))))))
     (interactive)
     (org-clock-out)
     (org-pomodoro-killed))
-
-  (defun notify-osx (title message)
-    (call-process "terminal-notifier"
-                  nil 0 nil
-                  "-group" "Emacs"
-                  "-title" title
-                  "-sender" "org.gnu.Emacs"
-                  "-message" message))
 
   ;; org-pomodoro mode hooks
   (add-hook 'org-pomodoro-finished-hook
@@ -1869,7 +1864,6 @@ binding))))))))
 ;(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 #+end_src 
 
-
 * 組版システム
 ** Typst
 *** typst-ts-mode
@@ -1947,72 +1941,71 @@ binding))))))))
 #+end_src
 ** ddskk
 #+begin_src emacs-lisp
-(require 'ddskk-autoloads)
-(keymap-global-set "C-x j" #'skk-mode)
-(keymap-global-set "C-x C-j" #'skk-mode)
-(setq default-input-method "japanese-skk")
-
-(defun skk-open-server-decoding-utf-8 ()
-  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-  (unless (skk-server-live-p)
-    (setq skkserv-process (skk-open-server-1))
-    (when (skk-server-live-p)
-      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-        (set-process-coding-system skkserv-process 'utf-8 code))))
-  skkserv-process)
-
-(setq skk-mode-hook
-      '(lambda()
-         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
-
-(setq skk-preload t)
-
-(with-eval-after-load 'skk-vars
-  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
-        skk-use-azik t
-        skk-azik-keyboard-type "en"
-        skk-search-katakana nil
-        skk-share-private-jisyo t
-        skk-save-jisyo-instantly t
-        skk-server-host "localhost"
-        skk-server-portnum 1178))
-
-(require 'ddskk-posframe)
-
-(with-eval-after-load 'skk
-  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+;;(keymap-global-set "C-x j" #'skk-mode)
+;;(keymap-global-set "C-x C-j" #'skk-mode)
+;;(setq default-input-method "japanese-skk")
+;;
+;;(defun skk-open-server-decoding-utf-8 ()
+;;  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
+;;  (unless (skk-server-live-p)
+;;    (setq skkserv-process (skk-open-server-1))
+;;    (when (skk-server-live-p)
+;;      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+;;        (set-process-coding-system skkserv-process 'utf-8 code))))
+;;  skkserv-process)
+;;
+;;(setq skk-mode-hook
+;;      '(lambda()
+;;         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+;;
+;;(setq skk-preload t)
+;;
+;;(with-eval-after-load 'skk-vars
+;;  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+;;        skk-use-azik t
+;;        skk-azik-keyboard-type "en"
+;;        skk-search-katakana nil
+;;        skk-share-private-jisyo t
+;;        skk-save-jisyo-instantly t
+;;        skk-server-host "localhost"
+;;        skk-server-portnum 1178))
+;;
+;;(require 'ddskk-posframe)
+;;
+;;(with-eval-after-load 'skk
+;;  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
 
 ** nskk
 #+begin_src emacs-lisp
-;; (require 'nskk)
-;; (keymap-global-set "C-x C-j" #'nskk-mode)
-;; ;(nskk-global-mode t)
-;; (setopt nskk-dict-system-dictionary-files
-;;         '("~/.skk-dict/SKK-JISYO.L"))
+(require 'nskk)
+(keymap-global-set "C-x C-j" #'nskk-mode)
+;(nskk-global-mode t)
+(setopt nskk-dict-system-dictionary-files
+        '("~/.skk-dict/SKK-JISYO.L"))
 
-;; (setopt nskk-server-enable t)
-;; (setopt nskk-server-host "localhost")
-;; (setopt nskk-server-portnum 1178)
-;; (setopt nskk-henkan-show-candidates-nth 2)
-;; (setopt nskk-henkan-number-to-display-candidates 7)
-;; (setq nskk-converter-romaji-style 'azik)
-;; (setq nskk-azik-keyboard-type 'us101)
-;; (setq nskk-debug-enabled t)
-;; (setq nskk-server-report-response t)
-;; (setq nskk-dict-user-dictionary-file skk-user-dict-path)
-;; (require 'nskk-debug)
+(setopt nskk-server-enable t)
+(setopt nskk-server-host "localhost")
+(setopt nskk-server-portnum 1178)
+(setopt nskk-henkan-show-candidates-nth 2)
+(setopt nskk-henkan-number-to-display-candidates 7)
+(setq nskk-converter-romaji-style 'azik)
+(setq nskk-azik-keyboard-type 'us101)
+(setq nskk-debug-enabled t)
+(setq nskk-server-report-response t)
+(setq nskk-dict-user-dictionary-file skk-user-dict-path)
+(require 'nskk-debug)
 
-;; ;; Fix for org-element-cache warnings with nskk-self-insert
-;; ;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
-;; (with-eval-after-load 'org
-;;   (defun nskk-org-element-cache-reset-advice (&rest _)
-;;     "Reset org-element cache before nskk operations to prevent cache warnings."
-;;     (when (and (derived-mode-p 'org-mode)
-;;                (boundp 'org-element--cache))
-;;       (org-element-cache-reset)))
-  
-;;   (advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
+;; Fix for org-element-cache warnings with nskk-self-insert
+;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
+(with-eval-after-load 'org
+  (defun nskk-org-element-cache-reset-advice (&rest _)
+    "Reset org-element cache before nskk operations to prevent cache warnings."
+    (when (and (derived-mode-p 'org-mode)
+               (boundp 'org-element--cache))
+      (org-element-cache-reset)))
+ 
+(advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
 #+end_src
 
 * AI・LLM Integration

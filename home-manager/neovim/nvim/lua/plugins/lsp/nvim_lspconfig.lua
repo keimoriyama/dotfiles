@@ -14,19 +14,29 @@ vim.lsp.config("lua_ls", {
 vim.lsp.config("pyright", {
 	root_makers = { ".venv" },
 	settings = {
+		pyright = {
+			-- Using Ruff's import organizer
+			disableOrganizeImports = true,
+		},
 		python = {
+			analysis = {
+				-- Ignore all files for analysis to exclusively use Ruff for linting
+				ignore = { "*" },
+			},
 			venvPath = ".",
 			pythonPath = "./.venv/bin/python",
-			analysis = {
-				extraPaths = { "." },
-				diagnosticMode = "off",
-				typeCheckingMode = "off",
-			},
 		},
 	},
 })
 
-vim.lsp.config("ruff", { root_makers = { ".venv" } })
+vim.lsp.config("ruff", {
+	root_makers = { ".venv" },
+	init_options = {
+		settings = {
+			-- Ruff language server settings go here
+		},
+	},
+})
 
 vim.lsp.config("denols", {
 	root_makers = { "deno.json" },
@@ -166,7 +176,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
-		vim.keymap.set('i', '<c-cr>', '<cmd>lua vim.lsp.inline_completion.get()<cr>', { silent = true })
+		vim.keymap.set("i", "<c-cr>", "<cmd>lua vim.lsp.inline_completion.get()<cr>", { silent = true })
 		-- Reference highlight
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client.server_capabilities.documentHighlightProvider then

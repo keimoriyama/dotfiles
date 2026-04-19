@@ -94,6 +94,7 @@ local plugin_specs = {
 	"skk-dev/dict",
 	{ source = "delphinus/skkeleton_indicator.nvim", depends = { "vim-skk/skkeleton" } },
 	"stevearc/conform.nvim",
+	"arto-app/arto.vim",
 }
 
 for _, spec in ipairs(plugin_specs) do

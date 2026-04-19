@@ -4,18 +4,18 @@
   sources,
 }: let
   override = _: prev: {
-    lsp-mode = prev.melpaPackages.lsp-mode.overrideAttrs (old: {
-      env =
-        (old.env or {})
-        // {
-          LSP_USE_PLISTS = "1";
-        };
-    });
+    # lsp-mode = prev.melpaPackages.lsp-mode.overrideAttrs (old: {
+    #   env =
+    #     (old.env or {})
+    #     // {
+    #       LSP_USE_PLISTS = "1";
+    #     };
+    # });
   };
   parallelBuildAttrs = {
     enableParallelBuilding = true;
     env = {
-      WEBKIT_DISABLE_COMPOSITING_MODE = "1";
+      # WEBKIT_DISABLE_COMPOSITING_MODE = "1";
       NATIVE_COMP_JOBS = "0";
     };
   };

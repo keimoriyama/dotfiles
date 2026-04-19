@@ -76,7 +76,7 @@ ${0}
 # --
 
 ,*** 📄論文情報
- - 
+ - ${0}
  - 
  - 
 
@@ -97,6 +97,8 @@ ${0}
 - 
 
 ,*** 👀新たに分かったことは何か
+
+- 
 
 ,*** ❓疑問点は何か
 
@@ -231,7 +233,7 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 10:00]--[`(format-ti
 ,*** タスク
 ,**** DONE エージェントMTG
 :LOGBOOK:
-CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 11:30]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 12:00] =>  0:30
+CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 13:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 13:30] =>  0:30
 :END:
 ,*** メモ
 #+end_src

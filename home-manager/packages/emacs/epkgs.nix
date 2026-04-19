@@ -56,8 +56,6 @@ in
     # packages.kuro
     packages.arto
 	
-		evil
-		evil-org
 
     # completion
     corfu
