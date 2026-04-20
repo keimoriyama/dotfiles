@@ -87,7 +87,7 @@ local plugin_specs = {
 	"b0o/incline.nvim",
 	"monaqa/dial.nvim",
 	"neovim/nvim-lspconfig",
-	{ source = "nvimtools/none-ls.nvim", depends = { "neovim/nvim-lspconfig" } },
+	-- { source = "nvimtools/none-ls.nvim", depends = { "neovim/nvim-lspconfig" } },
 	"thinca/vim-partedit",
 	{ source = "vim-skk/skkeleton", depends = { "vim-denops/denops.vim" } },
 	{ source = "keimoriyama/skkeleton-azik-kanatable", depends = { "vim-skk/skkeleton" } },
