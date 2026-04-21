@@ -3,11 +3,6 @@ src.git="https://github.com/hiroseyuuji/yatex"
 src.branch="master"
 fetch.github='hiroseyuuji/yatex'
 
-[emacs-org-hyperscheduler]
-src.git="https://github.com/dmitrym0/org-hyperscheduler"
-src.branch="main"
-fetch.github='dmitrym0/org-hyperscheduler'
-
 [emacs-nano-modeline]
 src.git="https://github.com/rougier/nano-modeline"
 src.branch="master"
@@ -27,11 +22,6 @@ fetch.github="xenodium/acp.el"
 src.git="https://github.com/takeokunn/nskk.el"
 src.branch="main"
 fetch.github="takeokunn/nskk.el"
-
-[emacs-kuro]
-src.git="https://github.com/takeokunn/kuro"
-src.branch="main"
-fetch.github="takeokunn/kuro"
 
 [emcas-arto]
 src.git="https://github.com/arto-app/arto.el"
@@ -92,31 +82,6 @@ fetch.github="yuys13/fish-gcd"
 src.git="https://github.com/high-moctane/mocword"
 src.branch="main"
 fetch.github="high-moctane/mocword"
-
-[dpp-vim]
-src.git="https://github.com/Shougo/dpp.vim"
-src.branch="main"
-fetch.github="Shougo/dpp.vim"
-
-[dpp-ext-toml]
-src.git="https://github.com/Shougo/dpp-ext-toml"
-src.branch="main"
-fetch.github="Shougo/dpp-ext-toml"
-
-[dpp-ext-lazy]
-src.git="https://github.com/Shougo/dpp-ext-lazy"
-src.branch="main"
-fetch.github="Shougo/dpp-ext-lazy"
-
-[dpp-ext-installer]
-src.git="https://github.com/Shougo/dpp-ext-installer"
-src.branch="main"
-fetch.github="Shougo/dpp-ext-installer"
-
-[dpp-protocol-git]
-src.git="https://github.com/Shougo/dpp-protocol-git"
-src.branch="main"
-fetch.github="Shougo/dpp-protocol-git"
 
 [yaskkserv2]
 src.github="wachikun/yaskkserv2"

@@ -43,17 +43,6 @@ vim.g.gf_improved_no_mappings = 1
 
 vim.g.typst_pdf_viewer = "tdf"
 
-vim.g["partedit#prefix_pattern"] = "\\s*"
-vim.g["partedit#auto_prefix"] = 0
-
-vim.g.vimtex_view_method = "skim"
-vim.g.vimtex_view_general_viewer = "skim"
-vim.g.vimtex_view_skim_activate = 1
-vim.g.vimtex_view_skim_synmc = 1
-vim.g.vimtex_view_compiler_latexmk_engines = { "-", "-pdf" }
-vim.g.latex_latexmk_options = "-pdf"
-vim.g.vimtex_syntax_enabled = 0
-
 local plugin_specs = {
 	"vim-denops/denops.vim",
 	"catppuccin/nvim",
@@ -71,10 +60,6 @@ local plugin_specs = {
 		},
 	},
 	{ source = "nvim-treesitter/nvim-treesitter-context", depends = { "nvim-treesitter/nvim-treesitter" } },
-	{
-		source = "monaqa/nvim-treesitter-clipping",
-		depends = { "nvim-treesitter/nvim-treesitter", "thinca/vim-partedit" },
-	},
 	"kana/vim-smartword",
 	"lambdalisue/gin.vim",
 	"chrisbra/Recover.vim",
@@ -88,7 +73,6 @@ local plugin_specs = {
 	"monaqa/dial.nvim",
 	"neovim/nvim-lspconfig",
 	-- { source = "nvimtools/none-ls.nvim", depends = { "neovim/nvim-lspconfig" } },
-	"thinca/vim-partedit",
 	{ source = "vim-skk/skkeleton", depends = { "vim-denops/denops.vim" } },
 	{ source = "keimoriyama/skkeleton-azik-kanatable", depends = { "vim-skk/skkeleton" } },
 	"skk-dev/dict",
