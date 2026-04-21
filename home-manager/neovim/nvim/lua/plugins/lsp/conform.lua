@@ -1,9 +1,10 @@
 require("conform").setup({
+	log_level = vim.log.levels.DEBUG,
 	formatters_by_ft = {
 		lua = { "stylua" },
 		nix = { "alejandra" },
 		-- Conform will run multiple formatters sequentially
-		python = { "ruff_organize_imports", "ruff_format", "ruff_lint" },
+		python = { "ruff", "ruff_organize_imports", "ruff_format", "ruff_lint" },
 		-- You can customize some of the format options for the filetype (:help conform.format)
 		rust = { "rustfmt", lsp_format = "fallback" },
 		-- Conform will run the first available formatter

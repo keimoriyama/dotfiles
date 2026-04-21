@@ -29,14 +29,14 @@ vim.lsp.config("pyright", {
 	},
 })
 
-vim.lsp.config("ruff", {
-	root_makers = { ".venv" },
-	init_options = {
-		settings = {
-			-- Ruff language server settings go here
-		},
-	},
-})
+-- vim.lsp.config("ruff", {
+-- 	root_makers = { ".venv" },
+-- 	init_options = {
+-- 		settings = {
+-- 			-- Ruff language server settings go here
+-- 		},
+-- 	},
+-- })
 
 vim.lsp.config("denols", {
 	root_makers = { "deno.json" },

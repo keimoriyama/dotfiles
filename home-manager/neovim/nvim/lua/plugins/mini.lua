@@ -3,9 +3,9 @@ MiniIcons.setup({})
 MiniIcons.tweak_lsp_kind()
 MiniIcons.mock_nvim_web_devicons()
 
-local MiniNotify = require("mini.notify")
-MiniNotify.setup({})
-vim.notify = MiniNotify.make_notify()
+-- local MiniNotify = require("mini.notify")
+-- MiniNotify.setup({})
+-- vim.notify = MiniNotify.make_notify()
 
 require("mini.comment").setup()
 require("mini.pairs").setup()

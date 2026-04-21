@@ -49,7 +49,6 @@ in
     centered-cursor-mode
     pdf-tools
     packages.arto
-	
 
     # completion
     corfu
@@ -61,8 +60,6 @@ in
     avy
     consult
     consult-flycheck
-    consult-eglot
-    consult-eglot-embark
     embark
     embark-consult
     affe
@@ -97,7 +94,7 @@ in
     # fish-mode
     # haskell-mode
     # lua-mode
-    # web-mode
+
 
     # ai
     # copilot
@@ -108,9 +105,9 @@ in
 
     # lsp
     # lsp-bridge
-    # lsp-mode
+    lsp-mode
     # lsp-ui
-    # consult-lsp
+    consult-lsp
     # dap-mode
     flycheck
     flycheck-posframe

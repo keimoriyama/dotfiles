@@ -51,7 +51,7 @@
       ;
   };
   fish-config = import ./fish {inherit pkgs sources;};
-  neovim-config = import ./neovim {inherit pkgs sources config;};
+  neovim-config = import ./neovim {inherit pkgs sources config home-manager;};
   git-config = import ./git;
 
   utils = import ./utils.nix {inherit pkgs;};

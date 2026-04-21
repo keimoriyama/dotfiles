@@ -4,13 +4,13 @@
   sources,
 }: let
   override = _: prev: {
-    # lsp-mode = prev.melpaPackages.lsp-mode.overrideAttrs (old: {
-    #   env =
-    #     (old.env or {})
-    #     // {
-    #       LSP_USE_PLISTS = "1";
-    #     };
-    # });
+    lsp-mode = prev.melpaPackages.lsp-mode.overrideAttrs (old: {
+      env =
+        (old.env or {})
+        // {
+          LSP_USE_PLISTS = "1";
+        };
+    });
   };
   parallelBuildAttrs = {
     enableParallelBuilding = true;
