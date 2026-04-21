@@ -28,8 +28,6 @@ in
     ddskk-posframe
     packages.nskk
     rainbow-delimiters
-    # hydra
-    # pretty-hydra
     major-mode-hydra
     tempel
     quickrun
@@ -48,12 +46,8 @@ in
     packages.dmacro
     packages.instant-maximized-window
     packages.nano-modeline
-    # moody
-    # minions
-    neotree
     centered-cursor-mode
     pdf-tools
-    # packages.kuro
     packages.arto
 	
 
@@ -106,11 +100,11 @@ in
     # web-mode
 
     # ai
-    copilot
+    # copilot
     ellama
     llm
-    copilot-chat
-    agent-shell
+    # copilot-chat
+    # agent-shell
 
     # lsp
     # lsp-bridge

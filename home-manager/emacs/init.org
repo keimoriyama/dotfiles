@@ -1980,7 +1980,7 @@ binding))))))))
 #+begin_src emacs-lisp
 (require 'nskk)
 (keymap-global-set "C-x C-j" #'nskk-mode)
-;(nskk-global-mode t)
+(nskk-global-mode t)
 (setopt nskk-dict-system-dictionary-files
         '("~/.skk-dict/SKK-JISYO.L"))
 
@@ -2050,36 +2050,36 @@ binding))))))))
 
 ** Copilot
 #+begin_src emacs-lisp
-(setq copilot-indent-offset-warning-disable t)
+;;(setq copilot-indent-offset-warning-disable t)
 
-(require 'copilot)
-(setq copilot-idle-delay 1.0)
+;;(require 'copilot)
+;;(setq copilot-idle-delay 1.0)
 
-(add-hook 'prog-mode-hook 'copilot-mode)
-(keymap-global-set "C-<tab>" #'copilot-accept-completion)
+;;(add-hook 'prog-mode-hook 'copilot-mode)
+;;(keymap-global-set "C-<tab>" #'copilot-accept-completion)
 #+end_src
 ** copilot-chat
 #+begin_src emacs-lisp
-(require 'copilot-chat)
+;;(require 'copilot-chat)
 ;;(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
 
 ** Agent Shell
 #+begin_src emacs-lisp
-(require 'acp)
-(require 'agent-shell)
+;;(require 'acp)
+;;(require 'agent-shell)
 
 ;; Work around `agent-shell--extract-tool-parameters' treating a patch STRING as
 ;; a sequence of chars (e.g. "*" => 42), which triggers `(car 42)` errors.
-(with-eval-after-load 'agent-shell
-  (when (fboundp 'agent-shell--extract-tool-parameters)
-    (advice-add
-     'agent-shell--extract-tool-parameters
-     :around
-     (lambda (orig tool-parameters)
-       (if (or (null tool-parameters) (stringp tool-parameters))
-           tool-parameters
-         (funcall orig tool-parameters))))))
+;;(with-eval-after-load 'agent-shell
+;;  (when (fboundp 'agent-shell--extract-tool-parameters)
+;;    (advice-add
+;;     'agent-shell--extract-tool-parameters
+;;     :around
+;;     (lambda (orig tool-parameters)
+;;       (if (or (null tool-parameters) (stringp tool-parameters))
+;;           tool-parameters
+;;         (funcall orig tool-parameters))))))
 #+end_src
 
 * インタラクティブメニュー
