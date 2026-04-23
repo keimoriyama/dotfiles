@@ -590,6 +590,7 @@ binding))))))))
 (corfu-history-mode 1)
 (add-hook 'emacs-startup-hook #'global-corfu-mode)
 ;;(add-hook 'org-mode-hook #'corfu-mode)
+
 (with-eval-after-load 'corfu
   (setq corfu-auto t
         corfu-auto-delay 0.1
@@ -634,7 +635,7 @@ binding))))))))
 *** 補完バックエンド
 **** cape
 #+begin_src emacs-lisp
-(defvar completion-at-point-functions '(tags-completion-at-point-function))
+;;(defvar completion-at-point-functions '(tags-completion-at-point-function))
 (require 'cape)
 ;(add-to-list 'completion-at-point-functions #'cape-dabbrev)
 (add-to-list 'completion-at-point-functions #'cape-dict)
@@ -1244,91 +1245,118 @@ binding))))))))
 #+end_src
 * LSP・開発環境
 ** LSP機能
-*** lsp-mode
-**** 基本設定
+*** 基本設定
 #+begin_src emacs-lisp
 (require 'lsp-mode)
 (with-eval-after-load 'lsp-mode
-  (setopt lsp-response-timeout 60
-          lsp-idle-delay 0.8
-          lsp-completion-provider :none
-          lsp-completion-no-cache t
-          lsp-diagnostics-provider :flycheck
-          lsp-modeline-code-actions-enable nil
-          lsp-auto-guess-root t
-          lsp-headerline-breadcrumb-enable nil)
+  ;; enable flycheck
   (add-hook 'lsp-mode-hook #'flycheck-mode)
-  (add-hook 'lsp-mode-hook #'lsp-completion-mode))
+  (add-hook 'lsp-mode-hook #'lsp-completion-mode)
+
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless))
+    (setq-local completion-at-point-functions
+                (cons (cape-capf-buster #'lsp-completion-at-point)
+                      completion-at-point-functions)))
+  (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion)
+
+  ;; enable diagnostics
+  (add-hook 'lsp-configure-hook #'lsp-diagnostics-mode)
+
+  ;; config
+  (setopt lsp-response-timeout 60)
+  (setopt lsp-idle-delay 0.8)
+
+  ;; Prevent automatic workspace folder registration
+  (setopt lsp-auto-guess-root t)
+
+  (setopt lsp-client-packages (delq 'lsp-volar lsp-client-packages))
+  (setopt lsp-modeline-code-actions-enable nil))
+
+(with-eval-after-load 'lsp-diagnostics
+  ;; config
+  (setopt lsp-diagnostics-flycheck-default-level 'warning))
+
+(with-eval-after-load 'lsp-completion
+  ;; config
+  (setopt lsp-completion-enable t
+          lsp-completion-provider :none
+          lsp-completion-no-cache t))
+
+(with-eval-after-load 'lsp-copilot
+  ;; config
+  (setopt lsp-copilot-enabled nil))
 #+end_src
-
-**** lsp-booster
-#+begin_src emacs-lisp
-;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
-;;   "Try to parse bytecode instead of json."
-;;   (or
-;;    (when (equal (following-char) ?#)
-;;      (let ((bytecode (read (current-buffer))))
-;;        (when (byte-code-function-p bytecode)
-;;          (funcall bytecode))))
-;;    (apply old-fn args)))
-;; (advice-add (if (progn (require 'json)
-;;                        (fboundp 'json-parse-buffer))
-;;                 'json-parse-buffer
-;;               'json-read)
-;;             :around
-;;             #'lsp-booster--advice-json-parse)
-
-;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-;;   "Prepend emacs-lsp-booster command to lsp CMD."
-;;   (let ((orig-result (funcall old-fn cmd test?)))
-;;     (if (and (not test?)
-;;              (not (file-remote-p default-directory))
-;;              lsp-use-plists
-;;              (not (functionp 'json-rpc-connection))
-;;              (executable-find "emacs-lsp-booster"))
-;;         (progn
-;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))
-;;             (setcar orig-result command-from-exec-path))
-;;           (message "Using emacs-lsp-booster for %s!" orig-result)
-;;           (cons "emacs-lsp-booster" orig-result))
-;;       orig-result)))
-;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-#+end_src
-
-**** lsp-ui
+*** lsp-ui
 #+begin_src emacs-lisp
 (require 'lsp-ui)
-(with-eval-after-load 'lsp-ui
-  (setopt lsp-ui-peek-enable t
-          lsp-ui-peek-peek-height 30
-          lsp-ui-peek-list-width 60
-          lsp-ui-peek-fontify 'on-demand
-          lsp-ui-imenu-enable t
-          lsp-ui-imenu-kind-position 'top
-          lsp-ui-sideline-enable nil
-          lsp-ui-sideline-show-hover t
-          lsp-ui-doc-enable nil))
+(with-eval-after-load 'lsp-mode
+  ;; hooks
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 
-(pretty-hydra-define lsp
-  (:title "LSP" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ("peek"
-   (("d" xref-find-definitions "definitions")
-    ("r" xref-find-references "references")
-    ("i" lsp-ui-peek-find-implementation "implementation")
-    ("b" xref-go-back "go back"))
-   "action"
-   (("R" lsp-rename "rename")
-    ("a" lsp-execute-code-action "action")
-    ("h" lsp-describe-thing-at-point "hover"))
-   "search"
-   (("s" lsp-ui-imenu "symbols")
-    ("D" consult-flycheck "diagnostic"))
-   "flycheck"
-   (("n" flycheck-next-error "next")
-    ("p" flycheck-previous-error "prev"))))
-(keymap-global-set "C-c l" #'lsp/body)
+(require 'lsp-ui-peek)
+(with-eval-after-load 'lsp-ui-peek
+  ;; config
+  (setopt lsp-ui-peek-enable nil)
+  (setopt lsp-ui-peek-peek-height 30)
+  (setopt lsp-ui-peek-list-width 60)
+  (setopt lsp-ui-peek-fontify 'on-demand))
+
+(require 'lsp-ui-imenu)
+(with-eval-after-load 'lsp-ui-imenu
+  ;; config
+  (setopt lsp-ui-imenu-enable nil)
+  (setopt lsp-ui-imenu-kind-position 'top))
+
+(require 'lsp-ui-sideline)
+(with-eval-after-load 'lsp-ui-sideline
+  ;; config
+  (setopt lsp-ui-sideline-enable nil)
+  (setopt lsp-ui-sideline-show-hover t))
+(with-eval-after-load 'lsp-mode
+  (define-key lsp-mode-map (kbd "C-c l r") #'lsp-ui-peek-find-references)
+  (define-key lsp-mode-map (kbd "C-c l d") #'lsp-ui-peek-find-definitions)
+  (define-key lsp-mode-map (kbd "C-c l i") #'lsp-ui-peek-find-implementation)
+  (define-key lsp-mode-map (kbd "C-c l m") #'lsp-ui-imenu)
+  (define-key lsp-mode-map (kbd "C-c l s") #'lsp-ui-sideline-mode)
+  (define-key lsp-mode-map (kbd "C-c l D") #'lsp-ui-doc-mode)
+  (define-key lsp-mode-map (kbd "C-c l b") #'xref-go-back))
 #+end_src
-**** language specific config
+*** lsp-booster
+#+begin_src emacs-lisp
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
+
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)
+             (not (file-remote-p default-directory))
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (when-let ((command-from-exec-path (executable-find (car orig-result))))
+            (setcar orig-result command-from-exec-path))
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+#+end_src
+*** language specific config
 ***** Latex
 #+begin_src emacs-lisp
 ;; (with-eval-after-load "yatex"
@@ -1351,62 +1379,61 @@ binding))))))))
 #+end_src
 ***** python
 #+begin_src emacs-lisp
-;; (add-hook 'python-base-mode-hook (lambda ()
-;;                                  (setq lsp-pyright-langserver-command "basedpyright")
-;;                                  (require 'lsp-pyright)
-;;                                  (lsp)))
+(add-hook 'python-base-mode-hook
+          (lambda ()
+            (setq lsp-pyright-langserver-command "basedpyright")
+            (require 'lsp-pyright)
+            (lsp)))
 
-;; ;; Use ty for type checking and ruff for linting
-;; ;; Disable basedpyright and ruff-lsp (we'll use ruff via flycheck for linting only)
-;; (defun my/python-lsp-setup ()
-;;   "Setup LSP for Python with ty only, disabling pyright and ruff LSP servers."
-;;   (setq-local lsp-disabled-clients '(ruff-lsp ruff ty-ls)))
+(defun my/python-lsp-setup ()
+  "Setup LSP for Python with ty only, disabling pyright and ruff LSP servers."
+  (setq-local lsp-disabled-clients '(ruff-lsp ruff ty-ls)))
 
-;; (add-hook 'python-base-mode-hook #'my/python-lsp-setup)
+(add-hook 'python-base-mode-hook #'my/python-lsp-setup)
 #+end_src
 ***** rust
 #+begin_src emacs-lisp
-;; (defun my/find-rust-project-root (dir)
-;;   (when-let ((root (locate-dominating-file dir "Cargo.toml")))
-;;     (list 'vc 'git root)))
+  (defun my/find-rust-project-root (dir)
+    (when-let ((root (locate-dominating-file dir "Cargo.toml")))
+      (list 'vc 'git root)))
 
-;; (defun my/rust-mode-hook ()
-;;   (setq-local project-find-functions (list #'my/find-rust-project-root)))
+  (defun my/rust-mode-hook ()
+    (setq-local project-find-functions (list #'my/find-rust-project-root)))
 
-;; (add-hook 'rust-mode-hook #'lsp)
+  (add-hook 'rust-mode-hook #'lsp)
 #+end_src
 ***** haskell
 #+begin_src emacs-lisp
-;; (add-hook 'haskell-mode-hook #'lsp)
-;;(add-hook 'haskell-literate-mode-hook #'lsp)
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-literate-mode-hook #'lsp)
 #+end_src
 ***** nix
 #+begin_src emacs-lisp
-;; (defun my/nix-lsp-setup ()
-;;   "Setup LSP for Nix, disabling nix-nil in favor of nixd."
-;;   (setq-local lsp-disabled-clients '(nix-nil)))
+(defun my/nix-lsp-setup ()
+  "Setup LSP for Nix, disabling nix-nil in favor of nixd."
+  (setq-local lsp-disabled-clients '(nix-nil)))
 
-;; (add-hook 'nix-mode-hook #'my/nix-lsp-setup)
-;; (add-hook 'nix-mode-hook #'lsp)
+(add-hook 'nix-mode-hook #'my/nix-lsp-setup)
+(add-hook 'nix-mode-hook #'lsp)
 
-;; (with-eval-after-load 'lsp-nix
-;;   ;; use nixd instead of nil
-;;   (setopt lsp-nix-nixd-server-path "nixd")
-;;   (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"])
-;;   ;; nixd completion configuration
-;;   (let ((flake-path (concat "builtins.getFlake \""
-;;                             "/Users/kei/dotfiles"
-;;                             "\"")))
-;;     (setopt lsp-nix-nixd-nixpkgs-expr
-;;             (format "import (%s).inputs.nixpkgs { }" flake-path))
-;;     (setopt lsp-nix-nixd-nixos-options-expr
-;;             (format "(%s).homeConfigurations.myHomeConfig.options" flake-path))
-;;     (setopt lsp-nix-nixd-home-manager-options-expr
-;;             (format "(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []" flake-path))))
+(with-eval-after-load 'lsp-nix
+;; use nixd instead of nil
+(setopt lsp-nix-nixd-server-path "nixd")
+   (setopt lsp-nix-nixd-formatting-command ["nixfmt-rfc-style"])
+   ;; nixd completion configuration
+   (let ((flake-path (concat "builtins.getFlake \""
+                             "/Users/kei/dotfiles"
+                             "\"")))
+     (setopt lsp-nix-nixd-nixpkgs-expr
+             (format "import (%s).inputs.nixpkgs { }" flake-path))
+     (setopt lsp-nix-nixd-nixos-options-expr
+             (format "(%s).homeConfigurations.myHomeConfig.options" flake-path))
+     (setopt lsp-nix-nixd-home-manager-options-expr
+             (format "(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []" flake-path))))
 #+end_src
 ***** web-mode
 #+begin_src emacs-lisp
-;;(add-hook 'web-mode-hook #'lsp)
+(add-hook 'web-mode-hook #'lsp)
 #+end_src
 ** flycheck
 #+begin_src emacs-lisp
@@ -1471,141 +1498,132 @@ binding))))))))
 ** 言語別設定
 *** プログラムはviewモードにする
 #+begin_src emacs-lisp
-(add-hook 'prog-mode-hook #'view-mode)
+;;(add-hook 'prog-mode-hook #'view-mode)
 #+end_src
 *** csv-mode
 #+begin_src emacs-lisp
-;(require 'csv-mode)
-;(add-to-list 'auto-mode-alist '("\\.csv$" . csv-mode))
-;
-;(with-eval-after-load 'csv-mode
-;  (add-hook 'csv-mode-hook #'view-mode))
+  (require 'csv-mode)
+  (add-to-list 'auto-mode-alist '("\\.csv$" . csv-mode))
+
+  (with-eval-after-load 'csv-mode
+   (add-hook 'csv-mode-hook #'view-mode))
 #+end_src
 
 *** docker-compose-mode
 #+begin_src emacs-lisp
-;(require 'docker-compose-mode)
-;(add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
-;
-;(with-eval-after-load 'docker-compose-mode
-;  (add-hook 'docker-compose-mode-hook #'view-mode))
+  (require 'docker-compose-mode)
+  (add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
+
+  (with-eval-after-load 'docker-compose-mode
+   (add-hook 'docker-compose-mode-hook #'view-mode))
 #+end_src
 
 *** dockerfile-mode
 #+begin_src emacs-lisp
-;(require 'dockerfile-mode)
-;(add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
-;(add-to-list 'auto-mode-alist '("\\Dockerfile.dev$" . dockerfile-mode))
-;(add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
-;(add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
-;
-;(with-eval-after-load 'dockerfile-mode
-;  (add-hook 'dockerfile-mode-hook #'flycheck-mode))
+  (require 'dockerfile-mode)
+  (add-to-list 'auto-mode-alist '("\\Dockerfile$" . dockerfile-mode))
+  (add-to-list 'auto-mode-alist '("\\Dockerfile.dev$" . dockerfile-mode))
+  (add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
+  (add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
+
+  (with-eval-after-load 'dockerfile-mode
+   (add-hook 'dockerfile-mode-hook #'flycheck-mode))
 #+end_src
 
 *** dotenv-mode
 #+begin_src emacs-lisp
-;(require 'dotenv-mode)
-;(add-to-list 'auto-mode-alist '(".env$" . dotenv-mode))
-;
-;(with-eval-after-load 'dotenv-mode
-;  (add-hook 'dotenv-mode-hook #'view-mode))
+  (require 'dotenv-mode)
+  (add-to-list 'auto-mode-alist '(".env$" . dotenv-mode))
+
+  (with-eval-after-load 'dotenv-mode
+   (add-hook 'dotenv-mode-hook #'view-mode))
 #+end_src
 
 *** git-modes
 #+begin_src emacs-lisp
-;(require 'git-modes)
-;(add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
-;(add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
-;(add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
-;(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
-;(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
-;(add-to-list 'auto-mode-alist '("CODEOWNERS" . gitignore-mode))
-;
-;(with-eval-after-load 'gitignore-mode
-;  (add-hook 'gitignore-mode-hook #'view-mode))
-;
-;(add-to-list 'auto-mode-alist '("\\.git-pr-release$" . gitconfig-mode))
-;(add-to-list 'auto-mode-alist '("\\.editorconfig$" . gitconfig-mode))
-;(add-to-list 'auto-mode-alist '("\\.gitconfig$" . gitconfig-mode))
-;(add-to-list 'auto-mode-alist '("/\\.git/config\\'" . gitconfig-mode))
-;(add-to-list 'auto-mode-alist '("/modules/.*/config\\'" . gitconfig-mode))
-;(add-to-list 'auto-mode-alist '("/git/config\\'" . gitconfig-mode))
-;(add-to-list 'auto-mode-alist '("/\\.gitmodules\\'" . gitconfig-mode))
-;(add-to-list 'auto-mode-alist '("/etc/gitconfig\\'" . gitconfig-mode))
-;
-;(with-eval-after-load 'gitconfig-mode
-;  (add-hook 'gitconfig-mode-hook #'view-mode))
-;
-;(add-to-list 'auto-mode-alist '("/\\.gitattributes\\'" . gitattributes-mode))
-;(add-to-list 'auto-mode-alist '("\.gitattributes$" . gitattributes-mode))
-;(add-to-list 'auto-mode-alist '("/info/attributes\\'" . gitattributes-mode))
-;(add-to-list 'auto-mode-alist '("/git/attributes\\'" . gitattributes-mode))
-;
-;(with-eval-after-load 'gitattributes-mode
-;  (add-hook 'gitattributes-mode-hook #'view-mode))
+(require 'git-modes)
+(add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
+(add-to-list 'auto-mode-alist '("CODEOWNERS" . gitignore-mode))
+
+(add-to-list 'auto-mode-alist '("\\.git-pr-release$" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("\\.editorconfig$" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("\\.gitconfig$" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/\\.git/config\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/modules/.*/config\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/git/config\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/\\.gitmodules\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("/etc/gitconfig\\'" . gitconfig-mode))
+
+(add-to-list 'auto-mode-alist '("/\\.gitattributes\\'" . gitattributes-mode))
+(add-to-list 'auto-mode-alist '("\.gitattributes$" . gitattributes-mode))
+(add-to-list 'auto-mode-alist '("/info/attributes\\'" . gitattributes-mode))
+(add-to-list 'auto-mode-alist '("/git/attributes\\'" . gitattributes-mode))
 #+end_src
 
 *** json-mode
 #+begin_src emacs-lisp
-;(require 'json-mode)
-;(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
-;(add-to-list 'auto-mode-alist '("\\.textlintrc$" . json-mode))
-;(add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-mode))
-;(add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
-;
-;(with-eval-after-load 'json-mode
-;  (add-hook 'json-mode-hook #'flycheck-mode))
+  (require 'json-mode)
+  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+  (add-to-list 'auto-mode-alist '("\\.textlintrc$" . json-mode))
+  (add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-mode))
+  (add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
+
+  (with-eval-after-load 'json-mode
+   (add-hook 'json-mode-hook #'flycheck-mode))
 #+end_src
 
 *** rust-mode
-**** 基本設定・LSP
+**** 基本設定
 #+begin_src emacs-lisp
-;(require 'rust-mode)
-;(require 'cargo)
-;(add-hook 'rust-mode-hook #'cargo-minor-mode)
-;(with-eval-after-load 'rust-mode
-;  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-;
-;(with-eval-after-load 'rust-mode
-;  (setq rust-format-on-save t
-;        rust-mode-treesitter-derive t))
+  (require 'rust-mode)
+  (require 'cargo)
+  (add-hook 'rust-mode-hook #'cargo-minor-mode)
+  (with-eval-after-load 'rust-mode
+   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+  (with-eval-after-load 'rust-mode
+   (setq rust-format-on-save t
+         rust-mode-treesitter-derive t))
 #+end_src
 
 **** Hydraメニュー
 #+begin_src emacs-lisp
-;(major-mode-hydra-define rust-mode
-;  (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;  ("run"
-;   (("r" rust-run "run")
-;    ("c" rust-compile "compile")
-;    ("t" rust-test "test")
-;    ("c" rust-check "check"))))
+  (major-mode-hydra-define rust-mode
+   (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+   ("run"
+    (("r" rust-run "run")
+     ("c" rust-compile "compile")
+     ("t" rust-test "test")
+     ("c" rust-check "check"))))
 #+end_src
 
 *** python-mode
-**** 基本設定・LSP
+**** 基本設定
 #+begin_src emacs-lisp
-;(add-to-list 'auto-mode-alist '("\\.py$" . python-ts-mode))
-;(with-eval-after-load 'python-ts-mode
-;  (setopt python-shell-completion-native-enable nil))
+(add-to-list 'auto-mode-alist '("\\.py$" . python-ts-mode))
+(with-eval-after-load 'python-ts-mode
+  (setopt python-shell-completion-native-enable nil))
 #+end_src
 
 **** フォーマッタ
 #+begin_src emacs-lisp
-;(reformatter-define python-isort-format
-;  :program "isort"
-;  :args '("-")
-;  :stdin t
-;  :lighter "isort"
-;  :group 'python-isort)
-;(add-hook 'python-ts-mode-hook #'python-isort-format-on-save-mode)
-;
-;(reformatter-define python-ruff-format
-;  :program "ruff"
-;  :args `("format" "--stdin-filename" ,buffer-file-name))
-;(add-hook 'python-ts-mode-hook #'python-ruff-format-on-save-mode)
-;(setq python-pytest-executable "uv run pytest")
+  (reformatter-define python-isort-format
+   :program "isort"
+   :args '("-")
+   :stdin t
+   :lighter "isort"
+   :group 'python-isort)
+  (add-hook 'python-ts-mode-hook #'python-isort-format-on-save-mode)
+
+  (reformatter-define python-ruff-format
+   :program "ruff"
+   :args `("format" "--stdin-filename" ,buffer-file-name))
+  (add-hook 'python-ts-mode-hook #'python-ruff-format-on-save-mode)
+  (setq python-pytest-executable "uv run pytest")
 #+end_src
 
 **** デバッグ
@@ -1618,141 +1636,141 @@ binding))))))))
 
 **** uv設定
 #+begin_src emacs-lisp
-;;(defcustom uv-command "uv"
-;;  "command for running uv"
-;;  :type 'string)
-;;(defcustom uv-command--remove "remove"
-;;  "subcommand to remove packages"
-;;  :type 'string)
-;;(defcustom uv-command--add "add"
-;;  "subcommand to add new package"
-;;  :type 'string)
-;;(defcustom uv-command--list-pack "pip list"
-;;  "subcommand to list packages in .venv"
-;;  :type 'string)
-;;
-;;(defun uv-list-packages ()
-;;  (interactive)
-;;  (if (uv-project-root-p)
-;;      (let* ((output (shell-command-to-string
-;;                      (concat uv-command " " uv-command--list-pack)))
-;;             (lines (cddr (split-string output "\n" t)))
-;;             (installed-packages (mapcar (lambda (line)
-;;                                           (car (split-string line " " t)))
-;;                                         lines)))
-;;        (when (called-interactively-p 'interactive)
-;;          (print installed-packages))
-;;        installed-packages)))
-;;
-;;(defun uv-project-root-p ()
-;;  (interactive)
-;;  (file-exists-p
-;;   (format "%spyproject.toml" (projectile-project-root))))
-;;
-;;(defun uv-package-existance-p (package-name)
-;;  (member package-name (uv-list-packages)))
-;;
-;;(defun uv-remove-package ()
-;;  "function to remove package in current project"
-;;  (interactive)
-;;  (if (uv-project-root-p)
-;;      (let* ((package-name (read-string "Package Name: ")))
-;;        (if (not (uv-package-existance-p package-name))
-;;            (message "%s does not exist in current project" package-name)
-;;          (shell-command
-;;           (concat uv-command " " uv-command--remove " " package-name ))))))
-;;
-;;(defun uv-add-package ()
-;;  "function to add new package in current project"
-;;  (interactive)
-;;  (if (uv-project-root-p)
-;;      (let* ((package-name (read-string "Package Name: ")))
-;;        (if (uv-package-existance-p package-name)
-;;            (message "%s is already installed in current project" package-name)
-;;          (shell-command
-;;           (concat uv-command " " uv-command--add " " package-name))))))
+  (defcustom uv-command "uv"
+   "command for running uv"
+   :type 'string)
+  (defcustom uv-command--remove "remove"
+   "subcommand to remove packages"
+   :type 'string)
+  (defcustom uv-command--add "add"
+   "subcommand to add new package"
+   :type 'string)
+  (defcustom uv-command--list-pack "pip list"
+   "subcommand to list packages in .venv"
+   :type 'string)
+
+  (defun uv-list-packages ()
+   (interactive)
+   (if (uv-project-root-p)
+       (let* ((output (shell-command-to-string
+                       (concat uv-command " " uv-command--list-pack)))
+              (lines (cddr (split-string output "\n" t)))
+              (installed-packages (mapcar (lambda (line)
+                                            (car (split-string line " " t)))
+                                          lines)))
+         (when (called-interactively-p 'interactive)
+           (print installed-packages))
+         installed-packages)))
+
+  (defun uv-project-root-p ()
+   (interactive)
+   (file-exists-p
+    (format "%spyproject.toml" (projectile-project-root))))
+
+  (defun uv-package-existance-p (package-name)
+   (member package-name (uv-list-packages)))
+
+  (defun uv-remove-package ()
+   "function to remove package in current project"
+   (interactive)
+   (if (uv-project-root-p)
+       (let* ((package-name (read-string "Package Name: ")))
+         (if (not (uv-package-existance-p package-name))
+             (message "%s does not exist in current project" package-name)
+           (shell-command
+            (concat uv-command " " uv-command--remove " " package-name ))))))
+
+  (defun uv-add-package ()
+   "function to add new package in current project"
+   (interactive)
+   (if (uv-project-root-p)
+       (let* ((package-name (read-string "Package Name: ")))
+         (if (uv-package-existance-p package-name)
+             (message "%s is already installed in current project" package-name)
+           (shell-command
+            (concat uv-command " " uv-command--add " " package-name))))))
 #+end_src
 
 **** Hydraメニュー
 #+begin_src emacs-lisp
-;; (major-mode-hydra-define python-mode
-;;   (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-;;   ("run"
-;;    (("t" python-pytest-dispatch "test"))
-;;    "package(uv)"
-;;    (("a" uv-add-package "add")
-;;     ("r" uv-remove-package "remove"))))
+  (major-mode-hydra-define python-mode
+    (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+    ("run"
+     (("t" python-pytest-dispatch "test"))
+     "package(uv)"
+     (("a" uv-add-package "add")
+      ("r" uv-remove-package "remove"))))
 #+end_src
 
 *** nix-mode
 #+begin_src emacs-lisp
-;(add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
-;
-;(reformatter-define nix-alejandra-format
-;  :program "alejandra")
-;(add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
+  (add-to-list 'auto-mode-alist '("\\.nix$" . nix-mode))
+
+  (reformatter-define nix-alejandra-format
+   :program "alejandra")
+  (add-hook 'nix-mode-hook #'nix-alejandra-format-on-save-mode)
 #+end_src
 
 *** toml-mode
 #+begin_src emacs-lisp
-;(require 'toml-mode)
-;(add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
-;
-;(with-eval-after-load 'toml-mode
-;  (add-hook 'toml-mode-hook #'flycheck-mode)
-;  (add-hook 'toml-mode-hook #'view-mode))
+  (require 'toml-mode)
+  (add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
+
+  (with-eval-after-load 'toml-mode
+   (add-hook 'toml-mode-hook #'flycheck-mode)
+   (add-hook 'toml-mode-hook #'view-mode))
 #+end_src
 
 *** yaml-mode
 #+begin_src emacs-lisp
-;(require 'yaml-mode)
-;(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-;(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-;(add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
-;
-;(with-eval-after-load 'yaml-mode
-;  (add-hook 'yaml-mode-hook #'flycheck-mode)
-;  (add-hook 'yaml-mode-hook #'view-mode))
+  (require 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
+
+  (with-eval-after-load 'yaml-mode
+   (add-hook 'yaml-mode-hook #'flycheck-mode)
+   (add-hook 'yaml-mode-hook #'view-mode))
 #+end_src
 
 *** fish-mode
 #+begin_src emacs-lisp
-;(require 'fish-mode)
-;(add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
+  (require 'fish-mode)
+  (add-to-list 'auto-mode-alist '("\\.fish" . fish-mode))
 #+end_src
 
 *** haskell-mode
 #+begin_src emacs-lisp
-;(require 'haskell-mode)
-;(require 'inf-haskell)
-;(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-;(add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
-;;;(add-hook 'haskell-mode-hook #'inferior-haskell-mode)
-;(reformatter-define haskell-fourmolu-format
-;  :program "fourmolu"
-;  :args `("--stdin-input-file" ,buffer-file-name)
-;  :stdin t)
-;(defun kei/haskell-mode-setup ()
-;  "Disable legacy haskell-mode save hooks that pull in haskell-process."
-;  (setq-local haskell-tags-on-save nil)
-;  (remove-hook 'after-save-hook #'haskell-mode-after-save-handler t))
-;(add-hook 'haskell-mode-hook #'kei/haskell-mode-setup)
-;(add-hook 'literate-haskell-mode-hook #'kei/haskell-mode-setup)
-;(add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
-;(add-hook 'literate-haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
+  (require 'haskell-mode)
+  (require 'inf-haskell)
+  (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+  (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
+  (add-hook 'haskell-mode-hook #'inferior-haskell-mode)
+  (reformatter-define haskell-fourmolu-format
+   :program "fourmolu"
+   :args `("--stdin-input-file" ,buffer-file-name)
+   :stdin t)
+  (defun kei/haskell-mode-setup ()
+   "Disable legacy haskell-mode save hooks that pull in haskell-process."
+   (setq-local haskell-tags-on-save nil)
+   (remove-hook 'after-save-hook #'haskell-mode-after-save-handler t))
+  (add-hook 'haskell-mode-hook #'kei/haskell-mode-setup)
+  (add-hook 'literate-haskell-mode-hook #'kei/haskell-mode-setup)
+  (add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
+  (add-hook 'literate-haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
 #+end_src
 
 *** lua-mode
 #+begin_src emacs-lisp
-;(require 'lua-mode)
-;(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-;(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+  (require 'lua-mode)
+  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+  (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 #+end_src
 
 *** web-mode
 #+begin_src emacs-lisp
-;(require 'web-mode)
-;(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
+  (require 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 #+end_src 
 
 * 組版システム
@@ -1813,7 +1831,6 @@ binding))))))))
 (require 'flyspell)
 (add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
-
 *** reftex
 #+begin_src emacs-lisp
 (require 'reftex)
@@ -1832,71 +1849,71 @@ binding))))))))
 #+end_src
 ** ddskk
 #+begin_src emacs-lisp
-;;(keymap-global-set "C-x j" #'skk-mode)
-;;(keymap-global-set "C-x C-j" #'skk-mode)
-;;(setq default-input-method "japanese-skk")
-;;
-;;(defun skk-open-server-decoding-utf-8 ()
-;;  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-;;  (unless (skk-server-live-p)
-;;    (setq skkserv-process (skk-open-server-1))
-;;    (when (skk-server-live-p)
-;;      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-;;        (set-process-coding-system skkserv-process 'utf-8 code))))
-;;  skkserv-process)
-;;
-;;(setq skk-mode-hook
-;;      '(lambda()
-;;         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
-;;
-;;(setq skk-preload t)
-;;
-;;(with-eval-after-load 'skk-vars
-;;  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
-;;        skk-use-azik t
-;;        skk-azik-keyboard-type "en"
-;;        skk-search-katakana nil
-;;        skk-share-private-jisyo t
-;;        skk-save-jisyo-instantly t
-;;        skk-server-host "localhost"
-;;        skk-server-portnum 1178))
-;;
-;;(require 'ddskk-posframe)
-;;
-;;(with-eval-after-load 'skk
-;;  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+(keymap-global-set "C-x j" #'skk-mode)
+(keymap-global-set "C-x C-j" #'skk-mode)
+(setq default-input-method "japanese-skk")
+
+(defun skk-open-server-decoding-utf-8 ()
+ "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
+ (unless (skk-server-live-p)
+   (setq skkserv-process (skk-open-server-1))
+   (when (skk-server-live-p)
+     (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+       (set-process-coding-system skkserv-process 'utf-8 code))))
+ skkserv-process)
+
+(setq skk-mode-hook
+     '(lambda()
+        (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+
+(setq skk-preload t)
+
+(with-eval-after-load 'skk-vars
+ (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+       skk-use-azik t
+       skk-azik-keyboard-type "en"
+       skk-search-katakana nil
+       skk-share-private-jisyo t
+       skk-save-jisyo-instantly t
+       skk-server-host "localhost"
+       skk-server-portnum 1178))
+
+(require 'ddskk-posframe)
+
+(with-eval-after-load 'skk
+ (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
 
 ** nskk
 #+begin_src emacs-lisp
-(require 'nskk)
-(keymap-global-set "C-x C-j" #'nskk-mode)
-(nskk-global-mode t)
-(setopt nskk-dict-system-dictionary-files
-        '("~/.skk-dict/SKK-JISYO.L"))
+;; (require 'nskk)
+;; (keymap-global-set "C-x C-j" #'nskk-mode)
 
-(setopt nskk-server-enable t)
-(setopt nskk-server-host "localhost")
-(setopt nskk-server-portnum 1178)
-(setopt nskk-henkan-show-candidates-nth 2)
-(setopt nskk-henkan-number-to-display-candidates 7)
-(setq nskk-converter-romaji-style 'azik)
-(setq nskk-azik-keyboard-type 'us101)
-(setq nskk-debug-enabled t)
-(setq nskk-server-report-response t)
-(setq nskk-dict-user-dictionary-file skk-user-dict-path)
-(require 'nskk-debug)
+;; (setopt nskk-dict-system-dictionary-files
+;;         '("~/.skk-dict/SKK-JISYO.L"))
 
-;; Fix for org-element-cache warnings with nskk-self-insert
-;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
-(with-eval-after-load 'org
-  (defun nskk-org-element-cache-reset-advice (&rest _)
-    "Reset org-element cache before nskk operations to prevent cache warnings."
-    (when (and (derived-mode-p 'org-mode)
-               (boundp 'org-element--cache))
-      (org-element-cache-reset)))
+;; (setopt nskk-server-enable t)
+;; (setopt nskk-server-host "localhost")
+;; (setopt nskk-server-portnum 1178)
+;; (setopt nskk-henkan-show-candidates-nth 2)
+;; (setopt nskk-henkan-number-to-display-candidates 7)
+;; (setq nskk-converter-romaji-style 'azik)
+;; (setq nskk-azik-keyboard-type 'us101)
+;; (setq nskk-debug-enabled t)
+;; (setq nskk-server-report-response t)
+;; (setq nskk-dict-user-dictionary-file skk-user-dict-path)
+;; (require 'nskk-debug)
+
+;; ;; Fix for org-element-cache warnings with nskk-self-insert
+;; ;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
+;; (with-eval-after-load 'org
+;;   (defun nskk-org-element-cache-reset-advice (&rest _)
+;;     "Reset org-element cache before nskk operations to prevent cache warnings."
+;;     (when (and (derived-mode-p 'org-mode)
+;;                (boundp 'org-element--cache))
+;;       (org-element-cache-reset)))
  
-(advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
+;; (advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
 #+end_src
 
 * AI・LLM Integration

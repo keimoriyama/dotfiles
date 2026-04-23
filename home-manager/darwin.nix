@@ -5,14 +5,14 @@ with pkgs; [
   brewCasks.docker-desktop
   brewCasks.chatgpt
   brewCasks.ollama-app
-  brewCasks.alt-tab
-  brewCasks.codex-app
+  # brewCasks.alt-tab
+  # brewCasks.codex-app
   brewCasks.notion-calendar
-  (brewCasks.steam.overrideAttrs
-    (oldAttrs: {
-      src = pkgs.fetchurl {
-        url = builtins.head oldAttrs.src.urls;
-        hash = "sha256-4av7qqe+Pg9IoODUwxMjPgWGGx0mrzKDDdyDi+iPJpE=";
-      };
-    }))
+  # (brewCasks.steam.overrideAttrs
+  #   (oldAttrs: {
+  #     src = pkgs.fetchurl {
+  #       url = builtins.head oldAttrs.src.urls;
+  #       hash = "sha256-4av7qqe+Pg9IoODUwxMjPgWGGx0mrzKDDdyDi+iPJpE=";
+  #     };
+  #   }))
 ]

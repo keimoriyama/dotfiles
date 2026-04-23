@@ -88,7 +88,7 @@ in {
     fish-config
     emacs-config
     git-config
-    neovim-config
+    # neovim-config
   ];
 
   programs.home-manager.enable = true;

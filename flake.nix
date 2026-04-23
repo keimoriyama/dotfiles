@@ -100,7 +100,8 @@
           program = toString (pkgs.writeShellScript "update-script" ''
             set -e
             echo "Updating nix-darwin and home-manager..."
-            sudo nix run nix-darwin -- switch --flake ${self.outPath}#kei-darwin
+            sudo env HOME="$HOME" USER="$USER" LOGNAME="$LOGNAME" \
+              nix run nix-darwin -- switch --flake ${self.outPath}#kei-darwin
             echo "update complete"
           '');
         };

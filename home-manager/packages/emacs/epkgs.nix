@@ -74,49 +74,47 @@ in
     packages.yatex
     ebib
     packages.typst-ts-mode
-    # python-mode
-    # pet
-    # nix-mode
+    python-mode
+    pet
+    nix-mode
     reformatter
-    # csv-mode
-    # docker-compose-mode
-    # dockerfile-mode
-    # dotenv-mode
-    # git-modes
-    # json-mode
-    # rust-mode
-    # rustowl
-    # cargo
-    # ssh-config-mode
-    # toml-mode
-    # yaml-mode
-    # python-pytest
-    # fish-mode
-    # haskell-mode
-    # lua-mode
-
+    csv-mode
+    docker-compose-mode
+    dockerfile-mode
+    dotenv-mode
+    git-modes
+    json-mode
+    rust-mode
+    cargo
+    ssh-config-mode
+    toml-mode
+    yaml-mode
+    python-pytest
+    fish-mode
+    haskell-mode
+    lua-mode
+    web-mode
 
     # ai
-    # copilot
+    copilot
     ellama
     llm
-    # copilot-chat
-    # agent-shell
+    copilot-chat
+    agent-shell
 
     # lsp
     # lsp-bridge
     lsp-mode
-    # lsp-ui
+    lsp-ui
     consult-lsp
     # dap-mode
     flycheck
     flycheck-posframe
-    # flycheck-rust
+    flycheck-rust
     highlight-indent-guides
-    # lsp-latex
-    # lsp-pyright
-    # lsp-haskell
-    # lsp-nix
+    lsp-latex
+    lsp-pyright
+    lsp-haskell
 
     # org
     org-superstar

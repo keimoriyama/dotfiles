@@ -11,6 +11,11 @@ in {
     package = emacsPkgs;
   };
   home = {
+    sessionVariables = {
+      EDITOR = pkgs.lib.mkForce "emacsclient -t";
+      VISUAL = pkgs.lib.mkForce "emacsclient -c";
+    };
+
     file = {
       ".emacs.d/init.el".text = tangle (builtins.readFile ./init.org);
       ".emacs.d/early-init.el".text = tangle (builtins.readFile ./early-init.org);
