@@ -1453,8 +1453,8 @@ binding))))))))
 ** ターミナル
 *** kuro
 #+begin_src emacs-lisp
-;; (add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp")
-;; (require 'kuro)
+(add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp/core/")
+(require 'kuro)
 #+end_src
 * プログラミング言語
 ** Treesitter
