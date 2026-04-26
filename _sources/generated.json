@@ -20,111 +20,6 @@
         },
         "version": "v0.10.7"
     },
-    "dpp-ext-installer": {
-        "cargoLock": null,
-        "date": "2026-04-17",
-        "extract": null,
-        "name": "dpp-ext-installer",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "Shougo",
-            "repo": "dpp-ext-installer",
-            "rev": "9786ea0a6fea90ce9495f805834377092a60bb06",
-            "sha256": "sha256-pvDXLJJMwPZ3k3+ECJ+WqajgUaPCUSXr8Al00TEWPsk=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "9786ea0a6fea90ce9495f805834377092a60bb06"
-    },
-    "dpp-ext-lazy": {
-        "cargoLock": null,
-        "date": "2026-04-17",
-        "extract": null,
-        "name": "dpp-ext-lazy",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "Shougo",
-            "repo": "dpp-ext-lazy",
-            "rev": "b707b3c68cfab190445cd7a41990aa5cb318e453",
-            "sha256": "sha256-+5TeL5UFKkCfd0vDV3MO1sdZcfpdULsdBZS9oX9EFHs=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "b707b3c68cfab190445cd7a41990aa5cb318e453"
-    },
-    "dpp-ext-toml": {
-        "cargoLock": null,
-        "date": "2025-08-30",
-        "extract": null,
-        "name": "dpp-ext-toml",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "Shougo",
-            "repo": "dpp-ext-toml",
-            "rev": "9a441896eebb09ca5f9b93fec79d094799ae3cde",
-            "sha256": "sha256-txtUBfy9FcFQt/TWWD1p+Z8vVhUyolxtMpwfuvJzv8g=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "9a441896eebb09ca5f9b93fec79d094799ae3cde"
-    },
-    "dpp-protocol-git": {
-        "cargoLock": null,
-        "date": "2026-04-17",
-        "extract": null,
-        "name": "dpp-protocol-git",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "Shougo",
-            "repo": "dpp-protocol-git",
-            "rev": "57eacf4cae261bdf1317a8c005b6924287870492",
-            "sha256": "sha256-czyFbNngS5w9S2ylEwuIzAW//Gxh998iycKxDzM9MRI=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "57eacf4cae261bdf1317a8c005b6924287870492"
-    },
-    "dpp-vim": {
-        "cargoLock": null,
-        "date": "2026-04-18",
-        "extract": null,
-        "name": "dpp-vim",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "Shougo",
-            "repo": "dpp.vim",
-            "rev": "935eac3619ad21e896090afa45b47734d1d30016",
-            "sha256": "sha256-qfmQJ75oBAP+bSHOwvmvRXlE8Ji9KZZEqnqmGeleZuU=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "935eac3619ad21e896090afa45b47734d1d30016"
-    },
     "emacs-acp": {
         "cargoLock": null,
         "date": "2026-03-25",
@@ -209,27 +104,6 @@
         },
         "version": "e6b82419bf9c154df881c72c5800bbd43887ec0d"
     },
-    "emacs-kuro": {
-        "cargoLock": null,
-        "date": "2026-04-06",
-        "extract": null,
-        "name": "emacs-kuro",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "takeokunn",
-            "repo": "kuro",
-            "rev": "8758810ae9ea7659568a6f9c15f7e10accf69ebe",
-            "sha256": "sha256-WKkU+S98e/6rnI4i/Act+ATis3I0lUxXPsU8xgGFAy4=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "8758810ae9ea7659568a6f9c15f7e10accf69ebe"
-    },
     "emacs-nano-modeline": {
         "cargoLock": null,
         "date": "2024-04-29",
@@ -272,27 +146,6 @@
         },
         "version": "784edc6c05b4c3f0659d5a6d73d918f2e21b3492"
     },
-    "emacs-org-hyperscheduler": {
-        "cargoLock": null,
-        "date": "2025-07-16",
-        "extract": null,
-        "name": "emacs-org-hyperscheduler",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "dmitrym0",
-            "repo": "org-hyperscheduler",
-            "rev": "f40e3df279452dc0cb8506de3bfb6acbf2df79c1",
-            "sha256": "sha256-/KpmgpHET+5/GDCQwkEQxssX4kkzhZbJ+wxbUAoppIA=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "f40e3df279452dc0cb8506de3bfb6acbf2df79c1"
-    },
     "emacs-typst-ts-mode": {
         "cargoLock": null,
         "date": "2025-01-18",
@@ -316,7 +169,7 @@
     },
     "emacs-yaml-mode": {
         "cargoLock": null,
-        "date": "2024-10-03",
+        "date": "2026-04-20",
         "extract": null,
         "name": "emacs-yaml-mode",
         "passthru": null,
@@ -328,12 +181,12 @@
             "name": null,
             "owner": "yoshiki",
             "repo": "yaml-mode",
-            "rev": "d91f878729312a6beed77e6637c60497c5786efa",
-            "sha256": "sha256-BxIHvMOEWwW0C+lWGnxhvqtpK2bVHA7pLBaut3LpsmQ=",
+            "rev": "96ef0201101a7cd591febd5886633154dae8834c",
+            "sha256": "sha256-P5SQSUyHrVSbpbN2tLcjSHMxl6kXdO6yX23aHrrS5kg=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "d91f878729312a6beed77e6637c60497c5786efa"
+        "version": "96ef0201101a7cd591febd5886633154dae8834c"
     },
     "emacs-yatex": {
         "cargoLock": null,
