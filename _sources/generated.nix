@@ -4,7 +4,8 @@
   fetchurl,
   fetchFromGitHub,
   dockerTools,
-}: {
+}:
+{
   cargo-compete = {
     pname = "cargo-compete";
     version = "v0.10.7";
@@ -15,66 +16,6 @@
       fetchSubmodules = false;
       sha256 = "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=";
     };
-  };
-  dpp-ext-installer = {
-    pname = "dpp-ext-installer";
-    version = "9786ea0a6fea90ce9495f805834377092a60bb06";
-    src = fetchFromGitHub {
-      owner = "Shougo";
-      repo = "dpp-ext-installer";
-      rev = "9786ea0a6fea90ce9495f805834377092a60bb06";
-      fetchSubmodules = false;
-      sha256 = "sha256-pvDXLJJMwPZ3k3+ECJ+WqajgUaPCUSXr8Al00TEWPsk=";
-    };
-    date = "2026-04-17";
-  };
-  dpp-ext-lazy = {
-    pname = "dpp-ext-lazy";
-    version = "b707b3c68cfab190445cd7a41990aa5cb318e453";
-    src = fetchFromGitHub {
-      owner = "Shougo";
-      repo = "dpp-ext-lazy";
-      rev = "b707b3c68cfab190445cd7a41990aa5cb318e453";
-      fetchSubmodules = false;
-      sha256 = "sha256-+5TeL5UFKkCfd0vDV3MO1sdZcfpdULsdBZS9oX9EFHs=";
-    };
-    date = "2026-04-17";
-  };
-  dpp-ext-toml = {
-    pname = "dpp-ext-toml";
-    version = "9a441896eebb09ca5f9b93fec79d094799ae3cde";
-    src = fetchFromGitHub {
-      owner = "Shougo";
-      repo = "dpp-ext-toml";
-      rev = "9a441896eebb09ca5f9b93fec79d094799ae3cde";
-      fetchSubmodules = false;
-      sha256 = "sha256-txtUBfy9FcFQt/TWWD1p+Z8vVhUyolxtMpwfuvJzv8g=";
-    };
-    date = "2025-08-30";
-  };
-  dpp-protocol-git = {
-    pname = "dpp-protocol-git";
-    version = "57eacf4cae261bdf1317a8c005b6924287870492";
-    src = fetchFromGitHub {
-      owner = "Shougo";
-      repo = "dpp-protocol-git";
-      rev = "57eacf4cae261bdf1317a8c005b6924287870492";
-      fetchSubmodules = false;
-      sha256 = "sha256-czyFbNngS5w9S2ylEwuIzAW//Gxh998iycKxDzM9MRI=";
-    };
-    date = "2026-04-17";
-  };
-  dpp-vim = {
-    pname = "dpp-vim";
-    version = "935eac3619ad21e896090afa45b47734d1d30016";
-    src = fetchFromGitHub {
-      owner = "Shougo";
-      repo = "dpp.vim";
-      rev = "935eac3619ad21e896090afa45b47734d1d30016";
-      fetchSubmodules = false;
-      sha256 = "sha256-qfmQJ75oBAP+bSHOwvmvRXlE8Ji9KZZEqnqmGeleZuU=";
-    };
-    date = "2026-04-18";
   };
   emacs-acp = {
     pname = "emacs-acp";
@@ -124,18 +65,6 @@
     };
     date = "2018-05-28";
   };
-  emacs-kuro = {
-    pname = "emacs-kuro";
-    version = "8758810ae9ea7659568a6f9c15f7e10accf69ebe";
-    src = fetchFromGitHub {
-      owner = "takeokunn";
-      repo = "kuro";
-      rev = "8758810ae9ea7659568a6f9c15f7e10accf69ebe";
-      fetchSubmodules = false;
-      sha256 = "sha256-WKkU+S98e/6rnI4i/Act+ATis3I0lUxXPsU8xgGFAy4=";
-    };
-    date = "2026-04-06";
-  };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
     version = "04676d57a1e602123a593836745a744d1b2028fb";
@@ -160,18 +89,6 @@
     };
     date = "2026-04-04";
   };
-  emacs-org-hyperscheduler = {
-    pname = "emacs-org-hyperscheduler";
-    version = "f40e3df279452dc0cb8506de3bfb6acbf2df79c1";
-    src = fetchFromGitHub {
-      owner = "dmitrym0";
-      repo = "org-hyperscheduler";
-      rev = "f40e3df279452dc0cb8506de3bfb6acbf2df79c1";
-      fetchSubmodules = false;
-      sha256 = "sha256-/KpmgpHET+5/GDCQwkEQxssX4kkzhZbJ+wxbUAoppIA=";
-    };
-    date = "2025-07-16";
-  };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
     version = "aee8ff090cff6f39a70ac2c9035b1eb2b69924d7";
@@ -186,15 +103,15 @@
   };
   emacs-yaml-mode = {
     pname = "emacs-yaml-mode";
-    version = "d91f878729312a6beed77e6637c60497c5786efa";
+    version = "96ef0201101a7cd591febd5886633154dae8834c";
     src = fetchFromGitHub {
       owner = "yoshiki";
       repo = "yaml-mode";
-      rev = "d91f878729312a6beed77e6637c60497c5786efa";
+      rev = "96ef0201101a7cd591febd5886633154dae8834c";
       fetchSubmodules = false;
-      sha256 = "sha256-BxIHvMOEWwW0C+lWGnxhvqtpK2bVHA7pLBaut3LpsmQ=";
+      sha256 = "sha256-P5SQSUyHrVSbpbN2tLcjSHMxl6kXdO6yX23aHrrS5kg=";
     };
-    date = "2024-10-03";
+    date = "2026-04-20";
   };
   emacs-yatex = {
     pname = "emacs-yatex";
