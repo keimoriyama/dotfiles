@@ -42,6 +42,7 @@ with pkgs; [
   fourmolu
   (textlint.withPackages [
     textlint-rule-preset-ja-technical-writing
+    textlint-rule-preset-ja-spacing
     textlint-plugin-org
     textlint-plugin-latex2e
   ])
