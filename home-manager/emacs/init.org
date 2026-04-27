@@ -244,7 +244,7 @@
         (message "auto-save-buffers on")
       (message "auto-save-buffers off")))
 
-;;  (run-with-idle-timer 1 t 'auto-save-buffers)
+(run-with-idle-timer 1 t 'auto-save-buffers)
 #+end_src
 
 **** autorevert
@@ -788,8 +788,9 @@ binding))))))))
 (add-hook 'org-clock-in-hook
           (lambda ()
             (notify-osx "Clock Started" "Working....")))
-(add-hook 'org-clock-out-hook (lambda ()
-                                (notify-osx "Clock Finished" "DONE!!!!")))
+(add-hook 'org-clock-out-hook
+          (lambda ()
+            (notify-osx "Clock Finished" "DONE!!!!")))
 #+end_src
 ** Org拡張機能
 *** キャプチャ・ノート機能
@@ -1069,7 +1070,9 @@ binding))))))))
                                           (:hlines . "no")
                                           (:tangle . "no"))))
 (with-eval-after-load 'ob-lisp
-  (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp))
+  (defalias 'org-babel-execute:common-lisp 'org-babel-execute:lisp)
+  (setq org-id-locations-file
+      (expand-file-name "org-id-locations" user-emacs-directory)))
 #+end_src
 
 **** org-super-agenda
@@ -1367,19 +1370,11 @@ binding))))))))
 #+end_src
 ***** typst
 #+begin_src emacs-lisp
-(dolist (hook '(yatex-mode-hook
-                typst-ts-mode-hook
-                python-mode-hook
-                python-ts-mode-hook
-                rust-mode-hook
-                haskell-mode-hook
-                nix-mode-hook
-                web-mode-hook))
-  (add-hook hook #'lsp-deferred))
+;;(add-hook typst-ts-mode-hook #'lsp-deferred)
 #+end_src
 ***** python
 #+begin_src emacs-lisp
-(add-hook 'python-base-mode-hook
+(add-hook 'python-mode-hook
           (lambda ()
             (setq lsp-pyright-langserver-command "basedpyright")
             (require 'lsp-pyright)
@@ -1389,7 +1384,7 @@ binding))))))))
   "Setup LSP for Python with ty only, disabling pyright and ruff LSP servers."
   (setq-local lsp-disabled-clients '(ruff-lsp ruff ty-ls)))
 
-(add-hook 'python-base-mode-hook #'my/python-lsp-setup)
+(add-hook 'python-mode-hook #'my/python-lsp-setup)
 #+end_src
 ***** rust
 #+begin_src emacs-lisp
@@ -1460,7 +1455,6 @@ binding))))))))
 ** Treesitter
 *** parser config
 #+begin_src emacs-lisp
-;(global-tree-sitter-mode)
 (setq treesit-language-source-alist
       '((bibtex "https://github.com/latex-lsp/tree-sitter-bibtex" "master" "src")
         (csv "https://github.com/tree-sitter-grammars/tree-sitter-csv" "master" "csv/src")
@@ -1482,6 +1476,9 @@ binding))))))))
         (message "treesit: %s is already installed" lang)
       (message "treesit: %s is not installed, attempting install..." lang)
       (treesit-install-language-grammar lang))))
+(setq treesit-font-lock-level 4)
+
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 #+end_src
 
 *** treesitter-context
@@ -1604,9 +1601,32 @@ binding))))))))
 *** python-mode
 **** 基本設定
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.py$" . python-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (with-eval-after-load 'python-ts-mode
-  (setopt python-shell-completion-native-enable nil))
+  (setopt python-shell-completion-native-enable nil)
+  ;; Work around Emacs 30.2 + libtree-sitter 0.26 rejecting predicates
+  ;; emitted by the built-in python-ts-mode font-lock queries.
+  (when (and (version= emacs-version "30.2")
+             (fboundp 'treesit-library-abi-version)
+             (>= (treesit-library-abi-version) 15))
+    (setq python--treesit-settings
+          (append
+           (seq-remove (lambda (setting)
+                         (memq (nth 2 setting) '(keyword builtin type)))
+                       python--treesit-settings)
+           (treesit-font-lock-rules
+            :feature 'keyword
+            :language 'python
+            `([,@python--treesit-keywords] @font-lock-keyword-face))))
+    (add-hook 'python-ts-mode-hook
+              (lambda ()
+                (setq-local treesit-font-lock-feature-list
+                            '((comment definition)
+                              (keyword string)
+                              (assignment constant decorator
+                               escape-sequence number string-interpolation)
+                              (bracket delimiter function operator
+                               variable property)))))))
 #+end_src
 
 **** フォーマッタ
@@ -1617,12 +1637,12 @@ binding))))))))
    :stdin t
    :lighter "isort"
    :group 'python-isort)
-  (add-hook 'python-ts-mode-hook #'python-isort-format-on-save-mode)
+  (add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
 
   (reformatter-define python-ruff-format
    :program "ruff"
    :args `("format" "--stdin-filename" ,buffer-file-name))
-  (add-hook 'python-ts-mode-hook #'python-ruff-format-on-save-mode)
+  (add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
   (setq python-pytest-executable "uv run pytest")
 #+end_src
 
