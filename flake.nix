@@ -20,6 +20,10 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     org-babel.url = "github:emacs-twist/org-babel";
     flake-parts.url = "github:hercules-ci/flake-parts";
     brew-nix = {
@@ -46,6 +50,7 @@
     nix-darwin,
     home-manager,
     emacs-overlay,
+    nixvim,
     org-babel,
     neovim-nightly-overlay,
     brew-nix,
@@ -64,6 +69,7 @@
           nixpkgs
           home-manager
           emacs-overlay
+          nixvim
           org-babel
           neovim-nightly-overlay
           username
@@ -80,6 +86,7 @@
           nixpkgs
           home-manager
           emacs-overlay
+          nixvim
           org-babel
           neovim-nightly-overlay
           username

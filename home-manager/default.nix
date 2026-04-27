@@ -3,6 +3,7 @@
   config,
   home-manager,
   emacs-overlay,
+  nixvim,
   org-babel,
   system,
   neovim-nightly-overlay,
@@ -51,7 +52,7 @@
       ;
   };
   fish-config = import ./fish {inherit pkgs sources;};
-  neovim-config = import ./neovim {inherit pkgs sources config home-manager;};
+  neovim-config = import ./neovim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
 
   utils = import ./utils.nix {inherit pkgs;};
@@ -88,7 +89,7 @@ in {
     fish-config
     emacs-config
     git-config
-    # neovim-config
+    neovim-config
   ];
 
   programs.home-manager.enable = true;

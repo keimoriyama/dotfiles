@@ -2152,5 +2152,5 @@ binding))))))))
 #+end_src
 ** arto
 #+begin_src emacs-lisp
-(setq arto-path "/etc/profiles/per-user/kei/bin/arto")
+(setq arto-path "/Users/kei/Applications/Home Manager Apps/Arto.app/")
 #+end_src
