@@ -2150,3 +2150,7 @@ binding))))))))
         (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
 (setq oj-default-online-judge 'atcoder)
 #+end_src
+** arto
+#+begin_src emacs-lisp
+(setq arto-path "/etc/profiles/per-user/kei/bin/arto")
+#+end_src
