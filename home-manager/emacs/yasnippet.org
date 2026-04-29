@@ -1,5 +1,4 @@
-* Snippets
-** python-mode
+* python-mode
 *** ipdb
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/python-mode/ipdb") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
@@ -28,8 +27,7 @@ if ${1:condition}:
 def ${1:name}(${2:args}):
   ${0}
 #+end_src
-
-** org-mode
+* org-mode
 *** hugo header
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/hugo") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
@@ -183,11 +181,11 @@ ${0}
 # name: org-clocktable-daily-other
 # key: org-clocktable-daily-other
 # --
-,** `(format-time-string "%Y-%m-%d" (current-time))`
+,* `(format-time-string "%Y-%m-%d" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
-,*** タスク
-,*** メモ
+,** タスク
+,** メモ
 #+end_src
 *** org-clocktable-daily-tuesday
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-tuesday") :mkdirp yes :noweb yes
@@ -195,15 +193,15 @@ ${0}
 # name: org-clocktable-daily-tuesday
 # key: org-clocktable-daily-tuesday
 # --
-,** `(format-time-string "%Y-%m-%d %a" (current-time))`
+,* `(format-time-string "%Y-%m-%d %a" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
-,*** タスク
-,**** DONE エージェントチューニングMTG
+,** タスク
+,*** DONE エージェントチューニングMTG
 :LOGBOOK:
-CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` Tue 11:30]--[`(format-time-string "%Y-%m-%d %a" (current-time))` Thu 12:00] =>  0:30
+CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 11:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 12:00] =>  1:00
 :END:
-,*** メモ
+,** メモ
 #+end_src
 *** org-clocktable-daily-wednesday
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-wednesday") :mkdirp yes :noweb yes
@@ -211,15 +209,15 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` Tue 11:30]--[`(forma
 # name: org-clocktable-daily-wednesday
 # key: org-clocktable-daily-wednesday
 # --
-,** `(format-time-string "%Y-%m-%d %a" (current-time))`
+,* `(format-time-string "%Y-%m-%d %a" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
-,*** タスク
-,**** DONE ゼミ
+,** タスク
+,*** DONE ゼミ
 :LOGBOOK:
 CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 10:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 12:30] =>  2:30
 :END:
-,*** メモ
+,** メモ
 #+end_src
 *** org-clocktable-daily-thursday
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-thursday") :mkdirp yes :noweb yes
@@ -227,15 +225,15 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 10:00]--[`(format-ti
 # name: org-clocktable-daily-thursday
 # key: org-clocktable-daily-thursday
 # --
-,** `(format-time-string "%Y-%m-%d %a" (current-time))`
+,* `(format-time-string "%Y-%m-%d %a" (current-time))`
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
 ,#+end:
-,*** タスク
-,**** DONE エージェントMTG
+,** タスク
+,*** DONE エージェントMTG
 :LOGBOOK:
 CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 13:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 13:30] =>  0:30
 :END:
-,*** メモ
+,** メモ
 #+end_src
 *** org-paper-elaboration-todo
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/paper-elaboration-todo") :mkdirp yes :noweb yes
@@ -302,7 +300,7 @@ main = do
 CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` ${1:start-time}]--[`(format-time-string "%Y-%m-%d %a" (current-time))` ${2:end-time}] =>  1:00
 :END:
 #+end_src
-** yatex-mode
+* yatex-mode
 
 *** reference 
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/yatex-mode/base_ref") :mkdirp yes :noweb yes
@@ -391,7 +389,7 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` ${1:start-time}]--[`
 
 #+end_src
 
-** typst-ts-mode
+* typst-ts-mode
 *** slide header
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/typst-ts-mode/slide-header") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
@@ -497,7 +495,7 @@ ${2}
 ${0}
 #+end_src
 
-** rust-mode
+* rust-mode
 
 *** proconio input
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/rust-mode/proconio-input") :mkdirp yes :noweb yes
@@ -520,7 +518,7 @@ use proconio::input;
 type Edges = Vec<Vec<${1}>>;
 
 #+end_src
-** agent-shell-mode
+* agent-shell-mode
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/agent-shell-mode/prompt_elaboration") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
 # name: prompt_elaboration

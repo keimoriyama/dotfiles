@@ -244,7 +244,8 @@
         (message "auto-save-buffers on")
       (message "auto-save-buffers off")))
 
-(run-with-idle-timer 1 t 'auto-save-buffers)
+(with-eval-after-load 'org-mode
+  (run-with-idle-timer 1 t 'auto-save-buffers))
 #+end_src
 
 **** autorevert

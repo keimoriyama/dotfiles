@@ -6,7 +6,7 @@ with pkgs; [
   brewCasks.chatgpt
   brewCasks.ollama-app
   # brewCasks.alt-tab
-  # brewCasks.codex-app
+  brewCasks.codex-app
   brewCasks.notion-calendar
   # (brewCasks.steam.overrideAttrs
   #   (oldAttrs: {
