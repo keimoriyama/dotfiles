@@ -17,7 +17,7 @@
     inherit system;
     config = {
       allowUnfree = true;
-      allowUnfreePredicate = true;
+      allowUnfreePredicate = _: true;
     };
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;
@@ -102,6 +102,10 @@ in {
       else builtins.toPath "/home/${username}"
     );
 
+    sessionVariables = {
+      EDITOR = "nvim";
+    };
+
     packages =
       basePackages
       ++ utils
@@ -127,5 +131,10 @@ in {
         sync_trampolines "$fromDir" "$toDir"
       '';
     };
+  };
+
+  programs.agent-skills = {
+    enable = true;
+    targets.copilot.enable = true;
   };
 }
