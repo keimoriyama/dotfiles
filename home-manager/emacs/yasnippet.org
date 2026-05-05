@@ -182,7 +182,7 @@ ${0}
 # key: org-clocktable-daily-other
 # --
 ,* `(format-time-string "%Y-%m-%d" (current-time))`
-,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))`
 ,#+end:
 ,** タスク
 ,** メモ
@@ -194,7 +194,7 @@ ${0}
 # key: org-clocktable-daily-tuesday
 # --
 ,* `(format-time-string "%Y-%m-%d %a" (current-time))`
-,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))` :stepskip0 t :fileskip0 t
 ,#+end:
 ,** タスク
 ,*** DONE エージェントチューニングMTG
@@ -210,7 +210,7 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 11:00]--[`(format-ti
 # key: org-clocktable-daily-wednesday
 # --
 ,* `(format-time-string "%Y-%m-%d %a" (current-time))`
-,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))` :stepskip0 t :fileskip0 t
 ,#+end:
 ,** タスク
 ,*** DONE ゼミ
@@ -226,7 +226,7 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 10:00]--[`(format-ti
 # key: org-clocktable-daily-thursday
 # --
 ,* `(format-time-string "%Y-%m-%d %a" (current-time))`
-,#+begin: clocktable :maxlevel 4 :scope agenda :block today :stepskip0 t :fileskip0 t
+,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))` :stepskip0 t :fileskip0 t
 ,#+end:
 ,** タスク
 ,*** DONE エージェントMTG

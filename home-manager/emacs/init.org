@@ -559,10 +559,6 @@ binding))))))))
 ;; (setq minions-mode-line-lighter "[+]")
 #+end_src
 
-**** disable mode
-#+begin_src emacs-lisp
-(setq-default mode-line-format nil)
-#+end_src
 *** ウィンドウ管理
 **** olivetti
 #+begin_src emacs-lisp
@@ -1120,12 +1116,12 @@ binding))))))))
                             (:name "Overdue"
                                    :deadline past
                                    :order 7)
-                            (:name "Implementation"
-                                   :tag "coding"
+                            (:name "Todo"
+                                   :todo "TODO"
                                    :order 8)
                             (:name "Paper"
                                    :tag "paper"
-                                   :order 9)
+                                   :order 1000)
                             (:discard (:anything t))))))))))
 
   (setq org-agenda-start-on-weekday 3
@@ -1979,13 +1975,13 @@ binding))))))))
 
 ** Copilot
 #+begin_src emacs-lisp
-;;(setq copilot-indent-offset-warning-disable t)
+(setq copilot-indent-offset-warning-disable t)
 
-;;(require 'copilot)
-;;(setq copilot-idle-delay 1.0)
+(require 'copilot)
+(setq copilot-idle-delay 1.0)
 
-;;(add-hook 'prog-mode-hook 'copilot-mode)
-;;(keymap-global-set "C-<tab>" #'copilot-accept-completion)
+(add-hook 'prog-mode-hook 'copilot-mode)
+(keymap-global-set "C-<tab>" #'copilot-accept-completion)
 #+end_src
 ** copilot-chat
 #+begin_src emacs-lisp
@@ -1995,20 +1991,8 @@ binding))))))))
 
 ** Agent Shell
 #+begin_src emacs-lisp
-;;(require 'acp)
-;;(require 'agent-shell)
-
-;; Work around `agent-shell--extract-tool-parameters' treating a patch STRING as
-;; a sequence of chars (e.g. "*" => 42), which triggers `(car 42)` errors.
-;;(with-eval-after-load 'agent-shell
-;;  (when (fboundp 'agent-shell--extract-tool-parameters)
-;;    (advice-add
-;;     'agent-shell--extract-tool-parameters
-;;     :around
-;;     (lambda (orig tool-parameters)
-;;       (if (or (null tool-parameters) (stringp tool-parameters))
-;;           tool-parameters
-;;         (funcall orig tool-parameters))))))
+(require 'acp)
+(require 'agent-shell)
 #+end_src
 
 * インタラクティブメニュー
