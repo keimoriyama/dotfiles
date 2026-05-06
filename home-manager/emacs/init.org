@@ -791,21 +791,91 @@ binding))))))))
 #+end_src
 ** Org拡張機能
 *** キャプチャ・ノート機能
-**** org-capture
+**** org-capture-programming-notes
 #+begin_src emacs-lisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory)
-      org-journal-dir (format "%s/journal" org-directory))
+      org-journal-dir (format "%s/journal" org-directory)
+      org-program-dir (format "%s/programming" org-directory))
 
+(defvar my/org-roam-programming-languages
+  '(("p" "Python"      "python.org"      "python")
+    ("e" "Emacs Lisp" "emacs-lisp.org"  "emacs-lisp")
+    ("r" "Rust"       "rust.org"        "rust"))
+  "Programming language capture targets.
+
+Each entry is:
+  (KEY TITLE FILENAME SRC-LANG)")
+
+
+(defun my/org-roam-programming-template (spec)
+  "Create one org-roam-capture template from SPEC.
+
+SPEC is:
+  (KEY TITLE FILENAME SRC-LANG)"
+  (pcase-let ((`(,key ,title ,filename ,src-lang) spec))
+    `(,(concat "p" key)
+      ,title
+      plain
+      ,(format
+        "** %%?\n:PROPERTIES:\n:ID: %%(org-id-new)\n:END:\nCaptured: %%U\n\n#+begin_src %s\n%%i\n#+end_src\n"
+        src-lang)
+      :target
+      (file+olp+head
+       ,(format "programming/%s" filename)
+       ("Notes")
+       ,(format "#+title: %s\n#+filetags: :programming:%s:\n\n* Notes\n"
+                title src-lang))
+      :unnarrowed t)))
+(defun my/org-programming-capture-template (spec)
+
+  "Create one org-capture template from SPEC.
+
+SPEC is:
+
+  (KEY TITLE FILENAME SRC-LANG)"
+
+  (pcase-let ((`(,key ,title ,filename ,src-lang) spec))
+
+    `(,(concat "p" key)
+
+      ,title
+
+      entry
+
+      (file+headline
+
+       ,(format "%s/%s" org-program-dir filename)
+
+       "Notes")
+
+      ,(format
+
+        "* %%?\n:PROPERTIES:\n:ID: %%(org-id-new)\n:END:\nCaptured: %%U\n\n#+begin_src %s\n%%i\n#+end_src\n"
+
+        src-lang)
+
+      :empty-lines 1)))
+
+(defvar my/org-roam-programming-capture-templates
+  (append
+   '(("p" "Programming"))
+   (mapcar #'my/org-programming-capture-template
+           my/org-roam-programming-languages))
+  "Org-roam capture templates for programming language notes.")
+#+end_src
+**** org-capture
+#+begin_src emacs-lisp
 (mapc #'create-file
       (list org-memo-file))
 
 (with-eval-after-load 'org
   (setq org-capture-templates
-        '(("m" "Memo" entry (file org-memo-file) " %? \n")))
+        (append
+         '(("m" "Memo" entry (file org-memo-file) " %? \n"))
+         my/org-roam-programming-capture-templates))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
-
 **** org-roam (基本設定)
 #+begin_src emacs-lisp
 (require 'org-roam)
@@ -819,6 +889,8 @@ binding))))))))
 (keymap-global-set "C-c n t" #'org-roam-tag-add)
 (keymap-global-set "C-c n a" #'org-roam-alias-add)
 (keymap-global-set "C-c n c" #'org-roam-capture)
+(keymap-global-set "C-c n j" #'org-roam-dailies-capture-today)
+(keymap-global-set "C-c n d" #'org-roam-dailies-goto-today)
 (with-eval-after-load 'org-roam-node
   (setq org-roam-completion-everywhere nil))
 #+end_src
@@ -831,37 +903,40 @@ binding))))))))
   (setq org-roam-db-gc-threshold (* 4 gc-cons-threshold)))
 #+end_src
 
-**** org-roam-capture
+
+**** org-roam-capture-template
 #+begin_src emacs-lisp
 (require 'org-roam-capture)
 (with-eval-after-load 'org-roam-capture
   (setopt org-roam-capture-templates
-          '(
-            ("f" "Fleeting" plain "%?"
-             :target (file+head
-                      "fleeting/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+title: ${title}\n")
-            :unnarrowed t)
-            ("p" "Projects" plain "%?"
-             :target (file+head
-                      "projects/${slug}.org"
-                      "#+title: ${title}\n")
-             :unnarrowed t)
-            ("l" "Literature" plain "%?"
-             :target (file+head
-                      "literatures/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+title: ${title}\n")
-             :unnarrowed t)
-            ("b" "books" plain "%?"
-             :target (file+head
-                      "books/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+title: ${title}\n")
-                      :unnarrowed t)
+          (append
+           '(
+             ("f" "Fleeting" plain "%?"
+              :target (file+head
+                       "fleeting/%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+              :unnarrowed t)
+             ("p" "Projects" plain "%?"
+              :target (file+head
+                       "projects/${slug}.org"
+                       "#+title: ${title}\n")
+              :unnarrowed t)
+             ("l" "Literature" plain "%?"
+              :target (file+head
+                       "literatures/%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+              :unnarrowed t)
+             ("b" "books" plain "%?"
+              :target (file+head
+                       "books/%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+              :unnarrowed t)
              ("P" "parmanent" plain "%?"
               :target (file+head
-                      "parmanent/%<%Y%m%d%H%M%S>-${slug}.org"
-                      "#+title: ${title}\n")
-                      :unnarrowed t))))
+                       "parmanent/%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+              :unnarrowed t))
+           my/org-roam-programming-capture-templates)))
 #+end_src
 **** org-roam-ui
 #+begin_src emacs-lisp
