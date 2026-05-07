@@ -20,4 +20,5 @@ with pkgs; [
   udev-gothic
   pdfpc
   polylux2pdfpc
+  qemu
 ]
