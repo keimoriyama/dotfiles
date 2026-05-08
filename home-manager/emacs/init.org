@@ -903,13 +903,11 @@ SPEC is:
   (setq org-roam-db-gc-threshold (* 4 gc-cons-threshold)))
 #+end_src
 
-
 **** org-roam-capture-template
 #+begin_src emacs-lisp
 (require 'org-roam-capture)
 (with-eval-after-load 'org-roam-capture
   (setopt org-roam-capture-templates
-          (append
            '(
              ("f" "Fleeting" plain "%?"
               :target (file+head
@@ -935,9 +933,10 @@ SPEC is:
               :target (file+head
                        "parmanent/%<%Y%m%d%H%M%S>-${slug}.org"
                        "#+title: ${title}\n")
-              :unnarrowed t))
-           my/org-roam-programming-capture-templates)))
+              :unnarrowed t))))
 #+end_src
+
+
 **** org-roam-ui
 #+begin_src emacs-lisp
 (require' org-roam-ui)
