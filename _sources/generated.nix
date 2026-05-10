@@ -19,15 +19,15 @@
   };
   emacs-acp = {
     pname = "emacs-acp";
-    version = "c32fbf8df34ed0095853a8cf55dc783e68b67d90";
+    version = "03099fa0d0b669c91124880d71e1d5abecd83add";
     src = fetchFromGitHub {
       owner = "xenodium";
       repo = "acp.el";
-      rev = "c32fbf8df34ed0095853a8cf55dc783e68b67d90";
+      rev = "03099fa0d0b669c91124880d71e1d5abecd83add";
       fetchSubmodules = false;
-      sha256 = "sha256-mqNOHzlWGwUHRDy3hrA6W4cqG9+1KTy56bkjr80JIUM=";
+      sha256 = "sha256-VczQbv+4V7LABA83+xe0lU07LmPZ8TTnH/mPYUQr3RA=";
     };
-    date = "2026-03-25";
+    date = "2026-05-03";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
@@ -79,15 +79,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "a0268c178e0c6e6755567455a4c347177563be2b";
+    version = "2b8078a65e990ee8e774edbadd9df120c95bb100";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "a0268c178e0c6e6755567455a4c347177563be2b";
+      rev = "2b8078a65e990ee8e774edbadd9df120c95bb100";
       fetchSubmodules = false;
-      sha256 = "sha256-RgnV5fP3+P8dXMCHxtRJP241okHsrvtTdxfoKCrCCTk=";
+      sha256 = "sha256-YFF3CVQay6lZ19k89smcO7Z66AA7prr02u6JQMmijkQ=";
     };
-    date = "2026-05-03";
+    date = "2026-05-06";
   };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
