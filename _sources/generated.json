@@ -22,7 +22,7 @@
     },
     "emacs-acp": {
         "cargoLock": null,
-        "date": "2026-03-25",
+        "date": "2026-05-03",
         "extract": null,
         "name": "emacs-acp",
         "passthru": null,
@@ -34,12 +34,12 @@
             "name": null,
             "owner": "xenodium",
             "repo": "acp.el",
-            "rev": "c32fbf8df34ed0095853a8cf55dc783e68b67d90",
-            "sha256": "sha256-mqNOHzlWGwUHRDy3hrA6W4cqG9+1KTy56bkjr80JIUM=",
+            "rev": "03099fa0d0b669c91124880d71e1d5abecd83add",
+            "sha256": "sha256-VczQbv+4V7LABA83+xe0lU07LmPZ8TTnH/mPYUQr3RA=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "c32fbf8df34ed0095853a8cf55dc783e68b67d90"
+        "version": "03099fa0d0b669c91124880d71e1d5abecd83add"
     },
     "emacs-dmacro": {
         "cargoLock": null,
@@ -127,7 +127,7 @@
     },
     "emacs-nskk": {
         "cargoLock": null,
-        "date": "2026-05-03",
+        "date": "2026-05-06",
         "extract": null,
         "name": "emacs-nskk",
         "passthru": null,
@@ -139,12 +139,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "nskk.el",
-            "rev": "a0268c178e0c6e6755567455a4c347177563be2b",
-            "sha256": "sha256-RgnV5fP3+P8dXMCHxtRJP241okHsrvtTdxfoKCrCCTk=",
+            "rev": "2b8078a65e990ee8e774edbadd9df120c95bb100",
+            "sha256": "sha256-YFF3CVQay6lZ19k89smcO7Z66AA7prr02u6JQMmijkQ=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "a0268c178e0c6e6755567455a4c347177563be2b"
+        "version": "2b8078a65e990ee8e774edbadd9df120c95bb100"
     },
     "emacs-typst-ts-mode": {
         "cargoLock": null,
