@@ -698,7 +698,7 @@ binding))))))))
 *** コア機能
 **** org
 #+begin_src emacs-lisp
-(setq org-directory "~/Documents/org-mode")
+(setq org-directory "~/ghq/github.com/keimoriyama/org-files")
 
 (defun create-file (filename)
   (if (not (file-exists-p filename))
@@ -773,6 +773,7 @@ binding))))))))
         org-special-ctrl-a/e               t
         org-insert-heading-respect-content t))
 #+end_src
+
 **** org-clock
 #+begin_src emacs-lisp
 (defun notify-osx (title message)

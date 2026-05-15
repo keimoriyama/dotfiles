@@ -1,4 +1,5 @@
 {
+  pkgs,
   epkgs,
   sources,
 }: {
@@ -66,6 +67,11 @@
   nskk = epkgs.trivialBuild {
     pname = "nskk";
     src = sources.emacs-nskk.src;
+    preBuild = ''
+
+    cp src/*.el .
+
+    '';  
     version = "0.1.11";
   };
   # kuro = epkgs.melpaBuild {

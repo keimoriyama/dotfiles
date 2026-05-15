@@ -130,6 +130,8 @@ in {
         c = "main";
         s = "main";
         w = "main";
+        n = "main";
+        g = "main";
       };
 
       on-window-detected = [
@@ -160,6 +162,18 @@ in {
         {
           "if".app-id = "com.apple.mail";
           run = ["layout floating"];
+        }
+        {
+          "if".app-id = "notion.id";
+          run = [
+            "move-node-to-workspace n"
+          ];
+        }
+        {
+          "if".app-id = "com.openai.chat";
+          run = [
+            "move-node-to-workspace g"
+          ];
         }
       ];
     };

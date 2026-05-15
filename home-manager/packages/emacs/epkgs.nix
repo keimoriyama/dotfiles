@@ -2,7 +2,7 @@
   pkgs,
   sources,
 }: epkgs: let
-  packages = pkgs.callPackage ./packages.nix {inherit epkgs sources;};
+  packages = pkgs.callPackage ./packages.nix {inherit pkgs epkgs sources;};
 in
   with epkgs; [
     # utils

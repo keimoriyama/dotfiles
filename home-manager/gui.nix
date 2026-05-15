@@ -4,4 +4,5 @@ with pkgs; [
   slack
   discord
   google-chrome
+  notion-app
 ]
