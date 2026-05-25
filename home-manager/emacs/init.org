@@ -1214,9 +1214,9 @@ SPEC is:
         org-agenda-use-time-grid t
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
-        org-agenda-files (list org-prj-dir org-journal-dir)
+        org-agenda-files (list org-prj-dir org-journal-dir
+                               (format "%s/%s" org-directory org-roam-dailies-directory))
         org-agenda-archives-mode t))
-
 (plist-put org-format-latex-options :scale 1.2)
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src

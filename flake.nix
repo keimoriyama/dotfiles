@@ -22,7 +22,6 @@
     };
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     org-babel.url = "github:emacs-twist/org-babel";
     flake-parts.url = "github:hercules-ci/flake-parts";

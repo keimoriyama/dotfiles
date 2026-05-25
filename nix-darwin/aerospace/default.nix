@@ -55,6 +55,7 @@ in {
             alt-s = "workspace s";
             alt-w = "workspace w";
             alt-n = "workspace n";
+            alt-g = "workspace g";
             alt-shift-1 = [
               "move-node-to-workspace 1"
               "workspace 1"
