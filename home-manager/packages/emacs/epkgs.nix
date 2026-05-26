@@ -129,6 +129,7 @@ in
     consult-org-roam
     org-super-agenda
     org-appear
+    org-journal
     ob-rust
     packages.hide-lines
   ]

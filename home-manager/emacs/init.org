@@ -870,12 +870,24 @@ SPEC is:
 (mapc #'create-file
       (list org-memo-file))
 
+(defun org-journal-find-location ()
+  (org-journal-new-entry t)
+  (goto-char (point-min)))
+
 (with-eval-after-load 'org
   (setq org-capture-templates
         (append
-         '(("m" "Memo" entry (file org-memo-file) " %? \n"))
+         '(("m" "Memo" entry (file org-memo-file) " %? \n")
+           ("j" "Journal entry" entry (function org-journal-find-location)
+                               "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))
          my/org-roam-programming-capture-templates))
   (keymap-global-set "C-c c" #'org-capture))
+#+end_src
+**** org-journal
+#+begin_src emacs-lisp
+(require 'org-journal)
+(setq org-journal-file-type 'weekly)
+(setq org-journal-file-format "%Y%m%d.org")
 #+end_src
 **** org-roam (基本設定)
 #+begin_src emacs-lisp
@@ -890,8 +902,8 @@ SPEC is:
 (keymap-global-set "C-c n t" #'org-roam-tag-add)
 (keymap-global-set "C-c n a" #'org-roam-alias-add)
 (keymap-global-set "C-c n c" #'org-roam-capture)
-(keymap-global-set "C-c n j" #'org-roam-dailies-capture-today)
-(keymap-global-set "C-c n d" #'org-roam-dailies-goto-today)
+;; (keymap-global-set "C-c n j" #'org-roam-dailies-capture-today)
+;; (keymap-global-set "C-c n d" #'org-roam-dailies-goto-today)
 (with-eval-after-load 'org-roam-node
   (setq org-roam-completion-everywhere nil))
 #+end_src
@@ -936,7 +948,6 @@ SPEC is:
                        "#+title: ${title}\n")
               :unnarrowed t))))
 #+end_src
-
 
 **** org-roam-ui
 #+begin_src emacs-lisp
@@ -1215,7 +1226,7 @@ SPEC is:
         org-clock-clocked-in-display 'both
         org-agenda-start-with-log-mode t
         org-agenda-files (list org-prj-dir org-journal-dir
-                               (format "%s/%s" org-directory org-roam-dailies-directory))
+                               (format "%s/%s" org-directory org-roam-dailies-directory org-journal-dir))
         org-agenda-archives-mode t))
 (plist-put org-format-latex-options :scale 1.2)
 (keymap-global-set "C-c a" #'org-agenda)
@@ -1317,6 +1328,10 @@ SPEC is:
 (defun show-done-tasks ()
   (interactive)
   (hide-lines-show-all))
+#+end_src
+**** org-journal
+#+begin_src emacs-lisp
+
 #+end_src
 * LSP・開発環境
 ** LSP機能
@@ -1434,15 +1449,15 @@ SPEC is:
 *** language specific config
 ***** Latex
 #+begin_src emacs-lisp
-;; (with-eval-after-load "yatex"
-;;  (add-hook 'yatex-mode-hook 'lsp))
+(with-eval-after-load "yatex"
+ (add-hook 'yatex-mode-hook 'lsp))
 
-;; (with-eval-after-load "bibtex"
-;;  (add-hook 'bibtex-mode-hook 'lsp))
+(with-eval-after-load "bibtex"
+ (add-hook 'bibtex-mode-hook 'lsp))
 #+end_src
 ***** typst
 #+begin_src emacs-lisp
-;;(add-hook typst-ts-mode-hook #'lsp-deferred)
+(add-hook 'typst-ts-mode-hook #'lsp)
 #+end_src
 ***** python
 #+begin_src emacs-lisp
