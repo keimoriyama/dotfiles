@@ -183,7 +183,7 @@ ${0}
 # --
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))`  :stepskip0 t :fileskip0 t
 ,#+end:
-,* タスク
+,** タスク
 #+end_src
 *** org-clocktable-daily-tuesday
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/org-clocktable-daily-tuesday") :mkdirp yes :noweb yes
@@ -193,8 +193,8 @@ ${0}
 # --
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))` :stepskip0 t :fileskip0 t
 ,#+end:
-,* タスク
-,** DONE エージェントチューニングMTG
+,** タスク
+,*** DONE エージェントチューニングMTG
 :LOGBOOK:
 CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 11:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 12:00] =>  1:00
 :END:
@@ -207,8 +207,8 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 11:00]--[`(format-ti
 # --
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))` :stepskip0 t :fileskip0 t
 ,#+end:
-,* タスク
-,** DONE ゼミ
+,** タスク
+,*** DONE ゼミ
 :LOGBOOK:
 CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 10:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 13:00] =>  3:00
 :END:
@@ -221,8 +221,8 @@ CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 10:00]--[`(format-ti
 # --
 ,#+begin: clocktable :maxlevel 4 :scope agenda :block `(format-time-string "%Y-%m-%d" (current-time))` :stepskip0 t :fileskip0 t
 ,#+end:
-,* タスク
-,** DONE エージェントMTG
+,** タスク
+,*** DONE エージェントMTG
 :LOGBOOK:
 CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` 13:00]--[`(format-time-string "%Y-%m-%d %a" (current-time))` 13:30] =>  0:30
 :END:

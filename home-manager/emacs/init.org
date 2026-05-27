@@ -870,16 +870,10 @@ SPEC is:
 (mapc #'create-file
       (list org-memo-file))
 
-(defun org-journal-find-location ()
-  (org-journal-new-entry t)
-  (goto-char (point-min)))
-
 (with-eval-after-load 'org
   (setq org-capture-templates
         (append
-         '(("m" "Memo" entry (file org-memo-file) " %? \n")
-           ("j" "Journal entry" entry (function org-journal-find-location)
-                               "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))
+         '(("m" "Memo" entry (file org-memo-file) " %? \n"))
          my/org-roam-programming-capture-templates))
   (keymap-global-set "C-c c" #'org-capture))
 #+end_src
@@ -888,6 +882,7 @@ SPEC is:
 (require 'org-journal)
 (setq org-journal-file-type 'weekly)
 (setq org-journal-file-format "%Y%m%d.org")
+(keymap-global-set "C-c j" #'org-journal-new-entry)
 #+end_src
 **** org-roam (基本設定)
 #+begin_src emacs-lisp
