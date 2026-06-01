@@ -182,6 +182,31 @@ vim.api.nvim_create_autocmd("FileType", {
 
 local flake_path = 'builtins.getFlake "/Users/kei/dotfiles"'
 
+vim.lsp.config("nixd", {
+	cmd = { "nixd" },
+	filetypes = { "nix" },
+	settings = {
+		nixd = {
+			formatting = {
+				command = { "nixfmt-rfc-style" },
+			},
+			options = {
+				nixpkgs = {
+					expr = string.format("import (%s).inputs.nixpkgs { }", flake_path),
+				},
+				nixos = {
+					expr = string.format("(%s).homeConfigurations.myHomeConfig.options", flake_path),
+				},
+				home_manager = {
+					expr = string.format(
+						"(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []",
+						flake_path
+					),
+				},
+			},
+		},
+	},
+})
 vim.lsp.config("lua_ls", {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
@@ -260,32 +285,6 @@ vim.lsp.config("docker-language-server", {
 		"docker-bake.hcl",
 		"docker-bake.override.json",
 		"docker-bake.override.hcl",
-	},
-})
-
-vim.lsp.config("nixd", {
-	cmd = { "nixd" },
-	filetypes = { "nix" },
-	settings = {
-		nixd = {
-			formatting = {
-				command = { "nixfmt-rfc-style" },
-			},
-			options = {
-				nixpkgs = {
-					expr = string.format("import (%s).inputs.nixpkgs { }", flake_path),
-				},
-				nixos = {
-					expr = string.format("(%s).homeConfigurations.myHomeConfig.options", flake_path),
-				},
-				home_manager = {
-					expr = string.format(
-						"(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []",
-						flake_path
-					),
-				},
-			},
-		},
 	},
 })
 

@@ -5,25 +5,18 @@
 }: let
   sonicTemplateDir = toString ./nvim/template;
 in {
-  imports = [nixvim.homeModules.nixvim];
+  imports = [
+    nixvim.homeModules.nixvim
+    ./plugins.nix
+  ];
 
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
 
     extraPlugins = with pkgs.vimPlugins; [
-      mini-nvim
-      catppuccin-nvim
+      # catppuccin-nvim
       denops-vim
-      vim-repeat
-      nvim-lastplace
-      hlchunk-nvim
-      nvim-treesitter
-      nvim-treesitter-context
-      toggleterm-nvim
-      nvim-lspconfig
-      conform-nvim
-      nvim-web-devicons
       incline-nvim
     ];
 
@@ -38,5 +31,6 @@ in {
     '';
 
     extraConfigLua = builtins.readFile ./nixvim/init.lua;
+    colorschemes.catppuccin-nvim.enable = true;
   };
 }

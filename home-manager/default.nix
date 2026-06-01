@@ -52,7 +52,7 @@
       ;
   };
   fish-config = import ./fish {inherit pkgs sources;};
-  neovim-config = import ./neovim {inherit pkgs sources config home-manager nixvim;};
+  nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
 
   utils = import ./utils.nix {inherit pkgs;};
@@ -89,7 +89,7 @@ in {
     fish-config
     emacs-config
     git-config
-    neovim-config
+    nixvim-config
   ];
 
   programs.home-manager.enable = true;
