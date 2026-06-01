@@ -24,7 +24,6 @@ in {
       nvim-lspconfig
       conform-nvim
       nvim-web-devicons
-      vimtex
       incline-nvim
     ];
 

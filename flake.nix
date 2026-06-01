@@ -41,7 +41,6 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    agent-skills.url = "github:Kyure-A/agent-skills-nix";
   };
 
   outputs = inputs @ {
@@ -57,7 +56,6 @@
     llm-agents,
     arto,
     nixos-wsl,
-    agent-skills,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -65,7 +63,6 @@
       nixosSystem = "x86_64-linux";
       username = "kei";
       homeModules = [
-        agent-skills.homeManagerModules.default
         ./home-manager/default.nix
       ];
       darwinSpecialArgs = {

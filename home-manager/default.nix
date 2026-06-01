@@ -132,9 +132,4 @@ in {
       '';
     };
   };
-
-  programs.agent-skills = {
-    enable = true;
-    targets.copilot.enable = true;
-  };
 }

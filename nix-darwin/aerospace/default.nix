@@ -56,6 +56,30 @@ in {
             alt-w = "workspace w";
             alt-n = "workspace n";
             alt-g = "workspace g";
+            alt-shift-e = [
+              "move-node-to-workspace e"
+              "workspace e"
+            ];
+            alt-shift-c = [
+              "move-node-to-workspace c"
+              "workspace c"
+            ];
+            alt-shift-s = [
+              "move-node-to-workspace s"
+              "workspace s"
+            ];
+            alt-shift-w = [
+              "move-node-to-workspace w"
+              "workspace w"
+            ];
+            alt-shift-n = [
+              "move-node-to-workspace n"
+              "workspace n"
+            ];
+            alt-shift-g = [
+              "move-node-to-workspace g"
+              "workspace g"
+            ];
             alt-shift-1 = [
               "move-node-to-workspace 1"
               "workspace 1"
@@ -97,7 +121,7 @@ in {
               "workspace 10"
             ];
 
-            alt-r = "mode resize";
+            # alt-r = "mode resize";
 
             # Emacs Scratchpad Toggle (like NixOS Mod+I)
             # alt-i = "exec-and-forget ${emacsScratchpadToggle}";

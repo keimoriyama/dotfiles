@@ -13,6 +13,7 @@
     pname = "yatex";
     version = "0.0.1";
     src = sources.emacs-yatex.src;
+    patches = [./yatexlib.diff];
     ignoreCompilationError = true;
   };
   yaml-mode = epkgs.melpaBuild {

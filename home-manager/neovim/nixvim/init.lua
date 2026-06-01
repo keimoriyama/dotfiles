@@ -641,14 +641,14 @@ pcall(function()
 	})
 end)
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "tex", "bib" },
-	callback = function()
-		if vim.fn.exists("*vimtex#complete#omnifunc") == 1 then
-			vim.opt_local.completefunc = "vimtex#complete#omnifunc"
-		end
-	end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = { "tex", "bib" },
+-- 	callback = function()
+-- 		if vim.fn.exists("*vimtex#complete#omnifunc") == 1 then
+-- 			vim.opt_local.completefunc = "vimtex#complete#omnifunc"
+-- 		end
+-- 	end,
+-- })
 
 local ok_skel = pcall(require, "skkeleton")
 if ok_skel then
