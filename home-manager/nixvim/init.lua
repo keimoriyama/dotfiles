@@ -180,196 +180,196 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-local flake_path = 'builtins.getFlake "/Users/kei/dotfiles"'
+-- local flake_path = 'builtins.getFlake "/Users/kei/dotfiles"'
+--
+-- vim.lsp.config("nixd", {
+-- 	cmd = { "nixd" },
+-- 	filetypes = { "nix" },
+-- 	settings = {
+-- 		nixd = {
+-- 			formatting = {
+-- 				command = { "nixfmt-rfc-style" },
+-- 			},
+-- 			options = {
+-- 				nixpkgs = {
+-- 					expr = string.format("import (%s).inputs.nixpkgs { }", flake_path),
+-- 				},
+-- 				nixos = {
+-- 					expr = string.format("(%s).homeConfigurations.myHomeConfig.options", flake_path),
+-- 				},
+-- 				home_manager = {
+-- 					expr = string.format(
+-- 						"(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []",
+-- 						flake_path
+-- 					),
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- })
+-- vim.lsp.config("lua_ls", {
+-- 	cmd = { "lua-language-server" },
+-- 	filetypes = { "lua" },
+-- 	settings = {
+-- 		Lua = {
+-- 			diagnostics = {
+-- 				globals = { "vim", "hs", "wez" },
+-- 			},
+-- 			semantic = { enable = false },
+-- 		},
+-- 	},
+-- })
+--
+-- vim.lsp.config("pyright", {
+-- 	root_markers = { ".venv" },
+-- 	settings = {
+-- 		pyright = {
+-- 			disableOrganizeImports = true,
+-- 		},
+-- 		python = {
+-- 			analysis = {
+-- 				ignore = { "*" },
+-- 			},
+-- 			venvPath = ".",
+-- 			pythonPath = "./.venv/bin/python",
+-- 		},
+-- 	},
+-- })
+--
+-- vim.lsp.config("denols", {
+-- 	root_markers = { "deno.json" },
+-- 	filetypes = { "typescript" },
+-- 	init_options = {
+-- 		lint = true,
+-- 		unstable = false,
+-- 		suggest = {
+-- 			imports = {
+-- 				hosts = {
+-- 					["https://deno.land"] = true,
+-- 					["https://cdn.nest.land"] = true,
+-- 					["https://crux.land"] = true,
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- })
+--
+-- vim.lsp.config("ts_ls", {
+-- 	filetypes = { "typescript" },
+-- 	root_markers = { "package.json" },
+-- })
+--
+-- vim.lsp.config("tinymist", {
+-- 	cmd = { "tinymist" },
+-- 	filetypes = { "typst" },
+-- 	single_file_support = true,
+-- })
+--
+-- vim.lsp.config("docker-language-server", {
+-- 	cmd = { "docker-language-server", "start", "--stdio" },
+-- 	filetypes = { "dockerfile", "yaml.docker-compose" },
+-- 	get_language_id = function(_, ftype)
+-- 		if ftype == "yaml.docker-compose" or ftype:lower():find("ya?ml") then
+-- 			return "dockercompose"
+-- 		else
+-- 			return ftype
+-- 		end
+-- 	end,
+-- 	root_markers = {
+-- 		"Dockerfile",
+-- 		"docker-compose.yaml",
+-- 		"docker-compose.yml",
+-- 		"compose.yaml",
+-- 		"compose.yml",
+-- 		"docker-bake.json",
+-- 		"docker-bake.hcl",
+-- 		"docker-bake.override.json",
+-- 		"docker-bake.override.hcl",
+-- 	},
+-- })
+--
+-- vim.lsp.enable({
+-- 	"lua_ls",
+-- 	"ruff",
+-- 	"ty",
+-- 	"denols",
+-- 	"ts_ls",
+-- 	"rust_analyzer",
+-- 	"copilot",
+-- 	"nixd",
+-- 	"texlab",
+-- 	"tinymist",
+-- 	"docker-language-server",
+-- 	"yamlls",
+-- 	"hls",
+-- })
+--
+-- vim.diagnostic.config({
+-- 	virtual_text = true,
+-- })
+--
+-- vim.lsp.inline_completion.enable(true)
+--
+-- vim.api.nvim_create_autocmd("LspAttach", {
+-- 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+-- 	callback = function(ev)
+-- 		local opt = { noremap = true, silent = true, buffer = ev.buf }
+-- 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
+-- 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
+-- 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
+-- 		vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
+-- 		vim.keymap.set("n", "H", vim.lsp.buf.hover, opt)
+-- 		vim.keymap.set("n", "K", vim.lsp.buf.type_definition, opt)
+-- 		vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
+-- 		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opt)
+-- 		vim.keymap.set("n", "<Leader>bf", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", opt)
+-- 		vim.keymap.set("n", "<Leader>ic", vim.lsp.buf.incoming_calls, opt)
+-- 		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
+-- 		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
+-- 		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { noremap = true, silent = true })
+-- 		vim.keymap.set("i", "<c-cr>", "<cmd>lua vim.lsp.inline_completion.get()<cr>", { silent = true })
+--
+-- 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+-- 		if client and client.server_capabilities.documentHighlightProvider then
+-- 			vim.api.nvim_command("set updatetime=100")
+-- 			vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+-- 			vim.api.nvim_clear_autocmds({
+-- 				buffer = ev.buf,
+-- 				group = "lsp_document_highlight",
+-- 			})
+-- 			vim.api.nvim_create_autocmd("CursorHold", {
+-- 				callback = vim.lsp.buf.document_highlight,
+-- 				buffer = ev.buf,
+-- 				group = "lsp_document_highlight",
+-- 				desc = "Document Highlight",
+-- 			})
+-- 			vim.api.nvim_create_autocmd("CursorMoved", {
+-- 				callback = vim.lsp.buf.clear_references,
+-- 				buffer = ev.buf,
+-- 				group = "lsp_document_highlight",
+-- 				desc = "Clear All the References",
+-- 			})
+-- 		end
+-- 	end,
+-- })
 
-vim.lsp.config("nixd", {
-	cmd = { "nixd" },
-	filetypes = { "nix" },
-	settings = {
-		nixd = {
-			formatting = {
-				command = { "nixfmt-rfc-style" },
-			},
-			options = {
-				nixpkgs = {
-					expr = string.format("import (%s).inputs.nixpkgs { }", flake_path),
-				},
-				nixos = {
-					expr = string.format("(%s).homeConfigurations.myHomeConfig.options", flake_path),
-				},
-				home_manager = {
-					expr = string.format(
-						"(%s).homeConfigurations.myHomeConfig.options.home-manager.users.type.getSubOptions []",
-						flake_path
-					),
-				},
-			},
-		},
-	},
-})
-vim.lsp.config("lua_ls", {
-	cmd = { "lua-language-server" },
-	filetypes = { "lua" },
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim", "hs", "wez" },
-			},
-			semantic = { enable = false },
-		},
-	},
-})
-
-vim.lsp.config("pyright", {
-	root_markers = { ".venv" },
-	settings = {
-		pyright = {
-			disableOrganizeImports = true,
-		},
-		python = {
-			analysis = {
-				ignore = { "*" },
-			},
-			venvPath = ".",
-			pythonPath = "./.venv/bin/python",
-		},
-	},
-})
-
-vim.lsp.config("denols", {
-	root_markers = { "deno.json" },
-	filetypes = { "typescript" },
-	init_options = {
-		lint = true,
-		unstable = false,
-		suggest = {
-			imports = {
-				hosts = {
-					["https://deno.land"] = true,
-					["https://cdn.nest.land"] = true,
-					["https://crux.land"] = true,
-				},
-			},
-		},
-	},
-})
-
-vim.lsp.config("ts_ls", {
-	filetypes = { "typescript" },
-	root_markers = { "package.json" },
-})
-
-vim.lsp.config("tinymist", {
-	cmd = { "tinymist" },
-	filetypes = { "typst" },
-	single_file_support = true,
-})
-
-vim.lsp.config("docker-language-server", {
-	cmd = { "docker-language-server", "start", "--stdio" },
-	filetypes = { "dockerfile", "yaml.docker-compose" },
-	get_language_id = function(_, ftype)
-		if ftype == "yaml.docker-compose" or ftype:lower():find("ya?ml") then
-			return "dockercompose"
-		else
-			return ftype
-		end
-	end,
-	root_markers = {
-		"Dockerfile",
-		"docker-compose.yaml",
-		"docker-compose.yml",
-		"compose.yaml",
-		"compose.yml",
-		"docker-bake.json",
-		"docker-bake.hcl",
-		"docker-bake.override.json",
-		"docker-bake.override.hcl",
-	},
-})
-
-vim.lsp.enable({
-	"lua_ls",
-	"ruff",
-	"ty",
-	"denols",
-	"ts_ls",
-	"rust_analyzer",
-	"copilot",
-	"nixd",
-	"texlab",
-	"tinymist",
-	"docker-language-server",
-	"yamlls",
-	"hls",
-})
-
-vim.diagnostic.config({
-	virtual_text = true,
-})
-
-vim.lsp.inline_completion.enable(true)
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-	callback = function(ev)
-		local opt = { noremap = true, silent = true, buffer = ev.buf }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
-		vim.keymap.set("n", "H", vim.lsp.buf.hover, opt)
-		vim.keymap.set("n", "K", vim.lsp.buf.type_definition, opt)
-		vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opt)
-		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opt)
-		vim.keymap.set("n", "<Leader>bf", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", opt)
-		vim.keymap.set("n", "<Leader>ic", vim.lsp.buf.incoming_calls, opt)
-		vim.keymap.set("n", "[e", vim.diagnostic.goto_next, opt)
-		vim.keymap.set("n", "]e", vim.diagnostic.goto_prev, opt)
-		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { noremap = true, silent = true })
-		vim.keymap.set("i", "<c-cr>", "<cmd>lua vim.lsp.inline_completion.get()<cr>", { silent = true })
-
-		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		if client and client.server_capabilities.documentHighlightProvider then
-			vim.api.nvim_command("set updatetime=100")
-			vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-			vim.api.nvim_clear_autocmds({
-				buffer = ev.buf,
-				group = "lsp_document_highlight",
-			})
-			vim.api.nvim_create_autocmd("CursorHold", {
-				callback = vim.lsp.buf.document_highlight,
-				buffer = ev.buf,
-				group = "lsp_document_highlight",
-				desc = "Document Highlight",
-			})
-			vim.api.nvim_create_autocmd("CursorMoved", {
-				callback = vim.lsp.buf.clear_references,
-				buffer = ev.buf,
-				group = "lsp_document_highlight",
-				desc = "Clear All the References",
-			})
-		end
-	end,
-})
-
-pcall(function()
-	require("conform").setup({
-		log_level = vim.log.levels.DEBUG,
-		formatters_by_ft = {
-			lua = { "stylua" },
-			nix = { "alejandra" },
-			python = { "ruff", "ruff_organize_imports", "ruff_format", "ruff_lint" },
-			rust = { "rustfmt", lsp_format = "fallback" },
-			javascript = { "prettierd", "prettier", stop_after_first = true },
-		},
-		format_on_save = {
-			timeout_ms = 500,
-			lsp_format = "fallback",
-		},
-	})
-end)
-
+-- pcall(function()
+-- 	require("conform").setup({
+-- 		log_level = vim.log.levels.DEBUG,
+-- 		formatters_by_ft = {
+-- 			lua = { "stylua" },
+-- 			nix = { "alejandra" },
+-- 			python = { "ruff", "ruff_organize_imports", "ruff_format", "ruff_lint" },
+-- 			rust = { "rustfmt", lsp_format = "fallback" },
+-- 			javascript = { "prettierd", "prettier", stop_after_first = true },
+-- 		},
+-- 		format_on_save = {
+-- 			timeout_ms = 500,
+-- 			lsp_format = "fallback",
+-- 		},
+-- 	})
+-- end)
+--
 local pick = require("mini.pick")
 local extra = require("mini.extra")
 local files = require("mini.files")

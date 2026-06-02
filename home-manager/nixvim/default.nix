@@ -4,10 +4,13 @@
   ...
 }: let
   sonicTemplateDir = toString ./nvim/template;
+  plugins = import ./plugins.nix {inherit pkgs;};
+lsp = import ./plugins/lsp {inherit pkgs;};
 in {
   imports = [
     nixvim.homeModules.nixvim
-    ./plugins.nix
+    plugins
+lsp
   ];
 
   programs.nixvim = {
@@ -30,7 +33,7 @@ in {
       vim.g.typst_pdf_viewer = "tdf"
     '';
 
-    extraConfigLua = builtins.readFile ./nixvim/init.lua;
-    colorschemes.catppuccin-nvim.enable = true;
+    extraConfigLua = builtins.readFile ./init.lua;
+    colorschemes.catppuccin.enable = true;
   };
 }

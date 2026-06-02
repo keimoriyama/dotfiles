@@ -1,13 +1,9 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
-  plugins = {
+{pkgs, ...}: {
+  programs.nixvim.plugins = {
     lsp = {
       enable = true;
-      inlayHints.enable = true;
-      inline_completion.enable = true;
+      inlayHints = true;
+      # inline_completion.enable = true;
       servers = {
         nixd = {
           enable = true;
@@ -65,8 +61,6 @@
         };
         tinymist = {
           enable = true;
-          cmd = "tinymist";
-          filetypes = ["typst"];
         };
         docker-language-server = {
           enable = true;
@@ -86,25 +80,30 @@
         };
         ruff.enable = true;
         ty.enable = true;
-        rust_analyzer.enable = true;
-        copilot.enable = true;
-        hls.enable = true;
+        rust_analyzer = {
+          enable = true;
+          installRustc = false;
+          installCargo = false;
+        };
+        hls = {
+          enable = true;
+          installGhc = false;
+        };
       };
       keymaps = {
         silent = true;
         diagnostic = {
-          "[e" = "goto_prev";
-          "]e" = "goto_next";
+          "[e" = {action = "goto_prev";};
+          "]e" = {action = "goto_next";};
         };
         lspBuf = {
-          "gD" = "declaration";
-          "gd" = "goto_definition";
-          "gi" = "goto_implementation";
-          "gr" = "references";
-          "H" = "hover";
-          "K" = "hover";
-          "<leader>D" = "type_definition";
-          "<leader>rn" = "rename";
+          "gD" = {action = "declaration";};
+          "gd" = {action = "definition";};
+          "gi" = {action = "implementation";};
+          "gr" = {action = "references";};
+          "H" = {action = "hover";};
+          "<leader>D" = {action = "type_definition";};
+          "<leader>rn" = {action = "rename";};
         };
       };
     };
