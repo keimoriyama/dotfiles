@@ -5,12 +5,16 @@
 }: let
   sonicTemplateDir = toString ./nvim/template;
   plugins = import ./plugins.nix {inherit pkgs;};
-lsp = import ./plugins/lsp {inherit pkgs;};
+  lsp = import ./plugins/lsp {inherit pkgs;};
+  keymap = import ./keymap.nix;
+  option = import ./option.nix {inherit pkgs;};
 in {
   imports = [
     nixvim.homeModules.nixvim
     plugins
-lsp
+    lsp
+    keymap
+    option
   ];
 
   programs.nixvim = {
@@ -33,7 +37,7 @@ lsp
       vim.g.typst_pdf_viewer = "tdf"
     '';
 
-    extraConfigLua = builtins.readFile ./init.lua;
+    # extraConfigLua = builtins.readFile ./init.lua;
     colorschemes.catppuccin.enable = true;
   };
 }

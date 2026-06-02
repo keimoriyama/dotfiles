@@ -1,57 +1,7 @@
 vim.g.mapleader = ";"
 
-vim.opt.fileencodings = "utf-8,iso-2022-jp,euc-jp,sjis"
-vim.opt.relativenumber = true
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-vim.opt.laststatus = 0
-vim.opt.statusline = "─"
-vim.opt.wildmenu = false
-vim.opt.modeline = false
-vim.opt.autoindent = true
-vim.opt.autoread = true
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.cmd("syntax enable")
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.modifiable = true
-vim.opt.clipboard = vim.fn.has("mac") == 1 and "unnamedplus,unnamed" or "unnamedplus"
-vim.opt.splitright = true
-vim.opt.cmdheight = 0
-vim.opt.scrolloff = 0
-vim.opt.cursorline = true
-vim.opt.cursorcolumn = true
-vim.opt.mouse = ""
-
-local opts = { noremap = true, silent = true }
-
-local function has_plug_mapping(name, mode)
-	return vim.fn.maparg(name, mode or "n") ~= ""
-end
-
-local function exit_buffer()
-	if vim.api.nvim_buf_get_name(0) == "" then
-		vim.api.nvim_command("q")
-	else
-		vim.api.nvim_command("wq")
-	end
-end
-
-vim.api.nvim_set_keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
-vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", opts)
-vim.keymap.set("n", "<Leader>q", function()
-	exit_buffer()
-end, opts)
-vim.api.nvim_set_keymap("n", "<Leader>Q", ":q!<CR>", opts)
-vim.api.nvim_set_keymap("n", "+", "<C-a>", opts)
-vim.api.nvim_set_keymap("n", "-", "<C-x>", opts)
-vim.api.nvim_set_keymap("v", "<Leader>cw", "g<C-G>", opts)
-vim.api.nvim_set_keymap("n", "<C-x>2", "<C-w>s", opts)
-vim.api.nvim_set_keymap("n", "<C-x>3", "<C-w>v", opts)
-vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 
 vim.api.nvim_create_autocmd("BufLeave", {
 	callback = function()
@@ -162,23 +112,23 @@ require("mini.completion").setup({
 	},
 })
 
-local treesitter = require("nvim-treesitter")
-treesitter.setup({
-	install_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "site"),
-})
-
-local installed_parser = { "nix", "c", "lua", "vim", "vimdoc", "python", "toml", "json", "latex", "typst" }
-treesitter.install(installed_parser, {})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = installed_parser,
-	callback = function()
-		vim.treesitter.start()
-		vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-		vim.o.foldmethod = "expr"
-	end,
-})
+-- local treesitter = require("nvim-treesitter")
+-- treesitter.setup({
+-- 	install_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "site"),
+-- })
+--
+-- local installed_parser = { "nix", "c", "lua", "vim", "vimdoc", "python", "toml", "json", "latex", "typst" }
+-- treesitter.install(installed_parser, {})
+--
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = installed_parser,
+-- 	callback = function()
+-- 		vim.treesitter.start()
+-- 		vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- 		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+-- 		vim.o.foldmethod = "expr"
+-- 	end,
+-- })
 
 -- local flake_path = 'builtins.getFlake "/Users/kei/dotfiles"'
 --
@@ -372,208 +322,48 @@ vim.api.nvim_create_autocmd("FileType", {
 --
 local pick = require("mini.pick")
 local extra = require("mini.extra")
-local files = require("mini.files")
 
 pick.setup({})
 extra.setup({})
 vim.ui.select = pick.ui_select
 
-local function buffer_lines(query)
-	if query ~= nil and query ~= "" then
-		vim.schedule(function()
-			if pick.is_picker_active() then
-				pick.set_picker_query({ query })
-			end
-		end)
-	end
-	extra.pickers.buf_lines({ scope = "current", preserve_order = false })
-end
-
-vim.keymap.set("n", "<Leader>ff", function()
-	pick.builtin.files()
-end, opts)
-vim.keymap.set("n", "<leader>h", function()
-	pick.builtin.help()
-end, opts)
-vim.keymap.set("n", "<leader>fr", function()
-	pick.builtin.grep_live()
-end, opts)
-vim.keymap.set("n", "<leader>lr", function()
-	extra.pickers.lsp({ scope = "references" })
-end, opts)
-vim.keymap.set("n", "<leader>ld", function()
-	extra.pickers.diagnostic({ scope = "current" })
-end, opts)
-vim.keymap.set("n", "<leader>ls", function()
-	extra.pickers.lsp({ scope = "document_symbol" })
-end, opts)
-vim.keymap.set("n", "<leader>ic", function()
-	vim.lsp.buf.incoming_calls()
-end, opts)
-vim.keymap.set("n", "<leader>oc", function()
-	vim.lsp.buf.outgoing_calls()
-end, opts)
-vim.keymap.set("n", "<Leader>sb", function()
-	pick.builtin.buffers()
-end, opts)
-vim.keymap.set("n", "/", function()
-	buffer_lines()
-end, opts)
-vim.keymap.set("n", "*", function()
-	buffer_lines(vim.fn.expand("<cword>"))
-end, opts)
-vim.keymap.set("n", "<leader>k", function()
-	extra.pickers.keymaps()
-end, opts)
-vim.keymap.set("n", "<leader>dp", "<cmd>DepsUpdate<cr>", opts)
-vim.keymap.set("n", "n", function()
-	pick.builtin.resume()
-end, opts)
-vim.keymap.set("n", "<leader>e", function()
-	extra.pickers.diagnostic({ scope = "current" })
-end, opts)
-vim.keymap.set("n", "<leader>sf", function()
-	local path = vim.api.nvim_buf_get_name(0)
-	if path == "" then
-		path = nil
-	end
-	files.open(path)
-end, opts)
-
-vim.cmd.colorscheme("catppuccin-latte")
+-- vim.cmd.colorscheme("catppuccin-latte")
 
 pcall(function()
 	require("nvim-lastplace").setup()
 end)
-pcall(function()
-	require("hlchunk").setup({
-		chunk = { enable = true },
-		indent = { enable = true },
-		line_num = { enable = true },
-		blank = { enable = true },
-	})
-end)
-pcall(function()
-	require("treesitter-context").setup({
-		enable = true,
-		min_window_height = 20,
-	})
-end)
+-- pcall(function()
+-- 	require("hlchunk").setup({
+-- 		chunk = { enable = true },
+-- 		indent = { enable = true },
+-- 		line_num = { enable = true },
+-- 		blank = { enable = true },
+-- 	})
+-- end)
+-- pcall(function()
+-- 	require("treesitter-context").setup({
+-- 		enable = true,
+-- 		min_window_height = 20,
+-- 	})
+-- end)
 pcall(function()
 	require("nvim_context_vt").setup({ min_rows = 5 })
 end)
-pcall(function()
-	require("toggleterm").setup({
-		size = 100,
-		open_mapping = [[<c-t>]],
-		hide_numbers = true,
-		shade_filetypes = {},
-		shade_terminals = true,
-		shading_factor = 2,
-		start_in_insert = true,
-		insert_mappings = true,
-		persist_size = true,
-		direction = "float",
-		close_on_exit = true,
-	})
-end)
-
-if has_plug_mapping("<Plug>(gf-improved-gf)") then
-	vim.keymap.set({ "n", "x" }, "<leader>gf", "<Plug>(gf-improved-gf)", { remap = true })
-	vim.keymap.set({ "n", "x" }, "<leader>gF", "<Plug>(gf-improved-gF)", { remap = true })
-end
-
-if has_plug_mapping("<Plug>(dmacro-play-macro)") then
-	vim.keymap.set({ "i", "n" }, "<C-d>", "<Plug>(dmacro-play-macro)<CR>", { remap = true })
-end
-vim.keymap.set("i", "<C-g>", "copilot#Accept()", { expr = true, silent = true })
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "toml", "markdown" },
-	callback = function()
-		vim.keymap.set("n", "<C-p>", function()
-			local ok, clipping = pcall(require, "nvim-treesitter-clipping")
-			if ok then
-				clipping.clip()
-			end
-		end, { buffer = true })
-
-		vim.keymap.set("n", "Q", function()
-			vim.cmd("w")
-			if vim.fn.exists(":ParteditEnd") == 2 then
-				vim.cmd("ParteditEnd")
-			end
-		end, { buffer = true })
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "gin-diff", "gin-log", "gin-status" },
-	callback = function()
-		if vim.fn.exists(":Gin") ~= 2 then
-			return
-		end
-
-		local keymap = vim.keymap.set
-		local fopts = { buffer = true, noremap = true }
-		keymap("n", "c", "<Cmd>Gin commit<Cr>", fopts)
-		keymap("n", "s", "<Cmd>GinStatus<Cr>", fopts)
-		keymap("n", "L", "<Cmd>GinLog --graph --oneline<Cr>", fopts)
-		keymap("n", "d", "<Cmd>GinDiff --cached<Cr>", fopts)
-		keymap("n", "q", "<Cmd>bdelete<Cr>", fopts)
-		keymap("n", "p", [[<Cmd>lua vim.notify("Gin push")<Cr><Cmd>Gin push<Cr>]], fopts)
-		keymap("n", "P", [[<Cmd>lua vim.notify("Gin pull")<Cr><Cmd>Gin pull<Cr>]], fopts)
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "gin-status",
-	callback = function()
-		if vim.fn.exists(":Gin") ~= 2 then
-			return
-		end
-
-		local keymap = vim.keymap.set
-		local fopts = { buffer = true, noremap = true }
-		keymap("n", "h", "<Plug>(gin-action-stage)", fopts)
-		keymap("n", "a", "<Plug>(gin-action-add)", fopts)
-		keymap("n", "l", "<Plug>(gin-action-unstage)", fopts)
-	end,
-})
-
-local ok_dial, dial_map = pcall(require, "dial.map")
-if ok_dial then
-	vim.keymap.set("n", "<C-a>", function()
-		dial_map.manipulate("increment", "normal")
-	end)
-	vim.keymap.set("n", "<C-x>", function()
-		dial_map.manipulate("decrement", "normal")
-	end)
-	vim.keymap.set("n", "g<C-a>", function()
-		dial_map.manipulate("increment", "gnormal")
-	end)
-	vim.keymap.set("n", "g<C-x>", function()
-		dial_map.manipulate("decrement", "gnormal")
-	end)
-	vim.keymap.set("x", "<C-a>", function()
-		dial_map.manipulate("increment", "visual")
-	end)
-	vim.keymap.set("x", "<C-x>", function()
-		dial_map.manipulate("decrement", "visual")
-	end)
-	vim.keymap.set("x", "g<C-a>", function()
-		dial_map.manipulate("increment", "gvisual")
-	end)
-	vim.keymap.set("x", "g<C-x>", function()
-		dial_map.manipulate("decrement", "gvisual")
-	end)
-end
-
-if has_plug_mapping("<Plug>(smartword-w)") then
-	vim.keymap.set("n", "w", "<Plug>(smartword-w)", { remap = true })
-	vim.keymap.set("n", "b", "<Plug>(smartword-b)", { remap = true })
-	vim.keymap.set("n", "e", "<Plug>(smartword-e)", { remap = true })
-end
+-- pcall(function()
+-- 	require("toggleterm").setup({
+-- 		size = 100,
+-- 		open_mapping = [[<c-t>]],
+-- 		hide_numbers = true,
+-- 		shade_filetypes = {},
+-- 		shade_terminals = true,
+-- 		shading_factor = 2,
+-- 		start_in_insert = true,
+-- 		insert_mappings = true,
+-- 		persist_size = true,
+-- 		direction = "float",
+-- 		close_on_exit = true,
+-- 	})
+-- end)
 
 vim.g.expand_region_text_objects = {
 	["iw"] = 0,
@@ -651,9 +441,6 @@ end)
 
 local ok_skel = pcall(require, "skkeleton")
 if ok_skel then
-	vim.keymap.set({ "i", "c" }, "<C-j>", "<Plug>(skkeleton-enable)", { remap = true })
-	vim.keymap.set({ "i", "c" }, "<C-l>", "<Plug>(skkeleton-disable)", { remap = true })
-
 	local userDict = "~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8"
 	vim.fn["skkeleton#azik#add_table"]("us")
 	vim.fn["skkeleton#register_keymap"]("henkan", "X", "")
