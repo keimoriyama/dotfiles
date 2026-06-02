@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   programs.nixvim = {
     keymaps = [
       {
@@ -326,7 +326,5 @@
         };
       }
     ];
-
-    extraConfigLua = builtins.readFile ./keymap.lua;
   };
 }

@@ -1,6 +1,10 @@
 {pkgs, ...}: {
   programs.nixvim.plugins = {
-    mini.enable = true;
+    mini = {
+      enable = true;
+      settings = {
+      };
+    };
     repeat.enable = true;
     # lspconfig.enable = true;
     no-neck-pain.enable = true;

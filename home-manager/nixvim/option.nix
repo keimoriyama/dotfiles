@@ -22,7 +22,7 @@
         then "unnamedplus,unnamed"
         else "unnamedplus";
       splitright = true;
-      cmdheight = 0;
+      # cmdheight = 0;
       scrolloff = 0;
       cursorline = true;
       cursorcolumn = true;

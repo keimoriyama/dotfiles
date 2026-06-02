@@ -37,7 +37,7 @@ in {
       vim.g.typst_pdf_viewer = "tdf"
     '';
 
-    # extraConfigLua = builtins.readFile ./init.lua;
+    extraConfigLua = builtins.readFile ./init.lua;
     colorschemes.catppuccin.enable = true;
   };
 }

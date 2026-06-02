@@ -3,7 +3,7 @@
     lsp = {
       enable = true;
       inlayHints = true;
-      # inline_completion.enable = true;
+      inline_completion.enable = true;
       servers = {
         nixd = {
           enable = true;
@@ -107,5 +107,6 @@
         };
       };
     };
+    extraConfig = builtins.readFile ./extraConfig.lua;
   };
 }

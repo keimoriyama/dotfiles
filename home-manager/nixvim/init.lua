@@ -396,39 +396,39 @@ vim.g.silicon_options = {
 	theme = "Solarized (dark)",
 }
 
-pcall(function()
-	require("incline").setup({
-		render = function(props)
-			local buffullname = vim.api.nvim_buf_get_name(props.buf)
-			local bufname_t = vim.fn.fnamemodify(buffullname, ":t")
-			local bufname = (bufname_t and bufname_t ~= "") and bufname_t or "[No Name]"
-			local devicon = { " " }
-			local success, nvim_web_devicons = pcall(require, "nvim-web-devicons")
-			if success then
-				local bufname_r = vim.fn.fnamemodify(buffullname, ":r")
-				local bufname_e = vim.fn.fnamemodify(buffullname, ":e")
-				local base = (bufname_r and bufname_r ~= "") and bufname_r or bufname
-				local ext = (bufname_e and bufname_e ~= "") and bufname_e or vim.fn.fnamemodify(base, ":t")
-				local ic, hl = nvim_web_devicons.get_icon(base, ext, { default = true })
-				devicon = { ic, " ", group = hl }
-			end
-			local modified_icon = {}
-			if vim.api.nvim_get_option_value("modified", { buf = props.buf }) then
-				modified_icon = vim.tbl_extend("force", { "● " }, { guifg = "#968c81" })
-			end
-			local linenr = vim.api.nvim_win_get_cursor(0)[1]
-			return {
-				"l:" .. linenr,
-				" ",
-				devicon,
-				" ",
-				bufname,
-				" ",
-				modified_icon,
-			}
-		end,
-	})
-end)
+-- pcall(function()
+-- 	require("incline").setup({
+-- 		render = function(props)
+-- 			local buffullname = vim.api.nvim_buf_get_name(props.buf)
+-- 			local bufname_t = vim.fn.fnamemodify(buffullname, ":t")
+-- 			local bufname = (bufname_t and bufname_t ~= "") and bufname_t or "[No Name]"
+-- 			local devicon = { " " }
+-- 			local success, nvim_web_devicons = pcall(require, "nvim-web-devicons")
+-- 			if success then
+-- 				local bufname_r = vim.fn.fnamemodify(buffullname, ":r")
+-- 				local bufname_e = vim.fn.fnamemodify(buffullname, ":e")
+-- 				local base = (bufname_r and bufname_r ~= "") and bufname_r or bufname
+-- 				local ext = (bufname_e and bufname_e ~= "") and bufname_e or vim.fn.fnamemodify(base, ":t")
+-- 				local ic, hl = nvim_web_devicons.get_icon(base, ext, { default = true })
+-- 				devicon = { ic, " ", group = hl }
+-- 			end
+-- 			local modified_icon = {}
+-- 			if vim.api.nvim_get_option_value("modified", { buf = props.buf }) then
+-- 				modified_icon = vim.tbl_extend("force", { "● " }, { guifg = "#968c81" })
+-- 			end
+-- 			local linenr = vim.api.nvim_win_get_cursor(0)[1]
+-- 			return {
+-- 				"l:" .. linenr,
+-- 				" ",
+-- 				devicon,
+-- 				" ",
+-- 				bufname,
+-- 				" ",
+-- 				modified_icon,
+-- 			}
+-- 		end,
+-- 	})
+-- end)
 
 -- vim.api.nvim_create_autocmd("FileType", {
 -- 	pattern = { "tex", "bib" },
