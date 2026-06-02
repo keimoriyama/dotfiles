@@ -1,116 +1,68 @@
-vim.g.mapleader = ";"
-
 vim.cmd("filetype plugin indent on")
 vim.cmd("syntax enable")
-
-vim.api.nvim_create_autocmd("BufLeave", {
-	callback = function()
-		if vim.bo.modified then
-			vim.cmd("update")
-		end
-	end,
-})
-
-local cursor_palette = {
-	normal = "#dc8a78",
-	insert = "#40a02b",
-	visual = "#df8e1d",
-	replace = "#d20f39",
-	command = "#1e66f5",
-	terminal = "#8839ef",
-}
-
-local function cursor_mode(mode)
-	if mode:match("^i") then
-		return "insert"
-	elseif mode == "V" or mode == "\22" or mode:match("^v") or mode:match("^s") or mode == "S" then
-		return "visual"
-	elseif mode:match("^R") or mode:match("^r") then
-		return "replace"
-	elseif mode:match("^c") then
-		return "command"
-	elseif mode:match("^t") then
-		return "terminal"
-	end
-
-	return "normal"
-end
-
-local function apply_cursor_color()
-	local color = cursor_palette[cursor_mode(vim.api.nvim_get_mode().mode)] or cursor_palette.normal
-	vim.api.nvim_set_hl(0, "Cursor", { fg = "#eff1f5", bg = color })
-	vim.api.nvim_set_hl(0, "TermCursor", { fg = "#eff1f5", bg = color })
-end
-
-vim.api.nvim_create_autocmd({ "ModeChanged", "ColorScheme", "VimEnter" }, {
-	group = vim.api.nvim_create_augroup("cursor_mode_color", { clear = true }),
-	callback = apply_cursor_color,
-})
-
-apply_cursor_color()
 
 local MiniIcons = require("mini.icons")
 MiniIcons.setup({})
 MiniIcons.tweak_lsp_kind()
 MiniIcons.mock_nvim_web_devicons()
 
-require("mini.comment").setup()
-require("mini.pairs").setup()
-require("mini.surround").setup()
-require("mini.ai").setup()
-require("mini.jump").setup()
-require("mini.diff").setup({
-	view = {
-		style = vim.go.number and "number" or "sign",
-	},
-})
-require("mini.git").setup()
-require("mini.tabline").setup()
-require("mini.bracketed").setup()
+-- require("mini.comment").setup()
+-- require("mini.pairs").setup()
+-- require("mini.surround").setup()
+-- require("mini.ai").setup()
+-- require("mini.jump").setup()
+-- require("mini.diff").setup({
+-- 	view = {
+-- 		style = vim.go.number and "number" or "sign",
+-- 	},
+-- })
+-- require("mini.git").setup()
+-- require("mini.tabline").setup()
+-- require("mini.bracketed").setup()
+--
+-- local miniclue = require("mini.clue")
+-- miniclue.setup({
+-- 	triggers = {
+-- 		{ mode = { "n", "x" }, keys = "<Leader>" },
+-- 		{ mode = "n", keys = "[" },
+-- 		{ mode = "n", keys = "]" },
+-- 		{ mode = "i", keys = "<C-x>" },
+-- 		{ mode = { "n", "x" }, keys = "g" },
+-- 		{ mode = { "n", "x" }, keys = "'" },
+-- 		{ mode = { "n", "x" }, keys = "`" },
+-- 		{ mode = { "n", "x" }, keys = '"' },
+-- 		{ mode = { "i", "c" }, keys = "<C-r>" },
+-- 		{ mode = "n", keys = "<C-w>" },
+-- 		{ mode = { "n", "x" }, keys = "z" },
+-- 	},
+-- 	clues = {
+-- 		miniclue.gen_clues.square_brackets(),
+-- 		miniclue.gen_clues.builtin_completion(),
+-- 		miniclue.gen_clues.g(),
+-- 		miniclue.gen_clues.marks(),
+-- 		miniclue.gen_clues.registers(),
+-- 		miniclue.gen_clues.windows(),
+-- 		miniclue.gen_clues.z(),
+-- 	},
+-- })
+--
+-- local MiniHipatterns = require("mini.hipatterns")
+-- MiniHipatterns.setup({
+-- 	highlighters = {
+-- 		fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+-- 		hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+-- 		todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+-- 		note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+-- 		hex_color = MiniHipatterns.gen_highlighter.hex_color(),
+-- 	},
+-- })
 
-local miniclue = require("mini.clue")
-miniclue.setup({
-	triggers = {
-		{ mode = { "n", "x" }, keys = "<Leader>" },
-		{ mode = "n", keys = "[" },
-		{ mode = "n", keys = "]" },
-		{ mode = "i", keys = "<C-x>" },
-		{ mode = { "n", "x" }, keys = "g" },
-		{ mode = { "n", "x" }, keys = "'" },
-		{ mode = { "n", "x" }, keys = "`" },
-		{ mode = { "n", "x" }, keys = '"' },
-		{ mode = { "i", "c" }, keys = "<C-r>" },
-		{ mode = "n", keys = "<C-w>" },
-		{ mode = { "n", "x" }, keys = "z" },
-	},
-	clues = {
-		miniclue.gen_clues.square_brackets(),
-		miniclue.gen_clues.builtin_completion(),
-		miniclue.gen_clues.g(),
-		miniclue.gen_clues.marks(),
-		miniclue.gen_clues.registers(),
-		miniclue.gen_clues.windows(),
-		miniclue.gen_clues.z(),
-	},
-})
-
-local MiniHipatterns = require("mini.hipatterns")
-MiniHipatterns.setup({
-	highlighters = {
-		fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-		hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
-		todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
-		note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-		hex_color = MiniHipatterns.gen_highlighter.hex_color(),
-	},
-})
-
-require("mini.completion").setup({
-	lsp_completion = {
-		source_func = "omnifunc",
-		auto_setup = true,
-	},
-})
+-- require("mini.completion").setup({
+-- 	lsp_completion = {
+-- 		source_func = "omnifunc",
+-- 		auto_setup = true,
+-- 	},
+-- })
 
 -- local treesitter = require("nvim-treesitter")
 -- treesitter.setup({
@@ -329,9 +281,9 @@ vim.ui.select = pick.ui_select
 
 -- vim.cmd.colorscheme("catppuccin-latte")
 
-pcall(function()
-	require("nvim-lastplace").setup()
-end)
+-- pcall(function()
+-- 	require("nvim-lastplace").setup()
+-- end)
 -- pcall(function()
 -- 	require("hlchunk").setup({
 -- 		chunk = { enable = true },
@@ -346,9 +298,9 @@ end)
 -- 		min_window_height = 20,
 -- 	})
 -- end)
-pcall(function()
-	require("nvim_context_vt").setup({ min_rows = 5 })
-end)
+-- pcall(function()
+-- 	require("nvim_context_vt").setup({ min_rows = 5 })
+-- end)
 -- pcall(function()
 -- 	require("toggleterm").setup({
 -- 		size = 100,
