@@ -1,10 +1,10 @@
-vim.cmd("filetype plugin indent on")
-vim.cmd("syntax enable")
+-- vim.cmd("filetype plugin indent on")
+-- vim.cmd("syntax enable")
 
-local MiniIcons = require("mini.icons")
-MiniIcons.setup({})
-MiniIcons.tweak_lsp_kind()
-MiniIcons.mock_nvim_web_devicons()
+-- local MiniIcons = require("mini.icons")
+-- MiniIcons.setup({})
+-- MiniIcons.tweak_lsp_kind()
+-- MiniIcons.mock_nvim_web_devicons()
 
 -- require("mini.comment").setup()
 -- require("mini.pairs").setup()
@@ -272,12 +272,12 @@ MiniIcons.mock_nvim_web_devicons()
 -- 	})
 -- end)
 --
-local pick = require("mini.pick")
-local extra = require("mini.extra")
-
-pick.setup({})
-extra.setup({})
-vim.ui.select = pick.ui_select
+-- local pick = require("mini.pick")
+-- local extra = require("mini.extra")
+--
+-- pick.setup({})
+-- extra.setup({})
+-- vim.ui.select = pick.ui_select
 
 -- vim.cmd.colorscheme("catppuccin-latte")
 
@@ -317,36 +317,36 @@ vim.ui.select = pick.ui_select
 -- 	})
 -- end)
 
-vim.g.expand_region_text_objects = {
-	["iw"] = 0,
-	["iW"] = 0,
-	['i"'] = 0,
-	["ia"] = 0,
-	["i)"] = 1,
-	["il"] = 1,
-	["if"] = 1,
-	["af"] = 1,
-	["it"] = 1,
-	["ie"] = 0,
-}
-
-vim.g.silicon_options = {
-	font = "Cica",
-	no_line_number = false,
-	no_round_corner = true,
-	no_window_controls = true,
-	background_color = "#aaaaff",
-	line_offset = 1,
-	line_pad = 2,
-	pad_horiz = 80,
-	pad_vert = 100,
-	shadow_blur_radius = 0,
-	shadow_color = "#555555",
-	shadow_offset_x = 0,
-	shadow_offset_y = 0,
-	tab_width = 4,
-	theme = "Solarized (dark)",
-}
+-- vim.g.expand_region_text_objects = {
+-- 	["iw"] = 0,
+-- 	["iW"] = 0,
+-- 	['i"'] = 0,
+-- 	["ia"] = 0,
+-- 	["i)"] = 1,
+-- 	["il"] = 1,
+-- 	["if"] = 1,
+-- 	["af"] = 1,
+-- 	["it"] = 1,
+-- 	["ie"] = 0,
+-- }
+--
+-- vim.g.silicon_options = {
+-- 	font = "Cica",
+-- 	no_line_number = false,
+-- 	no_round_corner = true,
+-- 	no_window_controls = true,
+-- 	background_color = "#aaaaff",
+-- 	line_offset = 1,
+-- 	line_pad = 2,
+-- 	pad_horiz = 80,
+-- 	pad_vert = 100,
+-- 	shadow_blur_radius = 0,
+-- 	shadow_color = "#555555",
+-- 	shadow_offset_x = 0,
+-- 	shadow_offset_y = 0,
+-- 	tab_width = 4,
+-- 	theme = "Solarized (dark)",
+-- }
 
 -- pcall(function()
 -- 	require("incline").setup({
@@ -414,7 +414,7 @@ if ok_skel then
 	})
 end
 
-local ok_ctx_vt, context_vt = pcall(require, "nvim_context_vt")
-if ok_ctx_vt then
-	context_vt.setup({ min_rows = 5 })
-end
+-- local ok_ctx_vt, context_vt = pcall(require, "nvim_context_vt")
+-- if ok_ctx_vt then
+-- 	context_vt.setup({ min_rows = 5 })
+-- end
