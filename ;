@@ -1,13 +1,8 @@
 {pkgs, ...}: {
   programs.nixvim.plugins = {
-    lz-n.enable = true;
-
     mini = {
       callSetup = true;
       enable = true;
-      lazyLoad.settings.event = "VimEnter";
-      mock_nvim_web_devicons = true;
-      # mockDevIcons = true;
       modules = {
         diff = {
           style = "vim.go.number and \"number\" or \"sign\"";
@@ -113,14 +108,10 @@
       };
     };
     repeat.enable = true;
-    no-neck-pain = {
-      enable = true;
-      lazyLoad.settings.cmd = "NoNeckPain";
-    };
+    no-neck-pain.enable = true;
 
     conform-nvim = {
       enable = true;
-      lazyLoad.settings.event = "VimEnter";
       settings = {
         formatters_by_ft = {
           lua = ["stylua"];
@@ -146,19 +137,19 @@
 
     toggleterm = {
       lazyLoad.settings = {
+        cmd = "ToggleTerm";
         keys = [
-          "<C-t>"
+          "<leader>tg"
         ];
       };
       enable = true;
       settings = {
+        open_mapping = "<leader>tg";
         direction = "float";
-        open_mapping = "[[<c-t>]]";
       };
     };
 
     treesitter = {
-      lazyLoad.settings.cmd = "VimEnter";
       enable = true;
       highlight.enable = true;
       indent.enable = true;
@@ -166,7 +157,6 @@
     };
 
     treesitter-context = {
-      lazyLoad.settings.cmd = "VimEnter";
       enable = true;
       settings = {
         min_window_height = 20;

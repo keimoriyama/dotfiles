@@ -138,7 +138,13 @@
         };
 
         homeConfigurations.myHomeConfig = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {system = darwinSystem;};
+          pkgs = import nixpkgs {
+            system = darwinSystem;
+            config.allowUnfreePredicate = pkg:
+              builtins.elem (nixpkgs.lib.getName pkg) [
+                "copilot-language-server"
+              ];
+          };
           extraSpecialArgs = darwinSpecialArgs;
           modules = homeModules;
         };

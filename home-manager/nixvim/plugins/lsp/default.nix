@@ -33,15 +33,58 @@
         };
         pyright = {
           enable = true;
-          root_markers = ["pyproject.toml" "setup.py"];
-          settings = {
-            pyright = {
-              disableOrganizeImports = true;
-            };
-            python = {
-              analysis.ignore = ["**/venv/**" "**/.venv/**" "**/env/**" "**/.env/**"];
-              venvPath = ".";
-              pythonPath = ".venv/bin/python";
+          rootMarkers = ["pyproject.toml" "setup.py"];
+          onAttach.function = ''
+            local disabled_capabilities = {
+              "callHierarchyProvider",
+              "codeActionProvider",
+              "codeLensProvider",
+              "colorProvider",
+              "declarationProvider",
+              "definitionProvider",
+              "diagnosticProvider",
+              "documentFormattingProvider",
+              "documentHighlightProvider",
+              "documentLinkProvider",
+              "documentOnTypeFormattingProvider",
+              "documentRangeFormattingProvider",
+              "documentSymbolProvider",
+              "executeCommandProvider",
+              "foldingRangeProvider",
+              "hoverProvider",
+              "implementationProvider",
+              "inlayHintProvider",
+              "monikerProvider",
+              "referencesProvider",
+              "renameProvider",
+              "selectionRangeProvider",
+              "semanticTokensProvider",
+              "signatureHelpProvider",
+              "typeDefinitionProvider",
+              "typeHierarchyProvider",
+              "workspaceSymbolProvider",
+            }
+
+            for _, capability in ipairs(disabled_capabilities) do
+              client.server_capabilities[capability] = false
+            end
+          '';
+          extraOptions = {
+            settings = {
+              pyright = {
+                disableOrganizeImports = true;
+              };
+              python = {
+                analysis = {
+                  autoImportCompletions = true;
+                  diagnosticMode = "openFilesOnly";
+                  exclude = ["**"];
+                  ignore = ["*"];
+                  typeCheckingMode = "off";
+                };
+                venvPath = ".";
+                pythonPath = ".venv/bin/python";
+              };
             };
           };
         };
@@ -88,6 +131,10 @@
         hls = {
           enable = true;
           installGhc = false;
+        };
+        copilot = {
+          enable = true;
+          package = pkgs.copilot-language-server;
         };
       };
       keymaps = {

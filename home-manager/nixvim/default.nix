@@ -21,6 +21,7 @@ in {
     enable = true;
     defaultEditor = true;
 
+    lasyLoad.enable = true;
     extraPlugins = with pkgs.vimPlugins; [
       # catppuccin-nvim
       denops-vim

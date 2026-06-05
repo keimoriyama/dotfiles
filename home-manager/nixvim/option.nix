@@ -5,7 +5,7 @@
       relativenumber = true;
       hlsearch = true;
       incsearch = true;
-      laststatus = 0;
+      # laststatus = 0;
       statusline = "─";
       wildmenu = false;
       modeline = false;

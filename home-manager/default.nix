@@ -94,7 +94,7 @@ in {
 
   programs.home-manager.enable = true;
   home = {
-    stateVersion = "25.11";
+    stateVersion = "26.05";
     username = username;
     homeDirectory = pkgs.lib.mkDefault (
       if pkgs.stdenv.isDarwin
@@ -113,7 +113,7 @@ in {
       ++ gui
       ++ llm-agent-pkgs
       ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
-        pkgs.zoom-us
+        # pkgs.zoom-us
       ]
       ++ darwin;
     file =
