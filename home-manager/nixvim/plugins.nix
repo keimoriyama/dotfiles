@@ -110,6 +110,8 @@
         notify = {};
         statusline = {use_icons = true;};
         trailspace = {};
+        snippets = {};
+        pairs = {};
       };
     };
     repeat.enable = true;

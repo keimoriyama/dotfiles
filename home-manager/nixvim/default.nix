@@ -23,9 +23,7 @@ in {
 
     lasyLoad.enable = true;
     extraPlugins = with pkgs.vimPlugins; [
-      # catppuccin-nvim
       denops-vim
-      incline-nvim
     ];
 
     extraConfigLuaPre = ''
