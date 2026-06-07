@@ -87,6 +87,11 @@ fetch.github="high-moctane/mocword"
 src.github="wachikun/yaskkserv2"
 fetch.github="wachikun/yaskkserv2"
 
+[skkeleton]
+src.git="https://github.com/vim-skk/skkeleton.git"
+src.branch="main"
+fetch.github="vim-skk/skkeleton"
+
 [cargo-compete]
 src.github='qryxip/cargo-compete'
 fetch.github="qryxip/cargo-compete"

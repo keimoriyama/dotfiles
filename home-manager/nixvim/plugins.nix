@@ -112,6 +112,8 @@
         trailspace = {};
         snippets = {};
         pairs = {};
+        surround = {};
+        jump = {};
       };
     };
     repeat.enable = true;

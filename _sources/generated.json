@@ -377,6 +377,27 @@
         },
         "version": "096316545837ca70498023486390f74f6b7c8fd3"
     },
+    "skkeleton": {
+        "cargoLock": null,
+        "date": "2026-05-05",
+        "extract": null,
+        "name": "skkeleton",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "vim-skk",
+            "repo": "skkeleton",
+            "rev": "770b265dd115dba96ea5314642e35764654ef08f",
+            "sha256": "sha256-Gsl/LqUY8szRqYLnDVyDOIDCw+cisoKsS5Fl1zQ+unM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "770b265dd115dba96ea5314642e35764654ef08f"
+    },
     "yaskkserv2": {
         "cargoLock": null,
         "date": null,

@@ -221,6 +221,18 @@
     };
     date = "2022-05-02";
   };
+  skkeleton = {
+    pname = "skkeleton";
+    version = "770b265dd115dba96ea5314642e35764654ef08f";
+    src = fetchFromGitHub {
+      owner = "vim-skk";
+      repo = "skkeleton";
+      rev = "770b265dd115dba96ea5314642e35764654ef08f";
+      fetchSubmodules = false;
+      sha256 = "sha256-Gsl/LqUY8szRqYLnDVyDOIDCw+cisoKsS5Fl1zQ+unM=";
+    };
+    date = "2026-05-05";
+  };
   yaskkserv2 = {
     pname = "yaskkserv2";
     version = "0.1.7";

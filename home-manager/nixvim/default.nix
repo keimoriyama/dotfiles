@@ -1,5 +1,6 @@
 {
   pkgs,
+  sources,
   nixvim,
   ...
 }: let
@@ -8,6 +9,10 @@
   lsp = import ./plugins/lsp {inherit pkgs;};
   # keymapconfig = import ./keymapconfig.nix {};
   option = import ./option.nix {inherit pkgs;};
+  skkeleton = pkgs.vimUtils.buildVimPlugin {
+    pname = "skkeleton";
+    inherit (sources.skkeleton) version src;
+  };
 in {
   imports = [
     nixvim.homeModules.nixvim
@@ -22,9 +27,13 @@ in {
     defaultEditor = true;
 
     lasyLoad.enable = true;
-    extraPlugins = with pkgs.vimPlugins; [
-      denops-vim
-    ];
+    extraPlugins =
+      (with pkgs.vimPlugins; [
+        denops-vim
+      ])
+      ++ [
+        skkeleton
+      ];
 
     extraConfigLuaPre = ''
       vim.loader.enable()
