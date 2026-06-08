@@ -12,7 +12,6 @@ in
     all-the-icons
     nerd-icons
     nerd-icons-completion
-    solarized-theme
     catppuccin-theme
     volatile-highlights
     projectile
@@ -21,7 +20,6 @@ in
     free-keys
     bufferlo
     puni
-    spaceline
     which-key
     exec-path-from-shell
     ddskk
@@ -35,7 +33,6 @@ in
     ellama
     yasnippet
     consult-yasnippet
-    yasnippet-capf
     oj
     dashboard
     htmlize
@@ -47,7 +44,6 @@ in
     packages.instant-maximized-window
     packages.nano-modeline
     centered-cursor-mode
-    pdf-tools
     packages.arto
 
     # completion
@@ -70,10 +66,10 @@ in
     magit
 
     # langs
-    # auctex
-    # packages.yatex
-    # ebib
-    # packages.typst-ts-mode
+    auctex
+    packages.yatex
+    ebib
+    packages.typst-ts-mode
     # python-mode
     # pet
     # nix-mode
@@ -96,11 +92,11 @@ in
     # web-mode
 
     # ai
-    copilot
-    ellama
-    llm
-    copilot-chat
-    agent-shell
+    # copilot
+    # ellama
+    # llm
+    # copilot-chat
+    # agent-shell
 
     # lsp
     # lsp-bridge

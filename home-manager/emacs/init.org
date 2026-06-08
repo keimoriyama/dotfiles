@@ -2081,42 +2081,42 @@ org-mycal-export
 
 ** llm
 #+begin_src emacs-lisp
-(require 'llm)
-(require 'llm-ollama)
-(with-eval-after-load 'llm
-  (setopt llm-warn-on-nonfree nil))
+;; (require 'llm)
+;; (require 'llm-ollama)
+;; (with-eval-after-load 'llm
+;;   (setopt llm-warn-on-nonfree nil))
 #+end_src
 
 ** ellama
 #+begin_src emacs-lisp
-(require 'ellama)
-(require 'ellama-transient)
-(keymap-global-set "C-c e" #'ellama-transient-main-menu)
+;; (require 'ellama)
+;; (require 'ellama-transient)
+;; (keymap-global-set "C-c e" #'ellama-transient-main-menu)
 
-(with-eval-after-load 'ellama
-  (setopt ellama-language "日本語")
-  (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
-        (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
-        (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
-    (setopt ellama-provider gemma2)
-    (setopt ellama-translation-provider gemma2)
-    (setopt ellama-summarization-provider llama3)
-    (setopt ellama-coding-provider codellama)
-    (setopt ellama-providers
-            `(("gemma2" . ,gemma2)
-              ("codellama" . ,codellama)
-              ("llama3" . ,llama3)))))
+;; (with-eval-after-load 'ellama
+;;   (setopt ellama-language "日本語")
+;;   (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
+;;         (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
+;;         (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
+;;     (setopt ellama-provider gemma2)
+;;     (setopt ellama-translation-provider gemma2)
+;;     (setopt ellama-summarization-provider llama3)
+;;     (setopt ellama-coding-provider codellama)
+;;     (setopt ellama-providers
+;;             `(("gemma2" . ,gemma2)
+;;               ("codellama" . ,codellama)
+;;               ("llama3" . ,llama3)))))
 #+end_src
 
 ** Copilot
 #+begin_src emacs-lisp
-(setq copilot-indent-offset-warning-disable t)
+;; (setq copilot-indent-offset-warning-disable t)
 
-(require 'copilot)
-(setq copilot-idle-delay 1.0)
+;; (require 'copilot)
+;; (setq copilot-idle-delay 1.0)
 
-(add-hook 'prog-mode-hook 'copilot-mode)
-(keymap-global-set "C-<tab>" #'copilot-accept-completion)
+;; (add-hook 'prog-mode-hook 'copilot-mode)
+;; (keymap-global-set "C-<tab>" #'copilot-accept-completion)
 #+end_src
 ** copilot-chat
 #+begin_src emacs-lisp
@@ -2126,8 +2126,8 @@ org-mycal-export
 
 ** Agent Shell
 #+begin_src emacs-lisp
-(require 'acp)
-(require 'agent-shell)
+;; (require 'acp)
+;; (require 'agent-shell)
 #+end_src
 
 * インタラクティブメニュー

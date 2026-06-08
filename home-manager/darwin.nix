@@ -4,7 +4,7 @@ with pkgs; [
   brewCasks.skim
   brewCasks.docker-desktop
   brewCasks.chatgpt
-  brewCasks.ollama-app
+  # brewCasks.ollama-app
   # brewCasks.alt-tab
   brewCasks.codex-app
   brewCasks.notion-calendar
