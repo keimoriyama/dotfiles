@@ -171,23 +171,6 @@
       highlight.enable = true;
       indent.enable = true;
       luaConfig.content = pkgs.lib.mkForce "";
-      grammarPackages = with pkgs.plugins.treesitter.package.builtGrammars; [
-        bash
-        python
-        rust
-        haskell
-        json
-        lua
-        make
-        markdown
-        nix
-        regex
-        toml
-        vim
-        vimdoc
-        xml
-        yaml
-      ];
     };
 
     treesitter-context = {
