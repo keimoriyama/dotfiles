@@ -16,8 +16,8 @@ in {
       ".emacs.d/early-init.el".text = tangle (builtins.readFile ./early-init.org);
       ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
     };
-    packages = with pkgs; [
-      emacs-lsp-booster
-    ];
+    # packages = with pkgs; [
+    #   emacs-lsp-booster
+    # ];
   };
 }

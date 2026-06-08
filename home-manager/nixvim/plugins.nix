@@ -110,7 +110,11 @@
         notify = {};
         statusline = {use_icons = true;};
         trailspace = {};
-        snippets = {};
+        snippets = {
+          mappings = {
+            expand = "<C-k>";
+          };
+        };
         pairs = {};
         surround = {};
         jump = {};

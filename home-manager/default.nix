@@ -43,14 +43,14 @@
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
-  emacs-config = import ./emacs {
-    inherit
-      pkgs
-      emacsPkgs
-      org-babel
-      sources
-      ;
-  };
+  # emacs-config = import ./emacs {
+  #   inherit
+  #     pkgs
+  #     emacsPkgs
+  #     org-babel
+  #     sources
+  #     ;
+  # };
   fish-config = import ./fish {inherit pkgs sources;};
   nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
@@ -87,7 +87,7 @@ in {
   imports = [
     wezterm-config
     fish-config
-    emacs-config
+    # emacs-config
     git-config
     nixvim-config
   ];
