@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-src = {
       url = "github:vim/vim";
       flake = false;
@@ -51,7 +50,6 @@
     emacs-overlay,
     nixvim,
     org-babel,
-    neovim-nightly-overlay,
     brew-nix,
     llm-agents,
     arto,
@@ -72,7 +70,6 @@
           emacs-overlay
           nixvim
           org-babel
-          neovim-nightly-overlay
           username
           brew-nix
           llm-agents
@@ -89,7 +86,6 @@
           emacs-overlay
           nixvim
           org-babel
-          neovim-nightly-overlay
           username
           brew-nix
           llm-agents
@@ -109,7 +105,7 @@
             set -e
             echo "Updating nix-darwin and home-manager..."
             sudo env HOME="$HOME" USER="$USER" LOGNAME="$LOGNAME" \
-              nix run nix-darwin -- switch --flake ${self.outPath}#kei-darwin
+              nix run nix-darwin -- switch --flake ${self.outPath}#my-config
             echo "update complete"
           '');
         };
@@ -118,7 +114,7 @@
       };
 
       flake = {
-        darwinConfigurations.kei-darwin = nix-darwin.lib.darwinSystem {
+        darwinConfigurations.my-config = nix-darwin.lib.darwinSystem {
           system = darwinSystem;
           specialArgs = darwinSpecialArgs;
           modules = [
@@ -149,7 +145,7 @@
           modules = homeModules;
         };
 
-        nixosConfigurations.nixos-wsl = nixpkgs.lib.nixosSystem {
+        nixosConfigurations.my-config = nixpkgs.lib.nixosSystem {
           system = nixosSystem;
           specialArgs = nixosSpecialArgs;
           modules = [

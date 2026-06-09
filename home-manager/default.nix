@@ -6,7 +6,6 @@
   nixvim,
   org-babel,
   system,
-  neovim-nightly-overlay,
   username,
   brew-nix,
   llm-agents,
@@ -21,7 +20,6 @@
     };
     overlays = import ./overlay/default.nix {
       inherit emacs-overlay;
-      inherit neovim-nightly-overlay;
       inherit brew-nix;
     };
   };
@@ -43,14 +41,14 @@
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
-  # emacs-config = import ./emacs {
-  #   inherit
-  #     pkgs
-  #     emacsPkgs
-  #     org-babel
-  #     sources
-  #     ;
-  # };
+  emacs-config = import ./emacs {
+    inherit
+      pkgs
+      emacsPkgs
+      org-babel
+      sources
+      ;
+  };
   fish-config = import ./fish {inherit pkgs sources;};
   nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
@@ -87,7 +85,7 @@ in {
   imports = [
     wezterm-config
     fish-config
-    # emacs-config
+    emacs-config
     git-config
     nixvim-config
   ];
@@ -112,9 +110,6 @@ in {
       ++ langs
       ++ gui
       ++ llm-agent-pkgs
-      ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
-        # pkgs.zoom-us
-      ]
       ++ darwin;
     file =
       {
