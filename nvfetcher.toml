@@ -92,6 +92,11 @@ src.git="https://github.com/vim-skk/skkeleton.git"
 src.branch="main"
 fetch.github="vim-skk/skkeleton"
 
+[skkeleton-azik-kanatable]
+src.git="https://github.com/keimoriyama/skkeleton-azik-kanatable.git"
+src.branch="main"
+fetch.github="keimoriyama/skkeleton-azik-kanatable"
+
 [cargo-compete]
 src.github='qryxip/cargo-compete'
 fetch.github="qryxip/cargo-compete"

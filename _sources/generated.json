@@ -398,6 +398,27 @@
         },
         "version": "770b265dd115dba96ea5314642e35764654ef08f"
     },
+    "skkeleton-azik-kanatable": {
+        "cargoLock": null,
+        "date": "2026-06-09",
+        "extract": null,
+        "name": "skkeleton-azik-kanatable",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "keimoriyama",
+            "repo": "skkeleton-azik-kanatable",
+            "rev": "84346af3e5f8eeb69935ecac38c0398ee0bb89dd",
+            "sha256": "sha256-z5OtC/5TatRcW/wy5ehuL0/DHUtUiI3SI6E0HLFi6Lk=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "84346af3e5f8eeb69935ecac38c0398ee0bb89dd"
+    },
     "yaskkserv2": {
         "cargoLock": null,
         "date": null,

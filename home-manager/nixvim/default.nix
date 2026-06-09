@@ -13,6 +13,10 @@
     pname = "skkeleton";
     inherit (sources.skkeleton) version src;
   };
+  skkeleton-azik-kanatable = pkgs.vimUtils.buildVimPlugin {
+    pname = "skkeleton-azik-kanatable";
+    inherit (sources.skkeleton-azik-kanatable) version src;
+  };
 in {
   imports = [
     nixvim.homeModules.nixvim
@@ -33,6 +37,7 @@ in {
       ])
       ++ [
         skkeleton
+        skkeleton-azik-kanatable
       ];
 
     extraConfigLuaPre = ''

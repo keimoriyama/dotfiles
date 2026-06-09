@@ -233,6 +233,18 @@
     };
     date = "2026-05-05";
   };
+  skkeleton-azik-kanatable = {
+    pname = "skkeleton-azik-kanatable";
+    version = "84346af3e5f8eeb69935ecac38c0398ee0bb89dd";
+    src = fetchFromGitHub {
+      owner = "keimoriyama";
+      repo = "skkeleton-azik-kanatable";
+      rev = "84346af3e5f8eeb69935ecac38c0398ee0bb89dd";
+      fetchSubmodules = false;
+      sha256 = "sha256-z5OtC/5TatRcW/wy5ehuL0/DHUtUiI3SI6E0HLFi6Lk=";
+    };
+    date = "2026-06-09";
+  };
   yaskkserv2 = {
     pname = "yaskkserv2";
     version = "0.1.7";

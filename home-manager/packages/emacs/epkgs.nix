@@ -84,6 +84,7 @@ in
     # cargo
     # ssh-config-mode
     # toml-mode
+
     # yaml-mode
     # python-pytest
     # fish-mode
@@ -104,10 +105,10 @@ in
     # lsp-ui
     # consult-lsp
     # # dap-mode
-    # flycheck
-    # flycheck-posframe
+    flycheck
+    flycheck-posframe
+    highlight-indent-guides
     # flycheck-rust
-    # highlight-indent-guides
     # lsp-latex
     # lsp-pyright
     # lsp-haskell

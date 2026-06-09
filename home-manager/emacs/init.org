@@ -1895,7 +1895,7 @@ org-mycal-export
 
 *** haskell-mode
 #+begin_src emacs-lisp
-(;; require 'haskell-mode)
+;; (require 'haskell-mode)
 ;; (require 'inf-haskell)
 ;; (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
@@ -1929,69 +1929,69 @@ org-mycal-export
 ** Typst
 *** typst-ts-mode
 #+begin_src emacs-lisp
-(require 'typst-ts-mode)
-(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
+;; (require 'typst-ts-mode)
+;; (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
 
-(major-mode-hydra-define typst-ts-mode
-  (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-  ("menu"
-   (("c" typst-ts-compile "compile")
-    ("p" typst-ts-preview "preview"))))
+;; (major-mode-hydra-define typst-ts-mode
+;;   (:title "Typst" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;   ("menu"
+;;    (("c" typst-ts-compile "compile")
+;;     ("p" typst-ts-preview "preview"))))
 
-(reformatter-define typst-typstyle
-  :program "typstyle"
-  :stdin nil
-  :args `(,input-file)
-  :input-file (reformatter-temp-file-in-current-directory "typ"))
+;; (reformatter-define typst-typstyle
+;;   :program "typstyle"
+;;   :stdin nil
+;;   :args `(,input-file)
+;;   :input-file (reformatter-temp-file-in-current-directory "typ"))
 ;;(add-hook 'typst-ts-mode-hook #'typst-typstyle-on-save-mode)
 #+end_src
 
 ** LaTeX
 *** yatex
 #+begin_src emacs-lisp
-(require 'yatex)
-(add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.sty$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
-(add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
+;; (require 'yatex)
+;; (add-to-list 'auto-mode-alist '("\\.tex$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ltx$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.cls$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.sty$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.clo$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.bbl$" . yatex-mode))
+;; (add-to-list 'auto-mode-alist '("\\.bib$" . yatex-mode))
 
-(add-hook 'yatex-mode-hook #'yas-minor-mode)
+;; (add-hook 'yatex-mode-hook #'yas-minor-mode)
 
-(with-eval-after-load 'yatex
-  (setopt YaTeX-inhibit-prefix-letter  t)
-  (setopt tex-command  "platex -kanji=utf8")
-  (setopt YaTeX-dvi2-command-ext-alist
-     '(("Skim" . ".pdf")))
-  (setopt dvi2-command "open -a Skim")
-  (setopt tex-pdfview-command "open -a Skim")
-  (major-mode-hydra-define yatex-mode
-     (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("reftex"
-    (("r" reftex-citation "references")
-     ("t" reftex-toc "toc"))
-    "yatex"
-    (("m" YaTeX-typeset-menu "typeset")
-     ("b" YaTeX-make-begin-end "begin env")
-     ("s" YaTeX-make-section "section env")))))
+;; (with-eval-after-load 'yatex
+;;   (setopt YaTeX-inhibit-prefix-letter  t)
+;;   (setopt tex-command  "platex -kanji=utf8")
+;;   (setopt YaTeX-dvi2-command-ext-alist
+;;      '(("Skim" . ".pdf")))
+;;   (setopt dvi2-command "open -a Skim")
+;;   (setopt tex-pdfview-command "open -a Skim")
+;;   (major-mode-hydra-define yatex-mode
+;;      (:title "Yatex" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
+;;    ("reftex"
+;;     (("r" reftex-citation "references")
+;;      ("t" reftex-toc "toc"))
+;;     "yatex"
+;;     (("m" YaTeX-typeset-menu "typeset")
+;;      ("b" YaTeX-make-begin-end "begin env")
+;;      ("s" YaTeX-make-section "section env")))))
 #+end_src
 
 *** flyspell
 #+begin_src emacs-lisp
-(require 'flyspell)
-(add-hook 'yatex-mode-hook #'flyspell-mode)
+;; (require 'flyspell)
+;; (add-hook 'yatex-mode-hook #'flyspell-mode)
 #+end_src
 *** reftex
 #+begin_src emacs-lisp
-(require 'reftex)
-(add-to-list 'yatex-mode-hook #'reftex-mode)
-(add-hook 'reftex-mode-hook '(lambda()
-                               (setq reftex-default-bibliography
-                                     (let ((root (projectile-project-root)))
-                                       (when root
-                                         (directory-files-recursively root "\\.bib$"))))))
+;; (require 'reftex)
+;; (add-to-list 'yatex-mode-hook #'reftex-mode)
+;; (add-hook 'reftex-mode-hook '(lambda()
+;;                                (setq reftex-default-bibliography
+;;                                      (let ((root (projectile-project-root)))
+;;                                        (when root
+;;                                          (directory-files-recursively root "\\.bib$"))))))
 #+end_src
 
 * 日本語入力
