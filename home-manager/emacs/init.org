@@ -287,17 +287,7 @@
   (setopt projectile-sort-order 'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
   (add-to-list 'projectile-known-projects
-               "~/Documents/org-mode/")
-  (add-to-list 'projectile-known-projects
-               "~/dotfiles/")
-  (dolist
-      (dir
-       (add-prefix-to-list "~/ghq/" (split-string
-                                     (string-trim
-                                      (shell-command-to-string "ghq list"))
-                                     "\n" t)))
-    (add-to-list 'projectile-known-projects
-                 (format "%s/" dir))))
+               "~/ghq/github.com/keimoriyama/org-files/"))
 #+end_src
 
 **** bufferlo
@@ -1566,53 +1556,53 @@ org-mycal-export
 #+end_src
 ** flycheck
 #+begin_src emacs-lisp
-(require 'flycheck)
-(add-hook 'emacs-startup-hook #'global-flycheck-mode)
-(with-eval-after-load 'flycheck
-  (require 'flycheck-posframe)
-  (add-to-list 'flycheck-textlint-plugin-alist '(yatex-mode . "latex2e"))
-  (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)
-  (add-to-list 'flycheck-disabled-checkers 'org-lint))
+;; (require 'flycheck)
+;; (add-hook 'emacs-startup-hook #'global-flycheck-mode)
+;; (with-eval-after-load 'flycheck
+;;   (require 'flycheck-posframe)
+;;   (add-to-list 'flycheck-textlint-plugin-alist '(yatex-mode . "latex2e"))
+;;   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)
+;;   (add-to-list 'flycheck-disabled-checkers 'org-lint))
 #+end_src
 ** highlight-indent-guides
 #+begin_src emacs-lisp
-(require 'highlight-indent-guides)
-(add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
+;; (require 'highlight-indent-guides)
+;; (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
 ** ターミナル
 *** kuro
 #+begin_src emacs-lisp
-(add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp/core/")
-(require 'kuro)
+;; (add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp/core/")
+;; (require 'kuro)
 #+end_src
 * プログラミング言語
 ** Treesitter
 *** parser config
 #+begin_src emacs-lisp
-(setq treesit-language-source-alist
-      '((bibtex "https://github.com/latex-lsp/tree-sitter-bibtex" "master" "src")
-        (csv "https://github.com/tree-sitter-grammars/tree-sitter-csv" "master" "csv/src")
-        (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-        (fish "https://github.com/ram02z/tree-sitter-fish")
-        (gitignore "https://github.com/shunsambongi/tree-sitter-gitignore")
-        (haskell "https://github.com/tree-sitter/tree-sitter-haskell" "master" "src")
-        ;;(latex "https://github.com/latex-lsp/tree-sitter-latex" "master" "src")
-        (nix "https://github.com/nix-community/tree-sitter-nix")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (rust "https://github.com/tree-sitter/tree-sitter-rust")
-        (typst "https://github.com/uben0/tree-sitter-typst" "master" "src")))
-;; Treesitがインストールされてない場合は自動でインストールする
-;; エラーを無視して続行
-(dolist (element treesit-language-source-alist)
-  (let* ((lang (car element)))
-    (if (treesit-language-available-p lang)
-        (message "treesit: %s is already installed" lang)
-      (message "treesit: %s is not installed, attempting install..." lang)
-      (treesit-install-language-grammar lang))))
-(setq treesit-font-lock-level 4)
+;; (setq treesit-language-source-alist
+;;       '((bibtex "https://github.com/latex-lsp/tree-sitter-bibtex" "master" "src")
+;;         (csv "https://github.com/tree-sitter-grammars/tree-sitter-csv" "master" "csv/src")
+;;         (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+;;         (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+;;         (fish "https://github.com/ram02z/tree-sitter-fish")
+;;         (gitignore "https://github.com/shunsambongi/tree-sitter-gitignore")
+;;         (haskell "https://github.com/tree-sitter/tree-sitter-haskell" "master" "src")
+;;         ;;(latex "https://github.com/latex-lsp/tree-sitter-latex" "master" "src")
+;;         (nix "https://github.com/nix-community/tree-sitter-nix")
+;;         (python "https://github.com/tree-sitter/tree-sitter-python")
+;;         (rust "https://github.com/tree-sitter/tree-sitter-rust")
+;;         (typst "https://github.com/uben0/tree-sitter-typst" "master" "src")))
+;; ;; Treesitがインストールされてない場合は自動でインストールする
+;; ;; エラーを無視して続行
+;; (dolist (element treesit-language-source-alist)
+;;   (let* ((lang (car element)))
+;;     (if (treesit-language-available-p lang)
+;;         (message "treesit: %s is already installed" lang)
+;;       (message "treesit: %s is not installed, attempting install..." lang)
+;;       (treesit-install-language-grammar lang))))
+;; (setq treesit-font-lock-level 4)
 
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 #+end_src
 
 *** treesitter-context

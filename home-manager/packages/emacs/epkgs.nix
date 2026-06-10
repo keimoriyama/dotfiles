@@ -66,10 +66,10 @@ in
     magit
 
     # langs
-    auctex
-    packages.yatex
-    ebib
-    packages.typst-ts-mode
+    # auctex
+    # packages.yatex
+    # ebib
+    # packages.typst-ts-mode
     # python-mode
     # pet
     # nix-mode
@@ -105,9 +105,9 @@ in
     # lsp-ui
     # consult-lsp
     # # dap-mode
-    flycheck
-    flycheck-posframe
-    highlight-indent-guides
+    # flycheck
+    # flycheck-posframe
+    # highlight-indent-guides
     # flycheck-rust
     # lsp-latex
     # lsp-pyright
