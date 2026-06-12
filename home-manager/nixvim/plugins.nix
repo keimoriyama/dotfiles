@@ -86,6 +86,10 @@
               mode = "x";
               keys = "z";
             }
+            {
+              mode = "n";
+              keys = "s";
+            }
           ];
           clues = [
             {__raw = "require(\"mini.clue\").gen_clues.square_brackets()";}
@@ -126,24 +130,6 @@
       lazyLoad.settings.cmd = "NoNeckPain";
     };
 
-    conform-nvim = {
-      enable = true;
-      lazyLoad.settings.event = "VimEnter";
-      settings = {
-        formatters_by_ft = {
-          lua = ["stylua"];
-          python = ["ruff" "ruff_organize_imports" "ruff_format" "ruff_lint"];
-          nix = ["alejandra"];
-          rust = ["rustfmt"];
-        };
-        format_on_save = {
-          lsp_format = "fallback";
-          timeout_ms = 500;
-        };
-        notify_on_error = true;
-      };
-    };
-
     hlchunk = {
       enable = true;
     };
@@ -166,7 +152,7 @@
     };
 
     treesitter = {
-      lazyLoad.settings.cmd = "VimEnter";
+      # lazyLoad.settings.cmd = "VimEnter";
       enable = true;
       highlight.enable = true;
       indent.enable = true;
@@ -174,7 +160,7 @@
     };
 
     treesitter-context = {
-      lazyLoad.settings.cmd = "VimEnter";
+      # lazyLoad.settings.cmd = "VimEnter";
       enable = true;
       settings = {
         min_window_height = 20;
@@ -189,6 +175,13 @@
 
     web-devicons = {
       enable = true;
+    };
+    vimtex = {
+      enable = true;
+      lazyLoad.settings.ft = "tex";
+      settings = {
+        view_method = "skim";
+      };
     };
   };
 }

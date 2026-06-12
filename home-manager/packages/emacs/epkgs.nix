@@ -66,38 +66,38 @@ in
     magit
 
     # langs
-    # auctex
-    # packages.yatex
-    # ebib
-    # packages.typst-ts-mode
-    # python-mode
-    # pet
-    # nix-mode
-    # reformatter
-    # csv-mode
-    # docker-compose-mode
-    # dockerfile-mode
-    # dotenv-mode
-    # git-modes
-    # json-mode
-    # rust-mode
-    # cargo
-    # ssh-config-mode
-    # toml-mode
+    auctex
+    packages.yatex
+    ebib
+    packages.typst-ts-mode
+    python-mode
+    pet
+    nix-mode
+    reformatter
+    csv-mode
+    docker-compose-mode
+    dockerfile-mode
+    dotenv-mode
+    git-modes
+    json-mode
+    rust-mode
+    cargo
+    ssh-config-mode
+    toml-mode
 
-    # yaml-mode
-    # python-pytest
-    # fish-mode
-    # haskell-mode
-    # lua-mode
-    # web-mode
+    yaml-mode
+    python-pytest
+    fish-mode
+    haskell-mode
+    lua-mode
+    web-mode
 
     # ai
-    # copilot
-    # ellama
-    # llm
-    # copilot-chat
-    # agent-shell
+    copilot
+    ellama
+    llm
+    copilot-chat
+    agent-shell
 
     # lsp
     # lsp-bridge
@@ -105,10 +105,10 @@ in
     # lsp-ui
     # consult-lsp
     # # dap-mode
-    # flycheck
-    # flycheck-posframe
-    # highlight-indent-guides
-    # flycheck-rust
+    flycheck
+    flycheck-posframe
+    highlight-indent-guides
+    flycheck-rust
     # lsp-latex
     # lsp-pyright
     # lsp-haskell

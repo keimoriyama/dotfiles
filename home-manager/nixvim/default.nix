@@ -6,7 +6,7 @@
 }: let
   sonicTemplateDir = toString ./nvim/template;
   plugins = import ./plugins.nix {inherit pkgs;};
-  lsp = import ./plugins/lsp {inherit pkgs;};
+  lsp = import ./lsp {inherit pkgs;};
   # keymapconfig = import ./keymapconfig.nix {};
   option = import ./option.nix {inherit pkgs;};
   skkeleton = pkgs.vimUtils.buildVimPlugin {
@@ -39,6 +39,8 @@ in {
         skkeleton
         skkeleton-azik-kanatable
       ];
+
+    extraFiles."lua/bibtex_picker.lua".source = ./lua/bibtex_picker.lua;
 
     extraConfigLuaPre = ''
       vim.loader.enable()
@@ -319,15 +321,6 @@ in {
       }
       {
         mode = "n";
-        key = "<leader>dp";
-        action = "<cmd>DepsUpdate<cr>";
-        options = {
-          noremap = true;
-          silent = true;
-        };
-      }
-      {
-        mode = "n";
         key = "n";
         action.__raw = ''
           function()
@@ -376,6 +369,20 @@ in {
         options = {
           expr = true;
           silent = true;
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>fb";
+        action.__raw = ''
+          function()
+            require("bibtex_picker").pick()
+          end
+        '';
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "BibTeX reference picker";
         };
       }
     ];

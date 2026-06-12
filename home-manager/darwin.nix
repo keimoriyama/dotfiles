@@ -7,7 +7,7 @@ with pkgs; [
   # brewCasks.ollama-app
   # brewCasks.alt-tab
   brewCasks.codex-app
-  brewCasks.notion-calendar
+  # brewCasks.notion-calendar
   # (brewCasks.steam.overrideAttrs
   #   (oldAttrs: {
   #     src = pkgs.fetchurl {

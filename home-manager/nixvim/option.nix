@@ -27,6 +27,12 @@
       cursorline = true;
       cursorcolumn = true;
       mouse = "";
+      spell = true;
+      spelllang = ["en_us"];
+      dictionary =
+        if pkgs.stdenv.isDarwin
+        then "/usr/share/dict/words"
+        else "${pkgs.scowl}/share/dict/words.txt";
     };
   };
 }

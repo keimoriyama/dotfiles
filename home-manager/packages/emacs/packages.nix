@@ -55,24 +55,24 @@
       epkgs.log4e
     ];
   };
-  yasnippet-capf = epkgs.melpaBuild {
-    pname = "yasnippet-capf";
-    src = sources.emacs-yasnippet-capf.src;
-    version = "0.0.1";
-  };
-  acp = epkgs.melpaBuild {
-    pname = "acp";
-    src = sources.emacs-acp.src;
-    version = "0.0.1";
-  };
+  # yasnippet-capf = epkgs.melpaBuild {
+  #   pname = "yasnippet-capf";
+  #   src = sources.emacs-yasnippet-capf.src;
+  #   version = "0.0.1";
+  # };
+  # acp = epkgs.melpaBuild {
+  #   pname = "acp";
+  #   src = sources.emacs-acp.src;
+  #   version = "0.0.1";
+  # };
   nskk = epkgs.trivialBuild {
     pname = "nskk";
     src = sources.emacs-nskk.src;
     preBuild = ''
 
-    cp src/*.el .
+      cp src/*.el .
 
-    '';  
+    '';
     version = "0.1.11";
   };
   # kuro = epkgs.melpaBuild {

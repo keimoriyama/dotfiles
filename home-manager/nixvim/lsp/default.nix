@@ -136,6 +136,75 @@
           enable = true;
           package = pkgs.copilot-language-server;
         };
+        cspell.enable = true;
+        texlab.enable = true;
+        efm = {
+          enable = true;
+          filetypes = ["lua" "python" "nix" "rust" "markdown" "org" "tex" "text"];
+          extraOptions = {
+            init_options = {
+              documentFormatting = true;
+              documentRangeFormatting = true;
+            };
+          };
+          settings = {
+            rootMarkers = [".git/"];
+            languages = {
+              lua = [
+                {
+                  formatCommand = "${pkgs.stylua}/bin/stylua -";
+                  formatStdin = true;
+                }
+              ];
+              python = [
+                {
+                  formatCommand = "${pkgs.ruff}/bin/ruff format -";
+                  formatStdin = true;
+                }
+              ];
+              nix = [
+                {
+                  formatCommand = "${pkgs.alejandra}/bin/alejandra";
+                  formatStdin = true;
+                }
+              ];
+              rust = [
+                {
+                  formatCommand = "rustfmt";
+                  formatStdin = true;
+                }
+              ];
+              markdown = [
+                {
+                  lintCommand = "textlint --stdin --stdin-filename \${INPUT} --format unix";
+                  lintStdin = true;
+                  lintFormats = ["%f:%l:%c: %m [%trror/%r]" "%f:%l:%c: %m [%tarning/%r]"];
+                }
+              ];
+              org = [
+                {
+                  lintCommand = "textlint --stdin --stdin-filename \${INPUT} --format unix";
+                  lintStdin = true;
+                  lintFormats = ["%f:%l:%c: %m [%trror/%r]" "%f:%l:%c: %m [%tarning/%r]"];
+                }
+              ];
+              tex = [
+                {
+                  lintCommand = "textlint --stdin --stdin-filename \${INPUT} --format unix";
+                  lintStdin = true;
+                  lintFormats = ["%f:%l:%c: %m [%trror/%r]" "%f:%l:%c: %m [%tarning/%r]"];
+                }
+              ];
+              text = [
+                {
+                  lintCommand = "textlint --stdin --stdin-filename \${INPUT} --format unix";
+                  lintStdin = true;
+                  lintFormats = ["%f:%l:%c: %m [%trror/%r]" "%f:%l:%c: %m [%tarning/%r]"];
+                }
+              ];
+            };
+          };
+        };
       };
       keymaps = {
         silent = true;
@@ -154,6 +223,7 @@
         };
       };
     };
-    extraConfig = builtins.readFile ./extraConfig.lua;
   };
+
+  programs.nixvim.extraConfigLua = builtins.readFile ./extraConfig.lua;
 }

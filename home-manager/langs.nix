@@ -35,6 +35,7 @@ with pkgs; [
   nixd
   texlab
   prettier
+  cspell
 
   # formatter & linter
   alejandra
@@ -46,5 +47,6 @@ with pkgs; [
     textlint-rule-preset-ja-spacing
     textlint-plugin-org
     textlint-plugin-latex2e
+    textlint-rule-write-good
   ])
 ]

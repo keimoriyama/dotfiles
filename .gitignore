@@ -30,3 +30,4 @@ Brewfile.lock.json
 /.config/nushell/
 .config
 /.agent-shell/
+.claude
