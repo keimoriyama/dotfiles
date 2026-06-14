@@ -62,6 +62,27 @@
         },
         "version": "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468"
     },
+    "emacs-eglot-x": {
+        "cargoLock": null,
+        "date": "2026-02-16",
+        "extract": null,
+        "name": "emacs-eglot-x",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "nemethf",
+            "repo": "eglot-x",
+            "rev": "46bca93291727454dd92567e761a1e2ab5622590",
+            "sha256": "sha256-c8NzzK7SOYYDB803Osp3TOymrmwC07+dcvbI4waAfco=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "46bca93291727454dd92567e761a1e2ab5622590"
+    },
     "emacs-hide-lines": {
         "cargoLock": null,
         "date": "2025-05-23",

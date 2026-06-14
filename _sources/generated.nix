@@ -41,6 +41,18 @@
     };
     date = "2024-10-27";
   };
+  emacs-eglot-x = {
+    pname = "emacs-eglot-x";
+    version = "46bca93291727454dd92567e761a1e2ab5622590";
+    src = fetchFromGitHub {
+      owner = "nemethf";
+      repo = "eglot-x";
+      rev = "46bca93291727454dd92567e761a1e2ab5622590";
+      fetchSubmodules = false;
+      sha256 = "sha256-c8NzzK7SOYYDB803Osp3TOymrmwC07+dcvbI4waAfco=";
+    };
+    date = "2026-02-16";
+  };
   emacs-hide-lines = {
     pname = "emacs-hide-lines";
     version = "803443035c7feb85ea1ad83e49629c54dfc48e8d";

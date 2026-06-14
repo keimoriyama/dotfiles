@@ -41,6 +41,16 @@
     src = sources.emacs-typst-ts-mode.src;
     version = "0.0.1";
   };
+  eglot-x = epkgs.melpaBuild {
+    pname = "eglot-x";
+    src = sources.emacs-eglot-x.src;
+    version = "0.0.1";
+    packageRequires = [
+      epkgs.project
+      epkgs.eglot
+      epkgs.xref
+    ];
+  };
   hide-lines = epkgs.melpaBuild {
     pname = "hide-lines";
     src = sources.emacs-hide-lines.src;

@@ -100,19 +100,12 @@ in
     agent-shell
 
     # lsp
-    # lsp-bridge
-    # lsp-mode
-    # lsp-ui
-    # consult-lsp
-    # # dap-mode
+    packages.eglot-x
     flycheck
     flycheck-posframe
     highlight-indent-guides
     flycheck-rust
-    # lsp-latex
-    # lsp-pyright
-    # lsp-haskell
-    #
+
     # org
     org-superstar
     ox-gfm

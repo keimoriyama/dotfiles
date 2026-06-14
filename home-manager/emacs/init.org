@@ -288,11 +288,13 @@
   (add-to-list 'projectile-project-root-files ".projectile")
   (add-to-list 'projectile-known-projects
                "~/ghq/github.com/keimoriyama/org-files/")
-  (dolist (git-dir (directory-files-recursively "~/ghg/" "^\\.git$" t))
+  (dolist (git-dir (directory-files-recursively "~/ghq/" "^\\.git$" t))
     (when (file-directory-p git-dir)
       (add-to-list 'projectile-known-projects
                    (file-name-as-directory (file-name-directory git-dir))))))
 #+end_src
+
+#+RESULTS:
 
 **** bufferlo
 #+begin_src emacs-lisp
@@ -1381,16 +1383,37 @@ org-mycal-export
 #+begin_src emacs-lisp
 (require 'eglot)
 
+;; eldoc: reduce hover request frequency and rendering cost
+(setopt eldoc-idle-delay 0.75)
+(setopt eldoc-echo-area-use-multiline-p nil)
+(setopt eldoc-documentation-strategy #'eldoc-documentation-compose)
+
+(defun kei/eglot-format-buffer-if-supported ()
+  (when (and (eglot-managed-p)
+             (eglot-server-capable :documentFormattingProvider))
+    (eglot-format-buffer)))
+
 (with-eval-after-load 'eglot
+  (require 'eglot-x)
+  (eglot-x-setup)
+  (setopt eglot-x-enable-snippet-text-edit t
+          eglot-x-enable-server-status t
+          eglot-x-enable-colored-diagnostics t
+          eglot-x-enable-local-docs-support t
+          eglot-x-enable-open-server-logs t)
+
   (setopt eglot-autoshutdown t)
   (setopt eglot-sync-connect 1)
   (setopt eglot-connect-timeout 10)
   (setopt eglot-send-changes-idle-time 0.5)
+  ;; Disable events buffer to reduce overhead
+  (setopt eglot-events-buffer-config '(:size 0 :format full))
 
   ;; Format on save
   (add-hook 'eglot-managed-mode-hook
             (lambda ()
-              (add-hook 'before-save-hook #'eglot-format-buffer nil t)))
+              (add-hook 'before-save-hook
+                        #'kei/eglot-format-buffer-if-supported nil t)))
 
   ;; Keybindings
   (define-key eglot-mode-map (kbd "C-c l r") #'eglot-rename)
@@ -1398,7 +1421,13 @@ org-mycal-export
   (define-key eglot-mode-map (kbd "C-c l f") #'eglot-format)
   (define-key eglot-mode-map (kbd "C-c l d") #'xref-find-definitions)
   (define-key eglot-mode-map (kbd "C-c l i") #'eglot-find-implementation)
-  (define-key eglot-mode-map (kbd "C-c l b") #'xref-go-back))
+  (define-key eglot-mode-map (kbd "C-c l b") #'xref-go-back)
+  (define-key eglot-mode-map (kbd "C-c l .") #'eglot-x-find-refs)
+  (define-key eglot-mode-map (kbd "C-c l m") #'eglot-x-expand-macro)
+  (define-key eglot-mode-map (kbd "C-c l o") #'eglot-x-open-external-documentation)
+  (define-key eglot-mode-map (kbd "C-c l x") #'eglot-x-ask-runnables)
+  (define-key eglot-mode-map (kbd "C-c l s") #'eglot-x-find-workspace-symbol)
+  (define-key eglot-mode-map (kbd "C-c l R") #'eglot-x-reload-workspace))
 #+end_src
 *** language specific config
 ***** python
@@ -1408,6 +1437,13 @@ org-mycal-export
 #+end_src
 ***** rust
 #+begin_src emacs-lisp
+(add-to-list 'eglot-server-programs
+             '((rust-ts-mode rust-mode) .
+               ("rustup" "run" "stable" "rust-analyzer"
+                :initializationOptions (:cargo (:allFeatures t
+                                                :buildScripts (:enable t))
+                                        :check (:command "clippy")
+                                        :procMacro (:enable t)))))
 (add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'rust-ts-mode-hook #'eglot-ensure)
 #+end_src
@@ -1432,8 +1468,11 @@ org-mycal-export
 #+end_src
 ***** Latex
 #+begin_src emacs-lisp
-(add-hook 'latex-mode-hook #'eglot-ensure)
-(add-hook 'LaTeX-mode-hook #'eglot-ensure)
+(add-hook 'yatex-mode-hook #'eglot-ensure)
+
+;; texlabの設定を追加する
+(add-to-list 'eglot-server-programs
+             '((yatex-mode bibtex-mode) . ("texlab")))
 #+end_src
 ** flycheck
 #+begin_src emacs-lisp
@@ -1929,53 +1968,53 @@ org-mycal-export
 
 ** llm
 #+begin_src emacs-lisp
-;; (require 'llm)
-;; (require 'llm-ollama)
-;; (with-eval-after-load 'llm
-;;   (setopt llm-warn-on-nonfree nil))
+(require 'llm)
+(require 'llm-ollama)
+(with-eval-after-load 'llm
+  (setopt llm-warn-on-nonfree nil))
 #+end_src
 
 ** ellama
 #+begin_src emacs-lisp
-;; (require 'ellama)
-;; (require 'ellama-transient)
-;; (keymap-global-set "C-c e" #'ellama-transient-main-menu)
+(require 'ellama)
+(require 'ellama-transient)
+(keymap-global-set "C-c e" #'ellama-transient-main-menu)
 
-;; (with-eval-after-load 'ellama
-;;   (setopt ellama-language "日本語")
-;;   (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
-;;         (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
-;;         (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
-;;     (setopt ellama-provider gemma2)
-;;     (setopt ellama-translation-provider gemma2)
-;;     (setopt ellama-summarization-provider llama3)
-;;     (setopt ellama-coding-provider codellama)
-;;     (setopt ellama-providers
-;;             `(("gemma2" . ,gemma2)
-;;               ("codellama" . ,codellama)
-;;               ("llama3" . ,llama3)))))
+(with-eval-after-load 'ellama
+  (setopt ellama-language "日本語")
+  (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
+        (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
+        (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
+    (setopt ellama-provider gemma2)
+    (setopt ellama-translation-provider gemma2)
+    (setopt ellama-summarization-provider llama3)
+    (setopt ellama-coding-provider codellama)
+    (setopt ellama-providers
+            `(("gemma2" . ,gemma2)
+              ("codellama" . ,codellama)
+              ("llama3" . ,llama3)))))
 #+end_src
 
 ** Copilot
 #+begin_src emacs-lisp
-;; (setq copilot-indent-offset-warning-disable t)
+(setq copilot-indent-offset-warning-disable t)
 
-;; (require 'copilot)
-;; (setq copilot-idle-delay 1.0)
+(require 'copilot)
+(setq copilot-idle-delay 1.0)
 
-;; (add-hook 'prog-mode-hook 'copilot-mode)
-;; (keymap-global-set "C-<tab>" #'copilot-accept-completion)
+(add-hook 'prog-mode-hook 'copilot-mode)
+(keymap-global-set "C-<tab>" #'copilot-accept-completion)
 #+end_src
 ** copilot-chat
 #+begin_src emacs-lisp
-;;(require 'copilot-chat)
-;;(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
+(require 'copilot-chat)
+(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
 
 ** Agent Shell
 #+begin_src emacs-lisp
-;; (require 'acp)
-;; (require 'agent-shell)
+(require 'acp)
+(require 'agent-shell)
 #+end_src
 
 * インタラクティブメニュー

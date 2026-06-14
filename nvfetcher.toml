@@ -48,6 +48,11 @@ src.git="https://github.com/Ziqi-Yang/typst-ts-mode"
 src.branch='main'
 fetch.github="Ziqi-Yang/typst-ts-mode"
 
+[emacs-eglot-x]
+src.git="https://github.com/nemethf/eglot-x"
+src.branch="master"
+fetch.github="nemethf/eglot-x"
+
 [emacs-hide-lines]
 src.git="https://github.com/vapniks/hide-lines"
 src.branch="master"
