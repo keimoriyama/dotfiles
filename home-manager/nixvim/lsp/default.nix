@@ -3,7 +3,6 @@
     lsp = {
       enable = true;
       inlayHints = true;
-      inline_completion.enable = true;
       servers = {
         nixd = {
           enable = true;
@@ -90,26 +89,28 @@
         };
         denols = {
           enable = true;
-          root_markers = ["deno.json" "deno.jsonc"];
-          init_options = {
-            lint = true;
-            unstable = false;
-            suggest.imports.hosts = ["https://deno.land" "https://cdn.nest.land" "https://crux.land"];
+          rootMarkers = ["deno.json" "deno.jsonc"];
+          extraOptions = {
+            init_options = {
+              lint = true;
+              unstable = false;
+              suggest.imports.hosts = ["https://deno.land" "https://cdn.nest.land" "https://crux.land"];
+            };
           };
         };
         ts_ls = {
           enable = true;
           filetypes = ["typescript" "typescriptreact" "javascript" "javascriptreact"];
-          root_markers = ["package.json" "tsconfig.json" "jsconfig.json"];
+          rootMarkers = ["package.json" "tsconfig.json" "jsconfig.json"];
         };
         tinymist = {
           enable = true;
         };
-        docker-language-server = {
+        docker_language_server = {
           enable = true;
           cmd = ["docker-langserver" "--stdio"];
           filetypes = ["dockerfile"];
-          root_markers = [
+          rootMarkers = [
             "Dockerfile"
             "docker-compose.yaml"
             "docker-compose.yml"
@@ -136,7 +137,6 @@
           enable = true;
           package = pkgs.copilot-language-server;
         };
-        cspell.enable = true;
         texlab.enable = true;
         efm = {
           enable = true;

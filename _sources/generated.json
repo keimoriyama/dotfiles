@@ -356,6 +356,27 @@
         },
         "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
     },
+    "kakehashi": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "kakehashi",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "atusy",
+            "repo": "kakehashi",
+            "rev": "v0.6.0",
+            "sha256": "sha256-DxTEKrG1eWtjFJYlwuSsLkeowjuATxpRABQgExb4bW4=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v0.6.0"
+    },
     "mocword": {
         "cargoLock": null,
         "date": "2022-05-02",

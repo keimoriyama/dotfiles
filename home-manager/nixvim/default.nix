@@ -30,7 +30,7 @@ in {
     enable = true;
     defaultEditor = true;
 
-    lasyLoad.enable = true;
+    luaLoader.enable = true;
     extraPlugins =
       (with pkgs.vimPlugins; [
         denops-vim
@@ -40,10 +40,7 @@ in {
         skkeleton-azik-kanatable
       ];
 
-    extraFiles."lua/bibtex_picker.lua".source = ./lua/bibtex_picker.lua;
-
     extraConfigLuaPre = ''
-      vim.loader.enable()
       vim.g.sonictemplate_key = 0
       vim.g.sonictemplate_intelligent_key = 0
       vim.g.sonictemplate_postfix_key = 0

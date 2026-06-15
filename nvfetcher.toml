@@ -107,3 +107,8 @@ src.github='qryxip/cargo-compete'
 fetch.github="qryxip/cargo-compete"
 src.branch="master"
 # cargo_locks = ["Cargo.lock"]
+
+[kakehashi]
+src.github="atusy/kakehashi"
+fetch.github="atusy/kakehashi"
+src.branch="main"

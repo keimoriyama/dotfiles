@@ -3,11 +3,9 @@
     lz-n.enable = true;
 
     mini = {
-      callSetup = true;
       enable = true;
       lazyLoad.settings.event = "VimEnter";
-      mock_nvim_web_devicons = true;
-      # mockDevIcons = true;
+      mockDevIcons = true;
       modules = {
         diff = {
           style = "vim.go.number and \"number\" or \"sign\"";
@@ -166,12 +164,13 @@
         min_window_height = 20;
       };
     };
-    context_vt = {
-      enable = true;
-      settings = {
-        min_rows = 5;
-      };
-    };
+    # context_vt は nixvim から削除されたためコメントアウト
+    # context_vt = {
+    #   enable = true;
+    #   settings = {
+    #     min_rows = 5;
+    #   };
+    # };
 
     web-devicons = {
       enable = true;

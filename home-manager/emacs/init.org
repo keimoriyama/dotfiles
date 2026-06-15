@@ -21,7 +21,6 @@
 ** C-x C-cでEmacsを終了しない
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-x C-c") 'magit)
-(global-set-key (kbd "C-x C-z") 'your-favorite-command)
 ;; I never use C-x C-c
 (defalias 'exit 'save-buffers-kill-emacs)
 #+end_src
@@ -82,8 +81,8 @@
 ** yes or noをy、nにする
 #+begin_src emacs-lisp
 (add-hook 'emacs-startup-hook
-          #'(lambda ()
-              (fset 'yes-or-no-p 'y-or-n-p)))
+          (lambda ()
+            (fset 'yes-or-no-p 'y-or-n-p)))
 #+end_src
 
 ** Native Comp周りの設定
@@ -146,14 +145,13 @@
 #+begin_src emacs-lisp
 (require 'gcmh)
 (setq gcmh-verbose t)
+(gcmh-mode 1)
 #+end_src
 
 *** その他
 **** moccur
 #+begin_src emacs-lisp
-(defadvice moccur-edit-change-file
-    (after save-after-moccur-edit-buffer activate)
-  (save-buffer))
+(advice-add 'moccur-edit-change-file :after (lambda (&rest _) (save-buffer)))
 #+end_src
 
 ** 編集支援
@@ -244,7 +242,7 @@
         (message "auto-save-buffers on")
       (message "auto-save-buffers off")))
 
-(with-eval-after-load 'org-mode
+(with-eval-after-load 'org
   (run-with-idle-timer 1 t 'auto-save-buffers))
 #+end_src
 
@@ -589,8 +587,16 @@ binding))))))))
         corfu-auto-delay 0.1
         corfu-cycle t
         corfu-auto-prefix 3
+        corfu-preselect 'prompt
+        corfu-on-exact-match nil
+        corfu-quit-at-boundary 'separator
+        corfu-quit-no-match 'separator
+        corfu-preview-current nil
         text-mode-ispell-word-completion nil
-        corfu-popupinfo-delay 0.3))
+        corfu-popupinfo-delay '(0.5 . 0.2))
+  (keymap-set corfu-map "M-SPC" #'corfu-insert-separator)
+  (keymap-set corfu-map "M-d" #'corfu-popupinfo-documentation)
+  (keymap-set corfu-map "M-l" #'corfu-popupinfo-location))
 #+end_src
 
 *** ミニバッファ補完
@@ -709,8 +715,6 @@ binding))))))))
   (setq org-startup-folded 'fold
         org-deadline-warning-day  30
         org-enforce-todo-dependencies t
-        org-html-htmlize-output-type 'inline-css
-        org-html-htmlize-output-type nil
         org-html-htmlize-output-type 'css
         org-adapt-indentation t
         org-hide-leading-stars t
@@ -757,7 +761,8 @@ binding))))))))
                   (org-level-5 . 1.1)
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
-                  (org-level-8 . 1.1))))
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :height (cdr face)))
   (setq org-src-fontify-natively t
         org-src-tab-acts-natively t
         org-edit-src-content-indentation 0)
@@ -790,6 +795,8 @@ binding))))))))
 **** org-capture-programming-notes
 #+begin_src emacs-lisp
 (setq org-memo-file (format "%s/memo.org" org-directory)
+      org-project-file (format "%s/projects/project.org" org-directory)
+      org-exp-file (format "%s/exp.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory)
       org-journal-dir (format "%s/journal" org-directory)
       org-program-dir (format "%s/programming" org-directory))
@@ -942,7 +949,7 @@ SPEC is:
 
 **** org-roam-ui
 #+begin_src emacs-lisp
-(require' org-roam-ui)
+(require 'org-roam-ui)
 #+end_src
 *** 外観・表示機能
 **** org-indent
@@ -1227,7 +1234,7 @@ SPEC is:
 (require 'org-pomodoro)
 (keymap-global-set "M-p" #'org-pomodoro)
 (with-eval-after-load 'org-pomodoro
-  (setopt org-pomodoro-play-sournds  nil)
+  (setopt org-pomodoro-play-sounds nil)
   (setopt org-pomodoro-finished-sound-p nil)
   (setopt org-pomodoro-short-break-sound-p nil)
   (setopt org-pomodoro-long-break-sound-p nil)
@@ -1292,7 +1299,7 @@ SPEC is:
 
 
 (major-mode-hydra-define org-mode
-  (:title "org mode":color blue :quit-key "q" :foreign-keys warn :separator "╌")
+  (:title "org mode" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("visit file"
    (("m" my:org-goto-memo "memo"))
    "agenda"
@@ -1360,7 +1367,7 @@ SPEC is:
 ;;     (if (and myresult (not mycatp)) t nil)))
 
 (setq org-icalendar-use-scheduled '(event-if-todo event-if-not-todo))
-(setq org-icalendar-use-deadline '(todu-due event-if-todo-not-done event-if-todo event-if-not-todo))
+(setq org-icalendar-use-deadline '(todo-due event-if-todo-not-done event-if-todo event-if-not-todo))
 
 ;;; activate filter and call export function
 (defun org-mycal-export ()
@@ -1388,6 +1395,13 @@ org-mycal-export
 (setopt eldoc-echo-area-use-multiline-p nil)
 (setopt eldoc-documentation-strategy #'eldoc-documentation-compose)
 
+(defun kei/eglot-completion-at-point ()
+  (setq-local completion-at-point-functions
+              (list (cape-wrap-buster
+                     (cape-capf-super #'eglot-completion-at-point
+                                      #'cape-file))
+                    #'cape-dabbrev)))
+
 (defun kei/eglot-format-buffer-if-supported ()
   (when (and (eglot-managed-p)
              (eglot-server-capable :documentFormattingProvider))
@@ -1406,12 +1420,14 @@ org-mycal-export
   (setopt eglot-sync-connect 1)
   (setopt eglot-connect-timeout 10)
   (setopt eglot-send-changes-idle-time 0.5)
+  (setq eglot-watch-files-outside-project-root nil)
   ;; Disable events buffer to reduce overhead
   (setopt eglot-events-buffer-config '(:size 0 :format full))
 
   ;; Format on save
   (add-hook 'eglot-managed-mode-hook
             (lambda ()
+              (kei/eglot-completion-at-point)
               (add-hook 'before-save-hook
                         #'kei/eglot-format-buffer-if-supported nil t)))
 
@@ -1432,18 +1448,66 @@ org-mycal-export
 *** language specific config
 ***** python
 #+begin_src emacs-lisp
-(add-hook 'python-mode-hook #'eglot-ensure)
-(add-hook 'python-ts-mode-hook #'eglot-ensure)
+(defun kei/python-eglot-project-root ()
+  (file-name-as-directory
+   (or (locate-dominating-file default-directory ".venv")
+       (locate-dominating-file default-directory "uv.lock")
+       (locate-dominating-file default-directory "pyproject.toml")
+       (when-let ((project (project-current nil)))
+         (project-root project))
+       default-directory)))
+
+(defun kei/python-eglot-workspace-configuration ()
+  (let* ((root (kei/python-eglot-project-root))
+         (venv-directory (expand-file-name ".venv" root))
+         (python-path (expand-file-name "bin/python" venv-directory)))
+    (when (file-exists-p python-path)
+      (setq-local eglot-workspace-configuration
+                  `(:python (:venvPath ,(directory-file-name root)
+                             :venv ".venv"
+                             :pythonPath ,python-path))))))
+
+(defun kei/python-eglot-ensure ()
+  (kei/python-eglot-workspace-configuration)
+  (eglot-ensure))
+
+(defun kei/eglot-python-server-program-p (server-program)
+  (cl-labels ((python-mode-p (mode)
+                (memq (if (consp mode) (car mode) mode)
+                      '(python-mode python-ts-mode))))
+    (let ((modes (car server-program)))
+      (if (listp modes)
+          (cl-some #'python-mode-p modes)
+        (python-mode-p modes)))))
+
+(with-eval-after-load 'eglot
+  (setq eglot-server-programs
+        (cl-remove-if #'kei/eglot-python-server-program-p
+                      eglot-server-programs))
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode) .
+                 ("basedpyright-langserver" "--stdio"))))
+
+(add-hook 'python-mode-hook #'kei/python-eglot-ensure)
+(add-hook 'python-ts-mode-hook #'kei/python-eglot-ensure)
+#+end_src
+***** org
+#+begin_src emacs-lisp
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(org-mode . ("kakehashi"))))
+(add-hook 'org-mode-hook #'eglot-ensure)
 #+end_src
 ***** rust
 #+begin_src emacs-lisp
-(add-to-list 'eglot-server-programs
-             '((rust-ts-mode rust-mode) .
-               ("rustup" "run" "stable" "rust-analyzer"
-                :initializationOptions (:cargo (:allFeatures t
-                                                :buildScripts (:enable t))
-                                        :check (:command "clippy")
-                                        :procMacro (:enable t)))))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((rust-ts-mode rust-mode) .
+                 ("rustup" "run" "stable" "rust-analyzer"
+                  :initializationOptions (:cargo (:allFeatures t
+                                                  :buildScripts (:enable t))
+                                          :check (:command "clippy")
+                                          :procMacro (:enable t))))))
 (add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'rust-ts-mode-hook #'eglot-ensure)
 #+end_src
@@ -1469,10 +1533,9 @@ org-mycal-export
 ***** Latex
 #+begin_src emacs-lisp
 (add-hook 'yatex-mode-hook #'eglot-ensure)
-
-;; texlabの設定を追加する
-(add-to-list 'eglot-server-programs
-             '((yatex-mode bibtex-mode) . ("texlab")))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((yatex-mode bibtex-mode) . ("texlab"))))
 #+end_src
 ** flycheck
 #+begin_src emacs-lisp
@@ -1586,7 +1649,6 @@ org-mycal-export
 (add-to-list 'auto-mode-alist '("\\.dockerignore$" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("\\.gitignore$" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("\\.prettierignore$" . gitignore-mode))
-(add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("/git/ignore\\'" . gitignore-mode))
 (add-to-list 'auto-mode-alist '("CODEOWNERS" . gitignore-mode))
 
@@ -1813,8 +1875,8 @@ org-mycal-export
 #+end_src 
 
 * 組版システム
-** Tygpst
-*** tyhpst-ts-mode
+** Typst
+*** typst-ts-mode
 #+begin_src emacs-lisp
 (require 'typst-ts-mode)
 (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode))
@@ -2013,7 +2075,6 @@ org-mycal-export
 
 ** Agent Shell
 #+begin_src emacs-lisp
-(require 'acp)
 (require 'agent-shell)
 #+end_src
 

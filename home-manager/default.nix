@@ -24,11 +24,6 @@
     };
   };
   sources = pkgs.callPackage ../_sources/generated.nix {};
-  emacs = import ./packages/emacs {
-    inherit (nixpkgs) lib;
-    inherit pkgs sources;
-  };
-  emacsPkgs = emacs.emacs-stable;
   llmAgentsPkgs = llm-agents.packages.${system};
   artoPkg =
     if pkgs.stdenv.isDarwin
@@ -38,13 +33,13 @@
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
   # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
+  kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
   emacs-config = import ./emacs {
     inherit
       pkgs
-      emacsPkgs
       org-babel
       sources
       ;
@@ -73,6 +68,7 @@
       tree-sitter
       # mocword
       cargo-compete
+      kakehashi
       yaskkserv2
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin [

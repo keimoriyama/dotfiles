@@ -209,6 +209,17 @@
     };
     date = "2025-01-27";
   };
+  kakehashi = {
+    pname = "kakehashi";
+    version = "v0.6.0";
+    src = fetchFromGitHub {
+      owner = "atusy";
+      repo = "kakehashi";
+      rev = "v0.6.0";
+      fetchSubmodules = false;
+      sha256 = "sha256-DxTEKrG1eWtjFJYlwuSsLkeowjuATxpRABQgExb4bW4=";
+    };
+  };
   mocword = {
     pname = "mocword";
     version = "096316545837ca70498023486390f74f6b7c8fd3";
