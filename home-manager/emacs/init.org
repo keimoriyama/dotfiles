@@ -185,12 +185,6 @@
 (define-key puni-mode-map (kbd "M-U")  #'puni-splice-killing-forward)
 (define-key puni-mode-map (kbd "M-z")  #'puni-squeeze)
 #+end_src
-**** cua-mode
-#+begin_src emacs-lisp
-(cua-mode t)
-(setq cua-enable-cua-keys nil)
-#+end_src
-
 **** dmacro
 #+begin_src emacs-lisp
 (setq dmacro-key (kbd "C-M-e"))
@@ -199,53 +193,6 @@
 #+end_src
 
 *** 自動保存・リバート
-**** auto-save-buffers
-#+begin_src emacs-lisp
-;;auto-save-buffers で対象とするファイル名の正規表現
-(defvar auto-save-buffers-regexp ""
-    "*Regexp that matches `buffer-file-name' to be auto-saved.")
-
-  ;; auto-save-buffers で除外するファイル名の正規表現
-  (defvar auto-save-buffers-exclude-regexp "^$"
-    "*Regexp that matches `buffer-file-name' not to be auto-saved.")
-  ;; nil ならセーブしない (タイマーは回ったまま)
-  (defvar auto-save-buffers-active-p t
-    "If non-nil, `auto-save-buffers' saves buffers.")
-
-  ;; 省略可能の引数で、include/exclude 用の正規表現を指定できる
-  (defun auto-save-buffers (&rest regexps)
-    "Save buffers if `buffer-file-name' matches `auto-save-buffers-regexp'."
-    (let ((include-regexp (or (car  regexps) auto-save-buffers-regexp))
-          (exclude-regexp (or (cadr regexps) auto-save-buffers-exclude-regexp))
-          (buffers (buffer-list)))
-      (save-excursion
-        (while buffers
-          (set-buffer (car buffers))
-          (if (and buffer-file-name
-                   auto-save-buffers-active-p
-                   (buffer-modified-p)
-                   (not buffer-read-only)
-                   (string-match include-regexp buffer-file-name)
-                   (not (string-match exclude-regexp buffer-file-name))
-                   (file-writable-p buffer-file-name))
-              (save-buffer))
-          (setq buffers (cdr buffers))))))
-
-  ;; auto-save-buffers の on/off をトグルで切り替える
-  (defun auto-save-buffers-toggle ()
-    "Toggle `auto-save-buffers'"
-    (interactive)
-    (if auto-save-buffers-active-p
-        (setq auto-save-buffers-active-p nil)
-      (setq auto-save-buffers-active-p t))
-    (if auto-save-buffers-active-p
-        (message "auto-save-buffers on")
-      (message "auto-save-buffers off")))
-
-(with-eval-after-load 'org
-  (run-with-idle-timer 1 t 'auto-save-buffers))
-#+end_src
-
 **** autorevert
 #+begin_src emacs-lisp
 (require 'autorevert)
@@ -292,7 +239,6 @@
                    (file-name-as-directory (file-name-directory git-dir))))))
 #+end_src
 
-#+RESULTS:
 
 **** bufferlo
 #+begin_src emacs-lisp
@@ -584,7 +530,7 @@ binding))))))))
 
 (with-eval-after-load 'corfu
   (setq corfu-auto t
-        corfu-auto-delay 0.1
+        corfu-auto-delay 0.5
         corfu-cycle t
         corfu-auto-prefix 3
         corfu-preselect 'prompt
@@ -1339,32 +1285,6 @@ SPEC is:
 ;;; define categories that should be excluded
 (setq org-export-exclude-category (list "google" "private"))
 
-;;; define filter. The filter is called on each entry in the agenda.
-;;; It defines a regexp to search for two timestamps, gets the start
-;;; and end point of the entry and does a regexp search. It also
-;;; checks if the category of the entry is in an exclude list and
-;;; returns either t or nil to skip or include the entry.
-
-;; (defun org-mycal-export-limit ()
-;;   "Limit the export to items that have a date, time and a range. Also exclude certain categories."
-;;   (setq org-tst-regexp "<\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} ... [0-9]\\{2\\}:[0-9]\\{2\\}[^\r\n>]*?\
-;; \)>")
-;;   (setq org-tstr-regexp (concat org-tst-regexp "--?-?" org-tst-regexp))
-;;   (save-excursion
-;;     ; get categories
-;;     (setq mycategory (org-get-category))
-;;     ; get start and end of tree
-;;     (org-back-to-heading t)
-;;     (setq mystart    (point))
-;;     (org-end-of-subtree)
-;;     (setq myend      (point))
-;;     (goto-char mystart)
-;;     ; search for timerange
-;;     (setq myresult (re-search-forward org-tstr-regexp myend t))
-;;     ; search for categories to exclude
-;;     (setq mycatp (member mycategory org-export-exclude-category))
-;;     ; return t if ok, nil when not ok
-;;     (if (and myresult (not mycatp)) t nil)))
 
 (setq org-icalendar-use-scheduled '(event-if-todo event-if-not-todo))
 (setq org-icalendar-use-deadline '(todo-due event-if-todo-not-done event-if-todo event-if-not-todo))
@@ -1395,19 +1315,17 @@ org-mycal-export
 (setopt eldoc-echo-area-use-multiline-p nil)
 (setopt eldoc-documentation-strategy #'eldoc-documentation-compose)
 
-(defun kei/eglot-completion-at-point ()
-  (setq-local completion-at-point-functions
-              (list (cape-wrap-buster
-                     (cape-capf-super #'eglot-completion-at-point
-                                      #'cape-file))
-                    #'cape-dabbrev)))
 
-(defun kei/eglot-format-buffer-if-supported ()
-  (when (and (eglot-managed-p)
-             (eglot-server-capable :documentFormattingProvider))
-    (eglot-format-buffer)))
+;; Option 1: Specify explicitly to use Orderless for Eglot
+(setq completion-category-overrides '((eglot (styles orderless))
+                                      (eglot-capf (styles orderless))))
 
+;; Enable cache busting, depending on if your server returns
+;; sufficiently many candidates in the first place.
+(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (with-eval-after-load 'eglot
+  (when (require 'eglot-booster nil t)
+    (eglot-booster-mode 1))
   (require 'eglot-x)
   (eglot-x-setup)
   (setopt eglot-x-enable-snippet-text-edit t
@@ -1415,7 +1333,7 @@ org-mycal-export
           eglot-x-enable-colored-diagnostics t
           eglot-x-enable-local-docs-support t
           eglot-x-enable-open-server-logs t)
-
+  (setq completion-category-defaults nil)
   (setopt eglot-autoshutdown t)
   (setopt eglot-sync-connect 1)
   (setopt eglot-connect-timeout 10)
@@ -1424,12 +1342,6 @@ org-mycal-export
   ;; Disable events buffer to reduce overhead
   (setopt eglot-events-buffer-config '(:size 0 :format full))
 
-  ;; Format on save
-  (add-hook 'eglot-managed-mode-hook
-            (lambda ()
-              (kei/eglot-completion-at-point)
-              (add-hook 'before-save-hook
-                        #'kei/eglot-format-buffer-if-supported nil t)))
 
   ;; Keybindings
   (define-key eglot-mode-map (kbd "C-c l r") #'eglot-rename)
@@ -2065,12 +1977,12 @@ org-mycal-export
 (setq copilot-idle-delay 1.0)
 
 (add-hook 'prog-mode-hook 'copilot-mode)
-(keymap-global-set "C-<tab>" #'copilot-accept-completion)
+(keymap-global-set "C-<return>" #'copilot-accept-completion)
 #+end_src
 ** copilot-chat
 #+begin_src emacs-lisp
-(require 'copilot-chat)
-(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
+;; (require 'copilot-chat)
+;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
 
 ** Agent Shell

@@ -101,6 +101,7 @@ in
 
     # lsp
     packages.eglot-x
+    eglot-booster
     flycheck
     flycheck-posframe
     highlight-indent-guides
