@@ -177,7 +177,7 @@
 (require 'puni)
 (add-hook 'emacs-startup-hook #'puni-global-mode)
 (electric-pair-mode 1)
-(define-key puni-mode-map (kbd "C-)")  #'puni-slurp-forward)
+(define-key puni-mode-map (kbd "C-]")  #'puni-slurp-forward)
 (define-key puni-mode-map (kbd "C-}")  #'puni-barf-forward)
 (define-key puni-mode-map (kbd "M-(")  #'puni-wrap-forward)
 (define-key puni-mode-map (kbd "M-s")  #'puni-splice)
