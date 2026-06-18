@@ -118,6 +118,11 @@
   (load-file (format "%s/.emacs.d/init.el" (getenv "HOME"))))
 #+end_src
 
+** Warning回りの設定
+#+begin_src emacs-lisp
+(setq warning-minimum-level :emergency)
+#+end_src
+
 * エディタ基本機能
 ** ユーティリティ
 *** キーバインド
@@ -529,6 +534,7 @@ binding))))))))
 ;;(add-hook 'org-mode-hook #'corfu-mode)
 
 (with-eval-after-load 'corfu
+  (setq corfu-debug nil)
   (setq corfu-auto t
         corfu-auto-delay 0.5
         corfu-cycle t
@@ -1315,7 +1321,6 @@ org-mycal-export
 (setopt eldoc-echo-area-use-multiline-p nil)
 (setopt eldoc-documentation-strategy #'eldoc-documentation-compose)
 
-
 ;; Option 1: Specify explicitly to use Orderless for Eglot
 (setq completion-category-overrides '((eglot (styles orderless))
                                       (eglot-capf (styles orderless))))
@@ -1325,7 +1330,9 @@ org-mycal-export
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (with-eval-after-load 'eglot
   (when (require 'eglot-booster nil t)
-    (eglot-booster-mode 1))
+    (eglot-booster-mode 1)
+    (fset #'jsonrpc--log-event #'ignore) 
+    (setq eglot-events-buffer-size 0))
   (require 'eglot-x)
   (eglot-x-setup)
   (setopt eglot-x-enable-snippet-text-edit t
@@ -1341,7 +1348,6 @@ org-mycal-export
   (setq eglot-watch-files-outside-project-root nil)
   ;; Disable events buffer to reduce overhead
   (setopt eglot-events-buffer-config '(:size 0 :format full))
-
 
   ;; Keybindings
   (define-key eglot-mode-map (kbd "C-c l r") #'eglot-rename)
@@ -1381,6 +1387,7 @@ org-mycal-export
 
 (defun kei/python-eglot-ensure ()
   (kei/python-eglot-workspace-configuration)
+  (setq eglot-ignored-server-capabilities '(:hoverProvider))
   (eglot-ensure))
 
 (defun kei/eglot-python-server-program-p (server-program)
@@ -1393,9 +1400,7 @@ org-mycal-export
         (python-mode-p modes)))))
 
 (with-eval-after-load 'eglot
-  (setq eglot-server-programs
-        (cl-remove-if #'kei/eglot-python-server-program-p
-                      eglot-server-programs))
+  (setq eglot-server-programs eglot-server-programs)
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode) .
                  ("basedpyright-langserver" "--stdio"))))
@@ -1405,10 +1410,10 @@ org-mycal-export
 #+end_src
 ***** org
 #+begin_src emacs-lisp
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               '(org-mode . ("kakehashi"))))
-(add-hook 'org-mode-hook #'eglot-ensure)
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(org-mode . ("kakehashi"))))
+;; (add-hook 'org-mode-hook #'eglot-ensure)
 #+end_src
 ***** rust
 #+begin_src emacs-lisp
@@ -1862,71 +1867,60 @@ org-mycal-export
 #+end_src
 ** ddskk
 #+begin_src emacs-lisp
-(keymap-global-set "C-x j" #'skk-mode)
-(keymap-global-set "C-x C-j" #'skk-mode)
-(setq default-input-method "japanese-skk")
+;; (keymap-global-set "C-x j" #'skk-mode)
+;; (keymap-global-set "C-x C-j" #'skk-mode)
+;; (setq default-input-method "japanese-skk")
 
-(defun skk-open-server-decoding-utf-8 ()
- "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
- (unless (skk-server-live-p)
-   (setq skkserv-process (skk-open-server-1))
-   (when (skk-server-live-p)
-     (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-       (set-process-coding-system skkserv-process 'utf-8 code))))
- skkserv-process)
+;; (defun skk-open-server-decoding-utf-8 ()
+;;  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
+;;  (unless (skk-server-live-p)
+;;    (setq skkserv-process (skk-open-server-1))
+;;    (when (skk-server-live-p)
+;;      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+;;        (set-process-coding-system skkserv-process 'utf-8 code))))
+;;  skkserv-process)
 
-(setq skk-mode-hook
-     '(lambda()
-        (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+;; (setq skk-mode-hook
+;;      '(lambda()
+;;         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
 
-(setq skk-preload t)
+;; (setq skk-preload t)
 
-(with-eval-after-load 'skk-vars
- (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
-       skk-use-azik t
-       skk-azik-keyboard-type "en"
-       skk-search-katakana nil
-       skk-share-private-jisyo t
-       skk-save-jisyo-instantly t
-       skk-server-host "localhost"
-       skk-server-portnum 1178))
+;; (with-eval-after-load 'skk-vars
+;;  (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+;;        skk-use-azik t
+;;        skk-azik-keyboard-type "en"
+;;        skk-search-katakana nil
+;;        skk-share-private-jisyo t
+;;        skk-save-jisyo-instantly t
+;;        skk-server-host "localhost"
+;;        skk-server-portnum 1178))
 
-(require 'ddskk-posframe)
+;; (require 'ddskk-posframe)
 
-(with-eval-after-load 'skk
- (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+;; (with-eval-after-load 'skk
+;;  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
 
 ** nskk
 #+begin_src emacs-lisp
-;; (require 'nskk)
-;; (keymap-global-set "C-x C-j" #'nskk-mode)
+(require 'nskk)
+(keymap-global-set "C-x C-j" #'nskk-mode)
 
-;; (setopt nskk-dict-system-dictionary-files
-;;         '("~/.skk-dict/SKK-JISYO.L"))
+(setopt nskk-dict-system-dictionary-files
+        '("~/.skk-dict/SKK-JISYO.L"))
 
-;; (setopt nskk-server-enable t)
-;; (setopt nskk-server-host "localhost")
-;; (setopt nskk-server-portnum 1178)
-;; (setopt nskk-henkan-show-candidates-nth 2)
-;; (setopt nskk-henkan-number-to-display-candidates 7)
-;; (setq nskk-converter-romaji-style 'azik)
-;; (setq nskk-azik-keyboard-type 'us101)
-;; (setq nskk-debug-enabled t)
-;; (setq nskk-server-report-response t)
-;; (setq nskk-dict-user-dictionary-file skk-user-dict-path)
-;; (require 'nskk-debug)
-
-;; ;; Fix for org-element-cache warnings with nskk-self-insert
-;; ;; nskk-self-insert modifies the buffer without properly notifying org-element-cache
-;; (with-eval-after-load 'org
-;;   (defun nskk-org-element-cache-reset-advice (&rest _)
-;;     "Reset org-element cache before nskk operations to prevent cache warnings."
-;;     (when (and (derived-mode-p 'org-mode)
-;;                (boundp 'org-element--cache))
-;;       (org-element-cache-reset)))
- 
-;; (advice-add 'nskk-self-insert :before #'nskk-org-element-cache-reset-advice))
+(setopt nskk-server-enable t)
+(setopt nskk-server-host "localhost")
+(setopt nskk-server-portnum 1178)
+(setopt nskk-henkan-show-candidates-nth 2)
+(setopt nskk-henkan-number-to-display-candidates 7)
+(setq nskk-converter-romaji-style 'azik)
+(setq nskk-azik-keyboard-type 'us101)
+(setq nskk-debug-enabled t)
+(setq nskk-server-report-response t)
+(setq nskk-dict-user-dictionary-file skk-user-dict-path)
+(require 'nskk-debug)
 #+end_src
 
 * AI・LLM Integration
@@ -1971,13 +1965,13 @@ org-mycal-export
 
 ** Copilot
 #+begin_src emacs-lisp
-(setq copilot-indent-offset-warning-disable t)
+;; (setq copilot-indent-offset-warning-disable t)
 
-(require 'copilot)
-(setq copilot-idle-delay 1.0)
+;; (require 'copilot)
+;; (setq copilot-idle-delay 1.0)
 
-(add-hook 'prog-mode-hook 'copilot-mode)
-(keymap-global-set "C-<return>" #'copilot-accept-completion)
+;; (add-hook 'prog-mode-hook 'copilot-mode)
+;; (keymap-global-set "C-<return>" #'copilot-accept-completion)
 #+end_src
 ** copilot-chat
 #+begin_src emacs-lisp
