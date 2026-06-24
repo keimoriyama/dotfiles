@@ -26,6 +26,16 @@
     src = sources.emacs-dmacro.src;
     version = "0.0.1";
   };
+  claude-code-ide = epkgs.melpaBuild {
+    pname = "claude-code-ide";
+    src = sources.emacs-claude-code-ide.src;
+    version = "0.2.7";
+    packageRequires = [
+      epkgs.websocket
+      epkgs.transient
+      epkgs.web-server
+    ];
+  };
   instant-maximized-window = epkgs.melpaBuild {
     pname = "instant-maximized-window";
     src = sources.emacs-instant-maximized-window.src;
@@ -65,16 +75,6 @@
       epkgs.log4e
     ];
   };
-  # yasnippet-capf = epkgs.melpaBuild {
-  #   pname = "yasnippet-capf";
-  #   src = sources.emacs-yasnippet-capf.src;
-  #   version = "0.0.1";
-  # };
-  # acp = epkgs.melpaBuild {
-  #   pname = "acp";
-  #   src = sources.emacs-acp.src;
-  #   version = "0.0.1";
-  # };
   nskk = epkgs.trivialBuild {
     pname = "nskk";
     src = sources.emacs-nskk.src;
@@ -94,5 +94,13 @@
     pname = "arto";
     src = sources.emcas-arto.src;
     version = "0.0.1";
+  };
+  ghostel = epkgs.melpaBuild {
+    pname = "ghostel";
+    src = sources.ghostel.src;
+    version = "0.38.0";
+    packageRequires = [
+      epkgs.compat
+    ];
   };
 }

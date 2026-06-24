@@ -10,6 +10,7 @@ with pkgs; [
   ghc
   auctex
   perl
+  zig_0_15
 
   # frameworks & tools
   deno

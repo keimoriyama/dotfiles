@@ -17,17 +17,17 @@
       sha256 = "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=";
     };
   };
-  emacs-acp = {
-    pname = "emacs-acp";
-    version = "3ddfa907eb7f17949a4a8e731ea5c5241e6cbcb4";
+  emacs-claude-code-ide = {
+    pname = "emacs-claude-code-ide";
+    version = "a9485f766ea69f6cb3a3f08dea20d44fd6596673";
     src = fetchFromGitHub {
-      owner = "xenodium";
-      repo = "acp.el";
-      rev = "3ddfa907eb7f17949a4a8e731ea5c5241e6cbcb4";
+      owner = "manzaltu";
+      repo = "claude-code-ide.el";
+      rev = "a9485f766ea69f6cb3a3f08dea20d44fd6596673";
       fetchSubmodules = false;
-      sha256 = "sha256-hN5c1kOKBPq+rbuh0ILxq8oRVDgZLxQqQmeDj5PUKzE=";
+      sha256 = "sha256-6kaTPI2CCsdxxiCpZ7qqciv/HJCQRsJ8084+SqW8Idc=";
     };
-    date = "2026-05-27";
+    date = "2026-06-01";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
@@ -208,6 +208,18 @@
       sha256 = "sha256-64y5nTQsdz8Qyn0VjEtfI4FvTMjF5XVYW7yTsrkIS30=";
     };
     date = "2025-01-27";
+  };
+  ghostel = {
+    pname = "ghostel";
+    version = "3431d79f44a7fc8a6b6638587a5604cacd03f897";
+    src = fetchFromGitHub {
+      owner = "dakra";
+      repo = "ghostel";
+      rev = "3431d79f44a7fc8a6b6638587a5604cacd03f897";
+      fetchSubmodules = false;
+      sha256 = "sha256-9xWXliS6zR+EaRmeCdy9BG/gPCQvVZiG7ceWFoJSfWQ=";
+    };
+    date = "2026-06-23";
   };
   kakehashi = {
     pname = "kakehashi";

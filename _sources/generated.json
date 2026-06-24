@@ -20,11 +20,11 @@
         },
         "version": "v0.10.7"
     },
-    "emacs-acp": {
+    "emacs-claude-code-ide": {
         "cargoLock": null,
-        "date": "2026-05-27",
+        "date": "2026-06-01",
         "extract": null,
-        "name": "emacs-acp",
+        "name": "emacs-claude-code-ide",
         "passthru": null,
         "pinned": false,
         "src": {
@@ -32,14 +32,14 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "owner": "xenodium",
-            "repo": "acp.el",
-            "rev": "3ddfa907eb7f17949a4a8e731ea5c5241e6cbcb4",
-            "sha256": "sha256-hN5c1kOKBPq+rbuh0ILxq8oRVDgZLxQqQmeDj5PUKzE=",
+            "owner": "manzaltu",
+            "repo": "claude-code-ide.el",
+            "rev": "a9485f766ea69f6cb3a3f08dea20d44fd6596673",
+            "sha256": "sha256-6kaTPI2CCsdxxiCpZ7qqciv/HJCQRsJ8084+SqW8Idc=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "3ddfa907eb7f17949a4a8e731ea5c5241e6cbcb4"
+        "version": "a9485f766ea69f6cb3a3f08dea20d44fd6596673"
     },
     "emacs-dmacro": {
         "cargoLock": null,
@@ -355,6 +355,27 @@
             "type": "github"
         },
         "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
+    },
+    "ghostel": {
+        "cargoLock": null,
+        "date": "2026-06-23",
+        "extract": null,
+        "name": "ghostel",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "dakra",
+            "repo": "ghostel",
+            "rev": "3431d79f44a7fc8a6b6638587a5604cacd03f897",
+            "sha256": "sha256-9xWXliS6zR+EaRmeCdy9BG/gPCQvVZiG7ceWFoJSfWQ=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "3431d79f44a7fc8a6b6638587a5604cacd03f897"
     },
     "kakehashi": {
         "cargoLock": null,

@@ -13,15 +13,15 @@ fetch.github="rougier/nano-modeline"
 # src.branch="master"
 # fetch.github="elken/yasnippet-capf"
 
-[emacs-acp]
-src.git="https://github.com/xenodium/acp.el"
-src.branch="main"
-fetch.github="xenodium/acp.el"
-
 [emacs-nskk]
 src.git="https://github.com/takeokunn/nskk.el"
 src.branch="main"
 fetch.github="takeokunn/nskk.el"
+
+[emacs-claude-code-ide]
+src.git="https://github.com/manzaltu/claude-code-ide.el"
+src.branch="main"
+fetch.github="manzaltu/claude-code-ide.el"
 
 [emcas-arto]
 src.git="https://github.com/arto-app/arto.el"
@@ -82,6 +82,11 @@ fetch.github="yuys13/fish-fzf-bd"
 src.git="https://github.com/yuys13/fish-gcd"
 src.branch="main"
 fetch.github="yuys13/fish-gcd"
+
+[ghostel]
+src.git="https://github.com/dakra/ghostel"
+src.branch="main"
+fetch.github="dakra/ghostel"
 
 [mocword]
 src.git="https://github.com/high-moctane/mocword"

@@ -39,6 +39,7 @@
 #+begin_src emacs-lisp
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 (setq frame-title-format "%f")
 ;; EmacsのデフォルトエンコーディングをUTF-8に設定
 (set-terminal-coding-system 'utf-8)
@@ -182,7 +183,7 @@
 (require 'puni)
 (add-hook 'emacs-startup-hook #'puni-global-mode)
 (electric-pair-mode 1)
-(define-key puni-mode-map (kbd "C-]")  #'puni-slurp-forward)
+(define-key puni-mode-map (kbd "C-!")  #'puni-slurp-forward)
 (define-key puni-mode-map (kbd "C-}")  #'puni-barf-forward)
 (define-key puni-mode-map (kbd "M-(")  #'puni-wrap-forward)
 (define-key puni-mode-map (kbd "M-s")  #'puni-splice)
@@ -535,6 +536,7 @@ binding))))))))
 
 (with-eval-after-load 'corfu
   (setq corfu-debug nil)
+  (set-default-coding-systems 'utf-8)
   (setq corfu-auto t
         corfu-auto-delay 0.5
         corfu-cycle t
@@ -1330,6 +1332,8 @@ org-mycal-export
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (with-eval-after-load 'eglot
   (when (require 'eglot-booster nil t)
+    ;; Disable bytecode mode for eglot-booster to preserve proper UTF-8 encoding
+    (setq eglot-booster-io-only t)
     (eglot-booster-mode 1)
     (fset #'jsonrpc--log-event #'ignore) 
     (setq eglot-events-buffer-size 0))
@@ -1421,10 +1425,14 @@ org-mycal-export
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
                  ("rustup" "run" "stable" "rust-analyzer"
-                  :initializationOptions (:cargo (:allFeatures t
-                                                  :buildScripts (:enable t))
-                                          :check (:command "clippy")
-                                          :procMacro (:enable t))))))
+                  "--log-file" "/tmp/rust-analyzer-eglot.log"
+                  "--no-log-buffering"
+                  :initializationOptions
+                  (:cargo
+                   (:allFeatures t
+                                 :buildScripts (:enable t))
+                   :check (:command "clippy")
+                   :procMacro (:enable t))))))
 (add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'rust-ts-mode-hook #'eglot-ensure)
 #+end_src
@@ -1978,12 +1986,13 @@ org-mycal-export
 ;; (require 'copilot-chat)
 ;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+end_src
-
-** Agent Shell
+** claude-code.el
 #+begin_src emacs-lisp
-(require 'agent-shell)
+(setq ghostel-module-directory
+      (expand-file-name "ghostel/"
+                        (or (getenv "XDG_CACHE_HOME") "~/.cache")))
+(setq claude-code-ide-terminal-backend 'ghostel)
 #+end_src
-
 * インタラクティブメニュー
 ** hydra メニュー群
 *** Goto メニュー

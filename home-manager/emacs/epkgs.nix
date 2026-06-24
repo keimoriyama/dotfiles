@@ -45,6 +45,7 @@ in
     packages.nano-modeline
     centered-cursor-mode
     packages.arto
+    packages.ghostel
 
     # completion
     corfu
@@ -97,7 +98,7 @@ in
     ellama
     llm
     copilot-chat
-    agent-shell
+    packages.claude-code-ide
 
     # lsp
     packages.eglot-x
