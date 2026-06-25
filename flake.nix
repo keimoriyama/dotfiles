@@ -36,6 +36,7 @@
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
     arto.url = "github:arto-app/Arto";
+    takt.url = "github:nrslib/takt";
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,6 +54,7 @@
     brew-nix,
     llm-agents,
     arto,
+    takt,
     nixos-wsl,
     ...
   }:
@@ -74,6 +76,7 @@
           brew-nix
           llm-agents
           arto
+          takt
           nixos-wsl
           ;
         system = darwinSystem;
@@ -90,6 +93,7 @@
           brew-nix
           llm-agents
           arto
+          takt
           nixos-wsl
           ;
         system = nixosSystem;

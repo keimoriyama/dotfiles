@@ -410,6 +410,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1781454065,
+        "narHash": "sha256-d2xfDjnfRuf/xYGdu9VVRHiav/2w5hDL/5cw2TuVAXw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9eac87a12312b8f60dd52e1c6e1a265f6fc7f5fc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -459,6 +475,7 @@
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
         "org-babel": "org-babel",
+        "takt": "takt",
         "vim-src": "vim-src"
       }
     },
@@ -490,6 +507,24 @@
         "owner": "nix-systems",
         "ref": "future-26.11",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "takt": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_5"
+      },
+      "locked": {
+        "lastModified": 1782303278,
+        "narHash": "sha256-PJvgcn3O2EuqP+r5nQnmyPBTN6kmgKn6g3iQaOOPfe8=",
+        "owner": "nrslib",
+        "repo": "takt",
+        "rev": "d37cc398b55a5b4e4edee0ac8af503ce85de581a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nrslib",
+        "repo": "takt",
         "type": "github"
       }
     },
