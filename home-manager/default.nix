@@ -47,6 +47,7 @@
   fish-config = import ./fish {inherit pkgs sources;};
   nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
+  claude-code-config = import ./claude-code;
 
   utils = import ./utils.nix {inherit pkgs;};
   langs = import ./langs.nix {inherit pkgs;};
@@ -84,6 +85,7 @@ in {
     emacs-config
     git-config
     nixvim-config
+    claude-code-config
   ];
 
   programs.home-manager.enable = true;
