@@ -56,6 +56,7 @@ in {
             alt-w = "workspace w";
             alt-n = "workspace n";
             alt-g = "workspace g";
+            alt-a = "workspace a";
             alt-shift-e = [
               "move-node-to-workspace e"
               "workspace e"
@@ -79,6 +80,10 @@ in {
             alt-shift-g = [
               "move-node-to-workspace g"
               "workspace g"
+            ];
+            alt-shift-a = [
+              "move-node-to-workspace a"
+              "workspace a"
             ];
             alt-shift-1 = [
               "move-node-to-workspace 1"
@@ -157,6 +162,7 @@ in {
         w = "main";
         n = "main";
         g = "main";
+        a = "main";
       };
 
       on-window-detected = [
@@ -198,6 +204,12 @@ in {
           "if".app-id = "com.openai.chat";
           run = [
             "move-node-to-workspace g"
+          ];
+        }
+        {
+          "if".app-id = "com.anthropic.claudefordesktop";
+          run = [
+            "move-node-to-workspace a"
           ];
         }
       ];

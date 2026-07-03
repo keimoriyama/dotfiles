@@ -37,6 +37,12 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
     arto.url = "github:arto-app/Arto";
     takt.url = "github:nrslib/takt";
+    herdr.url = "github:ogulcancelik/herdr";
+    agent-skills-nix = {
+      url = "github:Kyure-A/agent-skills-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,7 +61,9 @@
     llm-agents,
     arto,
     takt,
+    herdr,
     nixos-wsl,
+    agent-skills-nix,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -64,6 +72,7 @@
       username = "kei";
       homeModules = [
         ./home-manager/default.nix
+        agent-skills-nix.homeManagerModules.default
       ];
       darwinSpecialArgs = {
         inherit
@@ -77,6 +86,7 @@
           llm-agents
           arto
           takt
+          herdr
           nixos-wsl
           ;
         system = darwinSystem;
@@ -94,6 +104,7 @@
           llm-agents
           arto
           takt
+          herdr
           nixos-wsl
           ;
         system = nixosSystem;

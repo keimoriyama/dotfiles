@@ -14,7 +14,7 @@ in
     nerd-icons-completion
     catppuccin-theme
     volatile-highlights
-    projectile
+    packages.projectile
     expand-region
     undo-tree
     free-keys

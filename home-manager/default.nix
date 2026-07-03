@@ -11,6 +11,7 @@
   llm-agents,
   arto,
   takt,
+  herdr,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -31,6 +32,7 @@
     then arto.packages.${system}.default
     else null;
   taktPkg = takt.packages.${system}.default;
+  herdrPkg = herdr.packages.${system}.default;
   # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
   # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
@@ -50,6 +52,7 @@
   nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
   claude-code-config = import ./claude-code;
+  agent-skills-config = import ./agent-skills.nix;
 
   utils = import ./utils.nix {inherit pkgs;};
   langs = import ./langs.nix {inherit pkgs;};
@@ -82,6 +85,7 @@
     ]
     ++ [
       taktPkg
+      herdrPkg
     ];
 in {
   imports = [
@@ -91,6 +95,7 @@ in {
     git-config
     nixvim-config
     claude-code-config
+    agent-skills-config
   ];
 
   programs.home-manager.enable = true;

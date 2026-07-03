@@ -103,4 +103,10 @@
       epkgs.compat
     ];
   };
+  # Upstream projectile ships projectile-consult.el, which unconditionally
+  # (require 'consult), but nixpkgs' generated package doesn't declare it
+  # as a dependency, breaking byte-compilation. Add it explicitly.
+  projectile = epkgs.projectile.overrideAttrs (old: {
+    propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [epkgs.consult];
+  });
 }
