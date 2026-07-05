@@ -22,7 +22,7 @@
     },
     "emacs-claude-code-ide": {
         "cargoLock": null,
-        "date": "2026-06-01",
+        "date": "2026-07-02",
         "extract": null,
         "name": "emacs-claude-code-ide",
         "passthru": null,
@@ -34,12 +34,12 @@
             "name": null,
             "owner": "manzaltu",
             "repo": "claude-code-ide.el",
-            "rev": "a9485f766ea69f6cb3a3f08dea20d44fd6596673",
-            "sha256": "sha256-6kaTPI2CCsdxxiCpZ7qqciv/HJCQRsJ8084+SqW8Idc=",
+            "rev": "cc508396a09e98931bb588da8542b73fa07733e2",
+            "sha256": "sha256-pL5PNnemuXHHhQ0wEqhoagyKNdx+ywb2EEru8XWJ0Lc=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "a9485f766ea69f6cb3a3f08dea20d44fd6596673"
+        "version": "cc508396a09e98931bb588da8542b73fa07733e2"
     },
     "emacs-dmacro": {
         "cargoLock": null,
@@ -148,7 +148,7 @@
     },
     "emacs-nskk": {
         "cargoLock": null,
-        "date": "2026-05-16",
+        "date": "2026-07-04",
         "extract": null,
         "name": "emacs-nskk",
         "passthru": null,
@@ -160,12 +160,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "nskk.el",
-            "rev": "e429c83b4c75042444c6d30d3fee79be6877febe",
-            "sha256": "sha256-sc64yUTmAjT6t4pSzYv5bDTPDi8nyzrzr83Qtgk1jl4=",
+            "rev": "8757fa3f38ad0cee20606d0fb5d369ecb845503d",
+            "sha256": "sha256-LUNe0TQPeFJ1+TTPP3OByO+7WCnaK/sBT8BWvZ1Ycvk=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "e429c83b4c75042444c6d30d3fee79be6877febe"
+        "version": "8757fa3f38ad0cee20606d0fb5d369ecb845503d"
     },
     "emacs-typst-ts-mode": {
         "cargoLock": null,
@@ -358,7 +358,7 @@
     },
     "ghostel": {
         "cargoLock": null,
-        "date": "2026-06-26",
+        "date": "2026-07-04",
         "extract": null,
         "name": "ghostel",
         "passthru": null,
@@ -370,12 +370,12 @@
             "name": null,
             "owner": "dakra",
             "repo": "ghostel",
-            "rev": "92bfcc57dc85f254ce95dcb51dbdd2411fea5f02",
-            "sha256": "sha256-havDs3fZENB/ozMWWKQkdsyHUIBIeewmrjL+3xJKM94=",
+            "rev": "f77efee9172854abc08652637d23adc26faa25a2",
+            "sha256": "sha256-6ME+aStZ9X1pkTr0uwwhrJXEHu/uLStPHsKtbudXl9I=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "92bfcc57dc85f254ce95dcb51dbdd2411fea5f02"
+        "version": "f77efee9172854abc08652637d23adc26faa25a2"
     },
     "kakehashi": {
         "cargoLock": null,
