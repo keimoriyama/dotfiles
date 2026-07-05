@@ -1,10 +1,10 @@
 {llmAgentsPkgs}:
 with llmAgentsPkgs; [
   # ai
-  copilot-cli
-  codex
+  # copilot-cli
+  # codex
   copilot-language-server
-  codex-acp
+  # codex-acp
   claude-code
-  claude-agent-acp
+  # claude-agent-acp
 ]
