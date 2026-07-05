@@ -85,6 +85,10 @@ in {
               "move-node-to-workspace a"
               "workspace a"
             ];
+            alt-shift-b = [
+              "move-node-to-workspace a"
+              "workspace b"
+            ];
             alt-shift-1 = [
               "move-node-to-workspace 1"
               "workspace 1"
@@ -163,6 +167,7 @@ in {
         n = "main";
         g = "main";
         a = "main";
+        b = "main";
       };
 
       on-window-detected = [
@@ -180,6 +185,13 @@ in {
           run = [
             # "layout floating"
             "move-node-to-workspace c"
+          ];
+        }
+        {
+          "if".app-id = "com.apple.safari";
+          run = [
+            # "layout floating"
+            "move-node-to-workspace b"
           ];
         }
         {
