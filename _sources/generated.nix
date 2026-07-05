@@ -19,15 +19,15 @@
   };
   emacs-claude-code-ide = {
     pname = "emacs-claude-code-ide";
-    version = "a9485f766ea69f6cb3a3f08dea20d44fd6596673";
+    version = "cc508396a09e98931bb588da8542b73fa07733e2";
     src = fetchFromGitHub {
       owner = "manzaltu";
       repo = "claude-code-ide.el";
-      rev = "a9485f766ea69f6cb3a3f08dea20d44fd6596673";
+      rev = "cc508396a09e98931bb588da8542b73fa07733e2";
       fetchSubmodules = false;
-      sha256 = "sha256-6kaTPI2CCsdxxiCpZ7qqciv/HJCQRsJ8084+SqW8Idc=";
+      sha256 = "sha256-pL5PNnemuXHHhQ0wEqhoagyKNdx+ywb2EEru8XWJ0Lc=";
     };
-    date = "2026-06-01";
+    date = "2026-07-02";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
@@ -91,15 +91,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "e429c83b4c75042444c6d30d3fee79be6877febe";
+    version = "8757fa3f38ad0cee20606d0fb5d369ecb845503d";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "e429c83b4c75042444c6d30d3fee79be6877febe";
+      rev = "8757fa3f38ad0cee20606d0fb5d369ecb845503d";
       fetchSubmodules = false;
-      sha256 = "sha256-sc64yUTmAjT6t4pSzYv5bDTPDi8nyzrzr83Qtgk1jl4=";
+      sha256 = "sha256-LUNe0TQPeFJ1+TTPP3OByO+7WCnaK/sBT8BWvZ1Ycvk=";
     };
-    date = "2026-05-16";
+    date = "2026-07-04";
   };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
@@ -211,15 +211,15 @@
   };
   ghostel = {
     pname = "ghostel";
-    version = "92bfcc57dc85f254ce95dcb51dbdd2411fea5f02";
+    version = "f77efee9172854abc08652637d23adc26faa25a2";
     src = fetchFromGitHub {
       owner = "dakra";
       repo = "ghostel";
-      rev = "92bfcc57dc85f254ce95dcb51dbdd2411fea5f02";
+      rev = "f77efee9172854abc08652637d23adc26faa25a2";
       fetchSubmodules = false;
-      sha256 = "sha256-havDs3fZENB/ozMWWKQkdsyHUIBIeewmrjL+3xJKM94=";
+      sha256 = "sha256-6ME+aStZ9X1pkTr0uwwhrJXEHu/uLStPHsKtbudXl9I=";
     };
-    date = "2026-06-26";
+    date = "2026-07-04";
   };
   kakehashi = {
     pname = "kakehashi";
