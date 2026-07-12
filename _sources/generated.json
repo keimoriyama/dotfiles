@@ -358,7 +358,7 @@
     },
     "ghostel": {
         "cargoLock": null,
-        "date": "2026-07-04",
+        "date": "2026-07-12",
         "extract": null,
         "name": "ghostel",
         "passthru": null,
@@ -370,12 +370,12 @@
             "name": null,
             "owner": "dakra",
             "repo": "ghostel",
-            "rev": "f77efee9172854abc08652637d23adc26faa25a2",
-            "sha256": "sha256-6ME+aStZ9X1pkTr0uwwhrJXEHu/uLStPHsKtbudXl9I=",
+            "rev": "0d41dfbbcd0577e7c7969f08703026f299d2eb71",
+            "sha256": "sha256-aYV8VYFrRrkhu2ciJHe6uN318OW+Tjav8nv43bIpAxo=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "f77efee9172854abc08652637d23adc26faa25a2"
+        "version": "0d41dfbbcd0577e7c7969f08703026f299d2eb71"
     },
     "kakehashi": {
         "cargoLock": null,
@@ -391,12 +391,12 @@
             "name": null,
             "owner": "atusy",
             "repo": "kakehashi",
-            "rev": "v0.7.0",
-            "sha256": "sha256-FL+D+zXN6ffG8pzzQJcHy42WBHwaqavkAXIjURHeI+8=",
+            "rev": "v0.8.0",
+            "sha256": "sha256-PKx/YN8f4zUjJJR/3xlgSWv2wEa0zuafuzCv/rVJKdg=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v0.7.0"
+        "version": "v0.8.0"
     },
     "mocword": {
         "cargoLock": null,
