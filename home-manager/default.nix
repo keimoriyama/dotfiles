@@ -77,9 +77,6 @@
       kakehashi
       yaskkserv2
     ]
-    ++ lib.optionals pkgs.stdenv.isDarwin [
-      terminal-notifier
-    ]
     ++ lib.optionals (artoPkg != null) [
       artoPkg
     ]

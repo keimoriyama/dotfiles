@@ -22,16 +22,6 @@
           }
         ]
       }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo \"Claude Code: $(jq -r '.message')\" | terminal-notifier -title 'Claude Code'"
-          }
-        ]
-      }
     ]
   }
 }
