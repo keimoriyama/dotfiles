@@ -10,8 +10,6 @@
   brew-nix,
   llm-agents,
   arto,
-  takt,
-  herdr,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -31,8 +29,6 @@
     if pkgs.stdenv.isDarwin
     then arto.packages.${system}.default
     else null;
-  taktPkg = takt.packages.${system}.default;
-  herdrPkg = herdr.packages.${system}.default;
   # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
   yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
   # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
@@ -70,22 +66,14 @@
   basePackages = with pkgs;
     [
       # editor & other tools
-      vim
       tree-sitter
       # mocword
       cargo-compete
       kakehashi
       yaskkserv2
     ]
-    ++ lib.optionals pkgs.stdenv.isDarwin [
-      terminal-notifier
-    ]
     ++ lib.optionals (artoPkg != null) [
       artoPkg
-    ]
-    ++ [
-      taktPkg
-      herdrPkg
     ];
 in {
   imports = [

@@ -27,10 +27,7 @@ in
     packages.nskk
     rainbow-delimiters
     major-mode-hydra
-    tempel
-    quickrun
     avy-zap
-    ellama
     yasnippet
     consult-yasnippet
     oj
@@ -43,7 +40,6 @@ in
     packages.dmacro
     packages.instant-maximized-window
     packages.nano-modeline
-    centered-cursor-mode
     packages.arto
     packages.ghostel
 
@@ -56,7 +52,6 @@ in
     marginalia
     avy
     consult
-    consult-flycheck
     embark
     embark-consult
     affe
@@ -69,7 +64,6 @@ in
     # langs
     auctex
     packages.yatex
-    ebib
     packages.typst-ts-mode
     python-mode
     pet
@@ -112,13 +106,11 @@ in
     org-superstar
     ox-gfm
     ox-typst
-    org-modern
     org-pomodoro
     svg-tag-mode
     ox-hugo
     org-roam
     org-roam-ui
-    consult-org-roam
     org-super-agenda
     org-appear
     org-journal

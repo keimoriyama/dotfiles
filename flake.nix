@@ -3,10 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    vim-src = {
-      url = "github:vim/vim";
-      flake = false;
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,8 +32,6 @@
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
     arto.url = "github:arto-app/Arto";
-    takt.url = "github:nrslib/takt";
-    herdr.url = "github:ogulcancelik/herdr";
     agent-skills-nix = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,8 +54,6 @@
     brew-nix,
     llm-agents,
     arto,
-    takt,
-    herdr,
     nixos-wsl,
     agent-skills-nix,
     ...
@@ -85,8 +77,6 @@
           brew-nix
           llm-agents
           arto
-          takt
-          herdr
           nixos-wsl
           ;
         system = darwinSystem;
@@ -103,8 +93,6 @@
           brew-nix
           llm-agents
           arto
-          takt
-          herdr
           nixos-wsl
           ;
         system = nixosSystem;
