@@ -49,7 +49,6 @@
     wget
     curl
     git
-    vim
     htop
   ];
 
