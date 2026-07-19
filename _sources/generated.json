@@ -358,7 +358,7 @@
     },
     "ghostel": {
         "cargoLock": null,
-        "date": "2026-07-12",
+        "date": "2026-07-17",
         "extract": null,
         "name": "ghostel",
         "passthru": null,
@@ -370,12 +370,12 @@
             "name": null,
             "owner": "dakra",
             "repo": "ghostel",
-            "rev": "0d41dfbbcd0577e7c7969f08703026f299d2eb71",
-            "sha256": "sha256-aYV8VYFrRrkhu2ciJHe6uN318OW+Tjav8nv43bIpAxo=",
+            "rev": "7aa53db6ce82612b868c70e44087ac55f4354d56",
+            "sha256": "sha256-nPFn4cxYmYzIzjH0AamYxWaPvAwFVjA+rc6u3nFAwrg=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "0d41dfbbcd0577e7c7969f08703026f299d2eb71"
+        "version": "7aa53db6ce82612b868c70e44087ac55f4354d56"
     },
     "kakehashi": {
         "cargoLock": null,
