@@ -549,7 +549,8 @@ binding))))))))
         corfu-popupinfo-delay '(0.5 . 0.2))
   (keymap-set corfu-map "M-SPC" #'corfu-insert-separator)
   (keymap-set corfu-map "M-d" #'corfu-popupinfo-documentation)
-  (keymap-set corfu-map "M-l" #'corfu-popupinfo-location))
+  (keymap-set corfu-map "M-l" #'corfu-popupinfo-location)
+  (keymap-set corfu-map "C-y" #'corfu-insert))
 #+end_src
 
 *** ミニバッファ補完
@@ -1460,10 +1461,10 @@ org-mycal-export
 #+end_src
 ***** Latex
 #+begin_src emacs-lisp
-(add-hook 'yatex-mode-hook #'eglot-ensure)
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               '((yatex-mode bibtex-mode) . ("texlab"))))
+;; (add-hook 'yatex-mode-hook #'eglot-ensure)
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '((yatex-mode bibtex-mode) . ("texlab"))))
 #+end_src
 ** flycheck
 #+begin_src emacs-lisp
@@ -1931,6 +1932,7 @@ org-mycal-export
 (setq nskk-debug-enabled t)
 (setq nskk-server-report-response t)
 (setq nskk-dict-user-dictionary-file skk-user-dict-path)
+(setq nskk-global-mode t)
 (require 'nskk-debug)
 #+end_src
 
@@ -1947,31 +1949,31 @@ org-mycal-export
 
 ** llm
 #+begin_src emacs-lisp
-(require 'llm)
-(require 'llm-ollama)
-(with-eval-after-load 'llm
-  (setopt llm-warn-on-nonfree nil))
+;; (require 'llm)
+;; (require 'llm-ollama)
+;; (with-eval-after-load 'llm
+;;   (setopt llm-warn-on-nonfree nil))
 #+end_src
 
 ** ellama
 #+begin_src emacs-lisp
-(require 'ellama)
-(require 'ellama-transient)
-(keymap-global-set "C-c e" #'ellama-transient-main-menu)
+;; (require 'ellama)
+;; (require 'ellama-transient)
+;; (keymap-global-set "C-c e" #'ellama-transient-main-menu)
 
-(with-eval-after-load 'ellama
-  (setopt ellama-language "日本語")
-  (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
-        (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
-        (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
-    (setopt ellama-provider gemma2)
-    (setopt ellama-translation-provider gemma2)
-    (setopt ellama-summarization-provider llama3)
-    (setopt ellama-coding-provider codellama)
-    (setopt ellama-providers
-            `(("gemma2" . ,gemma2)
-              ("codellama" . ,codellama)
-              ("llama3" . ,llama3)))))
+;; (with-eval-after-load 'ellama
+;;   (setopt ellama-language "日本語")
+;;   (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
+;;         (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
+;;         (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
+;;     (setopt ellama-provider gemma2)
+;;     (setopt ellama-translation-provider gemma2)
+;;     (setopt ellama-summarization-provider llama3)
+;;     (setopt ellama-coding-provider codellama)
+;;     (setopt ellama-providers
+;;             `(("gemma2" . ,gemma2)
+;;               ("codellama" . ,codellama)
+;;               ("llama3" . ,llama3)))))
 #+end_src
 
 ** Copilot
