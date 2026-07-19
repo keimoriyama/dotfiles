@@ -51,6 +51,7 @@
   fish-config = import ./fish {inherit pkgs sources;};
   nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
+  nh-config = import ./nh;
   claude-code-config = import ./claude-code;
   agent-skills-config = import ./agent-skills.nix;
 
@@ -90,6 +91,7 @@ in {
     fish-config
     emacs-config
     git-config
+    nh-config
     nixvim-config
     claude-code-config
     agent-skills-config
