@@ -211,15 +211,15 @@
   };
   ghostel = {
     pname = "ghostel";
-    version = "0d41dfbbcd0577e7c7969f08703026f299d2eb71";
+    version = "7aa53db6ce82612b868c70e44087ac55f4354d56";
     src = fetchFromGitHub {
       owner = "dakra";
       repo = "ghostel";
-      rev = "0d41dfbbcd0577e7c7969f08703026f299d2eb71";
+      rev = "7aa53db6ce82612b868c70e44087ac55f4354d56";
       fetchSubmodules = false;
-      sha256 = "sha256-aYV8VYFrRrkhu2ciJHe6uN318OW+Tjav8nv43bIpAxo=";
+      sha256 = "sha256-nPFn4cxYmYzIzjH0AamYxWaPvAwFVjA+rc6u3nFAwrg=";
     };
-    date = "2026-07-12";
+    date = "2026-07-17";
   };
   kakehashi = {
     pname = "kakehashi";
