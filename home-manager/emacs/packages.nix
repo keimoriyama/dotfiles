@@ -26,16 +26,6 @@
     src = sources.emacs-dmacro.src;
     version = "0.0.1";
   };
-  claude-code-ide = epkgs.melpaBuild {
-    pname = "claude-code-ide";
-    src = sources.emacs-claude-code-ide.src;
-    version = "0.2.7";
-    packageRequires = [
-      epkgs.websocket
-      epkgs.transient
-      epkgs.web-server
-    ];
-  };
   instant-maximized-window = epkgs.melpaBuild {
     pname = "instant-maximized-window";
     src = sources.emacs-instant-maximized-window.src;
@@ -94,14 +84,6 @@
     pname = "arto";
     src = sources.emcas-arto.src;
     version = "0.0.1";
-  };
-  ghostel = epkgs.melpaBuild {
-    pname = "ghostel";
-    src = sources.ghostel.src;
-    version = "0.38.0";
-    packageRequires = [
-      epkgs.compat
-    ];
   };
   # Upstream projectile ships projectile-consult.el, which unconditionally
   # (require 'consult), but nixpkgs' generated package doesn't declare it

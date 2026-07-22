@@ -17,18 +17,6 @@
       sha256 = "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=";
     };
   };
-  emacs-claude-code-ide = {
-    pname = "emacs-claude-code-ide";
-    version = "cc508396a09e98931bb588da8542b73fa07733e2";
-    src = fetchFromGitHub {
-      owner = "manzaltu";
-      repo = "claude-code-ide.el";
-      rev = "cc508396a09e98931bb588da8542b73fa07733e2";
-      fetchSubmodules = false;
-      sha256 = "sha256-pL5PNnemuXHHhQ0wEqhoagyKNdx+ywb2EEru8XWJ0Lc=";
-    };
-    date = "2026-07-02";
-  };
   emacs-dmacro = {
     pname = "emacs-dmacro";
     version = "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468";
@@ -209,18 +197,6 @@
     };
     date = "2025-01-27";
   };
-  ghostel = {
-    pname = "ghostel";
-    version = "7aa53db6ce82612b868c70e44087ac55f4354d56";
-    src = fetchFromGitHub {
-      owner = "dakra";
-      repo = "ghostel";
-      rev = "7aa53db6ce82612b868c70e44087ac55f4354d56";
-      fetchSubmodules = false;
-      sha256 = "sha256-nPFn4cxYmYzIzjH0AamYxWaPvAwFVjA+rc6u3nFAwrg=";
-    };
-    date = "2026-07-17";
-  };
   kakehashi = {
     pname = "kakehashi";
     version = "v0.8.0";
@@ -246,15 +222,15 @@
   };
   skkeleton = {
     pname = "skkeleton";
-    version = "770b265dd115dba96ea5314642e35764654ef08f";
+    version = "72e6425966232a01ed9bd70b24e2fd1dddc4d368";
     src = fetchFromGitHub {
       owner = "vim-skk";
       repo = "skkeleton";
-      rev = "770b265dd115dba96ea5314642e35764654ef08f";
+      rev = "72e6425966232a01ed9bd70b24e2fd1dddc4d368";
       fetchSubmodules = false;
-      sha256 = "sha256-Gsl/LqUY8szRqYLnDVyDOIDCw+cisoKsS5Fl1zQ+unM=";
+      sha256 = "sha256-vowvXdNy5J2uLxBt9xLF6/0HYbl3yYv6vWl51AQ9+Ic=";
     };
-    date = "2026-05-05";
+    date = "2026-07-21";
   };
   skkeleton-azik-kanatable = {
     pname = "skkeleton-azik-kanatable";

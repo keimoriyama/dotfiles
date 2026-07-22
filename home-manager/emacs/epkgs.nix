@@ -41,7 +41,6 @@ in
     packages.instant-maximized-window
     packages.nano-modeline
     packages.arto
-    packages.ghostel
 
     # completion
     corfu
@@ -92,7 +91,7 @@ in
     ellama
     llm
     copilot-chat
-    packages.claude-code-ide
+    agent-shell
 
     # lsp
     packages.eglot-x

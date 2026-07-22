@@ -5,7 +5,7 @@ with pkgs; [
   typescript
   lua
   typst
-  texliveBasic
+  texliveFull
   go
   ghc
   auctex

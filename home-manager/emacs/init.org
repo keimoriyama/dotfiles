@@ -1935,68 +1935,10 @@ org-mycal-export
 (setq nskk-global-mode t)
 (require 'nskk-debug)
 #+end_src
-
-* AI・LLM Integration
-** MCP (Model Context Protocol)
+* AI
+** agent-shell
 #+begin_src emacs-lisp
-;; (require 'mcp)
-;; (setq mcp-hub-servers
-;;       `(("filesystem" . (:command "npx"
-;;                                   :args ("-y" "@modelcontextprotocol/server-filesystem")
-;;                                   :roots ("/home/Document/org-mode" "/home/ghq/")))
-;;         ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
-#+end_src
-
-** llm
-#+begin_src emacs-lisp
-;; (require 'llm)
-;; (require 'llm-ollama)
-;; (with-eval-after-load 'llm
-;;   (setopt llm-warn-on-nonfree nil))
-#+end_src
-
-** ellama
-#+begin_src emacs-lisp
-;; (require 'ellama)
-;; (require 'ellama-transient)
-;; (keymap-global-set "C-c e" #'ellama-transient-main-menu)
-
-;; (with-eval-after-load 'ellama
-;;   (setopt ellama-language "日本語")
-;;   (let ((gemma2 (make-llm-ollama :chat-model "gemma2:9b" :embedding-model "gemma2:9b"))
-;;         (codellama (make-llm-ollama :chat-model "codellama:latest" :embedding-model "codellama:latest"))
-;;         (llama3 (make-llm-ollama :chat-model "llama3:8b" :embedding-model "llama3:8b")))
-;;     (setopt ellama-provider gemma2)
-;;     (setopt ellama-translation-provider gemma2)
-;;     (setopt ellama-summarization-provider llama3)
-;;     (setopt ellama-coding-provider codellama)
-;;     (setopt ellama-providers
-;;             `(("gemma2" . ,gemma2)
-;;               ("codellama" . ,codellama)
-;;               ("llama3" . ,llama3)))))
-#+end_src
-
-** Copilot
-#+begin_src emacs-lisp
-;; (setq copilot-indent-offset-warning-disable t)
-
-;; (require 'copilot)
-;; (setq copilot-idle-delay 1.0)
-
-;; (add-hook 'prog-mode-hook 'copilot-mode)
-;; (keymap-global-set "C-<return>" #'copilot-accept-completion)
-#+end_src
-** copilot-chat
-#+begin_src emacs-lisp
-;; (require 'copilot-chat)
-;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
-#+end_src
-** claude-code.el
-#+begin_src emacs-lisp
-(setq ghostel-module-directory
-      (expand-file-name "ghostel/"
-                        (or (getenv "XDG_CACHE_HOME") "~/.cache")))
-(setq claude-code-ide-terminal-backend 'ghostel)
+(keymap-global-set "C-c C-a" #'agent-shell)
 #+end_src
 * インタラクティブメニュー
 ** hydra メニュー群

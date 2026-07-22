@@ -20,27 +20,6 @@
         },
         "version": "v0.10.7"
     },
-    "emacs-claude-code-ide": {
-        "cargoLock": null,
-        "date": "2026-07-02",
-        "extract": null,
-        "name": "emacs-claude-code-ide",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "manzaltu",
-            "repo": "claude-code-ide.el",
-            "rev": "cc508396a09e98931bb588da8542b73fa07733e2",
-            "sha256": "sha256-pL5PNnemuXHHhQ0wEqhoagyKNdx+ywb2EEru8XWJ0Lc=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "cc508396a09e98931bb588da8542b73fa07733e2"
-    },
     "emacs-dmacro": {
         "cargoLock": null,
         "date": "2024-10-27",
@@ -356,27 +335,6 @@
         },
         "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
     },
-    "ghostel": {
-        "cargoLock": null,
-        "date": "2026-07-17",
-        "extract": null,
-        "name": "ghostel",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "dakra",
-            "repo": "ghostel",
-            "rev": "7aa53db6ce82612b868c70e44087ac55f4354d56",
-            "sha256": "sha256-nPFn4cxYmYzIzjH0AamYxWaPvAwFVjA+rc6u3nFAwrg=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "7aa53db6ce82612b868c70e44087ac55f4354d56"
-    },
     "kakehashi": {
         "cargoLock": null,
         "date": null,
@@ -421,7 +379,7 @@
     },
     "skkeleton": {
         "cargoLock": null,
-        "date": "2026-05-05",
+        "date": "2026-07-21",
         "extract": null,
         "name": "skkeleton",
         "passthru": null,
@@ -433,12 +391,12 @@
             "name": null,
             "owner": "vim-skk",
             "repo": "skkeleton",
-            "rev": "770b265dd115dba96ea5314642e35764654ef08f",
-            "sha256": "sha256-Gsl/LqUY8szRqYLnDVyDOIDCw+cisoKsS5Fl1zQ+unM=",
+            "rev": "72e6425966232a01ed9bd70b24e2fd1dddc4d368",
+            "sha256": "sha256-vowvXdNy5J2uLxBt9xLF6/0HYbl3yYv6vWl51AQ9+Ic=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "770b265dd115dba96ea5314642e35764654ef08f"
+        "version": "72e6425966232a01ed9bd70b24e2fd1dddc4d368"
     },
     "skkeleton-azik-kanatable": {
         "cargoLock": null,
