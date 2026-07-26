@@ -79,15 +79,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "8757fa3f38ad0cee20606d0fb5d369ecb845503d";
+    version = "43968686b05bb135072e0922a299d133515f6d68";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "8757fa3f38ad0cee20606d0fb5d369ecb845503d";
+      rev = "43968686b05bb135072e0922a299d133515f6d68";
       fetchSubmodules = false;
-      sha256 = "sha256-LUNe0TQPeFJ1+TTPP3OByO+7WCnaK/sBT8BWvZ1Ycvk=";
+      sha256 = "sha256-665mEbf77Dx4iBUOHE7Ai0uIHSax56wBMrEKB4mN5yQ=";
     };
-    date = "2026-07-04";
+    date = "2026-07-26";
   };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
