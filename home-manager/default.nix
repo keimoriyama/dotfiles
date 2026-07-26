@@ -83,7 +83,7 @@ in {
     emacs-config
     git-config
     nh-config
-    nixvim-config
+    #    nixvim-config
     claude-code-config
     agent-skills-config
   ];
