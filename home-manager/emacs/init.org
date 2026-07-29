@@ -1939,6 +1939,65 @@ org-mycal-export
 ** agent-shell
 #+begin_src emacs-lisp
 (keymap-global-set "C-c C-a" #'agent-shell)
+
+;; 拡張群のコマンドは C-c A 配下にまとめる。
+;; C-c a は org-agenda が使っているので upstream 推奨の C-c A を使う。
+(defvar-keymap agent-shell-extras-map
+  :doc "Keymap for agent-shell 拡張パッケージのコマンド."
+  "m" #'agent-shell-manager-toggle
+  "j" #'agent-shell-attention-jump
+  "d" #'agent-shell-attention-dashboard)
+(keymap-global-set "C-c A" agent-shell-extras-map)
+#+end_src
+
+** agent-shell-attention
+待ち状態の agent-shell バッファ数をモードラインに表示する。
+
+#+begin_src emacs-lisp
+(require 'agent-shell-attention)
+(agent-shell-attention-mode 1)
+#+end_src
+
+** agent-shell-notifications
+#+begin_src emacs-lisp
+(require 'agent-shell-notifications)
+
+(defun agent-shell-notifications--applescript-quote (string)
+  "STRING を AppleScript の文字列リテラルとして引用符で囲む."
+  (concat "\"" (replace-regexp-in-string "[\\\"]" "\\\\\\&" string) "\""))
+
+(defun agent-shell-notifications-send-osascript (notification)
+  "NOTIFICATION を macOS の通知センターに表示する."
+  (call-process
+   "osascript" nil 0 nil "-e"
+   (format "display notification %s with title %s"
+           (agent-shell-notifications--applescript-quote
+            (or (plist-get notification :body) ""))
+           (agent-shell-notifications--applescript-quote
+            (or (plist-get notification :title) "agent-shell"))))
+  nil)
+
+(defun agent-shell-notifications-close-osascript (_id)
+  "何もしない.
+osascript の通知は ID を返さず、後から消すこともできない."
+  nil)
+
+;; 既定の libnotify provider は notifications.el 経由で D-Bus を使うため
+;; macOS では動かない。provider を nil にして送信関数を直接差し替える。
+(setopt agent-shell-notifications-provider nil
+        agent-shell-notifications-send-function
+        #'agent-shell-notifications-send-osascript
+        agent-shell-notifications-close-function
+        #'agent-shell-notifications-close-osascript)
+
+(add-hook 'agent-shell-mode-hook #'agent-shell-notifications-mode)
+#+end_src
+
+** agent-shell-manager
+agent-shell バッファ一覧を tabulated-list で表示し、状態確認と管理を行う。
+
+#+begin_src emacs-lisp
+(require 'agent-shell-manager)
 #+end_src
 * インタラクティブメニュー
 ** hydra メニュー群

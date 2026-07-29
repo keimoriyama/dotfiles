@@ -92,6 +92,9 @@ in
     llm
     copilot-chat
     agent-shell
+    packages.agent-shell-notifications
+    packages.agent-shell-attention
+    packages.agent-shell-manager
 
     # lsp
     packages.eglot-x

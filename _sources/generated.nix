@@ -17,6 +17,42 @@
       sha256 = "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=";
     };
   };
+  emacs-agent-shell-attention = {
+    pname = "emacs-agent-shell-attention";
+    version = "bab1aa137ec277815f18667ad9f03476de0aba65";
+    src = fetchFromGitHub {
+      owner = "ultronozm";
+      repo = "agent-shell-attention.el";
+      rev = "bab1aa137ec277815f18667ad9f03476de0aba65";
+      fetchSubmodules = false;
+      sha256 = "sha256-+Qp4sfAKAuf1ziXcsbN3cwlfpL9DqFj8MKK7sDBSEzI=";
+    };
+    date = "2026-07-08";
+  };
+  emacs-agent-shell-manager = {
+    pname = "emacs-agent-shell-manager";
+    version = "53b73f13ed1ac9d2de128465a8504a7265490ea7";
+    src = fetchFromGitHub {
+      owner = "jethrokuan";
+      repo = "agent-shell-manager";
+      rev = "53b73f13ed1ac9d2de128465a8504a7265490ea7";
+      fetchSubmodules = false;
+      sha256 = "sha256-JPB/OnOhYbM0LMirSYQhpB6hW8SAg0Ri6buU8tMP7rA=";
+    };
+    date = "2026-02-13";
+  };
+  emacs-agent-shell-notifications = {
+    pname = "emacs-agent-shell-notifications";
+    version = "fbf7a6b8c16326242d6e07430b7a8f5e84442466";
+    src = fetchFromGitHub {
+      owner = "zackattackz";
+      repo = "agent-shell-notifications";
+      rev = "fbf7a6b8c16326242d6e07430b7a8f5e84442466";
+      fetchSubmodules = false;
+      sha256 = "sha256-aSEq4VHIcQVY6AEhqEtOR1FcxAvV2rDdgcFh/C0vhBk=";
+    };
+    date = "2026-03-21";
+  };
   emacs-dmacro = {
     pname = "emacs-dmacro";
     version = "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468";

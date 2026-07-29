@@ -56,6 +56,31 @@
     src = sources.emacs-hide-lines.src;
     version = "0.0.1";
   };
+  agent-shell-notifications = epkgs.melpaBuild {
+    pname = "agent-shell-notifications";
+    src = sources.emacs-agent-shell-notifications.src;
+    version = "0.1.0";
+    # The knockknock provider requires the knockknock package, which isn't
+    # packaged in nixpkgs, so byte-compiling it would fail. We use a custom
+    # macOS provider anyway (libnotify needs D-Bus, absent on darwin), so drop
+    # it along with the test file rather than disabling error checking wholesale.
+    preBuild = ''
+      rm -f agent-shell-notifications-knockknock.el agent-shell-notifications-tests.el
+    '';
+    packageRequires = [epkgs.agent-shell];
+  };
+  agent-shell-attention = epkgs.melpaBuild {
+    pname = "agent-shell-attention";
+    src = sources.emacs-agent-shell-attention.src;
+    version = "0.0.2";
+    packageRequires = [epkgs.agent-shell];
+  };
+  agent-shell-manager = epkgs.melpaBuild {
+    pname = "agent-shell-manager";
+    src = sources.emacs-agent-shell-manager.src;
+    version = "0.0.1";
+    packageRequires = [epkgs.agent-shell];
+  };
   org-hyperscheduler = epkgs.melpaBuild {
     pname = "org-hyperscheduler";
     src = sources.emacs-org-hyperscheduler.src;

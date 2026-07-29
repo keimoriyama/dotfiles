@@ -2,7 +2,5 @@
 with pkgs; [
   #gui
   slack
-  discord
   google-chrome
-  notion-app
 ]

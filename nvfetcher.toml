@@ -53,6 +53,21 @@ src.git="https://github.com/vapniks/hide-lines"
 src.branch="master"
 fetch.github="vapniks/hide-lines"
 
+[emacs-agent-shell-notifications]
+src.git="https://github.com/zackattackz/agent-shell-notifications"
+src.branch="main"
+fetch.github="zackattackz/agent-shell-notifications"
+
+[emacs-agent-shell-attention]
+src.git="https://github.com/ultronozm/agent-shell-attention.el"
+src.branch="main"
+fetch.github="ultronozm/agent-shell-attention.el"
+
+[emacs-agent-shell-manager]
+src.git="https://github.com/jethrokuan/agent-shell-manager"
+src.branch="main"
+fetch.github="jethrokuan/agent-shell-manager"
+
 [fish-autols]
 src.git="https://github.com/yuys13/fish-autols"
 src.branch="main"
