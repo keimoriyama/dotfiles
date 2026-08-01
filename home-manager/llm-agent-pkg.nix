@@ -4,7 +4,7 @@ with llmAgentsPkgs; [
   # copilot-cli
   # codex
   copilot-language-server
-  # codex-acp
-  claude-code
+  codex-acp
+  # claude-code
   claude-agent-acp
 ]

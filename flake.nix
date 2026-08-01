@@ -37,6 +37,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    emacs-skills = {
+      url = "github:xenodium/emacs-skills";
+      flake = false;
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -56,6 +60,7 @@
     arto,
     nixos-wsl,
     agent-skills-nix,
+    emacs-skills,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -78,6 +83,7 @@
           llm-agents
           arto
           nixos-wsl
+          emacs-skills
           ;
         system = darwinSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
@@ -94,6 +100,7 @@
           llm-agents
           arto
           nixos-wsl
+          emacs-skills
           ;
         system = nixosSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
