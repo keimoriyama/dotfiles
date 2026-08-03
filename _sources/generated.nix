@@ -151,15 +151,15 @@
   };
   emacs-yatex = {
     pname = "emacs-yatex";
-    version = "dd7cfad4cd0409b5e0eb05e90077de5a225185fa";
+    version = "c8dc7dab1844d5a4adbb209d886a9253dc251559";
     src = fetchFromGitHub {
       owner = "hiroseyuuji";
       repo = "yatex";
-      rev = "dd7cfad4cd0409b5e0eb05e90077de5a225185fa";
+      rev = "c8dc7dab1844d5a4adbb209d886a9253dc251559";
       fetchSubmodules = false;
-      sha256 = "sha256-rlZJPP+Z0S2+dNhuiXf+NCX2rbfJFW27UuGT9PidzNs=";
+      sha256 = "sha256-gWCG0lucluZMf3Fz77bWbDP0yKm9rdv5CTwRjJ/Z274=";
     };
-    date = "2025-02-24";
+    date = "2026-08-01";
   };
   emcas-arto = {
     pname = "emcas-arto";
@@ -235,13 +235,13 @@
   };
   kakehashi = {
     pname = "kakehashi";
-    version = "v0.8.0";
+    version = "v0.9.0";
     src = fetchFromGitHub {
       owner = "atusy";
       repo = "kakehashi";
-      rev = "v0.8.0";
+      rev = "v0.9.0";
       fetchSubmodules = false;
-      sha256 = "sha256-PKx/YN8f4zUjJJR/3xlgSWv2wEa0zuafuzCv/rVJKdg=";
+      sha256 = "sha256-nwYWP3q2NXJFPqrXfG+XOJGbz8MhExUO8cfjFTWTdS4=";
     };
   };
   mocword = {
@@ -258,15 +258,15 @@
   };
   skkeleton = {
     pname = "skkeleton";
-    version = "72e6425966232a01ed9bd70b24e2fd1dddc4d368";
+    version = "cb6e529dada798929deefd879e32e418dab1c6ac";
     src = fetchFromGitHub {
       owner = "vim-skk";
       repo = "skkeleton";
-      rev = "72e6425966232a01ed9bd70b24e2fd1dddc4d368";
+      rev = "cb6e529dada798929deefd879e32e418dab1c6ac";
       fetchSubmodules = false;
-      sha256 = "sha256-vowvXdNy5J2uLxBt9xLF6/0HYbl3yYv6vWl51AQ9+Ic=";
+      sha256 = "sha256-ydZdzknNz9baKPZ5FDHY264evzZ3+50ZVi1VuhwXv4M=";
     };
-    date = "2026-07-21";
+    date = "2026-07-27";
   };
   skkeleton-azik-kanatable = {
     pname = "skkeleton-azik-kanatable";
