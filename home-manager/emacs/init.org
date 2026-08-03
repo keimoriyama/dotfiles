@@ -100,8 +100,17 @@
 #+end_src
 ** シェルの設定
 #+begin_src emacs-lisp
-(setq-default shell-file-name "/etc/profiles/per-user/kei/bin/fish")
-(setq-default sh-shell-name "/etc/profiles/per-user/kei/bin/fish")
+;; nix の per-user profile はログインユーザー名を含むので実行時に組み立てる。
+;; exec-path 頼みにしないのは、GUI 起動の Emacs が per-user profile を含まない
+;; PATH を launchd から受け取ることがあるため。
+(let* ((per-user-fish
+        (format "/etc/profiles/per-user/%s/bin/fish" (user-login-name)))
+       (fish (if (file-executable-p per-user-fish)
+                 per-user-fish
+               (executable-find "fish"))))
+  (when fish
+    (setq-default shell-file-name fish)
+    (setq-default sh-shell-name fish)))
 #+end_src
 
 ** Melpaの設定
@@ -2175,5 +2184,5 @@ agent-shell バッファ一覧を tabulated-list で表示し、状態確認と�
 #+end_src
 ** arto
 #+begin_src emacs-lisp
-(setq arto-path "/Users/kei/Applications/Home Manager Apps/Arto.app/")
+(setq arto-path (expand-file-name "~/Applications/Home Manager Apps/Arto.app/"))
 #+end_src

@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  username,
+  ...
+}: {
   nix.package = pkgs.nix;
 
   environment.systemPackages = [
@@ -17,7 +21,7 @@
   };
 
   system = {
-    primaryUser = "kei";
+    primaryUser = username;
     stateVersion = 6;
     defaults = {
       NSGlobalDomain = {

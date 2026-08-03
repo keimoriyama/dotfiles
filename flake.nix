@@ -67,11 +67,12 @@
       darwinSystem = "aarch64-darwin";
       nixosSystem = "x86_64-linux";
       username = "kei";
+      workUsername = "kei.moriyama";
       homeModules = [
         ./home-manager/default.nix
         agent-skills-nix.homeManagerModules.default
       ];
-      darwinSpecialArgs = {
+      mkDarwinSpecialArgs = username: {
         inherit
           nixpkgs
           home-manager
@@ -88,6 +89,28 @@
         system = darwinSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
       };
+      darwinSpecialArgs = mkDarwinSpecialArgs username;
+      mkDarwinConfiguration = username: let
+        specialArgs = mkDarwinSpecialArgs username;
+      in
+        nix-darwin.lib.darwinSystem {
+          system = darwinSystem;
+          inherit specialArgs;
+          modules = [
+            ./hosts/darwin/default.nix
+            home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = false;
+                useUserPackages = true;
+                extraSpecialArgs = specialArgs;
+                users.${username} = {
+                  imports = homeModules;
+                };
+              };
+            }
+          ];
+        };
       nixosSpecialArgs = {
         inherit
           nixpkgs
@@ -113,9 +136,10 @@
           type = "app";
           program = toString (pkgs.writeShellScript "update-script" ''
             set -e
-            echo "Updating nix-darwin and home-manager..."
+            config="''${1:-my-config}"
+            echo "Updating nix-darwin and home-manager ($config)..."
             sudo env HOME="$HOME" USER="$USER" LOGNAME="$LOGNAME" \
-              nix run nix-darwin -- switch --flake ${self.outPath}#my-config
+              nix run nix-darwin -- switch --flake ${self.outPath}#"$config"
             echo "update complete"
           '');
         };
@@ -124,24 +148,8 @@
       };
 
       flake = {
-        darwinConfigurations.my-config = nix-darwin.lib.darwinSystem {
-          system = darwinSystem;
-          specialArgs = darwinSpecialArgs;
-          modules = [
-            ./hosts/darwin/default.nix
-            home-manager.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = false;
-                useUserPackages = true;
-                extraSpecialArgs = darwinSpecialArgs;
-                users.${username} = {
-                  imports = homeModules;
-                };
-              };
-            }
-          ];
-        };
+        darwinConfigurations.my-config = mkDarwinConfiguration username;
+        darwinConfigurations.work-config = mkDarwinConfiguration workUsername;
 
         homeConfigurations.myHomeConfig = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {

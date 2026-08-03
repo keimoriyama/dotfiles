@@ -1,5 +1,4 @@
-{...}: let
-  username = "kei";
+{username, ...}: let
   homeDirectory = "/Users/${username}";
   userShell = builtins.toPath "/etc/profiles/per-user/${username}/bin/fish";
 in {
