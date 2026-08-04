@@ -22,7 +22,7 @@ with pkgs; [
   # pyright
   basedpyright
   ruff
-  # ty
+  ty
   pyrefly
   isort
   yaml-language-server
