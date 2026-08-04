@@ -94,7 +94,8 @@ in
     agent-shell
     packages.agent-shell-notifications
     packages.agent-shell-attention
-    packages.agent-shell-manager
+    packages.agent-shell-tramp
+    packages.agent-shell-dashboard
 
     # lsp
     packages.eglot-x

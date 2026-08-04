@@ -49,6 +49,7 @@
   git-config = import ./git;
   nh-config = import ./nh;
   claude-code-config = import ./claude-code;
+  agents-config = import ./agents;
   agent-skills-config = import ./agent-skills.nix;
 
   utils = import ./utils.nix {inherit pkgs;};
@@ -85,6 +86,7 @@ in {
     nh-config
     #    nixvim-config
     claude-code-config
+    agents-config
     agent-skills-config
   ];
 

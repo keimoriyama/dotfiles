@@ -29,17 +29,17 @@
     };
     date = "2026-07-08";
   };
-  emacs-agent-shell-manager = {
-    pname = "emacs-agent-shell-manager";
-    version = "53b73f13ed1ac9d2de128465a8504a7265490ea7";
+  emacs-agent-shell-dashboard = {
+    pname = "emacs-agent-shell-dashboard";
+    version = "e99436e78a2736c3eebdfd036d31f46b22214cde";
     src = fetchFromGitHub {
-      owner = "jethrokuan";
-      repo = "agent-shell-manager";
-      rev = "53b73f13ed1ac9d2de128465a8504a7265490ea7";
+      owner = "wandersoncferreira";
+      repo = "agent-shell-dashboard";
+      rev = "e99436e78a2736c3eebdfd036d31f46b22214cde";
       fetchSubmodules = false;
-      sha256 = "sha256-JPB/OnOhYbM0LMirSYQhpB6hW8SAg0Ri6buU8tMP7rA=";
+      sha256 = "sha256-haBpwi/tLc+aJck7nLUDcEbZ4adaP4SqOKuj8OXIFn4=";
     };
-    date = "2026-02-13";
+    date = "2026-07-25";
   };
   emacs-agent-shell-notifications = {
     pname = "emacs-agent-shell-notifications";
@@ -52,6 +52,18 @@
       sha256 = "sha256-aSEq4VHIcQVY6AEhqEtOR1FcxAvV2rDdgcFh/C0vhBk=";
     };
     date = "2026-03-21";
+  };
+  emacs-agent-shell-tramp = {
+    pname = "emacs-agent-shell-tramp";
+    version = "14560d42440c17d9b59fc18d304687641ddf06e5";
+    src = fetchFromGitHub {
+      owner = "junyi-hou";
+      repo = "agent-shell-tramp";
+      rev = "14560d42440c17d9b59fc18d304687641ddf06e5";
+      fetchSubmodules = false;
+      sha256 = "sha256-J4TBVkhlaso+TQvFLBwnWqGu5q2eCW8978mYuD1BbqM=";
+    };
+    date = "2026-07-04";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";

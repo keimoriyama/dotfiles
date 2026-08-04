@@ -75,11 +75,29 @@
     version = "0.0.2";
     packageRequires = [epkgs.agent-shell];
   };
-  agent-shell-manager = epkgs.melpaBuild {
-    pname = "agent-shell-manager";
-    src = sources.emacs-agent-shell-manager.src;
-    version = "0.0.1";
-    packageRequires = [epkgs.agent-shell];
+  agent-shell-tramp = epkgs.melpaBuild {
+    pname = "agent-shell-tramp";
+    src = sources.emacs-agent-shell-tramp.src;
+    version = "0.2.0";
+    preBuild = ''
+      rm -f agent-shell-tramp-tests.el
+    '';
+    packageRequires = [
+      epkgs.agent-shell
+      epkgs.acp
+    ];
+  };
+  agent-shell-dashboard = epkgs.melpaBuild {
+    pname = "agent-shell-dashboard";
+    src = sources.emacs-agent-shell-dashboard.src;
+    version = "0.1.0";
+    packageRequires = [
+      epkgs.agent-shell
+      # Optional at runtime — (require 'modus-themes nil t) — but needed so
+      # byte-compilation resolves its faces. projectile stays out: it's only
+      # reached through fboundp guards, and our projectile is the override below.
+      epkgs.modus-themes
+    ];
   };
   org-hyperscheduler = epkgs.melpaBuild {
     pname = "org-hyperscheduler";
