@@ -18,6 +18,7 @@ with pkgs; [
   wget
   tree
   udev-gothic
+  nerd-fonts.symbols-only
   pdfpc
   polylux2pdfpc
   qemu
