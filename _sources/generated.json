@@ -41,11 +41,11 @@
         },
         "version": "bab1aa137ec277815f18667ad9f03476de0aba65"
     },
-    "emacs-agent-shell-manager": {
+    "emacs-agent-shell-dashboard": {
         "cargoLock": null,
-        "date": "2026-02-13",
+        "date": "2026-07-25",
         "extract": null,
-        "name": "emacs-agent-shell-manager",
+        "name": "emacs-agent-shell-dashboard",
         "passthru": null,
         "pinned": false,
         "src": {
@@ -53,14 +53,14 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "owner": "jethrokuan",
-            "repo": "agent-shell-manager",
-            "rev": "53b73f13ed1ac9d2de128465a8504a7265490ea7",
-            "sha256": "sha256-JPB/OnOhYbM0LMirSYQhpB6hW8SAg0Ri6buU8tMP7rA=",
+            "owner": "wandersoncferreira",
+            "repo": "agent-shell-dashboard",
+            "rev": "e99436e78a2736c3eebdfd036d31f46b22214cde",
+            "sha256": "sha256-haBpwi/tLc+aJck7nLUDcEbZ4adaP4SqOKuj8OXIFn4=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "53b73f13ed1ac9d2de128465a8504a7265490ea7"
+        "version": "e99436e78a2736c3eebdfd036d31f46b22214cde"
     },
     "emacs-agent-shell-notifications": {
         "cargoLock": null,
@@ -82,6 +82,27 @@
             "type": "github"
         },
         "version": "fbf7a6b8c16326242d6e07430b7a8f5e84442466"
+    },
+    "emacs-agent-shell-tramp": {
+        "cargoLock": null,
+        "date": "2026-07-04",
+        "extract": null,
+        "name": "emacs-agent-shell-tramp",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "junyi-hou",
+            "repo": "agent-shell-tramp",
+            "rev": "14560d42440c17d9b59fc18d304687641ddf06e5",
+            "sha256": "sha256-J4TBVkhlaso+TQvFLBwnWqGu5q2eCW8978mYuD1BbqM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "14560d42440c17d9b59fc18d304687641ddf06e5"
     },
     "emacs-dmacro": {
         "cargoLock": null,

@@ -33,10 +33,26 @@ in {
         main = {
           binding = {
             alt-h = "focus left";
+            alt-j = "focus down";
+            alt-k = "focus up";
             alt-l = "focus right";
 
             alt-shift-h = "move left";
+            alt-shift-j = "move down";
+            alt-shift-k = "move up";
             alt-shift-l = "move right";
+
+            # hjkl でモニター間を移動する (サブディスプレイへの配置用)
+            alt-ctrl-h = "focus-monitor left";
+            alt-ctrl-j = "focus-monitor down";
+            alt-ctrl-k = "focus-monitor up";
+            alt-ctrl-l = "focus-monitor right";
+
+            # ウィンドウごとサブディスプレイへ配置してフォーカスも追従させる
+            alt-ctrl-shift-h = "move-node-to-monitor left --focus-follows-window";
+            alt-ctrl-shift-j = "move-node-to-monitor down --focus-follows-window";
+            alt-ctrl-shift-k = "move-node-to-monitor up --focus-follows-window";
+            alt-ctrl-shift-l = "move-node-to-monitor right --focus-follows-window";
 
             alt-shift-space = "layout floating tiling";
 
@@ -162,7 +178,8 @@ in {
         "10" = "secondary";
         e = "main";
         c = "main";
-        s = "main";
+        # Slack はサブディスプレイへ
+        s = "secondary";
         w = "main";
         n = "main";
         g = "main";

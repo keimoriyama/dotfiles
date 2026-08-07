@@ -247,7 +247,7 @@
   (setopt projectile-sort-order 'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
   (add-to-list 'projectile-known-projects
-               "~/ghq/github.com/keimoriyama/org-files/")
+               "~/Documents/org-files/")
   (dolist (git-dir (directory-files-recursively "~/ghq/" "^\\.git$" t))
     (when (file-directory-p git-dir)
       (add-to-list 'projectile-known-projects
@@ -1947,7 +1947,7 @@ org-mycal-export
 * AI
 ** agent-shell
 #+begin_src emacs-lisp
-(keymap-global-set "C-c C-a" #'agent-shell)
+(keymap-global-set "C-c C-a" #'agent-shell-new-shell)
 #+end_src
 
 操作全般は hydra の dispatcher (=C-c A=) から呼ぶ。「Agent Shell メニュー」を参照。
@@ -1995,11 +1995,22 @@ osascript の通知は ID を返さず、後から消すこともできない."
 (add-hook 'agent-shell-mode-hook #'agent-shell-notifications-mode)
 #+end_src
 
-** agent-shell-manager
-agent-shell バッファ一覧を tabulated-list で表示し、状態確認と管理を行う。
+** agent-shell-tramp
+TRAMP 越しのバッファから agent-shell を起動できるようにする。パスの変換は
+acp.el の file handler に任せ、リモートのトランスクリプトはローカルに保存する。
 
 #+begin_src emacs-lisp
-(require 'agent-shell-manager)
+(require 'agent-shell-tramp)
+(agent-shell-tramp-mode 1)
+#+end_src
+
+** agent-shell-dashboard
+全セッションを 1 つのバッファに俯瞰表示する。セッション一覧・kill・モデル変更は
+agent-shell-manager と重複していたので、そちらは外してこちらに一本化した。
+「Needs you」欄の要約は =claude -p= を非同期で呼ぶ既定の実装をそのまま使う。
+
+#+begin_src emacs-lisp
+(require 'agent-shell-dashboard)
 #+end_src
 * インタラクティブメニュー
 ** hydra メニュー群
@@ -2159,9 +2170,9 @@ agent-shell バッファ一覧を tabulated-list で表示し、状態確認と�
      ("R" agent-shell-resume-session "resume")
      ("u" agent-shell-show-usage "usage"))
     "Manage"
-    (("g" agent-shell-manager-toggle "manager")
+    (("d" agent-shell-dashboard "dashboard")
      ("j" agent-shell-attention-jump "jump pending")
-     ("d" agent-shell-attention-dashboard "dashboard")
+     ("D" agent-shell-attention-dashboard "pending list")
      ("k" agent-shell-interrupt "interrupt")
      ("x" agent-shell-restart "restart")
      ("e" agent-shell-reload "reload"))

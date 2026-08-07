@@ -63,10 +63,15 @@ src.git="https://github.com/ultronozm/agent-shell-attention.el"
 src.branch="main"
 fetch.github="ultronozm/agent-shell-attention.el"
 
-[emacs-agent-shell-manager]
-src.git="https://github.com/jethrokuan/agent-shell-manager"
+[emacs-agent-shell-tramp]
+src.git="https://github.com/junyi-hou/agent-shell-tramp"
 src.branch="main"
-fetch.github="jethrokuan/agent-shell-manager"
+fetch.github="junyi-hou/agent-shell-tramp"
+
+[emacs-agent-shell-dashboard]
+src.git="https://github.com/wandersoncferreira/agent-shell-dashboard"
+src.branch="main"
+fetch.github="wandersoncferreira/agent-shell-dashboard"
 
 [fish-autols]
 src.git="https://github.com/yuys13/fish-autols"
