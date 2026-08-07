@@ -247,7 +247,7 @@
   (setopt projectile-sort-order 'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
   (add-to-list 'projectile-known-projects
-               "~/ghq/github.com/keimoriyama/org-files/")
+               "~/Documents/org-files/")
   (dolist (git-dir (directory-files-recursively "~/ghq/" "^\\.git$" t))
     (when (file-directory-p git-dir)
       (add-to-list 'projectile-known-projects
