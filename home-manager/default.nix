@@ -111,19 +111,27 @@ in {
       ++ gui
       ++ llm-agent-pkgs
       ++ darwin;
-    file =
-      {
-        ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
-      }
-      // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-        "Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Settings/kana-rule.conf".source = ./macskk/kana-rule.conf;
-      };
+    file = {
+      ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
+    };
     activation = pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
       trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
         ${builtins.readFile ./trampoline-apps.sh}
         fromDir="$HOME/Applications/Home Manager Apps"
         toDir="$HOME/Applications/Home Manager Trampolines"
         sync_trampolines "$fromDir" "$toDir"
+      '';
+      # macSKKはサンドボックスアプリのため/nix/storeへのsymlinkを辿れない。
+      # コンテナ内へ実ファイルとしてコピーする必要がある。
+      macskkFiles = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
+        container="$HOME/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents"
+        $DRY_RUN_CMD /bin/mkdir -p "$container/Dictionaries" "$container/Settings"
+        $DRY_RUN_CMD /usr/bin/install -m644 \
+          "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L" \
+          "$container/Dictionaries/SKK-JISYO.L"
+        $DRY_RUN_CMD /usr/bin/install -m644 \
+          "${./macskk/kana-rule.conf}" \
+          "$container/Settings/kana-rule.conf"
       '';
     };
   };

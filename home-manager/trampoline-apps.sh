@@ -33,7 +33,15 @@ function sync_icons() {
   to_resources="$to/Contents/Resources/"
 
   find "$to_resources" -name "*.icns" -delete
-  rsync --include "*.icns" --exclude "*" --recursive "$from_resources" "$to_resources"
+  # macOSの/usr/bin/rsyncはopenrsyncで、ローカルコピーでも内部でPATH上のrsyncを
+  # 再execするためactivation環境では失敗する。cpで.icnsを再帰コピーする。
+  (
+    cd "$from_resources" || exit 0
+    find . -name "*.icns" -print0 | while IFS= read -r -d "" f; do
+      /bin/mkdir -p "$to_resources/$(dirname "$f")"
+      /bin/cp "$from_resources/$f" "$to_resources/$f"
+    done
+  )
 }
 
 function copy_paths() {
