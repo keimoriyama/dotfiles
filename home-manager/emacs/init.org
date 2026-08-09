@@ -192,7 +192,7 @@
 (require 'puni)
 (add-hook 'emacs-startup-hook #'puni-global-mode)
 (electric-pair-mode 1)
-(define-key puni-mode-map (kbd "C-!")  #'puni-slurp-forward)
+(define-key puni-mode-map (kbd "C-M-f")  #'puni-slurp-forward)
 (define-key puni-mode-map (kbd "C-}")  #'puni-barf-forward)
 (define-key puni-mode-map (kbd "M-(")  #'puni-wrap-forward)
 (define-key puni-mode-map (kbd "M-s")  #'puni-splice)
@@ -620,6 +620,11 @@ binding))))))))
   "Set `yas-indent-line' to `fixed'."
   (set (make-local-variable 'yas-indent-line) 'fixed))
 (add-hook 'python-mode-hook #'yasnippet-snippets--fixed-indent)
+(add-hook 'python-ts-mode-hook #'yasnippet-snippets--fixed-indent)
+(add-hook 'python-ts-mode-hook
+          (lambda () (yas-activate-extra-mode 'python-mode)))
+(add-hook 'rust-ts-mode-hook
+          (lambda () (yas-activate-extra-mode 'rust-mode)))
 
 (require 'consult-yasnippet)
 (keymap-global-set "C-c y" #'consult-yasnippet)
@@ -1508,22 +1513,45 @@ org-mycal-export
         (fish "https://github.com/ram02z/tree-sitter-fish")
         (gitignore "https://github.com/shunsambongi/tree-sitter-gitignore")
         (haskell "https://github.com/tree-sitter/tree-sitter-haskell" "master" "src")
+        (json "https://github.com/tree-sitter/tree-sitter-json")
         ;;(latex "https://github.com/latex-lsp/tree-sitter-latex" "master" "src")
+        (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
         (nix "https://github.com/nix-community/tree-sitter-nix")
         (python "https://github.com/tree-sitter/tree-sitter-python")
         (rust "https://github.com/tree-sitter/tree-sitter-rust")
+        (toml "https://github.com/tree-sitter-grammars/tree-sitter-toml")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")
         (typst "https://github.com/uben0/tree-sitter-typst" "master" "src")))
 ;; Treesitがインストールされてない場合は自動でインストールする
 ;; エラーを無視して続行
 (dolist (element treesit-language-source-alist)
-  (let* ((lang (car element)))
-    (if (treesit-language-available-p lang)
-        (message "treesit: %s is already installed" lang)
-      (message "treesit: %s is not installed, attempting install..." lang)
-      (treesit-install-language-grammar lang))))
-(setq treesit-font-lock-level 4)
+  (let ((lang (car element)))
+    (unless (treesit-language-available-p lang)
+      (condition-case err
+          (progn
+            (message "treesit: installing %s..." lang)
+            (treesit-install-language-grammar lang))
+        (error
+         (message "treesit: failed to install %s: %s"
+                  lang (error-message-string err)))))))
 
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(setopt treesit-font-lock-level 4)
+
+;; 文法を利用できる言語だけ、従来の major mode を Tree-sitter 版へ置き換える。
+(dolist (remap '((dockerfile dockerfile-mode dockerfile-ts-mode)
+                 (json json-mode json-ts-mode)
+                 (json js-json-mode json-ts-mode)
+                 (lua lua-mode lua-ts-mode)
+                 (python python-mode python-ts-mode)
+                 (rust rust-mode rust-ts-mode)
+                 (toml toml-mode toml-ts-mode)
+                 (yaml yaml-mode yaml-ts-mode)))
+  (pcase-let ((`(,language ,legacy-mode ,treesit-mode) remap))
+    (when (and (treesit-language-available-p language)
+               (fboundp treesit-mode))
+      (setf (alist-get legacy-mode major-mode-remap-alist) treesit-mode))))
 #+end_src
 
 *** treesitter-context
@@ -1568,8 +1596,8 @@ org-mycal-export
 (add-to-list 'auto-mode-alist '("\\Dockerfile_Ecs$" . dockerfile-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile_EcsDeploy" . dockerfile-mode))
 
-(with-eval-after-load 'dockerfile-mode
- (add-hook 'dockerfile-mode-hook #'flycheck-mode))
+(dolist (hook '(dockerfile-mode-hook dockerfile-ts-mode-hook))
+  (add-hook hook #'flycheck-mode))
 #+end_src
 
 *** dotenv-mode
@@ -1613,8 +1641,8 @@ org-mycal-export
 (add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
 
-(with-eval-after-load 'json-mode
- (add-hook 'json-mode-hook #'flycheck-mode))
+(dolist (hook '(json-mode-hook json-ts-mode-hook))
+  (add-hook hook #'flycheck-mode))
 #+end_src
 
 *** rust-mode
@@ -1622,18 +1650,18 @@ org-mycal-export
 #+begin_src emacs-lisp
 (require 'rust-mode)
 (require 'cargo)
-(add-hook 'rust-mode-hook #'cargo-minor-mode)
+(dolist (hook '(rust-mode-hook rust-ts-mode-hook))
+  (add-hook hook #'cargo-minor-mode))
 (with-eval-after-load 'rust-mode
  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (with-eval-after-load 'rust-mode
- (setq rust-format-on-save t
-       rust-mode-treesitter-derive t))
+ (setq rust-format-on-save t))
 #+end_src
 
 **** Hydraメニュー
 #+begin_src emacs-lisp
-(major-mode-hydra-define rust-mode
+(major-mode-hydra-define (rust-mode rust-ts-mode)
  (:title "Rust" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
  ("run"
   (("r" rust-run "run")
@@ -1658,12 +1686,14 @@ org-mycal-export
  :stdin t
  :lighter "isort"
  :group 'python-isort)
-(add-hook 'python-mode-hook #'python-isort-format-on-save-mode)
+(dolist (hook '(python-mode-hook python-ts-mode-hook))
+  (add-hook hook #'python-isort-format-on-save-mode))
 
 (reformatter-define python-ruff-format
  :program "ruff"
  :args `("format" "--stdin-filename" ,buffer-file-name))
-(add-hook 'python-mode-hook #'python-ruff-format-on-save-mode)
+(dolist (hook '(python-mode-hook python-ts-mode-hook))
+  (add-hook hook #'python-ruff-format-on-save-mode))
 (setq python-pytest-executable "uv run pytest")
 #+end_src
 
@@ -1734,7 +1764,7 @@ org-mycal-export
 
 **** Hydraメニュー
 #+begin_src emacs-lisp
-(major-mode-hydra-define python-mode
+(major-mode-hydra-define (python-mode python-ts-mode)
   (:title "Python" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
   ("run"
    (("t" python-pytest-dispatch "test"))
@@ -1757,9 +1787,9 @@ org-mycal-export
 (require 'toml-mode)
 (add-to-list 'auto-mode-alist '("\\.toml$" . toml-mode))
 
-(with-eval-after-load 'toml-mode
- (add-hook 'toml-mode-hook #'flycheck-mode)
- (add-hook 'toml-mode-hook #'view-mode))
+(dolist (hook '(toml-mode-hook toml-ts-mode-hook))
+  (add-hook hook #'flycheck-mode)
+  (add-hook hook #'view-mode))
 #+end_src
 
 *** yaml-mode
@@ -1769,9 +1799,9 @@ org-mycal-export
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.aclpolicy$" . yaml-mode))
 
-(with-eval-after-load 'yaml-mode
- (add-hook 'yaml-mode-hook #'flycheck-mode)
- (add-hook 'yaml-mode-hook #'view-mode))
+(dolist (hook '(yaml-mode-hook yaml-ts-mode-hook))
+  (add-hook hook #'flycheck-mode)
+  (add-hook hook #'view-mode))
 #+end_src
 
 *** fish-mode
@@ -1804,12 +1834,22 @@ org-mycal-export
 #+begin_src emacs-lisp
 (require 'lua-mode)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+(add-to-list 'interpreter-mode-alist
+             (cons "lua" (if (treesit-language-available-p 'lua)
+                             'lua-ts-mode
+                           'lua-mode)))
 #+end_src
 *** web-mode
 #+begin_src emacs-lisp
 (require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
+(add-to-list 'auto-mode-alist
+             (cons "\\.ts\\'" (if (treesit-language-available-p 'typescript)
+                                    'typescript-ts-mode
+                                  'web-mode)))
+(add-to-list 'auto-mode-alist
+             (cons "\\.tsx\\'" (if (treesit-language-available-p 'tsx)
+                                     'tsx-ts-mode
+                                   'web-mode)))
 #+end_src 
 
 * 組版システム
