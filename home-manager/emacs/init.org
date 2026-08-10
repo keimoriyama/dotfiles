@@ -667,7 +667,7 @@ binding))))))))
 *** コア機能
 **** org
 #+begin_src emacs-lisp
-(setq org-directory "~/ghq/github.com/keimoriyama/org-files")
+(setq org-directory "~/Documents/org-files")
 
 ;; org-element のインクリメンタルキャッシュを無効化する。
 ;; dashboard が after-init-hook で agenda を走査する際、複数ファイル+narrow
@@ -1304,10 +1304,7 @@ SPEC is:
 (setq org-export-with-broken-links t)
 (setq org-agenda-default-appointment-duration 15)
 (setq org-icalendar-combined-agenda-file
-      (concat
-       (string-trim
-        (shell-command-to-string "ghq root"))
-       "/github.com/keimoriyama/org-files/calendar.ics"))
+      (format "%s/calendar.ics" org-directory))
 ;;; define categories that should be excluded
 (setq org-export-exclude-category (list "google" "private"))
 
