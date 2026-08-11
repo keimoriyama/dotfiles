@@ -1,3 +1,4 @@
+
 * 基本設定
 ** 本当の基本設定
 #+BEGIN_SRC emacs-lisp
@@ -1956,8 +1957,24 @@ org-mycal-export
 
 (require 'ddskk-posframe)
 
+(defun my/skk-return ()
+  "かなモードでの C-j を RET と同じ動作にする。"
+  (interactive)
+  ;; newline を直接呼ばないのは、org-mode や minibuffer など
+  ;; モードごとの RET の定義をそのまま活かしたいため。
+  (let ((command (or (keymap-lookup nil "RET") #'newline)))
+    (setq this-command command)
+    (call-interactively command)))
+
+(defun my/skk-setup-return-key ()
+  "かなモードの C-j に `my/skk-return' を割り当てる。"
+  ;; skk-mode に入るたびに設定し直すのは、skk がローマ字ルールを
+  ;; コンパイルする際に C-j へ skk-insert (確定) を割り当てるため。
+  (keymap-set skk-j-mode-map "C-j" #'my/skk-return))
+
 (with-eval-after-load 'skk
- (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
+ (add-hook 'skk-mode-hook #'ddskk-posframe-mode)
+ (add-hook 'skk-mode-hook #'my/skk-setup-return-key))
 #+end_src
 
 ** nskk
@@ -1985,6 +2002,12 @@ org-mycal-export
 ** agent-shell
 #+begin_src emacs-lisp
 (keymap-global-set "C-c C-a" #'agent-shell-new-shell)
+
+(with-eval-after-load 'agent-shell
+  (setopt agent-shell-anthropic-default-model-id "sonnet"
+          agent-shell-openai-default-model-id "gpt-5.6-sol"
+          agent-shell-context-sources '(region error line)
+          agent-shell-embed-file-size-limit 16384))
 #+end_src
 
 操作全般は hydra の dispatcher (=C-c A=) から呼ぶ。「Agent Shell メニュー」を参照。
