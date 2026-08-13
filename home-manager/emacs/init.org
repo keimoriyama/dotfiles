@@ -724,7 +724,8 @@ binding))))))))
                         ("paper" . ?p)
                         ("task" . ?t)
                         ("analysis" . ?a)
-                        ("bug" . ?b))
+                        ("bug" . ?b)
+                        ("インターン" . ?i))
         org-global-properties
         '(("Effort_ALL" . "0 0:25 0:50 1:15 1:40")))
 
@@ -1070,6 +1071,7 @@ SPEC is:
   (push '(":ra:"   . ?📖) prettify-symbols-alist)
   (push '(":bug:"   . ?🐛) prettify-symbols-alist)
   (push '(":analysis:" . ?📈) prettify-symbols-alist)
+  (push '(":インターン:" . ?💼) prettify-symbols-alist)
   (prettify-symbols-mode))
 
 (add-hook 'org-mode-hook        #'my/prettify-symbols-setup)
@@ -2007,7 +2009,15 @@ org-mycal-export
   (setopt agent-shell-anthropic-default-model-id "sonnet"
           agent-shell-openai-default-model-id "gpt-5.6-sol"
           agent-shell-context-sources '(region error line)
-          agent-shell-embed-file-size-limit 16384))
+          agent-shell-embed-file-size-limit 16384)
+  ;; @file の自動全文埋め込みを止める
+  (setq agent-shell-embed-file-size-limit 0)
+
+  ;; turn終了時にtoken usageを表示
+  (setq agent-shell-show-usage-at-turn-end t)
+
+  ;; context window使用量も詳細表示
+  (setq agent-shell-show-context-usage-indicator 'detailed))
 #+end_src
 
 操作全般は hydra の dispatcher (=C-c A=) から呼ぶ。「Agent Shell メニュー」を参照。
