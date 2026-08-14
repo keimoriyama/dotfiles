@@ -1367,9 +1367,24 @@ org-mycal-export
   (setopt eglot-sync-connect 1)
   (setopt eglot-connect-timeout 10)
   (setopt eglot-send-changes-idle-time 0.5)
-  (setq eglot-watch-files-outside-project-root nil)
   ;; Disable events buffer to reduce overhead
   (setopt eglot-events-buffer-config '(:size 0 :format full))
+
+  ;; Why not: Eglot's built-in workspace/didChangeWatchedFiles handler
+  ;; ignores the server's globPattern and calls file-notify-add-watch
+  ;; (kqueue) on every directory under the whole project (via
+  ;; `project-files'). On a large monorepo this exhausts macOS's
+  ;; kqueue fd limit and Emacs dies with
+  ;; "File watching not possible, no file descriptor left".
+  ;; `eglot-watch-files-outside-project-root' (a fix for this in newer
+  ;; eglot) doesn't exist in the eglot bundled with Emacs 30.2, so it
+  ;; was a no-op here. Instead, tell servers we don't support dynamic
+  ;; registration for this capability so they never ask for it.
+  (cl-defmethod eglot-client-capabilities :around (_server)
+    (let* ((capabilities (cl-call-next-method))
+           (workspace (plist-get capabilities :workspace)))
+      (plist-put workspace :didChangeWatchedFiles '(:dynamicRegistration :json-false))
+      capabilities))
 
   ;; Keybindings
   (define-key eglot-mode-map (kbd "C-c l r") #'eglot-rename)
