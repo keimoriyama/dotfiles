@@ -2268,3 +2268,14 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 #+begin_src emacs-lisp
 (setq arto-path (expand-file-name "~/Applications/Home Manager Apps/Arto.app/"))
 #+end_src
+
+* ローカル設定
+dotfiles では管理したくないマシン固有の設定 (社内トークンの受け渡しなど) は
+~/.emacs.d/local.el に置く。home-manager は init.el / early-init.el / misc/ しか
+管理しないので、このファイルは上書きされず git 管理にも入らない。存在すれば読み込む。
+
+#+begin_src emacs-lisp
+(let ((local-file (expand-file-name "local.el" user-emacs-directory)))
+  (when (file-exists-p local-file)
+    (load local-file)))
+#+end_src
