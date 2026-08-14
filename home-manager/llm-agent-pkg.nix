@@ -7,4 +7,5 @@ with llmAgentsPkgs; [
   codex-acp
   # claude-code
   claude-agent-acp
+  opencode
 ]
