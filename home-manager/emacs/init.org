@@ -1637,6 +1637,7 @@ org-mycal-export
 #+begin_src emacs-lisp
 (require 'json-mode)
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.jsonl$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.textlintrc$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-mode))
