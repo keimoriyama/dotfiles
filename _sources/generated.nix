@@ -19,15 +19,15 @@
   };
   emacs-agent-shell-attention = {
     pname = "emacs-agent-shell-attention";
-    version = "bab1aa137ec277815f18667ad9f03476de0aba65";
+    version = "ae2df16c1d481d0e182cc85fafa62c53431aab36";
     src = fetchFromGitHub {
       owner = "ultronozm";
       repo = "agent-shell-attention.el";
-      rev = "bab1aa137ec277815f18667ad9f03476de0aba65";
+      rev = "ae2df16c1d481d0e182cc85fafa62c53431aab36";
       fetchSubmodules = false;
-      sha256 = "sha256-+Qp4sfAKAuf1ziXcsbN3cwlfpL9DqFj8MKK7sDBSEzI=";
+      sha256 = "sha256-eukR9iviR5bpAfwB7Sq130TGMNR8OI+QtJSSXXnUiqc=";
     };
-    date = "2026-07-08";
+    date = "2026-08-11";
   };
   emacs-agent-shell-dashboard = {
     pname = "emacs-agent-shell-dashboard";
@@ -151,15 +151,15 @@
   };
   emacs-yaml-mode = {
     pname = "emacs-yaml-mode";
-    version = "96ef0201101a7cd591febd5886633154dae8834c";
+    version = "5d7347519c94eac1c9383a3b9bebe218d3e43318";
     src = fetchFromGitHub {
       owner = "yoshiki";
       repo = "yaml-mode";
-      rev = "96ef0201101a7cd591febd5886633154dae8834c";
+      rev = "5d7347519c94eac1c9383a3b9bebe218d3e43318";
       fetchSubmodules = false;
-      sha256 = "sha256-P5SQSUyHrVSbpbN2tLcjSHMxl6kXdO6yX23aHrrS5kg=";
+      sha256 = "sha256-0PWExWwcnLeVCNY014SoB0i1ER+qiFvECJqSF6PsqxY=";
     };
-    date = "2026-04-20";
+    date = "2026-08-09";
   };
   emacs-yatex = {
     pname = "emacs-yatex";
@@ -247,13 +247,13 @@
   };
   kakehashi = {
     pname = "kakehashi";
-    version = "v0.9.0";
+    version = "v0.10.0";
     src = fetchFromGitHub {
       owner = "atusy";
       repo = "kakehashi";
-      rev = "v0.9.0";
+      rev = "v0.10.0";
       fetchSubmodules = false;
-      sha256 = "sha256-nwYWP3q2NXJFPqrXfG+XOJGbz8MhExUO8cfjFTWTdS4=";
+      sha256 = "sha256-5rJPbndZqE5NH4O4YEKfMphXMdXEYdGqapDYSy4Dbiw=";
     };
   };
   mocword = {
