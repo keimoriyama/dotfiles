@@ -30,7 +30,6 @@ in
     avy-zap
     yasnippet
     consult-yasnippet
-    oj
     dashboard
     htmlize
     gcmh

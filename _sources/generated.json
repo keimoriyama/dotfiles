@@ -1,25 +1,4 @@
 {
-    "atcoder-cli": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "atcoder-cli",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "Tatamo",
-            "repo": "atcoder-cli",
-            "rev": "v2.2.0",
-            "sha256": "sha256-7pbCTgWt+khKVyMV03HanvuOX2uAC0PL9OLmqly7IWE=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v2.2.0"
-    },
     "cargo-compete": {
         "cargoLock": null,
         "date": null,
@@ -481,27 +460,6 @@
             "type": "github"
         },
         "version": "096316545837ca70498023486390f74f6b7c8fd3"
-    },
-    "oj": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "oj",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "online-judge-tools",
-            "repo": "oj",
-            "rev": "v12.0.0",
-            "sha256": "sha256-m6V4Sq3yU/KPnbpA0oCLI/qaSrAPA6TutcBL5Crb/Cc=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v12.0.0"
     },
     "skkeleton": {
         "cargoLock": null,
