@@ -2276,8 +2276,25 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 #+begin_src emacs-lisp
 (require 'oj)
 (setopt oj-home-dir
-        (expand-file-name "~/ghq/github.com/keimoriyama/Atcoder/"))
+        (expand-file-name "~/ghq/github.com/keimoriyama/haskell_atcoder/"))
 (setq oj-default-online-judge 'atcoder)
+#+end_src
+** atcoder-cli
+atcoder-cli (=acc=) でコンテストの問題一覧とサンプルケースを取得し、
+=oj-home-dir= 以下にコンテストディレクトリを作成してそこへ移動する。
+#+begin_src emacs-lisp
+(defun atcoder-new-contest (contest-id)
+  "atcoder-cli で CONTEST-ID の情報を取得してディレクトリを作成し、そこへ移動する。"
+  (interactive "sContest ID: ")
+  (let* ((default-directory oj-home-dir)
+         (contest-dir (expand-file-name contest-id oj-home-dir))
+         (buf (get-buffer-create "*acc new*")))
+    (with-current-buffer buf
+      (erase-buffer))
+    (unless (zerop (call-process "acc" nil buf t "new" contest-id "-c" "all"))
+      (pop-to-buffer buf)
+      (error "acc new %s に失敗しました" contest-id))
+    (dired contest-dir)))
 #+end_src
 ** arto
 #+begin_src emacs-lisp
