@@ -127,3 +127,12 @@ src.branch="master"
 src.github="atusy/kakehashi"
 fetch.github="atusy/kakehashi"
 src.branch="main"
+
+[oj]
+src.github="online-judge-tools/oj"
+fetch.github="online-judge-tools/oj"
+src.branch="master"
+
+[atcoder-cli]
+src.github_tag="Tatamo/atcoder-cli"
+fetch.github="Tatamo/atcoder-cli"

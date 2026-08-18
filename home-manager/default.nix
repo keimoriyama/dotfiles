@@ -34,6 +34,8 @@
   # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
   kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
+  oj = pkgs.callPackage ./oj {inherit pkgs sources;};
+  atcoder-cli = pkgs.callPackage ./atcoder-cli {inherit pkgs sources;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
@@ -73,6 +75,8 @@
       cargo-compete
       kakehashi
       yaskkserv2
+      oj
+      atcoder-cli
     ]
     ++ lib.optionals (artoPkg != null) [
       artoPkg

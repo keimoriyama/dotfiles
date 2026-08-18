@@ -6,6 +6,17 @@
   dockerTools,
 }:
 {
+  atcoder-cli = {
+    pname = "atcoder-cli";
+    version = "v2.2.0";
+    src = fetchFromGitHub {
+      owner = "Tatamo";
+      repo = "atcoder-cli";
+      rev = "v2.2.0";
+      fetchSubmodules = false;
+      sha256 = "sha256-7pbCTgWt+khKVyMV03HanvuOX2uAC0PL9OLmqly7IWE=";
+    };
+  };
   cargo-compete = {
     pname = "cargo-compete";
     version = "v0.10.7";
@@ -267,6 +278,17 @@
       sha256 = "sha256-aDwqj9myaGRkAcVkC2upHtQT+uq/ZRk72teWz6egCsc=";
     };
     date = "2022-05-02";
+  };
+  oj = {
+    pname = "oj";
+    version = "v12.0.0";
+    src = fetchFromGitHub {
+      owner = "online-judge-tools";
+      repo = "oj";
+      rev = "v12.0.0";
+      fetchSubmodules = false;
+      sha256 = "sha256-m6V4Sq3yU/KPnbpA0oCLI/qaSrAPA6TutcBL5Crb/Cc=";
+    };
   };
   skkeleton = {
     pname = "skkeleton";
