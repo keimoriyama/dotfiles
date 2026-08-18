@@ -1472,8 +1472,9 @@ org-mycal-export
 ***** haskell
 #+begin_src emacs-lisp
 (add-hook 'haskell-mode-hook #'eglot-ensure)
-(add-hook 'haskell-literate-mode-hook #'eglot-ensure)
+(add-hook 'literate-haskell-mode-hook #'eglot-ensure)
 #+end_src
+
 ***** nix
 #+begin_src emacs-lisp
 (with-eval-after-load 'eglot
@@ -1832,7 +1833,6 @@ org-mycal-export
 (require 'inf-haskell)
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
-(add-hook 'haskell-mode-hook #'inferior-haskell-mode)
 (reformatter-define haskell-fourmolu-format
  :program "fourmolu"
  :args `("--stdin-input-file" ,buffer-file-name)
