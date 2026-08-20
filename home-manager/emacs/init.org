@@ -2276,6 +2276,19 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 (setq arto-path (expand-file-name "~/Applications/Home Manager Apps/Arto.app/"))
 #+end_src
 
+** ssh-deploy
+Tramp 経由でローカルのファイルをリモートホストへデプロイする。保存時の自動
+アップロードとリモート変更の検知を有効にしている。デプロイ先の紐付けは
+プロジェクト固有なので init.el には書かず、各プロジェクトルートの
+.dir-locals.el に ssh-deploy-root-local / ssh-deploy-root-remote を設定する。
+
+#+begin_src emacs-lisp
+(require 'ssh-deploy)
+(ssh-deploy-add-after-save-hook)
+(ssh-deploy-add-find-file-hook)
+(keymap-global-set "C-c C-z" #'ssh-deploy-prefix-map)
+#+end_src
+
 * ローカル設定
 dotfiles では管理したくないマシン固有の設定 (社内トークンの受け渡しなど) は
 ~/.emacs.d/local.el に置く。home-manager は init.el / early-init.el / misc/ しか
