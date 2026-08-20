@@ -40,6 +40,7 @@ in
     packages.instant-maximized-window
     packages.nano-modeline
     packages.arto
+    ssh-deploy
 
     # completion
     corfu
