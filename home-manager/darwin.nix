@@ -10,6 +10,5 @@ with pkgs; [
   # claude-code CLI's `bin/claude`. Lower its priority so the CLI wins the bin/
   # while the desktop .app bundle (a non-conflicting path) is still installed.
   (lib.lowPrio brewCasks.claude)
-  brewCasks.claude
   # brewCasks.notion-calendar
 ]
