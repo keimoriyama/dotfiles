@@ -1470,8 +1470,12 @@ org-mycal-export
 #+end_src
 ***** haskell
 #+begin_src emacs-lisp
-(add-hook 'haskell-mode-hook #'eglot-ensure)
-(add-hook 'literate-haskell-mode-hook #'eglot-ensure)
+(defun kei/haskell-eglot-ensure ()
+  "HLS is slow to connect on first index; extend the timeout locally."
+  (setq-local eglot-connect-timeout 60)
+  (eglot-ensure))
+(add-hook 'haskell-mode-hook #'kei/haskell-eglot-ensure)
+(add-hook 'literate-haskell-mode-hook #'kei/haskell-eglot-ensure)
 #+end_src
 
 ***** nix
