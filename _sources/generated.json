@@ -433,12 +433,12 @@
             "name": null,
             "owner": "atusy",
             "repo": "kakehashi",
-            "rev": "v0.10.0",
-            "sha256": "sha256-5rJPbndZqE5NH4O4YEKfMphXMdXEYdGqapDYSy4Dbiw=",
+            "rev": "v1.0.0",
+            "sha256": "sha256-rPlWN2dpXhKVkafgaZQ//biRRZJqh9SG/0e4hO6g71g=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v0.10.0"
+        "version": "v1.0.0"
     },
     "mocword": {
         "cargoLock": null,
