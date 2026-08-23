@@ -247,13 +247,13 @@
   };
   kakehashi = {
     pname = "kakehashi";
-    version = "v0.10.0";
+    version = "v1.0.0";
     src = fetchFromGitHub {
       owner = "atusy";
       repo = "kakehashi";
-      rev = "v0.10.0";
+      rev = "v1.0.0";
       fetchSubmodules = false;
-      sha256 = "sha256-5rJPbndZqE5NH4O4YEKfMphXMdXEYdGqapDYSy4Dbiw=";
+      sha256 = "sha256-rPlWN2dpXhKVkafgaZQ//biRRZJqh9SG/0e4hO6g71g=";
     };
   };
   mocword = {
