@@ -2,21 +2,24 @@
 
 (require 'org)
 (require 'org-journal)
-(require 'project)
 (require 'subr-x)
+
+(defgroup nippo-org-journal nil
+  "Sync nippo reports into Org Journal."
+  :group 'org-journal)
+
+(defcustom nippo-org-journal-reports-directory
+  (expand-file-name "~/Documents/org-mode/nippo")
+  "Directory that holds nippo daily reports."
+  :type 'directory
+  :group 'nippo-org-journal)
 
 ;;;###autoload
 (defun nippo-org-journal-sync ()
   "Convert today's nippo report and replace its Org Journal section."
   (interactive)
-  (let* ((project (project-current nil))
-         (project-root (and project (project-root project)))
-         (report-name (format "nippo-%s.md" (format-time-string "%Y-%m-%d")))
-         (report (and project-root
-                      (expand-file-name (concat "reports/" report-name)
-                                        project-root))))
-    (unless project-root
-      (user-error "Current directory does not belong to a project"))
+  (let* ((report-name (format "nippo-%s.md" (format-time-string "%Y-%m-%d")))
+         (report (expand-file-name report-name nippo-org-journal-reports-directory)))
     (unless (file-readable-p report)
       (user-error "Nippo report not found: %s" report))
     (unless (executable-find "pandoc")
