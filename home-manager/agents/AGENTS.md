@@ -16,8 +16,6 @@ Claude Code (`~/.claude/CLAUDE.md`) と Codex (`~/.codex/AGENTS.md`) の双方�
 - コミットログには Why
 - コードコメントには Why not
 - コードを書く前に設計を提示する
-- 変更を加える時はブランチを切って作業する
-
 
 ## テスト
 

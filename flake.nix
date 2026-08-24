@@ -41,6 +41,10 @@
       url = "github:xenodium/emacs-skills";
       flake = false;
     };
+    nippo = {
+      url = "github:nwiizo/nippo";
+      flake = false;
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -61,6 +65,7 @@
     nixos-wsl,
     agent-skills-nix,
     emacs-skills,
+    nippo,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -85,6 +90,7 @@
           arto
           nixos-wsl
           emacs-skills
+          nippo
           ;
         system = darwinSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
@@ -124,6 +130,7 @@
           arto
           nixos-wsl
           emacs-skills
+          nippo
           ;
         system = nixosSystem;
         inherit (home-manager.lib) homeManagerConfiguration;

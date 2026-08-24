@@ -8,6 +8,8 @@ with pkgs; [
   gh
   ripgrep
   ghostscript
+  pandoc
+  pre-commit
   cbc
   sl
   ispell

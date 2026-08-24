@@ -37,6 +37,7 @@ in {
     file = {
       ".emacs.d/init.el".text = tangleOrg ./init.org;
       ".emacs.d/early-init.el".text = tangleOrg ./early-init.org;
+      ".emacs.d/lisp/nippo-org-journal.el".source = ./nippo-org-journal.el;
       ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
       # recursive=true で実ディレクトリ + ファイルごとのシンボリンクにし、
       # 既存の ~/.emacs.d/snippets との衝突や yasnippet 側からの
