@@ -10,6 +10,7 @@
   brew-nix,
   llm-agents,
   arto,
+  nippo,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -34,6 +35,7 @@
   # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
   kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
+  nippoPkg = pkgs.callPackage ./nippo {inherit pkgs nippo;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
@@ -72,6 +74,7 @@
       # mocword
       cargo-compete
       kakehashi
+      nippoPkg
       yaskkserv2
     ]
     ++ lib.optionals (artoPkg != null) [

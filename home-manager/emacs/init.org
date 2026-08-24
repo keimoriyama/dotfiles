@@ -4,6 +4,7 @@
 ;;; init.el:
 (when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 ; システムに装飾キー渡さない
 (setq mac-pass-control-to-system nil)
@@ -859,6 +860,9 @@ SPEC is:
 (setq org-journal-start-on-weekday 3)
 (setq org-journal-file-format "%Y%m%d.org")
 (keymap-global-set "C-c j" #'org-journal-new-entry)
+
+(require 'nippo-org-journal)
+(keymap-global-set "C-c n j" #'nippo-org-journal-sync)
 #+end_src
 **** org-roam (基本設定)
 #+begin_src emacs-lisp
@@ -1976,26 +1980,15 @@ org-mycal-export
        ;skk-server-host "localhost"
        ;skk-server-portnum 1178))
 
+;; AZIK の "kA" -> ヵ, "kE" -> ヶ は Shift の押し間違いで誤入力しやすいので無効化する
+(with-eval-after-load 'skk-azik
+ (setq skk-rom-kana-rule-list (skk-del-alist "kA" skk-rom-kana-rule-list))
+ (setq skk-rom-kana-rule-list (skk-del-alist "kE" skk-rom-kana-rule-list)))
+
 (require 'ddskk-posframe)
 
-(defun my/skk-return ()
-  "かなモードでの C-j を RET と同じ動作にする。"
-  (interactive)
-  ;; newline を直接呼ばないのは、org-mode や minibuffer など
-  ;; モードごとの RET の定義をそのまま活かしたいため。
-  (let ((command (or (keymap-lookup nil "RET") #'newline)))
-    (setq this-command command)
-    (call-interactively command)))
-
-(defun my/skk-setup-return-key ()
-  "かなモードの C-j に `my/skk-return' を割り当てる。"
-  ;; skk-mode に入るたびに設定し直すのは、skk がローマ字ルールを
-  ;; コンパイルする際に C-j へ skk-insert (確定) を割り当てるため。
-  (keymap-set skk-j-mode-map "C-j" #'my/skk-return))
-
 (with-eval-after-load 'skk
- (add-hook 'skk-mode-hook #'ddskk-posframe-mode)
- (add-hook 'skk-mode-hook #'my/skk-setup-return-key))
+ (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
 
 ** nskk
