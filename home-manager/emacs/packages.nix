@@ -128,6 +128,11 @@
     src = sources.emcas-arto.src;
     version = "0.0.1";
   };
+  copy-file-on-save = epkgs.melpaBuild {
+    pname = "copy-file-on-save";
+    src = sources.emacs-auto-deployment.src;
+    version = "0.1.0";
+  };
   # Upstream projectile ships projectile-consult.el, which unconditionally
   # (require 'consult), but nixpkgs' generated package doesn't declare it
   # as a dependency, breaking byte-compilation. Add it explicitly.

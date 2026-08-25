@@ -104,6 +104,27 @@
         },
         "version": "14560d42440c17d9b59fc18d304687641ddf06e5"
     },
+    "emacs-auto-deployment": {
+        "cargoLock": null,
+        "date": "2026-07-28",
+        "extract": null,
+        "name": "emacs-auto-deployment",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "emacs-php",
+            "repo": "emacs-auto-deployment",
+            "rev": "5c9b80897ecaad2c4f47a2a473b88c25ee7885e2",
+            "sha256": "sha256-uqgvYw/HdsWXbbpt+ON+2zbYO4fO1U4FO0XL1349CiQ=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "5c9b80897ecaad2c4f47a2a473b88c25ee7885e2"
+    },
     "emacs-dmacro": {
         "cargoLock": null,
         "date": "2024-10-27",

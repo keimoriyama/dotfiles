@@ -65,6 +65,18 @@
     };
     date = "2026-07-04";
   };
+  emacs-auto-deployment = {
+    pname = "emacs-auto-deployment";
+    version = "5c9b80897ecaad2c4f47a2a473b88c25ee7885e2";
+    src = fetchFromGitHub {
+      owner = "emacs-php";
+      repo = "emacs-auto-deployment";
+      rev = "5c9b80897ecaad2c4f47a2a473b88c25ee7885e2";
+      fetchSubmodules = false;
+      sha256 = "sha256-uqgvYw/HdsWXbbpt+ON+2zbYO4fO1U4FO0XL1349CiQ=";
+    };
+    date = "2026-07-28";
+  };
   emacs-dmacro = {
     pname = "emacs-dmacro";
     version = "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468";
