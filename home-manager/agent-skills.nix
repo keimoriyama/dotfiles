@@ -1,6 +1,7 @@
 {
   emacs-skills,
   nippo,
+  suiko,
   ...
 }: {
   programs.agent-skills = {
@@ -19,9 +20,14 @@
       path = nippo;
       subdir = ".agents/skills";
     };
+    sources.suiko = {
+      path = suiko;
+      subdir = "skills";
+    };
     skills.enableAll = [
       "emacs"
       "nippo"
+      "suiko"
     ];
 
     targets.claude.enable = true;

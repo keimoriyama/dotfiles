@@ -513,7 +513,24 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
-        "org-babel": "org-babel"
+        "org-babel": "org-babel",
+        "suiko": "suiko"
+      }
+    },
+    "suiko": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787615955,
+        "narHash": "sha256-3x8U21cnstOUM9U5WjPIDmyAH/Lv6SDoBR1Tf2iFrTc=",
+        "owner": "nwiizo",
+        "repo": "suiko",
+        "rev": "9c1c2692097da73fa1ae9eab010087d309a7158b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nwiizo",
+        "repo": "suiko",
+        "type": "github"
       }
     },
     "systems": {

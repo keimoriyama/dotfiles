@@ -11,6 +11,7 @@
   llm-agents,
   arto,
   nippo,
+  suiko,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -36,6 +37,7 @@
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
   kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
   nippoPkg = pkgs.callPackage ./nippo {inherit pkgs nippo;};
+  suikoPkg = pkgs.callPackage ./suiko {inherit pkgs suiko;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
@@ -75,6 +77,7 @@
       cargo-compete
       kakehashi
       nippoPkg
+      suikoPkg
       yaskkserv2
     ]
     ++ lib.optionals (artoPkg != null) [
