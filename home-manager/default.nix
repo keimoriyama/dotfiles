@@ -7,6 +7,7 @@
   org-babel,
   system,
   username,
+  isWork ? false,
   brew-nix,
   llm-agents,
   arto,
@@ -62,12 +63,13 @@
     if pkgs.stdenv.isDarwin
     then import ./darwin.nix {inherit pkgs;}
     else [];
+  # 業務用マシンでは GUI アプリは会社の配布物を使うため home-manager では入れない。
   gui =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.isDarwin && !isWork
     then import ./gui.nix {inherit pkgs;}
     else [];
   llm-agent-pkgs = import ./llm-agent-pkg.nix {
-    inherit llmAgentsPkgs;
+    inherit llmAgentsPkgs isWork;
   };
   basePackages = with pkgs;
     [
