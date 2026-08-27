@@ -82,7 +82,7 @@
         ./home-manager/default.nix
         agent-skills-nix.homeManagerModules.default
       ];
-      mkDarwinSpecialArgs = username: {
+      mkDarwinSpecialArgs = username: isWork: {
         inherit
           nixpkgs
           home-manager
@@ -90,6 +90,7 @@
           nixvim
           org-babel
           username
+          isWork
           brew-nix
           llm-agents
           arto
@@ -101,9 +102,9 @@
         system = darwinSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
       };
-      darwinSpecialArgs = mkDarwinSpecialArgs username;
-      mkDarwinConfiguration = username: let
-        specialArgs = mkDarwinSpecialArgs username;
+      darwinSpecialArgs = mkDarwinSpecialArgs username false;
+      mkDarwinConfiguration = username: isWork: let
+        specialArgs = mkDarwinSpecialArgs username isWork;
       in
         nix-darwin.lib.darwinSystem {
           system = darwinSystem;
@@ -139,6 +140,7 @@
           nippo
           suiko
           ;
+        isWork = false;
         system = nixosSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
       };
@@ -162,8 +164,8 @@
       };
 
       flake = {
-        darwinConfigurations.my-config = mkDarwinConfiguration username;
-        darwinConfigurations.work-config = mkDarwinConfiguration workUsername;
+        darwinConfigurations.my-config = mkDarwinConfiguration username false;
+        darwinConfigurations.work-config = mkDarwinConfiguration workUsername true;
 
         homeConfigurations.myHomeConfig = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {

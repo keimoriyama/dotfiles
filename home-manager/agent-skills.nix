@@ -2,6 +2,7 @@
   emacs-skills,
   nippo,
   suiko,
+  isWork ? false,
   ...
 }: {
   programs.agent-skills = {
@@ -31,6 +32,7 @@
     ];
 
     targets.claude.enable = true;
-    targets.codex.enable = true;
+    # codex 本体を入れない業務用マシンでは skill の配置も不要。
+    targets.codex.enable = !isWork;
   };
 }
