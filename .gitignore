@@ -31,3 +31,4 @@ Brewfile.lock.json
 .config
 /.agent-shell/
 .claude
+.webui_secret_key
