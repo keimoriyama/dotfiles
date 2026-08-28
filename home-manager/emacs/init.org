@@ -2273,14 +2273,17 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 (setq arto-path (expand-file-name "~/Applications/Home Manager Apps/Arto.app/"))
 #+end_src
 
-** copy-file-on-save
-保存時にファイルを別の場所 (TRAMP 経由でリモートホストも可) へコピーする。
-デプロイ先の紐付けはプロジェクト固有なので init.el には書かず、各プロジェクト
-ルートの .dir-locals.el に copy-file-on-save-dest-dir を設定する。
+** ssh-deploy
+Tramp 経由でローカルのファイルをリモートホストへデプロイする。保存時の自動
+アップロードとリモート変更の検知を有効にしている。デプロイ先の紐付けは
+プロジェクト固有なので init.el には書かず、各プロジェクトルートの
+.dir-locals.el に ssh-deploy-root-local / ssh-deploy-root-remote を設定する。
 
 #+begin_src emacs-lisp
-(require 'copy-file-on-save)
-(global-copy-file-on-save-mode)
+(require 'ssh-deploy)
+(ssh-deploy-add-after-save-hook)
+(ssh-deploy-add-find-file-hook)
+(keymap-global-set "C-c C-z" #'ssh-deploy-prefix-map)
 #+end_src
 
 * ローカル設定

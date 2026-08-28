@@ -73,11 +73,6 @@ src.git="https://github.com/wandersoncferreira/agent-shell-dashboard"
 src.branch="main"
 fetch.github="wandersoncferreira/agent-shell-dashboard"
 
-[emacs-auto-deployment]
-src.git="https://github.com/emacs-php/emacs-auto-deployment"
-src.branch="master"
-fetch.github="emacs-php/emacs-auto-deployment"
-
 [fish-autols]
 src.git="https://github.com/yuys13/fish-autols"
 src.branch="main"
