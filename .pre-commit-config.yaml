@@ -6,4 +6,4 @@ repos:
         entry: bash home-manager/emacs/run-tests.sh
         language: system
         pass_filenames: false
-        files: ^home-manager/emacs/(init\.org|nippo-org-journal(-tests)?\.el)$
+        files: ^home-manager/emacs/(init\.org|nippo-org-journal(-tests)?\.el|org-archive-tests\.el)$

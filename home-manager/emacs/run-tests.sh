@@ -6,12 +6,14 @@ export NIPPO_ORG_JOURNAL_TEST_ROOT="$test_root"
 
 emacsclient --eval '
 (progn
-  (load
-   (expand-file-name
-    "home-manager/emacs/nippo-org-journal-tests.el"
-    (getenv "NIPPO_ORG_JOURNAL_TEST_ROOT"))
-   nil t)
-  (let ((stats (ert-run-tests-batch "^nippo-org-journal-")))
+  (dolist (test-file
+           (list "home-manager/emacs/nippo-org-journal-tests.el"
+                 "home-manager/emacs/org-archive-tests.el"))
+    (load
+     (expand-file-name test-file
+                       (getenv "NIPPO_ORG_JOURNAL_TEST_ROOT"))
+     nil t))
+  (let ((stats (ert-run-tests-batch "^\\(nippo-org-journal-\\|org-archive-\\)")))
     (when (> (ert-stats-completed-unexpected stats) 0)
-      (error "nippo Org Journal tests failed"))
+      (error "Emacs Lisp tests failed"))
     t))'
