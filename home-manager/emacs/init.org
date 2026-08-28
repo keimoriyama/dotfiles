@@ -772,6 +772,7 @@ binding))))))))
       org-project-file (format "%s/projects/project.org" org-directory)
       org-exp-file (format "%s/exp.org" org-directory)
       org-prj-dir (format "%s/projects" org-directory)
+      org-archive-dir (format "%s/archive" org-directory)
       org-journal-dir (format "%s/journal" org-directory)
       org-program-dir (format "%s/programming" org-directory))
 
@@ -1303,6 +1304,38 @@ SPEC is:
 (defun show-done-tasks ()
   (interactive)
   (hide-lines-show-all))
+#+end_src
+**** projectファイルをarchiveへ移動
+#+begin_src emacs-lisp
+(defun my/org-archive-project-file (file)
+  "FILE を `org-prj-dir' から `org-archive-dir' へ移動する。
+interactive 呼び出しでは `org-prj-dir' 内の org ファイルを補完選択する。
+embark-act からファイルターゲットに対しても呼び出せる。"
+  (interactive
+   (list (expand-file-name
+          (completing-read "Archive project: "
+                           (directory-files org-prj-dir nil "\\.org\\'"))
+          org-prj-dir)))
+  (let* ((file (expand-file-name file))
+         (dest (expand-file-name (file-name-nondirectory file)
+                                 org-archive-dir)))
+    (unless (string-prefix-p
+             (file-name-as-directory (expand-file-name org-prj-dir)) file)
+      (user-error "projects 以下のファイルではありません: %s" file))
+    (when (file-exists-p dest)
+      (user-error "archive に同名ファイルがあります: %s" dest))
+    (make-directory org-archive-dir t)
+    (if-let ((buf (find-buffer-visiting file)))
+        (with-current-buffer buf
+          (when (buffer-modified-p)
+            (user-error "未保存の変更があります: %s" file))
+          (set-visited-file-name dest t t))
+      (rename-file file dest))
+    (message "Archived: %s" dest)))
+
+;; Why not "A": embark-file-map の "A" は embark-act-all なので空いている "a" を使う
+(with-eval-after-load 'embark
+  (keymap-set embark-file-map "a" #'my/org-archive-project-file))
 #+end_src
 *** Export Command
 #+begin_src emacs-lisp
