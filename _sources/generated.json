@@ -211,7 +211,7 @@
     },
     "emacs-nskk": {
         "cargoLock": null,
-        "date": "2026-07-26",
+        "date": "2026-08-30",
         "extract": null,
         "name": "emacs-nskk",
         "passthru": null,
@@ -223,12 +223,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "nskk.el",
-            "rev": "43968686b05bb135072e0922a299d133515f6d68",
-            "sha256": "sha256-665mEbf77Dx4iBUOHE7Ai0uIHSax56wBMrEKB4mN5yQ=",
+            "rev": "d19559b08835f6e9901a8f611526a1c9f9717114",
+            "sha256": "sha256-BTJYmJdvs0Nmk1QQ6h25LCfLSF2nCZ6C5q3lTyRqKkw=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "43968686b05bb135072e0922a299d133515f6d68"
+        "version": "d19559b08835f6e9901a8f611526a1c9f9717114"
     },
     "emacs-typst-ts-mode": {
         "cargoLock": null,
