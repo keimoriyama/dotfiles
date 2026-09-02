@@ -25,9 +25,13 @@
       path = suiko;
       subdir = "skills";
     };
+    sources.personal = {
+      path = ./agents/skills;
+    };
     skills.enableAll = [
       "emacs"
       "nippo"
+      "personal"
       "suiko"
     ];
 

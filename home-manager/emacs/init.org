@@ -2062,7 +2062,10 @@ org-mycal-export
   (setq agent-shell-show-usage-at-turn-end t)
 
   ;; context window使用量も詳細表示
-  (setq agent-shell-show-context-usage-indicator 'detailed))
+  (setq agent-shell-show-context-usage-indicator 'detailed)
+
+  (keymap-set agent-shell-mode-map "C-c C-f" #'agent-shell-insert-file)
+  (keymap-set agent-shell-mode-map "r" #'agent-shell-quote-region))
 #+end_src
 
 操作全般は hydra の dispatcher (=C-c A=) から呼ぶ。「Agent Shell メニュー」を参照。
@@ -2274,6 +2277,7 @@ agent-shell-manager と重複していたので、そちらは外してこちら
     (("s" agent-shell-send-dwim "dwim")
      ("r" agent-shell-send-region "region")
      ("f" agent-shell-send-current-file "current file")
+     ("C-f" agent-shell-send-other-file "other file")
      ("F" agent-shell-send-file "file")
      ("i" agent-shell-send-clipboard-image "clipboard image")
      ("S" agent-shell-send-screenshot "screenshot"))
