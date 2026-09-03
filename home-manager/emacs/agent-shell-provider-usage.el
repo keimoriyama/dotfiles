@@ -43,8 +43,8 @@ through /status.  Queue the command when the agent is busy."
 
 (defun my-agent-shell--claude-rate-limit-label (window-name)
   "Return the mode-line label for WINDOW-NAME, or nil if unrecognized.
-WINDOW-NAME is a symbol or string key from `unifiedWindows',
-e.g. `five_hour' or \"seven_day_opus\"."
+WINDOW-NAME is a symbol or string, the `rateLimitType' reported by a
+Claude `rate_limit_event', e.g. `five_hour' or \"seven_day_opus\"."
   (cdr (assoc (if (symbolp window-name) (symbol-name window-name) window-name)
               my-agent-shell--claude-rate-limit-windows)))
 
@@ -52,23 +52,23 @@ e.g. `five_hour' or \"seven_day_opus\"."
     (&key state acp-update &allow-other-keys)
   "Capture Claude rate-limit data from ACP-UPDATE into the buffer in STATE.
 
-Each window's utilization and reset time live under `unifiedWindows',
-keyed by window name (e.g. `five_hour', `seven_day')."
+Each `rate_limit_event' reports a single window's utilization and reset
+time directly on `_claude/rateLimit', keyed by `rateLimitType'; it is not
+nested under a `unifiedWindows' map. A window is stored one at a time as
+its own event arrives."
   (when-let* ((metadata (map-elt acp-update '_meta))
               (info (or (map-elt metadata '_claude/rateLimit)
                         (map-elt metadata "_claude/rateLimit")))
-              (windows (map-elt info 'unifiedWindows))
+              (label (my-agent-shell--claude-rate-limit-label
+                      (map-elt info 'rateLimitType)))
+              (utilization (map-elt info 'utilization))
               (buffer (map-elt state :buffer)))
     (with-current-buffer buffer
-      (dolist (window windows)
-        (when-let* ((label (my-agent-shell--claude-rate-limit-label (car window)))
-                    (utilization (map-elt (cdr window) 'utilization)))
-          (let ((used (when (numberp utilization)
-                        (round (* utilization (if (<= utilization 1) 100 1)))))
-                (reset (map-elt (cdr window) 'resetsAt)))
-            (setf (alist-get label my-agent-shell--claude-rate-limits
-                             nil nil #'equal)
-                  (list :label label :used used :reset reset)))))
+      (let ((used (round (* utilization (if (<= utilization 1) 100 1))))
+            (reset (map-elt info 'resetsAt)))
+        (setf (alist-get label my-agent-shell--claude-rate-limits
+                         nil nil #'equal)
+              (list :label label :used used :reset reset)))
       (force-mode-line-update))))
 
 (defun my-agent-shell--read-codex-rate-limits ()

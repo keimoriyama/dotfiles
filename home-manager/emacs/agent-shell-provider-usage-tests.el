@@ -33,23 +33,28 @@
     (should-error (my-agent-shell-show-provider-usage) :type 'user-error)))
 
 (ert-deftest agent-shell-provider-usage-captures-claude-rate-limit-events ()
-  "Claude rate-limit events update every known window and ignore unknown ones."
+  "Claude rate-limit events update one known window at a time and ignore unknown ones."
   (with-temp-buffer
     (let ((state `((:buffer . ,(current-buffer))))
-          (known '((_meta
-                    (_claude/rateLimit
-                     (rateLimitType . "five_hour")
-                     (resetsAt . 4600)
-                     (unifiedWindows
-                      (five_hour (utilization . 0.72) (resetsAt . 4600))
-                      (seven_day (utilization . 0.01) (resetsAt . 87400)))))))
+          (five-hour '((_meta
+                        (_claude/rateLimit
+                         (rateLimitType . "five_hour")
+                         (utilization . 0.72)
+                         (resetsAt . 4600)))))
+          (seven-day '((_meta
+                        (_claude/rateLimit
+                         (rateLimitType . "seven_day")
+                         (utilization . 0.01)
+                         (resetsAt . 87400)))))
           (unknown '((_meta
                       (_claude/rateLimit
                        (rateLimitType . "overage")
-                       (unifiedWindows
-                        (overage (utilization . 0.5) (resetsAt . 4600))))))))
+                       (utilization . 0.5)
+                       (resetsAt . 4600))))))
       (my-agent-shell--capture-claude-rate-limit
-       :state state :acp-update known)
+       :state state :acp-update five-hour)
+      (my-agent-shell--capture-claude-rate-limit
+       :state state :acp-update seven-day)
       (should (equal (alist-get "5h" my-agent-shell--claude-rate-limits
                                 nil nil #'equal)
                      '(:label "5h" :used 72 :reset 4600)))
