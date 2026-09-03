@@ -24,28 +24,6 @@
         "type": "github"
       }
     },
-    "agtlog": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "git-hooks": "git-hooks",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1787492886,
-        "narHash": "sha256-xffuXbu03hT4Z8OCOSfMHTaYNO7zFRpL1DmJHJT/KeY=",
-        "owner": "motoki317",
-        "repo": "agtlog",
-        "rev": "c4cf0eb6ce019d97b53acaa1e30dc95ac7518e6e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "motoki317",
-        "repo": "agtlog",
-        "type": "github"
-      }
-    },
     "arto": {
       "inputs": {
         "crane": "crane",
@@ -166,7 +144,7 @@
     "cage": {
       "inputs": {
         "flake-parts": "flake-parts",
-        "git-hooks": "git-hooks_2",
+        "git-hooks": "git-hooks",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -186,7 +164,45 @@
         "type": "github"
       }
     },
+    "cclens": {
+      "inputs": {
+        "crane": "crane_2",
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1788250280,
+        "narHash": "sha256-BZD8zGauWq2Sqz2Y8ZTF1bx6HXx4NQoc3FbID8HbULU=",
+        "owner": "lambdalisue",
+        "repo": "cclens",
+        "rev": "57758a8d66854d996efa9de01525b1d91e7f816e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lambdalisue",
+        "repo": "cclens",
+        "type": "github"
+      }
+    },
     "crane": {
+      "locked": {
+        "lastModified": 1781825982,
+        "narHash": "sha256-SlXKwIRIhrOSAcTjCB3ftPLzJWZStQIPS7J1FlZPnKk=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "469fd08d0bcf6926321fa973c6777fbc87785dd7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "crane_2": {
       "locked": {
         "lastModified": 1781825982,
         "narHash": "sha256-SlXKwIRIhrOSAcTjCB3ftPLzJWZStQIPS7J1FlZPnKk=",
@@ -241,22 +257,6 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1767039857,
-        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
-        "owner": "NixOS",
-        "repo": "flake-compat",
-        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
-    "flake-compat_2": {
-      "flake": false,
-      "locked": {
         "lastModified": 1696426674,
         "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
         "owner": "edolstra",
@@ -270,7 +270,7 @@
         "type": "github"
       }
     },
-    "flake-compat_3": {
+    "flake-compat_2": {
       "flake": false,
       "locked": {
         "lastModified": 1767039857,
@@ -286,7 +286,7 @@
         "type": "github"
       }
     },
-    "flake-compat_4": {
+    "flake-compat_3": {
       "flake": false,
       "locked": {
         "lastModified": 1767039857,
@@ -401,28 +401,6 @@
     "git-hooks": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": [
-          "agtlog",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1784288435,
-        "narHash": "sha256-ReRHaLgr/uVqdD8afFSn+myXIfpHeOhP0yYe0TJqAA8=",
-        "owner": "cachix",
-        "repo": "git-hooks.nix",
-        "rev": "43b3c1ab9d40fb1dbb008f451988a91e375825e9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cachix",
-        "repo": "git-hooks.nix",
-        "type": "github"
-      }
-    },
-    "git-hooks_2": {
-      "inputs": {
-        "flake-compat": "flake-compat_2",
         "gitignore": "gitignore",
         "nixpkgs": [
           "cage",
@@ -443,9 +421,9 @@
         "type": "github"
       }
     },
-    "git-hooks_3": {
+    "git-hooks_2": {
       "inputs": {
-        "flake-compat": "flake-compat_3",
+        "flake-compat": "flake-compat_2",
         "nixpkgs": [
           "guard-and-guide",
           "nixpkgs"
@@ -489,7 +467,7 @@
     },
     "guard-and-guide": {
       "inputs": {
-        "git-hooks": "git-hooks_3",
+        "git-hooks": "git-hooks_2",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -588,7 +566,7 @@
     },
     "nixos-wsl": {
       "inputs": {
-        "flake-compat": "flake-compat_4",
+        "flake-compat": "flake-compat_3",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -752,14 +730,30 @@
         "type": "github"
       }
     },
+    "ponytail": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786139041,
+        "narHash": "sha256-bGdXvzhWPwGdz3T2Yh2h6lf+3PBRFAfdBxP5pESmCHI=",
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "rev": "2ed6c52c9d7e5e56942508591085fd45dea277d3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agent-skills-nix": "agent-skills-nix",
-        "agtlog": "agtlog",
         "arto": "arto",
         "brew-api": "brew-api",
         "brew-nix": "brew-nix",
         "cage": "cage",
+        "cclens": "cclens",
         "emacs-overlay": "emacs-overlay",
         "emacs-skills": "emacs-skills",
         "flake-parts": "flake-parts_2",
@@ -772,7 +766,29 @@
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
         "org-babel": "org-babel",
+        "ponytail": "ponytail",
         "suiko": "suiko"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "cclens",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781925477,
+        "narHash": "sha256-QT9/mwEXqfrB9v7E2YGPeYTowXZP8c34behjJ9HuQKA=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "e8e2021ee8cf3b58b000953ed3bee0d16b5e98e0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "suiko": {

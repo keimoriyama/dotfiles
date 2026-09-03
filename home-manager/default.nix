@@ -15,7 +15,7 @@
   suiko,
   cage,
   guard-and-guide,
-  agtlog,
+  cclens,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -42,7 +42,6 @@
   kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
   nippoPkg = pkgs.callPackage ./nippo {inherit pkgs nippo;};
   suikoPkg = pkgs.callPackage ./suiko {inherit pkgs suiko;};
-  terminalUse = pkgs.callPackage ./terminal-use {inherit pkgs sources;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
@@ -77,12 +76,10 @@
   };
   agent-tools = import ./agent-tools.nix {
     inherit
-      pkgs
       system
       cage
       guard-and-guide
-      agtlog
-      terminalUse
+      cclens
       ;
   };
   basePackages = with pkgs;

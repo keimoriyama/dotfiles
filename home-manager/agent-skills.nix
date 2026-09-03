@@ -2,6 +2,7 @@
   emacs-skills,
   nippo,
   suiko,
+  ponytail,
   isWork ? false,
   ...
 }: {
@@ -25,6 +26,10 @@
       path = suiko;
       subdir = "skills";
     };
+    sources.ponytail = {
+      path = ponytail;
+      subdir = "skills";
+    };
     sources.personal = {
       path = ./agents/skills;
     };
@@ -32,6 +37,7 @@
       "emacs"
       "nippo"
       "personal"
+      "ponytail"
       "suiko"
     ];
 

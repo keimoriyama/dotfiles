@@ -49,6 +49,10 @@
       url = "github:nwiizo/suiko";
       flake = false;
     };
+    ponytail = {
+      url = "github:DietrichGebert/ponytail";
+      flake = false;
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -63,9 +67,9 @@
       url = "github:kawarimidoll/guard-and-guide";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # セッションログをセッション外のビューアで読む。
-    agtlog = {
-      url = "github:motoki317/agtlog";
+    # Claude Code の transcript と設定を集計し、利用状況や失敗傾向を診断する。
+    cclens = {
+      url = "github:lambdalisue/cclens";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -86,9 +90,10 @@
     emacs-skills,
     nippo,
     suiko,
+    ponytail,
     cage,
     guard-and-guide,
-    agtlog,
+    cclens,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -116,8 +121,9 @@
           emacs-skills
           nippo
           suiko
+          ponytail
           cage
-          agtlog
+          cclens
           guard-and-guide
           ;
         system = darwinSystem;
@@ -160,8 +166,9 @@
           emacs-skills
           nippo
           suiko
+          ponytail
           cage
-          agtlog
+          cclens
           guard-and-guide
           ;
         isWork = false;

@@ -503,27 +503,6 @@
         },
         "version": "84346af3e5f8eeb69935ecac38c0398ee0bb89dd"
     },
-    "terminal-use": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "terminal-use",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "flipbit03",
-            "repo": "terminal-use",
-            "rev": "v1.4.1",
-            "sha256": "sha256-x4wK6Vw7qMkRYRRqgaNvUh8lSngodw4nX/BUzmqOtmU=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v1.4.1"
-    },
     "yaskkserv2": {
         "cargoLock": null,
         "date": null,

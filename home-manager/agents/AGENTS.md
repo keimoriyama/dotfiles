@@ -10,21 +10,11 @@ Claude Code (`~/.claude/CLAUDE.md`) と Codex (`~/.codex/AGENTS.md`) の双方�
 
 ## ツール
 
-既定の反射ではなく右の列を使う。初回使用前に該当ツールのヘルプを読むこと。
+- LLM エージェント向けのツール・スキル・プラグインは Nix 経由で導入する。
+  各エージェントの plugin コマンドや言語パッケージマネージャーで直接導入しない。
 
-| 避けるもの | 使うもの | 参照 |
-| --- | --- | --- |
-| バックグラウンドの bash (開発サーバー・watcher) | `zmx` | `zmx --help` |
-| TUI や対話的 CLI に stdin を流し込む | `tu` | `tu usage` |
-| JS で描画されるページを curl する | `agent-browser` | `agent-browser skills get core --full` |
-
-- `zmx` のセッション名は git リポジトリのルート名 (リポジトリ外なら cwd 名)。
-  先に `zmx list` で衝突を確認し、`zmx run <name> -d <cmd>` で起動する。
-  ユーザーが見られるよう `zmx attach <name>` を伝えること。
-- git・ls・ビルドのような一度きりのコマンドは `zmx` を通さず普通に実行する。
-- `agent-browser open <url> --allow-private` — localhost を開くときに必要。
-- 過去のセッションログを読み返したいときは `agtlog`（`agtlog list` / `agtlog show <ref>`
-  / `agtlog search <pattern>`）。ユーザーに見てもらう場合もこれを案内する。
+- Claude Code の利用状況や設定を点検するときは `cclens doctor` を起点にする。
+  詳細は `cclens inventory` / `cclens usage` / `cclens failures` / `cclens stuck` で確認する。
 
 ## サンドボックス
 
