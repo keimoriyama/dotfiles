@@ -2051,6 +2051,7 @@ org-mycal-export
 (keymap-global-set "C-c C-a" #'agent-shell-new-shell)
 
 (with-eval-after-load 'agent-shell
+  (require 'agent-shell-provider-usage)
   (setopt agent-shell-anthropic-default-model-id "sonnet"
           agent-shell-openai-default-model-id "gpt-5.6-sol"
           agent-shell-context-sources '(region error line)
@@ -2058,13 +2059,18 @@ org-mycal-export
   ;; @file の自動全文埋め込みを止める
   (setq agent-shell-embed-file-size-limit 0)
 
-  ;; turn終了時にtoken usageを表示
-  (setq agent-shell-show-usage-at-turn-end t)
+  (setopt agent-shell-show-usage-at-turn-end t
+          agent-shell-show-context-usage-indicator 'detailed)
 
-  ;; context window使用量も詳細表示
-  (setq agent-shell-show-context-usage-indicator 'detailed)
+  ;; Claude の ACP 通知と Codex のローカル rollout から時間枠制限を表示する。
+  (unless (advice-member-p #'my-agent-shell--capture-claude-rate-limit
+                           'agent-shell--update-usage-from-notification)
+    (advice-add 'agent-shell--update-usage-from-notification :before
+                #'my-agent-shell--capture-claude-rate-limit))
+  (add-hook 'agent-shell-mode-hook #'my-agent-shell-provider-usage-setup)
 
   (keymap-set agent-shell-mode-map "C-c C-f" #'agent-shell-insert-file)
+  (keymap-set agent-shell-mode-map "C-c C-u" #'my-agent-shell-show-provider-usage)
   (keymap-set agent-shell-mode-map "r" #'agent-shell-quote-region))
 #+end_src
 
@@ -2287,7 +2293,8 @@ agent-shell-manager と重複していたので、そちらは外してこちら
      ("M" agent-shell-set-session-model "model")
      ("l" agent-shell-set-session-thought-level "thought level")
      ("R" agent-shell-resume-session "resume")
-     ("u" agent-shell-show-usage "usage"))
+     ("u" agent-shell-show-usage "session usage")
+     ("U" my-agent-shell-show-provider-usage "API usage / rate limit"))
     "Manage"
     (("d" agent-shell-dashboard "dashboard")
      ("j" agent-shell-attention-jump "jump pending")
