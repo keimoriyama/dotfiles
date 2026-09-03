@@ -13,6 +13,9 @@
   arto,
   nippo,
   suiko,
+  cage,
+  guard-and-guide,
+  agtlog,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -39,6 +42,7 @@
   kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
   nippoPkg = pkgs.callPackage ./nippo {inherit pkgs nippo;};
   suikoPkg = pkgs.callPackage ./suiko {inherit pkgs suiko;};
+  terminalUse = pkgs.callPackage ./terminal-use {inherit pkgs sources;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
   wezterm-config = import ./wezterm {inherit pkgs;};
@@ -70,6 +74,16 @@
     else [];
   llm-agent-pkgs = import ./llm-agent-pkg.nix {
     inherit llmAgentsPkgs isWork;
+  };
+  agent-tools = import ./agent-tools.nix {
+    inherit
+      pkgs
+      system
+      cage
+      guard-and-guide
+      agtlog
+      terminalUse
+      ;
   };
   basePackages = with pkgs;
     [
@@ -118,6 +132,7 @@ in {
       ++ langs
       ++ gui
       ++ llm-agent-pkgs
+      ++ agent-tools
       ++ darwin;
     file = {
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";

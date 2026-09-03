@@ -292,6 +292,17 @@
     };
     date = "2026-06-09";
   };
+  terminal-use = {
+    pname = "terminal-use";
+    version = "v1.4.1";
+    src = fetchFromGitHub {
+      owner = "flipbit03";
+      repo = "terminal-use";
+      rev = "v1.4.1";
+      fetchSubmodules = false;
+      sha256 = "sha256-x4wK6Vw7qMkRYRRqgaNvUh8lSngodw4nX/BUzmqOtmU=";
+    };
+  };
   yaskkserv2 = {
     pname = "yaskkserv2";
     version = "0.1.7";

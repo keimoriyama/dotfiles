@@ -127,3 +127,7 @@ src.branch="master"
 src.github="atusy/kakehashi"
 fetch.github="atusy/kakehashi"
 src.branch="main"
+
+[terminal-use]
+src.github="flipbit03/terminal-use"
+fetch.github="flipbit03/terminal-use"

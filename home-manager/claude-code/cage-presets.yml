@@ -1,0 +1,46 @@
+# cage のプリセット。cage は「読み取りは自由、書き込みは許可した場所だけ」という
+# OS レベルのサンドボックス (macOS: Apple Seatbelt, Linux: Landlock) でコマンドを起動する。
+# auto-presets により `cage claude` と打つだけで claude 用の許可セットが適用される。
+presets:
+  base:
+    allow:
+      - "." # カレントディレクトリ = 作業中のリポジトリ
+      - "$HOME/.cache"
+      - "$HOME/.local/share"
+      - "$HOME/.local/state"
+      - "/private/tmp" # macOS の /tmp 実体
+      - "/var/folders" # macOS の mktemp
+      - "/private/var/folders"
+      - "/tmp" # Linux
+      - "/Library/Caches"
+      - "$HOME/Library/Caches"
+      - "/dev" # pty
+
+  git-enabled:
+    allow-git: true # worktree でも git 操作ができるようにする
+    allow-keychain: true # macOS のみ
+
+  npm:
+    allow:
+      - "$HOME/.npm"
+      - "$HOME/.npmrc"
+
+  cargo:
+    allow:
+      - "$HOME/.cargo"
+      - "$HOME/.rustup"
+
+  claude-code:
+    allow:
+      - "$HOME/.claude"
+      - "$HOME/.claude.json"
+      - "$HOME/.config/claude"
+
+auto-presets:
+  - command: claude
+    presets:
+      - base
+      - git-enabled
+      - npm
+      - cargo
+      - claude-code

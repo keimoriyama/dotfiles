@@ -53,6 +53,21 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # エージェントの書き込みを OS のサンドボックス (Apple Seatbelt / Landlock) で縛る。
+    cage = {
+      url = "github:Warashi/cage";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # PreToolUse hook で危険な読み取り・コマンド実行をブロックし、代替手段を提示する。
+    guard-and-guide = {
+      url = "github:kawarimidoll/guard-and-guide";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # セッションログをセッション外のビューアで読む。
+    agtlog = {
+      url = "github:motoki317/agtlog";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -71,6 +86,9 @@
     emacs-skills,
     nippo,
     suiko,
+    cage,
+    guard-and-guide,
+    agtlog,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -98,6 +116,9 @@
           emacs-skills
           nippo
           suiko
+          cage
+          agtlog
+          guard-and-guide
           ;
         system = darwinSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
@@ -139,6 +160,9 @@
           emacs-skills
           nippo
           suiko
+          cage
+          agtlog
+          guard-and-guide
           ;
         isWork = false;
         system = nixosSystem;

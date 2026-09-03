@@ -1,0 +1,57 @@
+# guard-and-guide のルール。PreToolUse hook から評価され、最初にマッチした
+# ルールの message を理由として返してツール実行をブロックする。
+# 単に拒否するとエージェントが回避策を探すため、message には「代わりに何をすべきか」を書く。
+# matcher は正規化後のツール名。File は Read|Write|Edit のエイリアス。
+version = 1
+
+# --- 破壊的なコマンド ---
+
+[[rules]]
+matcher = "Bash"
+regex = '\brm\s+(-[a-zA-Z]*[rR][a-zA-Z]*\s+)*-[a-zA-Z]*f|\brm\s+(-[a-zA-Z]*f[a-zA-Z]*\s+)*-[a-zA-Z]*[rR]'
+message = "Recursive forced removal is prohibited. Delete specific paths with plain 'rm' or 'rmdir', or ask the user to remove the directory."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bdd\s+.*\bof='
+message = "'dd' with an output file is prohibited. Use cp/tee/redirection, or ask the user to run it."
+
+[[rules]]
+matcher = "Bash"
+regex = ':\(\)\s*\{.*\};\s*:'
+message = "Fork bombs are prohibited. Do not run this."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bgit\s+(reset\s+--hard|clean\s+-[a-zA-Z]*f|push\s+.*--force|push\s+.*-f\b)'
+message = "Destructive git commands are prohibited. Report what you want to discard and ask the user to run it."
+
+# 通常の git push は完全にブロックせず settings.json の permissions.ask で都度確認する。
+# ここで止めるのは取り消しの効かない force push だけ (上のルール)。
+
+[[rules]]
+matcher = "Bash"
+regex = '\bchmod\s+(-[a-zA-Z]+\s+)*777\b'
+message = "'chmod 777' is prohibited. Grant the narrowest permission that works."
+
+# --- 認証情報・秘密の読み取り ---
+
+[[rules]]
+matcher = "File"
+regex = '(^|/)\.env($|\.)'
+message = "Access to .env files is prohibited. Ask the user for the values you need."
+
+[[rules]]
+matcher = "File"
+regex = '/\.(ssh|aws|gnupg)/|(^|/)\.(netrc|npmrc|git-credentials)$|(^|/)id_(rsa|ed25519)$'
+message = "Access to credential files is prohibited. Ask the user to read or provide the value instead."
+
+[[rules]]
+matcher = "Bash"
+regex = '~/\.(ssh|aws|gnupg)/|~/\.(netrc|npmrc|git-credentials)\b'
+message = "Reading credential files through the shell is prohibited. Ask the user for the value instead."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bsecurity\s+(find|dump|export)'
+message = "Reading the macOS keychain is prohibited. Ask the user for the value instead."
