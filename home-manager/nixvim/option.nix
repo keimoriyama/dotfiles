@@ -18,7 +18,7 @@
       shiftwidth = 4;
       modifiable = true;
       clipboard =
-        if pkgs.stdenv.isDarwin
+        if pkgs.stdenv.hostPlatform.isDarwin
         then "unnamedplus,unnamed"
         else "unnamedplus";
       splitright = true;
@@ -30,7 +30,7 @@
       spell = true;
       spelllang = ["en_us"];
       dictionary =
-        if pkgs.stdenv.isDarwin
+        if pkgs.stdenv.hostPlatform.isDarwin
         then "/usr/share/dict/words"
         else "${pkgs.scowl}/share/dict/words.txt";
     };

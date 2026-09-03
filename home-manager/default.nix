@@ -32,7 +32,7 @@
   sources = pkgs.callPackage ../_sources/generated.nix {};
   llmAgentsPkgs = llm-agents.packages.${system};
   artoPkg =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.hostPlatform.isDarwin
     then arto.packages.${system}.default
     else null;
   # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
@@ -63,12 +63,12 @@
   utils = import ./utils.nix {inherit pkgs;};
   langs = import ./langs.nix {inherit pkgs;};
   darwin =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.hostPlatform.isDarwin
     then import ./darwin.nix {inherit pkgs;}
     else [];
   # 業務用マシンでは GUI アプリは会社の配布物を使うため home-manager では入れない。
   gui =
-    if pkgs.stdenv.isDarwin && !isWork
+    if pkgs.stdenv.hostPlatform.isDarwin && !isWork
     then import ./gui.nix {inherit pkgs;}
     else [];
   llm-agent-pkgs = import ./llm-agent-pkg.nix {
@@ -114,7 +114,7 @@ in {
     stateVersion = "26.05";
     username = username;
     homeDirectory = pkgs.lib.mkDefault (
-      if pkgs.stdenv.isDarwin
+      if pkgs.stdenv.hostPlatform.isDarwin
       then builtins.toPath "/Users/${username}"
       else builtins.toPath "/home/${username}"
     );
@@ -134,7 +134,7 @@ in {
     file = {
       ".skk-dict/SKK-JISYO.L".source = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
     };
-    activation = pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+    activation = pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
       trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
         ${builtins.readFile ./trampoline-apps.sh}
         fromDir="$HOME/Applications/Home Manager Apps"
