@@ -1,3 +1,4 @@
+
 * 基本設定
 ** 本当の基本設定
 #+BEGIN_SRC emacs-lisp
@@ -2073,6 +2074,7 @@ org-mycal-export
   (keymap-set agent-shell-mode-map "C-c C-u" #'my-agent-shell-show-provider-usage)
   (keymap-set agent-shell-mode-map "r" #'agent-shell-quote-region))
 #+end_src
+
 
 操作全般は hydra の dispatcher (=C-c A=) から呼ぶ。「Agent Shell メニュー」を参照。
 
