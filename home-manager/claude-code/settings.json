@@ -1,13 +1,38 @@
 {
-  "model": "opus",
+  "model": "opus[1m]",
+  "advisorModel": "fable",
+  "permissions": {
+    "defaultMode": "auto",
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh release:*)"
+    ]
+  },
+  "viewMode": "focus",
+  "statusLine": {
+    "type": "command",
+    "command": "~/dotfiles/home-manager/claude-code/statusline.sh"
+  },
+  "extraKnownMarketplaces": {
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "ponytail@ponytail": true
+  },
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if .tool_input.command | test(\"rm -rf|dd if=|:(){ :|:& };:\") then {\"decision\": \"block\", \"reason\": \"危険なコマンドは実行できません。別の方法を検討してください。\"} else empty end'"
+            "command": "guard-and-guide"
           }
         ]
       }
