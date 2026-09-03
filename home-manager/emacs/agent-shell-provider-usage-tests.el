@@ -33,26 +33,32 @@
     (should-error (my-agent-shell-show-provider-usage) :type 'user-error)))
 
 (ert-deftest agent-shell-provider-usage-captures-claude-rate-limit-events ()
-  "Claude rate-limit events update known windows and ignore unknown windows."
+  "Claude rate-limit events update every known window and ignore unknown ones."
   (with-temp-buffer
     (let ((state `((:buffer . ,(current-buffer))))
           (known '((_meta
                     (_claude/rateLimit
                      (rateLimitType . "five_hour")
-                     (utilization . 0.72)
-                     (resetsAt . 4600)))))
+                     (resetsAt . 4600)
+                     (unifiedWindows
+                      (five_hour (utilization . 0.72) (resetsAt . 4600))
+                      (seven_day (utilization . 0.01) (resetsAt . 87400)))))))
           (unknown '((_meta
                       (_claude/rateLimit
                        (rateLimitType . "overage")
-                       (utilization . 0.5))))))
+                       (unifiedWindows
+                        (overage (utilization . 0.5) (resetsAt . 4600))))))))
       (my-agent-shell--capture-claude-rate-limit
        :state state :acp-update known)
       (should (equal (alist-get "5h" my-agent-shell--claude-rate-limits
                                 nil nil #'equal)
                      '(:label "5h" :used 72 :reset 4600)))
+      (should (equal (alist-get "7d" my-agent-shell--claude-rate-limits
+                                nil nil #'equal)
+                     '(:label "7d" :used 1 :reset 87400)))
       (my-agent-shell--capture-claude-rate-limit
        :state state :acp-update unknown)
-      (should (= (length my-agent-shell--claude-rate-limits) 1)))))
+      (should (= (length my-agent-shell--claude-rate-limits) 2)))))
 
 (ert-deftest agent-shell-provider-usage-reads-codex-rollout-rate-limits ()
   "The newest valid Codex event supplies both normal account windows."
@@ -103,21 +109,36 @@
           '(("5h" :label "5h" :used 25 :reset nil)))
     (cl-letf (((symbol-function 'agent-shell-get-config)
                (lambda (_) '((:identifier . claude-code)))))
-      (should (string-match-p "5h 25%" (my-agent-shell-rate-limit-mode-line))))
+      ;; %% is what the mode line renders as a single literal percent sign.
+      (should (string-match-p "5h 25%%↻"
+                              (my-agent-shell-rate-limit-mode-line))))
     (cl-letf (((symbol-function 'agent-shell-get-config)
                (lambda (_) '((:identifier . opencode)))))
       (should-not (my-agent-shell-rate-limit-mode-line)))))
 
-(ert-deftest agent-shell-provider-usage-setup-is-buffer-local-and-idempotent ()
-  "Setup adds one buffer-local mode-line segment even when called twice."
+(ert-deftest agent-shell-provider-usage-orders-claude-windows-shortest-first ()
+  "Windows render shortest-first regardless of the order they were captured in."
   (with-temp-buffer
-    (let ((global-value (default-value 'mode-line-misc-info)))
-      (setq-local mode-line-misc-info nil)
+    (setq my-agent-shell--claude-rate-limits
+          '(("7d" :label "7d" :used 2 :reset nil)
+            ("5h" :label "5h" :used 27 :reset nil)))
+    (cl-letf (((symbol-function 'agent-shell-get-config)
+               (lambda (_) '((:identifier . claude-code)))))
+      (should (equal (substring-no-properties
+                      (my-agent-shell-rate-limit-mode-line))
+                     " [5h 27%%↻- · 7d 2%%↻-]")))))
+
+(ert-deftest agent-shell-provider-usage-setup-is-buffer-local-and-idempotent ()
+  "Setup adds one buffer-local segment next to the buffer name, even when called twice."
+  (with-temp-buffer
+    (let ((global-value (default-value 'mode-line-format)))
       (my-agent-shell-provider-usage-setup)
       (my-agent-shell-provider-usage-setup)
-      (should (local-variable-p 'mode-line-misc-info))
-      (should (= (length mode-line-misc-info) 1))
-      (should (equal global-value (default-value 'mode-line-misc-info))))))
+      (should (local-variable-p 'mode-line-format))
+      (should (= (cl-count my-agent-shell--rate-limit-mode-line-spec
+                            mode-line-format :test #'equal)
+                 1))
+      (should (equal global-value (default-value 'mode-line-format))))))
 
 (provide 'agent-shell-provider-usage-tests)
 ;;; agent-shell-provider-usage-tests.el ends here

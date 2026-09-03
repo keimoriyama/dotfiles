@@ -34,31 +34,42 @@ through /status.  Queue the command when the agent is busy."
                            (or identifier "this agent"))))))
     (agent-shell-prompt-queue command)))
 
+(defconst my-agent-shell--claude-rate-limit-windows
+  '(("five_hour" . "5h")
+    ("seven_day" . "7d")
+    ("seven_day_opus" . "7d-opus")
+    ("seven_day_sonnet" . "7d-sonnet"))
+  "Claude `unifiedWindows' keys and their labels, in mode-line order.")
+
+(defun my-agent-shell--claude-rate-limit-label (window-name)
+  "Return the mode-line label for WINDOW-NAME, or nil if unrecognized.
+WINDOW-NAME is a symbol or string key from `unifiedWindows',
+e.g. `five_hour' or \"seven_day_opus\"."
+  (cdr (assoc (if (symbolp window-name) (symbol-name window-name) window-name)
+              my-agent-shell--claude-rate-limit-windows)))
+
 (cl-defun my-agent-shell--capture-claude-rate-limit
     (&key state acp-update &allow-other-keys)
-  "Capture Claude rate-limit data from ACP-UPDATE into the buffer in STATE."
+  "Capture Claude rate-limit data from ACP-UPDATE into the buffer in STATE.
+
+Each window's utilization and reset time live under `unifiedWindows',
+keyed by window name (e.g. `five_hour', `seven_day')."
   (when-let* ((metadata (map-elt acp-update '_meta))
               (info (or (map-elt metadata '_claude/rateLimit)
                         (map-elt metadata "_claude/rateLimit")))
-              (type (map-elt info 'rateLimitType))
+              (windows (map-elt info 'unifiedWindows))
               (buffer (map-elt state :buffer)))
-    (let* ((type-name (if (symbolp type) (symbol-name type) type))
-           (label (pcase type-name
-                    ("five_hour" "5h")
-                    ("seven_day" "7d")
-                    ("seven_day_opus" "7d-opus")
-                    ("seven_day_sonnet" "7d-sonnet")
-                    (_ nil)))
-           (utilization (map-elt info 'utilization))
-           (used (when (numberp utilization)
-                   (round (* utilization (if (<= utilization 1) 100 1)))))
-           (reset (map-elt info 'resetsAt)))
-      (when label
-        (with-current-buffer buffer
-          (setf (alist-get label my-agent-shell--claude-rate-limits
-                           nil nil #'equal)
-                (list :label label :used used :reset reset))
-          (force-mode-line-update))))))
+    (with-current-buffer buffer
+      (dolist (window windows)
+        (when-let* ((label (my-agent-shell--claude-rate-limit-label (car window)))
+                    (utilization (map-elt (cdr window) 'utilization)))
+          (let ((used (when (numberp utilization)
+                        (round (* utilization (if (<= utilization 1) 100 1)))))
+                (reset (map-elt (cdr window) 'resetsAt)))
+            (setf (alist-get label my-agent-shell--claude-rate-limits
+                             nil nil #'equal)
+                  (list :label label :used used :reset reset)))))
+      (force-mode-line-update))))
 
 (defun my-agent-shell--read-codex-rate-limits ()
   "Read the newest account rate limits from Codex rollout files."
@@ -144,7 +155,13 @@ through /status.  Queue the command when the agent is busy."
               (map-elt (agent-shell-get-config (current-buffer)) :identifier))
              (limits
               (pcase identifier
-                ('claude-code my-agent-shell--claude-rate-limits)
+                ('claude-code
+                 (delq nil
+                       (mapcar (lambda (window)
+                                 (alist-get (cdr window)
+                                            my-agent-shell--claude-rate-limits
+                                            nil nil #'equal))
+                               my-agent-shell--claude-rate-limit-windows)))
                 ('codex
                  (let ((checked-at (plist-get
                                     my-agent-shell--codex-rate-limit-cache
@@ -158,17 +175,27 @@ through /status.  Queue the command when the agent is busy."
                    (plist-get my-agent-shell--codex-rate-limit-cache :limits)))))
              (text (my-agent-shell--format-rate-limits limits)))
         (when text
-          (propertize text
+          ;; The mode line reads % as a format spec, so double it to show one.
+          (propertize (string-replace "%" "%%" text)
                       'help-echo "mouse-1: show detailed provider usage"
                       'mouse-face 'mode-line-highlight
                       'local-map my-agent-shell--rate-limit-mode-line-map)))
     (error nil)))
 
+(defvar my-agent-shell--rate-limit-mode-line-spec
+  '(:eval (my-agent-shell-rate-limit-mode-line))
+  "Mode-line construct inserted next to the buffer name by
+`my-agent-shell-provider-usage-setup'.")
+
 (defun my-agent-shell-provider-usage-setup ()
-  "Add the provider rate-limit segment to an agent-shell mode line."
-  (setq-local mode-line-misc-info (copy-tree mode-line-misc-info))
-  (add-to-list 'mode-line-misc-info
-               '(:eval (my-agent-shell-rate-limit-mode-line)) t))
+  "Show the provider rate-limit segment next to the buffer name."
+  (setq-local mode-line-format (copy-tree mode-line-format))
+  (let ((tail (memq 'mode-line-buffer-identification mode-line-format)))
+    (when (and tail
+               (not (member my-agent-shell--rate-limit-mode-line-spec
+                            mode-line-format)))
+      (setcdr tail (cons my-agent-shell--rate-limit-mode-line-spec
+                          (cdr tail))))))
 
 (provide 'agent-shell-provider-usage)
 ;;; agent-shell-provider-usage.el ends here
