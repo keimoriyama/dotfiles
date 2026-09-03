@@ -1,42 +1,42 @@
 {
-  "model": "opus[1m]",
   "advisorModel": "fable",
-  "permissions": {
-    "defaultMode": "auto",
-    "ask": [
-      "Bash(git push:*)",
-      "Bash(gh pr merge:*)",
-      "Bash(gh release:*)"
-    ]
-  },
-  "viewMode": "focus",
-  "statusLine": {
-    "type": "command",
-    "command": "~/dotfiles/home-manager/claude-code/statusline.sh"
-  },
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "guard-and-guide"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
-        "matcher": "Write|Edit|MultiEdit",
         "hooks": [
           {
-            "type": "command",
-            "command": "jq -r '.tool_input.file_path | select(endswith(\".rs\"))' | xargs -r cargo fmt --"
+            "command": "jq -r '.tool_input.file_path | select(endswith(\".rs\"))' | xargs -r cargo fmt --",
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "Write|Edit|MultiEdit"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "guard-and-guide",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
       }
     ]
   },
-  "theme": "auto"
+  "model": "opus[1m]",
+  "permissions": {
+    "ask": [
+      "Bash(gh pr merge:*)",
+      "Bash(gh release:*)",
+      "Bash(git push:*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "statusLine": {
+    "command": "~/dotfiles/home-manager/claude-code/statusline.sh",
+    "type": "command"
+  },
+  "theme": "auto",
+  "viewMode": "focus"
 }
