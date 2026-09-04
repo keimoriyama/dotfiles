@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Claude Code の statusline。stdin の JSON を受けて 1 行を stdout に出す。
+# アイコンは Nerd Font のグリフ (nerd-fonts.symbols-only を home.packages に入れている)。
 
 # Read JSON input from stdin
 input=$(cat)
@@ -44,11 +46,11 @@ GIT_BRANCH=""
 if [ -n "$CURRENT_DIR" ] && git -C "$CURRENT_DIR" rev-parse --git-dir &>/dev/null; then
   BRANCH=$(git -C "$CURRENT_DIR" branch --show-current 2>/dev/null)
   if [ -n "$BRANCH" ]; then
-    GIT_BRANCH=" |  $BRANCH"
+    GIT_BRANCH=" |  $BRANCH"
   else
     COMMIT_HASH=$(git -C "$CURRENT_DIR" rev-parse --short HEAD 2>/dev/null)
     if [ -n "$COMMIT_HASH" ]; then
-      GIT_BRANCH=" |  HEAD ($COMMIT_HASH)"
+      GIT_BRANCH=" |  HEAD ($COMMIT_HASH)"
     fi
   fi
 fi
@@ -89,4 +91,4 @@ else
   pct_display="${color}${CONTEXT_PCT}%${RESET}"
 fi
 
-echo "󰚩 ${MODEL_DISPLAY} |  ${CURRENT_DIR##*/}${GIT_BRANCH} |  ${token_display} tkns. (${pct_display})"
+echo "󰚩 ${MODEL_DISPLAY} |  ${CURRENT_DIR##*/}${GIT_BRANCH} |  ${token_display} tkns. (${pct_display})"
