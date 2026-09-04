@@ -65,6 +65,50 @@
        :state state :acp-update unknown)
       (should (= (length my-agent-shell--claude-rate-limits) 2)))))
 
+(ert-deftest agent-shell-provider-usage-captures-raw-claude-rate-limit-events ()
+  "A raw SDK rate-limit notification supplies the utilization session updates omit."
+  (with-temp-buffer
+    (let ((state `((:buffer . ,(current-buffer))))
+          (raw '((method . "_claude/sdkMessage")
+                 (params
+                  (sessionId . "abc")
+                  (message
+                   (type . "rate_limit_event")
+                   (rate_limit_info
+                    (status . "allowed_warning")
+                    (rateLimitType . "five_hour")
+                    (utilization . 0.81)
+                    (resetsAt . 4600))))))
+          (other '((method . "session/update")
+                   (params (update (sessionUpdate . "agent_message_chunk"))))))
+      (my-agent-shell--capture-claude-raw-rate-limit
+       :state state :acp-notification raw)
+      (should (equal (alist-get "5h" my-agent-shell--claude-rate-limits
+                                nil nil #'equal)
+                     '(:label "5h" :used 81 :reset 4600)))
+      (my-agent-shell--capture-claude-raw-rate-limit
+       :state state :acp-notification other)
+      (should (= (length my-agent-shell--claude-rate-limits) 1)))))
+
+(ert-deftest agent-shell-provider-usage-requests-raw-rate-limit-events ()
+  "The session asks for rate-limit events without dropping its other metadata."
+  (let* ((config
+          (list (cons :identifier 'claude-code)
+                (cons :session-meta
+                      (list (cons 'claudeCode
+                                  (list (cons 'options
+                                              (list (cons 'thinking
+                                                          (list (cons 'display "summarized")))))))))))
+         (original (copy-tree config))
+         (updated (my-agent-shell-request-claude-rate-limit-events config)))
+    (should (equal (map-nested-elt updated '(:session-meta claudeCode emitRawSDKMessages))
+                   my-agent-shell--claude-raw-sdk-message-filter))
+    (should (equal (map-nested-elt updated '(:session-meta claudeCode options thinking display))
+                   "summarized"))
+    (should (equal (map-elt updated :identifier) 'claude-code))
+    ;; The package hands out a quoted literal, so it must come back untouched.
+    (should (equal config original))))
+
 (ert-deftest agent-shell-provider-usage-reads-codex-rollout-rate-limits ()
   "The newest valid Codex event supplies both normal account windows."
   (let ((directory (make-temp-file "codex-sessions-" t)))

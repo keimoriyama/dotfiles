@@ -2067,6 +2067,16 @@ org-mycal-export
                            'agent-shell--update-usage-from-notification)
     (advice-add 'agent-shell--update-usage-from-notification :before
                 #'my-agent-shell--capture-claude-rate-limit))
+  ;; 使用率が入るのは生の rate_limit_event の方なので、新しいセッションを作るとき
+  ;; に転送を頼み、その通知を拾う。頼めるのは session/new の時だけ。
+  (unless (advice-member-p #'my-agent-shell-request-claude-rate-limit-events
+                           'agent-shell-anthropic-make-claude-code-config)
+    (advice-add 'agent-shell-anthropic-make-claude-code-config :filter-return
+                #'my-agent-shell-request-claude-rate-limit-events))
+  (unless (advice-member-p #'my-agent-shell--capture-claude-raw-rate-limit
+                           'agent-shell--on-notification)
+    (advice-add 'agent-shell--on-notification :before
+                #'my-agent-shell--capture-claude-raw-rate-limit))
   (add-hook 'agent-shell-mode-hook #'my-agent-shell-provider-usage-setup)
 
   (keymap-set agent-shell-mode-map "C-c C-f" #'agent-shell-insert-file)

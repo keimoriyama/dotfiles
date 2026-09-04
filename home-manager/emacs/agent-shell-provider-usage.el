@@ -39,7 +39,13 @@ through /status.  Queue the command when the agent is busy."
     ("seven_day" . "7d")
     ("seven_day_opus" . "7d-opus")
     ("seven_day_sonnet" . "7d-sonnet"))
-  "Claude `unifiedWindows' keys and their labels, in mode-line order.")
+  "Claude `rateLimitType' values and their labels, in mode-line order.")
+
+(defconst my-agent-shell--claude-raw-sdk-message-filter
+  [((type . "rate_limit_event"))]
+  "`emitRawSDKMessages' filter asking Claude Code for rate-limit events only.
+The option also accepts t for every message, but one type is all this
+needs and keeps the rest of the SDK stream off the wire.")
 
 (defun my-agent-shell--claude-rate-limit-label (window-name)
   "Return the mode-line label for WINDOW-NAME, or nil if unrecognized.
@@ -48,21 +54,17 @@ Claude `rate_limit_event', e.g. `five_hour' or \"seven_day_opus\"."
   (cdr (assoc (if (symbolp window-name) (symbol-name window-name) window-name)
               my-agent-shell--claude-rate-limit-windows)))
 
-(cl-defun my-agent-shell--capture-claude-rate-limit
-    (&key state acp-update &allow-other-keys)
-  "Capture Claude rate-limit data from ACP-UPDATE into the buffer in STATE.
+(defun my-agent-shell--store-claude-rate-limit (info buffer)
+  "Store the rate-limit window described by INFO in BUFFER.
 
-Each `rate_limit_event' reports a single window's utilization and reset
-time directly on `_claude/rateLimit', keyed by `rateLimitType'; it is not
-nested under a `unifiedWindows' map. A window is stored one at a time as
-its own event arrives."
-  (when-let* ((metadata (map-elt acp-update '_meta))
-              (info (or (map-elt metadata '_claude/rateLimit)
-                        (map-elt metadata "_claude/rateLimit")))
-              (label (my-agent-shell--claude-rate-limit-label
+INFO is one `rate_limit_info' object: a single window keyed by
+`rateLimitType', with its `utilization' and `resetsAt' alongside. Windows
+accumulate across events, and ones with no label or no utilization yet are
+left out rather than shown as blanks."
+  (when-let* ((label (my-agent-shell--claude-rate-limit-label
                       (map-elt info 'rateLimitType)))
               (utilization (map-elt info 'utilization))
-              (buffer (map-elt state :buffer)))
+              (buffer (and (buffer-live-p buffer) buffer)))
     (with-current-buffer buffer
       (let ((used (round (* utilization (if (<= utilization 1) 100 1))))
             (reset (map-elt info 'resetsAt)))
@@ -70,6 +72,50 @@ its own event arrives."
                          nil nil #'equal)
               (list :label label :used used :reset reset)))
       (force-mode-line-update))))
+
+;; LIMITATION: Claude Code only folds a window's utilization into a session
+;; update when it has decided to warn about that window, so this path alone
+;; leaves the segment empty during ordinary use. The raw event below is the
+;; one that carries the numbers; this stays because a warning is worth
+;; showing the moment it arrives, whichever path delivers it.
+;; https://github.com/anthropics/claude-code/issues/50518 (closed, not planned)
+(cl-defun my-agent-shell--capture-claude-rate-limit
+    (&key state acp-update &allow-other-keys)
+  "Capture Claude rate-limit data from ACP-UPDATE into the buffer in STATE.
+
+The window lives directly on `_claude/rateLimit' in the update's `_meta',
+not nested under a `unifiedWindows' map."
+  (when-let* ((metadata (map-elt acp-update '_meta))
+              (info (or (map-elt metadata '_claude/rateLimit)
+                        (map-elt metadata "_claude/rateLimit"))))
+    (my-agent-shell--store-claude-rate-limit info (map-elt state :buffer))))
+
+(cl-defun my-agent-shell--capture-claude-raw-rate-limit
+    (&key state acp-notification &allow-other-keys)
+  "Capture a raw Claude rate-limit event from ACP-NOTIFICATION into STATE.
+
+Sessions that asked for `emitRawSDKMessages' receive the SDK's own
+`rate_limit_event' as a `_claude/sdkMessage' notification, which carries
+the utilization the session updates omit."
+  (when (equal (map-elt acp-notification 'method) "_claude/sdkMessage")
+    (when-let* ((message (map-nested-elt acp-notification '(params message)))
+                (info (map-elt message 'rate_limit_info)))
+      (my-agent-shell--store-claude-rate-limit info (map-elt state :buffer)))))
+
+(defun my-agent-shell-request-claude-rate-limit-events (config)
+  "Return CONFIG with raw rate-limit events requested for new Claude sessions.
+
+Claude Code reads `emitRawSDKMessages' out of the session's `_meta', so the
+request has to be in place before `session/new'; existing sessions keep
+whatever they were created with."
+  (let* ((config (copy-tree config))
+         (meta (map-elt config :session-meta))
+         (claude (map-elt meta 'claudeCode)))
+    (setf (alist-get 'emitRawSDKMessages claude)
+          my-agent-shell--claude-raw-sdk-message-filter)
+    (setf (alist-get 'claudeCode meta) claude)
+    (setf (alist-get :session-meta config) meta)
+    config))
 
 (defun my-agent-shell--read-codex-rate-limits ()
   "Read the newest account rate limits from Codex rollout files."
