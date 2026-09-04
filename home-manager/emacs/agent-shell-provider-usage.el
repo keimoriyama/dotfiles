@@ -38,8 +38,15 @@ through /status.  Queue the command when the agent is busy."
   '(("five_hour" . "5h")
     ("seven_day" . "7d")
     ("seven_day_opus" . "7d-opus")
-    ("seven_day_sonnet" . "7d-sonnet"))
+    ("seven_day_sonnet" . "7d-sonnet")
+    ("overage" . "overage"))
   "Claude `rateLimitType' values and their labels, in mode-line order.")
+
+(defconst my-agent-shell--claude-rate-limit-statuses
+  '(("allowed" . "ok")
+    ("allowed_warning" . "warn")
+    ("rejected" . "blocked"))
+  "Claude rate-limit `status' values and their mode-line words.")
 
 (defconst my-agent-shell--claude-raw-sdk-message-filter
   [((type . "rate_limit_event"))]
@@ -58,19 +65,21 @@ Claude `rate_limit_event', e.g. `five_hour' or \"seven_day_opus\"."
   "Store the rate-limit window described by INFO in BUFFER.
 
 INFO is one `rate_limit_info' object: a single window keyed by
-`rateLimitType', with its `utilization' and `resetsAt' alongside. Windows
-accumulate across events, and ones with no label or no utilization yet are
-left out rather than shown as blanks."
+`rateLimitType', with its `resetsAt' alongside and its `utilization' only
+once Claude Code is warning about that window. Windows accumulate across
+events; the status stands in for the percentage until one arrives."
   (when-let* ((label (my-agent-shell--claude-rate-limit-label
                       (map-elt info 'rateLimitType)))
-              (utilization (map-elt info 'utilization))
               (buffer (and (buffer-live-p buffer) buffer)))
     (with-current-buffer buffer
-      (let ((used (round (* utilization (if (<= utilization 1) 100 1))))
-            (reset (map-elt info 'resetsAt)))
+      (let* ((utilization (map-elt info 'utilization))
+             (used (when (numberp utilization)
+                     (round (* utilization (if (<= utilization 1) 100 1)))))
+             (reset (map-elt info 'resetsAt)))
         (setf (alist-get label my-agent-shell--claude-rate-limits
                          nil nil #'equal)
-              (list :label label :used used :reset reset)))
+              (list :label label :used used :reset reset
+                    :status (map-elt info 'status))))
       (force-mode-line-update))))
 
 ;; LIMITATION: Claude Code only folds a window's utilization into a session
@@ -182,13 +191,23 @@ whatever they were created with."
                     ((< remaining 3600) (format "%dm" (ceiling (/ remaining 60))))
                     ((< remaining 86400) (format "%dh" (ceiling (/ remaining 3600))))
                     (t (format "%dd" (ceiling (/ remaining 86400))))))
+                  (status (plist-get window :status))
                   (face (cond ((and used (>= used 90)) 'error)
                               ((and used (>= used 70)) 'warning)
-                              (t 'success))))
+                              ((equal status "rejected") 'error)
+                              ((equal status "allowed_warning") 'warning)
+                              (t 'success)))
+                  ;; Claude Code withholds the percentage until it is warning
+                  ;; about a window, so fall back to the status it does send.
+                  (value (cond (used (format "%d%%" used))
+                               (status (or (cdr (assoc
+                                                 status
+                                                 my-agent-shell--claude-rate-limit-statuses))
+                                           status))
+                               (t "--%"))))
              (format "%s %s↻%s"
                      (plist-get window :label)
-                     (propertize (if used (format "%d%%" used) "--%")
-                                 'face face)
+                     (propertize value 'face face)
                      remaining-text)))
          limits)
         " · ")

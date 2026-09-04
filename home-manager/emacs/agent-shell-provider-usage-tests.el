@@ -38,17 +38,20 @@
     (let ((state `((:buffer . ,(current-buffer))))
           (five-hour '((_meta
                         (_claude/rateLimit
+                         (status . "allowed")
                          (rateLimitType . "five_hour")
                          (utilization . 0.72)
                          (resetsAt . 4600)))))
           (seven-day '((_meta
                         (_claude/rateLimit
+                         (status . "allowed")
                          (rateLimitType . "seven_day")
                          (utilization . 0.01)
                          (resetsAt . 87400)))))
           (unknown '((_meta
                       (_claude/rateLimit
-                       (rateLimitType . "overage")
+                       (status . "allowed")
+                       (rateLimitType . "seven_day_overage_included")
                        (utilization . 0.5)
                        (resetsAt . 4600))))))
       (my-agent-shell--capture-claude-rate-limit
@@ -57,10 +60,10 @@
        :state state :acp-update seven-day)
       (should (equal (alist-get "5h" my-agent-shell--claude-rate-limits
                                 nil nil #'equal)
-                     '(:label "5h" :used 72 :reset 4600)))
+                     '(:label "5h" :used 72 :reset 4600 :status "allowed")))
       (should (equal (alist-get "7d" my-agent-shell--claude-rate-limits
                                 nil nil #'equal)
-                     '(:label "7d" :used 1 :reset 87400)))
+                     '(:label "7d" :used 1 :reset 87400 :status "allowed")))
       (my-agent-shell--capture-claude-rate-limit
        :state state :acp-update unknown)
       (should (= (length my-agent-shell--claude-rate-limits) 2)))))
@@ -85,10 +88,39 @@
        :state state :acp-notification raw)
       (should (equal (alist-get "5h" my-agent-shell--claude-rate-limits
                                 nil nil #'equal)
-                     '(:label "5h" :used 81 :reset 4600)))
+                     '(:label "5h" :used 81 :reset 4600
+                              :status "allowed_warning")))
       (my-agent-shell--capture-claude-raw-rate-limit
        :state state :acp-notification other)
       (should (= (length my-agent-shell--claude-rate-limits) 1)))))
+
+(ert-deftest agent-shell-provider-usage-shows-status-when-utilization-is-absent ()
+  "A window Claude Code reports without a percentage still shows its status.
+This is the event a usage-based seat actually receives."
+  (with-temp-buffer
+    (let ((state `((:buffer . ,(current-buffer))))
+          (raw '((method . "_claude/sdkMessage")
+                 (params
+                  (message
+                   (type . "rate_limit_event")
+                   (rate_limit_info
+                    (status . "allowed")
+                    (resetsAt . 4600)
+                    (rateLimitType . "overage")
+                    (overageStatus . "allowed")
+                    (overageInUse . t)))))))
+      (my-agent-shell--capture-claude-raw-rate-limit
+       :state state :acp-notification raw)
+      (should (equal (alist-get "overage" my-agent-shell--claude-rate-limits
+                                nil nil #'equal)
+                     '(:label "overage" :used nil :reset 4600
+                              :status "allowed")))
+      (should (equal (substring-no-properties
+                      (my-agent-shell--format-rate-limits
+                       (list (alist-get "overage" my-agent-shell--claude-rate-limits
+                                        nil nil #'equal))
+                       1000))
+                     " [overage ok↻1h]")))))
 
 (ert-deftest agent-shell-provider-usage-requests-raw-rate-limit-events ()
   "The session asks for rate-limit events without dropping its other metadata."
