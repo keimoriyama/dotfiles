@@ -14,7 +14,7 @@
   (expand-file-name "claude-code/rate-limits.json"
                     (or (getenv "XDG_CACHE_HOME") "~/.cache"))
   "File where Claude Code's status line leaves its `rate_limits' object.
-Written by home-manager/claude-code/statusline.sh; the path has to match."
+Written by home-manager/agents/statusline.sh; the path has to match."
   :type 'file)
 
 (defcustom my-agent-shell-claude-rate-limit-staleness 900
