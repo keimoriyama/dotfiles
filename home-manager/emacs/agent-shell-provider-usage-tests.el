@@ -141,6 +141,57 @@ This is the event a usage-based seat actually receives."
     ;; The package hands out a quoted literal, so it must come back untouched.
     (should (equal config original))))
 
+(ert-deftest agent-shell-provider-usage-reads-claude-status-line-file ()
+  "The status-line file supplies a percentage for every window it names."
+  (let ((file (make-temp-file "claude-rate-limits-" nil ".json")))
+    (unwind-protect
+        (let ((my-agent-shell-claude-rate-limit-file file)
+              (my-agent-shell-claude-rate-limit-staleness 900))
+          (with-temp-file file
+            (insert "{\"five_hour\":{\"used_percentage\":34.7,\"resets_at\":4600},"
+                    "\"seven_day\":{\"used_percentage\":12,\"resets_at\":87400},"
+                    "\"made_up_window\":{\"used_percentage\":99,\"resets_at\":1}}"))
+          (should (equal (my-agent-shell--read-claude-rate-limit-file)
+                         '((:label "5h" :used 35 :reset 4600 :stale nil)
+                           (:label "7d" :used 12 :reset 87400 :stale nil)))))
+      (delete-file file))))
+
+(ert-deftest agent-shell-provider-usage-marks-a-stale-status-line-file ()
+  "Values older than the staleness limit are flagged rather than shown as current."
+  (let ((file (make-temp-file "claude-rate-limits-" nil ".json")))
+    (unwind-protect
+        (let ((my-agent-shell-claude-rate-limit-file file)
+              (my-agent-shell-claude-rate-limit-staleness 0))
+          (with-temp-file file
+            (insert "{\"five_hour\":{\"used_percentage\":34,\"resets_at\":4600}}"))
+          (should (plist-get (car (my-agent-shell--read-claude-rate-limit-file))
+                             :stale))
+          (should (equal (substring-no-properties
+                          (my-agent-shell--format-rate-limits
+                           (my-agent-shell--read-claude-rate-limit-file) 1000))
+                         " [5h 34%↻1h]")))
+      (delete-file file))))
+
+(ert-deftest agent-shell-provider-usage-prefers-live-events-over-the-file ()
+  "A window captured over ACP wins; the rest still come from the file."
+  (let ((file (make-temp-file "claude-rate-limits-" nil ".json")))
+    (unwind-protect
+        (with-temp-buffer
+          (let ((my-agent-shell-claude-rate-limit-file file)
+                (my-agent-shell-claude-rate-limit-staleness 900)
+                (my-agent-shell--claude-rate-limit-file-cache nil))
+            (with-temp-file file
+              (insert "{\"five_hour\":{\"used_percentage\":34,\"resets_at\":4600},"
+                      "\"seven_day\":{\"used_percentage\":12,\"resets_at\":87400}}"))
+            (setq my-agent-shell--claude-rate-limits
+                  '(("5h" :label "5h" :used 88 :reset 4600
+                     :status "allowed_warning")))
+            (should (equal (my-agent-shell--claude-mode-line-windows)
+                           '((:label "5h" :used 88 :reset 4600
+                                     :status "allowed_warning")
+                             (:label "7d" :used 12 :reset 87400 :stale nil))))))
+      (delete-file file))))
+
 (ert-deftest agent-shell-provider-usage-reads-codex-rollout-rate-limits ()
   "The newest valid Codex event supplies both normal account windows."
   (let ((directory (make-temp-file "codex-sessions-" t)))
