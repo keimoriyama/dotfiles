@@ -40,6 +40,7 @@
   # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
   cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
   kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
+  claude-usage-line = pkgs.callPackage ./claude-usage-line {inherit pkgs;};
   nippoPkg = pkgs.callPackage ./nippo {inherit pkgs nippo;};
   suikoPkg = pkgs.callPackage ./suiko {inherit pkgs suiko;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
@@ -80,6 +81,7 @@
       cage
       guard-and-guide
       cclens
+      claude-usage-line
       ;
   };
   basePackages = with pkgs;

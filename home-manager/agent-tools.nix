@@ -1,10 +1,11 @@
 # AI エージェントに自律作業をさせるための周辺ツール。
-# 制限系 (cage / guard-and-guide) と観測系 (cclens)。
+# 制限系 (cage / guard-and-guide) と観測系 (cclens / claude-usage-line)。
 {
   system,
   cage,
   guard-and-guide,
   cclens,
+  claude-usage-line,
 }: [
   # 書き込みを OS のサンドボックス (macOS: Apple Seatbelt, Linux: Landlock) で縛る。
   cage.packages.${system}.default
@@ -12,4 +13,6 @@
   guard-and-guide.packages.${system}.default
   # transcript と設定をローカルで集計し、利用状況や失敗傾向を診断する。
   cclens.packages.${system}.default
+  # statusLine から呼ばれ、コンテキスト使用率とレート制限を 1 行で出す。
+  claude-usage-line
 ]

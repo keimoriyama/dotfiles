@@ -34,7 +34,7 @@
     "defaultMode": "auto"
   },
   "statusLine": {
-    "command": "~/dotfiles/home-manager/agents/statusline.sh",
+    "command": "claude-usage-line",
     "type": "command"
   },
   "theme": "auto",
