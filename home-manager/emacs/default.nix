@@ -38,6 +38,7 @@ in {
       ".emacs.d/init.el".text = tangleOrg ./init.org;
       ".emacs.d/early-init.el".text = tangleOrg ./early-init.org;
       ".emacs.d/lisp/agent-shell-provider-usage.el".source = ./agent-shell-provider-usage.el;
+      ".emacs.d/lisp/claude-usage.el".source = ./claude-usage.el;
       ".emacs.d/lisp/nippo-org-journal.el".source = ./nippo-org-journal.el;
       ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
       # recursive=true で実ディレクトリ + ファイルごとのシンボリンクにし、

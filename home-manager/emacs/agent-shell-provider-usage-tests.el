@@ -32,166 +32,6 @@
              (lambda (_) '((:identifier . opencode)))))
     (should-error (my-agent-shell-show-provider-usage) :type 'user-error)))
 
-(ert-deftest agent-shell-provider-usage-captures-claude-rate-limit-events ()
-  "Claude rate-limit events update one known window at a time and ignore unknown ones."
-  (with-temp-buffer
-    (let ((state `((:buffer . ,(current-buffer))))
-          (five-hour '((_meta
-                        (_claude/rateLimit
-                         (status . "allowed")
-                         (rateLimitType . "five_hour")
-                         (utilization . 0.72)
-                         (resetsAt . 4600)))))
-          (seven-day '((_meta
-                        (_claude/rateLimit
-                         (status . "allowed")
-                         (rateLimitType . "seven_day")
-                         (utilization . 0.01)
-                         (resetsAt . 87400)))))
-          (unknown '((_meta
-                      (_claude/rateLimit
-                       (status . "allowed")
-                       (rateLimitType . "seven_day_overage_included")
-                       (utilization . 0.5)
-                       (resetsAt . 4600))))))
-      (my-agent-shell--capture-claude-rate-limit
-       :state state :acp-update five-hour)
-      (my-agent-shell--capture-claude-rate-limit
-       :state state :acp-update seven-day)
-      (should (equal (alist-get "5h" my-agent-shell--claude-rate-limits
-                                nil nil #'equal)
-                     '(:label "5h" :used 72 :reset 4600 :status "allowed")))
-      (should (equal (alist-get "7d" my-agent-shell--claude-rate-limits
-                                nil nil #'equal)
-                     '(:label "7d" :used 1 :reset 87400 :status "allowed")))
-      (my-agent-shell--capture-claude-rate-limit
-       :state state :acp-update unknown)
-      (should (= (length my-agent-shell--claude-rate-limits) 2)))))
-
-(ert-deftest agent-shell-provider-usage-captures-raw-claude-rate-limit-events ()
-  "A raw SDK rate-limit notification supplies the utilization session updates omit."
-  (with-temp-buffer
-    (let ((state `((:buffer . ,(current-buffer))))
-          (raw '((method . "_claude/sdkMessage")
-                 (params
-                  (sessionId . "abc")
-                  (message
-                   (type . "rate_limit_event")
-                   (rate_limit_info
-                    (status . "allowed_warning")
-                    (rateLimitType . "five_hour")
-                    (utilization . 0.81)
-                    (resetsAt . 4600))))))
-          (other '((method . "session/update")
-                   (params (update (sessionUpdate . "agent_message_chunk"))))))
-      (my-agent-shell--capture-claude-raw-rate-limit
-       :state state :acp-notification raw)
-      (should (equal (alist-get "5h" my-agent-shell--claude-rate-limits
-                                nil nil #'equal)
-                     '(:label "5h" :used 81 :reset 4600
-                              :status "allowed_warning")))
-      (my-agent-shell--capture-claude-raw-rate-limit
-       :state state :acp-notification other)
-      (should (= (length my-agent-shell--claude-rate-limits) 1)))))
-
-(ert-deftest agent-shell-provider-usage-shows-status-when-utilization-is-absent ()
-  "A window Claude Code reports without a percentage still shows its status.
-This is the event a usage-based seat actually receives."
-  (with-temp-buffer
-    (let ((state `((:buffer . ,(current-buffer))))
-          (raw '((method . "_claude/sdkMessage")
-                 (params
-                  (message
-                   (type . "rate_limit_event")
-                   (rate_limit_info
-                    (status . "allowed")
-                    (resetsAt . 4600)
-                    (rateLimitType . "overage")
-                    (overageStatus . "allowed")
-                    (overageInUse . t)))))))
-      (my-agent-shell--capture-claude-raw-rate-limit
-       :state state :acp-notification raw)
-      (should (equal (alist-get "overage" my-agent-shell--claude-rate-limits
-                                nil nil #'equal)
-                     '(:label "overage" :used nil :reset 4600
-                              :status "allowed")))
-      (should (equal (substring-no-properties
-                      (my-agent-shell--format-rate-limits
-                       (list (alist-get "overage" my-agent-shell--claude-rate-limits
-                                        nil nil #'equal))
-                       1000))
-                     " [overage ok↻1h]")))))
-
-(ert-deftest agent-shell-provider-usage-requests-raw-rate-limit-events ()
-  "The session asks for rate-limit events without dropping its other metadata."
-  (let* ((config
-          (list (cons :identifier 'claude-code)
-                (cons :session-meta
-                      (list (cons 'claudeCode
-                                  (list (cons 'options
-                                              (list (cons 'thinking
-                                                          (list (cons 'display "summarized")))))))))))
-         (original (copy-tree config))
-         (updated (my-agent-shell-request-claude-rate-limit-events config)))
-    (should (equal (map-nested-elt updated '(:session-meta claudeCode emitRawSDKMessages))
-                   my-agent-shell--claude-raw-sdk-message-filter))
-    (should (equal (map-nested-elt updated '(:session-meta claudeCode options thinking display))
-                   "summarized"))
-    (should (equal (map-elt updated :identifier) 'claude-code))
-    ;; The package hands out a quoted literal, so it must come back untouched.
-    (should (equal config original))))
-
-(ert-deftest agent-shell-provider-usage-reads-claude-status-line-file ()
-  "The status-line file supplies a percentage for every window it names."
-  (let ((file (make-temp-file "claude-rate-limits-" nil ".json")))
-    (unwind-protect
-        (let ((my-agent-shell-claude-rate-limit-file file)
-              (my-agent-shell-claude-rate-limit-staleness 900))
-          (with-temp-file file
-            (insert "{\"five_hour\":{\"used_percentage\":34.7,\"resets_at\":4600},"
-                    "\"seven_day\":{\"used_percentage\":12,\"resets_at\":87400},"
-                    "\"made_up_window\":{\"used_percentage\":99,\"resets_at\":1}}"))
-          (should (equal (my-agent-shell--read-claude-rate-limit-file)
-                         '((:label "5h" :used 35 :reset 4600 :stale nil)
-                           (:label "7d" :used 12 :reset 87400 :stale nil)))))
-      (delete-file file))))
-
-(ert-deftest agent-shell-provider-usage-marks-a-stale-status-line-file ()
-  "Values older than the staleness limit are flagged rather than shown as current."
-  (let ((file (make-temp-file "claude-rate-limits-" nil ".json")))
-    (unwind-protect
-        (let ((my-agent-shell-claude-rate-limit-file file)
-              (my-agent-shell-claude-rate-limit-staleness 0))
-          (with-temp-file file
-            (insert "{\"five_hour\":{\"used_percentage\":34,\"resets_at\":4600}}"))
-          (should (plist-get (car (my-agent-shell--read-claude-rate-limit-file))
-                             :stale))
-          (should (equal (substring-no-properties
-                          (my-agent-shell--format-rate-limits
-                           (my-agent-shell--read-claude-rate-limit-file) 1000))
-                         " [5h 34%↻1h]")))
-      (delete-file file))))
-
-(ert-deftest agent-shell-provider-usage-prefers-live-events-over-the-file ()
-  "A window captured over ACP wins; the rest still come from the file."
-  (let ((file (make-temp-file "claude-rate-limits-" nil ".json")))
-    (unwind-protect
-        (with-temp-buffer
-          (let ((my-agent-shell-claude-rate-limit-file file)
-                (my-agent-shell-claude-rate-limit-staleness 900)
-                (my-agent-shell--claude-rate-limit-file-cache nil))
-            (with-temp-file file
-              (insert "{\"five_hour\":{\"used_percentage\":34,\"resets_at\":4600},"
-                      "\"seven_day\":{\"used_percentage\":12,\"resets_at\":87400}}"))
-            (setq my-agent-shell--claude-rate-limits
-                  '(("5h" :label "5h" :used 88 :reset 4600
-                     :status "allowed_warning")))
-            (should (equal (my-agent-shell--claude-mode-line-windows)
-                           '((:label "5h" :used 88 :reset 4600
-                                     :status "allowed_warning")
-                             (:label "7d" :used 12 :reset 87400 :stale nil))))))
-      (delete-file file))))
-
 (ert-deftest agent-shell-provider-usage-reads-codex-rollout-rate-limits ()
   "The newest valid Codex event supplies both normal account windows."
   (let ((directory (make-temp-file "codex-sessions-" t)))
@@ -235,30 +75,20 @@ This is the event a usage-based seat actually receives."
   (should-not (my-agent-shell--format-rate-limits nil 1000)))
 
 (ert-deftest agent-shell-provider-usage-renders-provider-mode-line ()
-  "The mode-line renderer uses session data and hides unsupported providers."
+  "The mode-line renderer uses Codex data and hides providers it cannot read."
   (with-temp-buffer
-    (setq my-agent-shell--claude-rate-limits
-          '(("5h" :label "5h" :used 25 :reset nil)))
-    (cl-letf (((symbol-function 'agent-shell-get-config)
-               (lambda (_) '((:identifier . claude-code)))))
-      ;; %% is what the mode line renders as a single literal percent sign.
-      (should (string-match-p "5h 25%%↻"
-                              (my-agent-shell-rate-limit-mode-line))))
-    (cl-letf (((symbol-function 'agent-shell-get-config)
-               (lambda (_) '((:identifier . opencode)))))
-      (should-not (my-agent-shell-rate-limit-mode-line)))))
-
-(ert-deftest agent-shell-provider-usage-orders-claude-windows-shortest-first ()
-  "Windows render shortest-first regardless of the order they were captured in."
-  (with-temp-buffer
-    (setq my-agent-shell--claude-rate-limits
-          '(("7d" :label "7d" :used 2 :reset nil)
-            ("5h" :label "5h" :used 27 :reset nil)))
-    (cl-letf (((symbol-function 'agent-shell-get-config)
-               (lambda (_) '((:identifier . claude-code)))))
-      (should (equal (substring-no-properties
-                      (my-agent-shell-rate-limit-mode-line))
-                     " [5h 27%%↻- · 7d 2%%↻-]")))))
+    (let ((my-agent-shell--codex-rate-limit-cache
+           (list :checked-at (float-time)
+                 :limits '((:label "5h" :used 25 :reset nil)))))
+      (cl-letf (((symbol-function 'agent-shell-get-config)
+                 (lambda (_) '((:identifier . codex)))))
+        ;; %% is what the mode line renders as a single literal percent sign.
+        (should (string-match-p "5h 25%%↻"
+                                (my-agent-shell-rate-limit-mode-line))))
+      ;; Claude's windows come from `claude-usage', not from here.
+      (cl-letf (((symbol-function 'agent-shell-get-config)
+                 (lambda (_) '((:identifier . claude-code)))))
+        (should-not (my-agent-shell-rate-limit-mode-line))))))
 
 (ert-deftest agent-shell-provider-usage-setup-is-buffer-local-and-idempotent ()
   "Setup adds one buffer-local segment next to the buffer name, even when called twice."

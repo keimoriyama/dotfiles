@@ -2062,21 +2062,8 @@ org-mycal-export
   (setopt agent-shell-show-usage-at-turn-end t
           agent-shell-show-context-usage-indicator 'detailed)
 
-  ;; Claude の ACP 通知と Codex のローカル rollout から時間枠制限を表示する。
-  (unless (advice-member-p #'my-agent-shell--capture-claude-rate-limit
-                           'agent-shell--update-usage-from-notification)
-    (advice-add 'agent-shell--update-usage-from-notification :before
-                #'my-agent-shell--capture-claude-rate-limit))
-  ;; 使用率が入るのは生の rate_limit_event の方なので、新しいセッションを作るとき
-  ;; に転送を頼み、その通知を拾う。頼めるのは session/new の時だけ。
-  (unless (advice-member-p #'my-agent-shell-request-claude-rate-limit-events
-                           'agent-shell-anthropic-make-claude-code-config)
-    (advice-add 'agent-shell-anthropic-make-claude-code-config :filter-return
-                #'my-agent-shell-request-claude-rate-limit-events))
-  (unless (advice-member-p #'my-agent-shell--capture-claude-raw-rate-limit
-                           'agent-shell--on-notification)
-    (advice-add 'agent-shell--on-notification :before
-                #'my-agent-shell--capture-claude-raw-rate-limit))
+  ;; Codex のローカル rollout から時間枠制限を表示する。Claude の分は
+  ;; claude-usage が担当する (ACP には使用率が流れてこない)。
   (add-hook 'agent-shell-mode-hook #'my-agent-shell-provider-usage-setup)
 
   (keymap-set agent-shell-mode-map "C-c C-f" #'agent-shell-insert-file)
@@ -2086,6 +2073,15 @@ org-mycal-export
 
 
 操作全般は hydra の dispatcher (=C-c A=) から呼ぶ。「Agent Shell メニュー」を参照。
+
+** claude-usage
+=claude-usage --json= をポーリングして、Claude subscription の残量をモードラインに表示する。
+
+#+begin_src emacs-lisp
+(require 'claude-usage)
+(setq claude-usage-refresh-interval 60)
+(claude-usage-mode 1)
+#+end_src
 
 ** agent-shell-attention
 待ち状態の agent-shell バッファ数をモードラインに表示する。

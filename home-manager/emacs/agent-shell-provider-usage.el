@@ -1,5 +1,12 @@
 ;;; agent-shell-provider-usage.el --- Provider usage display for agent-shell -*- lexical-binding: t; -*-
 
+;;; Commentary:
+
+;; Shows Codex's time-window rate limits next to the buffer name, and sends
+;; the current agent's own usage command.  Claude's windows are not here:
+;; Claude Code hands those percentages only to its status line, so
+;; `claude-usage' polls that tool and shows them globally instead.
+
 (require 'cl-lib)
 (require 'json)
 (require 'map)
@@ -10,22 +17,7 @@
   "Directory containing Codex rollout JSONL files."
   :type 'directory)
 
-(defcustom my-agent-shell-claude-rate-limit-file
-  (expand-file-name "claude-code/rate-limits.json"
-                    (or (getenv "XDG_CACHE_HOME") "~/.cache"))
-  "File where Claude Code's status line leaves its `rate_limits' object.
-Written by home-manager/agents/statusline.sh; the path has to match."
-  :type 'file)
-
-(defcustom my-agent-shell-claude-rate-limit-staleness 900
-  "Seconds after which the values in `my-agent-shell-claude-rate-limit-file' are dimmed.
-Only a Claude Code terminal session refreshes that file, so a percentage can
-outlive the usage it described."
-  :type 'integer)
-
 (defvar my-agent-shell--codex-rate-limit-cache nil)
-(defvar my-agent-shell--claude-rate-limit-file-cache nil)
-(defvar-local my-agent-shell--claude-rate-limits nil)
 
 (defvar my-agent-shell--rate-limit-mode-line-map
   (let ((map (make-sparse-keymap)))
@@ -47,151 +39,6 @@ through /status.  Queue the command when the agent is busy."
             (_ (user-error "Usage and rate limits are unavailable for %s"
                            (or identifier "this agent"))))))
     (agent-shell-prompt-queue command)))
-
-(defconst my-agent-shell--claude-rate-limit-windows
-  '(("five_hour" . "5h")
-    ("seven_day" . "7d")
-    ("seven_day_opus" . "7d-opus")
-    ("seven_day_sonnet" . "7d-sonnet")
-    ("overage" . "overage"))
-  "Claude `rateLimitType' values and their labels, in mode-line order.")
-
-(defconst my-agent-shell--claude-rate-limit-statuses
-  '(("allowed" . "ok")
-    ("allowed_warning" . "warn")
-    ("rejected" . "blocked"))
-  "Claude rate-limit `status' values and their mode-line words.")
-
-(defconst my-agent-shell--claude-raw-sdk-message-filter
-  [((type . "rate_limit_event"))]
-  "`emitRawSDKMessages' filter asking Claude Code for rate-limit events only.
-The option also accepts t for every message, but one type is all this
-needs and keeps the rest of the SDK stream off the wire.")
-
-(defun my-agent-shell--claude-rate-limit-label (window-name)
-  "Return the mode-line label for WINDOW-NAME, or nil if unrecognized.
-WINDOW-NAME is a symbol or string, the `rateLimitType' reported by a
-Claude `rate_limit_event', e.g. `five_hour' or \"seven_day_opus\"."
-  (cdr (assoc (if (symbolp window-name) (symbol-name window-name) window-name)
-              my-agent-shell--claude-rate-limit-windows)))
-
-(defun my-agent-shell--store-claude-rate-limit (info buffer)
-  "Store the rate-limit window described by INFO in BUFFER.
-
-INFO is one `rate_limit_info' object: a single window keyed by
-`rateLimitType', with its `resetsAt' alongside and its `utilization' only
-once Claude Code is warning about that window. Windows accumulate across
-events; the status stands in for the percentage until one arrives."
-  (when-let* ((label (my-agent-shell--claude-rate-limit-label
-                      (map-elt info 'rateLimitType)))
-              (buffer (and (buffer-live-p buffer) buffer)))
-    (with-current-buffer buffer
-      (let* ((utilization (map-elt info 'utilization))
-             (used (when (numberp utilization)
-                     (round (* utilization (if (<= utilization 1) 100 1)))))
-             (reset (map-elt info 'resetsAt)))
-        (setf (alist-get label my-agent-shell--claude-rate-limits
-                         nil nil #'equal)
-              (list :label label :used used :reset reset
-                    :status (map-elt info 'status))))
-      (force-mode-line-update))))
-
-;; LIMITATION: nothing Claude Code sends over ACP carries a percentage during
-;; ordinary use. It caches the numbers from the API's rate-limit response
-;; headers and hands them only to its own terminal status line, so the
-;; everyday percentages come from the file that status line writes, and these
-;; events supply the window Claude Code is actively warning about.
-;; https://github.com/anthropics/claude-code/issues/50518 (closed, not planned)
-(cl-defun my-agent-shell--capture-claude-rate-limit
-    (&key state acp-update &allow-other-keys)
-  "Capture Claude rate-limit data from ACP-UPDATE into the buffer in STATE.
-
-The window lives directly on `_claude/rateLimit' in the update's `_meta',
-not nested under a `unifiedWindows' map."
-  (when-let* ((metadata (map-elt acp-update '_meta))
-              (info (or (map-elt metadata '_claude/rateLimit)
-                        (map-elt metadata "_claude/rateLimit"))))
-    (my-agent-shell--store-claude-rate-limit info (map-elt state :buffer))))
-
-(cl-defun my-agent-shell--capture-claude-raw-rate-limit
-    (&key state acp-notification &allow-other-keys)
-  "Capture a raw Claude rate-limit event from ACP-NOTIFICATION into STATE.
-
-Sessions that asked for `emitRawSDKMessages' receive the SDK's own
-`rate_limit_event' as a `_claude/sdkMessage' notification, which carries
-the utilization the session updates omit."
-  (when (equal (map-elt acp-notification 'method) "_claude/sdkMessage")
-    (when-let* ((message (map-nested-elt acp-notification '(params message)))
-                (info (map-elt message 'rate_limit_info)))
-      (my-agent-shell--store-claude-rate-limit info (map-elt state :buffer)))))
-
-(defun my-agent-shell-request-claude-rate-limit-events (config)
-  "Return CONFIG with raw rate-limit events requested for new Claude sessions.
-
-Claude Code reads `emitRawSDKMessages' out of the session's `_meta', so the
-request has to be in place before `session/new'; existing sessions keep
-whatever they were created with."
-  (let* ((config (copy-tree config))
-         (meta (map-elt config :session-meta))
-         (claude (map-elt meta 'claudeCode)))
-    (setf (alist-get 'emitRawSDKMessages claude)
-          my-agent-shell--claude-raw-sdk-message-filter)
-    (setf (alist-get 'claudeCode meta) claude)
-    (setf (alist-get :session-meta config) meta)
-    config))
-
-(defun my-agent-shell--read-claude-rate-limit-file ()
-  "Read the windows Claude Code's status line last wrote, newest first.
-
-Every window in the file is returned, so a window this build has a label for
-shows up without the reader knowing about it in advance.  `:stale' marks
-values old enough that only a long-gone terminal session could have written
-them."
-  (when-let* ((attributes (file-attributes my-agent-shell-claude-rate-limit-file))
-              (limits (with-temp-buffer
-                        (ignore-errors
-                          (insert-file-contents
-                           my-agent-shell-claude-rate-limit-file)
-                          (json-parse-string (buffer-string)
-                                             :object-type 'alist)))))
-    (let ((stale (> (float-time
-                     (time-subtract
-                      nil (file-attribute-modification-time attributes)))
-                    my-agent-shell-claude-rate-limit-staleness)))
-      (delq nil
-            (mapcar
-             (lambda (window)
-               (when-let* ((label (my-agent-shell--claude-rate-limit-label
-                                   (car window)))
-                           (used (map-elt (cdr window) 'used_percentage)))
-                 (list :label label
-                       :used (round used)
-                       :reset (map-elt (cdr window) 'resets_at)
-                       :stale stale)))
-             limits)))))
-
-(defun my-agent-shell--claude-mode-line-windows ()
-  "Return the current buffer's Claude rate-limit windows, in mode-line order.
-
-The status-line file is the only source that carries a percentage during
-ordinary use, so it supplies the baseline; a window captured live over ACP
-replaces it, being both fresher and the one that knows about warnings."
-  (let ((checked-at (plist-get my-agent-shell--claude-rate-limit-file-cache
-                               :checked-at)))
-    (when (or (not checked-at) (> (- (float-time) checked-at) 60))
-      (setq my-agent-shell--claude-rate-limit-file-cache
-            (list :checked-at (float-time)
-                  :limits (my-agent-shell--read-claude-rate-limit-file)))))
-  (let ((from-file (plist-get my-agent-shell--claude-rate-limit-file-cache
-                              :limits)))
-    (delq nil
-          (mapcar (lambda (window)
-                    (let ((label (cdr window)))
-                      (or (alist-get label my-agent-shell--claude-rate-limits
-                                     nil nil #'equal)
-                          (seq-find (lambda (w) (equal (plist-get w :label) label))
-                                    from-file))))
-                  my-agent-shell--claude-rate-limit-windows))))
 
 (defun my-agent-shell--read-codex-rate-limits ()
   "Read the newest account rate limits from Codex rollout files."
@@ -258,37 +105,26 @@ replaces it, being both fresher and the one that knows about warnings."
                     ((< remaining 3600) (format "%dm" (ceiling (/ remaining 60))))
                     ((< remaining 86400) (format "%dh" (ceiling (/ remaining 3600))))
                     (t (format "%dd" (ceiling (/ remaining 86400))))))
-                  (status (plist-get window :status))
-                  (face (cond ((plist-get window :stale) 'shadow)
-                              ((and used (>= used 90)) 'error)
+                  (face (cond ((and used (>= used 90)) 'error)
                               ((and used (>= used 70)) 'warning)
-                              ((equal status "rejected") 'error)
-                              ((equal status "allowed_warning") 'warning)
-                              (t 'success)))
-                  ;; Claude Code withholds the percentage until it is warning
-                  ;; about a window, so fall back to the status it does send.
-                  (value (cond (used (format "%d%%" used))
-                               (status (or (cdr (assoc
-                                                 status
-                                                 my-agent-shell--claude-rate-limit-statuses))
-                                           status))
-                               (t "--%"))))
+                              (t 'success))))
              (format "%s %s↻%s"
                      (plist-get window :label)
-                     (propertize value 'face face)
+                     (propertize (if used (format "%d%%" used) "--%")
+                                 'face face)
                      remaining-text)))
          limits)
         " · ")
        "]"))))
 
 (defun my-agent-shell-rate-limit-mode-line ()
-  "Return the current agent's time-window rate limits for the mode line."
+  "Return the current agent's time-window rate limits for the mode line.
+Only Codex reports these over a channel this can read."
   (condition-case nil
       (let* ((identifier
               (map-elt (agent-shell-get-config (current-buffer)) :identifier))
              (limits
               (pcase identifier
-                ('claude-code (my-agent-shell--claude-mode-line-windows))
                 ('codex
                  (let ((checked-at (plist-get
                                     my-agent-shell--codex-rate-limit-cache
