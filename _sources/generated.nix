@@ -127,15 +127,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "d19559b08835f6e9901a8f611526a1c9f9717114";
+    version = "065730641aa74a4b55c0b251fb71ce0a092f3b81";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "d19559b08835f6e9901a8f611526a1c9f9717114";
+      rev = "065730641aa74a4b55c0b251fb71ce0a092f3b81";
       fetchSubmodules = false;
-      sha256 = "sha256-BTJYmJdvs0Nmk1QQ6h25LCfLSF2nCZ6C5q3lTyRqKkw=";
+      sha256 = "sha256-6qZRHfKzo511PhOiejlTLhl84OCx7uwMdbcMBk7tdGs=";
     };
-    date = "2026-08-30";
+    date = "2026-09-06";
   };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
@@ -151,15 +151,15 @@
   };
   emacs-yaml-mode = {
     pname = "emacs-yaml-mode";
-    version = "5d7347519c94eac1c9383a3b9bebe218d3e43318";
+    version = "93dba98c050e9abfc623ec66aa499dbbb46b2fe1";
     src = fetchFromGitHub {
       owner = "yoshiki";
       repo = "yaml-mode";
-      rev = "5d7347519c94eac1c9383a3b9bebe218d3e43318";
+      rev = "93dba98c050e9abfc623ec66aa499dbbb46b2fe1";
       fetchSubmodules = false;
-      sha256 = "sha256-0PWExWwcnLeVCNY014SoB0i1ER+qiFvECJqSF6PsqxY=";
+      sha256 = "sha256-AhXDqJIJ68i1c1D4agOD72WTC7Mw+N8ooeb+9MsYBZk=";
     };
-    date = "2026-08-09";
+    date = "2026-08-31";
   };
   emacs-yatex = {
     pname = "emacs-yatex";
