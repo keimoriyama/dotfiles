@@ -68,6 +68,21 @@
                  (claude-usage--format-mode-line
                   '(:five-hour nil :seven-day nil :error "boom")))))
 
+(ert-deftest claude-usage-mode-line-follows-the-current-agent ()
+  (with-temp-buffer
+    (should-not (claude-usage--mode-line))
+    (setq major-mode 'agent-shell-mode)
+    (cl-letf (((symbol-function 'agent-shell-get-config)
+               (lambda (_) '((:identifier . codex)))))
+      (should-not (claude-usage--mode-line)))
+    (cl-letf (((symbol-function 'agent-shell-get-config)
+               (lambda (_) '((:identifier . claude-code)))))
+      (should (eq 'claude-usage-mode-line-string
+                  (claude-usage--mode-line))))
+    (cl-letf (((symbol-function 'agent-shell-get-config)
+               (lambda (_) '((:identifier . unsupported)))))
+      (should-not (claude-usage--mode-line)))))
+
 (ert-deftest claude-usage-fetch-sends-eof-so-the-cli-does-not-block-on-stdin ()
   "The CLI waits for stdin JSON from Claude Code's status-line caller;
 outside that context it must see an immediate EOF or it hangs."
@@ -103,7 +118,7 @@ outside that context it must see an immediate EOF or it hangs."
           (claude-usage-mode 1)
           (claude-usage-mode 1)
           (should (equal '("" mode-line-buffer-identification
-                           claude-usage-mode-line-string "  "
+                           (:eval (claude-usage--mode-line)) "  "
                            mode-line-misc-info)
                          (default-value 'mode-line-format)))
           (claude-usage-mode -1)
@@ -125,7 +140,7 @@ where a narrow window would cut it off."
                           mode-line-modes mode-line-misc-info))
           (claude-usage--install-mode-line)
           (should (< (seq-position (default-value 'mode-line-format)
-                                   'claude-usage-mode-line-string)
+                                   claude-usage--mode-line-spec)
                      (seq-position (default-value 'mode-line-format)
                                    'mode-line-modes))))
       (setq-default mode-line-format original))))

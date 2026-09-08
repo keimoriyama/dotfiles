@@ -14,6 +14,7 @@
 
 (require 'agent-usage-format)
 (require 'json)
+(require 'map)
 (require 'subr-x)
 
 (defgroup claude-usage nil
@@ -48,6 +49,10 @@ they are read back from the tool installed as that status line."
 
 (defvar claude-usage-mode-line-string ""
   "Mode-line construct showing Claude usage.")
+
+(defvar claude-usage--mode-line-spec
+  '(:eval (claude-usage--mode-line))
+  "Mode-line construct that shows Claude usage in Claude buffers.")
 
 ;;;###autoload
 (defun claude-usage-refresh ()
@@ -175,6 +180,16 @@ This string reaches the mode line by symbol indirection, where
                 (if (plist-get state :error) "*" ""))
       " Claude ?")))
 
+(defun claude-usage--mode-line ()
+  "Return the Claude usage construct for a Claude agent shell."
+  (condition-case nil
+      (when (and (derived-mode-p 'agent-shell-mode)
+                 (eq (map-elt (agent-shell-get-config (current-buffer))
+                              :identifier)
+                     'claude-code))
+        'claude-usage-mode-line-string)
+    (error nil)))
+
 (defun claude-usage--start-timer ()
   (claude-usage--stop-timer)
   (setq claude-usage--timer
@@ -190,16 +205,16 @@ This string reaches the mode line by symbol indirection, where
 `global-mode-string' renders at the far right, behind the minor-mode
 list, which a narrow window cuts off before reaching it."
   (let ((format (copy-tree (default-value 'mode-line-format))))
-    (unless (memq 'claude-usage-mode-line-string format)
+    (unless (member claude-usage--mode-line-spec format)
       (when-let* ((tail (memq 'mode-line-buffer-identification format)))
-        (setcdr tail (cons 'claude-usage-mode-line-string (cdr tail)))
+        (setcdr tail (cons claude-usage--mode-line-spec (cdr tail)))
         (setq-default mode-line-format format)))))
 
 (defun claude-usage--remove-mode-line ()
   "Take the usage segment back out of the mode line."
   (setq-default mode-line-format
-                (delq 'claude-usage-mode-line-string
-                      (copy-tree (default-value 'mode-line-format)))))
+                (delete claude-usage--mode-line-spec
+                        (copy-tree (default-value 'mode-line-format)))))
 
 ;;;###autoload
 (define-minor-mode claude-usage-mode

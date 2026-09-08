@@ -5,7 +5,7 @@
 ;; Shows Codex's time-window rate limits next to the buffer name, and sends
 ;; the current agent's own usage command.  Claude's windows are not here:
 ;; Claude Code hands those percentages only to its status line, so
-;; `claude-usage' polls that tool and shows them globally instead.
+;; `claude-usage' polls that tool and shows them in Claude buffers instead.
 
 (require 'agent-usage-format)
 (require 'cl-lib)
