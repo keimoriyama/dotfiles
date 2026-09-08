@@ -295,6 +295,27 @@ main = do
 CLOCK: [`(format-time-string "%Y-%m-%d %a" (current-time))` ${1:start-time}]--[`(format-time-string "%Y-%m-%d %a" (current-time))` ${2:end-time}] =>  1:00
 :END:
 #+end_src
+*** nippo template
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/org-mode/nippo-template") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: nippo-template
+# key: nippo
+# --
+
+,* 日報 `(format-time-string "%Y-%m-%d")`
+
+,** 本日の業務
+
+- ${1}
+
+,** 所感
+
+- ${2}
+
+,** 次やること
+
+- ${0}
+#+end_src
 * yatex-mode
 
 *** reference 
