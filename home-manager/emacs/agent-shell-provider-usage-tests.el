@@ -2,6 +2,10 @@
 
 (require 'cl-lib)
 (require 'ert)
+
+(add-to-list 'load-path
+             (file-name-directory (or load-file-name buffer-file-name)))
+
 (load (expand-file-name "agent-shell-provider-usage.el"
                         (file-name-directory (or load-file-name buffer-file-name)))
       nil t)
@@ -55,24 +59,6 @@
   (let ((my-agent-shell-codex-sessions-directory
          (make-temp-name temporary-file-directory)))
     (should-not (my-agent-shell--read-codex-rate-limits))))
-
-(ert-deftest agent-shell-provider-usage-formats-percent-and-reset-time ()
-  "Rate-limit windows show usage, reset countdowns, and missing values."
-  (should
-   (equal
-    (substring-no-properties
-     (my-agent-shell--format-rate-limits
-      '((:label "5h" :used 95 :reset 4600)
-        (:label "7d" :used nil :reset nil))
-      1000))
-    " [5h 95%↻1h · 7d --%↻-]"))
-  (should
-   (equal
-    (substring-no-properties
-     (my-agent-shell--format-rate-limits
-      '((:label "5h" :used 10 :reset 999)) 1000))
-    " [5h 10%↻now]"))
-  (should-not (my-agent-shell--format-rate-limits nil 1000)))
 
 (ert-deftest agent-shell-provider-usage-renders-provider-mode-line ()
   "The mode-line renderer uses Codex data and hides providers it cannot read."

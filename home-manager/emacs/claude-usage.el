@@ -5,14 +5,14 @@
 ;; Display Claude subscription usage in the mode line by polling the
 ;; `claude-usage-line' CLI asynchronously:
 ;;
-;;     Claude 5h 68% | 7d 53%
+;;     Claude [5h 32%↻4h · 7d 47%↻2d]
 ;;
-;; The values are the remaining quota of the 5-hour and 7-day windows,
-;; i.e. 100 minus the `used_percentage' reported by the CLI.  Enable with
-;; (claude-usage-mode 1).
+;; The windows are shown in `agent-usage-format''s shared layout, so Claude
+;; and Codex read the same way.  Enable with (claude-usage-mode 1).
 
 ;;; Code:
 
+(require 'agent-usage-format)
 (require 'json)
 (require 'subr-x)
 
@@ -40,7 +40,7 @@ they are read back from the tool installed as that status line."
     :updated-at nil
     :error nil)
   "Latest known usage.
-:five-hour and :seven-day hold the remaining percentages,
+:five-hour and :seven-day hold the spent percentages,
 :updated-at the time of the last successful fetch.")
 
 (defvar claude-usage--timer nil)
@@ -62,7 +62,7 @@ they are read back from the tool installed as that status line."
         (seven-day (plist-get claude-usage--state :seven-day))
         (updated-at (plist-get claude-usage--state :updated-at))
         (error-message (plist-get claude-usage--state :error)))
-    (message "Claude usage\n\n5-hour remaining: %s\n7-day remaining: %s\nLast updated: %s\nStatus: %s%s"
+    (message "Claude usage\n\n5-hour used: %s\n7-day used: %s\nLast updated: %s\nStatus: %s%s"
              (if five-hour (format "%d%%" five-hour) "?")
              (if seven-day (format "%d%%" seven-day) "?")
              (if updated-at (format-time-string "%Y-%m-%d %H:%M" updated-at) "never")
@@ -74,13 +74,18 @@ they are read back from the tool installed as that status line."
   (unless (process-live-p claude-usage--process)
     (let ((buffer (generate-new-buffer " *claude-usage*")))
       (condition-case err
-          (setq claude-usage--process
-                (make-process
-                 :name "claude-usage"
-                 :buffer buffer
-                 :command claude-usage-command
-                 :noquery t
-                 :sentinel #'claude-usage--process-sentinel))
+          (progn
+            (setq claude-usage--process
+                  (make-process
+                   :name "claude-usage"
+                   :buffer buffer
+                   :command claude-usage-command
+                   :noquery t
+                   :sentinel #'claude-usage--process-sentinel))
+            ;; The CLI is normally fed stdin JSON by Claude Code's status-line
+            ;; caller; without an EOF here it blocks waiting for stdin and
+            ;; then exits with "stdin timeout".
+            (process-send-eof claude-usage--process))
         (error
          ;; Typically `claude-usage' is not on PATH.
          (kill-buffer buffer)
@@ -126,12 +131,10 @@ they are read back from the tool installed as that status line."
 
 (defun claude-usage--parse (output)
   "Parse JSON OUTPUT from `claude-usage-command' into a fresh state plist.
-Signal an error on malformed input; percentages become remaining quota."
+Signal an error on malformed input."
   (let* ((data (json-parse-string output :object-type 'alist :array-type 'list))
          (five-hour (alist-get 'five_hour data))
          (seven-day (alist-get 'seven_day data))
-         ;; The tool reports how much of each window is spent as
-         ;; `utilization_pct'.
          (five-used (alist-get 'utilization_pct five-hour))
          (seven-used (alist-get 'utilization_pct seven-day)))
     (unless five-hour
@@ -142,8 +145,8 @@ Signal an error on malformed input; percentages become remaining quota."
       (error "five_hour.utilization_pct is not a number"))
     (unless (numberp seven-used)
       (error "seven_day.utilization_pct is not a number"))
-    (list :five-hour (round (- 100 five-used))
-          :seven-day (round (- 100 seven-used))
+    (list :five-hour (round five-used)
+          :seven-day (round seven-used)
           :five-hour-reset (alist-get 'resets_at five-hour)
           :seven-day-reset (alist-get 'resets_at seven-day)
           :updated-at (current-time)
@@ -155,20 +158,22 @@ Signal an error on malformed input; percentages become remaining quota."
         (claude-usage--format-mode-line claude-usage--state))
   (force-mode-line-update t))
 
-(defun claude-usage--format-mode-line (state)
-  "Return the mode-line text for STATE.
-Mode-line strings are decoded as constructs, so percent signs in the
-text have to be doubled to survive rendering."
-  (string-replace
-   "%" "%%"
-   (let ((five-hour (plist-get state :five-hour))
-         (seven-day (plist-get state :seven-day)))
-     (if (and five-hour seven-day)
-         (format " Claude 5h %d%% | 7d %d%%%s"
-                 five-hour
-                 seven-day
-                 (if (plist-get state :error) "*" ""))
-       " Claude ?"))))
+(defun claude-usage--format-mode-line (state &optional now)
+  "Return the mode-line text for STATE relative to NOW.
+This string reaches the mode line by symbol indirection, where
+%-constructs are not decoded, so its percent signs stay single."
+  (let ((five-hour (plist-get state :five-hour))
+        (seven-day (plist-get state :seven-day)))
+    (if (and five-hour seven-day)
+        (concat " Claude"
+                (agent-usage-format-windows
+                 (list (list :label "5h" :used five-hour
+                             :reset (plist-get state :five-hour-reset))
+                       (list :label "7d" :used seven-day
+                             :reset (plist-get state :seven-day-reset)))
+                 now)
+                (if (plist-get state :error) "*" ""))
+      " Claude ?")))
 
 (defun claude-usage--start-timer ()
   (claude-usage--stop-timer)
@@ -180,6 +185,22 @@ text have to be doubled to survive rendering."
     (cancel-timer claude-usage--timer)
     (setq claude-usage--timer nil)))
 
+(defun claude-usage--install-mode-line ()
+  "Put the usage segment right after the buffer name.
+`global-mode-string' renders at the far right, behind the minor-mode
+list, which a narrow window cuts off before reaching it."
+  (let ((format (copy-tree (default-value 'mode-line-format))))
+    (unless (memq 'claude-usage-mode-line-string format)
+      (when-let* ((tail (memq 'mode-line-buffer-identification format)))
+        (setcdr tail (cons 'claude-usage-mode-line-string (cdr tail)))
+        (setq-default mode-line-format format)))))
+
+(defun claude-usage--remove-mode-line ()
+  "Take the usage segment back out of the mode line."
+  (setq-default mode-line-format
+                (delq 'claude-usage-mode-line-string
+                      (copy-tree (default-value 'mode-line-format)))))
+
 ;;;###autoload
 (define-minor-mode claude-usage-mode
   "Show Claude subscription usage in the mode line."
@@ -187,13 +208,10 @@ text have to be doubled to survive rendering."
   :group 'claude-usage
   (if claude-usage-mode
       (progn
-        (unless (memq 'claude-usage-mode-line-string global-mode-string)
-          (setq global-mode-string
-                (append global-mode-string '(claude-usage-mode-line-string))))
+        (claude-usage--install-mode-line)
         (claude-usage--start-timer))
     (claude-usage--stop-timer)
-    (setq global-mode-string
-          (delq 'claude-usage-mode-line-string global-mode-string))
+    (claude-usage--remove-mode-line)
     (setq claude-usage-mode-line-string "")
     (force-mode-line-update t)))
 

@@ -7,6 +7,7 @@
 ;; Claude Code hands those percentages only to its status line, so
 ;; `claude-usage' polls that tool and shows them globally instead.
 
+(require 'agent-usage-format)
 (require 'cl-lib)
 (require 'json)
 (require 'map)
@@ -82,41 +83,6 @@ through /status.  Queue the command when the agent is busy."
                       (when windows
                         (throw 'limits (nreverse windows))))))))))))))
 
-(defun my-agent-shell--format-rate-limits (limits &optional now)
-  "Format LIMITS for the mode line relative to NOW."
-  (when limits
-    (let ((now (or now (float-time))))
-      (concat
-       " ["
-       (string-join
-        (mapcar
-         (lambda (window)
-           (let* ((used (plist-get window :used))
-                  (reset (plist-get window :reset))
-                  (reset-seconds (when (numberp reset)
-                                   (if (> reset 100000000000)
-                                       (/ reset 1000.0)
-                                     reset)))
-                  (remaining (when reset-seconds (- reset-seconds now)))
-                  (remaining-text
-                   (cond
-                    ((not remaining) "-")
-                    ((<= remaining 0) "now")
-                    ((< remaining 3600) (format "%dm" (ceiling (/ remaining 60))))
-                    ((< remaining 86400) (format "%dh" (ceiling (/ remaining 3600))))
-                    (t (format "%dd" (ceiling (/ remaining 86400))))))
-                  (face (cond ((and used (>= used 90)) 'error)
-                              ((and used (>= used 70)) 'warning)
-                              (t 'success))))
-             (format "%s %s↻%s"
-                     (plist-get window :label)
-                     (propertize (if used (format "%d%%" used) "--%")
-                                 'face face)
-                     remaining-text)))
-         limits)
-        " · ")
-       "]"))))
-
 (defun my-agent-shell-rate-limit-mode-line ()
   "Return the current agent's time-window rate limits for the mode line.
 Only Codex reports these over a channel this can read."
@@ -136,7 +102,7 @@ Only Codex reports these over a channel this can read."
                                  :limits
                                  (my-agent-shell--read-codex-rate-limits))))
                    (plist-get my-agent-shell--codex-rate-limit-cache :limits)))))
-             (text (my-agent-shell--format-rate-limits limits)))
+             (text (agent-usage-format-windows limits)))
         (when text
           ;; The mode line reads % as a format spec, so double it to show one.
           (propertize (string-replace "%" "%%" text)
