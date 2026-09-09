@@ -2052,7 +2052,7 @@ org-mycal-export
 
 (with-eval-after-load 'agent-shell
   (require 'agent-shell-provider-usage)
-  (setopt agent-shell-anthropic-default-model-id "sonnet"
+  (setopt agent-shell-anthropic-default-model-id "opus"
           agent-shell-openai-default-model-id "gpt-5.6-sol"
           agent-shell-context-sources '(region error line)
           agent-shell-embed-file-size-limit 16384)
