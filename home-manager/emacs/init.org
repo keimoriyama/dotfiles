@@ -2052,6 +2052,7 @@ org-mycal-export
 
 (with-eval-after-load 'agent-shell
   (require 'agent-shell-provider-usage)
+  (require 'agent-shell-session-name)
   (setopt agent-shell-anthropic-default-model-id "opus"
           agent-shell-openai-default-model-id "gpt-5.6-sol"
           agent-shell-context-sources '(region error line)
@@ -2065,6 +2066,11 @@ org-mycal-export
   ;; Codex のローカル rollout から時間枠制限を表示する。Claude の分は
   ;; claude-usage が担当する (ACP には使用率が流れてこない)。
   (add-hook 'agent-shell-mode-hook #'my-agent-shell-provider-usage-setup)
+
+  ;; バッファ名を "Claude@dotfiles <要約>" にする。要約は最初のプロンプトを
+  ;; 別プロセスの claude -p に投げて作る (ACP からはタイトルが流れてこない)。
+  (setopt agent-shell-buffer-name-format #'my-agent-shell-session-name-format)
+  (add-hook 'agent-shell-mode-hook #'my-agent-shell-session-name-setup)
 
   (keymap-set agent-shell-mode-map "C-c C-f" #'agent-shell-insert-file)
   (keymap-set agent-shell-mode-map "C-c C-u" #'my-agent-shell-show-provider-usage)

@@ -8,6 +8,7 @@ emacsclient --eval '
 (progn
   (dolist (test-file
            (list "home-manager/emacs/agent-shell-provider-usage-tests.el"
+                 "home-manager/emacs/agent-shell-session-name-tests.el"
                  "home-manager/emacs/agent-usage-format-tests.el"
                  "home-manager/emacs/claude-usage-tests.el"
                  "home-manager/emacs/nippo-org-journal-tests.el"
@@ -17,7 +18,7 @@ emacsclient --eval '
                        (getenv "DOTFILES_TEST_ROOT"))
      nil t))
   (let ((stats (ert-run-tests-batch
-                "^\\(agent-shell-provider-usage-\\|agent-usage-format-\\|claude-usage-\\|nippo-org-journal-\\|org-archive-\\)")))
+                "^\\(agent-shell-provider-usage-\\|agent-shell-session-name-\\|agent-usage-format-\\|claude-usage-\\|nippo-org-journal-\\|org-archive-\\)")))
     (when (> (ert-stats-completed-unexpected stats) 0)
       (error "Emacs Lisp tests failed"))
     t))'

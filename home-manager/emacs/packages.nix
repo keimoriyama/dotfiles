@@ -40,6 +40,12 @@
     pname = "typst-ts-mode";
     src = sources.emacs-typst-ts-mode.src;
     version = "0.0.1";
+    # LIMITATION: upstream marks `define-compilation-mode` with an autoload
+    # cookie, so the whole form is copied into the autoloads file and runs
+    # before compile.el is loaded (void-function define-compilation-mode).
+    postPatch = ''
+      sed -i '/^;;;###autoload$/{N;/\n(define-compilation-mode/s/^;;;###autoload\n//}' typst-ts-compile.el
+    '';
   };
   eglot-x = epkgs.melpaBuild {
     pname = "eglot-x";
