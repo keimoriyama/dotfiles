@@ -75,7 +75,7 @@ through /status.  Queue the command when the agent is busy."
                                         (300 "5h")
                                         (10080 "7d")
                                         (_ (format "%dm" minutes)))
-                                      :used (when-let ((used
+                                      :used (when-let* ((used
                                                         (map-elt window 'used_percent)))
                                               (round used))
                                       :reset (map-elt window 'resets_at))

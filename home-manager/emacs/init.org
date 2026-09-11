@@ -1325,7 +1325,7 @@ embark-act からファイルターゲットに対しても呼び出せる。"
     (when (file-exists-p dest)
       (user-error "archive に同名ファイルがあります: %s" dest))
     (make-directory org-archive-dir t)
-    (if-let ((buf (find-buffer-visiting file)))
+    (if-let* ((buf (find-buffer-visiting file)))
         (with-current-buffer buf
           (when (buffer-modified-p)
             (user-error "未保存の変更があります: %s" file))
@@ -1444,7 +1444,7 @@ org-mycal-export
    (or (locate-dominating-file default-directory ".venv")
        (locate-dominating-file default-directory "uv.lock")
        (locate-dominating-file default-directory "pyproject.toml")
-       (when-let ((project (project-current nil)))
+        (when-let* ((project (project-current nil)))
          (project-root project))
        default-directory)))
 
