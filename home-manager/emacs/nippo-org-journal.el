@@ -9,7 +9,7 @@
   :group 'org-journal)
 
 (defcustom nippo-org-journal-reports-directory
-  (expand-file-name "~/Documents/org-mode/reports")
+  (expand-file-name "~/Documents/org-files/reports")
   "Directory that holds nippo daily reports."
   :type 'directory
   :group 'nippo-org-journal)
