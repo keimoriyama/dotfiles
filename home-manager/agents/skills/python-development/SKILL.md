@@ -5,12 +5,15 @@ description: Pythonコード、Pythonパッケージ、Pythonテストを作成�
 
 # Python 開発規約
 
-- パッケージ管理と実行には `uv` を使う。`pip` や `python` を直接呼ばず、`uv add` または `uv run` を使う。
-- フォーマット、lint、import の整理には `ruff` を使う。
-- 型チェックには `ty` を使う。
-- 公開する関数とメソッドの引数・戻り値には型ヒントを付ける。
-- 複雑なデータ型には `dataclass` または `TypedDict` を使う。
-- APIレスポンスや設定ファイルなど、外部からの入力は Pydantic で検証する。
-- テストは pytest で書く。
-- テストと型チェックは pre-commit からだけ実行する。
-- NumPyやPyTorchなどの多次元配列には Jaxtyping を使い、次元数まで型注釈する。
+## 振る舞い
+
+1. コマンドを実行する前に `references/toolchain.md` を読み、用途に対応するツールを選ぶ。
+   `pip` と `python` は直接呼ばない。
+2. 型注釈を書くときは `references/typing.md` を読み、対象と記法を確認する。
+3. 外部から入ってくる値を扱うコードを書くときは `references/typing.md` の検証規約に従う。
+4. テストと型チェックは pre-commit からだけ実行する。直接叩かない。
+
+## 知識
+
+- `references/toolchain.md` — 用途ごとに使うツールと呼び出し方。
+- `references/typing.md` — 型ヒント、データ型の表現、入力検証。
