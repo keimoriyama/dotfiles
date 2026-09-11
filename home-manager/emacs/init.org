@@ -15,6 +15,23 @@
 (setq auto-save-list-file-prefix nil)
 (setq create-lockfiles nil)
 #+end_src
+** dir-local を信頼するディレクトリ
+自分が中身を把握しているリポジトリを列挙して、.dir-locals.el の確認プロンプトを
+出させない。`safe-local-variable-values' ではなくこちらを使うのは、llm-tuning-
+experiments の .dir-locals.el が `eval' フォームを含み、変数側に
+`safe-local-variable' プロパティを付ける手が使えないため。
+
+プロンプトを一度でも出すと、それが minibuffer を握っている間に eglot の jsonrpc
+コールバックが同じ確認を要求して "Command attempted to use minibuffer while in
+minibuffer" で落ちる。`debug-on-error' が t なのでデバッガが開き、その *Backtrace*
+の表示自体が "Args out of range" で失敗する。プロンプトを消せば連鎖ごと消える。
+
+起動中に開くファイル (recentf, org-agenda など) がもう dir-local を読むので、
+このブロックは init の先頭に置く。末尾に移すと間に合わない。
+#+begin_src emacs-lisp
+(dolist (dir '("~/ghq/github.com/sbintuitions/llm-tuning-experiments/"))
+  (add-to-list 'safe-local-variable-directories (expand-file-name dir)))
+#+end_src
 ** C-tでバッファを切り変える
 #+begin_src emacs-lisp
 (define-key global-map (kbd "C-t") 'other-window)

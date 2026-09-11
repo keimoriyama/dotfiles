@@ -43,6 +43,7 @@ with pkgs; [
   tinymist
   typstyle
   fourmolu
+  shfmt
   (textlint.withPackages [
     textlint-rule-preset-ja-technical-writing
     textlint-rule-preset-ja-spacing
