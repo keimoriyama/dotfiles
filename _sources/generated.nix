@@ -127,15 +127,15 @@
   };
   emacs-nskk = {
     pname = "emacs-nskk";
-    version = "065730641aa74a4b55c0b251fb71ce0a092f3b81";
+    version = "48e14d430ac744d1a5bbc9ac94a22dee78590cd4";
     src = fetchFromGitHub {
       owner = "takeokunn";
       repo = "nskk.el";
-      rev = "065730641aa74a4b55c0b251fb71ce0a092f3b81";
+      rev = "48e14d430ac744d1a5bbc9ac94a22dee78590cd4";
       fetchSubmodules = false;
-      sha256 = "sha256-6qZRHfKzo511PhOiejlTLhl84OCx7uwMdbcMBk7tdGs=";
+      sha256 = "sha256-9R7re7ByJR6gG1Np5JNmqNrigrJ11NBiumHr4NzW22U=";
     };
-    date = "2026-09-06";
+    date = "2026-09-13";
   };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
@@ -270,15 +270,15 @@
   };
   skkeleton = {
     pname = "skkeleton";
-    version = "cb6e529dada798929deefd879e32e418dab1c6ac";
+    version = "5fd94f5912ceffc4d6ea167d78e45949a9e2f18c";
     src = fetchFromGitHub {
       owner = "vim-skk";
       repo = "skkeleton";
-      rev = "cb6e529dada798929deefd879e32e418dab1c6ac";
+      rev = "5fd94f5912ceffc4d6ea167d78e45949a9e2f18c";
       fetchSubmodules = false;
-      sha256 = "sha256-ydZdzknNz9baKPZ5FDHY264evzZ3+50ZVi1VuhwXv4M=";
+      sha256 = "sha256-Z/3hQTt4uHj8FsunQzX3btyxuzMhTkKBTQ0UMx8Usn0=";
     };
-    date = "2026-07-27";
+    date = "2026-09-11";
   };
   skkeleton-azik-kanatable = {
     pname = "skkeleton-azik-kanatable";

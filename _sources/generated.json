@@ -211,7 +211,7 @@
     },
     "emacs-nskk": {
         "cargoLock": null,
-        "date": "2026-09-06",
+        "date": "2026-09-13",
         "extract": null,
         "name": "emacs-nskk",
         "passthru": null,
@@ -223,12 +223,12 @@
             "name": null,
             "owner": "takeokunn",
             "repo": "nskk.el",
-            "rev": "065730641aa74a4b55c0b251fb71ce0a092f3b81",
-            "sha256": "sha256-6qZRHfKzo511PhOiejlTLhl84OCx7uwMdbcMBk7tdGs=",
+            "rev": "48e14d430ac744d1a5bbc9ac94a22dee78590cd4",
+            "sha256": "sha256-9R7re7ByJR6gG1Np5JNmqNrigrJ11NBiumHr4NzW22U=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "065730641aa74a4b55c0b251fb71ce0a092f3b81"
+        "version": "48e14d430ac744d1a5bbc9ac94a22dee78590cd4"
     },
     "emacs-typst-ts-mode": {
         "cargoLock": null,
@@ -463,7 +463,7 @@
     },
     "skkeleton": {
         "cargoLock": null,
-        "date": "2026-07-27",
+        "date": "2026-09-11",
         "extract": null,
         "name": "skkeleton",
         "passthru": null,
@@ -475,12 +475,12 @@
             "name": null,
             "owner": "vim-skk",
             "repo": "skkeleton",
-            "rev": "cb6e529dada798929deefd879e32e418dab1c6ac",
-            "sha256": "sha256-ydZdzknNz9baKPZ5FDHY264evzZ3+50ZVi1VuhwXv4M=",
+            "rev": "5fd94f5912ceffc4d6ea167d78e45949a9e2f18c",
+            "sha256": "sha256-Z/3hQTt4uHj8FsunQzX3btyxuzMhTkKBTQ0UMx8Usn0=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "cb6e529dada798929deefd879e32e418dab1c6ac"
+        "version": "5fd94f5912ceffc4d6ea167d78e45949a9e2f18c"
     },
     "skkeleton-azik-kanatable": {
         "cargoLock": null,
