@@ -2030,6 +2030,9 @@ org-mycal-export
        ;skk-server-host "localhost"
        ;skk-server-portnum 1178))
 
+;; ここで組み上がるローマ字ルールは macSKK 側にも書き出してある。
+;; 変更したら home-manager/macskk/kana-rule.conf も更新すること。
+
 ;; AZIK の "kA" -> ヵ, "kE" -> ヶ は Shift の押し間違いで誤入力しやすいので無効化する
 (with-eval-after-load 'skk-azik
  (setq skk-rom-kana-rule-list (skk-del-alist "kA" skk-rom-kana-rule-list))
