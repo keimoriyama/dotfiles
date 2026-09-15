@@ -102,7 +102,7 @@ in {
               "workspace a"
             ];
             alt-shift-b = [
-              "move-node-to-workspace a"
+              "move-node-to-workspace b"
               "workspace b"
             ];
             alt-shift-1 = [
@@ -205,7 +205,7 @@ in {
           ];
         }
         {
-          "if".app-id = "com.apple.safari";
+          "if".app-id = "com.apple.Safari";
           run = [
             # "layout floating"
             "move-node-to-workspace b"
