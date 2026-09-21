@@ -1,6 +1,6 @@
 {
   "advisorModel": "fable",
-  "effortLevel": "medium",
+  "effortLevel": "low",
   "hooks": {
     "PostToolUse": [
       {

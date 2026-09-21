@@ -13,6 +13,55 @@
     extraEmacsPackages = import ./epkgs.nix {inherit pkgs sources;};
   };
 
+  # emacsWithPackagesFromUsePackage が生成する Emacs.app は、Contents/MacOS/Emacs が
+  # 別バンドル (素の emacs) の実行ファイルを exec するラッパーになっている。
+  # LaunchServices は起動したバンドルへプロセスを紐付けられなくなり、
+  # NSWorkspace の processIdentifier が -1 を返すため、アクセシビリティ API で
+  # ウィンドウを管理するツール (AeroSpace など) から Emacs が見えなくなる。
+  # 実体のバイナリをバンドル内に置き、ラッパーが設定していた環境変数は
+  # Info.plist の LSEnvironment 経由で渡すことで exec を無くす。
+  emacsWithLaunchServicesApp =
+    pkgs.runCommand "${emacsPkgs.name}-app" {
+      nativeBuildInputs = [pkgs.python3];
+    } ''
+            mkdir -p "$out/Applications"
+            for entry in ${emacsPkgs}/*; do
+              name="$(basename "$entry")"
+              if [ "$name" != Applications ]; then
+                ln -s "$entry" "$out/$name"
+              fi
+            done
+
+            app="$out/Applications/Emacs.app"
+            cp -R ${emacsPkgs}/Applications/Emacs.app "$app"
+            chmod -R u+w "$app"
+            rm "$app/Contents/MacOS/Emacs" "$app/Contents/MacOS/.Emacs-wrapped"
+            cp ${pkgs.emacs}/Applications/Emacs.app/Contents/MacOS/Emacs "$app/Contents/MacOS/Emacs"
+            chmod u+w "$app/Contents/MacOS/Emacs"
+
+            EMACS_LOAD_PATH="$(${emacsPkgs}/bin/emacs -Q --batch \
+              --eval '(princ (or (getenv "EMACSLOADPATH") ""))')" \
+            EMACS_NATIVE_LOAD_PATH="$(${emacsPkgs}/bin/emacs -Q --batch \
+              --eval '(princ (or (getenv "EMACSNATIVELOADPATH") ""))')" \
+            python3 -c '
+      import os, plistlib, sys
+
+      with open(sys.argv[1], "rb") as f:
+          info = plistlib.load(f)
+      info["LSEnvironment"] = {
+          "EMACSLOADPATH": os.environ["EMACS_LOAD_PATH"],
+          "EMACSNATIVELOADPATH": os.environ["EMACS_NATIVE_LOAD_PATH"],
+      }
+      with open(sys.argv[1], "wb") as f:
+          plistlib.dump(info, f)
+      ' "$app/Contents/Info.plist"
+    '';
+
+  emacsPackage =
+    if pkgs.stdenv.hostPlatform.isDarwin
+    then emacsWithLaunchServicesApp
+    else emacsPkgs;
+
   # emacs-twist/org-babel は別ファイルへの :tangle を扱えないので、
   # yasnippet.org はバッチ Emacs の org-babel-tangle-file でタグルする。
   # :tangle が "~/.emacs.d/snippets/..." へ展開されるよう HOME を
@@ -29,10 +78,6 @@
       mv -- "$HOME/.emacs.d/snippets" "$out"
     '';
 in {
-  programs.emacs = {
-    enable = true;
-    package = emacsPkgs;
-  };
   home = {
     file = {
       ".emacs.d/init.el".text = tangleOrg ./init.org;
@@ -52,6 +97,7 @@ in {
       };
     };
     packages = with pkgs; [
+      emacsPackage
       emacs-lsp-booster
     ];
   };
