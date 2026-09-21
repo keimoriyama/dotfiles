@@ -72,5 +72,18 @@
                5 'face (agent-usage-format-windows
                         '((:label "5h" :used 90 :reset nil)) 0)))))
 
+(ert-deftest agent-usage-format-appends-a-detail-to-the-percentage ()
+  "A window may carry an absolute figure next to its share."
+  (should (equal " [Org 61% $132/$215↻1h0m]"
+                 (substring-no-properties
+                  (agent-usage-format-windows
+                   '((:label "Org" :used 61 :detail " $132/$215" :reset 4600))
+                   1000))))
+  (should (equal " [Org 61%↻1h0m]"
+                 (substring-no-properties
+                  (agent-usage-format-windows
+                   '((:label "Org" :used 61 :detail nil :reset 4600))
+                   1000)))))
+
 (provide 'agent-usage-format-tests)
 ;;; agent-usage-format-tests.el ends here

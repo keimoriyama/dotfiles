@@ -20,6 +20,77 @@
     (should (null (plist-get state :error)))
     (should (plist-get state :updated-at))))
 
+(defun claude-usage-tests--account-file (contents)
+  "Write CONTENTS to a temporary stand-in for Claude Code's account file."
+  (let ((file (make-temp-file "claude-usage-account" nil ".json")))
+    (with-temp-file file (insert contents))
+    file))
+
+(ert-deftest claude-usage-enterprise-p-reads-the-seat-from-the-account-file ()
+  (let ((claude-usage--enterprise-cache nil))
+    (let ((claude-usage-account-file
+           (claude-usage-tests--account-file
+            "{\"oauthAccount\":{\"organizationType\":\"claude_enterprise\",\
+\"seatTier\":\"enterprise_usage_based\"}}")))
+      (should (claude-usage--enterprise-p)))
+    (setq claude-usage--enterprise-cache nil)
+    ;; Either field alone is enough.
+    (let ((claude-usage-account-file
+           (claude-usage-tests--account-file
+            "{\"oauthAccount\":{\"organizationType\":\"renamed\",\
+\"seatTier\":\"enterprise_usage_based\"}}")))
+      (should (claude-usage--enterprise-p)))
+    (setq claude-usage--enterprise-cache nil)
+    (let ((claude-usage-account-file
+           (claude-usage-tests--account-file
+            "{\"oauthAccount\":{\"organizationType\":\"claude_max\",\
+\"seatTier\":\"max\"}}")))
+      (should-not (claude-usage--enterprise-p)))))
+
+(ert-deftest claude-usage-enterprise-p-tolerates-a-missing-or-broken-file ()
+  (let ((claude-usage--enterprise-cache nil)
+        (claude-usage-account-file "/nonexistent/claude.json"))
+    (should-not (claude-usage--enterprise-p)))
+  (let* ((claude-usage--enterprise-cache nil)
+         (claude-usage-account-file
+          (claude-usage-tests--account-file "{not json")))
+    (should-not (claude-usage--enterprise-p))))
+
+(ert-deftest claude-usage-enterprise-p-caches-until-the-file-changes ()
+  "The account file carries every cached feature flag; one parse per change."
+  (let* ((claude-usage--enterprise-cache nil)
+         (reads 0)
+         (claude-usage-account-file
+          (claude-usage-tests--account-file
+           "{\"oauthAccount\":{\"seatTier\":\"enterprise_usage_based\"}}")))
+    (cl-letf* ((original (symbol-function 'claude-usage--read-enterprise))
+               ((symbol-function 'claude-usage--read-enterprise)
+                (lambda (file) (setq reads (1+ reads)) (funcall original file))))
+      (should (claude-usage--enterprise-p))
+      (should (claude-usage--enterprise-p))
+      (should (equal 1 reads)))))
+
+(ert-deftest claude-usage-parse-keeps-the-org-spending-limit ()
+  (let ((state (claude-usage--parse
+                "{\"five_hour\":{\"utilization_pct\":0,\"resets_at\":null},\
+\"seven_day\":{\"utilization_pct\":0,\"resets_at\":null},\
+\"org\":{\"utilization_pct\":61,\"used_usd\":131.95,\"limit_usd\":215,\
+\"currency\":\"USD\",\"resets_at\":1790812800}}")))
+    (should (equal 61 (plist-get state :org)))
+    (should (equal 131.95 (plist-get state :org-used-usd)))
+    (should (equal 215 (plist-get state :org-limit-usd)))
+    (should (equal "USD" (plist-get state :org-currency)))
+    (should (equal 1790812800 (plist-get state :org-reset)))))
+
+(ert-deftest claude-usage-parse-tolerates-a-contract-without-an-org-limit ()
+  "A contract with no spending limit reports org as null."
+  (let ((state (claude-usage--parse
+                "{\"five_hour\":{\"utilization_pct\":32},\
+\"seven_day\":{\"utilization_pct\":47},\"org\":null}")))
+    (should (null (plist-get state :org)))
+    (should (null (plist-get state :org-used-usd)))
+    (should (equal 32 (plist-get state :five-hour)))))
+
 (ert-deftest claude-usage-parse-rejects-missing-windows ()
   (should-error (claude-usage--parse
                  "{\"seven_day\":{\"utilization_pct\":47}}"))
@@ -41,6 +112,50 @@
                   (claude-usage--format-mode-line
                    '(:five-hour 32 :seven-day 47
                      :five-hour-reset 4600 :seven-day-reset 187000
+                     :error nil)
+                   1000)))))
+
+(ert-deftest claude-usage-format-mode-line-prefers-the-org-spending-limit ()
+  "On a contract billed against a limit, the spend replaces the windows."
+  (should (equal " Claude [Org 61% $132/$215↻2d3h]"
+                 (substring-no-properties
+                  (claude-usage--format-mode-line
+                   '(:five-hour 0 :seven-day 0
+                     :five-hour-reset :null :seven-day-reset :null
+                     :org 61 :org-used-usd 131.95 :org-limit-usd 215
+                     :org-currency "USD" :org-reset 187000
+                     :error nil)
+                   1000)))))
+
+(ert-deftest claude-usage-format-mode-line-omits-an-unknown-spend ()
+  "Without the dollar figures the org share still stands on its own."
+  (should (equal " Claude [Org 61%↻-]"
+                 (substring-no-properties
+                  (claude-usage--format-mode-line
+                   '(:five-hour 0 :seven-day 0
+                     :org 61 :org-used-usd nil :org-limit-usd nil
+                     :org-currency nil :org-reset :null
+                     :error nil)
+                   1000)))))
+
+(ert-deftest claude-usage-format-mode-line-keeps-the-org-window-on-a-failed-fetch ()
+  "An Enterprise seat reports an unknown spend, not an untouched quota."
+  (should (equal " Claude [Org --%↻-]*"
+                 (substring-no-properties
+                  (claude-usage--format-mode-line
+                   '(:five-hour 0 :seven-day 0
+                     :five-hour-reset :null :seven-day-reset :null
+                     :org nil :enterprise t
+                     :error "boom")
+                   1000)))))
+
+(ert-deftest claude-usage-format-mode-line-keeps-the-windows-off-an-enterprise-seat ()
+  (should (equal " Claude [5h 32%↻1h0m · 7d 47%↻2d3h]"
+                 (substring-no-properties
+                  (claude-usage--format-mode-line
+                   '(:five-hour 32 :seven-day 47
+                     :five-hour-reset 4600 :seven-day-reset 187000
+                     :org nil :enterprise nil
                      :error nil)
                    1000)))))
 

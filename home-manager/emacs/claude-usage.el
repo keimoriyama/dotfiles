@@ -3,11 +3,15 @@
 ;;; Commentary:
 
 ;; Display Claude subscription usage in the mode line by polling the
-;; `claude-usage-line' CLI asynchronously:
+;; `claude-usage-line' CLI asynchronously.  A contract billed against a
+;; spending limit reports that limit instead of the time windows, and an
+;; Enterprise seat is recognised from Claude Code's own account file so a
+;; failed fetch reads as an unknown spend rather than an empty window:
 ;;
+;;     Claude [Org 61% $132/$215↻12d19h]
 ;;     Claude [5h 32%↻4h · 7d 47%↻2d]
 ;;
-;; The windows are shown in `agent-usage-format''s shared layout, so Claude
+;; Either shape is shown in `agent-usage-format''s shared layout, so Claude
 ;; and Codex read the same way.  Enable with (claude-usage-mode 1).
 
 ;;; Code:
@@ -28,6 +32,11 @@ Claude Code hands the per-window percentages only to its status line, so
 they are read back from the tool installed as that status line."
   :type '(repeat string))
 
+(defcustom claude-usage-account-file
+  "~/.claude.json"
+  "Claude Code's account file, read to recognise an Enterprise seat."
+  :type 'file)
+
 (defcustom claude-usage-refresh-interval
   60
   "Refresh interval in seconds."
@@ -38,11 +47,19 @@ they are read back from the tool installed as that status line."
     :seven-day nil
     :five-hour-reset nil
     :seven-day-reset nil
+    :org nil
+    :org-used-usd nil
+    :org-limit-usd nil
+    :org-currency nil
+    :org-reset nil
+    :enterprise nil
     :updated-at nil
     :error nil)
   "Latest known usage.
-:five-hour and :seven-day hold the spent percentages,
-:updated-at the time of the last successful fetch.")
+:five-hour, :seven-day and :org hold the spent percentages, the :org-*
+keys the spending limit behind :org, :enterprise whether the seat is
+billed against a spending limit at all, and :updated-at the time of the
+last successful fetch.")
 
 (defvar claude-usage--timer nil)
 (defvar claude-usage--process nil)
@@ -65,11 +82,14 @@ they are read back from the tool installed as that status line."
   (interactive)
   (let ((five-hour (plist-get claude-usage--state :five-hour))
         (seven-day (plist-get claude-usage--state :seven-day))
+        (org (plist-get claude-usage--state :org))
+        (spend (claude-usage--spend-detail claude-usage--state))
         (updated-at (plist-get claude-usage--state :updated-at))
         (error-message (plist-get claude-usage--state :error)))
-    (message "Claude usage\n\n5-hour used: %s\n7-day used: %s\nLast updated: %s\nStatus: %s%s"
+    (message "Claude usage\n\n5-hour used: %s\n7-day used: %s\nOrg used: %s\nLast updated: %s\nStatus: %s%s"
              (if five-hour (format "%d%%" five-hour) "?")
              (if seven-day (format "%d%%" seven-day) "?")
+             (if org (format "%d%%%s" org (or spend "")) "?")
              (if updated-at (format-time-string "%Y-%m-%d %H:%M" updated-at) "never")
              (if error-message "ERROR" "OK")
              (if error-message (concat "\nError: " error-message) ""))))
@@ -125,7 +145,9 @@ they are read back from the tool installed as that status line."
         (claude-usage--record-error "claude-usage produced no output")
       (condition-case err
           (progn
-            (setq claude-usage--state (claude-usage--parse output))
+            (setq claude-usage--state
+                  (plist-put (claude-usage--parse output)
+                             :enterprise (claude-usage--enterprise-p)))
             (claude-usage--update-mode-line))
         (error (claude-usage--record-error (error-message-string err)))))))
 
@@ -134,14 +156,59 @@ they are read back from the tool installed as that status line."
   (plist-put claude-usage--state :error message)
   (claude-usage--update-mode-line))
 
+(defvar claude-usage--enterprise-cache nil
+  "Cons of the account file's modification time and the verdict read from it.")
+
+(defun claude-usage--enterprise-p ()
+  "Return non-nil when this seat is billed against a spending limit.
+The account file carries every cached feature flag, so the verdict is
+kept until the file itself changes."
+  (let* ((file (expand-file-name claude-usage-account-file))
+         (modified (and (file-readable-p file)
+                        (file-attribute-modification-time
+                         (file-attributes file)))))
+    (cond
+     ((null modified) nil)
+     ((equal modified (car claude-usage--enterprise-cache))
+      (cdr claude-usage--enterprise-cache))
+     (t
+      (let ((verdict (claude-usage--read-enterprise file)))
+        (setq claude-usage--enterprise-cache (cons modified verdict))
+        verdict)))))
+
+(defun claude-usage--read-enterprise (file)
+  "Return non-nil when FILE describes an Enterprise seat.
+Either field alone is enough: the two agree today, so one being renamed
+must not take the verdict with it."
+  (condition-case nil
+      (let* ((account (alist-get
+                       'oauthAccount
+                       (json-parse-string
+                        (with-temp-buffer
+                          (insert-file-contents file)
+                          (buffer-string))
+                        :object-type 'alist :array-type 'list)))
+             (organization-type (alist-get 'organizationType account))
+             (seat-tier (alist-get 'seatTier account)))
+        (or (equal organization-type "claude_enterprise")
+            (and (stringp seat-tier)
+                 (string-prefix-p "enterprise" seat-tier))))
+    ;; No Claude Code on this machine, or a file written half-way.
+    (error nil)))
+
 (defun claude-usage--parse (output)
   "Parse JSON OUTPUT from `claude-usage-command' into a fresh state plist.
 Signal an error on malformed input."
   (let* ((data (json-parse-string output :object-type 'alist :array-type 'list))
          (five-hour (alist-get 'five_hour data))
          (seven-day (alist-get 'seven_day data))
+         ;; The CLI reports org as JSON null on a contract without one.
+         (org (let ((value (alist-get 'org data)))
+                (when (consp value) value)))
          (five-used (alist-get 'utilization_pct five-hour))
-         (seven-used (alist-get 'utilization_pct seven-day)))
+         (seven-used (alist-get 'utilization_pct seven-day))
+         (org-used (alist-get 'utilization_pct org))
+         (org-currency (alist-get 'currency org)))
     (unless five-hour
       (error "Output is missing five_hour"))
     (unless seven-day
@@ -154,8 +221,28 @@ Signal an error on malformed input."
           :seven-day (round seven-used)
           :five-hour-reset (alist-get 'resets_at five-hour)
           :seven-day-reset (alist-get 'resets_at seven-day)
+          ;; A contract with no spending limit reports no org figures.
+          :org (when (numberp org-used) (round org-used))
+          :org-used-usd (claude-usage--number (alist-get 'used_usd org))
+          :org-limit-usd (claude-usage--number (alist-get 'limit_usd org))
+          :org-currency (when (stringp org-currency) org-currency)
+          :org-reset (alist-get 'resets_at org)
           :updated-at (current-time)
           :error nil)))
+
+(defun claude-usage--number (value)
+  "Return VALUE when it is a number, nil otherwise."
+  (when (numberp value) value))
+
+(defun claude-usage--spend-detail (state)
+  "Return the spend behind STATE's org percentage, or nil when unknown."
+  (let ((used (plist-get state :org-used-usd))
+        (limit (plist-get state :org-limit-usd))
+        (currency (plist-get state :org-currency)))
+    (when (and used limit)
+      (if (or (null currency) (equal currency "USD"))
+          (format " $%.0f/$%.0f" used limit)
+        (format " %.0f/%.0f %s" used limit currency)))))
 
 (defun claude-usage--update-mode-line ()
   "Recompute `claude-usage-mode-line-string' from the current state."
@@ -167,16 +254,29 @@ Signal an error on malformed input."
   "Return the mode-line text for STATE relative to NOW.
 This string reaches the mode line by symbol indirection, where
 %-constructs are not decoded, so its percent signs stay single."
-  (let ((five-hour (plist-get state :five-hour))
-        (seven-day (plist-get state :seven-day)))
-    (if (and five-hour seven-day)
+  (let* ((five-hour (plist-get state :five-hour))
+         (seven-day (plist-get state :seven-day))
+         (org (plist-get state :org))
+         (windows
+          (cond
+           ;; A contract billed against a spending limit leaves the time
+           ;; windows at zero, so the limit is the only figure worth room.
+           (org (list (list :label "Org" :used org
+                            :detail (claude-usage--spend-detail state)
+                            :reset (plist-get state :org-reset))))
+           ;; The spending limit reaches the CLI over OAuth, which can
+           ;; fail; the time windows it falls back to are zero on such a
+           ;; seat and would read as an untouched quota.
+           ((plist-get state :enterprise)
+            (list (list :label "Org" :used nil :reset :null)))
+           ((and five-hour seven-day)
+            (list (list :label "5h" :used five-hour
+                        :reset (plist-get state :five-hour-reset))
+                  (list :label "7d" :used seven-day
+                        :reset (plist-get state :seven-day-reset)))))))
+    (if windows
         (concat " Claude"
-                (agent-usage-format-windows
-                 (list (list :label "5h" :used five-hour
-                             :reset (plist-get state :five-hour-reset))
-                       (list :label "7d" :used seven-day
-                             :reset (plist-get state :seven-day-reset)))
-                 now)
+                (agent-usage-format-windows windows now)
                 (if (plist-get state :error) "*" ""))
       " Claude ?")))
 

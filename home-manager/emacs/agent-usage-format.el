@@ -7,8 +7,8 @@
 ;;
 ;;     [5h 29%↻4h7m · 7d 15%↻6d3h]
 ;;
-;; Each window is the spent share of its quota, followed by how long until
-;; that window resets.  Callers embedding the result through `:eval' must
+;; Each window is the spent share of its quota, an optional detail such as
+;; the spend behind that share, and how long until the window resets.  Callers embedding the result through `:eval' must
 ;; double its percent signs; those going through symbol indirection must not.
 
 ;;; Code:
@@ -37,7 +37,9 @@ rather than a figure rounded up into its own label."
 (defun agent-usage-format-windows (windows &optional now)
   "Format WINDOWS for the mode line relative to NOW.
 WINDOWS is a list of plists holding :label, :used and :reset, where
-:used is the spent percentage and :reset an epoch time."
+:used is the spent percentage and :reset an epoch time.  An optional
+:detail string is appended to the percentage, for a quota whose absolute
+figure carries more than its share does."
   (when windows
     (let ((now (or now (float-time))))
       (concat
@@ -49,10 +51,11 @@ WINDOWS is a list of plists holding :label, :used and :reset, where
                   (face (cond ((and used (>= used 90)) 'error)
                               ((and used (>= used 70)) 'warning)
                               (t 'success))))
-             (format "%s %s↻%s"
+             (format "%s %s%s↻%s"
                      (plist-get window :label)
                      (propertize (if used (format "%d%%" used) "--%")
                                  'face face)
+                     (or (plist-get window :detail) "")
                      (agent-usage-format--countdown
                       (plist-get window :reset) now))))
          windows)

@@ -72,7 +72,7 @@
   langs = import ./langs.nix {inherit pkgs;};
   darwin =
     if pkgs.stdenv.hostPlatform.isDarwin
-    then import ./darwin.nix {inherit pkgs;}
+    then import ./darwin.nix {inherit pkgs isWork;}
     else [];
   # 業務用マシンでは GUI アプリは会社の配布物を使うため home-manager では入れない。
   gui =
