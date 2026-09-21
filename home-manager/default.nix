@@ -45,6 +45,13 @@
   suikoPkg = pkgs.callPackage ./suiko {inherit pkgs suiko;};
   # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
 
+  # macSKKはUTF-8辞書しか安定して読めないため、EUC-JPのSKK-JISYO.Lを変換しておく。
+  skk-jisyo-utf8 = pkgs.runCommand "SKK-JISYO.L.utf8" {} ''
+    ${pkgs.libiconv}/bin/iconv -f EUC-JP -t UTF-8 \
+      "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L" \
+      | sed '1s/coding: euc-jp/coding: utf-8/' > $out
+  '';
+
   wezterm-config = import ./wezterm {inherit pkgs;};
   emacs-config = import ./emacs {
     inherit
@@ -155,8 +162,8 @@ in {
           container="$HOME/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents"
           $DRY_RUN_CMD /bin/mkdir -p "$container/Dictionaries" "$container/Settings"
           $DRY_RUN_CMD /usr/bin/install -m644 \
-            "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L" \
-            "$container/Dictionaries/SKK-JISYO.L"
+            "${skk-jisyo-utf8}" \
+            "$container/Dictionaries/SKK-JISYO.L.utf8"
           $DRY_RUN_CMD /usr/bin/install -m644 \
             "${./macskk/kana-rule.conf}" \
             "$container/Settings/kana-rule.conf"
