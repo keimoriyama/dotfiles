@@ -1920,6 +1920,42 @@ org-mycal-export
  "Disable legacy haskell-mode save hooks that pull in haskell-process."
  (setq-local haskell-tags-on-save nil)
  (remove-hook 'after-save-hook #'haskell-mode-after-save-handler t))
+
+(defun run-haskell (input)
+  "Run the current Haskell file with INPUT on standard input."
+  (interactive
+   (progn
+     (unless (derived-mode-p 'haskell-mode 'literate-haskell-mode)
+       (user-error "This command is only available in Haskell buffers"))
+     (list (if (use-region-p)
+               (buffer-substring-no-properties
+                (region-beginning) (region-end))
+             (read-string "Standard input: ")))))
+  (unless (derived-mode-p 'haskell-mode 'literate-haskell-mode)
+    (user-error "This command is only available in Haskell buffers"))
+  (unless buffer-file-name
+    (user-error "Save this Haskell buffer before running it"))
+  (unless (executable-find "runghc")
+    (user-error "runghc is not available"))
+  (save-buffer)
+  (let ((source buffer-file-name)
+        (output (get-buffer-create "*runghc*"))
+        (default-directory (file-name-directory buffer-file-name)))
+    (with-current-buffer output
+      (let ((inhibit-read-only t))
+        (erase-buffer)))
+    (with-temp-buffer
+      (insert input)
+      (let ((status (call-process-region
+                     (point-min) (point-max) "runghc" nil
+                     (list output t) nil source)))
+        (with-current-buffer output
+          (goto-char (point-min))
+          (compilation-mode))
+        (display-buffer output)
+        (unless (and (integerp status) (zerop status))
+          (message "runghc exited with status %s" status))))))
+
 (add-hook 'haskell-mode-hook #'kei/haskell-mode-setup)
 (add-hook 'literate-haskell-mode-hook #'kei/haskell-mode-setup)
 (add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
