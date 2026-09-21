@@ -270,15 +270,15 @@
   };
   skkeleton = {
     pname = "skkeleton";
-    version = "5fd94f5912ceffc4d6ea167d78e45949a9e2f18c";
+    version = "f0868eca6a902847186882c40581a9139ea08cee";
     src = fetchFromGitHub {
       owner = "vim-skk";
       repo = "skkeleton";
-      rev = "5fd94f5912ceffc4d6ea167d78e45949a9e2f18c";
+      rev = "f0868eca6a902847186882c40581a9139ea08cee";
       fetchSubmodules = false;
-      sha256 = "sha256-Z/3hQTt4uHj8FsunQzX3btyxuzMhTkKBTQ0UMx8Usn0=";
+      sha256 = "sha256-2ubwhj6Udwkt8fhafYIkIDR3TGvrumm7BAX6oobIM5M=";
     };
-    date = "2026-09-11";
+    date = "2026-09-17";
   };
   skkeleton-azik-kanatable = {
     pname = "skkeleton-azik-kanatable";
