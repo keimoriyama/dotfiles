@@ -266,10 +266,36 @@ minibuffer" で落ちる。`debug-on-error' が t なのでデバッガが開き
   (add-to-list 'projectile-project-root-files ".projectile")
   (add-to-list 'projectile-known-projects
                "~/Documents/org-files/")
-  (dolist (git-dir (directory-files-recursively "~/ghq/" "^\\.git$" t))
-    (when (file-directory-p git-dir)
-      (add-to-list 'projectile-known-projects
-                   (file-name-as-directory (file-name-directory git-dir))))))
+
+  (defun my/projectile-refresh-ghq-projects (projects)
+    "Synchronize PROJECTS with the repositories currently managed by ghq."
+    (condition-case err
+        (let* ((ghq-root (file-name-as-directory (expand-file-name "~/ghq/")))
+               (ghq-projects
+                (mapcar (lambda (project)
+                          (file-name-as-directory
+                           (abbreviate-file-name project)))
+                        (process-lines "ghq" "list" "--full-path")))
+               (known-projects
+                (seq-filter
+                 (lambda (project)
+                   (or (not (string-prefix-p ghq-root
+                                             (expand-file-name project)))
+                       (member (file-name-as-directory
+                                (abbreviate-file-name
+                                 (expand-file-name project)))
+                               ghq-projects)))
+                 projects)))
+          (setq projectile-known-projects
+                (append known-projects
+                        (seq-difference ghq-projects known-projects #'string=))))
+      (error
+       (message "Could not refresh ghq projects: %s"
+                (error-message-string err))
+       projects)))
+
+  (advice-add 'projectile-known-projects :filter-return
+              #'my/projectile-refresh-ghq-projects))
 #+end_src
 
 
@@ -668,6 +694,11 @@ binding))))))))
 * Git統合
 ** Git操作
 *** 基本操作
+**** ghq
+#+begin_src emacs-lisp
+(require 'ghq)
+#+end_src
+
 **** magit
 #+begin_src emacs-lisp
 (require 'magit)
@@ -685,7 +716,7 @@ binding))))))))
 *** コア機能
 **** org
 #+begin_src emacs-lisp
-(setq org-directory "~/Documents/org-files")
+(setq org-directory "~/ghq/github.com/keimoriyama/org-files/")
 
 ;; org-element のインクリメンタルキャッシュを無効化する。
 ;; dashboard が after-init-hook で agenda を走査する際、複数ファイル+narrow
@@ -1996,30 +2027,31 @@ org-mycal-export
 (keymap-global-set "C-x C-j" #'skk-mode)
 (setq default-input-method "japanese-skk")
 
-;; (defun skk-open-server-decoding-utf-8 ()
-;;  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-;;  (unless (skk-server-live-p)
-;;    (setq skkserv-process (skk-open-server-1))
-;;    (when (skk-server-live-p)
-;;      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-;;        (set-process-coding-system skkserv-process 'utf-8 code))))
-;;  skkserv-process)
-
-;; (setq skk-mode-hook
-;;      '(lambda()
-;;         (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
+(defun skk-open-server-decoding-utf-8 ()
+  "Connect to the dictionary server and decode its responses as UTF-8."
+  (unless (skk-server-live-p)
+    (setq skkserv-process (skk-open-server-1))
+    (when (skk-server-live-p)
+      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+        (set-process-coding-system skkserv-process 'utf-8 code))))
+  skkserv-process)
 
 (setq skk-preload t)
 
 (with-eval-after-load 'skk-vars
- (setq skk-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+ (setq skk-large-jisyo nil
+       skk-aux-large-jisyo "~/.skk-dict/SKK-JISYO.L"
+       skk-server-host "localhost"
+       skk-server-portnum 1178
        skk-use-azik t
        skk-azik-keyboard-type "en"
        skk-search-katakana nil
        skk-share-private-jisyo t
        skk-save-jisyo-instantly t))
-       ;skk-server-host "localhost"
-       ;skk-server-portnum 1178))
+
+(with-eval-after-load 'skk-server
+  (advice-add 'skk-open-server :override
+              #'skk-open-server-decoding-utf-8))
 
 ;; ここで組み上がるローマ字ルールは macSKK 側にも書き出してある。
 ;; 変更したら home-manager/macskk/kana-rule.conf も更新すること。

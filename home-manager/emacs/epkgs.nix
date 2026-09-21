@@ -57,6 +57,7 @@ in
     orderless
 
     # git
+    ghq
     git-gutter
     magit
 
