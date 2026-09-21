@@ -72,7 +72,8 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	}
 end)
 return {
-	font = wezterm.font_with_fallback({ "UDEV Gothic", "HackGen35" }),
+	font_dirs = { os.getenv("HOME") .. "/Library/Fonts/HomeManager/truetype" },
+	font = wezterm.font_with_fallback({ "UDEV Gothic" }),
 	font_size = 18,
 	color_scheme = "Catppuccin Latte",
 	hyperlink_rules = hyperlink_rules,
