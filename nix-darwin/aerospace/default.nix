@@ -73,6 +73,7 @@ in {
             alt-n = "workspace n";
             alt-g = "workspace g";
             alt-a = "workspace a";
+            alt-z = "workspace z";
             alt-shift-e = [
               "move-node-to-workspace e"
               "workspace e"
@@ -100,6 +101,10 @@ in {
             alt-shift-a = [
               "move-node-to-workspace a"
               "workspace a"
+            ];
+            alt-shift-z = [
+              "move-node-to-workspace z"
+              "workspace z"
             ];
             alt-shift-b = [
               "move-node-to-workspace b"
@@ -186,6 +191,7 @@ in {
         g = "main";
         a = "main";
         b = "main";
+        z = "main";
       };
 
       on-window-detected = [
@@ -241,6 +247,10 @@ in {
           run = [
             "move-node-to-workspace a"
           ];
+        }
+        {
+          "if".app-id = "us.zoom.xos";
+          run = ["move-node-to-workspace z"];
         }
       ];
     };
