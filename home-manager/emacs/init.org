@@ -1652,15 +1652,6 @@ org-mycal-export
  (add-hook 'csv-mode-hook #'view-mode))
 #+end_src
 
-*** docker-compose-mode
-#+begin_src emacs-lisp
-(require 'docker-compose-mode)
-(add-to-list 'auto-mode-alist '("\\docker-compose*" . docker-compose-mode))
-
-(with-eval-after-load 'docker-compose-mode
- (add-hook 'docker-compose-mode-hook #'view-mode))
-#+end_src
-
 *** dockerfile-mode
 #+begin_src emacs-lisp
 (require 'dockerfile-mode)

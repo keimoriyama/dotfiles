@@ -69,7 +69,6 @@ in
     nix-mode
     reformatter
     csv-mode
-    docker-compose-mode
     dockerfile-mode
     dotenv-mode
     git-modes
