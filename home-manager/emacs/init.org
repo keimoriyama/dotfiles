@@ -1373,12 +1373,13 @@ embark-act からファイルターゲットに対しても呼び出せる。"
     (when (file-exists-p dest)
       (user-error "archive に同名ファイルがあります: %s" dest))
     (make-directory org-archive-dir t)
-    (if-let* ((buf (find-buffer-visiting file)))
+    (let ((buf (find-buffer-visiting file)))
+      (when (and buf (buffer-modified-p buf))
+        (user-error "未保存の変更があります: %s" file))
+      (rename-file file dest)
+      (when buf
         (with-current-buffer buf
-          (when (buffer-modified-p)
-            (user-error "未保存の変更があります: %s" file))
-          (set-visited-file-name dest t t))
-      (rename-file file dest))
+          (set-visited-file-name dest t t))))
     (message "Archived: %s" dest)))
 
 ;; Why not "A": embark-file-map の "A" は embark-act-all なので空いている "a" を使う
