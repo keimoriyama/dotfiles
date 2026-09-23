@@ -16,7 +16,6 @@
   cage,
   guard-and-guide,
   cclens,
-  neomacs,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -60,10 +59,6 @@
       org-babel
       sources
       ;
-  };
-  neomacs-config = import ./neomacs {
-    inherit pkgs sources;
-    neomacs = neomacs.packages.${system}.neomacs;
   };
   fish-config = import ./fish {inherit pkgs sources;};
   nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
@@ -115,7 +110,6 @@ in {
     wezterm-config
     fish-config
     emacs-config
-    neomacs-config
     git-config
     nh-config
     #    nixvim-config

@@ -7,7 +7,11 @@
   tangle = org-babel.lib.tangleOrgBabel {languages = ["emacs-lisp"];};
   tangleOrg = org: tangle (builtins.readFile org);
 
-  emacsPkgs = import ./emacs-with-packages.nix {inherit pkgs sources;};
+  emacsPkgs = pkgs.emacsWithPackagesFromUsePackage {
+    package = pkgs.emacs;
+    config = builtins.toFile "empty.el" "";
+    extraEmacsPackages = import ./epkgs.nix {inherit pkgs sources;};
+  };
 
   # emacsWithPackagesFromUsePackage が生成する Emacs.app は、Contents/MacOS/Emacs が
   # 別バンドル (素の emacs) の実行ファイルを exec するラッパーになっている。
