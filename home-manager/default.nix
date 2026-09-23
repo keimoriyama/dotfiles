@@ -32,20 +32,6 @@
   };
   sources = pkgs.callPackage ../_sources/generated.nix {};
   llmAgentsPkgs = llm-agents.packages.${system};
-  # neomacs は GNU Emacs 互換を名乗るため bin/emacs・bin/emacsclient と
-  # share/emacs/site-lisp の互換ファイルを置く。どれも本家 Emacs と同じパスに
-  # なり home.packages の buildEnv で衝突するので落とす。neomacs は neomacs
-  # コマンドとして使い、emacs の名前は本家に譲る。
-  neomacsPkg = neomacs.packages.${system}.neomacs.overrideAttrs (prev: {
-    postInstall =
-      (prev.postInstall or "")
-      + ''
-        rm "$out/bin/emacs" "$out/bin/emacsclient"
-        rm "$out/share/emacs/site-lisp/site-start.el" \
-           "$out/share/emacs/site-lisp/subdirs.el"
-        rmdir "$out/share/emacs/site-lisp" "$out/share/emacs"
-      '';
-  });
   artoPkg =
     if pkgs.stdenv.hostPlatform.isDarwin
     then arto.packages.${system}.default
@@ -74,6 +60,10 @@
       org-babel
       sources
       ;
+  };
+  neomacs-config = import ./neomacs {
+    inherit pkgs sources;
+    neomacs = neomacs.packages.${system}.neomacs;
   };
   fish-config = import ./fish {inherit pkgs sources;};
   nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
@@ -113,7 +103,6 @@
       # mocword
       cargo-compete
       kakehashi
-      neomacsPkg
       nippoPkg
       suikoPkg
       yaskkserv2
@@ -126,6 +115,7 @@ in {
     wezterm-config
     fish-config
     emacs-config
+    neomacs-config
     git-config
     nh-config
     #    nixvim-config
