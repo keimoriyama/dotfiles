@@ -81,8 +81,6 @@ return {
 	use_ime = false,
 	hide_mouse_cursor_when_typing = false,
 	force_reverse_video_cursor = true,
-	window_background_opacity = 0.6,
-	macos_window_background_blur = 20,
 	window_decorations = "RESIZE",
 	window_frame = {
 		inactive_titlebar_bg = "none",
