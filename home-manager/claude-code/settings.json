@@ -35,7 +35,7 @@
     "defaultMode": "auto"
   },
   "statusLine": {
-    "command": "claude-usage-line",
+    "command": "$HOME/.claude/statusline.sh",
     "type": "command"
   },
   "theme": "auto",
