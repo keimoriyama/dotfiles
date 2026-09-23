@@ -231,6 +231,10 @@ in {
           run = ["layout floating"];
         }
         {
+          "if".app-id = "org.neomacs";
+          run = ["move-node-to-workspace n"];
+        }
+        {
           "if".app-id = "notion.id";
           run = [
             "move-node-to-workspace n"

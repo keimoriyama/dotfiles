@@ -16,6 +16,7 @@
   cage,
   guard-and-guide,
   cclens,
+  neomacs,
   ...
 }: let
   pkgs = import nixpkgs {
@@ -31,6 +32,7 @@
   };
   sources = pkgs.callPackage ../_sources/generated.nix {};
   llmAgentsPkgs = llm-agents.packages.${system};
+  neomacsPkg = neomacs.packages.${system}.neomacs;
   artoPkg =
     if pkgs.stdenv.hostPlatform.isDarwin
     then arto.packages.${system}.default
@@ -98,6 +100,7 @@
       # mocword
       cargo-compete
       kakehashi
+      neomacsPkg
       nippoPkg
       suikoPkg
       yaskkserv2

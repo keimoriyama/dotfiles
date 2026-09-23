@@ -72,6 +72,9 @@
       url = "github:lambdalisue/cclens";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # GNU Emacs を Rust で書き直した GPU レンダリングのエディタ。
+    # upstream の overlay が特定の nixpkgs を前提にしているため follows させない。
+    neomacs.url = "github:eval-exec/neomacs";
   };
 
   outputs = inputs @ {
@@ -94,6 +97,7 @@
     cage,
     guard-and-guide,
     cclens,
+    neomacs,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -125,6 +129,7 @@
           cage
           cclens
           guard-and-guide
+          neomacs
           ;
         system = darwinSystem;
         inherit (home-manager.lib) homeManagerConfiguration;
@@ -170,6 +175,7 @@
           cage
           cclens
           guard-and-guide
+          neomacs
           ;
         isWork = false;
         system = nixosSystem;
