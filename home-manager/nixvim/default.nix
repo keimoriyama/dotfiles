@@ -1,12 +1,13 @@
 {
   pkgs,
+  config,
   sources,
   nixvim,
   ...
 }: let
   sonicTemplateDir = toString ./nvim/template;
   plugins = import ./plugins.nix {inherit pkgs;};
-  lsp = import ./lsp {inherit pkgs;};
+  lsp = import ./lsp {inherit pkgs config;};
   # keymapconfig = import ./keymapconfig.nix {};
   option = import ./option.nix {inherit pkgs;};
   skkeleton = pkgs.vimUtils.buildVimPlugin {

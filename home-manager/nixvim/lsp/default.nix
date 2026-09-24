@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs.nixvim.plugins = {
     lsp = {
       enable = true;
@@ -7,17 +11,18 @@
         nixd = {
           enable = true;
           settings = let
-            flake = ''(buitins.getFlake "/Users/kei/dotfiles")'';
+            flake = ''(builtins.getFlake "${config.home.homeDirectory}/dotfiles")'';
+            darwin = "${flake}.darwinConfigurations.my-config";
           in {
             nixpkgs = {
-              expr = "import ${flake}/nixpkgs {}";
+              expr = "import ${flake}.inputs.nixpkgs {}";
             };
             formatting = {
-              command = ["nixpkgs-rfc-style"];
+              command = ["alejandra"];
             };
             options = {
-              nixos.expr = "(%s).homeConfigurations.myHomeConfig.options";
-              home_manager.expr = "(%s).homeConfigurations.myHomeConfig.home.packages";
+              nix-darwin.expr = "${darwin}.options";
+              home-manager.expr = "${darwin}.options.home-manager.users.type.getSubOptions []";
             };
           };
         };
