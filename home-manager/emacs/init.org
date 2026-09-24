@@ -2229,6 +2229,15 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 #+begin_src emacs-lisp
 (require 'agent-shell-dashboard)
 #+end_src
+
+** herdr-agent
+herdr で動いているエージェントを agent-shell 風のバッファで操作する。
+herdr はターミナルしか公開しないので、出力はエージェントの画面を読んだもの
+になる。操作は hydra の「Agent Shell メニュー」の herdr 欄から呼ぶ。
+
+#+begin_src emacs-lisp
+(require 'herdr-agent)
+#+end_src
 * インタラクティブメニュー
 ** hydra メニュー群
 *** Goto メニュー
@@ -2400,7 +2409,12 @@ agent-shell-manager と重複していたので、そちらは外してこちら
      ("y" agent-shell-copy-as-markdown "copy markdown")
      ("O" agent-shell-open-transcript "transcript")
      ("L" agent-shell-view-acp-logs "acp logs")
-     ("v" agent-shell-view-traffic "traffic"))))
+     ("v" agent-shell-view-traffic "traffic"))
+    "herdr"
+    (("h" herdr-agent-list "agents")
+     ("H" herdr-agent-start "start")
+     ("g" herdr-agent-open "open")
+     ("z" herdr-agent-send-region "send region"))))
 (keymap-global-set "C-c A" #'hydra-agent-shell/body)
 #+end_src
 

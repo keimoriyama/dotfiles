@@ -86,6 +86,7 @@ in {
       ".emacs.d/lisp/agent-shell-session-name.el".source = ./agent-shell-session-name.el;
       ".emacs.d/lisp/agent-usage-format.el".source = ./agent-usage-format.el;
       ".emacs.d/lisp/claude-usage.el".source = ./claude-usage.el;
+      ".emacs.d/lisp/herdr-agent.el".source = ./herdr-agent.el;
       ".emacs.d/lisp/nippo-org-journal.el".source = ./nippo-org-journal.el;
       ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
       # recursive=true で実ディレクトリ + ファイルごとのシンボリンクにし、
