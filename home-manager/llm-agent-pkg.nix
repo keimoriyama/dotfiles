@@ -6,7 +6,6 @@ with llmAgentsPkgs;
   [
     # ai
     # copilot-cli
-    # codex
     copilot-language-server
     claude-code
     claude-agent-acp
@@ -17,5 +16,5 @@ with llmAgentsPkgs;
   ++ (
     if isWork
     then []
-    else [codex-acp]
+    else [codex-acp codex]
   )
