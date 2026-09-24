@@ -91,6 +91,17 @@
     (should (null (plist-get state :org-used-usd)))
     (should (equal 32 (plist-get state :five-hour)))))
 
+(ert-deftest claude-usage-parse-ignores-a-zeroed-org-block ()
+  "A seat without a spending limit gets a zeroed org block, not null."
+  (let ((state (claude-usage--parse
+                "{\"five_hour\":{\"utilization_pct\":20},\
+\"seven_day\":{\"utilization_pct\":4},\
+\"org\":{\"utilization_pct\":0,\"used_usd\":null,\"limit_usd\":null,\
+\"currency\":null,\"resets_at\":null}}")))
+    (should (null (plist-get state :org)))
+    (should (null (plist-get state :org-limit-usd)))
+    (should (equal 20 (plist-get state :five-hour)))))
+
 (ert-deftest claude-usage-parse-rejects-missing-windows ()
   (should-error (claude-usage--parse
                  "{\"seven_day\":{\"utilization_pct\":47}}"))

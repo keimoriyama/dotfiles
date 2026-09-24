@@ -208,6 +208,7 @@ Signal an error on malformed input."
          (five-used (alist-get 'utilization_pct five-hour))
          (seven-used (alist-get 'utilization_pct seven-day))
          (org-used (alist-get 'utilization_pct org))
+         (org-limit (claude-usage--number (alist-get 'limit_usd org)))
          (org-currency (alist-get 'currency org)))
     (unless five-hour
       (error "Output is missing five_hour"))
@@ -221,10 +222,11 @@ Signal an error on malformed input."
           :seven-day (round seven-used)
           :five-hour-reset (alist-get 'resets_at five-hour)
           :seven-day-reset (alist-get 'resets_at seven-day)
-          ;; A contract with no spending limit reports no org figures.
-          :org (when (numberp org-used) (round org-used))
+          ;; A contract with no spending limit still reports a zeroed org
+          ;; block, so the limit is what marks the share as a real figure.
+          :org (when (and org-limit (numberp org-used)) (round org-used))
           :org-used-usd (claude-usage--number (alist-get 'used_usd org))
-          :org-limit-usd (claude-usage--number (alist-get 'limit_usd org))
+          :org-limit-usd org-limit
           :org-currency (when (stringp org-currency) org-currency)
           :org-reset (alist-get 'resets_at org)
           :updated-at (current-time)
