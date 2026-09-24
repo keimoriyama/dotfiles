@@ -188,6 +188,33 @@ fewer than two rules are returned without trailing blank lines only."
   (let ((status (or status "gone")))
     (propertize status 'face (herdr-agent--status-face status))))
 
+(defun herdr-agent--busy-p (status)
+  "Return non-nil when agent STATUS means the agent holds its screen."
+  (and (member status '("working" "blocked")) t))
+
+(defun herdr-agent--read-args (pane-id busy)
+  "Return the herdr arguments that read the screen of PANE-ID.
+`recent-unwrapped' scrolls the alternate screen to collect history,
+which a BUSY agent both refuses and would have its own output fight,
+so a busy agent is read from what is already on screen."
+  (list "agent" "read" pane-id
+        "--source" (if busy "visible" "recent-unwrapped")
+        "--lines" (number-to-string herdr-agent-read-lines)))
+
+(defun herdr-agent--needs-read-p (old new)
+  "Return non-nil when the screen should be read again.
+OLD and NEW are the agent alists of the previous and the current poll.
+`state_change_seq' counts every state change, so a turn shorter than
+the poll interval is still visible as a difference, which comparing
+`agent_status' would miss.  An idle agent that did not change is left
+alone: reading it would scroll a screen the user may just have typed
+into."
+  (and new
+       (or (null old)
+           (not (equal (alist-get 'state_change_seq old)
+                       (alist-get 'state_change_seq new)))
+           (herdr-agent--busy-p (alist-get 'agent_status new)))))
+
 (defun herdr-agent--submit-commands (pane-id text)
   "Return the herdr argument lists that submit TEXT to the agent in PANE-ID.
 `herdr agent prompt' delivers text as a bracketed paste, which Claude
@@ -310,15 +337,14 @@ showing the end of the screen keep following it."
         (recenter -1)))
     (setq herdr-agent--screen text)))
 
-(defun herdr-agent--read-screen (buffer)
-  "Fetch the agent screen of BUFFER and redraw it when it changed."
+(defun herdr-agent--read-screen (buffer &optional busy)
+  "Fetch the agent screen of BUFFER and redraw it when it changed.
+BUSY selects the screen source; see `herdr-agent--read-args'."
   (with-current-buffer buffer
     (unless herdr-agent--reading
       (setq herdr-agent--reading t)
       (herdr-agent--call
-       (list "agent" "read" herdr-agent--pane-id
-             "--source" "recent-unwrapped"
-             "--lines" (number-to-string herdr-agent-read-lines))
+       (herdr-agent--read-args herdr-agent--pane-id busy)
        :raw t
        :on-success
        (lambda (text)
@@ -329,10 +355,13 @@ showing the end of the screen keep following it."
                (unless (equal screen herdr-agent--screen)
                  (herdr-agent--replace-screen screen))))))
        :on-error
-       (lambda (_code _text)
+       (lambda (code _text)
          (when (buffer-live-p buffer)
            (with-current-buffer buffer
-             (setq herdr-agent--reading nil))))))))
+             (setq herdr-agent--reading nil)
+             ;; The agent started working between the poll and the read.
+             (when (and (equal code "agent_not_idle") (not busy))
+               (herdr-agent--read-screen buffer t)))))))))
 
 (defun herdr-agent--buffer-for (agent)
   "Return the buffer for AGENT, creating it when needed."
@@ -364,7 +393,8 @@ showing the end of the screen keep following it."
   (let ((buffer (herdr-agent--buffer-for agent)))
     (pop-to-buffer buffer)
     (goto-char (point-max))
-    (herdr-agent--read-screen buffer)
+    (herdr-agent--read-screen
+     buffer (herdr-agent--busy-p (alist-get 'agent_status agent)))
     (herdr-agent--start-polling)
     buffer))
 
@@ -412,16 +442,16 @@ showing the end of the screen keep following it."
   "Update agent buffers and the list buffer from AGENTS."
   (dolist (buffer (herdr-agent--buffers))
     (with-current-buffer buffer
-      (let* ((old (alist-get 'agent_status herdr-agent--info))
+      (let* ((old herdr-agent--info)
              (info (seq-find (lambda (agent)
                                (equal (alist-get 'pane_id agent)
                                       herdr-agent--pane-id))
                              agents))
-             (new (alist-get 'agent_status info)))
+             (status (alist-get 'agent_status info)))
         (setq herdr-agent--info info)
-        (when (and info (or (not (equal old new)) (equal new "working")))
-          (herdr-agent--read-screen buffer))
-        (unless (equal old new)
+        (when (herdr-agent--needs-read-p old info)
+          (herdr-agent--read-screen buffer (herdr-agent--busy-p status)))
+        (unless (equal (alist-get 'agent_status old) status)
           (force-mode-line-update)))))
   (when-let* ((list-buffer (get-buffer "*herdr agents*")))
     (with-current-buffer list-buffer
@@ -529,7 +559,9 @@ Use this to answer approval and question dialogs."
   "Re-read the agent screen now."
   (interactive)
   (setq herdr-agent--screen nil)
-  (herdr-agent--read-screen (current-buffer)))
+  (herdr-agent--read-screen
+   (current-buffer)
+   (herdr-agent--busy-p (alist-get 'agent_status herdr-agent--info))))
 
 (defun herdr-agent-focus ()
   "Focus the agent's pane in the herdr TUI."

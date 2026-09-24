@@ -132,4 +132,55 @@
   (should (string-prefix-p "(buffer):1-1\n"
                            (herdr-agent--region-context nil 1 1 "x"))))
 
+(ert-deftest herdr-agent-treats-working-and-blocked-agents-as-busy ()
+  "Only the states in which the agent owns its screen count as busy."
+  (should (herdr-agent--busy-p "working"))
+  (should (herdr-agent--busy-p "blocked")))
+
+(ert-deftest herdr-agent-treats-idle-and-unknown-agents-as-free ()
+  "An idle agent, and one that is gone, are not busy."
+  (should-not (herdr-agent--busy-p "idle"))
+  (should-not (herdr-agent--busy-p nil)))
+
+(ert-deftest herdr-agent-reads-history-from-an-idle-agent ()
+  "A free agent is read with the scrolled history."
+  (let ((herdr-agent-read-lines 200))
+    (should (equal (herdr-agent--read-args "w1:p1" nil)
+                   '("agent" "read" "w1:p1"
+                     "--source" "recent-unwrapped" "--lines" "200")))))
+
+(ert-deftest herdr-agent-reads-only-the-visible-screen-from-a-busy-agent ()
+  "A busy agent is read without scrolling."
+  (should (equal (nth 4 (herdr-agent--read-args "w1:p1" t)) "visible")))
+
+(ert-deftest herdr-agent-reads-an-agent-it-has-not-seen-before ()
+  "The first poll of an agent always reads its screen."
+  (should (herdr-agent--needs-read-p nil '((state_change_seq . 7)
+                                           (agent_status . "idle")))))
+
+(ert-deftest herdr-agent-reads-an-agent-whose-state-sequence-moved ()
+  "A turn shorter than the poll interval is caught by the sequence."
+  (should (herdr-agent--needs-read-p '((state_change_seq . 7)
+                                       (agent_status . "idle"))
+                                     '((state_change_seq . 9)
+                                       (agent_status . "idle")))))
+
+(ert-deftest herdr-agent-keeps-reading-a-working-agent ()
+  "A working agent is read again even while its sequence stands still."
+  (should (herdr-agent--needs-read-p '((state_change_seq . 7)
+                                       (agent_status . "working"))
+                                     '((state_change_seq . 7)
+                                       (agent_status . "working")))))
+
+(ert-deftest herdr-agent-leaves-an-unchanged-idle-agent-alone ()
+  "An idle agent that did not change is not read again."
+  (should-not (herdr-agent--needs-read-p '((state_change_seq . 7)
+                                           (agent_status . "idle"))
+                                         '((state_change_seq . 7)
+                                           (agent_status . "idle")))))
+
+(ert-deftest herdr-agent-reads-nothing-for-an-agent-that-disappeared ()
+  "An agent missing from the list has no screen to read."
+  (should-not (herdr-agent--needs-read-p '((state_change_seq . 7)) nil)))
+
 ;;; herdr-agent-tests.el ends here
