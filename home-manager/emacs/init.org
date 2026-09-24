@@ -2187,7 +2187,8 @@ org-mycal-export
 操作全般は hydra の dispatcher (=C-c A=) から呼ぶ。「Agent Shell メニュー」を参照。
 
 ** claude-usage
-=claude-usage --json= をポーリングして、Claude subscription の残量をモードラインに表示する。
+=claude-usage-line --json= をポーリングして、Claude の各枠の使用率をモードラインに表示する。
+枠はシートによって変わる。subscription なら 5 時間と 7 日、Enterprise なら組織の予算枠だけ。
 
 #+begin_src emacs-lisp
 (require 'claude-usage)
