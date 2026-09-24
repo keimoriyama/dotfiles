@@ -10,7 +10,6 @@ with llmAgentsPkgs;
     claude-code
     claude-agent-acp
     opencode
-    herdr
   ]
   # 業務用マシンでは codex 系を入れない。
   ++ (
