@@ -1,4 +1,4 @@
-;;; org-archive-tests.el --- Tests for my/org-archive-project-file -*- lexical-binding: t; -*-
+;;; org-archive-tests.el --- Tests for my/org-archive-* functions -*- lexical-binding: t; -*-
 
 ;; my/org-archive-project-file は init.el (init.org から tangle) で定義される。
 ;; そのため実行中の Emacs (init.el 読み込み済み) への emacsclient 経由で動かす前提。
@@ -54,6 +54,47 @@
                        (with-temp-buffer
                          (insert-file-contents dest)
                          (buffer-string)))))))
+
+(defmacro org-archive-tests--with-org-buffer (contents &rest body)
+  "org-mode の一時バッファに CONTENTS を挿入して BODY を実行する。"
+  (declare (indent 1))
+  `(with-temp-buffer
+     (org-mode)
+     (insert ,contents)
+     ,@body))
+
+(defun org-archive-tests--headings-at-level (level)
+  "現在のバッファにある level LEVEL の見出し名をバッファ順に並べたリストを返す。"
+  (let (headings)
+    (org-map-entries
+     (lambda () (push (org-get-heading t t) headings))
+     (format "LEVEL=%d" level))
+    (nreverse headings)))
+
+(ert-deftest org-archive-done-level-1-moves-done-into-archive-sibling ()
+  "DONE の level 1 見出しが archive タグの兄弟見出しに移され、それ以外は残る。"
+  (org-archive-tests--with-org-buffer
+      "* TODO task\n* DONE done a\nbody a\n* plain heading\n* DONE done b\nbody b\n"
+    (my/org-archive-done-level-1)
+    (should (equal (org-archive-tests--headings-at-level 1)
+                   '("task" "plain heading" "Archive")))
+    (should (equal (sort (copy-sequence
+                          (org-archive-tests--headings-at-level 2))
+                         #'string<)
+                   '("done a" "done b")))
+    (goto-char (point-min))
+    (should (re-search-forward "^\\* Archive\\s-*:ARCHIVE:" nil t))))
+
+(ert-deftest org-archive-done-level-1-keeps-nested-done ()
+  "level 2 以下の DONE 見出しは移動しない。"
+  (org-archive-tests--with-org-buffer "* parent\n** DONE child\n"
+    (my/org-archive-done-level-1)
+    (should (equal (buffer-string) "* parent\n** DONE child\n"))))
+
+(ert-deftest org-archive-done-level-1-errors-outside-org-mode ()
+  "org-mode 以外のバッファでは user-error。"
+  (with-temp-buffer
+    (should-error (my/org-archive-done-level-1) :type 'user-error)))
 
 (provide 'org-archive-tests)
 ;;; org-archive-tests.el ends here

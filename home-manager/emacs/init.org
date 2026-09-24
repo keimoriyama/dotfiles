@@ -1386,6 +1386,32 @@ embark-act からファイルターゲットに対しても呼び出せる。"
 (with-eval-after-load 'embark
   (keymap-set embark-file-map "a" #'my/org-archive-project-file))
 #+end_src
+
+**** DONE な level 1 見出しを archive タグの中へ移動
+#+begin_src emacs-lisp
+(defun my/org-archive-done-level-1 ()
+  "現在のバッファで DONE の level 1 見出しをすべて archive タグの中に移動する。
+各見出しは `org-archive-to-archive-sibling' により、archive タグの付いた
+兄弟見出し (デフォルトは \"* Archive :ARCHIVE:\") の下に移される。"
+  (interactive)
+  (unless (derived-mode-p 'org-mode)
+    (user-error "org-mode のバッファではありません"))
+  ;; アーカイブ実行で見出しが動くので、走査中には移動せず
+  ;; marker に退避してからまとめて移動する
+  (let ((markers nil))
+    (org-map-entries
+     (lambda ()
+       (when (member (org-get-todo-state) org-done-keywords)
+         (push (point-marker) markers)))
+     "LEVEL=1")
+    (dolist (marker markers)
+      (org-with-point-at marker
+        (org-back-to-heading t)
+        (org-archive-to-archive-sibling))
+      (set-marker marker nil))
+    (message "Archived %d headlines" (length markers))))
+#+end_src
+
 *** Export Command
 #+begin_src emacs-lisp
 (require 'ox-icalendar)
