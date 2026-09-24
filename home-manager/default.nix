@@ -112,7 +112,7 @@ in {
     emacs-config
     git-config
     nh-config
-    #    nixvim-config
+    nixvim-config
     claude-code-config
     agents-config
     agent-skills-config
