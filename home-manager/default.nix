@@ -150,12 +150,6 @@ in {
         '';
       }
       // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-        trampolineApps = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-          ${builtins.readFile ./trampoline-apps.sh}
-          fromDir="$HOME/Applications/Home Manager Apps"
-          toDir="$HOME/Applications/Home Manager Trampolines"
-          sync_trampolines "$fromDir" "$toDir"
-        '';
         # macSKKはサンドボックスアプリのため/nix/storeへのsymlinkを辿れない。
         # コンテナ内へ実ファイルとしてコピーする必要がある。
         macskkFiles = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
