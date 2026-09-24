@@ -1387,7 +1387,7 @@ embark-act からファイルターゲットに対しても呼び出せる。"
   (keymap-set embark-file-map "a" #'my/org-archive-project-file))
 #+end_src
 
-**** DONE な level 1 見出しを archive タグの中へ移動
+**** level 1 見出しを archive タグの中へ移動
 #+begin_src emacs-lisp
 (defun my/org-archive-done-level-1 ()
   "現在のバッファで DONE の level 1 見出しをすべて archive タグの中に移動する。
