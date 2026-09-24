@@ -24,7 +24,6 @@ in
     exec-path-from-shell
     ddskk
     ddskk-posframe
-    packages.nskk
     rainbow-delimiters
     major-mode-hydra
     avy-zap
@@ -44,7 +43,6 @@ in
 
     # completion
     corfu
-    nerd-icons-corfu
     kind-icon
     cape
     vertico
@@ -62,11 +60,9 @@ in
     magit
 
     # langs
-    auctex
     packages.yatex
     packages.typst-ts-mode
     python-mode
-    pet
     nix-mode
     reformatter
     csv-mode
@@ -87,10 +83,6 @@ in
     web-mode
 
     # ai
-    copilot
-    ellama
-    llm
-    copilot-chat
     agent-shell
     packages.agent-shell-notifications
     packages.agent-shell-attention
@@ -101,7 +93,6 @@ in
     packages.eglot-x
     eglot-booster
     flycheck
-    flycheck-posframe
     highlight-indent-guides
     flycheck-rust
 
