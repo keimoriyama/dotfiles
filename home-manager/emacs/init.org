@@ -1514,27 +1514,7 @@ org-mycal-export
 *** language specific config
 ***** python
 #+begin_src emacs-lisp
-(defun kei/python-eglot-project-root ()
-  (file-name-as-directory
-   (or (locate-dominating-file default-directory ".venv")
-       (locate-dominating-file default-directory "uv.lock")
-       (locate-dominating-file default-directory "pyproject.toml")
-        (when-let* ((project (project-current nil)))
-         (project-root project))
-       default-directory)))
-
-(defun kei/python-eglot-workspace-configuration ()
-  (let* ((root (kei/python-eglot-project-root))
-         (venv-directory (expand-file-name ".venv" root))
-         (python-path (expand-file-name "bin/python" venv-directory)))
-    (when (file-exists-p python-path)
-      (setq-local eglot-workspace-configuration
-                  `(:python (:venvPath ,(directory-file-name root)
-                             :venv ".venv"
-                             :pythonPath ,python-path))))))
-
 (defun kei/python-eglot-ensure ()
-  (kei/python-eglot-workspace-configuration)
   (setq eglot-ignored-server-capabilities '(:hoverProvider))
   (eglot-ensure))
 
@@ -1548,10 +1528,9 @@ org-mycal-export
         (python-mode-p modes)))))
 
 (with-eval-after-load 'eglot
-  (setq eglot-server-programs eglot-server-programs)
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode) .
-                 ("basedpyright-langserver" "--stdio"))))
+                 ("ty" "server"))))
 
 (add-hook 'python-mode-hook #'kei/python-eglot-ensure)
 (add-hook 'python-ts-mode-hook #'kei/python-eglot-ensure)

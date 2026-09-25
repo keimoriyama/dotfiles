@@ -181,8 +181,7 @@ in {
         "8" = "secondary";
         "9" = "secondary";
         "10" = "secondary";
-        # Emacs はサブディスプレイへ
-        e = "secondary";
+        e = "main";
         c = "main";
         # Slack はサブディスプレイへ
         s = "secondary";

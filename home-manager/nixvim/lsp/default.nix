@@ -35,63 +35,6 @@
             semantic.enable = true;
           };
         };
-        pyright = {
-          enable = true;
-          rootMarkers = ["pyproject.toml" "setup.py"];
-          onAttach.function = ''
-            local disabled_capabilities = {
-              "callHierarchyProvider",
-              "codeActionProvider",
-              "codeLensProvider",
-              "colorProvider",
-              "declarationProvider",
-              "definitionProvider",
-              "diagnosticProvider",
-              "documentFormattingProvider",
-              "documentHighlightProvider",
-              "documentLinkProvider",
-              "documentOnTypeFormattingProvider",
-              "documentRangeFormattingProvider",
-              "documentSymbolProvider",
-              "executeCommandProvider",
-              "foldingRangeProvider",
-              "hoverProvider",
-              "implementationProvider",
-              "inlayHintProvider",
-              "monikerProvider",
-              "referencesProvider",
-              "renameProvider",
-              "selectionRangeProvider",
-              "semanticTokensProvider",
-              "signatureHelpProvider",
-              "typeDefinitionProvider",
-              "typeHierarchyProvider",
-              "workspaceSymbolProvider",
-            }
-
-            for _, capability in ipairs(disabled_capabilities) do
-              client.server_capabilities[capability] = false
-            end
-          '';
-          extraOptions = {
-            settings = {
-              pyright = {
-                disableOrganizeImports = true;
-              };
-              python = {
-                analysis = {
-                  autoImportCompletions = true;
-                  diagnosticMode = "openFilesOnly";
-                  exclude = ["**"];
-                  ignore = ["*"];
-                  typeCheckingMode = "off";
-                };
-                venvPath = ".";
-                pythonPath = ".venv/bin/python";
-              };
-            };
-          };
-        };
         denols = {
           enable = true;
           rootMarkers = ["deno.json" "deno.jsonc"];
