@@ -461,48 +461,6 @@
         },
         "version": "096316545837ca70498023486390f74f6b7c8fd3"
     },
-    "skkeleton": {
-        "cargoLock": null,
-        "date": "2026-09-17",
-        "extract": null,
-        "name": "skkeleton",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "vim-skk",
-            "repo": "skkeleton",
-            "rev": "f0868eca6a902847186882c40581a9139ea08cee",
-            "sha256": "sha256-2ubwhj6Udwkt8fhafYIkIDR3TGvrumm7BAX6oobIM5M=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "f0868eca6a902847186882c40581a9139ea08cee"
-    },
-    "skkeleton-azik-kanatable": {
-        "cargoLock": null,
-        "date": "2026-06-09",
-        "extract": null,
-        "name": "skkeleton-azik-kanatable",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "keimoriyama",
-            "repo": "skkeleton-azik-kanatable",
-            "rev": "84346af3e5f8eeb69935ecac38c0398ee0bb89dd",
-            "sha256": "sha256-z5OtC/5TatRcW/wy5ehuL0/DHUtUiI3SI6E0HLFi6Lk=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "84346af3e5f8eeb69935ecac38c0398ee0bb89dd"
-    },
     "yaskkserv2": {
         "cargoLock": null,
         "date": null,
