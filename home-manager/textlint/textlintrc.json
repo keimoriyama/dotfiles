@@ -1,0 +1,10 @@
+{
+  "plugins": {
+    "org": true,
+    "latex2e": true
+  },
+  "rules": {
+    "preset-ja-technical-writing": true,
+    "preset-ja-spacing": true
+  }
+}
