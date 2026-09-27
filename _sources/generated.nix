@@ -4,7 +4,8 @@
   fetchurl,
   fetchFromGitHub,
   dockerTools,
-}: {
+}:
+{
   cargo-compete = {
     pname = "cargo-compete";
     version = "v0.10.7";
