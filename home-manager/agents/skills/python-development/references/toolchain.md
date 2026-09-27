@@ -11,5 +11,3 @@
 | テスト | pytest |
 
 `pip` と `python` は直接呼ばない。`uv add` または `uv run` を使う。
-
-ty と pytest は pre-commit からだけ実行する。

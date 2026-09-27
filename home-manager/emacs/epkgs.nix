@@ -56,6 +56,8 @@ in
 
     # git
     ghq
+    consult-gh
+    consult-ghq
     git-gutter
     magit
 
