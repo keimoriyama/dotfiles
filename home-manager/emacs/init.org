@@ -1946,21 +1946,22 @@ org-mycal-export
   (save-buffer)
   (let ((source buffer-file-name)
         (output (get-buffer-create "*runghc*"))
-        (default-directory (file-name-directory buffer-file-name)))
+        (default-directory (file-name-directory buffer-file-name))
+        (inhibit-read-only t))
     (with-current-buffer output
-      (let ((inhibit-read-only t))
-        (erase-buffer)))
+      (erase-buffer))
     (with-temp-buffer
       (insert input)
       (let ((status (call-process-region
                      (point-min) (point-max) "runghc" nil
                      (list output t) nil source)))
         (with-current-buffer output
+          (goto-char (point-max))
+          (unless (bolp) (insert "\n"))
+          (insert (format "\nrunghc exited with status %s\n" status))
           (goto-char (point-min))
           (compilation-mode))
-        (display-buffer output)
-        (unless (and (integerp status) (zerop status))
-          (message "runghc exited with status %s" status))))))
+        (display-buffer output)))))
 
 (add-hook 'haskell-mode-hook #'kei/haskell-mode-setup)
 (add-hook 'literate-haskell-mode-hook #'kei/haskell-mode-setup)
