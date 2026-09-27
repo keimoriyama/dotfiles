@@ -3,7 +3,6 @@
   config,
   home-manager,
   emacs-overlay,
-  nixvim,
   org-babel,
   system,
   username,
@@ -61,12 +60,12 @@
       ;
   };
   fish-config = import ./fish {inherit pkgs sources;};
-  nixvim-config = import ./nixvim {inherit pkgs sources config home-manager nixvim;};
   git-config = import ./git;
   nh-config = import ./nh;
   claude-code-config = import ./claude-code;
   agents-config = import ./agents;
   agent-skills-config = import ./agent-skills.nix;
+  textlint-config = import ./textlint;
 
   utils = import ./utils.nix {inherit pkgs;};
   langs = import ./langs.nix {inherit pkgs;};
@@ -112,10 +111,10 @@ in {
     emacs-config
     git-config
     nh-config
-    nixvim-config
     claude-code-config
     agents-config
     agent-skills-config
+    textlint-config
   ];
 
   programs.home-manager.enable = true;
@@ -129,7 +128,7 @@ in {
     );
 
     sessionVariables = {
-      EDITOR = "nvim";
+      EDITOR = "emacsclient";
     };
 
     packages =

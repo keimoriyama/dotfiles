@@ -36,7 +36,6 @@
     ];
     shellAliases = {
       c = "clear";
-      n = "nvim";
       python = "python3";
     };
     shellAbbrs = {

@@ -267,30 +267,6 @@
     };
     date = "2022-05-02";
   };
-  skkeleton = {
-    pname = "skkeleton";
-    version = "f0868eca6a902847186882c40581a9139ea08cee";
-    src = fetchFromGitHub {
-      owner = "vim-skk";
-      repo = "skkeleton";
-      rev = "f0868eca6a902847186882c40581a9139ea08cee";
-      fetchSubmodules = false;
-      sha256 = "sha256-2ubwhj6Udwkt8fhafYIkIDR3TGvrumm7BAX6oobIM5M=";
-    };
-    date = "2026-09-17";
-  };
-  skkeleton-azik-kanatable = {
-    pname = "skkeleton-azik-kanatable";
-    version = "84346af3e5f8eeb69935ecac38c0398ee0bb89dd";
-    src = fetchFromGitHub {
-      owner = "keimoriyama";
-      repo = "skkeleton-azik-kanatable";
-      rev = "84346af3e5f8eeb69935ecac38c0398ee0bb89dd";
-      fetchSubmodules = false;
-      sha256 = "sha256-z5OtC/5TatRcW/wy5ehuL0/DHUtUiI3SI6E0HLFi6Lk=";
-    };
-    date = "2026-06-09";
-  };
   yaskkserv2 = {
     pname = "yaskkserv2";
     version = "0.1.7";
