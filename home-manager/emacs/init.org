@@ -32,7 +32,7 @@ minibuffer" で落ちる。`debug-on-error' が t なのでデバッガが開き
 (dolist (dir '("~/ghq/github.com/sbintuitions/llm-tuning-experiments/"))
   (add-to-list 'safe-local-variable-directories (expand-file-name dir)))
 #+end_src
-** C-tでバッファを切り変える
+** C-tでバッファを切り替える
 #+begin_src emacs-lisp
 (define-key global-map (kbd "C-t") 'other-window)
 #+end_src
@@ -343,7 +343,7 @@ minibuffer" で落ちる。`debug-on-error' が t なのでデバッガが開き
                         :as #'buffer-name)))
     "Local buffer candidate source for `consult-buffer'.")
 (defun c/consult-line (&optional at-point)
-    "Consult-line uses things-at-point if set C-u prefix."
+    "Consult-line uses thing-at-point if set C-u prefix."
     (interactive "P")
     (if at-point
         (consult-line (thing-at-point 'symbol))
@@ -747,7 +747,7 @@ binding))))))))
 (require 'org)
 (with-eval-after-load 'org
   (setq org-startup-folded 'fold
-        org-deadline-warning-day  30
+        org-deadline-warning-days 30
         org-enforce-todo-dependencies t
         org-html-htmlize-output-type 'css
         org-adapt-indentation t
@@ -976,7 +976,7 @@ SPEC is:
                        "books/%<%Y%m%d%H%M%S>-${slug}.org"
                        "#+title: ${title}\n")
               :unnarrowed t)
-             ("P" "parmanent" plain "%?"
+             ("P" "permanent" plain "%?"
               :target (file+head
                        "parmanent/%<%Y%m%d%H%M%S>-${slug}.org"
                        "#+title: ${title}\n")
@@ -1157,7 +1157,7 @@ SPEC is:
          "7月" "8月" "9月" "10月" "11月" "12月"])
   ;; 週の開始を日曜日にする（0=日曜日、1=月曜日）
   (setq calendar-week-start-day 0)
-  ;; 月/日/年の順番で表示
+  ;; 年/月/日の順番で表示
   (setq calendar-date-style 'iso)
   ;; 月間カレンダーの左側の余白を調整
   (setq calendar-left-margin 5)
@@ -1785,7 +1785,7 @@ org-mycal-export
 *** python-mode
 **** 基本設定
 #+begin_src emacs-lisp
-(add-to-list 'bauto-mode-alist '("\\.py$" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (with-eval-after-load 'python-ts-mode
   (setopt python-shell-completion-native-enable nil))
 (add-hook 'python-mode-hook #'view-mode)
@@ -1851,7 +1851,7 @@ org-mycal-export
  (file-exists-p
   (format "%spyproject.toml" (projectile-project-root))))
 
-(defun uv-package-existance-p (package-name)
+(defun uv-package-existence-p (package-name)
  (member package-name (uv-list-packages)))
 
 (defun uv-remove-package ()
@@ -1859,7 +1859,7 @@ org-mycal-export
  (interactive)
  (if (uv-project-root-p)
      (let* ((package-name (read-string "Package Name: ")))
-       (if (not (uv-package-existance-p package-name))
+       (if (not (uv-package-existence-p package-name))
            (message "%s does not exist in current project" package-name)
          (shell-command
           (concat uv-command " " uv-command--remove " " package-name ))))))
@@ -1869,7 +1869,7 @@ org-mycal-export
  (interactive)
  (if (uv-project-root-p)
      (let* ((package-name (read-string "Package Name: ")))
-       (if (uv-package-existance-p package-name)
+       (if (uv-package-existence-p package-name)
            (message "%s is already installed in current project" package-name)
          (shell-command
           (concat uv-command " " uv-command--add " " package-name))))))
@@ -2259,7 +2259,7 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 #+begin_src emacs-lisp
 (pretty-hydra-define hydra-goto
   (:title "↗ Goto" :color blue :quit-key "q" :foreign-keys warn :separator "╌")
-   ("Got"
+   ("Goto"
     (("i" avy-goto-char       "char")
      ("t" avy-goto-char-timer "timer")
      ("l" avy-goto-line       "line")
@@ -2285,7 +2285,7 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 *** Edit メニュー
 #+begin_src emacs-lisp
 ;; (pretty-hydra-define hydra-edit
-;;   (:title "edit" :color blue :quit-key "q" :foreign-key warn :separator "-")
+;;   (:title "edit" :color blue :quit-key "q" :foreign-keys warn :separator "-")
 ;;   ("Puni"
 ;;    (("f" puni-slurp-forward "forward" :exit nil)
 ;;     ("b" puni-barf-forward "backward" :exit nil)
@@ -2321,7 +2321,7 @@ agent-shell-manager と重複していたので、そちらは外してこちら
      ("f" visual-fill-column-mode "visual column" :toggle t)
      ("c" toggle-visual-fill-column-center "fill center"))
     "Highlight"
-    (("h" highlight-symbol "highligh symbol" :toggle t)
+    (("h" highlight-symbol "highlight symbol" :toggle t)
      ("L" hl-line-mode "line" :toggle t)
      ("t" hl-todo-mode "todo" :toggle t)
      ("g" git-gutter-mode "git gutter" :toggle t)
@@ -2378,7 +2378,7 @@ agent-shell-manager と重複していたので、そちらは外してこちら
      ("p" git-gutter:popup-hunk "popup"))
     " GitHub"
     (("C" checkout-gh-pr "checkout PR")
-     ("o" browse-at-remote-or-copy"browse at point")
+     ("o" browse-at-remote-or-copy "browse at point")
      ("k" browse-at-remote-kill "copy url")
      ("O" (shell-command "hub browse") "browse repository"))))
 (keymap-global-set "M-g" #'hydra-git/body)
