@@ -128,7 +128,7 @@ in {
     );
 
     sessionVariables = {
-      EDITOR = "emacsclient";
+      EDITOR = "vim";
     };
 
     packages =
