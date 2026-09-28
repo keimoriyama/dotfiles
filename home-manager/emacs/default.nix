@@ -1,10 +1,11 @@
 {
   pkgs,
-  org-babel,
+  inputs,
   sources,
+  ...
 }: let
   # Tangle the emacs-lisp blocks out of an .org config into a plain init string.
-  tangle = org-babel.lib.tangleOrgBabel {languages = ["emacs-lisp"];};
+  tangle = inputs.org-babel.lib.tangleOrgBabel {languages = ["emacs-lisp"];};
   tangleOrg = org: tangle (builtins.readFile org);
 
   emacsPkgs = pkgs.emacsWithPackagesFromUsePackage {

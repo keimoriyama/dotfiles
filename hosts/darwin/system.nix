@@ -1,15 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}: {
-  environment.systemPackages = [
-    # pkgs.zoom-us
-    # pkgs.macskk
-  ];
-
-  nixpkgs.config.allowUnfree = true;
-
+{username, ...}: {
   # Determinate Nix manages the Nix installation via its own daemon, which
   # conflicts with nix-darwin's native management. Disabling it lets the two
   # coexist. With nix.enable = false, nix-darwin refuses to manage any other

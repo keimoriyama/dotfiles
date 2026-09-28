@@ -1,8 +1,4 @@
-{pkgs}: let
-  # emacsScratchpadToggle = emacsLib.mkScratchpadToggle {
-  #   windowManager = "aerospace";
-  # };
-in {
+{
   services.aerospace = {
     enable = true;
     settings = {
@@ -150,11 +146,6 @@ in {
               "move-node-to-workspace 10"
               "workspace 10"
             ];
-
-            # alt-r = "mode resize";
-
-            # Emacs Scratchpad Toggle (like NixOS Mod+I)
-            # alt-i = "exec-and-forget ${emacsScratchpadToggle}";
           };
         };
 
@@ -194,7 +185,6 @@ in {
       };
 
       on-window-detected = [
-        # FloatingEmacs scratchpad (kitty with specific title)x
         {
           "if".app-id = "com.github.wez.wezterm";
           run = ["move-node-to-workspace w"];
@@ -206,14 +196,12 @@ in {
         {
           "if".app-id = "com.google.Chrome";
           run = [
-            # "layout floating"
             "move-node-to-workspace c"
           ];
         }
         {
           "if".app-id = "com.apple.Safari";
           run = [
-            # "layout floating"
             "move-node-to-workspace b"
           ];
         }

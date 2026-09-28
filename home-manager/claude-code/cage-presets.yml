@@ -1,6 +1,7 @@
 # cage のプリセット。cage は「読み取りは自由、書き込みは許可した場所だけ」という
 # OS レベルのサンドボックス (macOS: Apple Seatbelt, Linux: Landlock) でコマンドを起動する。
-# auto-presets により `cage claude` と打つだけで claude 用の許可セットが適用される。
+# エージェント CLI は llm-agent-pkg.nix で cage 経由のラッパーに差し替えてあり、
+# auto-presets により起動したコマンド名に応じた許可セットが適用される。
 presets:
   base:
     allow:
@@ -36,6 +37,10 @@ presets:
       - "$HOME/.claude.json"
       - "$HOME/.config/claude"
 
+  opencode:
+    allow:
+      - "$HOME/.config/opencode"
+
 auto-presets:
   - command: claude
     presets:
@@ -44,3 +49,10 @@ auto-presets:
       - npm
       - cargo
       - claude-code
+  - command: opencode
+    presets:
+      - base
+      - git-enabled
+      - npm
+      - cargo
+      - opencode

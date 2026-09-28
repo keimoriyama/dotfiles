@@ -1,16 +1,9 @@
-{
-  emacs-skills,
-  nippo,
-  suiko,
-  ponytail,
-  isWork ? false,
-  ...
-}: {
+{inputs, ...}: let
+  inherit (inputs) emacs-skills nippo suiko ponytail;
+in {
   programs.agent-skills = {
     enable = true;
 
-    # input 名での参照は extraSpecialArgs 経由の `inputs` を要求するが、
-    # このリポジトリは個別の input を specialArgs に渡す方式なので path を使う。
     # idPrefix を付けると skills/emacs/<name>/SKILL.md とネストされ、
     # エージェント側の探索がトップレベルのみだと拾われない。各 source の
     # skill ID に衝突はないのでフラットに置く。
@@ -118,7 +111,5 @@
     };
 
     targets.claude.enable = true;
-    # codex 本体を入れない業務用マシンでは skill の配置も不要。
-    targets.codex.enable = !isWork;
   };
 }

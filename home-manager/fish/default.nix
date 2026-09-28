@@ -1,6 +1,7 @@
 {
   pkgs,
   sources,
+  ...
 }: {
   programs.fish = {
     enable = true;
@@ -37,12 +38,6 @@
     shellAliases = {
       c = "clear";
       python = "python3";
-    };
-    shellAbbrs = {
-      # cage のサンドボックス下で claude を起動する。
-      # 制限を回避しようとして無駄に試行させないよう、システムプロンプトで
-      # 「書き込み拒否は想定内なので諦めろ」と伝えておく。
-      cala = "cage claude --append-system-prompt \"$__CAGE_SANDBOX_NOTE\"";
     };
     functions = {
       fish_prompt = builtins.readFile ./fish_prompt.fish;

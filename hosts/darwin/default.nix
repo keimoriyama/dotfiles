@@ -1,8 +1,6 @@
-{pkgs, ...}: let
-  aerospace = import ../../nix-darwin/aerospace {inherit pkgs;};
-in {
+{
   imports = [
-    aerospace
+    ../../nix-darwin/aerospace
     ./system.nix
     ./user.nix
   ];

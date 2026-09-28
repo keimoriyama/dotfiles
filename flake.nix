@@ -32,7 +32,6 @@
     agent-skills-nix = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
     emacs-skills = {
       url = "github:xenodium/emacs-skills";
@@ -76,20 +75,10 @@
     nixpkgs,
     nix-darwin,
     home-manager,
-    emacs-overlay,
-    org-babel,
-    brew-nix,
-    llm-agents,
-    arto,
     nixos-wsl,
     agent-skills-nix,
-    emacs-skills,
-    nippo,
-    suiko,
-    ponytail,
-    cage,
-    guard-and-guide,
-    cclens,
+    emacs-overlay,
+    brew-nix,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: let
@@ -97,36 +86,39 @@
       nixosSystem = "x86_64-linux";
       username = "kei";
       workUsername = "kei.moriyama";
+
+      # システムと home-manager で同じ pkgs を共有する。
+      nixpkgsConfig = {
+        config.allowUnfree = true;
+        overlays = [
+          (import emacs-overlay)
+          brew-nix.overlays.default
+        ];
+      };
+
+      # flake input は個別に渡さず `inputs` にまとめ、各モジュールで inputs.<name> として参照する。
+      mkSpecialArgs = username: isWork: {
+        inherit inputs username isWork;
+      };
+
       homeModules = [
         ./home-manager/default.nix
         agent-skills-nix.homeManagerModules.default
       ];
-      mkDarwinSpecialArgs = username: isWork: {
-        inherit
-          nixpkgs
-          home-manager
-          emacs-overlay
-          org-babel
-          username
-          isWork
-          brew-nix
-          llm-agents
-          arto
-          nixos-wsl
-          emacs-skills
-          nippo
-          suiko
-          ponytail
-          cage
-          cclens
-          guard-and-guide
-          ;
-        system = darwinSystem;
-        inherit (home-manager.lib) homeManagerConfiguration;
+
+      # nix-darwin / NixOS に home-manager を組み込むモジュール。
+      mkHomeManagerModule = specialArgs: {
+        nixpkgs = nixpkgsConfig;
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = specialArgs;
+          users.${specialArgs.username}.imports = homeModules;
+        };
       };
-      darwinSpecialArgs = mkDarwinSpecialArgs username false;
+
       mkDarwinConfiguration = username: isWork: let
-        specialArgs = mkDarwinSpecialArgs username isWork;
+        specialArgs = mkSpecialArgs username isWork;
       in
         nix-darwin.lib.darwinSystem {
           system = darwinSystem;
@@ -134,41 +126,9 @@
           modules = [
             ./hosts/darwin/default.nix
             home-manager.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = false;
-                useUserPackages = true;
-                extraSpecialArgs = specialArgs;
-                users.${username} = {
-                  imports = homeModules;
-                };
-              };
-            }
+            (mkHomeManagerModule specialArgs)
           ];
         };
-      nixosSpecialArgs = {
-        inherit
-          nixpkgs
-          home-manager
-          emacs-overlay
-          org-babel
-          username
-          brew-nix
-          llm-agents
-          arto
-          nixos-wsl
-          emacs-skills
-          nippo
-          suiko
-          ponytail
-          cage
-          cclens
-          guard-and-guide
-          ;
-        isWork = false;
-        system = nixosSystem;
-        inherit (home-manager.lib) homeManagerConfiguration;
-      };
     in {
       systems = [darwinSystem nixosSystem];
 
@@ -193,36 +153,24 @@
         darwinConfigurations.work-config = mkDarwinConfiguration workUsername true;
 
         homeConfigurations.myHomeConfig = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = darwinSystem;
-            config.allowUnfreePredicate = pkg:
-              builtins.elem (nixpkgs.lib.getName pkg) [
-                "copilot-language-server"
-              ];
-          };
-          extraSpecialArgs = darwinSpecialArgs;
+          pkgs = import nixpkgs (nixpkgsConfig // {system = darwinSystem;});
+          extraSpecialArgs = mkSpecialArgs username false;
           modules = homeModules;
         };
 
-        nixosConfigurations.my-config = nixpkgs.lib.nixosSystem {
-          system = nixosSystem;
-          specialArgs = nixosSpecialArgs;
-          modules = [
-            nixos-wsl.nixosModules.wsl
-            ./hosts/nixos-wsl/default.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = nixosSpecialArgs;
-                users.${username} = {
-                  imports = homeModules;
-                };
-              };
-            }
-          ];
-        };
+        nixosConfigurations.my-config = let
+          specialArgs = mkSpecialArgs username false;
+        in
+          nixpkgs.lib.nixosSystem {
+            system = nixosSystem;
+            inherit specialArgs;
+            modules = [
+              nixos-wsl.nixosModules.wsl
+              ./hosts/nixos-wsl/default.nix
+              home-manager.nixosModules.home-manager
+              (mkHomeManagerModule specialArgs)
+            ];
+          };
       };
     });
 }

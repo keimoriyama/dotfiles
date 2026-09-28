@@ -1,166 +1,44 @@
 {
-  nixpkgs,
-  config,
-  home-manager,
-  emacs-overlay,
-  org-babel,
-  system,
+  pkgs,
+  lib,
   username,
-  isWork ? false,
-  brew-nix,
-  llm-agents,
-  arto,
-  nippo,
-  suiko,
-  cage,
-  guard-and-guide,
-  cclens,
   ...
-}: let
-  pkgs = import nixpkgs {
-    inherit system;
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = _: true;
-    };
-    overlays = import ./overlay/default.nix {
-      inherit emacs-overlay;
-      inherit brew-nix;
-    };
-  };
-  sources = pkgs.callPackage ../_sources/generated.nix {};
-  llmAgentsPkgs = llm-agents.packages.${system};
-  artoPkg =
-    if pkgs.stdenv.hostPlatform.isDarwin
-    then arto.packages.${system}.default
-    else null;
-  # nodePkgs = pkgs.callPackage ../node2nix {inherit pkgs;};
-  yaskkserv2 = pkgs.callPackage ./yaskkserv2 {inherit pkgs sources;};
-  # mocword = pkgs.callPackage ./mocword {inherit pkgs sources;};
-  cargo-compete = pkgs.callPackage ./cargo-compete {inherit pkgs sources;};
-  kakehashi = pkgs.callPackage ./kakehashi {inherit pkgs sources;};
-  claude-usage-line = pkgs.callPackage ./claude-usage-line {inherit pkgs;};
-  nippoPkg = pkgs.callPackage ./nippo {inherit pkgs nippo;};
-  suikoPkg = pkgs.callPackage ./suiko {inherit pkgs suiko;};
-  # rassumfrassum = pkgs.callPackage ../rassumfrassum {inherit pkgs;};
-
-  # macSKKはUTF-8辞書しか安定して読めないため、EUC-JPのSKK-JISYO.Lを変換しておく。
-  skk-jisyo-utf8 = pkgs.runCommand "SKK-JISYO.L.utf8" {} ''
-    ${pkgs.libiconv}/bin/iconv -f EUC-JP -t UTF-8 \
-      "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L" \
-      | sed '1s/coding: euc-jp/coding: utf-8/' > $out
-  '';
-
-  wezterm-config = import ./wezterm {inherit pkgs;};
-  emacs-config = import ./emacs {
-    inherit
-      pkgs
-      org-babel
-      sources
-      ;
-  };
-  fish-config = import ./fish {inherit pkgs sources;};
-  git-config = import ./git;
-  nh-config = import ./nh;
-  claude-code-config = import ./claude-code;
-  agents-config = import ./agents;
-  agent-skills-config = import ./agent-skills.nix;
-  textlint-config = import ./textlint;
-
-  utils = import ./utils.nix {inherit pkgs;};
-  langs = import ./langs.nix {inherit pkgs;};
-  darwin =
-    if pkgs.stdenv.hostPlatform.isDarwin
-    then import ./darwin.nix {inherit pkgs isWork;}
-    else [];
-  # 業務用マシンでは GUI アプリは会社の配布物を使うため home-manager では入れない。
-  gui =
-    if pkgs.stdenv.hostPlatform.isDarwin && !isWork
-    then import ./gui.nix {inherit pkgs;}
-    else [];
-  llm-agent-pkgs = import ./llm-agent-pkg.nix {
-    inherit llmAgentsPkgs isWork;
-  };
-  agent-tools = import ./agent-tools.nix {
-    inherit
-      system
-      cage
-      guard-and-guide
-      cclens
-      claude-usage-line
-      ;
-  };
-  basePackages = with pkgs;
-    [
-      # editor & other tools
-      tree-sitter
-      # mocword
-      cargo-compete
-      kakehashi
-      nippoPkg
-      suikoPkg
-      yaskkserv2
-    ]
-    ++ lib.optionals (artoPkg != null) [
-      artoPkg
-    ];
-in {
+}: {
   imports = [
-    wezterm-config
-    fish-config
-    emacs-config
-    git-config
-    nh-config
-    claude-code-config
-    agents-config
-    agent-skills-config
-    textlint-config
+    ./packages.nix
+    ./utils.nix
+    ./langs.nix
+    ./gui.nix
+    ./darwin.nix
+    ./llm-agent-pkg.nix
+    ./agent-tools.nix
+    ./skk.nix
+    ./wezterm
+    ./emacs
+    ./fish
+    ./git
+    ./nh
+    ./claude-code
+    ./agents
+    ./agent-skills.nix
+    ./textlint
   ];
+
+  # nvfetcher で取得したソース。fish / emacs / 自前ビルドのパッケージが参照する。
+  _module.args.sources = pkgs.callPackage ../_sources/generated.nix {};
 
   programs.home-manager.enable = true;
   home = {
     stateVersion = "26.05";
-    username = username;
-    homeDirectory = pkgs.lib.mkDefault (
+    inherit username;
+    homeDirectory = lib.mkDefault (
       if pkgs.stdenv.hostPlatform.isDarwin
-      then builtins.toPath "/Users/${username}"
-      else builtins.toPath "/home/${username}"
+      then "/Users/${username}"
+      else "/home/${username}"
     );
 
     sessionVariables = {
       EDITOR = "vim";
     };
-
-    packages =
-      basePackages
-      ++ utils
-      ++ langs
-      ++ gui
-      ++ llm-agent-pkgs
-      ++ agent-tools
-      ++ darwin;
-    activation =
-      {
-        skkDictionary = home-manager.lib.hm.dag.entryAfter ["linkGeneration"] ''
-          $DRY_RUN_CMD /bin/mkdir -p "$HOME/.skk-dict"
-          $DRY_RUN_CMD /usr/bin/install -m644 \
-            "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L" \
-            "$HOME/.skk-dict/SKK-JISYO.L"
-        '';
-      }
-      // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-        # macSKKはサンドボックスアプリのため/nix/storeへのsymlinkを辿れない。
-        # コンテナ内へ実ファイルとしてコピーする必要がある。
-        macskkFiles = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-          container="$HOME/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents"
-          $DRY_RUN_CMD /bin/mkdir -p "$container/Dictionaries" "$container/Settings"
-          $DRY_RUN_CMD /usr/bin/install -m644 \
-            "${skk-jisyo-utf8}" \
-            "$container/Dictionaries/SKK-JISYO.L.utf8"
-          $DRY_RUN_CMD /usr/bin/install -m644 \
-            "${./macskk/kana-rule.conf}" \
-            "$container/Settings/kana-rule.conf"
-        '';
-      };
   };
 }

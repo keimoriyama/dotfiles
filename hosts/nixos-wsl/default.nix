@@ -1,13 +1,10 @@
 {
-  config,
   pkgs,
-  lib,
   modulesPath,
   ...
 }: {
   imports = [
     "${modulesPath}/profiles/minimal.nix"
-    ./configuration.nix
   ];
 
   wsl = {

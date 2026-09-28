@@ -3,12 +3,8 @@
   sources,
 }:
 pkgs.rustPlatform.buildRustPackage {
-  name = "carg-compete";
+  name = "cargo-compete";
   src = sources.cargo-compete.src;
-  # cargoLock = sources.cargo-compete.cargoLock."Cargo.lock";
-  # cargoLock = {
-  #   lockFile = ./Cargo.lock;
-  # };
   cargoHash = "sha256-lid1tyR8Y6lvjpeGJ4vGzqDTY6V2y/5rL9fGyjyF3yw=";
   doCheck = false;
   nativeBuildInputs = [
