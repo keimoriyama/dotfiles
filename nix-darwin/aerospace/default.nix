@@ -210,6 +210,11 @@
           run = ["move-node-to-workspace s"];
         }
         {
+          # Arto はサブディスプレイ (workspace 5) へ
+          "if".app-id = "com.lambdalisue.Arto";
+          run = ["move-node-to-workspace 5"];
+        }
+        {
           "if".app-id = "com.apple.finder";
           run = ["layout floating"];
         }
