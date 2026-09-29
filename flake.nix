@@ -53,11 +53,6 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # エージェントの書き込みを OS のサンドボックス (Apple Seatbelt / Landlock) で縛る。
-    cage = {
-      url = "github:Warashi/cage";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # PreToolUse hook で危険な読み取り・コマンド実行をブロックし、代替手段を提示する。
     guard-and-guide = {
       url = "github:kawarimidoll/guard-and-guide";

@@ -12,12 +12,6 @@
 - Claude Code の利用状況や設定を点検するときは `cclens doctor` を起点にする。
   詳細は `cclens inventory` / `cclens usage` / `cclens failures` / `cclens stuck` で確認する。
 
-## サンドボックス
-
-エージェント CLI (claude / opencode) は常に `cage` 経由で起動される。
-書き込みはプロジェクトディレクトリ・キャッシュ・一時ディレクトリなどに限られる。その外への書き込み拒否は想定どおりの動作なので、
-sudo や chmod で再試行したり回避策を探したりせず、書ける場所の中で作業すること。
-
 ## コードコメント
 
 - ツール固有のマーカーをコードコメントに残さない (例: `ponytail:`)。
