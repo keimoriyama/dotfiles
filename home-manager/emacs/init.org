@@ -265,7 +265,7 @@ minibuffer" で落ちる。`debug-on-error' が t なのでデバッガが開き
   (setopt projectile-sort-order 'recently-active)
   (add-to-list 'projectile-project-root-files ".projectile")
   (add-to-list 'projectile-known-projects
-               "~/Documents/org-files/")
+               "~/ghq/github.com/keimoriyama/org-files/")
 
   (defun my/projectile-refresh-ghq-projects (projects)
     "Synchronize PROJECTS with the repositories currently managed by ghq."
@@ -826,13 +826,13 @@ binding))))))))
 *** キャプチャ・ノート機能
 **** org-capture-programming-notes
 #+begin_src emacs-lisp
-(setq org-memo-file (format "%s/memo.org" org-directory)
-      org-project-file (format "%s/projects/project.org" org-directory)
-      org-exp-file (format "%s/exp.org" org-directory)
-      org-prj-dir (format "%s/projects" org-directory)
-      org-archive-dir (format "%s/archive" org-directory)
-      org-journal-dir (format "%s/journal" org-directory)
-      org-program-dir (format "%s/programming" org-directory))
+(setq org-memo-file (expand-file-name "memo.org" org-directory)
+      org-project-file (expand-file-name "projects/project.org" org-directory)
+      org-exp-file (expand-file-name "exp.org" org-directory)
+      org-prj-dir (expand-file-name "projects" org-directory)
+      org-archive-dir (expand-file-name "archive" org-directory)
+      org-journal-dir (expand-file-name "journal" org-directory)
+      org-program-dir (expand-file-name "programming" org-directory))
 
 (defvar my/org-roam-programming-languages
   '(("p" "Python"      "python.org"      "python")
@@ -927,9 +927,9 @@ SPEC is:
 #+begin_src emacs-lisp
 (require 'org-roam)
 (setq org-roam-db-update-method 'immediate
-      org-roam-db-location (format "%s/org-roam.db" org-directory)
+      org-roam-db-location (expand-file-name "org-roam.db" org-directory)
       org-roam-directory org-directory
-      org-roam-index-file (format "%s/index.org" org-directory))
+      org-roam-index-file (expand-file-name "index.org" org-directory))
 (org-roam-db-autosync-mode)
 (keymap-global-set "C-c n f" #'org-roam-node-find)
 (keymap-global-set "C-c n i" #'org-roam-node-insert)
@@ -1428,7 +1428,7 @@ embark-act からファイルターゲットに対しても呼び出せる。"
 (setq org-export-with-broken-links t)
 (setq org-agenda-default-appointment-duration 15)
 (setq org-icalendar-combined-agenda-file
-      (format "%s/calendar.ics" org-directory))
+      (expand-file-name "calendar.ics" org-directory))
 ;;; define categories that should be excluded
 (setq org-export-exclude-category (list "google" "private"))
 

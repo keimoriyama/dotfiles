@@ -58,9 +58,9 @@ in {
 
           ## ローカル運用ルール
 
-          - レポートの保存先は `~/Documents/org-files/reports/` に固定する。
+          - レポートの保存先は `~/ghq/github.com/keimoriyama/org-files/reports/` に固定する。
             上記の cwd 相対の `reports/` より、このルールを優先する。
-          - `ledger` は `nippo ledger --reports-dir ~/Documents/org-files/reports`
+          - `ledger` は `nippo ledger --reports-dir ~/ghq/github.com/keimoriyama/org-files/reports`
             を使う。`plan` も同じディレクトリの `nippo-*.md` と `ledger.yaml` を読む。
           - 日報を保存したら、Emacs で `nippo-org-journal-sync` を実行すると
             Org Journal に取り込める旨を伝える。自動実行はしない。
@@ -91,14 +91,14 @@ in {
           Grep や汎用 Bash は無い）。ファイルが無いのは正常なので、
           その場合は黙って飛ばす。
 
-          - `~/Documents/org-files/journal/YYYYMMDD.org` — org-journal の日次
+          - `~/ghq/github.com/keimoriyama/org-files/journal/YYYYMMDD.org` — org-journal の日次
             ジャーナル。`meta.period.from` 〜 `meta.period.to` の各日付について
             `YYYYMMDD.org` を Read する。`** HH:MM <見出し>` 形式の見出しが
             手書きの記録で、その日に何を考えていたかを補う。
             ただし **`** Nippo` 見出し以下は読まない。**
             これは `nippo-org-journal-sync` が過去の日報を取り込んだもので、
             自分の出力を入力として読み直す循環になる。
-          - `~/Documents/org-files/projects/*.org` — プロジェクトノート。Glob で
+          - `~/ghq/github.com/keimoriyama/org-files/projects/*.org` — プロジェクトノート。Glob で
             列挙して Read し、`CLOSED: [YYYY-MM-DD ...]` の日付が対象期間に
             入っている `DONE` 見出しだけを拾う。期間外の DONE は対象外。
 
