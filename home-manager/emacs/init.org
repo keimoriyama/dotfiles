@@ -1979,6 +1979,15 @@ org-mycal-export
 (add-hook 'haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
 (add-hook 'literate-haskell-mode-hook #'haskell-fourmolu-format-on-save-mode)
 #+end_src
+*** sh-mode
+#+begin_src emacs-lisp
+(reformatter-define sh-shfmt-format
+ :program "shfmt"
+ :args `("--filename" ,(or buffer-file-name "stdin.sh"))
+ :lighter " shfmt")
+(dolist (hook '(sh-mode-hook bash-ts-mode-hook))
+  (add-hook hook #'sh-shfmt-format-on-save-mode))
+#+end_src
 *** lua-mode
 #+begin_src emacs-lisp
 (require 'lua-mode)
