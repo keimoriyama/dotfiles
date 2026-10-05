@@ -21,10 +21,10 @@
 experiments の .dir-locals.el が `eval' フォームを含み、変数側に
 `safe-local-variable' プロパティを付ける手が使えないため。
 
-プロンプトを一度でも出すと、それが minibuffer を握っている間に eglot の jsonrpc
-コールバックが同じ確認を要求して "Command attempted to use minibuffer while in
-minibuffer" で落ちる。`debug-on-error' が t なのでデバッガが開き、その *Backtrace*
-の表示自体が "Args out of range" で失敗する。プロンプトを消せば連鎖ごと消える。
+eglot が jsonrpc コールバックから同じ確認を出して "Command attempted to use
+minibuffer while in minibuffer" で落ちる問題は、Eglot 節で eglot 側の読み込みを
+safe な値に限ることで防いでいる。ここに列挙するのはプロンプト自体を省くためで、
+rsync-mode を使うプロジェクトを毎回追加する必要はない。
 
 起動中に開くファイル (recentf, org-agenda など) がもう dir-local を読むので、
 このブロックは init の先頭に置く。末尾に移すと間に合わない。
@@ -1506,6 +1506,19 @@ org-mycal-export
            (workspace (plist-get capabilities :workspace)))
       (plist-put workspace :didChangeWatchedFiles '(:dynamicRegistration :json-false))
       capabilities))
+
+  ;; Eglot re-reads .dir-locals.el from a jsonrpc callback to get
+  ;; `eglot-workspace-configuration'. If the file holds unsafe values
+  ;; (e.g. rsync-mode settings with an `eval' form), it asks for
+  ;; confirmation there and fails with "Command attempted to use
+  ;; minibuffer while in minibuffer" when a prompt is already open.
+  ;; `eglot-workspace-configuration' is itself marked safe, so applying
+  ;; only safe values never drops anything Eglot needs.
+  (defun kei/eglot-safe-dir-locals-only (orig &rest args)
+    (let ((enable-local-variables (and enable-local-variables :safe)))
+      (apply orig args)))
+  (advice-add 'eglot--workspace-configuration-plist :around
+              #'kei/eglot-safe-dir-locals-only)
 
   ;; Keybindings
   (define-key eglot-mode-map (kbd "C-c l r") #'eglot-rename)
