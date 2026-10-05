@@ -5,7 +5,7 @@
 pkgs.rustPlatform.buildRustPackage {
   name = "yaskkserv2";
   src = sources.yaskkserv2.src;
-  cargoHash = "sha256-cycs8Zism228rjMaBpNYa4K1Ll760UhLKkoTX6VJRU0=";
+  cargoLock = sources.yaskkserv2.cargoLock."Cargo.lock";
   meta = with pkgs.lib; {
     description = "A Japanese input method server compatible with SKK";
   };

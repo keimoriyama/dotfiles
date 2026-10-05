@@ -16,6 +16,20 @@
       fetchSubmodules = false;
       sha256 = "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=";
     };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./. + "/sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=/Cargo.lock";
+      outputHashes = {
+        
+      };
+    };
+  };
+  claude-usage-line = {
+    pname = "claude-usage-line";
+    version = "2.1.0";
+    src = fetchurl {
+      url = "https://registry.npmjs.org/claude-usage-line/-/claude-usage-line-2.1.0.tgz";
+      sha256 = "sha256-yzULHG6IeluKxIWzuwYaD2YAHO/4oeN1b272XWJHXx4=";
+    };
   };
   emacs-agent-shell-attention = {
     pname = "emacs-agent-shell-attention";
@@ -277,6 +291,12 @@
       rev = "0.1.7";
       fetchSubmodules = false;
       sha256 = "sha256-bF8OHP6nvGhxXNvvnVCuOVFarK/n7WhGRktRN4X5ZjE=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./. + "/sha256-bF8OHP6nvGhxXNvvnVCuOVFarK_n7WhGRktRN4X5ZjE=/Cargo.lock";
+      outputHashes = {
+        
+      };
     };
   };
 }

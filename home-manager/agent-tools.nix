@@ -3,6 +3,7 @@
 {
   pkgs,
   inputs,
+  sources,
   ...
 }: let
   inherit (pkgs.stdenv.hostPlatform) system;
@@ -13,6 +14,6 @@ in {
     # transcript と設定をローカルで集計し、利用状況や失敗傾向を診断する。
     inputs.cclens.packages.${system}.default
     # statusLine から呼ばれ、コンテキスト使用率とレート制限を 1 行で出す。
-    (pkgs.callPackage ./claude-usage-line {})
+    (pkgs.callPackage ./claude-usage-line {inherit sources;})
   ];
 }

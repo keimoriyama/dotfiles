@@ -106,14 +106,20 @@ fetch.github="high-moctane/mocword"
 [yaskkserv2]
 src.github="wachikun/yaskkserv2"
 fetch.github="wachikun/yaskkserv2"
+cargo_lock = ["Cargo.lock"]
 
 [cargo-compete]
 src.github='qryxip/cargo-compete'
 fetch.github="qryxip/cargo-compete"
 src.branch="master"
-# cargo_locks = ["Cargo.lock"]
+cargo_lock = ["Cargo.lock"]
 
 [kakehashi]
 src.github="atusy/kakehashi"
 fetch.github="atusy/kakehashi"
 src.branch="main"
+
+[claude-usage-line]
+src.webpage="https://registry.npmjs.org/claude-usage-line/latest"
+src.regex='"version":"([^"]+)"'
+fetch.url="https://registry.npmjs.org/claude-usage-line/-/claude-usage-line-$ver.tgz"

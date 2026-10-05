@@ -1,6 +1,11 @@
 {
     "cargo-compete": {
-        "cargoLock": null,
+        "cargoLock": {
+            "Cargo.lock": [
+                "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=/Cargo.lock",
+                {}
+            ]
+        },
         "date": null,
         "extract": null,
         "name": "cargo-compete",
@@ -19,6 +24,21 @@
             "type": "github"
         },
         "version": "v0.10.7"
+    },
+    "claude-usage-line": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "claude-usage-line",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-yzULHG6IeluKxIWzuwYaD2YAHO/4oeN1b272XWJHXx4=",
+            "type": "url",
+            "url": "https://registry.npmjs.org/claude-usage-line/-/claude-usage-line-2.1.0.tgz"
+        },
+        "version": "2.1.0"
     },
     "emacs-agent-shell-attention": {
         "cargoLock": null,
@@ -462,7 +482,12 @@
         "version": "096316545837ca70498023486390f74f6b7c8fd3"
     },
     "yaskkserv2": {
-        "cargoLock": null,
+        "cargoLock": {
+            "Cargo.lock": [
+                "sha256-bF8OHP6nvGhxXNvvnVCuOVFarK_n7WhGRktRN4X5ZjE=/Cargo.lock",
+                {}
+            ]
+        },
         "date": null,
         "extract": null,
         "name": "yaskkserv2",

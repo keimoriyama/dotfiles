@@ -3,13 +3,19 @@
   suiko,
 }: let
   cargoToml = builtins.fromTOML (builtins.readFile "${suiko}/Cargo.toml");
-  # build.rs は既定でこのURLから辞書zipを取得しSHA-256で検証する。Nixの
-  # サンドボックスビルドはネットワークにアクセスできないため、fetchurlで
-  # 事前取得したzipを SUIKO_SUDACHI_DICT 経由で渡す。URL・ハッシュは
-  # suiko の build.rs (DICT_ZIP_URL / DICT_ZIP_SHA256) と同期させること。
+  # build.rs は既定で DICT_ZIP_URL から辞書zipを取得し DICT_ZIP_SHA256 で検証する。
+  # Nixのサンドボックスビルドはネットワークにアクセスできないため、同じ定数を
+  # build.rs から読み取って fetchurl で事前取得し、SUIKO_SUDACHI_DICT 経由で渡す。
+  buildRs = builtins.readFile "${suiko}/build.rs";
+  rustConst = name: let
+    m = builtins.match ''.*const ${name}: &str = "([^"]+)";.*'' buildRs;
+  in
+    if m == null
+    then throw "suiko: build.rs に ${name} が見つからない"
+    else builtins.head m;
   sudachiDictZip = pkgs.fetchurl {
-    url = "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict/sudachi-dictionary-20260723-core.zip";
-    sha256 = "b6e835f63440f97474c2da45d80950f73746e632e40bbfc168b4041729135e1f";
+    url = rustConst "DICT_ZIP_URL";
+    sha256 = rustConst "DICT_ZIP_SHA256";
   };
 in
   pkgs.rustPlatform.buildRustPackage {
@@ -22,7 +28,7 @@ in
     nativeBuildInputs = [pkgs.unzip];
 
     preBuild = ''
-      unzip -p ${sudachiDictZip} '*/system_core.dic' > "$NIX_BUILD_TOP/system_core.dic"
+      unzip -p ${sudachiDictZip} '${rustConst "DICT_ZIP_ENTRY"}' > "$NIX_BUILD_TOP/system_core.dic"
       export SUIKO_SUDACHI_DICT="$NIX_BUILD_TOP/system_core.dic"
     '';
 
