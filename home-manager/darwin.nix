@@ -13,5 +13,7 @@
       (lib.lowPrio claude)
     ]
     # 業務用マシンでは Zoom は会社の配布物を使う。
-    ++ lib.optional (!isWork) zoom);
+    ++ lib.optional (!isWork) zoom
+    # 業務用マシンでは codex 系と同様に OpenAI のクライアントを入れない。
+    ++ lib.optional (!isWork) chatgpt);
 }
