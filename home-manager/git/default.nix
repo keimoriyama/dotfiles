@@ -5,6 +5,7 @@
 in {
   programs.git = {
     enable = true;
+    lfs.enable = true;
     settings = {
       user.name = "keimoriyama";
       user.email = "keimoriy4ma@gmail.com";
