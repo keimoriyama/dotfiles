@@ -34,6 +34,7 @@
     settings = {
       experimental-features = ["nix-command" "flakes"];
       trusted-users = ["root" "@wheel"];
+      sandbox = false;
     };
     gc = {
       automatic = true;
