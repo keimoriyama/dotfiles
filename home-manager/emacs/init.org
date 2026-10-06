@@ -2143,6 +2143,17 @@ org-mycal-export
  (add-hook 'skk-mode-hook #'ddskk-posframe-mode))
 #+end_src
 
+編集用のバッファでは最初から SKK を英数モードで有効にしておき、C-j だけで
+かな入力に切り替えられるようにする。かなモードで始めるとコードやコマンドを
+打つたびに切り替えが要るので英数モードにする。magit や dired などの特殊な
+バッファでは SKK のキーマップがメジャーモードのキーを奪うので対象にしない。
+#+begin_src emacs-lisp
+(defun kei/skk-latin-mode-on ()
+  (skk-latin-mode 1))
+(dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
+  (add-hook hook #'kei/skk-latin-mode-on))
+#+end_src
+
 ** nskk
 #+begin_src emacs-lisp
 ;; (require 'nskk)
