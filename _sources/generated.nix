@@ -33,15 +33,15 @@
   };
   emacs-agent-shell-attention = {
     pname = "emacs-agent-shell-attention";
-    version = "ae2df16c1d481d0e182cc85fafa62c53431aab36";
+    version = "73592ccf49f79bb9eb4c502b99050db04831403e";
     src = fetchFromGitHub {
       owner = "ultronozm";
       repo = "agent-shell-attention.el";
-      rev = "ae2df16c1d481d0e182cc85fafa62c53431aab36";
+      rev = "73592ccf49f79bb9eb4c502b99050db04831403e";
       fetchSubmodules = false;
-      sha256 = "sha256-eukR9iviR5bpAfwB7Sq130TGMNR8OI+QtJSSXXnUiqc=";
+      sha256 = "sha256-cI4xZ8Kye/kl4u9Ky/JgmgYCB9aR6CljmvaBWvY93mk=";
     };
-    date = "2026-08-11";
+    date = "2026-10-08";
   };
   emacs-agent-shell-dashboard = {
     pname = "emacs-agent-shell-dashboard";
@@ -69,15 +69,15 @@
   };
   emacs-agent-shell-tramp = {
     pname = "emacs-agent-shell-tramp";
-    version = "14560d42440c17d9b59fc18d304687641ddf06e5";
+    version = "0f2c25069f64e2321021ad3f17d88bf91b479691";
     src = fetchFromGitHub {
       owner = "junyi-hou";
       repo = "agent-shell-tramp";
-      rev = "14560d42440c17d9b59fc18d304687641ddf06e5";
+      rev = "0f2c25069f64e2321021ad3f17d88bf91b479691";
       fetchSubmodules = false;
-      sha256 = "sha256-J4TBVkhlaso+TQvFLBwnWqGu5q2eCW8978mYuD1BbqM=";
+      sha256 = "sha256-rkO/w0ZmBmyfI6kGVnlklyoPxnxaOtb/MRFbXPUksv8=";
     };
-    date = "2026-07-04";
+    date = "2026-10-10";
   };
   emacs-dmacro = {
     pname = "emacs-dmacro";
