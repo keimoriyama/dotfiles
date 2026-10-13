@@ -1,4 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  # Adobe Fonts (Creative Cloud) が同期するフォントを typst / tinymist から使えるようにする
+  home.sessionVariables = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+    TYPST_FONT_PATHS = "${config.home.homeDirectory}/Library/Application Support/Adobe/CoreSync/plugins/livetype/.r";
+  };
+
   home.packages = with pkgs; [
     # programming languages
     nodejs_24

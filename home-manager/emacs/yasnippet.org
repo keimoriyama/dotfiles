@@ -534,6 +534,28 @@ use proconio::input;
 type Edges = Vec<Vec<${1}>>;
 
 #+end_src
+* haskell-mode
+
+*** ints
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/haskell-mode/ints") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: ints
+# key: ints
+# --
+ints :: IO [Int]
+ints = map read . words <\$> getLine
+$0
+#+end_src
+
+*** repm
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/haskell-mode/repm") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: replicateM
+# key: repm
+# --
+${1:xs} <- replicateM ${2:n} \$ map read . words <\$> getLine :: IO [[${3:Int}]]
+$0
+#+end_src
 * agent-shell-mode
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/agent-shell-mode/prompt_elaboration") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
