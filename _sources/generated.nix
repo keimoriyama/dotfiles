@@ -16,12 +16,6 @@
       fetchSubmodules = false;
       sha256 = "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=";
     };
-    cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=/Cargo.lock";
-      outputHashes = {
-        
-      };
-    };
   };
   claude-usage-line = {
     pname = "claude-usage-line";
@@ -291,12 +285,6 @@
       rev = "0.1.7";
       fetchSubmodules = false;
       sha256 = "sha256-bF8OHP6nvGhxXNvvnVCuOVFarK/n7WhGRktRN4X5ZjE=";
-    };
-    cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-bF8OHP6nvGhxXNvvnVCuOVFarK_n7WhGRktRN4X5ZjE=/Cargo.lock";
-      outputHashes = {
-        
-      };
     };
   };
 }
