@@ -103,15 +103,6 @@ src.git="https://github.com/high-moctane/mocword"
 src.branch="main"
 fetch.github="high-moctane/mocword"
 
-[yaskkserv2]
-src.github="wachikun/yaskkserv2"
-fetch.github="wachikun/yaskkserv2"
-
-[cargo-compete]
-src.github='qryxip/cargo-compete'
-fetch.github="qryxip/cargo-compete"
-src.branch="master"
-
 [kakehashi]
 src.github="atusy/kakehashi"
 fetch.github="atusy/kakehashi"

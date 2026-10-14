@@ -2103,31 +2103,16 @@ org-mycal-export
 (keymap-global-set "C-x C-j" #'skk-mode)
 (setq default-input-method "japanese-skk")
 
-(defun skk-open-server-decoding-utf-8 ()
-  "Connect to the dictionary server and decode its responses as UTF-8."
-  (unless (skk-server-live-p)
-    (setq skkserv-process (skk-open-server-1))
-    (when (skk-server-live-p)
-      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-        (set-process-coding-system skkserv-process 'utf-8 code))))
-  skkserv-process)
-
 (setq skk-preload t)
 
 (with-eval-after-load 'skk-vars
  (setq skk-large-jisyo nil
        skk-aux-large-jisyo "~/.skk-dict/SKK-JISYO.L"
-       skk-server-host "localhost"
-       skk-server-portnum 1178
        skk-use-azik t
        skk-azik-keyboard-type "en"
        skk-search-katakana nil
        skk-share-private-jisyo t
        skk-save-jisyo-instantly t))
-
-(with-eval-after-load 'skk-server
-  (advice-add 'skk-open-server :override
-              #'skk-open-server-decoding-utf-8))
 
 ;; ここで組み上がるローマ字ルールは macSKK 側にも書き出してある。
 ;; 変更したら home-manager/macskk/kana-rule.conf も更新すること。

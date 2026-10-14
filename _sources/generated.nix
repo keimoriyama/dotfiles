@@ -6,17 +6,6 @@
   dockerTools,
 }:
 {
-  cargo-compete = {
-    pname = "cargo-compete";
-    version = "v0.10.7";
-    src = fetchFromGitHub {
-      owner = "qryxip";
-      repo = "cargo-compete";
-      rev = "v0.10.7";
-      fetchSubmodules = false;
-      sha256 = "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=";
-    };
-  };
   claude-usage-line = {
     pname = "claude-usage-line";
     version = "2.1.0";
@@ -275,16 +264,5 @@
       sha256 = "sha256-aDwqj9myaGRkAcVkC2upHtQT+uq/ZRk72teWz6egCsc=";
     };
     date = "2022-05-02";
-  };
-  yaskkserv2 = {
-    pname = "yaskkserv2";
-    version = "0.1.7";
-    src = fetchFromGitHub {
-      owner = "wachikun";
-      repo = "yaskkserv2";
-      rev = "0.1.7";
-      fetchSubmodules = false;
-      sha256 = "sha256-bF8OHP6nvGhxXNvvnVCuOVFarK/n7WhGRktRN4X5ZjE=";
-    };
   };
 }

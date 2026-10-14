@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  sources,
   ...
 }: let
   jisyoL = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
@@ -13,10 +12,6 @@
       | sed '1s/coding: euc-jp/coding: utf-8/' > $out
   '';
 in {
-  home.packages = [
-    (pkgs.callPackage ./yaskkserv2 {inherit sources;})
-  ];
-
   home.activation =
     {
       skkDictionary = lib.hm.dag.entryAfter ["linkGeneration"] ''

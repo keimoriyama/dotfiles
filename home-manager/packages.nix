@@ -8,7 +8,6 @@
 }: {
   home.packages =
     [
-      (pkgs.callPackage ./cargo-compete {inherit sources;})
       (pkgs.callPackage ./kakehashi {inherit sources;})
       (pkgs.callPackage ./nippo {inherit (inputs) nippo;})
       (pkgs.callPackage ./suiko {inherit (inputs) suiko;})

@@ -1,25 +1,4 @@
 {
-    "cargo-compete": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "cargo-compete",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "qryxip",
-            "repo": "cargo-compete",
-            "rev": "v0.10.7",
-            "sha256": "sha256-qlRVHSUVOqdTx4H3pE19Fy634742veTisHm6IqfKBUQ=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v0.10.7"
-    },
     "claude-usage-line": {
         "cargoLock": null,
         "date": null,
@@ -475,26 +454,5 @@
             "type": "github"
         },
         "version": "096316545837ca70498023486390f74f6b7c8fd3"
-    },
-    "yaskkserv2": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "yaskkserv2",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "wachikun",
-            "repo": "yaskkserv2",
-            "rev": "0.1.7",
-            "sha256": "sha256-bF8OHP6nvGhxXNvvnVCuOVFarK/n7WhGRktRN4X5ZjE=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "0.1.7"
     }
 }
