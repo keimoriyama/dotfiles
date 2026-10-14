@@ -3,5 +3,5 @@
   # プラグインを有効にした設定をホームに置く。
   home.file.".textlintrc.json".source =
     config.lib.file.mkOutOfStoreSymlink
-    "${config.home.homeDirectory}/dotfiles/home-manager/textlint/textlintrc.json";
+    "${config.home.homeDirectory}/ghq/github.com/keimoriyama/dotfiles/home-manager/textlint/textlintrc.json";
 }

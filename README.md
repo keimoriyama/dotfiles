@@ -23,8 +23,8 @@ nix run .#update work-config  # work-config (kei.moriyama)
 ```sh
 # Clone the repository
 cd ~
-git clone <your-repo-url> dotfiles
-cd dotfiles
+git clone <your-repo-url> ghq/github.com/keimoriyama/dotfiles
+cd ghq/github.com/keimoriyama/dotfiles
 
 # Install Determinate Nix
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
@@ -38,7 +38,7 @@ nix run .#update
 `home-manager` のパッケージインストールは `nix-darwin` に統合されているため、適用は `nix-darwin` 側の更新だけで完了します。
 
 ```sh
-cd ~/dotfiles
+cd ~/ghq/github.com/keimoriyama/dotfiles
 
 # flake inputs を更新
 nix flake update
@@ -50,7 +50,7 @@ nix run .#update
 個別 input だけ更新したい場合:
 
 ```sh
-cd ~/dotfiles
+cd ~/ghq/github.com/keimoriyama/dotfiles
 nix flake lock --update-input nixpkgs
 nix run .#update
 ```
@@ -58,7 +58,7 @@ nix run .#update
 `nix run` を使わず直接適用する場合:
 
 ```sh
-sudo darwin-rebuild switch --flake ~/dotfiles#work-config
+sudo darwin-rebuild switch --flake ~/ghq/github.com/keimoriyama/dotfiles#work-config
 ```
 
 ## NixOS WSL
@@ -70,19 +70,19 @@ sudo darwin-rebuild switch --flake ~/dotfiles#work-config
 2. Clone this repository in WSL:
 ```sh
 cd ~
-git clone <your-repo-url> dotfiles
-cd dotfiles
+git clone <your-repo-url> ghq/github.com/keimoriyama/dotfiles
+cd ghq/github.com/keimoriyama/dotfiles
 ```
 
 3. Build and activate the configuration:
 ```sh
-sudo nixos-rebuild switch --flake ~/dotfiles#my-config
+sudo nixos-rebuild switch --flake ~/ghq/github.com/keimoriyama/dotfiles#my-config
 ```
 
 ### Update
 
 ```sh
-cd ~/dotfiles
+cd ~/ghq/github.com/keimoriyama/dotfiles
 
 # Update flake inputs
 nix flake update
@@ -94,7 +94,7 @@ sudo nixos-rebuild switch --flake .#my-config
 個別 input だけ更新したい場合:
 
 ```sh
-cd ~/dotfiles
+cd ~/ghq/github.com/keimoriyama/dotfiles
 nix flake lock --update-input nixpkgs
 sudo nixos-rebuild switch --flake .#my-config
 ```

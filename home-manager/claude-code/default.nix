@@ -5,7 +5,7 @@
   ...
 }: let
   # dotfiles 側を実体にして symlink する。編集が switch なしで即反映される。
-  link = path: config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/home-manager/claude-code/${path}";
+  link = path: config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/ghq/github.com/keimoriyama/dotfiles/home-manager/claude-code/${path}";
 
   # statusline の出し分け。仕事用は Enterprise 契約でレート制限が stdin に来ず、
   # OAuth 経由の Org バー (今月のクレジット消費) だけが意味を持つ。
