@@ -11,10 +11,6 @@
         src = pkgs.fishPlugins.z.src;
       }
       {
-        name = "git-abbr";
-        src = pkgs.fishPlugins.git-abbr.src;
-      }
-      {
         name = "autols";
         src = sources.fish-autols.src;
       }
