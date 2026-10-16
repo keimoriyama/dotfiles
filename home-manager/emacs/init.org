@@ -2171,11 +2171,9 @@ org-mycal-export
   (setopt agent-shell-anthropic-default-model-id "opus"
           agent-shell-openai-default-model-id "gpt-5.6-sol"
           agent-shell-context-sources '(region error line)
-          agent-shell-embed-file-size-limit 16384)
-  ;; @file の自動全文埋め込みを止める
-  (setq agent-shell-embed-file-size-limit 0)
-
-  (setopt agent-shell-show-usage-at-turn-end t
+          ;; @file は全文を埋め込まず、常にリンクで渡す
+          agent-shell-embed-file-size-limit 0
+          agent-shell-show-usage-at-turn-end t
           agent-shell-show-context-usage-indicator 'detailed)
 
   ;; Codex のローカル rollout から時間枠制限を表示する。Claude の分は
@@ -2191,6 +2189,11 @@ org-mycal-export
   ;; 変わったファイルを diff で見られるようにする。
   (require 'agent-shell-turn-diff)
   (add-hook 'agent-shell-mode-hook #'my-agent-shell-turn-diff-setup)
+
+  ;; 大きなファイルの Read 結果や Write の diff で描画が固まらないよう、
+  ;; ツール出力を先頭と末尾の数行だけにする。
+  (require 'agent-shell-tool-output-limit)
+  (my-agent-shell-tool-output-limit-setup)
 
   (keymap-set agent-shell-mode-map "C-c C-f" #'agent-shell-insert-file)
   (keymap-set agent-shell-mode-map "C-c C-u" #'my-agent-shell-show-provider-usage)
