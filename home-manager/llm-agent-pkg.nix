@@ -13,6 +13,7 @@ in {
       claude-code
       claude-agent-acp
       opencode
+      pi
     ]
     # 業務用マシンでは codex 系を入れない。
     ++ lib.optional (!isWork) codex-acp;
