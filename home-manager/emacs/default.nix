@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   inputs,
   sources,
   ...
@@ -7,6 +8,15 @@
   # Tangle the emacs-lisp blocks out of an .org config into a plain init string.
   tangle = inputs.org-babel.lib.tangleOrgBabel {languages = ["emacs-lisp"];};
   tangleOrg = org: tangle (builtins.readFile org);
+
+  # このディレクトリの自作モジュール (*-tests.el を除く *.el) を
+  # ~/.emacs.d/lisp に置く。init.org からは require で読み込む。
+  lispModules =
+    lib.mapAttrs' (name: _:
+      lib.nameValuePair ".emacs.d/lisp/${name}" {source = ./. + "/${name}";})
+    (lib.filterAttrs (name: type:
+      type == "regular" && lib.hasSuffix ".el" name && !lib.hasSuffix "-tests.el" name)
+    (builtins.readDir ./.));
 
   emacsPkgs = pkgs.emacsWithPackagesFromUsePackage {
     package = pkgs.emacs;
@@ -80,25 +90,20 @@
     '';
 in {
   home = {
-    file = {
-      ".emacs.d/init.el".text = tangleOrg ./init.org;
-      ".emacs.d/early-init.el".text = tangleOrg ./early-init.org;
-      ".emacs.d/lisp/agent-shell-provider-usage.el".source = ./agent-shell-provider-usage.el;
-      ".emacs.d/lisp/agent-shell-session-name.el".source = ./agent-shell-session-name.el;
-      ".emacs.d/lisp/agent-shell-tool-output-limit.el".source = ./agent-shell-tool-output-limit.el;
-      ".emacs.d/lisp/agent-shell-turn-diff.el".source = ./agent-shell-turn-diff.el;
-      ".emacs.d/lisp/agent-usage-format.el".source = ./agent-usage-format.el;
-      ".emacs.d/lisp/claude-usage.el".source = ./claude-usage.el;
-      ".emacs.d/lisp/nippo-org-journal.el".source = ./nippo-org-journal.el;
-      ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
-      # recursive=true で実ディレクトリ + ファイルごとのシンボリンクにし、
-      # 既存の ~/.emacs.d/snippets との衝突や yasnippet 側からの
-      # 書き込み（新規スニペット等）と共存できるようにする
-      ".emacs.d/snippets" = {
-        source = yasnippetSnippets;
-        recursive = true;
+    file =
+      lispModules
+      // {
+        ".emacs.d/init.el".text = tangleOrg ./init.org;
+        ".emacs.d/early-init.el".text = tangleOrg ./early-init.org;
+        ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
+        # recursive=true で実ディレクトリ + ファイルごとのシンボリンクにし、
+        # 既存の ~/.emacs.d/snippets との衝突や yasnippet 側からの
+        # 書き込み（新規スニペット等）と共存できるようにする
+        ".emacs.d/snippets" = {
+          source = yasnippetSnippets;
+          recursive = true;
+        };
       };
-    };
     packages = with pkgs; [
       emacsPackage
       emacs-lsp-booster

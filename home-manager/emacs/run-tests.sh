@@ -4,23 +4,21 @@ set -euo pipefail
 test_root=$(git rev-parse --show-toplevel)
 export DOTFILES_TEST_ROOT="$test_root"
 
+# *-tests.el をすべて読み込み、ファイル名から -tests.el を除いた接頭辞を
+# 持つテストだけを走らせる。稼働中の Emacs に定義済みの他のテストは除く。
 emacsclient --eval '
-(progn
-  (dolist (test-file
-           (list "home-manager/emacs/agent-shell-provider-usage-tests.el"
-                 "home-manager/emacs/agent-shell-session-name-tests.el"
-                 "home-manager/emacs/agent-shell-tool-output-limit-tests.el"
-                 "home-manager/emacs/agent-shell-turn-diff-tests.el"
-                 "home-manager/emacs/agent-usage-format-tests.el"
-                 "home-manager/emacs/claude-usage-tests.el"
-                 "home-manager/emacs/nippo-org-journal-tests.el"
-                 "home-manager/emacs/org-archive-tests.el"))
-    (load
-     (expand-file-name test-file
-                       (getenv "DOTFILES_TEST_ROOT"))
-     nil t))
-  (let ((stats (ert-run-tests-batch
-                "^\\(agent-shell-provider-usage-\\|agent-shell-session-name-\\|agent-shell-tool-output-limit-\\|agent-shell-turn-diff-\\|agent-usage-format-\\|claude-usage-\\|nippo-org-journal-\\|org-archive-\\)")))
+(let* ((files (directory-files
+               (expand-file-name "home-manager/emacs/"
+                                 (getenv "DOTFILES_TEST_ROOT"))
+               t "-tests\\.el\\'"'"'"))
+       (prefixes (mapcar (lambda (file)
+                           (concat (string-remove-suffix
+                                    "-tests.el" (file-name-nondirectory file))
+                                   "-"))
+                         files)))
+  (dolist (file files)
+    (load file nil t))
+  (let ((stats (ert-run-tests-batch (concat "^" (regexp-opt prefixes)))))
     (when (> (ert-stats-completed-unexpected stats) 0)
       (error "Emacs Lisp tests failed"))
-    t))'
+    (ert-stats-total stats)))'
