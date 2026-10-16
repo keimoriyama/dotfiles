@@ -13,9 +13,17 @@
 ;; turn runs (the user, another shell) land in the same diff.
 ;; LIMITATION: snapshots run synchronously, so a very large repository
 ;; pauses Emacs briefly on submit and on turn completion.
+;; LIMITATION: untracked files larger than
+;; `my-agent-shell-turn-diff-max-untracked-file-size' are left out, so
+;; creating or editing one does not show up in the diff.
 
 (require 'map)
 (require 'subr-x)
+
+(defvar my-agent-shell-turn-diff-max-untracked-file-size (* 256 1024)
+  "Untracked files larger than this many bytes are left out of snapshots.
+Hashing a directory of downloaded data on every turn would stall Emacs
+and fill the object store with blobs nobody asked for.")
 
 (defvar-local my-agent-shell-turn-diff--before nil
   "Tree recorded when the running turn's prompt was submitted.")
@@ -35,6 +43,28 @@
     (when (zerop (apply #'process-file "git" nil '(t nil) nil args))
       (string-trim (buffer-string)))))
 
+(defun my-agent-shell-turn-diff--add-small-untracked ()
+  "Stage untracked files up to the size limit; return non-nil on success."
+  (let ((files (seq-filter
+                (lambda (file)
+                  (when-let* ((attributes (file-attributes file)))
+                    (<= (file-attribute-size attributes)
+                        my-agent-shell-turn-diff-max-untracked-file-size)))
+                (split-string (or (my-agent-shell-turn-diff--git
+                                   "ls-files" "-z" "--others" "--exclude-standard")
+                                  "")
+                              "\0" t))))
+    (or (null files)
+        (let ((list (make-nearby-temp-file "agent-shell-turn-diff-paths")))
+          (unwind-protect
+              (progn
+                (let ((coding-system-for-write 'utf-8-unix))
+                  (write-region (mapconcat #'identity files "\0") nil list nil 'silent))
+                (my-agent-shell-turn-diff--git
+                 "--literal-pathspecs" "add" "--pathspec-file-nul"
+                 (concat "--pathspec-from-file=" (file-local-name list))))
+            (delete-file list))))))
+
 (defun my-agent-shell-turn-diff--snapshot ()
   "Return a git tree hash of the working tree, or nil outside a repository."
   (when-let* ((index (my-agent-shell-turn-diff--git
@@ -51,7 +81,8 @@
             (if (file-exists-p index-file)
                 (copy-file index-file temp t)
               (delete-file temp))
-            (and (my-agent-shell-turn-diff--git "add" "-A")
+            (and (my-agent-shell-turn-diff--git "add" "-u")
+                 (my-agent-shell-turn-diff--add-small-untracked)
                  (my-agent-shell-turn-diff--git "write-tree")))
         (when (file-exists-p temp)
           (delete-file temp))))))

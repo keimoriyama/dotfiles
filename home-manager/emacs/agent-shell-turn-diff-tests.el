@@ -47,6 +47,18 @@
                               (agent-shell-turn-diff-tests--diff
                                before (my-agent-shell-turn-diff--snapshot)))))))
 
+(ert-deftest agent-shell-turn-diff-skips-large-untracked-files ()
+  "Untracked files over the size limit stay out of the snapshot."
+  (agent-shell-turn-diff-tests--with-repo
+    (let ((my-agent-shell-turn-diff-max-untracked-file-size 4)
+          (before (my-agent-shell-turn-diff--snapshot)))
+      (write-region "big file\n" nil "large.bin")
+      (write-region "ok\n" nil "small.txt")
+      (let ((diff (agent-shell-turn-diff-tests--diff
+                   before (my-agent-shell-turn-diff--snapshot))))
+        (should (string-match-p "small\\.txt" diff))
+        (should-not (string-match-p "large\\.bin" diff))))))
+
 (ert-deftest agent-shell-turn-diff-ignores-edits-made-before-the-turn ()
   "Uncommitted work that predates the turn stays out of its diff."
   (agent-shell-turn-diff-tests--with-repo
