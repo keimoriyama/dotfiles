@@ -2185,11 +2185,6 @@ org-mycal-export
   (setopt agent-shell-buffer-name-format #'my-agent-shell-session-name-format)
   (add-hook 'agent-shell-mode-hook #'my-agent-shell-session-name-setup)
 
-  ;; ターンの前後で作業ツリーを git の tree として記録し、直前のターンで
-  ;; 変わったファイルを diff で見られるようにする。
-  (require 'agent-shell-turn-diff)
-  (add-hook 'agent-shell-mode-hook #'my-agent-shell-turn-diff-setup)
-
   ;; 大きなファイルの Read 結果や Write の diff で描画が固まらないよう、
   ;; ツール出力を先頭と末尾の数行だけにする。
   (require 'agent-shell-tool-output-limit)
@@ -2431,7 +2426,6 @@ agent-shell-manager と重複していたので、そちらは外してこちら
      ("M" agent-shell-set-session-model "model")
      ("l" agent-shell-set-session-thought-level "thought level")
      ("R" agent-shell-resume-session "resume")
-     ("g" my-agent-shell-turn-diff-show "last turn diff")
      ("u" agent-shell-show-usage "session usage")
      ("U" my-agent-shell-show-provider-usage "API usage / rate limit"))
     "Manage"
