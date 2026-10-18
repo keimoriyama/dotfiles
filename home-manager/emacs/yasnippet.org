@@ -541,6 +541,7 @@ type Edges = Vec<Vec<${1}>>;
 # -*- mode: snippet -*-
 # name: ints
 # key: ints
+# expand-env: ((yas-indent-line 'fixed))
 # --
 ints :: IO [Int]
 ints = map read . words <\$> getLine
