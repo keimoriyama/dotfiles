@@ -16,7 +16,7 @@
     },
     "emacs-agent-shell-attention": {
         "cargoLock": null,
-        "date": "2026-10-08",
+        "date": "2026-10-12",
         "extract": null,
         "name": "emacs-agent-shell-attention",
         "passthru": null,
@@ -28,12 +28,12 @@
             "name": null,
             "owner": "ultronozm",
             "repo": "agent-shell-attention.el",
-            "rev": "73592ccf49f79bb9eb4c502b99050db04831403e",
-            "sha256": "sha256-cI4xZ8Kye/kl4u9Ky/JgmgYCB9aR6CljmvaBWvY93mk=",
+            "rev": "aaf599121445ead597a14da62bad580c8897ee6c",
+            "sha256": "sha256-sXHjZ8791aBstTDODJU/2G//7ulEGyyFQwAQp7cNYiw=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "73592ccf49f79bb9eb4c502b99050db04831403e"
+        "version": "aaf599121445ead597a14da62bad580c8897ee6c"
     },
     "emacs-agent-shell-dashboard": {
         "cargoLock": null,
@@ -79,7 +79,7 @@
     },
     "emacs-agent-shell-tramp": {
         "cargoLock": null,
-        "date": "2026-10-10",
+        "date": "2026-10-11",
         "extract": null,
         "name": "emacs-agent-shell-tramp",
         "passthru": null,
@@ -91,12 +91,12 @@
             "name": null,
             "owner": "junyi-hou",
             "repo": "agent-shell-tramp",
-            "rev": "0f2c25069f64e2321021ad3f17d88bf91b479691",
-            "sha256": "sha256-rkO/w0ZmBmyfI6kGVnlklyoPxnxaOtb/MRFbXPUksv8=",
+            "rev": "da17568f61c30133df1cf3fdf9d0fa4137cfd66e",
+            "sha256": "sha256-J4TBVkhlaso+TQvFLBwnWqGu5q2eCW8978mYuD1BbqM=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "0f2c25069f64e2321021ad3f17d88bf91b479691"
+        "version": "da17568f61c30133df1cf3fdf9d0fa4137cfd66e"
     },
     "emacs-dmacro": {
         "cargoLock": null,
