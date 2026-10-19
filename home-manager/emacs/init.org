@@ -1701,7 +1701,12 @@ org-mycal-export
 ** 言語別設定
 *** プログラムはviewモードにする
 #+begin_src emacs-lisp
-;;(add-hook 'prog-mode-hook #'view-mode)
+(defun kei/prog-mode-view-mode ()
+  "Open file-visiting program buffers in `view-mode', except Haskell."
+  (when (and buffer-file-name
+             (not (derived-mode-p 'haskell-mode 'haskell-ts-mode)))
+    (view-mode 1)))
+(add-hook 'prog-mode-hook #'kei/prog-mode-view-mode)
 #+end_src
 *** csv-mode
 #+begin_src emacs-lisp
@@ -1801,7 +1806,6 @@ org-mycal-export
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (with-eval-after-load 'python-ts-mode
   (setopt python-shell-completion-native-enable nil))
-(add-hook 'python-mode-hook #'view-mode)
 #+end_src
 
 **** フォーマッタ
