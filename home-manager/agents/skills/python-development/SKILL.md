@@ -11,7 +11,6 @@ description: Pythonコード、Pythonパッケージ、Pythonテストを作成�
    `pip` と `python` は直接呼ばない。
 2. 型注釈を書くときは `references/typing.md` を読み、対象と記法を確認する。
 3. 外部から入ってくる値を扱うコードを書くときは `references/typing.md` の検証規約に従う。
-4. テストと型チェックは pre-commit からだけ実行する。直接叩かない。
 
 ## 知識
 
