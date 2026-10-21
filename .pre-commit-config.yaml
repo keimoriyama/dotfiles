@@ -6,4 +6,10 @@ repos:
         entry: bash home-manager/emacs/run-tests.sh
         language: system
         pass_filenames: false
-        files: ^home-manager/emacs/(init\.org|.*\.el|run-tests\.sh)$
+        files: ^home-manager/emacs/(init\.org|.*\.el|marimo-renderer\.(mjs|html)|run-tests\.sh)$
+      - id: marimo-renderer-tests
+        name: marimo renderer bridge tests
+        entry: node --test home-manager/emacs/marimo-renderer-tests.mjs
+        language: system
+        pass_filenames: false
+        files: ^home-manager/emacs/marimo-renderer.*\.(mjs|html)$

@@ -1801,6 +1801,14 @@ org-mycal-export
 #+end_src
 
 *** python-mode
+**** marimo notebook
+#+begin_src emacs-lisp
+(autoload 'marimo-open "marimo" nil t)
+(autoload 'marimo-new "marimo" nil t)
+(autoload 'marimo-mode "marimo" nil t)
+(autoload 'marimo-install-renderer "marimo-renderer" nil t)
+#+end_src
+
 **** 基本設定
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))

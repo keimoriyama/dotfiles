@@ -1,0 +1,117 @@
+#+title: marimo.el — Orgで編集するmarimo notebook
+
+* セットアップ
+~M-x marimo-open~ で既存のローカル ~.py~ notebookを開く。
+通常の ~C-x C-f~ で開いた場合も、~M-x marimo-mode~ でOrgのUIに切り替わる。
+モード起動時はセルのコードを展開し、プロパティdrawerを折り畳む。
+未保存のPython編集も変換対象となり、変更済み状態を保持する。
+~M-x marimo-new~ は新規ファイルを作成する。~init.org~ がこれらをautoloadする。
+自作 ~.el~ は既存のHome Manager設定で配布される。
+
+Emacs 29.1以上、Org、libxml2（HTMLの表・整形用）を使用する。
+結果の画像表示には対応したGUI Emacsが必要。
+
+対話的な表・グラフには、WebKit（xwidget）対応のGUI EmacsとNode.jsを使用する。
+初回に ~M-x marimo-install-renderer~ を実行する（展開にunzipが必要）。
+公式VS Code拡張0.18.3のレンダラーを取得し、SHA-256を検証して
+~user-emacs-directory/var/marimo-renderer/~ に保存する。
+既存のmarimoバッファでも、導入後のセル再実行から利用できる。
+~marimo-renderer-assets-directory~ で取得済みの ~extension/dist/~ も指定できる。
+
+初回起動時はuvxが以下の固定リビジョンを取得する。uvが必要。
+サーバー用Python環境はuvが管理し、notebookの実行環境とは別にする。
+
+https://github.com/marimo-team/marimo-lsp/tree/4fe0df21a01e123b57113cd65c27e703c7bf91ca
+
+実行環境には対応するmarimoをインストールする。
+このリビジョンのサーバーはmarimo-base 0.25.1を使用する。
+プロジェクトでは以下のように同じ版を指定する。
+
+#+begin_src sh
+uv add 'marimo==0.25.1'
+#+end_src
+
+カーネルは親ディレクトリにある ~.venv/bin/python~ を優先する。
+なければ ~python3~ を使う。~marimo-python-command~ で明示できる。
+~marimo-server-command~ は導入済みの同一リビジョンの実行ファイルにも変更できる。
+
+* 操作
+| 操作 | 動作 |
+|------+------|
+| C-c C-c | 現在のPythonブロックを実行 |
+| C-c C-r | 変更されたセル・staleなセルを実行 |
+| M-x marimo-run-all | 全セルを同じカーネルで実行 |
+| C-c C-k | カーネルを破棄せず中断 |
+| C-c C-a | 末尾に新しいセルを追加 |
+| C-c ' | Org標準のPython編集バッファ |
+| C-x C-s | 結果を含めずネイティブPythonとして保存 |
+| M-x marimo-restart-kernel | 明示的にカーネルを再起動 |
+| M-x marimo-stop | カーネルを終了（次の実行で再作成） |
+
+セルごとのOrg見出しは生成せず、Pythonブロックと結果を並べる。
+ID・Python関数としてのセル名・設定は、各ブロックに付随する非表示の
+~#+attr_marimo:~ に保持する。セルの複製は ~C-c C-a~ で新規セルを
+作ってコードをコピーする。セルを移動・削除する際は付随属性も含める。
+旧形式のバッファは次の同期時に変換し、編集中のコード・実行結果を保持する。
+
+編集が0.5秒停止するとコードを同期する。実行は明示操作で行う。
+初回のみカーネルを作成し、通常の再実行で変数・読み込んだデータを保持する。
+依存先の自動再実行はmarimoのruntime設定に従う。
+実行コードと現在のコードが異なる結果にはstaleと表示する。
+結果更新だけでは変更済みフラグを立てない。
+結果もOrg標準のundo対象となる。結果更新をundoすると表示を取り消し、
+さらにundoすると前のコード編集を取り消せる。
+
+* 出力と制限
+結果は各ブロック直下の ~#+RESULTS:~ drawerに表示する。
+テキスト、ログ、例外、基本的なHTML表、埋め込みPNG/JPEG/SVGに対応する。
+画像は一時ディレクトリへ保存する。結果・実行時IDは ~.py~ に保存しない。
+画像は結果を参照できるようバッファ終了後も一時ディレクトリに残す。
+
+~mo.vstack~、DataFrameの表、marimo UI、Plotly、Altairなどのリッチ出力は
+公式VS Codeレンダラーで描画し、結果drawer内にWebKitを埋め込む。
+表の操作やUIの値変更は同じmarimoカーネルへ送る。
+カーネルの通知もレンダラーへ転送するため、操作のたびにPythonを再起動しない。
+PNG/JPEG/SVGの画像出力はOrgのインライン画像として表示する。
+HTMLに包まれたMatplotlibなどの出力もWebKitで描画する。
+レンダラーが利用できない場合は、導入方法と読める範囲のテキストを表示する。
+
+Node.jsの小さな補助プロセスはローカルループバックで描画素材と通知を配信する。
+notebookごとにランダムなURLを使い、バッファ終了時に停止する。
+結果通知を250ms間隔で取得し、セルごとの常時接続でブラウザの接続上限に
+達することを避ける。Pythonの実行・セル同期は引き続き既存のLSP接続で行う。
+notebookのHTML/JavaScriptを実行するため、信頼できるnotebookを開く。
+WebKitの高さは1200pxと本文ウィンドウの残り高さを上限に自動調整する。
+ミニバッファが広がった場合も本文内に収め、それ以上は内部をスクロールする。
+表示はoverlayで保持し、Orgの再装飾でも消えないようにする。
+ドロップダウンや複数選択などは公式部品を操作できる。
+macOSではShadow DOM内の入力欄にもキーボード入力を渡す。
+画像ツールバーのコピー・保存、および単純なHTMLにある外部URL画像は未対応。
+SQL/Markdownも初版ではPythonコード（~mo.sql~ / ~mo.md~）として編集する。
+ソース生成器によって空白やラッパー部分が正規化される。
+任意のコメント配置をバイト単位で保持するものではない。
+TRAMP、ブラウザと同じカーネルへの接続、編集中の外部ファイル変更のマージは未対応。
+外部で変更されたファイルへの保存は拒否する。
+
+バッファを閉じると専用LSPサーバーとカーネルを終了する。
+接続が失われたら、変更をOrgの別ファイルなどへ退避してnotebookを開き直す。
+自動保存はOrgの投影を ~.py~ に書かないよう無効にする。
+サーバーのログは ~M-x marimo-show-log~ で確認できる。
+~M-x revert-buffer~ はPythonを再読込してOrg表示を再生成する。
+この操作ではカーネルと実行結果もリセットする。
+
+* 検証
+依存関係の導入はテスト中に自動では行わない。
+
+#+begin_src emacs-lisp
+(setenv "MARIMO_TEST_SERVER" "/path/to/marimo-lsp")
+(setenv "MARIMO_TEST_PYTHON" "/path/to/python")
+(setenv "MARIMO_TEST_RENDERER_ASSETS" "/path/to/extension/dist")
+#+end_src
+
+
+実接続テストは、2セルの実行、カーネルと変数の保持、編集後の再実行、
+Pythonでの保存、例外・HTML表・画像の表示、セル追加・削除、実行中断、
+明示的な再起動、再読込を確認する。
+描画テストではpandas・matplotlib・plotly・altairを実行環境に導入しておく。
+DataFrameと ~mo.vstack~、各グラフのWebKit表示、UI変更と同一カーネルへの
