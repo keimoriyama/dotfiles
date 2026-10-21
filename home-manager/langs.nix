@@ -24,6 +24,7 @@
 
     # frameworks & tools
     deno
+    pnpm
     rustup
     cargo-generate
     uv
