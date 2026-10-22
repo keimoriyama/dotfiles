@@ -1,18 +1,20 @@
 #+begin_src emacs-lisp
+;;; early-init.el --- -*- lexical-binding: t -*-
 (setq debug-on-error t)
 (setq toggle-debug-on-error t)
-;; lsp-use-plists はlsp-mode読み込み前に設定する必要がある
-(setq lsp-use-plists t)
 #+end_src
 
-* Increase 'gc-cons-threshold' to 100MB for lsp heavy buffers.
+* 起動中は GC を止める
+起動後の閾値は init.el で有効にする gcmh が設定し直す。
 #+begin_src emacs-lisp
-(setq gc-cons-threshold 100000000) ;;
+(setq gc-cons-threshold most-positive-fixnum)
 
 ;; Improve performance with language servers.
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 #+end_src
 
+* lsp-use-plists
+lsp-mode 読み込み前に設定する必要がある。
 #+begin_src emacs-lisp
 (setenv "LSP_USE_PLISTS" "true")
 (setq lsp-use-plists t)
@@ -27,6 +29,13 @@
           (lambda ()
             (setq file-name-handler-alist startup/file-name-handler-alist)
             (makunbound 'startup/file-name-handler-alist)))
+#+end_src
+
+* スクロールバーを最初から作らない
+作ってから ~scroll-bar-mode~ で消すと、フレームの再構築とリサイズが走る。
+#+begin_src emacs-lisp
+(push '(vertical-scroll-bars) default-frame-alist)
+(setq frame-inhibit-implied-resize t)
 #+end_src
 
 * Speed up package loading and loads package only when needed
