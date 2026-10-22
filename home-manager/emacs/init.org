@@ -1542,13 +1542,6 @@ org-mycal-export
 (add-hook 'python-mode-hook #'kei/python-eglot-ensure)
 (add-hook 'python-ts-mode-hook #'kei/python-eglot-ensure)
 #+end_src
-***** org
-#+begin_src emacs-lisp
-;; (with-eval-after-load 'eglot
-;;   (add-to-list 'eglot-server-programs
-;;                '(org-mode . ("kakehashi"))))
-;; (add-hook 'org-mode-hook #'eglot-ensure)
-#+end_src
 ***** rust
 #+begin_src emacs-lisp
 (with-eval-after-load 'eglot

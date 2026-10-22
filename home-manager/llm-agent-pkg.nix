@@ -9,7 +9,6 @@
 in {
   home.packages = with inputs.llm-agents.packages.${system};
     [
-      copilot-language-server
       claude-code
       claude-agent-acp
       opencode

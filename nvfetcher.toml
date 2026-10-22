@@ -103,11 +103,6 @@ src.git="https://github.com/high-moctane/mocword"
 src.branch="main"
 fetch.github="high-moctane/mocword"
 
-[kakehashi]
-src.github="atusy/kakehashi"
-fetch.github="atusy/kakehashi"
-src.branch="main"
-
 [claude-usage-line]
 src.webpage="https://registry.npmjs.org/claude-usage-line/latest"
 src.regex='"version":"([^"]+)"'

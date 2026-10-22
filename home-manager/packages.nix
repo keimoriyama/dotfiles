@@ -3,12 +3,10 @@
   pkgs,
   lib,
   inputs,
-  sources,
   ...
 }: {
   home.packages =
     [
-      (pkgs.callPackage ./kakehashi {inherit sources;})
       (pkgs.callPackage ./nippo {inherit (inputs) nippo;})
       (pkgs.callPackage ./suiko {inherit (inputs) suiko;})
     ]
