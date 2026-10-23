@@ -72,6 +72,29 @@ The selected environment must contain a compatible marimo installation."
     (user-error "Marimo server disconnected; reopen the notebook"))
   (jsonrpc-request marimo--connection 'marimo/command params :timeout 60))
 
+(defun marimo--kernel-marimo-version ()
+  "Return the marimo version in the kernel environment, or nil."
+  (let ((python (ignore-errors (marimo--python))))
+    (when python
+      (with-temp-buffer
+        (and (eq 0 (call-process python nil '(t nil) nil "-c"
+                                 "import importlib.metadata as m; print(m.version('marimo'))"))
+             (let ((version (string-trim (buffer-string))))
+               (and (string-match-p "\\`[0-9][0-9A-Za-z.+-]*\\'" version) version)))))))
+
+(defun marimo--server-environment ()
+  "Return `process-environment' pinning the server's marimo to the kernel's.
+The server rejects kernel messages from any other marimo version, which
+leaves every cell idle, so uv overrides its pinned marimo-base."
+  (let ((version (marimo--kernel-marimo-version)))
+    (if (not version) process-environment
+      (let ((file (locate-user-emacs-file
+                   (format "var/marimo-overrides/marimo-base-%s.txt" version))))
+        (unless (file-exists-p file)
+          (make-directory (file-name-directory file) t)
+          (write-region (format "marimo-base==%s\n" version) nil file nil 'silent))
+        (cons (concat "UV_OVERRIDE=" (expand-file-name file)) process-environment)))))
+
 (defun marimo--connect ()
   "Start and initialize this notebook's dedicated LSP connection."
   (unless (and marimo-server-command
@@ -79,15 +102,17 @@ The selected environment must contain a compatible marimo installation."
     (user-error "Server command unavailable: %S" marimo-server-command))
   (let* ((buffer (current-buffer))
          (name (format "marimo:%s" (buffer-name)))
-         (command marimo-server-command))
+         (command marimo-server-command)
+         (environment (marimo--server-environment)))
     (setq marimo--connection
           (make-instance
            'jsonrpc-process-connection :name name
            :process (lambda ()
-                      (make-process :name name :command command
-                                    :connection-type 'pipe :noquery t
-                                    :stderr (get-buffer-create
-                                             (format "*%s stderr*" name))))
+                      (let ((process-environment environment))
+                        (make-process :name name :command command
+                                      :connection-type 'pipe :noquery t
+                                      :stderr (get-buffer-create
+                                               (format "*%s stderr*" name)))))
            :notification-dispatcher
            (lambda (_connection method params)
              (when (buffer-live-p buffer)

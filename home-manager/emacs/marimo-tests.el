@@ -265,6 +265,20 @@
     (should-error (marimo-run-cell) :type 'user-error)
     (should-error (marimo-interrupt) :type 'user-error)))
 
+(ert-deftest marimo-server-uses-kernel-marimo-version ()
+  (let* ((user-emacs-directory (make-temp-file "marimo-emacs-" t))
+         (process-environment '("PATH=/bin")))
+    (unwind-protect
+        (progn
+          (cl-letf (((symbol-function 'marimo--kernel-marimo-version) (lambda () "0.25.2")))
+            (let ((override (string-remove-prefix
+                             "UV_OVERRIDE=" (car (marimo--server-environment)))))
+              (should (equal (with-temp-buffer (insert-file-contents override) (buffer-string))
+                             "marimo-base==0.25.2\n"))))
+          (cl-letf (((symbol-function 'marimo--kernel-marimo-version) #'ignore))
+            (should (equal (marimo--server-environment) '("PATH=/bin")))))
+      (delete-directory user-emacs-directory t))))
+
 (ert-deftest marimo-kernel-lifecycle-does-not-conflate-interrupt-and-restart ()
   (marimo-test--buffer
     (let ((marimo--session "old") commands)
