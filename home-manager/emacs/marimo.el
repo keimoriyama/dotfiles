@@ -22,6 +22,7 @@
 
 (defgroup marimo nil "Marimo notebooks in Org." :group 'org)
 (require 'marimo-renderer)
+(require 'marimo-table)
 
 (defcustom marimo-server-command
   '("uvx" "--from"
@@ -521,7 +522,8 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
               (marimo--cell-output op))
              ("completed-run"
               (when marimo--run-started (setq marimo--executing nil)))
-             ("interrupted" (setq marimo--executing nil)))))))))
+             ("interrupted" (setq marimo--executing nil))
+             ("function-call-result" (marimo-table-function-result op)))))))))
 
 (defun marimo--cell-output (op)
   "Merge cell operation OP, preserving omitted output fields."
@@ -624,9 +626,10 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
   "Render cell ID's STATE using native Org or the official rich renderer."
   (save-restriction
     (widen)
-    (if (or (marimo-renderer-needed-p state)
-            (and marimo-renderer--widgets (gethash id marimo-renderer--widgets)
-                 (null (plist-get state :output))))
+    (if (and (not (marimo-table-state id (plist-get state :output)))
+             (or (marimo-renderer-needed-p state)
+                 (and marimo-renderer--widgets (gethash id marimo-renderer--widgets)
+                      (null (plist-get state :output)))))
         (condition-case err
             (marimo-renderer-render id state)
           (error
@@ -647,8 +650,10 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
       (when cell
         (let* ((modified (buffer-modified-p))
                (inhibit-modification-hooks t)
+               (table (marimo-table-state id (plist-get state :output)))
                (text (concat (mapconcat #'marimo--format-output (plist-get state :console) "")
-                             (marimo--format-output (plist-get state :output))))
+                             (if table (marimo-table-text table)
+                               (marimo--format-output (plist-get state :output)))))
                (stale (or (plist-get state :stale)
                           (not (equal (plist-get state :executed) (plist-get cell :code))))))
           ;; Result text shifts the following source.  Keep its undo records so
