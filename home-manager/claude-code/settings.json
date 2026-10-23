@@ -1,6 +1,9 @@
 {
   "advisorModel": "fable",
   "effortLevel": "low",
+  "env": {
+    "CLAUDE_CODE_CERT_STORE": "bundled,system"
+  },
   "hooks": {
     "PostToolUse": [
       {

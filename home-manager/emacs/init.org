@@ -14,10 +14,13 @@
 (setq create-lockfiles nil)
 #+end_src
 ** dir-local を信頼するディレクトリ
-自分が中身を把握しているリポジトリを列挙して、.dir-locals.el の確認プロンプトを
-出させない。`safe-local-variable-values' ではなくこちらを使うのは、llm-tuning-
-experiments の .dir-locals.el が `eval' フォームを含み、変数側に
-`safe-local-variable' プロパティを付ける手が使えないため。
+ghq 配下のリポジトリは自分で clone したものなので、.dir-locals.el の確認
+プロンプトを出させない。`safe-local-variable-values' ではなくディレクトリ単位で
+信頼するのは、llm-tuning-experiments の .dir-locals.el のように `eval' フォームを
+含むものがあり、変数側に `safe-local-variable' プロパティを付ける手が使えないため。
+
+`safe-local-variable-directories' は `file-equal-p' による完全一致でしか判定
+しないので、ghq 配下の dir-name を判定時だけこの変数に足して前方一致にする。
 
 eglot が jsonrpc コールバックから同じ確認を出して "Command attempted to use
 minibuffer while in minibuffer" で落ちる問題は、Eglot 節で eglot 側の読み込みを
@@ -27,8 +30,16 @@ rsync-mode を使うプロジェクトを毎回追加する必要はない。
 起動中に開くファイル (recentf, org-agenda など) がもう dir-local を読むので、
 このブロックは init の先頭に置く。末尾に移すと間に合わない。
 #+begin_src emacs-lisp
-(dolist (dir '("~/ghq/github.com/sbintuitions/llm-tuning-experiments/"))
-  (add-to-list 'safe-local-variable-directories (expand-file-name dir)))
+(defun my/trust-ghq-dir-locals (orig variables dir-name)
+  "Call ORIG with DIR-NAME treated as safe when it is under ~/ghq/."
+  (let ((safe-local-variable-directories
+         (if (and dir-name
+                  (not (file-remote-p dir-name))
+                  (file-in-directory-p dir-name "~/ghq/"))
+             (cons dir-name safe-local-variable-directories)
+           safe-local-variable-directories)))
+    (funcall orig variables dir-name)))
+(advice-add 'hack-local-variables-filter :around #'my/trust-ghq-dir-locals)
 #+end_src
 ** C-tでバッファを切り替える
 #+begin_src emacs-lisp
