@@ -1,0 +1,73 @@
+export MOCWORD_DATA="$HOME/.local/mocword-data/mocword.sqlite"
+export DPP_PATH="$HOME/.cache/dpp"
+export LSP_USE_PLISTS=1
+export HYDRA_FULL_ERROR=1
+export NIX_USER_CONF_FILES="$XDG_CONFIG_HOME/nix/nix.conf:$XDG_CONFIG_HOME/nix/local.conf"
+export TYPST_FONT_PATHS="$HOME/Library/Application Support/Adobe/.User Owned Fonts/:$HOME/Library/Application Support/Adobe/CoreSync/plugins/livetype/.r/"
+
+typeset -U path
+path=("$HOME/.nix-profile/bin" /etc/profiles/per-user/$USER/bin /nix/var/nix/profiles/default/bin $path /opt/homebrew/bin "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/.roswell/bin")
+export PATH
+export SHELL="/etc/profiles/per-user/$USER/bin/zsh"
+
+[[ -f "$MOCWORD_DATA" ]] || {
+  mkdir -p "${MOCWORD_DATA:h}"
+  curl -L -o "$MOCWORD_DATA.gz" https://github.com/high-moctane/mocword-data/releases/download/eng20200217/mocword.sqlite.gz && gzip -d "$MOCWORD_DATA.gz"
+}
+
+autoload -Uz add-zsh-hook chpwd_recent_dirs chpwd_recent_filehandler
+zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-file "${XDG_STATE_HOME:-$HOME/.local/state}/zsh/chpwd-recent-dirs"
+mkdir -p "${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
+add-zsh-hook chpwd chpwd_recent_dirs
+
+function _autols { ls }
+add-zsh-hook chpwd _autols
+
+function _fzf_dir { FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" fzf }
+function gcd { local root=$(git rev-parse --show-toplevel) && [[ -n $root ]] && builtin cd -- "$root" }
+function cdf {
+  local -a reply
+  chpwd_recent_filehandler
+  local dir=$(print -rl -- ${^reply}(N-/) | _fzf_dir) && [[ -n $dir ]] && cd -- "$dir"
+}
+function bd {
+  local dir=$PWD
+  local -a parents
+  repeat 20; do
+    dir=${dir:h}
+    parents+=$dir
+    [[ $dir == / ]] && break
+  done
+  dir=$(print -rl -- $parents | _fzf_dir) && [[ -n $dir ]] && cd -- "$dir"
+}
+function _ghq_fzf {
+  local dir=$(ghq list -p | _fzf_dir)
+  if [[ -n $dir ]]; then
+    BUFFER=" cd ${(q)dir}"
+    zle accept-line
+  else
+    zle reset-prompt
+  fi
+}
+zle -N _ghq_fzf
+bindkey '^G' _ghq_fzf
+
+# fish の prompt_pwd と同じく、最後以外のディレクトリを1文字に縮める。
+function _prompt_pwd {
+  local -a parts=("${(@s:/:)${(%):-%~}}")
+  local out= part
+  for part in "${(@)parts[1,-2]}"; do
+    [[ $part == .* ]] && out+=${part[1,2]}/ || out+=${part[1]}/
+  done
+  out+=${parts[-1]}
+  print -rn -- "${out//\%/%%}"
+}
+
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWUPSTREAM=auto
+setopt PROMPT_SUBST
+PROMPT='%F{cyan}$(_prompt_pwd) %F{red}❯%F{yellow}❯%F{green}❯%f '
+RPROMPT='$(__git_ps1 " (%%F{yellow}%s%%f)")'

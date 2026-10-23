@@ -16,6 +16,7 @@
     ./wezterm
     ./emacs
     ./fish
+    ./zsh
     ./git
     ./nh
     ./claude-code
