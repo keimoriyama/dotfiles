@@ -1,12 +1,7 @@
-export MOCWORD_DATA="$HOME/.local/mocword-data/mocword.sqlite"
-export DPP_PATH="$HOME/.cache/dpp"
-export LSP_USE_PLISTS=1
-export HYDRA_FULL_ERROR=1
-export NIX_USER_CONF_FILES="$XDG_CONFIG_HOME/nix/nix.conf:$XDG_CONFIG_HOME/nix/local.conf"
-export TYPST_FONT_PATHS="$HOME/Library/Application Support/Adobe/.User Owned Fonts/:$HOME/Library/Application Support/Adobe/CoreSync/plugins/livetype/.r/"
-
 typeset -U path
-path=("$HOME/.nix-profile/bin" /etc/profiles/per-user/$USER/bin /nix/var/nix/profiles/default/bin $path /opt/homebrew/bin "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/.roswell/bin")
+# fish_add_path と同じく、存在しないディレクトリは追加しない。
+path=({"$HOME/.nix-profile",/etc/profiles/per-user/$USER,/nix/var/nix/profiles/default}/bin(N-/) $path)
+path+=({/opt/homebrew,"$HOME/.cargo","$HOME/.local","$HOME/.roswell"}/bin(N-/))
 export PATH
 export SHELL="/etc/profiles/per-user/$USER/bin/zsh"
 
