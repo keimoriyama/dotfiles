@@ -10,7 +10,6 @@
     ghostscript
     pandoc
     pre-commit
-    cbc
     sl
     ispell
     tdf
@@ -21,8 +20,5 @@
     tree
     udev-gothic
     nerd-fonts.symbols-only
-    pdfpc
-    polylux2pdfpc
-    qemu
   ];
 }

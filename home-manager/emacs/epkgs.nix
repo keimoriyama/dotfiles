@@ -26,7 +26,6 @@ in
     ddskk-posframe
     rainbow-delimiters
     major-mode-hydra
-    avy-zap
     yasnippet
     consult-yasnippet
     dashboard

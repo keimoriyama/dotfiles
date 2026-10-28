@@ -14,28 +14,19 @@
 
   home.packages = with pkgs; [
     # programming languages
-    nodejs_24
-    typescript
-    lua
     typst
     texliveFull
-    go
     ghc
     auctex
     perl
-    zig_0_15
 
     # frameworks & tools
-    deno
-    pnpm
     rustup
-    cargo-generate
     uv
 
     # language servers
     ruff
     ty
-    pyrefly
     isort
     yaml-language-server
     lua-language-server
@@ -44,7 +35,6 @@
     haskell-language-server
     docker-language-server
     nixd
-    texlab
     prettier
     cspell
 
