@@ -7,7 +7,6 @@
 }: {
   home.packages =
     [
-      (pkgs.callPackage ./nippo {inherit (inputs) nippo;})
       (pkgs.callPackage ./suiko {inherit (inputs) suiko;})
     ]
     ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin

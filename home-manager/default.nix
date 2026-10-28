@@ -16,7 +16,6 @@
     ./skk.nix
     ./wezterm
     ./emacs
-    ./fish
     ./zsh
     ./git
     ./nh
@@ -39,7 +38,7 @@
       else "/home/${username}"
     );
 
-    # fish と zsh の両方が hm-session-vars 経由で読み込む。
+    # zsh が hm-session-vars 経由で読み込む。
     sessionVariables = {
       EDITOR = "vim";
       MOCWORD_DATA = "${config.home.homeDirectory}/.local/mocword-data/mocword.sqlite";

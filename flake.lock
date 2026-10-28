@@ -382,22 +382,6 @@
         "type": "github"
       }
     },
-    "nippo": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1789476531,
-        "narHash": "sha256-gcVLiUA7KmLEh6zidPeV/W0lX6V1uAEW5LxqJvtUriQ=",
-        "owner": "nwiizo",
-        "repo": "nippo",
-        "rev": "cdd521d3b1b7a1f27162bdeaeb147c1e6bb5ce88",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nwiizo",
-        "repo": "nippo",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -606,7 +590,6 @@
         "guard-and-guide": "guard-and-guide",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
-        "nippo": "nippo",
         "nix-darwin": "nix-darwin",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",

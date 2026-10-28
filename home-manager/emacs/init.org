@@ -931,8 +931,6 @@ SPEC is:
 (setq org-journal-file-format "%Y%m%d.org")
 (keymap-global-set "C-c j" #'org-journal-new-entry)
 
-(autoload 'nippo-org-journal-sync "nippo-org-journal" nil t)
-(keymap-global-set "C-c n j" #'nippo-org-journal-sync)
 #+end_src
 **** org-roam (基本設定)
 #+begin_src emacs-lisp

@@ -37,10 +37,6 @@
       url = "github:xenodium/emacs-skills";
       flake = false;
     };
-    nippo = {
-      url = "github:nwiizo/nippo";
-      flake = false;
-    };
     suiko = {
       url = "github:nwiizo/suiko";
       flake = false;
