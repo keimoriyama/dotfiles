@@ -6,7 +6,10 @@
 }: {
   # Adobe Fonts (Creative Cloud) が同期するフォントを typst / tinymist から使えるようにする
   home.sessionVariables = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-    TYPST_FONT_PATHS = "${config.home.homeDirectory}/Library/Application Support/Adobe/CoreSync/plugins/livetype/.r";
+    TYPST_FONT_PATHS = lib.concatStringsSep ":" [
+      "${config.home.homeDirectory}/Library/Application Support/Adobe/.User Owned Fonts"
+      "${config.home.homeDirectory}/Library/Application Support/Adobe/CoreSync/plugins/livetype/.r"
+    ];
   };
 
   home.packages = with pkgs; [

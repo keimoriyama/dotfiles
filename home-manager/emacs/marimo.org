@@ -25,11 +25,9 @@ https://github.com/marimo-team/marimo-lsp/tree/4fe0df21a01e123b57113cd65c27e703c
 
 実行環境には対応するmarimoをインストールする。
 このリビジョンのサーバーはmarimo-base 0.25.1を使用する。
-プロジェクトでは以下のように同じ版を指定する。
-
-#+begin_src sh
-uv add 'marimo==0.25.1'
-#+end_src
+サーバーはカーネル側のmarimoと版が違う通知を受け付けないため、
+起動時にカーネルのmarimoの版を調べ、uvの ~UV_OVERRIDE~ で
+サーバーのmarimo-baseを同じ版に差し替える。
 
 カーネルは親ディレクトリにある ~.venv/bin/python~ を優先する。
 なければ ~python3~ を使う。~marimo-python-command~ で明示できる。
@@ -47,6 +45,8 @@ uv add 'marimo==0.25.1'
 | C-x C-s | 結果を含めずネイティブPythonとして保存 |
 | M-x marimo-restart-kernel | 明示的にカーネルを再起動 |
 | M-x marimo-stop | カーネルを終了（次の実行で再作成） |
+| RET（表の行で） | ~mo.ui.table~ の行を選択・選択解除 |
+| [ / ]（表の上で） | ~mo.ui.table~ の前・次のページ |
 
 セルごとのOrg見出しは生成せず、Pythonブロックと結果を並べる。
 ID・Python関数としてのセル名・設定は、各ブロックに付随する非表示の
@@ -67,6 +67,13 @@ ID・Python関数としてのセル名・設定は、各ブロックに付随す
 テキスト、ログ、例外、基本的なHTML表、埋め込みPNG/JPEG/SVGに対応する。
 画像は一時ディレクトリへ保存する。結果・実行時IDは ~.py~ に保存しない。
 画像は結果を参照できるようバッファ終了後も一時ディレクトリに残す。
+
+出力全体が1つの ~mo.ui.table~ の場合は、Orgの表として描画する。
+カーソルのある行で RET を押すと、選択をカーネルへ送り依存セルを再実行させる。
+選択中の行は先頭の列に ~*~ を表示する。
+各列は ~marimo-table-column-width~ 文字で切り詰める。
+Orgの表では検索・並べ替えはできない。
+セル単位で選択する表や遅延読み込みの表は公式レンダラーで描画する。
 
 ~mo.vstack~、DataFrameの表、marimo UI、Plotly、Altairなどのリッチ出力は
 公式VS Codeレンダラーで描画し、結果drawer内にWebKitを埋め込む。

@@ -551,10 +551,20 @@ $0
 *** repm
 #+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/haskell-mode/repm") :mkdirp yes :noweb yes
 # -*- mode: snippet -*-
-# name: replicateM
+# name: replicateM ints
 # key: repm
 # --
 ${1:xs} <- replicateM ${2:n} \$ map read . words <\$> getLine :: IO [[${3:Int}]]
+$0
+#+end_src
+
+*** repms
+#+begin_src snippet :tangle (expand-file-name "~/.emacs.d/snippets/haskell-mode/repms") :mkdirp yes :noweb yes
+# -*- mode: snippet -*-
+# name: replicateM strings
+# key: repms
+# --
+${1:ss} <- replicateM ${2:n} getLine :: IO [String]
 $0
 #+end_src
 * agent-shell-mode

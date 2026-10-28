@@ -1,11 +1,6 @@
-set -x PATH "/nix/var/nix/profiles/default/bin" "$PATH"
-set -x PATH "/etc/profiles/per-user/kei/bin/" "$PATH"
-set -x PATH "$HOME/.nix-profile/bin" "$PATH"
-set -x PATH "$PATH" "/opt/homebrew/bin"
-set -x PATH "$PATH" "$HOME/.cargo/bin" 
-set -x PATH "$PATH" "$HOME/.local/bin"
-set -x PATH "$PATH" "$HOME/.roswell/bin/"
-set -gx SHELL "/etc/profiles/per-user/kei/bin/fish"
+fish_add_path --global --move --path "$HOME/.nix-profile/bin" "/etc/profiles/per-user/$USER/bin" "/nix/var/nix/profiles/default/bin"
+fish_add_path --global --append --path "/opt/homebrew/bin" "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/.roswell/bin"
+set -gx SHELL "/etc/profiles/per-user/$USER/bin/fish"
 
 # Fish git prompt 
 set __fish_git_prompt_showdirtystate 'yes'

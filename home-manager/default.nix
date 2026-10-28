@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   username,
   ...
 }: {
@@ -16,6 +17,7 @@
     ./wezterm
     ./emacs
     ./fish
+    ./zsh
     ./git
     ./nh
     ./claude-code
@@ -37,8 +39,14 @@
       else "/home/${username}"
     );
 
+    # fish と zsh の両方が hm-session-vars 経由で読み込む。
     sessionVariables = {
       EDITOR = "vim";
+      MOCWORD_DATA = "${config.home.homeDirectory}/.local/mocword-data/mocword.sqlite";
+      DPP_PATH = "${config.home.homeDirectory}/.cache/dpp";
+      LSP_USE_PLISTS = "1";
+      HYDRA_FULL_ERROR = "1";
+      NIX_USER_CONF_FILES = "${config.xdg.configHome}/nix/nix.conf:${config.xdg.configHome}/nix/local.conf";
     };
   };
 }

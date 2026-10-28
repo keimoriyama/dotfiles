@@ -206,6 +206,60 @@
                                 :notification '(:op "cell-op" :cell_id "a" :status "running")))
     (should (equal (plist-get (gethash "a" marimo--outputs) :status) "running"))))
 
+(defun marimo-test--table-html (rows)
+  "Return mo.ui.table HTML whose first page is ROWS."
+  (let ((attribute (lambda (value)
+                     (replace-regexp-in-string
+                      "'" "&#39;"
+                      (replace-regexp-in-string
+                       "\"" "&quot;" (replace-regexp-in-string "&" "&amp;" value))))))
+    (format "<marimo-ui-element object-id='a-0' random-id='r1'><marimo-table data-initial-value='[]' data-label='%s' data-data='%s' data-total-rows='3' data-page-size='2' data-selection='&quot;single&quot;'></marimo-table></marimo-ui-element>"
+            (funcall attribute (json-serialize "<span>Pick | one</span>"))
+            (funcall attribute (json-serialize (json-serialize (vconcat rows)))))))
+
+(ert-deftest marimo-table-rows-are-selected-and-paged-with-the-cursor ()
+  (marimo-test--buffer
+    (setq marimo--connection 'fake marimo--session "s")
+    (let (commands)
+      (cl-letf (((symbol-function 'jsonrpc-async-request)
+                 (lambda (_ _method params &rest _) (push params commands))))
+        (marimo--cell-output
+         (list :cell_id "a" :status "idle"
+               :output (list :mimetype "text/html"
+                             :data (marimo-test--table-html
+                                    '((:name "x|y" :n 1) (:name "z" :n 2))))))
+        (should-not (and marimo-renderer--widgets (gethash "a" marimo-renderer--widgets)))
+        (should (string-match-p "^: Pick | one$" (buffer-string)))
+        (should (string-match-p "^| +| name +| n +|$" (buffer-string)))
+        (should (= (length (marimo--cells)) 2))
+        (goto-char (point-min))
+        (search-forward "| z")
+        (should (eq (key-binding (kbd "RET")) #'marimo-table-select))
+        (marimo-table-select)
+        (should (equal (plist-get (car commands) :values) [["1"]]))
+        (should (equal (plist-get (car commands) :objectIds) ["a-0"]))
+        (should (equal (plist-get (car commands) :kernelSessionId) "s"))
+        (should (looking-back "^| \\* | z"(line-beginning-position)))
+        (setq commands nil)
+        (marimo-table-next-page)
+        (should (equal (plist-get (car commands) :args) '(:page_size 2 :page_number 1)))
+        (should-error (marimo-table-previous-page) :type 'user-error)
+        (marimo--notification
+         'marimo/kernelNotification
+         (list :notebookUri (marimo--uri) :sessionId "s"
+               :notification (list :op "function-call-result"
+                                   :function_call_id (plist-get (car commands) :functionCallId)
+                                   :status '(:code "ok")
+                                   :return_value (list :data (json-serialize [(:name "w" :n 3)])
+                                                       :total_rows 3))))
+        (should (string-match-p "^| +| w +| 3 |$" (buffer-string)))
+        (should (string-match-p "page 2/2" (buffer-string)))
+        (should-not (string-match-p "| z " (buffer-string)))
+        (goto-char (point-min))
+        (search-forward "| w")
+        (marimo-table-select)
+        (should (equal (plist-get (car commands) :values) [["2"]]))))))
+
 (ert-deftest marimo-formatting-is-safe-and-supports-html-tables ()
   (should (equal (marimo--format-output nil) ""))
   (should (string-match-p ",#\\+end_example" (marimo--example "#+end_example\n* attack")))
@@ -264,6 +318,20 @@
     (goto-char (point-min))
     (should-error (marimo-run-cell) :type 'user-error)
     (should-error (marimo-interrupt) :type 'user-error)))
+
+(ert-deftest marimo-server-uses-kernel-marimo-version ()
+  (let* ((user-emacs-directory (make-temp-file "marimo-emacs-" t))
+         (process-environment '("PATH=/bin")))
+    (unwind-protect
+        (progn
+          (cl-letf (((symbol-function 'marimo--kernel-marimo-version) (lambda () "0.25.2")))
+            (let ((override (string-remove-prefix
+                             "UV_OVERRIDE=" (car (marimo--server-environment)))))
+              (should (equal (with-temp-buffer (insert-file-contents override) (buffer-string))
+                             "marimo-base==0.25.2\n"))))
+          (cl-letf (((symbol-function 'marimo--kernel-marimo-version) #'ignore))
+            (should (equal (marimo--server-environment) '("PATH=/bin")))))
+      (delete-directory user-emacs-directory t))))
 
 (ert-deftest marimo-kernel-lifecycle-does-not-conflate-interrupt-and-restart ()
   (marimo-test--buffer
