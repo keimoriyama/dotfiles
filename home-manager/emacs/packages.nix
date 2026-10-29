@@ -30,6 +30,17 @@
     src = sources.emacs-nano-modeline.src;
     version = "0.0.1";
   };
+  # load-theme 'github は github-theme.el を探すので、上流のファイル名を合わせる。
+  # 本体は deftheme で書かれており、宣言されている color-theme は使っていない。
+  github-theme = epkgs.melpaBuild {
+    pname = "github-theme";
+    src = sources.emacs-color-theme-github.src;
+    version = "0.0.3";
+    postPatch = ''
+      mv color-theme-github.el github-theme.el
+      sed -i '/^;; Package-Requires:/d' github-theme.el
+    '';
+  };
   typst-ts-mode = epkgs.melpaBuild {
     pname = "typst-ts-mode";
     src = sources.emacs-typst-ts-mode.src;

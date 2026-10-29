@@ -98,6 +98,27 @@
         },
         "version": "da17568f61c30133df1cf3fdf9d0fa4137cfd66e"
     },
+    "emacs-color-theme-github": {
+        "cargoLock": null,
+        "date": "2017-07-11",
+        "extract": null,
+        "name": "emacs-color-theme-github",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "dudleyf",
+            "repo": "color-theme-github",
+            "rev": "c3c260072513147c8bf61716151923762be8ee75",
+            "sha256": "sha256-9u7G6dqSr2U3uDm7f62CJwRLDC1Ia1wlPOX6Gm77mP8=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "c3c260072513147c8bf61716151923762be8ee75"
+    },
     "emacs-dmacro": {
         "cargoLock": null,
         "date": "2024-10-27",

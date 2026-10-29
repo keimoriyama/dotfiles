@@ -447,12 +447,9 @@ binding))))))))
 
 ** 外観・視覚
 *** テーマ・色
-**** catppuccin-theme
+**** github-theme
 #+begin_src emacs-lisp
-(setq cat-flavor 'latte)
-(require 'catppuccin-theme)
-(setq catppuccin-flavor cat-flavor)
-(load-theme 'catppuccin t)
+(load-theme 'github t)
 #+end_src
 
 **** volatile-highlights
@@ -528,37 +525,35 @@ nano-modeline には autoload がなく、どのバッファでもすぐ使う�
 #+end_src
 ***** face
 #+begin_src emacs-lisp
-;; nano-modeline のフェイスを catppuccin-frappe に合わせる
-(with-eval-after-load 'catppuccin-theme
+;; nano-modeline のフェイスを github テーマの配色に合わせる
+(let ((bg        "#f8f8ff")
+      (active-bg "#e1e4ec")
+      (fg        "#000000")
+      (blue      "#445588")
+      (gray      "#999988")
+      (green     "#009926")
+      (yellow    "#b08800")
+      (red       "#dd1144"))
   (custom-set-faces
-   ;; --- アクティブウィンドウ（surface1 を背景に）---
    `(nano-modeline-active
-     ((t (:background ,(catppuccin-get-color 'surface1 cat-flavor)
-          :foreground ,(catppuccin-get-color 'text     cat-flavor)))))
+     ((t (:background ,active-bg :foreground ,fg))))
    `(nano-modeline-active-name
      ((t (:inherit nano-modeline-active :bold t))))
    `(nano-modeline-active-primary
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'blue cat-flavor)))))
+     ((t (:inherit nano-modeline-active :foreground ,blue))))
    `(nano-modeline-active-secondary
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'overlay1 cat-flavor)))))
+     ((t (:inherit nano-modeline-active :foreground ,gray))))
    `(nano-modeline-active-space
      ((t (:inherit nano-modeline-active))))
    ;; ステータス表示（RW=緑、RO=黄、**=赤）
    `(nano-modeline-active-status-RW
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'green  cat-flavor) :bold t))))
+     ((t (:inherit nano-modeline-active :foreground ,green :bold t))))
    `(nano-modeline-active-status-RO
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'yellow cat-flavor) :bold t))))
+     ((t (:inherit nano-modeline-active :foreground ,yellow :bold t))))
    `(nano-modeline-active-status-**
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'red    cat-flavor) :bold t))))
-   ;; --- 非アクティブウィンドウ（base を背景に、overlay0 でトーンダウン）---
+     ((t (:inherit nano-modeline-active :foreground ,red :bold t))))
    `(nano-modeline-inactive
-     ((t (:background ,(catppuccin-get-color 'base     cat-flavor)
-          :foreground ,(catppuccin-get-color 'overlay0 cat-flavor)))))
+     ((t (:background ,bg :foreground ,gray))))
    `(nano-modeline-inactive-name
      ((t (:inherit nano-modeline-inactive))))
    `(nano-modeline-inactive-primary

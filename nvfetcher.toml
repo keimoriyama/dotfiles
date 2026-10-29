@@ -8,6 +8,11 @@ src.git="https://github.com/rougier/nano-modeline"
 src.branch="master"
 fetch.github="rougier/nano-modeline"
 
+[emacs-color-theme-github]
+src.git="https://github.com/dudleyf/color-theme-github"
+src.branch="master"
+fetch.github="dudleyf/color-theme-github"
+
 # [emacs-ysnippet-capf]
 # src.git="https://github.com/elken/yasnippet-capf"
 # src.branch="master"

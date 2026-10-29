@@ -12,7 +12,7 @@ in
     all-the-icons
     nerd-icons
     nerd-icons-completion
-    catppuccin-theme
+    packages.github-theme
     volatile-highlights
     packages.projectile
     expand-region

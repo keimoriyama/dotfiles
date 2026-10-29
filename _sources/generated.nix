@@ -62,6 +62,18 @@
     };
     date = "2026-10-11";
   };
+  emacs-color-theme-github = {
+    pname = "emacs-color-theme-github";
+    version = "c3c260072513147c8bf61716151923762be8ee75";
+    src = fetchFromGitHub {
+      owner = "dudleyf";
+      repo = "color-theme-github";
+      rev = "c3c260072513147c8bf61716151923762be8ee75";
+      fetchSubmodules = false;
+      sha256 = "sha256-9u7G6dqSr2U3uDm7f62CJwRLDC1Ia1wlPOX6Gm77mP8=";
+    };
+    date = "2017-07-11";
+  };
   emacs-dmacro = {
     pname = "emacs-dmacro";
     version = "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468";
