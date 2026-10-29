@@ -27,15 +27,11 @@
     # language servers
     ruff
     ty
-    isort
     yaml-language-server
-    lua-language-server
     stylua
-    typescript-language-server
     haskell-language-server
     docker-language-server
     nixd
-    prettier
     cspell
 
     # formatter & linter
