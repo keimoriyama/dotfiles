@@ -74,6 +74,12 @@ function _prompt_pwd {
   print -rn -- "${out//\%/%%}"
 }
 
+# fish の既定のタイトルと同じく、省略パスと実行中のコマンド名をターミナルのタイトルに出す。
+function _title_precmd { print -Pn "\e]0;$(_prompt_pwd)\a" }
+function _title_preexec { print -Pn "\e]0;${${1%% *}//\%/%%} $(_prompt_pwd)\a" }
+add-zsh-hook precmd _title_precmd
+add-zsh-hook preexec _title_preexec
+
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
