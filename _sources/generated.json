@@ -203,27 +203,6 @@
         },
         "version": "04676d57a1e602123a593836745a744d1b2028fb"
     },
-    "emacs-nskk": {
-        "cargoLock": null,
-        "date": "2026-09-13",
-        "extract": null,
-        "name": "emacs-nskk",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "takeokunn",
-            "repo": "nskk.el",
-            "rev": "48e14d430ac744d1a5bbc9ac94a22dee78590cd4",
-            "sha256": "sha256-9R7re7ByJR6gG1Np5JNmqNrigrJ11NBiumHr4NzW22U=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "48e14d430ac744d1a5bbc9ac94a22dee78590cd4"
-    },
     "emacs-typst-ts-mode": {
         "cargoLock": null,
         "date": "2025-01-18",
@@ -307,111 +286,6 @@
             "type": "github"
         },
         "version": "e6ff578dd53b545ae120331997ff1c85df0c93de"
-    },
-    "fish-autols": {
-        "cargoLock": null,
-        "date": "2025-01-26",
-        "extract": null,
-        "name": "fish-autols",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "yuys13",
-            "repo": "fish-autols",
-            "rev": "74c52a3f66b5b9f589871c4383e7d7c2e543032c",
-            "sha256": "sha256-5yb6UjPu+QFsR+fe1rzYgSUczQ6olbFgILUQNTGvnf8=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "74c52a3f66b5b9f589871c4383e7d7c2e543032c"
-    },
-    "fish-cdf": {
-        "cargoLock": null,
-        "date": "2025-01-27",
-        "extract": null,
-        "name": "fish-cdf",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "yuys13",
-            "repo": "fish-cdf",
-            "rev": "467f549ef6f8b1d8d18a429639f87870b23eef62",
-            "sha256": "sha256-ZA5ZLE/5w9EhT7uB1hlkj0h/C0b5WQl46PpvOz8SlSU=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "467f549ef6f8b1d8d18a429639f87870b23eef62"
-    },
-    "fish-fzf-bd": {
-        "cargoLock": null,
-        "date": "2025-01-27",
-        "extract": null,
-        "name": "fish-fzf-bd",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "yuys13",
-            "repo": "fish-fzf-bd",
-            "rev": "fcbe9f6a75510365638dc6f790544c55ecb0ec3b",
-            "sha256": "sha256-NAErU+F7CTf0wOfR1zfxw2TRBLPIHe5QDjEhyjCNLJE=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "fcbe9f6a75510365638dc6f790544c55ecb0ec3b"
-    },
-    "fish-gcd": {
-        "cargoLock": null,
-        "date": "2025-01-25",
-        "extract": null,
-        "name": "fish-gcd",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "yuys13",
-            "repo": "fish-gcd",
-            "rev": "e42ccc3c48ecaf2a8efb8a12d7426a8a7fd077e3",
-            "sha256": "sha256-uoqU5XGdMRvhsUQ0C+0rNyaD4fJQX7gf1G6zsC5L4iU=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "e42ccc3c48ecaf2a8efb8a12d7426a8a7fd077e3"
-    },
-    "fish-ghq-fzf": {
-        "cargoLock": null,
-        "date": "2025-01-27",
-        "extract": null,
-        "name": "fish-ghq-fzf",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "yuys13",
-            "repo": "fish-ghq-fzf",
-            "rev": "9798eadadda71c3cb43502f88cfce1f9521ee185",
-            "sha256": "sha256-64y5nTQsdz8Qyn0VjEtfI4FvTMjF5XVYW7yTsrkIS30=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "9798eadadda71c3cb43502f88cfce1f9521ee185"
     },
     "mocword": {
         "cargoLock": null,

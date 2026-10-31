@@ -2118,27 +2118,6 @@ org-mycal-export
   (add-hook hook #'kei/skk-latin-mode-on))
 #+end_src
 
-** nskk
-#+begin_src emacs-lisp
-;; (require 'nskk)
-;; (keymap-global-set "C-x C-j" #'nskk-mode)
-
-;; (setopt nskk-dict-system-dictionary-files
-;;         '("~/.skk-dict/SKK-JISYO.L"))
-
-;; (setopt nskk-server-enable t)
-;; (setopt nskk-server-host "localhost")
-;; (setopt nskk-server-portnum 1178)
-;; (setopt nskk-henkan-show-candidates-nth 2)
-;; (setopt nskk-henkan-number-to-display-candidates 7)
-;; (setq nskk-converter-romaji-style 'azik)
-;; (setq nskk-azik-keyboard-type 'us101)
-;; (setq nskk-debug-enabled t)
-;; (setq nskk-server-report-response t)
-;; (setq nskk-dict-user-dictionary-file skk-user-dict-path)
-;; (setq nskk-global-mode t)
-;; (require 'nskk-debug)
-#+end_src
 * AI
 ** agent-shell
 #+begin_src emacs-lisp

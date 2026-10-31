@@ -25,7 +25,7 @@
     ./textlint
   ];
 
-  # nvfetcher で取得したソース。fish / emacs / 自前ビルドのパッケージが参照する。
+  # nvfetcher で取得したソース。emacs / 自前ビルドのパッケージが参照する。
   _module.args.sources = pkgs.callPackage ../_sources/generated.nix {};
 
   programs.home-manager.enable = true;
