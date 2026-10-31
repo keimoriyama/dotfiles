@@ -16,6 +16,11 @@ zstyle ':chpwd:*' recent-dirs-file "${XDG_STATE_HOME:-$HOME/.local/state}/zsh/ch
 mkdir -p "${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
 add-zsh-hook chpwd chpwd_recent_dirs
 
+# 大文字小文字を無視し、それでも候補がなければ区切り文字単位・部分一致の順に広げる。
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
 function _autols { ls }
 add-zsh-hook chpwd _autols
 
@@ -48,6 +53,16 @@ function _ghq_fzf {
 zle -N _ghq_fzf
 bindkey '^G' _ghq_fzf
 
+# opencode.json の kadode プロバイダーは {env:KADODE_TOKEN} を読む。
+function opencode {
+  local token
+  token=$(kadode refresh) || {
+    print -u2 "kadode のログインが必要です: kadode login ..."
+    return 1
+  }
+  KADODE_TOKEN=$token command opencode "$@"
+}
+
 # fish の prompt_pwd と同じく、最後以外のディレクトリを1文字に縮める。
 function _prompt_pwd {
   local -a parts=("${(@s:/:)${(%):-%~}}")
@@ -58,6 +73,12 @@ function _prompt_pwd {
   out+=${parts[-1]}
   print -rn -- "${out//\%/%%}"
 }
+
+# fish の既定のタイトルと同じく、省略パスと実行中のコマンド名をターミナルのタイトルに出す。
+function _title_precmd { print -Pn "\e]0;$(_prompt_pwd)\a" }
+function _title_preexec { print -Pn "\e]0;${${1%% *}//\%/%%} $(_prompt_pwd)\a" }
+add-zsh-hook precmd _title_precmd
+add-zsh-hook preexec _title_preexec
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1

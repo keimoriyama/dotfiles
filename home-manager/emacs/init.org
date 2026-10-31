@@ -14,20 +14,6 @@
 (setq create-lockfiles nil)
 #+end_src
 ** dir-local を信頼するディレクトリ
-ghq 配下のリポジトリは自分で clone したものなので、.dir-locals.el の確認
-プロンプトを出させない。`safe-local-variable-values' ではなくディレクトリ単位で
-信頼するのは、llm-tuning-experiments の .dir-locals.el のように `eval' フォームを
-含むものがあり、変数側に `safe-local-variable' プロパティを付ける手が使えないため。
-
-`safe-local-variable-directories' は `file-equal-p' による完全一致でしか判定
-しないので、ghq 配下の dir-name を判定時だけこの変数に足して前方一致にする。
-
-eglot が jsonrpc コールバックから同じ確認を出して "Command attempted to use
-minibuffer while in minibuffer" で落ちる問題は、Eglot 節で eglot 側の読み込みを
-safe な値に限ることで防いでいる。ここに列挙するのはプロンプト自体を省くためで、
-rsync-mode を使うプロジェクトを毎回追加する必要はない。
-
-起動中に開くファイル (recentf, org-agenda など) がもう dir-local を読むので、
 このブロックは init の先頭に置く。末尾に移すと間に合わない。
 #+begin_src emacs-lisp
 (defun my/trust-ghq-dir-locals (orig variables dir-name)
@@ -128,14 +114,14 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 ;; nix の per-user profile はログインユーザー名を含むので実行時に組み立てる。
 ;; exec-path 頼みにしないのは、GUI 起動の Emacs が per-user profile を含まない
 ;; PATH を launchd から受け取ることがあるため。
-(let* ((per-user-fish
-        (format "/etc/profiles/per-user/%s/bin/fish" (user-login-name)))
-       (fish (if (file-executable-p per-user-fish)
-                 per-user-fish
-               (executable-find "fish"))))
-  (when fish
-    (setq-default shell-file-name fish)
-    (setq-default sh-shell-name fish)))
+(let* ((per-user-zsh
+        (format "/etc/profiles/per-user/%s/bin/zsh" (user-login-name)))
+       (zsh (if (file-executable-p per-user-zsh)
+                per-user-zsh
+              (executable-find "zsh"))))
+  (when zsh
+    (setq-default shell-file-name zsh)
+    (setq-default sh-shell-name zsh)))
 #+end_src
 
 ** Melpaの設定
