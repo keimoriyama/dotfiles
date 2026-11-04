@@ -15,6 +15,7 @@
     ./agent-tools.nix
     ./skk.nix
     ./wezterm
+    ./zed
     ./emacs
     ./zsh
     ./git

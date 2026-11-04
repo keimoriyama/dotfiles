@@ -194,6 +194,10 @@
           run = ["move-node-to-workspace e"];
         }
         {
+          "if".app-id = "dev.zed.Zed";
+          run = ["move-node-to-workspace c"];
+        }
+        {
           "if".app-id = "com.google.Chrome";
           run = [
             "move-node-to-workspace c"
