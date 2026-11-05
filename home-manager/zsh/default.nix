@@ -39,6 +39,12 @@
       c = "clear";
       python = "python3";
     };
+    # API キーなどリポジトリに入れない環境変数は、管理外のこのファイルに書く。
+    # .zshenv で読むので、Emacs の exec-path-from-shell や非対話シェルにも届く。
+    envExtra = ''
+      [[ -r ''${XDG_CONFIG_HOME:-$HOME/.config}/zsh/secrets.zsh ]] &&
+        source ''${XDG_CONFIG_HOME:-$HOME/.config}/zsh/secrets.zsh
+    '';
     initContent = ''
       source ${pkgs.git}/share/git/contrib/completion/git-prompt.sh
       ${builtins.readFile ./init.zsh}

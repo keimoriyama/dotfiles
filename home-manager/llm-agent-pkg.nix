@@ -16,4 +16,8 @@ in {
     ]
     # 業務用マシンでは codex 系を入れない。
     ++ lib.optional (!isWork) codex-acp;
+
+  # agent-shell の Sarashina チャットが OPENCODE_CONFIG で渡す設定。
+  # ファイル名が opencode.json ではないので、素の opencode は読み込まない。
+  xdg.configFile."opencode/sarashina.json".source = ./opencode/sarashina.json;
 }

@@ -75,8 +75,22 @@ function _prompt_pwd {
 }
 
 # fish の既定のタイトルと同じく、省略パスと実行中のコマンド名をターミナルのタイトルに出す。
-function _title_precmd { print -Pn "\e]0;$(_prompt_pwd)\a" }
-function _title_preexec { print -Pn "\e]0;${${1%% *}//\%/%%} $(_prompt_pwd)\a" }
+# ssh 先ではどのホストのパスかわかるようにホスト名を前に付ける。
+function _title_pwd {
+  [[ -n $SSH_CONNECTION ]] && print -rn -- "%m:"
+  _prompt_pwd
+}
+function _title_precmd { print -Pn "\e]0;$(_title_pwd)\a" }
+# ssh 中は接続先のシェルがタイトルを更新しない限りこのタイトルが残るため、
+# 手元のパスではなく接続先がわかるコマンドラインを出す。
+function _title_preexec {
+  local cmd=${1%% *}
+  if [[ $cmd == ssh ]]; then
+    print -Pn "\e]0;${1//\%/%%}\a"
+  else
+    print -Pn "\e]0;${cmd//\%/%%} $(_title_pwd)\a"
+  fi
+}
 add-zsh-hook precmd _title_precmd
 add-zsh-hook preexec _title_preexec
 

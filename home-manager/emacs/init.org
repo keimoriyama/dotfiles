@@ -203,7 +203,8 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 *** システム連携
 **** exec-path-from-shell
 #+begin_src emacs-lisp
-(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "TYPST_FONT_PATHS"))
+(setopt exec-path-from-shell-variables '("PATH" "GOPATH" "JAVA_HOME" "SHELL" "TYPST_FONT_PATHS"
+                                         "SARASHINA_API_KEY"))
 (exec-path-from-shell-initialize)
 #+end_src
 
@@ -924,6 +925,11 @@ SPEC is:
       org-roam-db-location (expand-file-name "org-roam.db" org-directory)
       org-roam-directory org-directory
       org-roam-index-file (expand-file-name "index.org" org-directory))
+;; アーカイブ済みのプロジェクトファイル (org-archive-dir) はノードにしない。
+;; org-attach-id-dir は既定の除外対象で、org-roam が読み込む org-attach で定義される。
+(with-eval-after-load 'org-roam
+  (setq org-roam-file-exclude-regexp
+        (list org-attach-id-dir "\\`archive/")))
 (with-delayed-execution
   (org-roam-db-autosync-mode 1))
 (autoload 'org-roam-tag-add "org-roam-node" nil t)
@@ -2108,6 +2114,7 @@ org-mycal-export
 ** agent-shell
 #+begin_src emacs-lisp
 (keymap-global-set "C-c C-a" #'agent-shell-new-shell)
+(autoload 'my-agent-shell-sarashina-start "agent-shell-sarashina" nil t)
 
 (with-eval-after-load 'agent-shell
   (require 'agent-shell-provider-usage)
@@ -2133,6 +2140,20 @@ org-mycal-export
   ;; ツール出力を先頭と末尾の数行だけにする。
   (require 'agent-shell-tool-output-limit)
   (my-agent-shell-tool-output-limit-setup)
+
+  ;; OpenCode 経由で Sarashina と対話するエージェント。ツールはすべて拒否し、
+  ;; 会話だけにする。API キーは環境変数 SARASHINA_API_KEY から読む。
+  (require 'agent-shell-sarashina)
+  (add-to-list 'agent-shell-agent-configs
+               #'my-agent-shell-sarashina-make-agent-config t)
+
+  ;; cmd+enter (M-RET) で送信し、RET は改行にする。既定で M-RET にあった
+  ;; override 送信 (busy 中に queue と steer を入れ替える) は C-M-RET に移す。
+  (keymap-set agent-shell-mode-map "RET" #'newline)
+  (keymap-set agent-shell-mode-map "M-RET" #'agent-shell-submit)
+  (keymap-set agent-shell-mode-map "M-<return>" #'agent-shell-submit)
+  (keymap-set agent-shell-mode-map "C-M-RET" #'agent-shell-submit-override)
+  (keymap-set agent-shell-mode-map "C-M-<return>" #'agent-shell-submit-override)
 
   (keymap-set agent-shell-mode-map "C-c C-f" #'agent-shell-insert-file)
   (keymap-set agent-shell-mode-map "C-c C-u" #'my-agent-shell-show-provider-usage)
@@ -2354,7 +2375,8 @@ agent-shell-manager と重複していたので、そちらは外してこちら
      ("t" agent-shell-new-temp-shell "temp")
      ("w" agent-shell-new-worktree-shell "worktree")
      ("b" agent-shell-switch-buffer "switch")
-     ("o" agent-shell-other-buffer "other"))
+     ("o" agent-shell-other-buffer "other")
+     ("z" my-agent-shell-sarashina-start "sarashina chat"))
     "Send"
     (("s" agent-shell-send-dwim "dwim")
      ("r" agent-shell-send-region "region")
