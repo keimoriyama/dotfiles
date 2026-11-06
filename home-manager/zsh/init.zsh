@@ -53,16 +53,6 @@ function _ghq_fzf {
 zle -N _ghq_fzf
 bindkey '^G' _ghq_fzf
 
-# opencode.json の kadode プロバイダーは {env:KADODE_TOKEN} を読む。
-function opencode {
-  local token
-  token=$(kadode refresh) || {
-    print -u2 "kadode のログインが必要です: kadode login ..."
-    return 1
-  }
-  KADODE_TOKEN=$token command opencode "$@"
-}
-
 # fish の prompt_pwd と同じく、最後以外のディレクトリを1文字に縮める。
 function _prompt_pwd {
   local -a parts=("${(@s:/:)${(%):-%~}}")
@@ -101,3 +91,6 @@ GIT_PS1_SHOWUPSTREAM=auto
 setopt PROMPT_SUBST
 PROMPT='%F{cyan}$(_prompt_pwd) %F{red}❯%F{yellow}❯%F{green}❯%f '
 RPROMPT='$(__git_ps1 " (%%F{yellow}%s%%f)")'
+
+# リポジトリに入れたくないマシン固有の設定。
+[[ -r ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local.zsh ]] && source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local.zsh
