@@ -16,15 +16,15 @@
   };
   emacs-agent-shell-attention = {
     pname = "emacs-agent-shell-attention";
-    version = "aaf599121445ead597a14da62bad580c8897ee6c";
+    version = "8d5116f174fc35177aedc0f967a8fa3d6784aa1b";
     src = fetchFromGitHub {
       owner = "ultronozm";
       repo = "agent-shell-attention.el";
-      rev = "aaf599121445ead597a14da62bad580c8897ee6c";
+      rev = "8d5116f174fc35177aedc0f967a8fa3d6784aa1b";
       fetchSubmodules = false;
-      sha256 = "sha256-sXHjZ8791aBstTDODJU/2G//7ulEGyyFQwAQp7cNYiw=";
+      sha256 = "sha256-wTwOgWSeyI+cSKaXm8fVZFgJFxY7+l3n5atXd5VPcog=";
     };
-    date = "2026-10-12";
+    date = "2026-11-02";
   };
   emacs-agent-shell-dashboard = {
     pname = "emacs-agent-shell-dashboard";
