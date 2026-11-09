@@ -200,6 +200,16 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 **** free-keys
 ~M-x free-keys~ で使う。autoload があるので設定は要らない。
 
+*** パッケージの利用統計
+コマンドの実行回数、メジャーモードの有効化回数、パッケージがロードされたセッション数を
+~/.emacs.d/package-usage.eld に記録する。
+~M-x package-usage-write-report~ で ~/.emacs.d/package-usage-report.json にパッケージごとの集計を書き出す。
+#+begin_src emacs-lisp
+(with-delayed-execution
+  (require 'package-usage)
+  (package-usage-mode 1))
+#+end_src
+
 *** システム連携
 **** exec-path-from-shell
 #+begin_src emacs-lisp

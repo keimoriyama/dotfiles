@@ -61,6 +61,24 @@ nix run .#update
 sudo darwin-rebuild switch --flake ~/ghq/github.com/keimoriyama/dotfiles#work-config
 ```
 
+### Emacs パッケージの利用統計
+
+`package-usage-mode` がコマンドの実行回数、メジャーモードの有効化回数、ロードされたセッション数をパッケージごとに記録している。
+JSON のレポートを書き出し、AI エージェントに読ませて使っていないパッケージを洗い出す。
+
+```sh
+# ~/.emacs.d/package-usage-report.json に書き出す
+emacsclient --eval '(package-usage-write-report)'
+```
+
+レポートは利用回数の少ない順に並び、冒頭の `notes` に各フィールドの読み方を書いてある。
+エージェントには次のように依頼する。
+
+```text
+~/.emacs.d/package-usage-report.json を読み、使われていないパッケージを
+home-manager/emacs/epkgs.nix と init.org から削除してください。
+```
+
 ## NixOS WSL
 
 ### Initial Setup
