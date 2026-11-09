@@ -12,6 +12,9 @@
 - Claude Code の利用状況や設定を点検するときは `cclens doctor` を起点にする。
   詳細は `cclens inventory` / `cclens usage` / `cclens failures` / `cclens stuck` で確認する。
 
+- `rm -r` / `rm -f` と `~/.ssh` 等の読み取りは hook が止める。
+  削除はファイル単位の `rm <file>` か `rmdir`、SSH ホストの解決は `ssh -G <host>` を使う。
+
 ## コードコメント
 
 - ツール固有のマーカーをコードコメントに残さない (例: `ponytail:`)。
