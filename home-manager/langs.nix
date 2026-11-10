@@ -46,6 +46,7 @@
       textlint-plugin-org
       textlint-plugin-latex2e
       textlint-rule-write-good
+      (callPackage ./textlint/preset-ai-writing.nix {})
     ])
   ];
 }
