@@ -1585,12 +1585,6 @@ org-mycal-export
 ;; (require 'highlight-indent-guides)
 ;; (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
 #+end_src
-** ターミナル
-*** kuro
-#+begin_src emacs-lisp
-;; (add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp/core/")
-;; (require 'kuro)
-#+end_src
 * プログラミング言語
 ** Treesitter
 *** parser config

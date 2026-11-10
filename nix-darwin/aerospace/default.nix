@@ -235,12 +235,6 @@
           ];
         }
         {
-          "if".app-id = "com.anthropic.claudefordesktop";
-          run = [
-            "move-node-to-workspace a"
-          ];
-        }
-        {
           "if".app-id = "us.zoom.xos";
           run = ["move-node-to-workspace z"];
         }
