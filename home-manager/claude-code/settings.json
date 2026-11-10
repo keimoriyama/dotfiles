@@ -20,6 +20,15 @@
       {
         "hooks": [
           {
+            "command": "$HOME/.claude/path-guard",
+            "type": "command"
+          }
+        ],
+        "matcher": "Read|Write|Edit|MultiEdit|NotebookEdit|Glob|Grep"
+      },
+      {
+        "hooks": [
+          {
             "command": "guard-and-guide",
             "type": "command"
           }
@@ -36,6 +45,28 @@
       "Bash(git push:*)"
     ],
     "defaultMode": "auto"
+  },
+  "sandbox": {
+    "allowUnsandboxedCommands": false,
+    "enabled": true,
+    "filesystem": {
+      "allowRead": [
+        "~/.claude",
+        "~/.config/git",
+        "~/ghq"
+      ],
+      "allowWrite": [
+        "~/ghq"
+      ],
+      "denyRead": [
+        "~/"
+      ]
+    },
+    "network": {
+      "allowedDomains": [
+        "*"
+      ]
+    }
   },
   "statusLine": {
     "command": "$HOME/.claude/statusline.sh",

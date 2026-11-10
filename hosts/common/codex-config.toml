@@ -1,0 +1,17 @@
+# Codex のシステム設定 (/etc/codex/config.toml)。~/.codex/config.toml は Codex 自身が
+# 書き換えるため dotfiles では管理せず、こちらに既定の permission profile を置く。
+default_permissions = "ghq"
+
+# ホーム配下は ~/ghq だけを読み書きできる。ツールの実行に要るシステム側のパスは読み取りを許す。
+[permissions.ghq.filesystem]
+":minimal" = "read"
+"/nix" = "read"
+"/etc" = "read"
+"/private/etc" = "read"
+"/run" = "read"
+"~/.config/git" = "read"
+"~/ghq" = "write"
+":tmpdir" = "write"
+
+[permissions.ghq.network]
+enabled = true
