@@ -1,0 +1,14 @@
+;; opencode の Bash ツールが使うシェルを包む macOS sandbox の profile。
+;; ホーム配下は ~/ghq だけを読み書きできるようにする。HOME は sandbox-exec -D で渡す。
+;; SBPL は後に書いた規則が優先される。
+(version 1)
+(allow default)
+
+(deny file-read* (subpath (param "HOME")))
+(deny file-write* (subpath (param "HOME")))
+
+;; git などはパスを正規化するときにホーム自体を stat するので、メタデータだけ許す。
+(allow file-read-metadata (literal (param "HOME")))
+
+(allow file-read* (subpath (string-append (param "HOME") "/.config/git")))
+(allow file-read* file-write* (subpath (string-append (param "HOME") "/ghq")))
