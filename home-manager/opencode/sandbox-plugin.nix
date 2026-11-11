@@ -20,7 +20,7 @@ in
       hash = "sha256-hDKIwQx/dtZHGUKkfCU0HsziIERlL20batRFGXtb2Uo=";
     };
 
-    # npmConfigHook が package.json を下の内容で置き換えるので、devDependencies などは入らない。
+    # npm ci は下の package と lockfile で依存を入れるので、devDependencies は入らない。
     npmDeps = importNpmLock {
       package = {inherit (packageLock.packages."") name version dependencies;};
       inherit packageLock;
@@ -28,6 +28,9 @@ in
     inherit (importNpmLock) npmConfigHook;
 
     dontNpmBuild = true;
+    # 公開物の package.json に残る devDependencies をオフラインで解決しようとして失敗する。
+    # 依存は lockfile の時点で実行時のものだけなので prune は要らない。
+    dontNpmPrune = true;
 
     meta = {
       description = "OpenCode plugin that sandboxes bash commands with @anthropic-ai/sandbox-runtime";
