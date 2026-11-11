@@ -7,18 +7,15 @@
 }: let
   inherit (pkgs.stdenv.hostPlatform) system isDarwin;
 
-  # opencode の Bash ツールが使うシェル。ファイル名で引数の渡し方が決まるので zsh にする。
-  # PATH には入れず、opencode.json の shell からだけ参照する。
-  sandboxedShell = pkgs.writeShellScriptBin "zsh" ''
-    exec /usr/bin/sandbox-exec -f ${./opencode/shell-sandbox.sb} -D HOME="$HOME" /bin/zsh "$@"
-  '';
+  opencodeSandbox = pkgs.callPackage ./opencode/sandbox-plugin.nix {};
 
-  # LIMITATION: Bash ツールを OS で隔離するのは macOS だけ。Linux では external_directory の
-  # 制限しか効かない。
+  # LIMITATION: Bash ツールを OS で隔離するのは macOS だけ。Linux では bubblewrap と ripgrep が
+  # 要るが未検証なので、external_directory の制限しか効かない。
   opencodeConfig =
-    lib.recursiveUpdate
-    (lib.importJSON ./opencode/opencode.json)
-    (lib.optionalAttrs isDarwin {shell = "${sandboxedShell}/bin/zsh";});
+    lib.importJSON ./opencode/opencode.json
+    // lib.optionalAttrs isDarwin {
+      plugin = ["file://${opencodeSandbox}/lib/node_modules/opencode-sandbox/dist/index.js"];
+    };
 in {
   home.packages = with inputs.llm-agents.packages.${system};
     [
@@ -32,6 +29,12 @@ in {
 
   # プロジェクト外のパスは ~/ghq とスキル置き場だけ許す。
   xdg.configFile."opencode/opencode.json".text = builtins.toJSON opencodeConfig;
+
+  # Bash ツールはホーム配下では ~/ghq だけを読み書きでき、通信先は許可リストに限る。
+  # 設定はプロジェクト外に置き、サンドボックス内のコマンドから書き換えられないようにする。
+  xdg.configFile."opencode-sandbox/config.json" = lib.mkIf isDarwin {
+    source = ./opencode/sandbox-config.json;
+  };
 
   # agent-shell の Sarashina チャットが OPENCODE_CONFIG で渡す設定。
   # ファイル名が opencode.json ではないので、素の opencode は読み込まない。

@@ -1,0 +1,32 @@
+{
+  "mode": "enforce",
+  "filesystem": {
+    "denyRead": ["~"],
+    "allowRead": ["~/ghq", "~/.config/git", "~/.claude/skills"],
+    "allowWrite": ["~/ghq", "/tmp", "/private/tmp"]
+  },
+  "network": {
+    "allowedDomains": [
+      "registry.npmjs.org",
+      "*.npmjs.org",
+      "registry.yarnpkg.com",
+      "pypi.org",
+      "*.pypi.org",
+      "files.pythonhosted.org",
+      "crates.io",
+      "*.crates.io",
+      "github.com",
+      "*.github.com",
+      "*.githubusercontent.com",
+      "gitlab.com",
+      "*.gitlab.com",
+      "bitbucket.org",
+      "*.bitbucket.org",
+      "cache.nixos.org",
+      "channels.nixos.org",
+      "api.openai.com",
+      "api.anthropic.com",
+      "*.googleapis.com"
+    ]
+  }
+}
