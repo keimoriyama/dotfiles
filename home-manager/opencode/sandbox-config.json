@@ -1,9 +1,57 @@
 {
   "mode": "enforce",
   "filesystem": {
-    "denyRead": ["~"],
-    "allowRead": ["~/ghq", "~/.config/git", "~/.claude/skills"],
-    "allowWrite": ["~/ghq", "/tmp", "/private/tmp"]
+    "denyRead": [
+      "~",
+      "~/.cargo/credentials",
+      "~/.cargo/credentials.toml",
+      "~/.local/share/uv/credentials"
+    ],
+    "allowRead": [
+      "~/ghq",
+      "~/.config/git",
+      "~/.config/uv",
+      "~/.config/cabal",
+      "~/.claude/skills",
+      "~/.cache/uv",
+      "~/.local/share/uv",
+      "~/.local/bin",
+      "~/.cargo",
+      "~/.rustup",
+      "~/.npm",
+      "~/.cabal",
+      "~/.cache/cabal",
+      "~/.local/state/cabal",
+      "~/.cache/ruff",
+      "~/.cache/ty",
+      "~/.cache/pre-commit",
+      "~/Library/Caches/pip",
+      "~/Library/Caches/typst"
+    ],
+    "allowWrite": [
+      "~/ghq",
+      "~/.cache/uv",
+      "~/.local/share/uv",
+      "~/.local/bin",
+      "~/.cargo",
+      "~/.rustup",
+      "~/.npm",
+      "~/.cabal",
+      "~/.cache/cabal",
+      "~/.local/state/cabal",
+      "~/.cache/ruff",
+      "~/.cache/ty",
+      "~/.cache/pre-commit",
+      "~/Library/Caches/pip",
+      "~/Library/Caches/typst",
+      "/tmp",
+      "/private/tmp"
+    ],
+    "denyWrite": [
+      "~/.cargo/credentials",
+      "~/.cargo/credentials.toml",
+      "~/.local/share/uv/credentials"
+    ]
   },
   "network": {
     "allowedDomains": [
@@ -26,7 +74,11 @@
       "channels.nixos.org",
       "api.openai.com",
       "api.anthropic.com",
-      "*.googleapis.com"
+      "*.googleapis.com",
+      "static.rust-lang.org",
+      "hackage.haskell.org",
+      "downloads.haskell.org",
+      "packages.typst.org"
     ]
   }
 }
