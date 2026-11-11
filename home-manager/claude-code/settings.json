@@ -51,15 +51,53 @@
     "enabled": true,
     "filesystem": {
       "allowRead": [
+        "~/.cabal",
+        "~/.cache/cabal",
+        "~/.cache/pre-commit",
+        "~/.cache/ruff",
+        "~/.cache/ty",
+        "~/.cache/uv",
+        "~/.cargo",
         "~/.claude",
+        "~/.config/cabal",
         "~/.config/git",
+        "~/.config/uv",
+        "~/.local/bin",
+        "~/.local/share/uv",
+        "~/.local/state/cabal",
+        "~/.npm",
+        "~/.rustup",
+        "~/Library/Caches/pip",
+        "~/Library/Caches/typst",
         "~/ghq"
       ],
       "allowWrite": [
+        "~/.cabal",
+        "~/.cache/cabal",
+        "~/.cache/pre-commit",
+        "~/.cache/ruff",
+        "~/.cache/ty",
+        "~/.cache/uv",
+        "~/.cargo",
+        "~/.local/bin",
+        "~/.local/share/uv",
+        "~/.local/state/cabal",
+        "~/.npm",
+        "~/.rustup",
+        "~/Library/Caches/pip",
+        "~/Library/Caches/typst",
         "~/ghq"
       ],
       "denyRead": [
-        "~/"
+        "~/",
+        "~/.cargo/credentials",
+        "~/.cargo/credentials.toml",
+        "~/.local/share/uv/credentials"
+      ],
+      "denyWrite": [
+        "~/.cargo/credentials",
+        "~/.cargo/credentials.toml",
+        "~/.local/share/uv/credentials"
       ]
     },
     "network": {

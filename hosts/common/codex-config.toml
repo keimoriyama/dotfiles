@@ -13,5 +13,28 @@ default_permissions = "ghq"
 "~/ghq" = "write"
 ":tmpdir" = "write"
 
+# 開発ツールの設定は読み取り、キャッシュやインストール先は読み書きを許す。
+"~/.config/uv" = "read"
+"~/.config/cabal" = "read"
+"~/.cache/uv" = "write"
+"~/.local/share/uv" = "write"
+"~/.local/bin" = "write"
+"~/.cargo" = "write"
+"~/.rustup" = "write"
+"~/.npm" = "write"
+"~/.cabal" = "write"
+"~/.cache/cabal" = "write"
+"~/.local/state/cabal" = "write"
+"~/.cache/ruff" = "write"
+"~/.cache/ty" = "write"
+"~/.cache/pre-commit" = "write"
+"~/Library/Caches/pip" = "write"
+"~/Library/Caches/typst" = "write"
+
+# 上で許したディレクトリ内の認証情報は読ませない。
+"~/.cargo/credentials" = "deny"
+"~/.cargo/credentials.toml" = "deny"
+"~/.local/share/uv/credentials" = "deny"
+
 [permissions.ghq.network]
 enabled = true
