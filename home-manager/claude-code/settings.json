@@ -101,6 +101,7 @@
       ]
     },
     "network": {
+      "allowLocalBinding": true,
       "allowedDomains": [
         "*"
       ]

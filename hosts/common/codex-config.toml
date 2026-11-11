@@ -36,5 +36,7 @@ default_permissions = "ghq"
 "~/.cargo/credentials.toml" = "deny"
 "~/.local/share/uv/credentials" = "deny"
 
+# 開発サーバーなどがポートを開いて待ち受けられるようにする。
 [permissions.ghq.network]
 enabled = true
+allow_local_binding = true

@@ -79,6 +79,7 @@
       "hackage.haskell.org",
       "downloads.haskell.org",
       "packages.typst.org"
-    ]
+    ],
+    "allowLocalBinding": true
   }
 }
