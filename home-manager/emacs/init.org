@@ -445,11 +445,24 @@ binding))))))))
 ** 外観・視覚
 *** テーマ・色
 **** catppuccin-theme
+パッケージは入れたままにして、適用はしない。
+使うときは ~M-x load-theme RET catppuccin~ で切り替える。
 #+begin_src emacs-lisp
-(setq cat-flavor 'latte)
-(require 'catppuccin-theme)
-(setq catppuccin-flavor cat-flavor)
-(load-theme 'catppuccin t)
+(setq catppuccin-flavor 'latte)
+#+end_src
+
+**** github-light-theme
+GitHub の Light テーマに合わせた自作テーマ。色と面の定義は =github-light-theme.el= にある。
+macOS のタイトルバーも明るい外観にそろえる。
+#+begin_src emacs-lisp
+(require 'github-light-theme)
+(load-theme 'github-light t)
+
+(when (eq system-type 'darwin)
+  (add-to-list 'default-frame-alist '(ns-appearance . light))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (modify-all-frames-parameters '((ns-appearance . light)
+                                  (ns-transparent-titlebar . t))))
 #+end_src
 
 **** volatile-highlights
@@ -525,51 +538,50 @@ nano-modeline には autoload がなく、どのバッファでもすぐ使う�
 #+end_src
 ***** face
 #+begin_src emacs-lisp
-;; nano-modeline のフェイスを catppuccin-frappe に合わせる
-(with-eval-after-load 'catppuccin-theme
-  (custom-set-faces
-   ;; --- アクティブウィンドウ（surface1 を背景に）---
-   `(nano-modeline-active
-     ((t (:background ,(catppuccin-get-color 'surface1 cat-flavor)
-          :foreground ,(catppuccin-get-color 'text     cat-flavor)))))
-   `(nano-modeline-active-name
-     ((t (:inherit nano-modeline-active :bold t))))
-   `(nano-modeline-active-primary
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'blue cat-flavor)))))
-   `(nano-modeline-active-secondary
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'overlay1 cat-flavor)))))
-   `(nano-modeline-active-space
-     ((t (:inherit nano-modeline-active))))
-   ;; ステータス表示（RW=緑、RO=黄、**=赤）
-   `(nano-modeline-active-status-RW
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'green  cat-flavor) :bold t))))
-   `(nano-modeline-active-status-RO
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'yellow cat-flavor) :bold t))))
-   `(nano-modeline-active-status-**
-     ((t (:inherit nano-modeline-active
-          :foreground ,(catppuccin-get-color 'red    cat-flavor) :bold t))))
-   ;; --- 非アクティブウィンドウ（base を背景に、overlay0 でトーンダウン）---
-   `(nano-modeline-inactive
-     ((t (:background ,(catppuccin-get-color 'base     cat-flavor)
-          :foreground ,(catppuccin-get-color 'overlay0 cat-flavor)))))
-   `(nano-modeline-inactive-name
-     ((t (:inherit nano-modeline-inactive))))
-   `(nano-modeline-inactive-primary
-     ((t (:inherit nano-modeline-inactive))))
-   `(nano-modeline-inactive-secondary
-     ((t (:inherit nano-modeline-inactive))))
-   `(nano-modeline-inactive-space
-     ((t (:inherit nano-modeline-inactive))))
-   `(nano-modeline-inactive-status-RW
-     ((t (:inherit nano-modeline-inactive))))
-   `(nano-modeline-inactive-status-RO
-     ((t (:inherit nano-modeline-inactive))))
-   `(nano-modeline-inactive-status-**
-     ((t (:inherit nano-modeline-inactive))))))
+;; nano-modeline のフェイスを github-light テーマのパレットに合わせる
+(custom-set-faces
+ ;; --- アクティブウィンドウ（bg-muted を背景に）---
+ `(nano-modeline-active
+   ((t (:background ,(github-light-color 'bg-muted)
+        :foreground ,(github-light-color 'fg)))))
+ `(nano-modeline-active-name
+   ((t (:inherit nano-modeline-active :bold t))))
+ `(nano-modeline-active-primary
+   ((t (:inherit nano-modeline-active
+        :foreground ,(github-light-color 'accent)))))
+ `(nano-modeline-active-secondary
+   ((t (:inherit nano-modeline-active
+        :foreground ,(github-light-color 'fg-muted)))))
+ `(nano-modeline-active-space
+   ((t (:inherit nano-modeline-active))))
+ ;; ステータス表示（RW=緑、RO=黄、**=赤）
+ `(nano-modeline-active-status-RW
+   ((t (:inherit nano-modeline-active
+        :foreground ,(github-light-color 'success) :bold t))))
+ `(nano-modeline-active-status-RO
+   ((t (:inherit nano-modeline-active
+        :foreground ,(github-light-color 'attention) :bold t))))
+ `(nano-modeline-active-status-**
+   ((t (:inherit nano-modeline-active
+        :foreground ,(github-light-color 'danger) :bold t))))
+ ;; --- 非アクティブウィンドウ（bg を背景に、fg-subtle でトーンダウン）---
+ `(nano-modeline-inactive
+   ((t (:background ,(github-light-color 'bg)
+        :foreground ,(github-light-color 'fg-subtle)))))
+ `(nano-modeline-inactive-name
+   ((t (:inherit nano-modeline-inactive))))
+ `(nano-modeline-inactive-primary
+   ((t (:inherit nano-modeline-inactive))))
+ `(nano-modeline-inactive-secondary
+   ((t (:inherit nano-modeline-inactive))))
+ `(nano-modeline-inactive-space
+   ((t (:inherit nano-modeline-inactive))))
+ `(nano-modeline-inactive-status-RW
+   ((t (:inherit nano-modeline-inactive))))
+ `(nano-modeline-inactive-status-RO
+   ((t (:inherit nano-modeline-inactive))))
+ `(nano-modeline-inactive-status-**
+   ((t (:inherit nano-modeline-inactive)))))
 #+end_src
 **** moody
 #+begin_src emacs-lisp
@@ -771,21 +783,21 @@ hydra の Toggle メニューから呼ぶ。autoload があるので設定は要
         org-default-priority ?E
         org-use-sub-superscripts '{}
         org-export-with-sub-superscripts nil
-        org-priority-faces '((65 . "#BF616A")
-                             (66 . "#EBCB8B")
-                             (67 . "#B48EAD")
-                             (68 . "#81A1C1")
-                             (69 . "#5E81AC")
-                             (70 . "#4C566A"))
+        org-priority-faces `((?A . ,(github-light-color 'danger))
+                             (?B . ,(github-light-color 'severe))
+                             (?C . ,(github-light-color 'done))
+                             (?D . ,(github-light-color 'accent))
+                             (?E . ,(github-light-color 'fg-muted))
+                             (?F . ,(github-light-color 'fg-subtle)))
         org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "DOING(i)" "WAIT(w)" "PLANNING(p)" "|" "DONE(d)"))
         org-todo-keyword-faces
-        '(("TODO"   :foreground "#A3BE8C" :weight bold)
-          ("DOING"  :foreground "#88C0D0" :weight bold)
-          ("NEXT"   :foreground "#88C0D0" :weight bold)
-          ("WAIT"   :foreground "#88C0D0" :weight bold)
-          ("DONE"   :foreground "#ff40ff" :weight bold)
-          ("PLANNING"   :foreground "#88C0D0" :weight bold))
+        `(("TODO"     :foreground ,(github-light-color 'success)   :weight bold)
+          ("DOING"    :foreground ,(github-light-color 'accent)    :weight bold)
+          ("NEXT"     :foreground ,(github-light-color 'accent)    :weight bold)
+          ("WAIT"     :foreground ,(github-light-color 'attention) :weight bold)
+          ("DONE"     :foreground ,(github-light-color 'done)      :weight bold)
+          ("PLANNING" :foreground ,(github-light-color 'accent)    :weight bold))
         org-tag-alist '(("lab" . ?l)
                         ("ra" . ?r)
                         ("paper" . ?p)
