@@ -9,7 +9,6 @@
     ripgrep
     ghostscript
     pandoc
-    pre-commit
     sl
     ispell
     tdf
