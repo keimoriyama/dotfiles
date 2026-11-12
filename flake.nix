@@ -40,6 +40,11 @@
       url = "github:nwiizo/suiko";
       flake = false;
     };
+    # Markdown ビューア。上流 flake でソースからビルドする。
+    arto = {
+      url = "github:arto-app/Arto";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
