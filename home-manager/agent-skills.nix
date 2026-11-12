@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) emacs-skills suiko ponytail;
+  inherit (inputs) emacs-skills suiko;
 in {
   programs.agent-skills = {
     enable = true;
@@ -15,17 +15,13 @@ in {
       path = suiko;
       subdir = "skills";
     };
-    sources.ponytail = {
-      path = ponytail;
-      subdir = "skills";
-    };
     sources.personal = {
       path = ./agents/skills;
     };
+    # emacs-skills は実際に使う skill だけを入れる。
+    skills.enable = ["emacsclient"];
     skills.enableAll = [
-      "emacs"
       "personal"
-      "ponytail"
       "suiko"
     ];
     targets.claude.enable = true;

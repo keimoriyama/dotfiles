@@ -101,7 +101,6 @@ in
     org-superstar
     ox-gfm
     ox-typst
-    org-pomodoro
     svg-tag-mode
     ox-hugo
     org-roam

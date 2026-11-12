@@ -8,8 +8,9 @@ version = 1
 
 [[rules]]
 matcher = "Bash"
-regex = '\brm\s+(-[a-zA-Z]*[rR][a-zA-Z]*\s+)*-[a-zA-Z]*f|\brm\s+(-[a-zA-Z]*f[a-zA-Z]*\s+)*-[a-zA-Z]*[rR]'
-message = "Recursive forced removal is prohibited. Delete specific paths with plain 'rm' or 'rmdir', or ask the user to remove the directory."
+# コマンド位置の rm だけを見る。`git rm` は下の git ルールが扱う。
+regex = '(^|[;&|(`\n]|\b(sudo|xargs|then|do|else|exec|time|command))\s*rm\s+(-\S+\s+)*(-[a-zA-Z]*[rRf]|--recursive|--force)'
+message = "rm with -r or -f is prohibited. Delete individual files with plain 'rm <file>', empty directories with 'rmdir', or ask the user to remove the directory."
 
 [[rules]]
 matcher = "Bash"
@@ -23,7 +24,7 @@ message = "Fork bombs are prohibited. Do not run this."
 
 [[rules]]
 matcher = "Bash"
-regex = '\bgit\s+(reset\s+--hard|clean\s+-[a-zA-Z]*f|push\s+.*--force|push\s+.*-f\b)'
+regex = '\bgit\s+(rm\s+(-\S+\s+)*-[a-zA-Z]*f|reset\s+--hard|clean\s+-[a-zA-Z]*f|push\s+.*--force|push\s+.*-f\b)'
 message = "Destructive git commands are prohibited. Report what you want to discard and ask the user to run it."
 
 # 通常の git push は完全にブロックせず settings.json の permissions.ask で都度確認する。
@@ -49,7 +50,7 @@ message = "Access to credential files is prohibited. Ask the user to read or pro
 [[rules]]
 matcher = "Bash"
 regex = '~/\.(ssh|aws|gnupg)/|~/\.(netrc|npmrc|git-credentials)\b'
-message = "Reading credential files through the shell is prohibited. Ask the user for the value instead."
+message = "Reading credential files through the shell is prohibited. To resolve an SSH host alias, run 'ssh -G <host>' instead of reading ~/.ssh/config. Otherwise ask the user for the value."
 
 [[rules]]
 matcher = "Bash"

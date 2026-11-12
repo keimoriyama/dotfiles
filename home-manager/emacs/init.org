@@ -200,6 +200,16 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 **** free-keys
 ~M-x free-keys~ で使う。autoload があるので設定は要らない。
 
+*** パッケージの利用統計
+コマンドの実行回数、メジャーモードの有効化回数、パッケージがロードされたセッション数を
+~/.emacs.d/package-usage.eld に記録する。
+~M-x package-usage-write-report~ で ~/.emacs.d/package-usage-report.json にパッケージごとの集計を書き出す。
+#+begin_src emacs-lisp
+(with-delayed-execution
+  (require 'package-usage)
+  (package-usage-mode 1))
+#+end_src
+
 *** システム連携
 **** exec-path-from-shell
 #+begin_src emacs-lisp
@@ -1261,44 +1271,6 @@ SPEC is:
 (keymap-global-set "C-c a" #'org-agenda)
 #+end_src
 
-**** org-pomodoro
-#+begin_src emacs-lisp
-(keymap-global-set "M-p" #'org-pomodoro)
-(with-eval-after-load 'org-pomodoro
-  (setopt org-pomodoro-play-sounds nil)
-  (setopt org-pomodoro-finished-sound-p nil)
-  (setopt org-pomodoro-short-break-sound-p nil)
-  (setopt org-pomodoro-long-break-sound-p nil)
-  (setopt org-pomodoro-manual-break nil)
-  (setopt org-pomodoro-format "Working %s")
-  (setopt org-pomodoro-length 25)
-  (setopt org-pomodoro-short-break-length 5)
-  (setq org-pomodoro-keep-killed-pomodoro-time t)
-
-  (defun org-pomodoro-kill ()
-    "Kill the current timer, reset the phase and update the modeline."
-    (interactive)
-    (org-clock-out)
-    (org-pomodoro-killed))
-
-  ;; org-pomodoro mode hooks
-  (add-hook 'org-pomodoro-finished-hook
-            (lambda ()
-              (notify-osx "Pomodoro completed!" "Time for a break.☕")))
-
-  (add-hook 'org-pomodoro-break-finished-hook
-            (lambda ()
-              (notify-osx "Pomodoro Short Break Finished" "Ready for Another?📝")))
-
-  (add-hook 'org-pomodoro-started-hook
-            (lambda ()
-              (notify-osx "Pomodoro Started! " "GO!🏃GO!🏃GO!🏃")))
-
-  (add-hook 'org-pomodoro-killed-hook
-            (lambda ()
-              (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!🔪"))))
-#+end_src
-
 **** エクスポート設定
 ox-gfm / ox-hugo / ox-typst は読み込んだ時点で ~org-export-dispatch~ に
 バックエンドを登録するので、ox を読み込んだら一緒に読み込む。
@@ -1612,12 +1584,6 @@ org-mycal-export
 #+begin_src emacs-lisp
 ;; (require 'highlight-indent-guides)
 ;; (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
-#+end_src
-** ターミナル
-*** kuro
-#+begin_src emacs-lisp
-;; (add-to-list 'load-path "~/ghq/github.com/takeokunn/kuro/emacs-lisp/core/")
-;; (require 'kuro)
 #+end_src
 * プログラミング言語
 ** Treesitter
@@ -2454,6 +2420,23 @@ advice-member-p で確認しているのは、init.el の再読み込みで同�
 (dolist (fn '(rsync--build-args rsync--get-excludes))
   (unless (advice-member-p #'rubric-generation--no-shell-quote fn)
     (advice-add fn :around #'rubric-generation--no-shell-quote)))
+#+end_src
+
+
+#+begin_src emacs-lisp
+(defvar my/rsync-included-paths nil
+  "rsync で .gitignore より優先して同期するパターンのリスト。")
+(put 'my/rsync-included-paths 'safe-local-variable
+     (lambda (v) (and (listp v) (seq-every-p #'stringp v))))
+(defun my/rsync-mirror-args (args)
+  (if (string= (car args) "-av")
+      (append (list "-av" "--delete")
+              (mapcar (lambda (p) (concat "--include=" p)) my/rsync-included-paths)
+              (list "--filter=:- .gitignore")
+              (cdr args))
+    args))
+(unless (advice-member-p #'my/rsync-mirror-args 'rsync--build-args)
+  (advice-add 'rsync--build-args :filter-return #'my/rsync-mirror-args))
 #+end_src
 
 * ローカル設定

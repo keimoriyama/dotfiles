@@ -19,6 +19,12 @@
     ${pkgs.lib.optionalString (!isWork) "export CLAUDE_USAGE_LINE_NO_FETCH=1"}
     exec claude-usage-line${statuslineArgs}
   '';
+
+  pathGuard =
+    pkgs.writers.writePython3 "claude-path-guard" {
+      libraries = [pkgs.python3Packages.pydantic];
+    }
+    (builtins.readFile ./path-guard.py);
 in {
   home.file = {
     ".claude/settings.json" = {
@@ -29,6 +35,9 @@ in {
     # settings.json からはこのスクリプトを呼ぶだけにして、
     # 仕事用と個人用の差分をここに閉じ込める。
     ".claude/statusline.sh".source = statuslineScript;
+
+    # ファイル系ツールの PreToolUse hook。Bash 側は settings.json の sandbox が受け持つ。
+    ".claude/path-guard".source = pathGuard;
 
     # PreToolUse hook が読む。危険な操作をブロックしつつ代替手段を伝える。
     ".config/guard-and-guide/rules.toml".source = link "guard-and-guide-rules.toml";

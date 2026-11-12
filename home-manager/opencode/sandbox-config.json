@@ -1,0 +1,85 @@
+{
+  "mode": "enforce",
+  "filesystem": {
+    "denyRead": [
+      "~",
+      "~/.cargo/credentials",
+      "~/.cargo/credentials.toml",
+      "~/.local/share/uv/credentials"
+    ],
+    "allowRead": [
+      "~/ghq",
+      "~/.config/git",
+      "~/.config/uv",
+      "~/.config/cabal",
+      "~/.claude/skills",
+      "~/.cache/uv",
+      "~/.local/share/uv",
+      "~/.local/bin",
+      "~/.cargo",
+      "~/.rustup",
+      "~/.npm",
+      "~/.cabal",
+      "~/.cache/cabal",
+      "~/.local/state/cabal",
+      "~/.cache/ruff",
+      "~/.cache/ty",
+      "~/.cache/pre-commit",
+      "~/Library/Caches/pip",
+      "~/Library/Caches/typst"
+    ],
+    "allowWrite": [
+      "~/ghq",
+      "~/.cache/uv",
+      "~/.local/share/uv",
+      "~/.local/bin",
+      "~/.cargo",
+      "~/.rustup",
+      "~/.npm",
+      "~/.cabal",
+      "~/.cache/cabal",
+      "~/.local/state/cabal",
+      "~/.cache/ruff",
+      "~/.cache/ty",
+      "~/.cache/pre-commit",
+      "~/Library/Caches/pip",
+      "~/Library/Caches/typst",
+      "/tmp",
+      "/private/tmp"
+    ],
+    "denyWrite": [
+      "~/.cargo/credentials",
+      "~/.cargo/credentials.toml",
+      "~/.local/share/uv/credentials"
+    ]
+  },
+  "network": {
+    "allowedDomains": [
+      "registry.npmjs.org",
+      "*.npmjs.org",
+      "registry.yarnpkg.com",
+      "pypi.org",
+      "*.pypi.org",
+      "files.pythonhosted.org",
+      "crates.io",
+      "*.crates.io",
+      "github.com",
+      "*.github.com",
+      "*.githubusercontent.com",
+      "gitlab.com",
+      "*.gitlab.com",
+      "bitbucket.org",
+      "*.bitbucket.org",
+      "cache.nixos.org",
+      "channels.nixos.org",
+      "api.openai.com",
+      "api.anthropic.com",
+      "*.googleapis.com",
+      "static.rust-lang.org",
+      "hackage.haskell.org",
+      "downloads.haskell.org",
+      "packages.typst.org"
+    ],
+    "allowLocalBinding": true
+  }
+}
