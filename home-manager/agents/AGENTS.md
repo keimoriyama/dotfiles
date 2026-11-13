@@ -15,6 +15,9 @@
 - `rm -r` / `rm -f` と `~/.ssh` 等の読み取りは hook が止める。
   削除はファイル単位の `rm <file>` か `rmdir`、SSH ホストの解決は `ssh -G <host>` を使う。
 
+- org ノート (`~/ghq/github.com/keimoriyama/org-files/`) は `org-files` コマンドで任意のディレクトリから読む。
+  `org-files search <rg の引数>` で検索し、`org-files list [fd の引数]` で一覧し、`org-files cat <相対パス>` で内容を読む。
+
 ## コードコメント
 
 - ツール固有のマーカーをコードコメントに残さない (例: `ponytail:`)。

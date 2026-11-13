@@ -28,7 +28,10 @@ in {
     ++ lib.optional (!isWork) codex-acp;
 
   # プロジェクト外のパスは ~/ghq とスキル置き場だけ許す。
-  xdg.configFile."opencode/opencode.json".text = builtins.toJSON opencodeConfig;
+  # 業務用マシンでは既存の opencode.json を上書きしないよう管理しない。
+  xdg.configFile."opencode/opencode.json" = lib.mkIf (!isWork) {
+    text = builtins.toJSON opencodeConfig;
+  };
 
   # Bash ツールはホーム配下では ~/ghq だけを読み書きでき、通信先は許可リストに限る。
   # 設定はプロジェクト外に置き、サンドボックス内のコマンドから書き換えられないようにする。

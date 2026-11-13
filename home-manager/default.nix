@@ -23,6 +23,7 @@
     ./agents
     ./agent-skills.nix
     ./textlint
+    ./org-files
   ];
 
   # nvfetcher で取得したソース。emacs / 自前ビルドのパッケージが参照する。
