@@ -224,6 +224,27 @@
         },
         "version": "04676d57a1e602123a593836745a744d1b2028fb"
     },
+    "emacs-shell-maker": {
+        "cargoLock": null,
+        "date": "2026-10-29",
+        "extract": null,
+        "name": "emacs-shell-maker",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "xenodium",
+            "repo": "shell-maker",
+            "rev": "b28ee61a2533e408ed180662f83bb84fc8f84ba6",
+            "sha256": "sha256-i6550ftasw79P9EX1rbZ1Z00vDWL7kJpIpZZqZ9EC3E=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "b28ee61a2533e408ed180662f83bb84fc8f84ba6"
+    },
     "emacs-typst-ts-mode": {
         "cargoLock": null,
         "date": "2025-01-18",

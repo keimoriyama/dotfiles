@@ -134,6 +134,18 @@
     };
     date = "2024-04-29";
   };
+  emacs-shell-maker = {
+    pname = "emacs-shell-maker";
+    version = "b28ee61a2533e408ed180662f83bb84fc8f84ba6";
+    src = fetchFromGitHub {
+      owner = "xenodium";
+      repo = "shell-maker";
+      rev = "b28ee61a2533e408ed180662f83bb84fc8f84ba6";
+      fetchSubmodules = false;
+      sha256 = "sha256-i6550ftasw79P9EX1rbZ1Z00vDWL7kJpIpZZqZ9EC3E=";
+    };
+    date = "2026-10-29";
+  };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
     version = "aee8ff090cff6f39a70ac2c9035b1eb2b69924d7";

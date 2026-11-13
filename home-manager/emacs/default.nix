@@ -21,6 +21,17 @@
   emacsPkgs = pkgs.emacsWithPackagesFromUsePackage {
     package = pkgs.emacs;
     config = builtins.toFile "empty.el" "";
+    # nvfetcher で固定した shell-maker に、依存する全パッケージを向け直す。
+    override = epkgs:
+      epkgs.overrideScope (final: _: {
+        inherit
+          (pkgs.callPackage ./packages.nix {
+            inherit pkgs sources;
+            epkgs = final;
+          })
+          shell-maker
+          ;
+      });
     extraEmacsPackages = import ./epkgs.nix {inherit pkgs sources;};
   };
 
