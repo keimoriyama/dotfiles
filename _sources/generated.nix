@@ -110,18 +110,6 @@
     };
     date = "2018-05-28";
   };
-  emacs-mew = {
-    pname = "emacs-mew";
-    version = "a641ecccd051c3868e8903b65aa4b28663be771e";
-    src = fetchFromGitHub {
-      owner = "kazu-yamamoto";
-      repo = "Mew";
-      rev = "a641ecccd051c3868e8903b65aa4b28663be771e";
-      fetchSubmodules = false;
-      sha256 = "sha256-dwi2z6gEcKPdCQRiBcMJsIXAoszxqVqNuewXH/8/wBU=";
-    };
-    date = "2026-11-12";
-  };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
     version = "04676d57a1e602123a593836745a744d1b2028fb";

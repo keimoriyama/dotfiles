@@ -77,8 +77,3 @@ fetch.github="high-moctane/mocword"
 src.webpage="https://registry.npmjs.org/claude-usage-line/latest"
 src.regex='"version":"([^"]+)"'
 fetch.url="https://registry.npmjs.org/claude-usage-line/-/claude-usage-line-$ver.tgz"
-
-[emacs-mew]
-src.git="https://github.com/kazu-yamamoto/Mew"
-src.branch="main"
-fetch.github="kazu-yamamoto/Mew"

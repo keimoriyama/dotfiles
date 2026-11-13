@@ -503,8 +503,6 @@ nano-modeline には autoload がなく、どのバッファでもすぐ使う�
 (add-hook 'text-mode-hook            #'nano-modeline-text-mode)
 (add-hook 'org-mode-hook             #'nano-modeline-org-mode)
 (add-hook 'pdf-view-mode-hook        #'nano-modeline-pdf-mode)
-(add-hook 'mu4e-headers-mode-hook    #'nano-modeline-mu4e-headers-mode)
-(add-hook 'mu4e-view-mode-hook       #'nano-modeline-mu4e-message-mode)
 (add-hook 'elfeed-show-mode-hook     #'nano-modeline-elfeed-entry-mode)
 (add-hook 'elfeed-search-mode-hook   #'nano-modeline-elfeed-search-mode)
 (add-hook 'term-mode-hook            #'nano-modeline-term-mode)
@@ -2379,40 +2377,6 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 ** arto
 #+begin_src emacs-lisp
 (setq arto-path (expand-file-name "~/Applications/Home Manager Apps/Arto.app/"))
-#+end_src
-
-** mew
-メーラー。mewl などの C 製ヘルパーは packages.nix の mew 派生が bin に入れる。
-アカウント情報 (メールアドレス、サーバー) は公開リポジトリに置かず、
-~/.mew.el に書く。init.el は起動コマンドの autoload と、アカウントに
-依存しない既定値だけを持つ。
-
-~/.mew.el の例 (IMAP + SMTP)。値は自分のものに置き換える。
-#+begin_example
-(setq mew-name "Your Name")
-(setq mew-user "user")
-(setq mew-mail-domain "example.com")
-(setq mew-proto "%")
-(setq mew-imap-user "user@example.com")
-(setq mew-imap-server "imap.example.com")
-(setq mew-imap-ssl-port "993")
-(setq mew-smtp-user "user@example.com")
-(setq mew-smtp-server "smtp.example.com")
-(setq mew-smtp-ssl-port "465")
-#+end_example
-
-#+begin_src emacs-lisp
-(autoload 'mew "mew" nil t)
-(autoload 'mew-send "mew" nil t)
-(autoload 'mew-user-agent-compose "mew" nil t)
-(setq read-mail-command 'mew)
-(setq mail-user-agent 'mew-user-agent)
-(define-mail-user-agent
-  'mew-user-agent
-  'mew-user-agent-compose
-  'mew-draft-send-message
-  'mew-draft-kill
-  'mew-send-hook)
 #+end_src
 
 ** rsync-mode

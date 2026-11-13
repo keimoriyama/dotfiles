@@ -113,23 +113,6 @@
     src = sources.emcas-arto.src;
     version = "0.0.1";
   };
-  # Mew は Emacs Lisp に加えて C 製の mewl / incm / mewencode を必要とする
-  # (mewl が無いとローカルフォルダの一覧が出せない) ため、melpaBuild ではなく
-  # configure/make でビルドして share/emacs/site-lisp/mew と bin に入れる。
-  mew = pkgs.stdenv.mkDerivation {
-    pname = "mew";
-    version = "6.11";
-    src = sources.emacs-mew.src;
-    nativeBuildInputs = [epkgs.emacs];
-    buildInputs =
-      [pkgs.utf8proc]
-      ++ pkgs.lib.optional pkgs.stdenv.hostPlatform.isDarwin pkgs.libiconv;
-    configureFlags = [
-      "--with-emacs=${epkgs.emacs}/bin/emacs"
-      "--with-elispdir=${placeholder "out"}/share/emacs/site-lisp/mew"
-      "--with-etcdir=${placeholder "out"}/share/emacs/site-lisp/mew/etc"
-    ];
-  };
   # Upstream projectile ships projectile-consult.el, which unconditionally
   # (require 'consult), but nixpkgs' generated package doesn't declare it
   # as a dependency, breaking byte-compilation. Add it explicitly.

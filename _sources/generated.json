@@ -182,27 +182,6 @@
         },
         "version": "e6b82419bf9c154df881c72c5800bbd43887ec0d"
     },
-    "emacs-mew": {
-        "cargoLock": null,
-        "date": "2026-11-12",
-        "extract": null,
-        "name": "emacs-mew",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "kazu-yamamoto",
-            "repo": "Mew",
-            "rev": "a641ecccd051c3868e8903b65aa4b28663be771e",
-            "sha256": "sha256-dwi2z6gEcKPdCQRiBcMJsIXAoszxqVqNuewXH/8/wBU=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "a641ecccd051c3868e8903b65aa4b28663be771e"
-    },
     "emacs-nano-modeline": {
         "cargoLock": null,
         "date": "2024-04-29",
