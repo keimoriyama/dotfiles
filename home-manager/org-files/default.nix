@@ -25,8 +25,25 @@
           # root からの相対パスを受け取る
           cat "$root/$1"
           ;;
+        write | append)
+          # 標準入力を root からの相対パスへ書く (write は上書き、append は追記)。
+          # 絶対パスと .. を含むパスは root の外に出るので拒否する。
+          path="''${1:-}"
+          case "$path" in
+          "" | /* | *..*)
+            echo "org-files $cmd: 相対パスを root 配下で指定すること" >&2
+            exit 2
+            ;;
+          esac
+          mkdir -p "$(dirname "$root/$path")"
+          if [ "$cmd" = write ]; then
+            cat >"$root/$path"
+          else
+            cat >>"$root/$path"
+          fi
+          ;;
         *)
-          echo "usage: org-files {root|list|search|cat} [args...]" >&2
+          echo "usage: org-files {root|list|search|cat|write|append} [args...]" >&2
           exit 2
           ;;
         esac

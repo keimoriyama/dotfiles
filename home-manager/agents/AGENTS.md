@@ -17,6 +17,7 @@
 
 - org ノート (`~/ghq/github.com/keimoriyama/org-files/`) は `org-files` コマンドで任意のディレクトリから読む。
   `org-files search <rg の引数>` で検索し、`org-files list [fd の引数]` で一覧し、`org-files cat <相対パス>` で内容を読む。
+  書き込みは標準入力から `org-files write <相対パス>` (上書き) と `org-files append <相対パス>` (追記) で行う。
 
 ## コードコメント
 
