@@ -38,6 +38,7 @@ in
     packages.instant-maximized-window
     packages.nano-modeline
     packages.arto
+    packages.mew
     rsync-mode
 
     # completion

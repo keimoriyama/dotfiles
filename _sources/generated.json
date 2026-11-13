@@ -16,7 +16,7 @@
     },
     "emacs-agent-shell-attention": {
         "cargoLock": null,
-        "date": "2026-11-02",
+        "date": "2026-11-12",
         "extract": null,
         "name": "emacs-agent-shell-attention",
         "passthru": null,
@@ -28,12 +28,12 @@
             "name": null,
             "owner": "ultronozm",
             "repo": "agent-shell-attention.el",
-            "rev": "8d5116f174fc35177aedc0f967a8fa3d6784aa1b",
-            "sha256": "sha256-wTwOgWSeyI+cSKaXm8fVZFgJFxY7+l3n5atXd5VPcog=",
+            "rev": "cc099725c41f144975d37abf108a9c879c716171",
+            "sha256": "sha256-gFLH3bgDlUBAGysMfTmc97LlldutRg8SkgBgPQI6ImE=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "8d5116f174fc35177aedc0f967a8fa3d6784aa1b"
+        "version": "cc099725c41f144975d37abf108a9c879c716171"
     },
     "emacs-agent-shell-dashboard": {
         "cargoLock": null,
@@ -181,6 +181,27 @@
             "type": "github"
         },
         "version": "e6b82419bf9c154df881c72c5800bbd43887ec0d"
+    },
+    "emacs-mew": {
+        "cargoLock": null,
+        "date": "2026-11-12",
+        "extract": null,
+        "name": "emacs-mew",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "kazu-yamamoto",
+            "repo": "Mew",
+            "rev": "a641ecccd051c3868e8903b65aa4b28663be771e",
+            "sha256": "sha256-dwi2z6gEcKPdCQRiBcMJsIXAoszxqVqNuewXH/8/wBU=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "a641ecccd051c3868e8903b65aa4b28663be771e"
     },
     "emacs-nano-modeline": {
         "cargoLock": null,

@@ -16,15 +16,15 @@
   };
   emacs-agent-shell-attention = {
     pname = "emacs-agent-shell-attention";
-    version = "8d5116f174fc35177aedc0f967a8fa3d6784aa1b";
+    version = "cc099725c41f144975d37abf108a9c879c716171";
     src = fetchFromGitHub {
       owner = "ultronozm";
       repo = "agent-shell-attention.el";
-      rev = "8d5116f174fc35177aedc0f967a8fa3d6784aa1b";
+      rev = "cc099725c41f144975d37abf108a9c879c716171";
       fetchSubmodules = false;
-      sha256 = "sha256-wTwOgWSeyI+cSKaXm8fVZFgJFxY7+l3n5atXd5VPcog=";
+      sha256 = "sha256-gFLH3bgDlUBAGysMfTmc97LlldutRg8SkgBgPQI6ImE=";
     };
-    date = "2026-11-02";
+    date = "2026-11-12";
   };
   emacs-agent-shell-dashboard = {
     pname = "emacs-agent-shell-dashboard";
@@ -109,6 +109,18 @@
       sha256 = "sha256-UEvyC0utnPuBmoCBljU/M/ytLUdFCQ881tC8Qba8vA8=";
     };
     date = "2018-05-28";
+  };
+  emacs-mew = {
+    pname = "emacs-mew";
+    version = "a641ecccd051c3868e8903b65aa4b28663be771e";
+    src = fetchFromGitHub {
+      owner = "kazu-yamamoto";
+      repo = "Mew";
+      rev = "a641ecccd051c3868e8903b65aa4b28663be771e";
+      fetchSubmodules = false;
+      sha256 = "sha256-dwi2z6gEcKPdCQRiBcMJsIXAoszxqVqNuewXH/8/wBU=";
+    };
+    date = "2026-11-12";
   };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
