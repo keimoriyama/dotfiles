@@ -39,7 +39,6 @@ in
     packages.nano-modeline
     packages.arto
     packages.mew
-    eat
     rsync-mode
 
     # completion
