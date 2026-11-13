@@ -2415,6 +2415,19 @@ agent-shell-manager と重複していたので、そちらは外してこちら
   'mew-send-hook)
 #+end_src
 
+** eat
+Emacs 内の端末エミュレータ。実際の zsh を動かすので、補完・プロンプト・
+TUI は zsh と同じように使える。起動するシェルは eat-shell (既定は
+SHELL 環境変数) で決まる。eshell のフックは、eshell で端末が必要な
+コマンド (less や top など) を eat に任せるためのもの。
+
+#+begin_src emacs-lisp
+(setopt eat-term-name "xterm-256color")
+(keymap-global-set "C-c t" #'eat)
+(add-hook 'eshell-load-hook #'eat-eshell-mode)
+(add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+#+end_src
+
 ** rsync-mode
 rsync でプロジェクトをリモートホストへ同期する。デプロイ先の紐付けは
 プロジェクト固有なので init.el には書かず、各プロジェクトルートの

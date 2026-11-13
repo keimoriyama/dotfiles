@@ -82,8 +82,3 @@ fetch.url="https://registry.npmjs.org/claude-usage-line/-/claude-usage-line-$ver
 src.git="https://github.com/kazu-yamamoto/Mew"
 src.branch="main"
 fetch.github="kazu-yamamoto/Mew"
-
-[emacs-shell-maker]
-src.git="https://github.com/xenodium/shell-maker"
-src.branch="main"
-fetch.github="xenodium/shell-maker"

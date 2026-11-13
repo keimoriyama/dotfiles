@@ -130,13 +130,6 @@
       "--with-etcdir=${placeholder "out"}/share/emacs/site-lisp/mew/etc"
     ];
   };
-  # agent-shell など nixpkgs 側の依存元も、この shell-maker を使うよう
-  # default.nix の overrideScope で差し替える (二重に load-path へ載せない)。
-  shell-maker = epkgs.melpaBuild {
-    pname = "shell-maker";
-    src = sources.emacs-shell-maker.src;
-    version = "0.0.1";
-  };
   # Upstream projectile ships projectile-consult.el, which unconditionally
   # (require 'consult), but nixpkgs' generated package doesn't declare it
   # as a dependency, breaking byte-compilation. Add it explicitly.
