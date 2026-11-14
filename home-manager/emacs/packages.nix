@@ -10,21 +10,6 @@
     patches = [./yatexlib.diff];
     ignoreCompilationError = true;
   };
-  yaml-mode = epkgs.melpaBuild {
-    pname = "yaml-mode";
-    src = sources.emacs-yaml-mode.src;
-    version = "0.0.1";
-  };
-  dmacro = epkgs.melpaBuild {
-    pname = "dmacro";
-    src = sources.emacs-dmacro.src;
-    version = "0.0.1";
-  };
-  instant-maximized-window = epkgs.melpaBuild {
-    pname = "instant-maximized-window";
-    src = sources.emacs-instant-maximized-window.src;
-    version = "0.0.1";
-  };
   nano-modeline = epkgs.melpaBuild {
     pname = "nano-modeline";
     src = sources.emacs-nano-modeline.src;
@@ -50,11 +35,6 @@
       epkgs.eglot
       epkgs.xref
     ];
-  };
-  hide-lines = epkgs.melpaBuild {
-    pname = "hide-lines";
-    src = sources.emacs-hide-lines.src;
-    version = "0.0.1";
   };
   agent-shell-notifications = epkgs.melpaBuild {
     pname = "agent-shell-notifications";
@@ -97,15 +77,6 @@
       # byte-compilation resolves its faces. projectile stays out: it's only
       # reached through fboundp guards, and our projectile is the override below.
       epkgs.modus-themes
-    ];
-  };
-  org-hyperscheduler = epkgs.melpaBuild {
-    pname = "org-hyperscheduler";
-    src = sources.emacs-org-hyperscheduler.src;
-    version = "0.0.1";
-    packageRequires = [
-      epkgs.websocket
-      epkgs.log4e
     ];
   };
   arto = epkgs.melpaBuild {

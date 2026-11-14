@@ -18,21 +18,6 @@ src.git="https://github.com/arto-app/arto.el"
 src.branch="main"
 fetch.github="arto-app/arto.el"
 
-[emacs-yaml-mode]
-src.git="https://github.com/yoshiki/yaml-mode"
-src.branch="master"
-fetch.github="yoshiki/yaml-mode"
-
-[emacs-dmacro]
-src.git="https://github.com/emacs-jp/dmacro"
-src.branch='master'
-fetch.github='emacs-jp/dmacro'
-
-[emacs-instant-maximized-window]
-src.git="https://github.com/blue0513/instant-maximized-window/"
-src.branch='master'
-fetch.github='blue0513/instant-maximized-window'
-
 [emacs-typst-ts-mode]
 src.git="https://github.com/Ziqi-Yang/typst-ts-mode"
 src.branch='main'
@@ -42,11 +27,6 @@ fetch.github="Ziqi-Yang/typst-ts-mode"
 src.git="https://github.com/nemethf/eglot-x"
 src.branch="master"
 fetch.github="nemethf/eglot-x"
-
-[emacs-hide-lines]
-src.git="https://github.com/vapniks/hide-lines"
-src.branch="master"
-fetch.github="vapniks/hide-lines"
 
 [emacs-agent-shell-notifications]
 src.git="https://github.com/zackattackz/agent-shell-notifications"

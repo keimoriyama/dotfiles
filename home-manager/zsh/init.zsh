@@ -1,10 +1,3 @@
-typeset -U path
-# fish_add_path と同じく、存在しないディレクトリは追加しない。
-path=({"$HOME/.nix-profile",/etc/profiles/per-user/$USER,/nix/var/nix/profiles/default}/bin(N-/) $path)
-path+=({/opt/homebrew,"$HOME/.cargo","$HOME/.local","$HOME/.roswell"}/bin(N-/))
-export PATH
-export SHELL="/etc/profiles/per-user/$USER/bin/zsh"
-
 [[ -f "$MOCWORD_DATA" ]] || {
   mkdir -p "${MOCWORD_DATA:h}"
   curl -L -o "$MOCWORD_DATA.gz" https://github.com/high-moctane/mocword-data/releases/download/eng20200217/mocword.sqlite.gz && gzip -d "$MOCWORD_DATA.gz"

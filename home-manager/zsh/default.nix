@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
+  xdg.configFile."zsh/env.sh".source = ./env.sh;
+
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -39,11 +45,10 @@
       c = "clear";
       python = "python3";
     };
-    # API キーなどリポジトリに入れない環境変数は、管理外のこのファイルに書く。
-    # .zshenv で読むので、Emacs の exec-path-from-shell や非対話シェルにも届く。
+    # ジョブからも必要な環境変数は、対話 zsh と TRAMP の /bin/sh の
+    # 両方から読める POSIX 互換ファイルにまとめる。
     envExtra = ''
-      [[ -r ''${XDG_CONFIG_HOME:-$HOME/.config}/zsh/secrets.zsh ]] &&
-        source ''${XDG_CONFIG_HOME:-$HOME/.config}/zsh/secrets.zsh
+      source ${config.xdg.configHome}/zsh/env.sh
     '';
     initContent = ''
       source ${pkgs.git}/share/git/contrib/completion/git-prompt.sh

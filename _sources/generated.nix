@@ -62,18 +62,6 @@
     };
     date = "2026-10-11";
   };
-  emacs-dmacro = {
-    pname = "emacs-dmacro";
-    version = "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468";
-    src = fetchFromGitHub {
-      owner = "emacs-jp";
-      repo = "dmacro";
-      rev = "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468";
-      fetchSubmodules = false;
-      sha256 = "sha256-gXUr56grxz6+OvQW7YE+dAXDkGyDq0JQclCvKNNiu0Y=";
-    };
-    date = "2024-10-27";
-  };
   emacs-eglot-x = {
     pname = "emacs-eglot-x";
     version = "46bca93291727454dd92567e761a1e2ab5622590";
@@ -85,30 +73,6 @@
       sha256 = "sha256-c8NzzK7SOYYDB803Osp3TOymrmwC07+dcvbI4waAfco=";
     };
     date = "2026-02-16";
-  };
-  emacs-hide-lines = {
-    pname = "emacs-hide-lines";
-    version = "803443035c7feb85ea1ad83e49629c54dfc48e8d";
-    src = fetchFromGitHub {
-      owner = "vapniks";
-      repo = "hide-lines";
-      rev = "803443035c7feb85ea1ad83e49629c54dfc48e8d";
-      fetchSubmodules = false;
-      sha256 = "sha256-duzCjFVY5Mq3GBz0udPjFgP2otL2bSnyViBStMJictk=";
-    };
-    date = "2025-05-23";
-  };
-  emacs-instant-maximized-window = {
-    pname = "emacs-instant-maximized-window";
-    version = "e6b82419bf9c154df881c72c5800bbd43887ec0d";
-    src = fetchFromGitHub {
-      owner = "blue0513";
-      repo = "instant-maximized-window";
-      rev = "e6b82419bf9c154df881c72c5800bbd43887ec0d";
-      fetchSubmodules = false;
-      sha256 = "sha256-UEvyC0utnPuBmoCBljU/M/ytLUdFCQ881tC8Qba8vA8=";
-    };
-    date = "2018-05-28";
   };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
@@ -133,18 +97,6 @@
       sha256 = "sha256-oZ4uq87PeqXGIy8Dmx7ppGzrxDhiJEGOH8nXerZ03ik=";
     };
     date = "2025-01-18";
-  };
-  emacs-yaml-mode = {
-    pname = "emacs-yaml-mode";
-    version = "93dba98c050e9abfc623ec66aa499dbbb46b2fe1";
-    src = fetchFromGitHub {
-      owner = "yoshiki";
-      repo = "yaml-mode";
-      rev = "93dba98c050e9abfc623ec66aa499dbbb46b2fe1";
-      fetchSubmodules = false;
-      sha256 = "sha256-AhXDqJIJ68i1c1D4agOD72WTC7Mw+N8ooeb+9MsYBZk=";
-    };
-    date = "2026-08-31";
   };
   emacs-yatex = {
     pname = "emacs-yatex";

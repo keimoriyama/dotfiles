@@ -9,15 +9,12 @@ in
     olivetti
     dash
     f
-    all-the-icons
     nerd-icons
     nerd-icons-completion
     catppuccin-theme
     volatile-highlights
     packages.projectile
-    expand-region
     undo-tree
-    free-keys
     bufferlo
     puni
     which-key
@@ -32,10 +29,7 @@ in
     htmlize
     gcmh
     beacon
-    symbol-overlay
     color-identifiers-mode
-    packages.dmacro
-    packages.instant-maximized-window
     packages.nano-modeline
     packages.arto
     rsync-mode
@@ -46,11 +40,9 @@ in
     cape
     vertico
     marginalia
-    avy
     consult
     embark
     embark-consult
-    affe
     orderless
 
     # git
@@ -63,24 +55,17 @@ in
     # langs
     packages.yatex
     packages.typst-ts-mode
-    python-mode
     nix-mode
-    reformatter
-    csv-mode
-    dockerfile-mode
-    dotenv-mode
-    git-modes
-    json-mode
     rust-mode
     cargo
+    reformatter
+    csv-mode
+    dotenv-mode
+    git-modes
     ssh-config-mode
-    toml-mode
 
-    yaml-mode
-    python-pytest
     fish-mode
     haskell-mode
-    lua-mode
     web-mode
 
     # ai
@@ -104,10 +89,8 @@ in
     svg-tag-mode
     ox-hugo
     org-roam
-    org-roam-ui
     org-super-agenda
     org-appear
     org-journal
     ob-rust
-    packages.hide-lines
   ]

@@ -98,27 +98,6 @@
         },
         "version": "da17568f61c30133df1cf3fdf9d0fa4137cfd66e"
     },
-    "emacs-dmacro": {
-        "cargoLock": null,
-        "date": "2024-10-27",
-        "extract": null,
-        "name": "emacs-dmacro",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "emacs-jp",
-            "repo": "dmacro",
-            "rev": "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468",
-            "sha256": "sha256-gXUr56grxz6+OvQW7YE+dAXDkGyDq0JQclCvKNNiu0Y=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "c714fcdbac3ae57fcc8ff3db94b0e5aededc7468"
-    },
     "emacs-eglot-x": {
         "cargoLock": null,
         "date": "2026-02-16",
@@ -139,48 +118,6 @@
             "type": "github"
         },
         "version": "46bca93291727454dd92567e761a1e2ab5622590"
-    },
-    "emacs-hide-lines": {
-        "cargoLock": null,
-        "date": "2025-05-23",
-        "extract": null,
-        "name": "emacs-hide-lines",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "vapniks",
-            "repo": "hide-lines",
-            "rev": "803443035c7feb85ea1ad83e49629c54dfc48e8d",
-            "sha256": "sha256-duzCjFVY5Mq3GBz0udPjFgP2otL2bSnyViBStMJictk=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "803443035c7feb85ea1ad83e49629c54dfc48e8d"
-    },
-    "emacs-instant-maximized-window": {
-        "cargoLock": null,
-        "date": "2018-05-28",
-        "extract": null,
-        "name": "emacs-instant-maximized-window",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "blue0513",
-            "repo": "instant-maximized-window",
-            "rev": "e6b82419bf9c154df881c72c5800bbd43887ec0d",
-            "sha256": "sha256-UEvyC0utnPuBmoCBljU/M/ytLUdFCQ881tC8Qba8vA8=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "e6b82419bf9c154df881c72c5800bbd43887ec0d"
     },
     "emacs-nano-modeline": {
         "cargoLock": null,
@@ -223,27 +160,6 @@
             "type": "github"
         },
         "version": "aee8ff090cff6f39a70ac2c9035b1eb2b69924d7"
-    },
-    "emacs-yaml-mode": {
-        "cargoLock": null,
-        "date": "2026-08-31",
-        "extract": null,
-        "name": "emacs-yaml-mode",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "yoshiki",
-            "repo": "yaml-mode",
-            "rev": "93dba98c050e9abfc623ec66aa499dbbb46b2fe1",
-            "sha256": "sha256-AhXDqJIJ68i1c1D4agOD72WTC7Mw+N8ooeb+9MsYBZk=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "93dba98c050e9abfc623ec66aa499dbbb46b2fe1"
     },
     "emacs-yatex": {
         "cargoLock": null,
