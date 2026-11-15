@@ -2008,6 +2008,17 @@ org-mycal-export
   (claude-usage-mode 1))
 #+end_src
 
+** agent-review
+エージェントの計画や差分を Emacs のバッファ上でレビューする (crit 相当)。
+C-c C-c でラウンドを終えると未解決コメントを agent-shell に送り、
+エージェントが =z-ai/= に返信を書くと次のラウンドが始まる。
+
+#+begin_src emacs-lisp
+(dolist (command '(agent-review agent-review-files agent-review-git
+                   agent-review-resume))
+  (autoload command "agent-review" nil t))
+#+end_src
+
 ** agent-shell-attention
 待ち状態の agent-shell バッファ数をモードラインに表示する。
 
