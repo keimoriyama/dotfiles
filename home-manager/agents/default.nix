@@ -3,4 +3,9 @@
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/ghq/github.com/keimoriyama/dotfiles/home-manager/agents/AGENTS.md";
     force = true;
   };
+
+  home.file.".codex/AGENTS.md" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/ghq/github.com/keimoriyama/dotfiles/home-manager/agents/AGENTS.md";
+    force = true;
+  };
 }

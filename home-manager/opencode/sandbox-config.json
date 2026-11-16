@@ -74,6 +74,7 @@
       "channels.nixos.org",
       "api.openai.com",
       "api.anthropic.com",
+      "api.sarashina.ai",
       "*.googleapis.com",
       "static.rust-lang.org",
       "hackage.haskell.org",
