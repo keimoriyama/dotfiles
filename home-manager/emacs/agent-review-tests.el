@@ -64,6 +64,54 @@
   "No changes yield no entries."
   (should (null (agent-review--parse-diff ""))))
 
+(ert-deftest agent-review-hunk-heading-shows-the-project-relative-file ()
+  "Each hunk identifies its file without dropping the section context."
+  (let* ((entries (agent-review--parse-diff
+                   (concat "--- a/flake.nix\n"
+                           "+++ b/flake.nix\n"
+                           "@@ -1 +1 @@ class config\n"
+                           "-old\n"
+                           "+new\n")))
+         (hunk (cl-find 'hunk entries :key (lambda (e) (plist-get e :kind)))))
+    (should (equal (agent-review--hunk-heading hunk)
+                   "@@ -1 +1 @@ class config : ./flake.nix"))))
+
+(ert-deftest agent-review-git-entries-diff-only-against-head ()
+  "A topic branch review excludes changes already committed on the branch."
+  (let ((root (make-temp-file "agent-review-repo-" t)) initial topic)
+    (unwind-protect
+        (progn
+          (agent-review--git root "init" "--quiet")
+          (with-temp-file (expand-file-name "value.txt" root) (insert "one\n"))
+          (agent-review--git root "add" "value.txt")
+          (agent-review--git root "-c" "user.name=Agent Review"
+                             "-c" "user.email=agent-review@example.invalid"
+                             "-c" "commit.gpgsign=false"
+                             "commit" "--quiet" "-m" "initial")
+          (setq initial (string-trim (agent-review--git root "rev-parse" "HEAD")))
+          (agent-review--git root "checkout" "--quiet" "-b" "topic")
+          (with-temp-file (expand-file-name "value.txt" root) (insert "two\n"))
+          (agent-review--git root "add" "value.txt")
+          (agent-review--git root "-c" "user.name=Agent Review"
+                             "-c" "user.email=agent-review@example.invalid"
+                             "-c" "commit.gpgsign=false"
+                             "commit" "--quiet" "-m" "topic change")
+          (setq topic (string-trim (agent-review--git root "rev-parse" "HEAD")))
+          (with-temp-file (expand-file-name "value.txt" root) (insert "working\n"))
+          (should (equal (agent-review-tests--lines
+                          (agent-review--git-entries root))
+                         '((del 1 nil "two") (add nil 1 "working"))))
+          (should (equal (agent-review-tests--lines
+                          (agent-review--git-entries root topic))
+                         '((del 1 nil "one") (add nil 1 "two"))))
+          (should (equal (agent-review-tests--lines
+                          (agent-review--git-entries root initial))
+                         '((add nil 1 "one"))))
+          (should (equal (sort (mapcar #'cdr (agent-review--git-commits root))
+                               #'string<)
+                         (sort (list topic initial) #'string<))))
+      (delete-directory root t))))
+
 (defun agent-review-tests--comment (start end anchor)
   "Return a comment on START..END anchored on ANCHOR."
   (list :id "c_1" :file "plan.md" :start_line start :end_line end :anchor anchor))
@@ -190,17 +238,51 @@
   (should-not (equal (agent-review--session-id 'git "/r/" nil "main")
                      (agent-review--session-id 'git "/r/" nil "topic"))))
 
+(ert-deftest agent-review-session-id-separates-selected-commits ()
+  "Comments on one selected commit do not leak into another review."
+  (should-not (equal (agent-review--session-id 'git "/r/" nil nil "aaaa")
+                     (agent-review--session-id 'git "/r/" nil nil "bbbb"))))
+
+(ert-deftest agent-review-session-layout-stays-compatible-across-reloads ()
+  "Adding commit selection does not corrupt sessions created by older code."
+  (let* ((buffer (generate-new-buffer " *agent-review-legacy*"))
+         (legacy (record 'agent-review-session "old" 'git "/r/" nil
+                         1 "reviewing" nil nil nil nil nil buffer))
+         (interim (record 'agent-review-session "interim" 'git "/r/" nil
+                          1 "reviewing" nil nil nil nil nil "deadbeef" buffer)))
+    (unwind-protect
+        (progn
+          (should (eq (agent-review-session-buffer legacy) buffer))
+          (should-not (agent-review--session-revision legacy))
+          (agent-review--normalize-session-layout interim)
+          (should (eq (agent-review-session-buffer interim) buffer))
+          (should (equal (agent-review--session-revision interim) "deadbeef")))
+      (kill-buffer buffer))))
+
+(ert-deftest agent-review-mode-binds-commit-selection ()
+  "A Git review can open the local commit picker with one key."
+  (should (eq (keymap-lookup agent-review-mode-map "s")
+              #'agent-review-select-commit)))
+
 (ert-deftest agent-review-lines-drops-only-the-final-newline ()
   "A trailing newline ends the last line; blank lines inside are kept."
   (should (equal (agent-review--lines "a\n\nb\n") '("a" "" "b")))
   (should (equal (agent-review--lines "a") '("a")))
   (should (null (agent-review--lines ""))))
 
+(ert-deftest agent-review-read-file-ignores-directories ()
+  "Gitlinks are directories in the worktree and have no file contents to read."
+  (let ((dir (make-temp-file "agent-review-gitlink-" t)))
+    (unwind-protect
+        (should (null (agent-review--read-file dir)))
+      (delete-directory dir))))
+
 (ert-deftest agent-review-save-and-load-round-trip ()
   "A saved session reads back with its comments, replies and snapshots."
   (let* ((agent-review-directory (make-temp-file "agent-review-test-" t))
          (s (agent-review--make-session
              :id "abc123" :mode 'files :root "/r/" :files '("/r/plan.md")
+             :revision "0123456789abcdef"
              :round 2 :state "agent"
              :comments '((:id "c_1" :file "plan.md" :side "new" :start_line 1
                           :end_line 1 :anchor "a" :body "日本語" :author "kei"
@@ -214,6 +296,7 @@
           (let ((l (agent-review--load "abc123")))
             (should (eq (agent-review-session-mode l) 'files))
             (should (equal (agent-review-session-files l) '("/r/plan.md")))
+            (should (equal (agent-review-session-revision l) "0123456789abcdef"))
             (should (equal (agent-review-session-round l) 2))
             (should (equal (agent-review-session-comments l)
                            (agent-review-session-comments s)))

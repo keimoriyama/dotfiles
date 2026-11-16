@@ -77,10 +77,30 @@ Keep it out of version control; the files are deleted once read."
                (:constructor agent-review--make-session)
                (:copier nil))
   id mode root files (round 1) (state "reviewing") comments
-  snapshot prev-snapshot prompt approved buffer)
+  snapshot prev-snapshot prompt approved buffer revision)
+
+(defun agent-review--session-revision (s)
+  "Return S's selected revision, tolerating sessions made before that slot existed."
+  (condition-case nil
+      (agent-review-session-revision s)
+    (args-out-of-range nil)))
 
 (defvar agent-review--sessions (make-hash-table :test #'equal)
   "Live sessions by id.")
+
+(defun agent-review--normalize-session-layout (s)
+  "Repair S created while the revision slot preceded the buffer slot."
+  (when (and (> (length s) 13)
+             (or (bufferp (aref s 13))
+                 (and (stringp (aref s 12)) (null (aref s 13)))))
+    (let ((revision (aref s 12)))
+      (aset s 12 (aref s 13))
+      (aset s 13 revision)))
+  s)
+
+;; Preserve live sessions across evaluation of a newer version of this file.
+(maphash (lambda (_id s) (agent-review--normalize-session-layout s))
+         agent-review--sessions)
 
 (defvar agent-review--reply-watches (make-hash-table :test #'equal)
   "Watches for the agent's reply file, as (DESCRIPTOR . TIMER) by session id.")
@@ -117,14 +137,14 @@ Keep it out of version control; the files are deleted once read."
         (when v (setq out (nconc out (list k v))))))
     out))
 
-(defun agent-review--session-id (mode root files branch)
-  "Return the session id for MODE over ROOT, FILES and git BRANCH."
+(defun agent-review--session-id (mode root files branch &optional revision)
+  "Return the session id for MODE over ROOT, FILES, BRANCH and REVISION."
   (substring
    (secure-hash 'sha1
                 (string-join
                  (cons (symbol-name mode)
                        (if (eq mode 'git)
-                           (list root (or branch ""))
+                           (list root (or revision branch ""))
                          (sort (copy-sequence files) #'string<)))
                  "\0"))
    0 12))
@@ -328,6 +348,7 @@ Replies to unknown comments and empty replies are dropped."
           :mode (symbol-name (agent-review-session-mode s))
           :root (agent-review-session-root s)
           :files (vconcat (agent-review-session-files s))
+          :revision (agent-review--session-revision s)
           :round (agent-review-session-round s)
           :state (agent-review-session-state s)
           :comments (vconcat (mapcar #'agent-review--comment-json
@@ -352,6 +373,7 @@ Replies to unknown comments and empty replies are dropped."
          :mode (intern (plist-get d :mode))
          :root (plist-get d :root)
          :files (plist-get d :files)
+         :revision (plist-get d :revision)
          :round (plist-get d :round)
          :state (plist-get d :state)
          :comments (plist-get d :comments)
@@ -385,8 +407,8 @@ A session still waiting for the agent resumes watching for its replies."
 ;;;; Files and git
 
 (defun agent-review--read-file (file)
-  "Return the contents of FILE, or nil when it cannot be read."
-  (when (file-readable-p file)
+  "Return the contents of regular FILE, or nil when it cannot be read."
+  (when (and (file-regular-p file) (file-readable-p file))
     (with-temp-buffer
       (let ((coding-system-for-read 'utf-8))
         (insert-file-contents file))
@@ -428,27 +450,40 @@ A session still waiting for the agent resumes watching for its replies."
   (or (agent-review--git-try dir "rev-parse" "--show-toplevel")
       (user-error "agent-review: %s is not inside a git repository" dir)))
 
-(defun agent-review--git-base (root)
-  "Return the commit the git review of ROOT diffs against."
-  (let ((default
-         (or (agent-review--git-try root "symbolic-ref" "--quiet" "--short"
-                                    "refs/remotes/origin/HEAD")
-             (cl-find-if (lambda (b)
-                           (agent-review--git-try root "rev-parse" "--verify" "--quiet" b))
-                         '("main" "master")))))
-    (or (and default (agent-review--git-try root "merge-base" "HEAD" default))
-        "HEAD")))
+(defun agent-review--git-commit (root revision)
+  "Resolve REVISION to a commit hash in ROOT, or signal a user error."
+  (or (agent-review--git-try root "rev-parse" "--verify"
+                             (concat revision "^{commit}"))
+      (user-error "agent-review: unknown commit %s" revision)))
 
-(defun agent-review--git-entries (root)
-  "Return the entries of the git review of ROOT."
-  (let ((diff (agent-review--git root "-c" "core.quotePath=false" "diff"
-                                 "--no-color" "--no-ext-diff"
-                                 "--src-prefix=a/" "--dst-prefix=b/"
-                                 (agent-review--git-base root)))
-        (untracked (split-string
-                    (agent-review--git root "ls-files" "--others"
-                                       "--exclude-standard" "-z")
-                    "\0" t)))
+(defun agent-review--git-commits (root)
+  "Return local commits in ROOT as completion candidates."
+  (mapcar (lambda (line)
+            (let ((tab (string-match "\t" line)))
+              (cons (substring line (1+ tab)) (substring line 0 tab))))
+          (split-string
+           (agent-review--git root "log" "--all" "--format=%H%x09%h %s")
+           "\n" t)))
+
+(defun agent-review--git-entries (root &optional revision)
+  "Return ROOT's working-tree or selected REVISION entries.
+Without REVISION, show uncommitted changes since HEAD.  With REVISION,
+show only that commit's changes against its first parent."
+  (let ((diff (if revision
+                  (agent-review--git
+                   root "-c" "core.quotePath=false" "diff-tree"
+                   "--root" "--first-parent" "-m" "-p" "--no-commit-id"
+                   "--no-color" "--no-ext-diff"
+                   "--src-prefix=a/" "--dst-prefix=b/" revision)
+                (agent-review--git root "-c" "core.quotePath=false" "diff"
+                                   "--no-color" "--no-ext-diff"
+                                   "--src-prefix=a/" "--dst-prefix=b/"
+                                   "HEAD")))
+        (untracked (and (null revision)
+                        (split-string
+                         (agent-review--git root "ls-files" "--others"
+                                            "--exclude-standard" "-z")
+                         "\0" t))))
     (append
      (agent-review--parse-diff diff)
      (mapcan (lambda (f)
@@ -550,7 +585,8 @@ the faces whether or not font-lock is on in the review buffer."
 (defun agent-review--entries (s)
   "Return the entries rendered for session S."
   (if (eq (agent-review-session-mode s) 'git)
-      (agent-review--git-entries (agent-review-session-root s))
+      (agent-review--git-entries (agent-review-session-root s)
+                                 (agent-review--session-revision s))
     (mapcan (lambda (abs) (agent-review--file-entries s abs))
             (agent-review-session-files s))))
 
@@ -601,7 +637,8 @@ the faces whether or not font-lock is on in the review buffer."
                      (format "%5s %5s %s│ "
                              (or (plist-get e :old) "") (or (plist-get e :new) "") sign)
                    (format "%5d │ " line)))
-         (body (concat (or (and (not (eq kind 'del))
+         (body (concat (or (and (not (agent-review--session-revision s))
+                                (not (eq kind 'del))
                                 (agent-review--fontified-line s file line))
                            (plist-get e :text))
                        "\n"))
@@ -612,6 +649,12 @@ the faces whether or not font-lock is on in the review buffer."
     (insert (propertize (concat (agent-review--face gutter 'agent-review-line-number) body)
                         'agent-review-line
                         (list :file file :side side :line line :text (plist-get e :text))))))
+
+(defun agent-review--hunk-heading (e)
+  "Return the heading for hunk entry E with its project-relative file name."
+  (concat (plist-get e :text)
+          (when-let* ((file (plist-get e :file)))
+            (format " : ./%s" file))))
 
 (defun agent-review--point-anchor ()
   "Return what identifies the position of point across a re-render."
@@ -656,9 +699,12 @@ the faces whether or not font-lock is on in the review buffer."
                          index))))
     (erase-buffer)
     (insert (agent-review--face
-             (format "%s review of %s  (session %s)\n"
+             (format "%s review of %s%s  (session %s)\n"
                      (if (eq (agent-review-session-mode s) 'git) "Git" "File")
                      (abbreviate-file-name (agent-review-session-root s))
+                     (if-let* ((revision (agent-review--session-revision s)))
+                         (format " at %.12s" revision)
+                       "")
                      (agent-review-session-id s))
              'bold))
     (let ((general (cl-remove-if (lambda (c) (plist-get c :file)) comments)))
@@ -676,7 +722,8 @@ the faces whether or not font-lock is on in the review buffer."
                         'agent-review-file-header)
                        'agent-review-file (plist-get e :file))))
         ('hunk
-         (insert (agent-review--face (concat (plist-get e :text) "\n") 'agent-review-hunk)))
+         (insert (agent-review--face (concat (agent-review--hunk-heading e) "\n")
+                                     'agent-review-hunk)))
         (kind
          (agent-review--insert-line s e diff-p)
          (dolist (c (gethash (agent-review--loc-key
@@ -705,14 +752,15 @@ the faces whether or not font-lock is on in the review buffer."
 (defun agent-review--header-line ()
   "Return the header line of the current review buffer."
   (let ((s agent-review--session))
-    (format " Round %d · %s · %d open │ c comment  C general  r reply  R resolve  e edit  D delete%s  N next round  C-c C-c finish"
+    (format " Round %d · %s · %d open │ c comment  C general  r reply  R resolve  e edit  D delete%s%s  N next round  C-c C-c finish"
             (agent-review-session-round s)
             (cond
              ((equal (agent-review-session-state s) "reviewing") "reviewing")
              ((agent-review-session-approved s) "approved")
              (t "waiting for the agent's replies"))
             (length (agent-review--unresolved (agent-review-session-comments s)))
-            (if (eq (agent-review-session-mode s) 'files) "  d round diff" ""))))
+            (if (eq (agent-review-session-mode s) 'files) "  d round diff" "")
+            (if (eq (agent-review-session-mode s) 'git) "  s select commit" ""))))
 
 ;;;; Buffers and file watching
 
@@ -767,7 +815,10 @@ the faces whether or not font-lock is on in the review buffer."
                          (if (eq (agent-review-session-mode s) 'git)
                              (concat "git "
                                      (file-name-nondirectory
-                                      (directory-file-name (agent-review-session-root s))))
+                                      (directory-file-name (agent-review-session-root s)))
+                                     (if-let* ((revision (agent-review--session-revision s)))
+                                         (format "@%.12s" revision)
+                                       ""))
                            (mapconcat #'file-name-nondirectory
                                       (agent-review-session-files s) " ")))))
       (with-current-buffer buf
@@ -789,15 +840,18 @@ the faces whether or not font-lock is on in the review buffer."
   "Show the review buffer of session S."
   (pop-to-buffer (agent-review--ensure-buffer s)))
 
-(defun agent-review--open (mode root files)
-  "Return the session for MODE over ROOT and FILES, creating it when new."
+(defun agent-review--open (mode root files &optional revision)
+  "Return the session for MODE over ROOT, FILES and REVISION."
   (let* ((root (file-name-as-directory (expand-file-name root)))
-         (branch (and (eq mode 'git) (agent-review--git-try root "rev-parse" "--abbrev-ref" "HEAD")))
-         (id (agent-review--session-id mode root files branch)))
+         (revision (and revision (agent-review--git-commit root revision)))
+         (branch (and (eq mode 'git) (null revision)
+                      (agent-review--git-try root "rev-parse" "--abbrev-ref" "HEAD")))
+         (id (agent-review--session-id mode root files branch revision)))
     (or (gethash id agent-review--sessions)
         (when-let* ((loaded (agent-review--load id)))
           (agent-review--register loaded))
-        (let ((new (agent-review--make-session :id id :mode mode :root root :files files)))
+        (let ((new (agent-review--make-session :id id :mode mode :root root
+                                               :files files :revision revision)))
           (setf (agent-review-session-snapshot new) (agent-review--read-snapshot new))
           (agent-review--save new)
           (agent-review--register new)))))
@@ -1177,12 +1231,30 @@ Replies the agent has already written are still taken in."
   (format "%s  %s  round %d  %s  (%d open)"
           (agent-review-session-id s)
           (if (eq (agent-review-session-mode s) 'git)
-              (concat "git " (abbreviate-file-name (agent-review-session-root s)))
+              (concat "git " (abbreviate-file-name (agent-review-session-root s))
+                      (if-let* ((revision (agent-review--session-revision s)))
+                          (format " at %.12s" revision)
+                        ""))
             (mapconcat (lambda (f) (agent-review--display-name s f))
                        (agent-review-session-files s) ", "))
           (agent-review-session-round s)
           (agent-review-session-state s)
           (length (agent-review--unresolved (agent-review-session-comments s)))))
+
+(defun agent-review-select-commit ()
+  "Select a local commit, or return to the uncommitted changes review."
+  (interactive)
+  (let ((s (agent-review--current)))
+    (unless (eq (agent-review-session-mode s) 'git)
+      (user-error "Commit selection is available only in a Git review"))
+    (let* ((root (agent-review-session-root s))
+           (working "Working tree (uncommitted changes)")
+           (table (cons (cons working nil) (agent-review--git-commits root)))
+           (revision (agent-review--session-revision s))
+           (current (or (car (rassoc revision table)) working))
+           (choice (completing-read "Review commit: " table nil t nil nil current)))
+      (agent-review--display
+       (agent-review--open 'git root nil (cdr (assoc choice table)))))))
 
 (defvar-keymap agent-review-mode-map
   :parent special-mode-map
@@ -1194,10 +1266,14 @@ Replies the agent has already written are still taken in."
   "R" #'agent-review-toggle-resolved
   "n" #'agent-review-next-comment
   "p" #'agent-review-previous-comment
+  "s" #'agent-review-select-commit
   "d" #'agent-review-toggle-round-diff
   "N" #'agent-review-new-round
   "RET" #'agent-review-visit
   "C-c C-c" #'agent-review-finish)
+
+;; `defvar-keymap' keeps an existing map when this file is reloaded.
+(keymap-set agent-review-mode-map "s" #'agent-review-select-commit)
 
 (define-derived-mode agent-review-mode special-mode "Agent-Review"
   "Major mode for reviewing agent output.
