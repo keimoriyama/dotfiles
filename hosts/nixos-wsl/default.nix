@@ -5,7 +5,6 @@
 }: {
   imports = [
     "${modulesPath}/profiles/minimal.nix"
-    ../common/codex.nix
   ];
 
   wsl = {

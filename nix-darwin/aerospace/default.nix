@@ -229,12 +229,6 @@
           ];
         }
         {
-          "if".app-id = "com.openai.codex";
-          run = [
-            "move-node-to-workspace g"
-          ];
-        }
-        {
           "if".app-id = "us.zoom.xos";
           run = ["move-node-to-workspace z"];
         }
