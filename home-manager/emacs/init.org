@@ -2014,8 +2014,10 @@ C-c C-c でラウンドを終えると未解決コメントを agent-shell に�
 エージェントが =z-ai/= に返信を書くと次のラウンドが始まる。
 Git レビューでは =s= で確認済みの hunk をステージして表示から除外し、
 =S= でローカルコミットまたは未コミット差分を選択する。
+セッションと返信ファイルは =~/.local/agent-review/<project>/= 以下に保存する。
 
 #+begin_src emacs-lisp
+(setq agent-review-directory (expand-file-name "~/.local/agent-review/"))
 (dolist (command '(agent-review agent-review-files agent-review-git
                    agent-review-resume))
   (autoload command "agent-review" nil t))

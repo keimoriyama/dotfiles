@@ -8,15 +8,14 @@
 ;; The reviewer opens a review with M-x agent-review, comments on lines or
 ;; ranges and finishes the round with C-c C-c, which sends the unresolved
 ;; comments to an agent-shell buffer (or the kill ring when there is none).
-;; The agent edits the files and writes its replies to a JSON file under
-;; `agent-review-reply-directory'; once that file appears, the replies are
-;; added to the comments and the next round starts.
+;; The agent edits the files and writes its replies to the session directory;
+;; once that file appears, the replies are added to the comments and the next
+;; round starts.
 ;;
 ;; Two kinds of review:
 ;; - files: the given files with line numbers.  `d' toggles a diff against
 ;;   what the reviewer saw in the previous round.
-;; - git: with no files, the working tree against the merge base with the
-;;   default branch, plus untracked files.
+;; - git: with no files, unstaged and untracked files in the working tree.
 ;;
 ;; A session is keyed by its files (or by repository and branch), kept in
 ;; `agent-review-directory', and survives an Emacs restart.
@@ -34,9 +33,14 @@
   "Review coding agent output in Emacs buffers."
   :group 'tools)
 
-(defcustom agent-review-directory (locate-user-emacs-file "agent-review/")
-  "Directory holding one subdirectory per review session."
+(defcustom agent-review-directory (expand-file-name "~/.local/agent-review/")
+  "Directory holding reviews grouped by project and session."
   :type 'directory)
+
+;; Move the previous default when this file is reloaded in a running Emacs.
+(when (equal (expand-file-name agent-review-directory)
+             (expand-file-name (locate-user-emacs-file "agent-review/")))
+  (setq agent-review-directory (expand-file-name "~/.local/agent-review/")))
 
 (defcustom agent-review-author
   (if (string-empty-p user-full-name) user-login-name user-full-name)
@@ -67,11 +71,6 @@
 
 (defface agent-review-resolved '((t :inherit shadow))
   "Face for resolved comments.")
-
-(defcustom agent-review-reply-directory "z-ai/"
-  "Directory, relative to the review root, where the agent writes its replies.
-Keep it out of version control; the files are deleted once read."
-  :type 'string)
 
 (cl-defstruct (agent-review-session
                (:constructor agent-review--make-session)
@@ -308,9 +307,21 @@ Replies to unknown comments and empty replies are dropped."
 
 ;;;; Persistence
 
-(defun agent-review--session-file (id)
-  "Return the JSON file of session ID."
-  (expand-file-name (concat id "/review.json") agent-review-directory))
+(defun agent-review--project-name (root)
+  "Return the directory name used to store reviews rooted at ROOT."
+  (or (file-name-nondirectory (directory-file-name (expand-file-name root)))
+      "root"))
+
+(defun agent-review--session-directory (s)
+  "Return the storage directory of session S."
+  (expand-file-name
+   (concat (agent-review--project-name (agent-review-session-root s)) "/"
+           (agent-review-session-id s) "/")
+   agent-review-directory))
+
+(defun agent-review--session-file (s)
+  "Return the JSON file of session S."
+  (expand-file-name "review.json" (agent-review--session-directory s)))
 
 (defun agent-review--snapshot-json (snapshot)
   "Return the alist SNAPSHOT as a JSON array."
@@ -338,7 +349,7 @@ Replies to unknown comments and empty replies are dropped."
 
 (defun agent-review--save (s)
   "Write session S to disk."
-  (let ((file (agent-review--session-file (agent-review-session-id s))))
+  (let ((file (agent-review--session-file s)))
     (make-directory (file-name-directory file) t)
     (let ((coding-system-for-write 'utf-8-unix))
       (with-temp-file file
@@ -359,28 +370,43 @@ Replies to unknown comments and empty replies are dropped."
           :prompt (agent-review-session-prompt s)
           :approved (and (agent-review-session-approved s) t)))))))
 
-(defun agent-review--load (id)
-  "Return session ID read from disk, or nil when it was never saved."
-  (let ((file (agent-review--session-file id)))
-    (when (file-readable-p file)
-      (let ((d (with-temp-buffer
-                 (let ((coding-system-for-read 'utf-8))
-                   (insert-file-contents file))
-                 (json-parse-buffer :object-type 'plist :array-type 'list
-                                    :null-object nil :false-object nil))))
-        (agent-review--make-session
-         :id (plist-get d :id)
-         :mode (intern (plist-get d :mode))
-         :root (plist-get d :root)
-         :files (plist-get d :files)
-         :revision (plist-get d :revision)
-         :round (plist-get d :round)
-         :state (plist-get d :state)
-         :comments (plist-get d :comments)
-         :snapshot (agent-review--snapshot-read (plist-get d :snapshot))
-         :prev-snapshot (agent-review--snapshot-read (plist-get d :prev_snapshot))
-         :prompt (plist-get d :prompt)
-         :approved (plist-get d :approved))))))
+(defun agent-review--load-file (file)
+  "Return the session stored in FILE."
+  (let ((d (with-temp-buffer
+             (let ((coding-system-for-read 'utf-8))
+               (insert-file-contents file))
+             (json-parse-buffer :object-type 'plist :array-type 'list
+                                :null-object nil :false-object nil))))
+    (agent-review--make-session
+     :id (plist-get d :id)
+     :mode (intern (plist-get d :mode))
+     :root (plist-get d :root)
+     :files (plist-get d :files)
+     :revision (plist-get d :revision)
+     :round (plist-get d :round)
+     :state (plist-get d :state)
+     :comments (plist-get d :comments)
+     :snapshot (agent-review--snapshot-read (plist-get d :snapshot))
+     :prev-snapshot (agent-review--snapshot-read (plist-get d :prev_snapshot))
+     :prompt (plist-get d :prompt)
+     :approved (plist-get d :approved))))
+
+(defun agent-review--load (id &optional root)
+  "Return session ID read from disk, optionally under project ROOT."
+  (let ((file (if root
+                  (expand-file-name
+                   (concat (agent-review--project-name root) "/" id "/review.json")
+                   agent-review-directory)
+                (and (file-directory-p agent-review-directory)
+                     (cl-find-if
+                      (lambda (candidate)
+                        (equal id (file-name-nondirectory
+                                   (directory-file-name
+                                    (file-name-directory candidate)))))
+                      (directory-files-recursively agent-review-directory
+                                                   "review\\.json\\'"))))))
+    (when (and file (file-readable-p file))
+      (agent-review--load-file file))))
 
 (defun agent-review--register (s)
   "Make session S live and return it.
@@ -400,8 +426,12 @@ A session still waiting for the agent resumes watching for its replies."
 (defun agent-review--all-sessions ()
   "Return every session found on disk or live."
   (when (file-directory-p agent-review-directory)
-    (dolist (dir (directory-files agent-review-directory nil "\\`[0-9a-f]+\\'"))
-      (ignore-errors (agent-review--get dir))))
+    (dolist (file (directory-files-recursively agent-review-directory
+                                               "review\\.json\\'"))
+      (ignore-errors
+        (let ((s (agent-review--load-file file)))
+          (unless (gethash (agent-review-session-id s) agent-review--sessions)
+            (agent-review--register s))))))
   (hash-table-values agent-review--sessions))
 
 ;;;; Files and git
@@ -719,7 +749,7 @@ the faces whether or not font-lock is on in the review buffer."
          (anchor (agent-review--point-anchor))
          (win (get-buffer-window (current-buffer)))
          (start-line (and win (line-number-at-pos (window-start win))))
-         (comments (agent-review-session-comments s))
+         (comments (agent-review--unresolved (agent-review-session-comments s)))
          (index (make-hash-table :test #'equal))
          (placed (make-hash-table :test #'equal))
          (diff-p (or (eq (agent-review-session-mode s) 'git) agent-review--round-diff))
@@ -887,7 +917,7 @@ the faces whether or not font-lock is on in the review buffer."
                       (agent-review--git-try root "rev-parse" "--abbrev-ref" "HEAD")))
          (id (agent-review--session-id mode root files branch revision)))
     (or (gethash id agent-review--sessions)
-        (when-let* ((loaded (agent-review--load id)))
+        (when-let* ((loaded (agent-review--load id root)))
           (agent-review--register loaded))
         (let ((new (agent-review--make-session :id id :mode mode :root root
                                                :files files :revision revision)))
@@ -923,9 +953,7 @@ the faces whether or not font-lock is on in the review buffer."
 
 (defun agent-review--reply-file (s)
   "Return the file the agent writes its replies to session S in."
-  (expand-file-name (format "agent-review-%s.json" (agent-review-session-id s))
-                    (expand-file-name agent-review-reply-directory
-                                      (agent-review-session-root s))))
+  (expand-file-name "replies.json" (agent-review--session-directory s)))
 
 (defun agent-review--read-replies (s)
   "Add the agent's replies in the reply file of session S to its comments.

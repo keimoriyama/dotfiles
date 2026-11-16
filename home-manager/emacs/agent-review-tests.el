@@ -324,6 +324,21 @@
         (should (null (agent-review--read-file dir)))
       (delete-directory dir))))
 
+(ert-deftest agent-review-render-hides-resolved-comments ()
+  "Resolved comments stay in the session but disappear from the review buffer."
+  (let ((s (agent-review--make-session
+            :id "comments" :mode 'git :root "/r/"
+            :comments '((:id "open" :body "SHOW-OPEN" :author "kei")
+                        (:id "closed" :body "HIDE-RESOLVED" :author "kei"
+                         :resolved t)))))
+    (with-temp-buffer
+      (agent-review-mode)
+      (setq agent-review--session s)
+      (cl-letf (((symbol-function 'agent-review--entries) (lambda (_s) nil)))
+        (agent-review--render))
+      (should (string-match-p "SHOW-OPEN" (buffer-string)))
+      (should-not (string-match-p "HIDE-RESOLVED" (buffer-string))))))
+
 (ert-deftest agent-review-save-and-load-round-trip ()
   "A saved session reads back with its comments, replies and snapshots."
   (let* ((agent-review-directory (make-temp-file "agent-review-test-" t))
@@ -340,6 +355,11 @@
     (unwind-protect
         (progn
           (agent-review--save s)
+          (should (file-exists-p
+                   (expand-file-name "r/abc123/review.json" agent-review-directory)))
+          (should (equal (agent-review--reply-file s)
+                         (expand-file-name "r/abc123/replies.json"
+                                           agent-review-directory)))
           (let ((l (agent-review--load "abc123")))
             (should (eq (agent-review-session-mode l) 'files))
             (should (equal (agent-review-session-files l) '("/r/plan.md")))
