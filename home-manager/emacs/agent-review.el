@@ -465,9 +465,41 @@ A session still waiting for the agent resumes watching for its replies."
            (agent-review--git root "log" "--all" "--format=%H%x09%h %s")
            "\n" t)))
 
+(defun agent-review--git-input (root input &rest args)
+  "Run git with ARGS in ROOT, feeding INPUT to its standard input."
+  (with-temp-buffer
+    (insert input)
+    (let* ((default-directory (file-name-as-directory root))
+           (coding-system-for-read 'utf-8)
+           (coding-system-for-write 'utf-8-unix)
+           (status (apply #'call-process-region (point-min) (point-max)
+                          "git" t '(t nil) nil args)))
+      (unless (eql status 0)
+        (error "agent-review: git %s failed: %s"
+               (string-join args " ") (string-trim (buffer-string)))))))
+
+(defun agent-review--git-hunk-patch (root file heading)
+  "Return FILE's unstaged patch for the hunk whose header is HEADING."
+  (let* ((diff (agent-review--git root "-c" "core.quotePath=false" "diff"
+                                  "--no-color" "--no-ext-diff"
+                                  "--src-prefix=a/" "--dst-prefix=b/"
+                                  "--" file))
+         (lines (split-string diff "\n"))
+         (start (cl-position heading lines :test #'equal))
+         (first-hunk (cl-position-if (lambda (line) (string-prefix-p "@@ " line)) lines))
+         (end (and start
+                   (cl-position-if (lambda (line) (string-prefix-p "@@ " line))
+                                   lines :start (1+ start)))))
+    (unless (and start first-hunk)
+      (user-error "The hunk is no longer present; refresh the review"))
+    (concat (string-join (append (cl-subseq lines 0 first-hunk)
+                                 (cl-subseq lines start end))
+                         "\n")
+            "\n")))
+
 (defun agent-review--git-entries (root &optional revision)
   "Return ROOT's working-tree or selected REVISION entries.
-Without REVISION, show uncommitted changes since HEAD.  With REVISION,
+Without REVISION, show unstaged changes.  With REVISION,
 show only that commit's changes against its first parent."
   (let ((diff (if revision
                   (agent-review--git
@@ -477,8 +509,7 @@ show only that commit's changes against its first parent."
                    "--src-prefix=a/" "--dst-prefix=b/" revision)
                 (agent-review--git root "-c" "core.quotePath=false" "diff"
                                    "--no-color" "--no-ext-diff"
-                                   "--src-prefix=a/" "--dst-prefix=b/"
-                                   "HEAD")))
+                                   "--src-prefix=a/" "--dst-prefix=b/")))
         (untracked (and (null revision)
                         (split-string
                          (agent-review--git root "ls-files" "--others"
@@ -626,8 +657,8 @@ the faces whether or not font-lock is on in the review buffer."
     (propertize text 'face face 'font-lock-face face
                 'agent-review-comment (plist-get c :id))))
 
-(defun agent-review--insert-line (s e diff-p)
-  "Insert line entry E of session S; DIFF-P selects the diff gutter."
+(defun agent-review--insert-line (s e diff-p hunk)
+  "Insert line E of session S; DIFF-P selects the gutter and HUNK identifies it."
   (let* ((kind (plist-get e :kind))
          (file (plist-get e :file))
          (side (if (eq kind 'del) "old" "new"))
@@ -648,7 +679,8 @@ the faces whether or not font-lock is on in the review buffer."
                  (_ body))))
     (insert (propertize (concat (agent-review--face gutter 'agent-review-line-number) body)
                         'agent-review-line
-                        (list :file file :side side :line line :text (plist-get e :text))))))
+                        (list :file file :side side :line line :text (plist-get e :text))
+                        'agent-review-hunk hunk))))
 
 (defun agent-review--hunk-heading (e)
   "Return the heading for hunk entry E with its project-relative file name."
@@ -711,28 +743,34 @@ the faces whether or not font-lock is on in the review buffer."
       (when general
         (insert "\n" (agent-review--face "General comments\n" 'agent-review-file-header))
         (dolist (c general) (insert (agent-review--comment-block c)))))
-    (dolist (e (agent-review--entries s))
-      (pcase (plist-get e :kind)
-        ('file
-         (insert "\n" (propertize
-                       (agent-review--face
-                        (concat (plist-get e :file)
-                                (if (plist-get e :note) (format "  (%s)" (plist-get e :note)) "")
-                                "\n")
-                        'agent-review-file-header)
-                       'agent-review-file (plist-get e :file))))
-        ('hunk
-         (insert (agent-review--face (concat (agent-review--hunk-heading e) "\n")
-                                     'agent-review-hunk)))
-        (kind
-         (agent-review--insert-line s e diff-p)
-         (dolist (c (gethash (agent-review--loc-key
-                              (plist-get e :file) (if (eq kind 'del) "old" "new")
-                              (plist-get e (if (eq kind 'del) :old :new)))
-                             index))
-           (unless (gethash (plist-get c :id) placed)
-             (puthash (plist-get c :id) t placed)
-             (insert (agent-review--comment-block c)))))))
+    (let (hunk)
+      (dolist (e (agent-review--entries s))
+        (pcase (plist-get e :kind)
+          ('file
+           (setq hunk nil)
+           (insert "\n" (propertize
+                         (agent-review--face
+                          (concat (plist-get e :file)
+                                  (if (plist-get e :note)
+                                      (format "  (%s)" (plist-get e :note)) "")
+                                  "\n")
+                          'agent-review-file-header)
+                         'agent-review-file (plist-get e :file))))
+          ('hunk
+           (setq hunk e)
+           (insert (propertize
+                    (agent-review--face (concat (agent-review--hunk-heading e) "\n")
+                                        'agent-review-hunk)
+                    'agent-review-hunk e)))
+          (kind
+           (agent-review--insert-line s e diff-p hunk)
+           (dolist (c (gethash (agent-review--loc-key
+                                (plist-get e :file) (if (eq kind 'del) "old" "new")
+                                (plist-get e (if (eq kind 'del) :old :new)))
+                               index))
+             (unless (gethash (plist-get c :id) placed)
+               (puthash (plist-get c :id) t placed)
+               (insert (agent-review--comment-block c))))))))
     (let ((unplaced (cl-remove-if (lambda (c) (or (null (plist-get c :file))
                                                   (gethash (plist-get c :id) placed)))
                                   comments)))
@@ -760,7 +798,8 @@ the faces whether or not font-lock is on in the review buffer."
              (t "waiting for the agent's replies"))
             (length (agent-review--unresolved (agent-review-session-comments s)))
             (if (eq (agent-review-session-mode s) 'files) "  d round diff" "")
-            (if (eq (agent-review-session-mode s) 'git) "  s select commit" ""))))
+            (if (eq (agent-review-session-mode s) 'git)
+                "  s stage  S select commit" ""))))
 
 ;;;; Buffers and file watching
 
@@ -1242,19 +1281,46 @@ Replies the agent has already written are still taken in."
           (length (agent-review--unresolved (agent-review-session-comments s)))))
 
 (defun agent-review-select-commit ()
-  "Select a local commit, or return to the uncommitted changes review."
+  "Select a local commit, or return to the unstaged changes review."
   (interactive)
   (let ((s (agent-review--current)))
     (unless (eq (agent-review-session-mode s) 'git)
       (user-error "Commit selection is available only in a Git review"))
     (let* ((root (agent-review-session-root s))
-           (working "Working tree (uncommitted changes)")
+           (working "Working tree (unstaged changes)")
            (table (cons (cons working nil) (agent-review--git-commits root)))
            (revision (agent-review--session-revision s))
            (current (or (car (rassoc revision table)) working))
            (choice (completing-read "Review commit: " table nil t nil nil current)))
       (agent-review--display
        (agent-review--open 'git root nil (cdr (assoc choice table)))))))
+
+(defun agent-review-stage ()
+  "Stage the hunk at point, or the whole file when no hunk is available."
+  (interactive)
+  (let ((s (agent-review--current)))
+    (unless (eq (agent-review-session-mode s) 'git)
+      (user-error "Staging is available only in a Git review"))
+    (when (agent-review--session-revision s)
+      (user-error "A historical commit cannot be staged"))
+    (let* ((pos (max (point-min) (1- (point))))
+           (hunk (or (get-text-property (point) 'agent-review-hunk)
+                     (get-text-property pos 'agent-review-hunk)))
+           (loc (or (get-text-property (point) 'agent-review-line)
+                    (get-text-property pos 'agent-review-line)))
+           (file (or (plist-get hunk :file)
+                     (plist-get loc :file)
+                     (get-text-property (point) 'agent-review-file)
+                     (get-text-property pos 'agent-review-file)))
+           (root (agent-review-session-root s)))
+      (unless file (user-error "No file or hunk at point"))
+      (if hunk
+          (agent-review--git-input
+           root (agent-review--git-hunk-patch root file (plist-get hunk :text))
+           "apply" "--cached" "-")
+        (agent-review--git root "add" "--" file))
+      (agent-review--render)
+      (message "Staged %s%s" file (if hunk " hunk" "")))))
 
 (defvar-keymap agent-review-mode-map
   :parent special-mode-map
@@ -1266,14 +1332,16 @@ Replies the agent has already written are still taken in."
   "R" #'agent-review-toggle-resolved
   "n" #'agent-review-next-comment
   "p" #'agent-review-previous-comment
-  "s" #'agent-review-select-commit
+  "s" #'agent-review-stage
+  "S" #'agent-review-select-commit
   "d" #'agent-review-toggle-round-diff
   "N" #'agent-review-new-round
   "RET" #'agent-review-visit
   "C-c C-c" #'agent-review-finish)
 
 ;; `defvar-keymap' keeps an existing map when this file is reloaded.
-(keymap-set agent-review-mode-map "s" #'agent-review-select-commit)
+(keymap-set agent-review-mode-map "s" #'agent-review-stage)
+(keymap-set agent-review-mode-map "S" #'agent-review-select-commit)
 
 (define-derived-mode agent-review-mode special-mode "Agent-Review"
   "Major mode for reviewing agent output.

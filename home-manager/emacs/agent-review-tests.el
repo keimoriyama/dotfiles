@@ -76,8 +76,8 @@
     (should (equal (agent-review--hunk-heading hunk)
                    "@@ -1 +1 @@ class config : ./flake.nix"))))
 
-(ert-deftest agent-review-git-entries-diff-only-against-head ()
-  "A topic branch review excludes changes already committed on the branch."
+(ert-deftest agent-review-git-entries-shows-only-unstaged-changes ()
+  "A worktree review excludes committed and staged changes."
   (let ((root (make-temp-file "agent-review-repo-" t)) initial topic)
     (unwind-protect
         (progn
@@ -101,6 +101,8 @@
           (should (equal (agent-review-tests--lines
                           (agent-review--git-entries root))
                          '((del 1 nil "two") (add nil 1 "working"))))
+          (agent-review--git root "add" "value.txt")
+          (should-not (agent-review--git-entries root))
           (should (equal (agent-review-tests--lines
                           (agent-review--git-entries root topic))
                          '((del 1 nil "one") (add nil 1 "two"))))
@@ -110,6 +112,50 @@
           (should (equal (sort (mapcar #'cdr (agent-review--git-commits root))
                                #'string<)
                          (sort (list topic initial) #'string<))))
+      (delete-directory root t))))
+
+(ert-deftest agent-review-stages-only-the-selected-hunk ()
+  "Staging one reviewed hunk leaves the other hunk visible."
+  (let ((root (make-temp-file "agent-review-hunks-" t)))
+    (unwind-protect
+        (progn
+          (agent-review--git root "init" "--quiet")
+          (with-temp-file (expand-file-name "values.txt" root)
+            (insert (mapconcat (lambda (n) (format "line %d" n))
+                               (number-sequence 1 20) "\n") "\n"))
+          (agent-review--git root "add" "values.txt")
+          (agent-review--git root "-c" "user.name=Agent Review"
+                             "-c" "user.email=agent-review@example.invalid"
+                             "-c" "commit.gpgsign=false"
+                             "commit" "--quiet" "-m" "initial")
+          (with-temp-file (expand-file-name "values.txt" root)
+            (let ((lines (mapcar (lambda (n) (format "line %d" n))
+                                 (number-sequence 1 20))))
+              (setf (nth 1 lines) "changed 2"
+                    (nth 17 lines) "changed 18")
+              (insert (string-join lines "\n") "\n")))
+          (let* ((entries (agent-review--git-entries root))
+                 (hunks (cl-remove-if-not
+                         (lambda (e) (eq (plist-get e :kind) 'hunk)) entries))
+                 (first (car hunks)))
+            (should (= (length hunks) 2))
+            (agent-review--git-input
+             root (agent-review--git-hunk-patch
+                   root "values.txt" (plist-get first :text))
+             "apply" "--cached" "-")
+            (let ((unstaged (agent-review--git-entries root))
+                  (staged (agent-review--parse-diff
+                           (agent-review--git root "diff" "--cached"))))
+              (should (equal (mapcar (lambda (e) (plist-get e :text))
+                                     (cl-remove-if-not
+                                      (lambda (e) (memq (plist-get e :kind) '(add del)))
+                                      unstaged))
+                             '("line 18" "changed 18")))
+              (should (equal (mapcar (lambda (e) (plist-get e :text))
+                                     (cl-remove-if-not
+                                      (lambda (e) (memq (plist-get e :kind) '(add del)))
+                                      staged))
+                             '("line 2" "changed 2"))))))
       (delete-directory root t))))
 
 (defun agent-review-tests--comment (start end anchor)
@@ -259,9 +305,10 @@
           (should (equal (agent-review--session-revision interim) "deadbeef")))
       (kill-buffer buffer))))
 
-(ert-deftest agent-review-mode-binds-commit-selection ()
-  "A Git review can open the local commit picker with one key."
-  (should (eq (keymap-lookup agent-review-mode-map "s")
+(ert-deftest agent-review-mode-binds-staging-and-commit-selection ()
+  "A Git review can stage with s and open the commit picker with S."
+  (should (eq (keymap-lookup agent-review-mode-map "s") #'agent-review-stage))
+  (should (eq (keymap-lookup agent-review-mode-map "S")
               #'agent-review-select-commit)))
 
 (ert-deftest agent-review-lines-drops-only-the-final-newline ()

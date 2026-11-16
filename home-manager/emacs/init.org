@@ -2012,7 +2012,8 @@ org-mycal-export
 エージェントの計画や差分を Emacs のバッファ上でレビューする (crit 相当)。
 C-c C-c でラウンドを終えると未解決コメントを agent-shell に送り、
 エージェントが =z-ai/= に返信を書くと次のラウンドが始まる。
-Git レビューでは =s= でローカルコミットまたは未コミット差分を選択する。
+Git レビューでは =s= で確認済みの hunk をステージして表示から除外し、
+=S= でローカルコミットまたは未コミット差分を選択する。
 
 #+begin_src emacs-lisp
 (dolist (command '(agent-review agent-review-files agent-review-git
