@@ -222,6 +222,9 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'tramp
+  ;; リモート側で構築された PATH を優先し、TRAMP の既定 PATH は補完に使う。
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
   (let ((process-environment (copy-sequence tramp-remote-process-environment)))
     (setenv "ENV" "$HOME/.config/zsh/env.sh")
     (setq tramp-remote-process-environment process-environment)))
