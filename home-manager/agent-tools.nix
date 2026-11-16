@@ -15,7 +15,7 @@ in {
     inputs.cclens.packages.${system}.default
     # statusLine から呼ばれ、コンテキスト使用率とレート制限を 1 行で出す。
     (pkgs.callPackage ./claude-usage-line {inherit sources;})
-    # Sarashina Translate API を使う日英・英日翻訳 CLI。
+    # Sarashina API を使う翻訳・日本語推敲 CLI。
     (pkgs.callPackage ./sarashina-translate {})
   ];
 }

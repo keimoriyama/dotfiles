@@ -19,9 +19,11 @@
   `org-files search <rg の引数>` で検索し、`org-files list [fd の引数]` で一覧し、`org-files cat <相対パス>` で内容を読む。
   書き込みは標準入力から `org-files write <相対パス>` (上書き) と `org-files append <相対パス>` (追記) で行う。
 
-- 英語から日本語へ翻訳するときは、汎用モデルで訳さず `sarashina-translate` を使う。
-  原文は引数展開を避けて標準入力から渡す (`printf '%s' "$text" | sarashina-translate`)。
+- 英語から日本語へ翻訳するときは、汎用モデルで訳さず `sarashina translate` を使う。
+  原文は引数展開を避けて標準入力から渡す (`printf '%s' "$text" | sarashina translate`)。
   常体は `--style plain`、敬体は `--style polite` を指定する。API キーは `SARASHINA_API_KEY` から読む。
+- 日本語の文章を推敲するときは `sarashina proofread` を使う。
+  原文は標準入力から渡し、追加条件があれば `--instruction` で指定する。
 
 ## コードコメント
 
