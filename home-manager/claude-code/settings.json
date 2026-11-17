@@ -79,6 +79,7 @@
         "~/.cache/ty",
         "~/.cache/uv",
         "~/.cargo",
+        "~/.local/agent-review",
         "~/.local/bin",
         "~/.local/share/uv",
         "~/.local/state/cabal",

@@ -1,4 +1,4 @@
-"""ファイル系ツールがホーム配下で触れる範囲を ~/ghq と ~/.claude に限る。
+"""ファイル系ツールがホーム配下で触れる範囲を許可リストに限る。
 
 Claude Code の PreToolUse hook として stdin から JSON を受け取る。
 Bash は sandbox.filesystem が同じ範囲を強制するので、ここでは扱わない。
@@ -15,6 +15,7 @@ HOME = os.path.realpath(os.path.expanduser("~"))
 ALLOWED_ROOTS = [
     os.path.realpath(os.path.join(HOME, "ghq")),
     os.path.realpath(os.path.join(HOME, ".claude")),
+    os.path.realpath(os.path.join(HOME, ".local", "agent-review")),
 ]
 GLOB_CHARS = "*?[{"
 
@@ -77,7 +78,8 @@ def main() -> None:
         return
     reason = (
         f"Access to {denied[0]} is prohibited. Under the home directory, "
-        "file tools may only touch ~/ghq and ~/.claude. "
+        "file tools may only touch ~/ghq, ~/.claude, and "
+        "~/.local/agent-review. "
         "Work inside ~/ghq, or ask the user for the content you need."
     )
     print(

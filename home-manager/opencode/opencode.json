@@ -4,6 +4,7 @@
     "external_directory": {
       "*": "deny",
       "~/ghq/**": "allow",
+      "~/.local/agent-review/**": "allow",
       "~/.claude/skills/**": "allow"
     }
   }
