@@ -8,5 +8,6 @@
   home.packages = lib.optionals (pkgs.stdenv.hostPlatform.isDarwin && !isWork) (with pkgs; [
     slack
     google-chrome
+    notion-app
   ]);
 }

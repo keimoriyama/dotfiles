@@ -32,7 +32,7 @@ in
     color-identifiers-mode
     packages.nano-modeline
     packages.arto
-    rsync-mode
+    packages.rsync-mode
 
     # completion
     corfu

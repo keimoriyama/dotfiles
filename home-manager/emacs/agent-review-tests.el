@@ -76,6 +76,53 @@
     (should (equal (agent-review--hunk-heading hunk)
                    "@@ -1 +1 @@ class config : ./flake.nix"))))
 
+(ert-deftest agent-review-fontification-cache-follows-file-stamps ()
+  "Unchanged files reuse fontification and changed files refresh it."
+  (let ((s (agent-review--make-session :root "/r/"))
+        (agent-review--fontify-cache (make-hash-table :test #'equal))
+        (agent-review--fontify-render-cache (make-hash-table :test #'equal))
+        (stamp 1)
+        (stamp-calls 0)
+        (calls 0))
+    (cl-letf (((symbol-function 'agent-review--file-stamp)
+               (lambda (_)
+                 (cl-incf stamp-calls)
+                 stamp))
+              ((symbol-function 'agent-review--read-file)
+               (lambda (_) "one\n"))
+              ((symbol-function 'agent-review--fontify)
+               (lambda (_ content)
+                 (cl-incf calls)
+                 (vconcat (agent-review--lines content)))))
+      (should (equal (agent-review--fontified-line s "a" 1) "one"))
+      (should (equal (agent-review--fontified-line s "a" 1) "one"))
+      (should (= calls 1))
+      (should (= stamp-calls 1))
+      (setq stamp 2)
+      (clrhash agent-review--fontify-render-cache)
+      (should (equal (agent-review--fontified-line s "a" 1) "one"))
+      (should (= calls 2))
+      (should (= stamp-calls 2)))))
+
+(ert-deftest agent-review-render-reuses-entries-until-invalidated ()
+  "Comment-only redraws do not recompute the underlying diff."
+  (let ((s (agent-review--make-session
+            :id "cache" :mode 'git :root "/r/" :comments nil))
+        (calls 0))
+    (with-temp-buffer
+      (agent-review-mode)
+      (setq agent-review--session s)
+      (cl-letf (((symbol-function 'agent-review--entries)
+                 (lambda (_)
+                   (cl-incf calls)
+                   nil)))
+        (agent-review--render)
+        (agent-review--render)
+        (should (= calls 1))
+        (agent-review--invalidate-content-cache)
+        (agent-review--render)
+        (should (= calls 2))))))
+
 (ert-deftest agent-review-git-entries-shows-only-unstaged-changes ()
   "A worktree review excludes committed and staged changes."
   (let ((root (make-temp-file "agent-review-repo-" t)) initial topic)
@@ -102,7 +149,13 @@
                           (agent-review--git-entries root))
                          '((del 1 nil "two") (add nil 1 "working"))))
           (agent-review--git root "add" "value.txt")
-          (should-not (agent-review--git-entries root))
+          (with-temp-file (expand-file-name "README.md" root)
+            (insert "# New file\n"))
+          (let ((entries (agent-review--git-entries root)))
+            (should (equal (mapcar (lambda (e) (plist-get e :file)) entries)
+                           '("README.md" "README.md")))
+            (should (equal (agent-review-tests--lines entries)
+                           '((add nil 1 "# New file")))))
           (should (equal (agent-review-tests--lines
                           (agent-review--git-entries root topic))
                          '((del 1 nil "one") (add nil 1 "two"))))
@@ -202,6 +255,36 @@
                                              ["a"])
                      :drifted)))
 
+(ert-deftest agent-review-refresh-reanchors-comments-after-file-edits ()
+  "A content refresh follows an unchanged anchor moved by an agent edit."
+  (let* ((root (make-temp-file "agent-review-reanchor-" t))
+         (file (expand-file-name "plan.md" root))
+         (s (agent-review--make-session
+             :root (file-name-as-directory root) :mode 'files :files (list file)
+             :comments (list (agent-review-tests--comment 2 2 "target")))))
+    (unwind-protect
+        (progn
+          (with-temp-file file (insert "new\na\ntarget\n"))
+          (should (agent-review--reanchor-comments s))
+          (should (= (plist-get (car (agent-review-session-comments s)) :start_line) 3))
+          (should-not (agent-review--reanchor-comments s)))
+      (delete-directory root t))))
+
+(ert-deftest agent-review-git-watch-directories-include-untracked-files ()
+  "Git refresh watches a new file's directory as well as the repository root."
+  (let ((root (make-temp-file "agent-review-watch-" t)))
+    (unwind-protect
+        (progn
+          (agent-review--git root "init" "--quiet")
+          (make-directory (expand-file-name "docs" root))
+          (with-temp-file (expand-file-name "docs/new.md" root) (insert "new\n"))
+          (should (equal (sort (agent-review--git-watch-directories root) #'string<)
+                         (sort (list (file-name-as-directory root)
+                                     (file-name-as-directory
+                                      (expand-file-name "docs" root)))
+                               #'string<))))
+      (delete-directory root t))))
+
 (ert-deftest agent-review-finish-prompt-approves-a-round-without-comments ()
   "Finishing with no comments approves without changes."
   (should (equal (agent-review--finish-prompt nil "/r/z-ai/r.json")
@@ -245,6 +328,12 @@
                  "/r/z-ai/r.json")))
     (should (string-match-p (regexp-quote "\"side\":\"old\"") prompt))
     (should (string-match-p (regexp-quote "\"drifted\":true") prompt))))
+
+(ert-deftest agent-review-comment-json-does-not-store-rounds ()
+  "Comments persist independently of review rounds."
+  (let ((json (agent-review--comment-json
+               '(:id "c_1" :body "x" :author "kei" :round 3))))
+    (should-not (plist-member json :round))))
 
 (ert-deftest agent-review-parse-replies-reads-ids-and-trimmed-bodies ()
   "Each reply object becomes an (ID . BODY) pair with the body trimmed."
@@ -348,7 +437,7 @@
              :round 2 :state "agent"
              :comments '((:id "c_1" :file "plan.md" :side "new" :start_line 1
                           :end_line 1 :anchor "a" :body "日本語" :author "kei"
-                          :round 1 :resolved t
+                          :resolved t
                           :replies ((:author "agent" :body "ok"))))
              :snapshot '(("plan.md" . "a\n"))
              :prev-snapshot nil)))

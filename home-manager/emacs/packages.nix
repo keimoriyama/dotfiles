@@ -84,6 +84,12 @@
     src = sources.emcas-arto.src;
     version = "0.0.1";
   };
+  rsync-mode = epkgs.melpaBuild {
+    pname = "rsync-mode";
+    src = ./rsync-mode;
+    version = "0.1.0";
+    packageRequires = [epkgs.spinner];
+  };
   # Upstream projectile ships projectile-consult.el, which unconditionally
   # (require 'consult), but nixpkgs' generated package doesn't declare it
   # as a dependency, breaking byte-compilation. Add it explicitly.

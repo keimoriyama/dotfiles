@@ -2141,6 +2141,10 @@ rsync でプロジェクトをリモートホストへ同期する。デプロ�
 .dir-locals.el に rsync-local-path / rsync-remote-paths を設定し、
 eval で rsync-mode を有効にする。
 
+実装は home-manager/emacs/rsync-mode/ に置いたローカルパッケージを使う。
+非同期 process の sentinel は起動元バッファを安全に確認してから後処理し、
+Magit などが先にバッファを削除しても終了時にエラーにしない。
+
 rsync-excluded-dirs はプロジェクト単位の追加分なので、どこでも除外したい
 ものは rsync-default-excluded-dirs に置く。rsync--get-excludes が両者を
 マージして --exclude= に渡すため、値は正規表現ではなく rsync のパターン。

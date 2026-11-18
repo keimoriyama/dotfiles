@@ -116,8 +116,17 @@
 (defvar-local agent-review--refresh-timer nil
   "Pending debounced refresh of the current review buffer.")
 
-(defvar agent-review--fontify-cache nil
-  "Fontified lines by absolute file name, bound while rendering.")
+(defvar-local agent-review--fontify-cache nil
+  "Fontified lines cached by absolute file name and file stamp.")
+
+(defvar agent-review--fontify-render-cache nil
+  "Fontified lines by file, dynamically bound for one render.")
+
+(defvar-local agent-review--entries-cache nil
+  "Entries from the most recent content refresh.")
+
+(defvar-local agent-review--entries-cache-valid nil
+  "Non-nil when `agent-review--entries-cache' may be reused.")
 
 ;;;; Pure helpers
 
@@ -338,7 +347,7 @@ Replies to unknown comments and empty replies are dropped."
    :id (plist-get c :id) :file (plist-get c :file) :side (plist-get c :side)
    :start_line (plist-get c :start_line) :end_line (plist-get c :end_line)
    :anchor (plist-get c :anchor) :body (plist-get c :body)
-   :author (plist-get c :author) :round (plist-get c :round)
+   :author (plist-get c :author)
    :resolved (and (plist-get c :resolved) t)
    :drifted (and (plist-get c :drifted) t)
    :replies (and (plist-get c :replies)
@@ -555,6 +564,19 @@ show only that commit's changes against its first parent."
                                 collect (list :kind 'add :file f :new n :text text)))))
              untracked))))
 
+(defun agent-review--git-watch-directories (root)
+  "Return existing directories whose working-tree changes matter under ROOT."
+  (delete-dups
+   (cons (file-name-as-directory root)
+         (cl-loop for file in (split-string
+                               (agent-review--git
+                                root "ls-files" "--cached" "--others"
+                                "--exclude-standard" "-z")
+                               "\0" t)
+                  for dir = (file-name-directory (expand-file-name file root))
+                  when (file-directory-p dir)
+                  collect dir))))
+
 (defun agent-review--diff-strings (old new)
   "Return a unified diff of OLD and NEW with every line as context."
   (let ((coding-system-for-write 'utf-8-unix)
@@ -611,15 +633,39 @@ the faces whether or not font-lock is on in the review buffer."
     (agent-review--sync-font-lock-face)
     (vconcat (split-string (buffer-string) "\n"))))
 
+(defun agent-review--file-stamp (file)
+  "Return a cheap change stamp for regular FILE, or nil when unavailable."
+  (when-let* ((attrs (file-attributes file 'string)))
+    (list (file-attribute-size attrs)
+          (file-attribute-modification-time attrs))))
+
 (defun agent-review--fontified-line (s file n)
   "Return line N of FILE of session S fontified, or nil when unavailable."
   (let* ((abs (agent-review--abs s file))
-         (lines (if (assoc abs agent-review--fontify-cache)
-                    (cdr (assoc abs agent-review--fontify-cache))
-                  (let ((v (when-let* ((content (agent-review--read-file abs)))
-                             (agent-review--fontify abs content))))
-                    (push (cons abs v) agent-review--fontify-cache)
-                    v))))
+         (render-cache (or agent-review--fontify-render-cache
+                           (setq agent-review--fontify-render-cache
+                                 (make-hash-table :test #'equal))))
+         (missing (make-symbol "missing"))
+         (rendered (gethash abs render-cache missing))
+         (lines
+          (if (not (eq rendered missing))
+              rendered
+            (let* ((stamp (agent-review--file-stamp abs))
+                   (cache (or agent-review--fontify-cache
+                              (setq agent-review--fontify-cache
+                                    (make-hash-table :test #'equal))))
+                   (cached (gethash abs cache missing))
+                   (value
+                    (if (and (not (eq cached missing))
+                             (equal stamp (car cached)))
+                        (cdr cached)
+                      (let ((fontified
+                             (when-let* ((content (agent-review--read-file abs)))
+                               (agent-review--fontify abs content))))
+                        (puthash abs (cons stamp fontified) cache)
+                        fontified))))
+              (puthash abs value render-cache)
+              value))))
     (and lines n (<= 1 n (length lines)) (aref lines (1- n)))))
 
 (defun agent-review--file-entries (s abs)
@@ -650,6 +696,20 @@ the faces whether or not font-lock is on in the review buffer."
                                  (agent-review--session-revision s))
     (mapcan (lambda (abs) (agent-review--file-entries s abs))
             (agent-review-session-files s))))
+
+(defun agent-review--cached-entries (s)
+  "Return S's entries, reusing them until content is invalidated."
+  (unless agent-review--entries-cache-valid
+    (setq agent-review--entries-cache (agent-review--entries s)
+          agent-review--entries-cache-valid t))
+  agent-review--entries-cache)
+
+(defun agent-review--invalidate-content-cache (&optional clear-fontify)
+  "Invalidate cached entries, and fontification when CLEAR-FONTIFY is non-nil."
+  (setq agent-review--entries-cache nil
+        agent-review--entries-cache-valid nil)
+  (when (and clear-fontify (hash-table-p agent-review--fontify-cache))
+    (clrhash agent-review--fontify-cache)))
 
 (defun agent-review--loc-key (file side line)
   "Return the key under which comments on LINE of FILE's SIDE are indexed."
@@ -753,7 +813,7 @@ the faces whether or not font-lock is on in the review buffer."
          (index (make-hash-table :test #'equal))
          (placed (make-hash-table :test #'equal))
          (diff-p (or (eq (agent-review-session-mode s) 'git) agent-review--round-diff))
-         (agent-review--fontify-cache nil))
+         (agent-review--fontify-render-cache (make-hash-table :test #'equal)))
     (dolist (c (reverse comments))
       (when (plist-get c :file)
         (push c (gethash (agent-review--loc-key (plist-get c :file) (plist-get c :side)
@@ -774,7 +834,7 @@ the faces whether or not font-lock is on in the review buffer."
         (insert "\n" (agent-review--face "General comments\n" 'agent-review-file-header))
         (dolist (c general) (insert (agent-review--comment-block c)))))
     (let (hunk)
-      (dolist (e (agent-review--entries s))
+      (dolist (e (agent-review--cached-entries s))
         (pcase (plist-get e :kind)
           ('file
            (setq hunk nil)
@@ -844,36 +904,44 @@ the faces whether or not font-lock is on in the review buffer."
                             (lambda ()
                               (when (buffer-live-p buf)
                                 (with-current-buffer buf
-                                  (agent-review--render)))))))))
+                                  (setq agent-review--refresh-timer nil)
+                                  (agent-review--refresh-content)))))))))
 
 (defun agent-review--watch ()
-  "Redraw the current files review whenever one of its files changes."
+  "Redraw the current review whenever relevant working-tree files change."
   (let* ((s agent-review--session)
          (buf (current-buffer))
          (files (agent-review-session-files s))
-         (truenames (mapcar #'file-truename files)))
-    (when (eq (agent-review-session-mode s) 'files)
-      ;; Agents often replace a file by renaming over it, which ends a
-      ;; watch on the file itself, so watch the directories instead.
-      (dolist (dir (delete-dups (mapcar #'file-name-directory files)))
-        (when (file-directory-p dir)
-          (ignore-errors
-            (push (file-notify-add-watch
-                   dir '(change)
-                   (lambda (event)
-                     (when (cl-some (lambda (f)
-                                      (and (stringp f)
-                                           (member (file-truename f) truenames)))
-                                    (cddr event))
-                       (agent-review--schedule-refresh buf))))
-                  agent-review--watches)))))))
+         (truenames (mapcar #'file-truename files))
+         (git-p (eq (agent-review-session-mode s) 'git))
+         (dirs (if git-p
+                   (unless (agent-review--session-revision s)
+                     (agent-review--git-watch-directories
+                      (agent-review-session-root s)))
+                 (delete-dups (mapcar #'file-name-directory files)))))
+    ;; Agents often replace a file by renaming over it, which ends a watch on
+    ;; the file itself, so watch directories in both review modes.
+    (dolist (dir dirs)
+      (when (file-directory-p dir)
+        (ignore-errors
+          (push (file-notify-add-watch
+                 dir '(change)
+                 (lambda (event)
+                   (when (or git-p
+                             (cl-some (lambda (f)
+                                        (and (stringp f)
+                                             (member (file-truename f) truenames)))
+                                      (cddr event)))
+                     (agent-review--schedule-refresh buf))))
+                agent-review--watches))))))
 
 (defun agent-review--unwatch ()
   "Stop the file watches and pending refresh of the current buffer."
   (mapc #'file-notify-rm-watch agent-review--watches)
   (setq agent-review--watches nil)
   (when (timerp agent-review--refresh-timer)
-    (cancel-timer agent-review--refresh-timer)))
+    (cancel-timer agent-review--refresh-timer))
+  (setq agent-review--refresh-timer nil))
 
 (defun agent-review--ensure-buffer (s)
   "Return the review buffer of session S, creating it when needed."
@@ -898,12 +966,16 @@ the faces whether or not font-lock is on in the review buffer."
       (setf (agent-review-session-buffer s) buf))
     buf))
 
-(defun agent-review--changed (s)
-  "Save session S and redraw its buffer."
+(defun agent-review--changed (s &optional content-changed)
+  "Save session S and redraw its buffer.
+Invalidate content caches when CONTENT-CHANGED is non-nil."
   (agent-review--save s)
   (let ((buf (agent-review-session-buffer s)))
     (when (buffer-live-p buf)
-      (with-current-buffer buf (agent-review--render)))))
+      (with-current-buffer buf
+        (when content-changed
+          (agent-review--invalidate-content-cache))
+        (agent-review--render)))))
 
 (defun agent-review--display (s)
   "Show the review buffer of session S."
@@ -934,6 +1006,27 @@ the faces whether or not font-lock is on in the review buffer."
         (agent-review--reanchor c (vconcat (agent-review--lines content)))
       c)))
 
+(defun agent-review--reanchor-comments (s)
+  "Move comments of S to their anchors when the current files permit it.
+Return non-nil when any stored comment changed."
+  (let* ((before (agent-review-session-comments s))
+         (after (mapcar (lambda (c) (agent-review--reanchor-comment s c)) before)))
+    (unless (equal before after)
+      (setf (agent-review-session-comments s) after)
+      t)))
+
+(defun agent-review--refresh-content ()
+  "Refresh changed content and keep comments attached when possible."
+  (let ((s (agent-review--current)))
+    (agent-review--invalidate-content-cache)
+    (when (and (not (agent-review--session-revision s))
+               (agent-review--reanchor-comments s))
+      (agent-review--save s))
+    (when (eq (agent-review-session-mode s) 'git)
+      (agent-review--unwatch)
+      (agent-review--watch))
+    (agent-review--render)))
+
 (defun agent-review--start-round (s)
   "Start the next round of session S."
   (agent-review--unwatch-replies s)
@@ -946,7 +1039,7 @@ the faces whether or not font-lock is on in the review buffer."
         (agent-review-session-state s) "reviewing"
         (agent-review-session-prompt s) nil
         (agent-review-session-approved s) nil)
-  (agent-review--changed s)
+  (agent-review--changed s t)
   (message "agent-review: round %d is ready" (agent-review-session-round s)))
 
 ;;;; Agent replies
@@ -1115,8 +1208,7 @@ FN returning nil deletes the comment."
   (setf (agent-review-session-comments s)
         (append (agent-review-session-comments s)
                 (list (append (list :id (agent-review--new-id s)
-                                    :author agent-review-author
-                                    :round (agent-review-session-round s))
+                                    :author agent-review-author)
                               props))))
   (agent-review--changed s))
 
@@ -1243,6 +1335,7 @@ FN returning nil deletes the comment."
     (unless (agent-review-session-prev-snapshot s)
       (user-error "There is no previous round"))
     (setq agent-review--round-diff (not agent-review--round-diff))
+    (agent-review--invalidate-content-cache)
     (agent-review--render)))
 
 (defun agent-review-visit ()
@@ -1347,6 +1440,7 @@ Replies the agent has already written are still taken in."
            root (agent-review--git-hunk-patch root file (plist-get hunk :text))
            "apply" "--cached" "-")
         (agent-review--git root "add" "--" file))
+      (agent-review--invalidate-content-cache)
       (agent-review--render)
       (message "Staged %s%s" file (if hunk " hunk" "")))))
 
@@ -1376,7 +1470,11 @@ Replies the agent has already written are still taken in."
 
 \\{agent-review-mode-map}"
   (setq-local header-line-format '(:eval (agent-review--header-line)))
-  (setq-local revert-buffer-function (lambda (&rest _) (agent-review--render)))
+  (setq-local agent-review--fontify-cache (make-hash-table :test #'equal))
+  (setq-local revert-buffer-function
+              (lambda (&rest _)
+                (agent-review--invalidate-content-cache t)
+                (agent-review--render)))
   (add-hook 'kill-buffer-hook #'agent-review--unwatch nil t))
 
 (defun agent-review--default-root (file)
