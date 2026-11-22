@@ -23,6 +23,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'crm)
 (require 'diff-mode)
 (require 'filenotify)
 (require 'project)
@@ -47,9 +48,30 @@
   "Author name put on the reviewer's comments and replies."
   :type 'string)
 
+(defun agent-review--list-of-strings-p (value)
+  "Return non-nil when VALUE is a list containing only strings."
+  (and (proper-list-p value) (cl-every #'stringp value)))
+
 (defcustom agent-review-fontify-max-size 300000
   "Files larger than this many characters are shown without fontification."
   :type 'integer)
+
+(defcustom agent-review-hidden-file-regexps nil
+  "Regexps matching project-relative file names hidden initially.
+The selection made with `agent-review-select-files' overrides these patterns
+in the current review buffer."
+  :type '(repeat regexp)
+  :safe #'agent-review--list-of-strings-p)
+
+(defcustom agent-review-hidden-file-globs nil
+  "Shell wildcard patterns matching project-relative file names hidden initially.
+For example, \"*.out\", \"logs/*\" or \"Cargo.lock\".  No escaping is needed."
+  :type '(repeat string)
+  :safe #'agent-review--list-of-strings-p)
+
+(defcustom agent-review-git-poll-interval 2
+  "Seconds between checks of the working tree shown in a visible git review."
+  :type 'number)
 
 (defface agent-review-file-header '((t :inherit diff-file-header :extend t))
   "Face for file headers.")
@@ -110,11 +132,23 @@
 (defvar-local agent-review--round-diff nil
   "Non-nil when a files review shows changes since the previous round.")
 
+(defvar-local agent-review--file-overrides nil
+  "Alist of project-relative file names and their selected visibility.")
+
+(defvar agent-review--glob-regexp-cache (make-hash-table :test #'equal)
+  "Cached regexps converted from shell wildcard patterns.")
+
 (defvar-local agent-review--watches nil
   "File notification descriptors of the current review buffer.")
 
 (defvar-local agent-review--refresh-timer nil
   "Pending debounced refresh of the current review buffer.")
+
+(defvar-local agent-review--poll-timer nil
+  "Repeating timer checking the working tree of the current git review.")
+
+(defvar-local agent-review--git-state nil
+  "Working-tree state of the current git review at its last check.")
 
 (defvar-local agent-review--fontify-cache nil
   "Fontified lines cached by absolute file name and file stamp.")
@@ -564,18 +598,28 @@ show only that commit's changes against its first parent."
                                 collect (list :kind 'add :file f :new n :text text)))))
              untracked))))
 
-(defun agent-review--git-watch-directories (root)
-  "Return existing directories whose working-tree changes matter under ROOT."
-  (delete-dups
-   (cons (file-name-as-directory root)
-         (cl-loop for file in (split-string
-                               (agent-review--git
-                                root "ls-files" "--cached" "--others"
-                                "--exclude-standard" "-z")
-                               "\0" t)
-                  for dir = (file-name-directory (expand-file-name file root))
-                  when (file-directory-p dir)
-                  collect dir))))
+(defun agent-review--git-state (root)
+  "Return a value that changes whenever the working tree under ROOT does.
+It covers HEAD, the index, and the size and modification time of every
+modified, deleted or untracked file, so a further edit to an already
+modified file changes it too.  Return nil when git fails.
+`git status' would be simpler but takes several times longer on large
+repositories, and this runs on a timer."
+  (ignore-errors
+    (let ((stamp (lambda (file)
+                   (when-let* ((attrs (file-attributes file)))
+                     (list (file-attribute-modification-time attrs)
+                           (file-attribute-size attrs))))))
+      (list (agent-review--git-try root "rev-parse" "-q" "--verify" "HEAD")
+            (funcall stamp (expand-file-name
+                            (agent-review--git-try root "rev-parse" "--git-path" "index")
+                            root))
+            (mapcar (lambda (file)
+                      (cons file (funcall stamp (expand-file-name file root))))
+                    (split-string
+                     (agent-review--git root "ls-files" "--modified" "--others"
+                                        "--exclude-standard" "-z")
+                     "\0" t))))))
 
 (defun agent-review--diff-strings (old new)
   "Return a unified diff of OLD and NEW with every line as context."
@@ -668,6 +712,38 @@ the faces whether or not font-lock is on in the review buffer."
               value))))
     (and lines n (<= 1 n (length lines)) (aref lines (1- n)))))
 
+(defun agent-review--glob-match-p (pattern file)
+  "Return non-nil when shell wildcard PATTERN matches FILE."
+  (string-match-p
+   (or (gethash pattern agent-review--glob-regexp-cache)
+       (puthash pattern (wildcard-to-regexp pattern)
+                agent-review--glob-regexp-cache))
+   file))
+
+(defun agent-review--file-visible-p (file)
+  "Return non-nil when project-relative FILE is selected for display."
+  (if-let* ((override (assoc file agent-review--file-overrides)))
+      (cdr override)
+    (not (or (cl-some (lambda (regexp) (string-match-p regexp file))
+                      agent-review-hidden-file-regexps)
+             (cl-some (lambda (pattern) (agent-review--glob-match-p pattern file))
+                      agent-review-hidden-file-globs)))))
+
+(defun agent-review--visible-entries (entries)
+  "Return ENTRIES belonging to files selected in the current review buffer."
+  (cl-remove-if-not
+   (lambda (entry)
+     (if-let* ((file (plist-get entry :file)))
+         (agent-review--file-visible-p file)
+       t))
+   entries))
+
+(defun agent-review--review-files (s)
+  "Return every file available for selection in session S."
+  (delete-dups
+   (delq nil (mapcar (lambda (entry) (plist-get entry :file))
+                     (agent-review--cached-entries s)))))
+
 (defun agent-review--file-entries (s abs)
   "Return the entries for the files review of ABS in session S."
   (let* ((name (agent-review--display-name s abs))
@@ -677,9 +753,7 @@ the faces whether or not font-lock is on in the review buffer."
      ((null content)
       (list (list :kind 'file :file name :note "missing")))
      ((and agent-review--round-diff prev (not (equal prev content)))
-      (cons (list :kind 'file :file name
-                  :note (format "changes since round %d"
-                                (1- (agent-review-session-round s))))
+      (cons (list :kind 'file :file name :note "changes since the previous review")
             (cl-remove-if (lambda (e) (memq (plist-get e :kind) '(file hunk)))
                           (agent-review--parse-diff
                            (agent-review--diff-strings prev content) name))))
@@ -834,7 +908,7 @@ the faces whether or not font-lock is on in the review buffer."
         (insert "\n" (agent-review--face "General comments\n" 'agent-review-file-header))
         (dolist (c general) (insert (agent-review--comment-block c)))))
     (let (hunk)
-      (dolist (e (agent-review--cached-entries s))
+      (dolist (e (agent-review--visible-entries (agent-review--cached-entries s)))
         (pcase (plist-get e :kind)
           ('file
            (setq hunk nil)
@@ -880,14 +954,13 @@ the faces whether or not font-lock is on in the review buffer."
 (defun agent-review--header-line ()
   "Return the header line of the current review buffer."
   (let ((s agent-review--session))
-    (format " Round %d · %s · %d open │ c comment  C general  r reply  R resolve  e edit  D delete%s%s  N next round  C-c C-c finish"
-            (agent-review-session-round s)
+    (format " %s · %d open │ c comment  C general  r reply  R resolve  e edit  D delete  f files%s%s  N next review  C-c C-c finish"
             (cond
              ((equal (agent-review-session-state s) "reviewing") "reviewing")
              ((agent-review-session-approved s) "approved")
              (t "waiting for the agent's replies"))
             (length (agent-review--unresolved (agent-review-session-comments s)))
-            (if (eq (agent-review-session-mode s) 'files) "  d round diff" "")
+            (if (eq (agent-review-session-mode s) 'files) "  d review diff" "")
             (if (eq (agent-review-session-mode s) 'git)
                 "  s stage  S select commit" ""))))
 
@@ -907,41 +980,65 @@ the faces whether or not font-lock is on in the review buffer."
                                   (setq agent-review--refresh-timer nil)
                                   (agent-review--refresh-content)))))))))
 
+(defun agent-review--poll-git (buf)
+  "Redraw git review BUF if its working tree changed since the last check.
+Hidden buffers are skipped; the first check after one is shown again
+picks up everything that changed meanwhile."
+  (when (and (buffer-live-p buf) (get-buffer-window buf t))
+    (with-current-buffer buf
+      (let ((state (agent-review--git-state
+                    (agent-review-session-root agent-review--session))))
+        (unless (equal state agent-review--git-state)
+          (setq agent-review--git-state state)
+          (agent-review--schedule-refresh buf))))))
+
 (defun agent-review--watch ()
   "Redraw the current review whenever relevant working-tree files change."
   (let* ((s agent-review--session)
          (buf (current-buffer))
          (files (agent-review-session-files s))
-         (truenames (mapcar #'file-truename files))
-         (git-p (eq (agent-review-session-mode s) 'git))
-         (dirs (if git-p
-                   (unless (agent-review--session-revision s)
-                     (agent-review--git-watch-directories
-                      (agent-review-session-root s)))
-                 (delete-dups (mapcar #'file-name-directory files)))))
-    ;; Agents often replace a file by renaming over it, which ends a watch on
-    ;; the file itself, so watch directories in both review modes.
-    (dolist (dir dirs)
-      (when (file-directory-p dir)
-        (ignore-errors
-          (push (file-notify-add-watch
-                 dir '(change)
-                 (lambda (event)
-                   (when (or git-p
-                             (cl-some (lambda (f)
-                                        (and (stringp f)
-                                             (member (file-truename f) truenames)))
-                                      (cddr event)))
-                     (agent-review--schedule-refresh buf))))
-                agent-review--watches))))))
+         (truenames (mapcar #'file-truename files)))
+    (if (eq (agent-review-session-mode s) 'git)
+        ;; A git review can concern any file in the repository, and watching
+        ;; every directory exhausts the file descriptors kqueue needs, so ask
+        ;; git what changed instead.
+        (unless (agent-review--session-revision s)
+          (setq agent-review--git-state
+                (agent-review--git-state (agent-review-session-root s)))
+          (setq agent-review--poll-timer
+                (run-with-timer agent-review-git-poll-interval
+                                agent-review-git-poll-interval
+                                #'agent-review--poll-git buf)))
+      ;; Agents often replace a file by renaming over it, which ends a watch
+      ;; on the file itself, so watch its directory.
+      (dolist (dir (delete-dups (mapcar #'file-name-directory files)))
+        (when (file-directory-p dir)
+          (ignore-errors
+            (push (file-notify-add-watch
+                   dir '(change)
+                   (lambda (event)
+                     (when (cl-some (lambda (f)
+                                      (and (stringp f)
+                                           (member (file-truename f) truenames)))
+                                    (cddr event))
+                       (agent-review--schedule-refresh buf))))
+                  agent-review--watches)))))))
 
 (defun agent-review--unwatch ()
-  "Stop the file watches and pending refresh of the current buffer."
+  "Stop the file watches, polling and pending refresh of the current buffer."
   (mapc #'file-notify-rm-watch agent-review--watches)
   (setq agent-review--watches nil)
+  (when (timerp agent-review--poll-timer)
+    (cancel-timer agent-review--poll-timer))
+  (setq agent-review--poll-timer nil)
   (when (timerp agent-review--refresh-timer)
     (cancel-timer agent-review--refresh-timer))
   (setq agent-review--refresh-timer nil))
+
+(defun agent-review--apply-dir-locals ()
+  "Apply directory-local variables for the current review's project."
+  (setq default-directory (agent-review-session-root agent-review--session))
+  (hack-dir-local-variables-non-file-buffer))
 
 (defun agent-review--ensure-buffer (s)
   "Return the review buffer of session S, creating it when needed."
@@ -961,6 +1058,7 @@ the faces whether or not font-lock is on in the review buffer."
       (with-current-buffer buf
         (agent-review-mode)
         (setq agent-review--session s)
+        (agent-review--apply-dir-locals)
         (agent-review--watch)
         (agent-review--render))
       (setf (agent-review-session-buffer s) buf))
@@ -1022,9 +1120,6 @@ Return non-nil when any stored comment changed."
     (when (and (not (agent-review--session-revision s))
                (agent-review--reanchor-comments s))
       (agent-review--save s))
-    (when (eq (agent-review-session-mode s) 'git)
-      (agent-review--unwatch)
-      (agent-review--watch))
     (agent-review--render)))
 
 (defun agent-review--start-round (s)
@@ -1040,7 +1135,7 @@ Return non-nil when any stored comment changed."
         (agent-review-session-prompt s) nil
         (agent-review-session-approved s) nil)
   (agent-review--changed s t)
-  (message "agent-review: round %d is ready" (agent-review-session-round s)))
+  (message "agent-review: review is ready"))
 
 ;;;; Agent replies
 
@@ -1326,6 +1421,31 @@ FN returning nil deletes the comment."
   (let ((m (save-excursion (text-property-search-backward 'agent-review-comment nil nil t))))
     (if m (goto-char (prop-match-beginning m)) (user-error "No previous comment"))))
 
+(defun agent-review-select-files ()
+  "Select the files displayed in the current review buffer.
+The selection overrides the configured regexps and glob patterns until this
+buffer is closed."
+  (interactive)
+  (let* ((s (agent-review--current))
+         (files (agent-review--review-files s)))
+    (unless files
+      (user-error "There are no files to select"))
+    (let* ((visible (cl-remove-if-not #'agent-review--file-visible-p files))
+           (review-buffer (current-buffer))
+           (completion-extra-properties
+            `(:annotation-function
+              ,(lambda (file)
+                 (with-current-buffer review-buffer
+                   (if (agent-review--file-visible-p file) " [shown]" " [hidden]")))))
+           (selected (completing-read-multiple
+                      "Files to show: " files nil t nil nil visible)))
+      (setq agent-review--file-overrides nil)
+      (dolist (file files)
+        (setf (alist-get file agent-review--file-overrides nil nil #'equal)
+              (and (member file selected) t)))
+      (agent-review--render)
+      (message "Showing %d of %d files" (length selected) (length files)))))
+
 (defun agent-review-toggle-round-diff ()
   "Toggle showing what changed in the files since the previous round."
   (interactive)
@@ -1333,7 +1453,7 @@ FN returning nil deletes the comment."
     (unless (eq (agent-review-session-mode s) 'files)
       (user-error "A git review already shows a diff"))
     (unless (agent-review-session-prev-snapshot s)
-      (user-error "There is no previous round"))
+      (user-error "There is no previous review"))
     (setq agent-review--round-diff (not agent-review--round-diff))
     (agent-review--invalidate-content-cache)
     (agent-review--render)))
@@ -1358,7 +1478,7 @@ into the agent instead.  The next round starts when the agent replies."
          (approved (null (agent-review--unresolved comments)))
          (prompt (agent-review--finish-prompt comments (agent-review--reply-file s))))
     (unless (equal (agent-review-session-state s) "reviewing")
-      (user-error "Round %d is already finished" (agent-review-session-round s)))
+      (user-error "Review is already finished"))
     (setf (agent-review-session-prompt s) prompt
           (agent-review-session-approved s) approved
           (agent-review-session-state s) "agent")
@@ -1369,8 +1489,7 @@ into the agent instead.  The next round starts when the agent replies."
       (if shell
           (agent-shell-insert :text prompt :submit t :shell-buffer shell)
         (kill-new prompt))
-      (message "agent-review: round %d %s; %s"
-               (agent-review-session-round s)
+      (message "agent-review: %s; %s"
                (if approved "approved" "finished with open comments")
                (if shell
                    (format "sent to %s" (buffer-name shell))
@@ -1382,13 +1501,13 @@ Replies the agent has already written are still taken in."
   (interactive)
   (let ((s (agent-review--current)))
     (when (equal (agent-review-session-state s) "reviewing")
-      (user-error "Round %d is still being reviewed" (agent-review-session-round s)))
+      (user-error "Review is still being reviewed"))
     (agent-review--read-replies s)
     (agent-review--start-round s)))
 
 (defun agent-review--describe (s)
   "Return a one-line description of session S."
-  (format "%s  %s  round %d  %s  (%d open)"
+  (format "%s  %s  %s  (%d open)"
           (agent-review-session-id s)
           (if (eq (agent-review-session-mode s) 'git)
               (concat "git " (abbreviate-file-name (agent-review-session-root s))
@@ -1397,7 +1516,6 @@ Replies the agent has already written are still taken in."
                         ""))
             (mapconcat (lambda (f) (agent-review--display-name s f))
                        (agent-review-session-files s) ", "))
-          (agent-review-session-round s)
           (agent-review-session-state s)
           (length (agent-review--unresolved (agent-review-session-comments s)))))
 
@@ -1454,6 +1572,7 @@ Replies the agent has already written are still taken in."
   "R" #'agent-review-toggle-resolved
   "n" #'agent-review-next-comment
   "p" #'agent-review-previous-comment
+  "f" #'agent-review-select-files
   "s" #'agent-review-stage
   "S" #'agent-review-select-commit
   "d" #'agent-review-toggle-round-diff
@@ -1462,6 +1581,7 @@ Replies the agent has already written are still taken in."
   "C-c C-c" #'agent-review-finish)
 
 ;; `defvar-keymap' keeps an existing map when this file is reloaded.
+(keymap-set agent-review-mode-map "f" #'agent-review-select-files)
 (keymap-set agent-review-mode-map "s" #'agent-review-stage)
 (keymap-set agent-review-mode-map "S" #'agent-review-select-commit)
 
@@ -1473,6 +1593,7 @@ Replies the agent has already written are still taken in."
   (setq-local agent-review--fontify-cache (make-hash-table :test #'equal))
   (setq-local revert-buffer-function
               (lambda (&rest _)
+                (agent-review--apply-dir-locals)
                 (agent-review--invalidate-content-cache t)
                 (agent-review--render)))
   (add-hook 'kill-buffer-hook #'agent-review--unwatch nil t))

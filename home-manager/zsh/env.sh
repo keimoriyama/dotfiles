@@ -38,5 +38,4 @@ path_append "$HOME/.local/bin"
 path_append "$HOME/.roswell/bin"
 
 export PATH
-export SHELL="/etc/profiles/per-user/$USER/bin/zsh"
 unset -f path_prepend path_append

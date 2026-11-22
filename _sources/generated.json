@@ -119,6 +119,27 @@
         },
         "version": "46bca93291727454dd92567e761a1e2ab5622590"
     },
+    "emacs-egui": {
+        "cargoLock": null,
+        "date": "2026-11-03",
+        "extract": null,
+        "name": "emacs-egui",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "nohzafk",
+            "repo": "emacs-egui",
+            "rev": "cbcc900e73b8e0db1f84f52bfde07667279ff8ba",
+            "sha256": "sha256-gOJrmzVMPdBpLtwXYf+Seq+71v04FueovsklnVPGS3o=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "cbcc900e73b8e0db1f84f52bfde07667279ff8ba"
+    },
     "emacs-nano-modeline": {
         "cargoLock": null,
         "date": "2024-04-29",
@@ -139,6 +160,27 @@
             "type": "github"
         },
         "version": "04676d57a1e602123a593836745a744d1b2028fb"
+    },
+    "emacs-parquet-explorer": {
+        "cargoLock": null,
+        "date": "2026-10-10",
+        "extract": null,
+        "name": "emacs-parquet-explorer",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "nohzafk",
+            "repo": "emacs-parquet-explorer",
+            "rev": "b857ea42cad8a5fef88d46e70811313a053adc74",
+            "sha256": "sha256-VWj/k5qke7RaWHDKcX1Ju+AP4KSfOWl08pryUdOE3Rw=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "b857ea42cad8a5fef88d46e70811313a053adc74"
     },
     "emacs-typst-ts-mode": {
         "cargoLock": null,

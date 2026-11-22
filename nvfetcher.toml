@@ -48,6 +48,17 @@ src.git="https://github.com/wandersoncferreira/agent-shell-dashboard"
 src.branch="main"
 fetch.github="wandersoncferreira/agent-shell-dashboard"
 
+[emacs-egui]
+src.git="https://github.com/nohzafk/emacs-egui"
+src.branch="main"
+fetch.github="nohzafk/emacs-egui"
+
+[emacs-parquet-explorer]
+src.git="https://github.com/nohzafk/emacs-parquet-explorer"
+src.branch="main"
+fetch.github="nohzafk/emacs-parquet-explorer"
+git.fetchSubmodules=true
+
 [mocword]
 src.git="https://github.com/high-moctane/mocword"
 src.branch="main"

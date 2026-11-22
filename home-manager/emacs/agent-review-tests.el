@@ -270,19 +270,20 @@
           (should-not (agent-review--reanchor-comments s)))
       (delete-directory root t))))
 
-(ert-deftest agent-review-git-watch-directories-include-untracked-files ()
-  "Git refresh watches a new file's directory as well as the repository root."
-  (let ((root (make-temp-file "agent-review-watch-" t)))
+(ert-deftest agent-review-git-state-tracks-new-and-further-edited-files ()
+  "The git state changes on a new untracked file and on each later edit to it."
+  (let* ((root (make-temp-file "agent-review-watch-" t))
+         (file (expand-file-name "docs/new.md" root)))
     (unwind-protect
         (progn
           (agent-review--git root "init" "--quiet")
-          (make-directory (expand-file-name "docs" root))
-          (with-temp-file (expand-file-name "docs/new.md" root) (insert "new\n"))
-          (should (equal (sort (agent-review--git-watch-directories root) #'string<)
-                         (sort (list (file-name-as-directory root)
-                                     (file-name-as-directory
-                                      (expand-file-name "docs" root)))
-                               #'string<))))
+          (let ((clean (agent-review--git-state root)))
+            (make-directory (expand-file-name "docs" root))
+            (with-temp-file file (insert "new\n"))
+            (let ((added (agent-review--git-state root)))
+              (should-not (equal clean added))
+              (with-temp-file file (insert "new\nmore\n"))
+              (should-not (equal added (agent-review--git-state root))))))
       (delete-directory root t))))
 
 (ert-deftest agent-review-finish-prompt-approves-a-round-without-comments ()
@@ -427,6 +428,90 @@
         (agent-review--render))
       (should (string-match-p "SHOW-OPEN" (buffer-string)))
       (should-not (string-match-p "HIDE-RESOLVED" (buffer-string))))))
+
+(ert-deftest agent-review-safe-local-string-lists-accept-only-proper-lists ()
+  "Local visibility settings reject malformed values without signaling."
+  (should (agent-review--list-of-strings-p nil))
+  (should (agent-review--list-of-strings-p '("*.out" "Cargo.lock")))
+  (should-not (agent-review--list-of-strings-p "*.out"))
+  (should-not (agent-review--list-of-strings-p '("*.out" . "Cargo.lock")))
+  (should-not (agent-review--list-of-strings-p '("*.out" 1))))
+
+(ert-deftest agent-review-select-files-overrides-the-initial-visibility ()
+  "File selection can hide files and reveal files hidden by configuration."
+  (let ((agent-review-hidden-file-regexps '("\\`Cargo\\.lock\\'"))
+        (agent-review-hidden-file-globs nil)
+        (entries '((:kind file :file "src/main.rs")
+                   (:kind file :file "Cargo.lock")))
+        (renders 0))
+    (with-temp-buffer
+      (agent-review-mode)
+      (setq agent-review--session (agent-review--make-session :mode 'git :root "/r/"))
+      (cl-letf (((symbol-function 'agent-review--cached-entries)
+                 (lambda (_) entries))
+                ((symbol-function 'completing-read-multiple)
+                 (lambda (&rest _) '("Cargo.lock")))
+                ((symbol-function 'agent-review--render)
+                 (lambda () (cl-incf renders))))
+        (should (equal (mapcar (lambda (entry) (plist-get entry :file))
+                               (agent-review--visible-entries entries))
+                       '("src/main.rs")))
+        (call-interactively #'agent-review-select-files))
+      (should (equal (mapcar (lambda (entry) (plist-get entry :file))
+                             (agent-review--visible-entries entries))
+                     '("Cargo.lock")))
+      (should (= renders 1)))))
+
+(ert-deftest agent-review-hidden-file-globs-accept-unescaped-patterns ()
+  "Shell wildcards hide matching files without regular expression escaping."
+  (let ((agent-review-hidden-file-regexps nil)
+        (agent-review-hidden-file-globs '("*.out" "logs/*")))
+    (with-temp-buffer
+      (dolist (file '("run.out" "nested/run.out"
+                      "logs/run.txt" "logs/nested/run.txt"))
+        (should-not (agent-review--file-visible-p file)))
+      (should (agent-review--file-visible-p "src/run.txt"))
+      (setq agent-review--file-overrides '(("nested/run.out" . t)))
+      (should (agent-review--file-visible-p "nested/run.out")))))
+
+(ert-deftest agent-review-dir-locals-control-default-file-visibility ()
+  "Project dir-locals configure ignores in non-file review buffers."
+  (let* ((root (file-name-as-directory (make-temp-file "agent-review-locals-" t)))
+         (agent-review-hidden-file-globs nil)
+         (agent-review-hidden-file-regexps nil)
+         (enable-local-variables t))
+    (unwind-protect
+        (progn
+          (with-temp-file (expand-file-name ".dir-locals.el" root)
+            (insert "((nil . ((agent-review-hidden-file-globs . (\"*.out\"))\n"
+                    "              (agent-review-hidden-file-regexps . (\"\\\\.min\\\\.js\\\\'\")))))\n"))
+          (with-temp-buffer
+            (agent-review-mode)
+            (setq agent-review--session (agent-review--make-session :mode 'git :root root)
+                  default-directory temporary-file-directory)
+            (agent-review--apply-dir-locals)
+            (should (equal default-directory root))
+            (should (equal agent-review-hidden-file-globs '("*.out")))
+            (should (equal agent-review-hidden-file-regexps '("\\.min\\.js\\'")))
+            (should-not (agent-review--file-visible-p "nested/result.out"))
+            (should-not (agent-review--file-visible-p "src/app.min.js"))
+            (should (agent-review--file-visible-p "src/app.js"))))
+      (delete-directory root t))))
+
+(ert-deftest agent-review-visible-file-selection-is-available-from-the-mode-map ()
+  "The review buffer binds f to its file selector."
+  (should (eq (keymap-lookup agent-review-mode-map "f")
+              #'agent-review-select-files)))
+
+(ert-deftest agent-review-display-descriptions-omit-review-rounds ()
+  "Review headers and resume candidates do not expose the internal round counter."
+  (let ((s (agent-review--make-session
+            :id "abc123" :mode 'git :root "/r/" :round 4 :comments nil)))
+    (with-temp-buffer
+      (agent-review-mode)
+      (setq agent-review--session s)
+      (should-not (string-match-p "[Rr]ound" (agent-review--header-line))))
+    (should-not (string-match-p "[Rr]ound" (agent-review--describe s)))))
 
 (ert-deftest agent-review-save-and-load-round-trip ()
   "A saved session reads back with its comments, replies and snapshots."

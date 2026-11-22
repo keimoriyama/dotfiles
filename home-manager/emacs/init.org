@@ -220,6 +220,9 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 ~async-shell-command~ が使うリモートの ~/bin/sh~ に、zsh と共通の環境設定を
 読み込ませる。TRAMP は既定で =ENV= を空にするため、明示的な設定が必要。
 
+SSH では login + interactive の zsh と direct async process を使い、
+TTY や対話シェルを条件にした環境設定もコマンド実行時に反映する。
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'tramp
   ;; リモート側で構築された PATH を優先し、TRAMP の既定 PATH は補完に使う。
@@ -227,7 +230,16 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 
   (let ((process-environment (copy-sequence tramp-remote-process-environment)))
     (setenv "ENV" "$HOME/.config/zsh/env.sh")
-    (setq tramp-remote-process-environment process-environment)))
+    (setq tramp-remote-process-environment process-environment))
+
+  (connection-local-set-profile-variables
+   'tramp-login-interactive-zsh
+   '((shell-file-name . "/bin/zsh")
+     (shell-command-switch . "-lic")
+     (tramp-direct-async-process . t)))
+  (connection-local-set-profiles
+   '(:application tramp :protocol "ssh")
+   'tramp-login-interactive-zsh))
 #+end_src
 
 *** パフォーマンス
@@ -268,6 +280,28 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 **** autorevert
 #+begin_src emacs-lisp
 (add-hook 'emacs-startup-hook #'global-auto-revert-mode)
+#+end_src
+
+**** .out ファイルの ANSI カラーと carriage return
+色指定を表示へ反映し、エスケープシーケンス自体は削除せず非表示にする。
+carriage return も =^M= として表示しない。いずれも表示だけを変更し、
+バッファとファイルの内容は変更しない。
+#+begin_src emacs-lisp
+(defun my/ansi-colorize-out-file ()
+  "Render ANSI colors and hide carriage returns without changing .out files."
+  (when (and buffer-file-name
+             (string-suffix-p ".out" buffer-file-name))
+    (require 'ansi-color)
+    (let ((inhibit-read-only t)
+          (table (copy-sequence (or buffer-display-table (make-display-table)))))
+      (aset table ?\r [])
+      (setq-local buffer-display-table table
+                  ansi-color-context-region nil)
+      (with-silent-modifications
+        (ansi-color-apply-on-region (point-min) (point-max) t)))))
+
+(add-hook 'find-file-hook #'my/ansi-colorize-out-file)
+(add-hook 'after-revert-hook #'my/ansi-colorize-out-file)
 #+end_src
 
 *** 行・カラム操作
@@ -1597,14 +1631,28 @@ org-mycal-export
 #+end_src
 
 *** json-ts-mode
+JSON ファイルは ~jq~ で2スペースインデントに整形して表示する。
+~jq~ がない環境では Emacs 標準の JSON 整形を使う。
+~C-c C-r~ (~M-x kei/json-toggle-raw~) で raw JSON と整形後の表示を切り替える。
+未編集なら開いた時点の raw を復元し、整形表示の編集後は編集内容を保持する。
+整形できない JSON と、1行1値を保つ必要がある ~.jsonl~ は raw JSON のまま表示する。
 #+begin_src emacs-lisp
+(require 'kei-json)
+
 (add-to-list 'auto-mode-alist '("\\.json$" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.jsonl$" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.textlintrc$" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.prettierrc$" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.markuplintrc$" . json-ts-mode))
 
+(add-hook 'json-ts-mode-hook #'kei/json-format-on-open)
+(add-hook 'json-ts-mode-hook
+          (lambda ()
+            (add-hook 'after-revert-hook #'kei/json-format-on-open nil t)))
 (add-hook 'json-ts-mode-hook #'flycheck-mode)
+
+(with-eval-after-load 'json-ts-mode
+  (define-key json-ts-mode-map (kbd "C-c C-r") #'kei/json-toggle-raw))
 #+end_src
 
 *** rust-mode
@@ -1631,6 +1679,14 @@ org-mycal-export
 #+end_src
 
 *** python-mode
+**** marimo notebook
+#+begin_src emacs-lisp
+(autoload 'marimo-open "marimo" nil t)
+(autoload 'marimo-new "marimo" nil t)
+(autoload 'marimo-mode "marimo" nil t)
+(autoload 'marimo-install-renderer "marimo-renderer" nil t)
+#+end_src
+
 **** 基本設定
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
@@ -2017,6 +2073,12 @@ C-c C-c でラウンドを終えると未解決コメントを agent-shell に�
 エージェントが =z-ai/= に返信を書くと次のラウンドが始まる。
 Git レビューでは =s= で確認済みの hunk をステージして表示から除外し、
 =S= でローカルコミットまたは未コミット差分を選択する。
+=f= ではそのバッファに表示するファイルを選択する。
+=agent-review-hidden-file-globs= には =("*.out" "logs/*")= のようなワイルドカードを
+エスケープせず設定でき、一致するファイルを初期表示から除外できる。
+正規表現で指定したい場合は =agent-review-hidden-file-regexps= も併用できる。
+いずれもプロジェクトの =.dir-locals.el= に設定でき、レビューバッファの作成時と
+再読み込み時にプロジェクトルートの設定を適用する。
 セッションと返信ファイルは =~/.local/agent-review/<project>/= 以下に保存する。
 
 #+begin_src emacs-lisp
@@ -2133,6 +2195,13 @@ agent-shell-manager と重複していたので、そちらは外してこちら
 ** arto
 #+begin_src emacs-lisp
 (setq arto-path (expand-file-name "~/Applications/Home Manager Apps/Arto.app/"))
+#+end_src
+
+** parquet explorer
+macOS ではローカルの Parquet ファイルを ~emacs-egui~ の Web バックエンドで表示する。
+#+begin_src emacs-lisp
+(when (fboundp 'emacs-parquet-explorer-open)
+  (keymap-global-set "C-c d p" #'emacs-parquet-explorer-open))
 #+end_src
 
 ** rsync-mode

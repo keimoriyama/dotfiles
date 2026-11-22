@@ -2,7 +2,43 @@
   pkgs,
   epkgs,
   sources,
-}: {
+}: let
+  parquetExplorerSource = sources.emacs-parquet-explorer;
+  parquetExplorerVersion = "0.1.0-unstable-${parquetExplorerSource.date}";
+  parquetExplorerUi = pkgs.rustPlatform.buildRustPackage {
+    pname = "emacs-parquet-explorer-ui";
+    version = parquetExplorerVersion;
+    src = parquetExplorerSource.src;
+    cargoRoot = "ui";
+    cargoLock.lockFile = "${parquetExplorerSource.src}/ui/Cargo.lock";
+    nativeBuildInputs = [
+      pkgs.binaryen
+      pkgs.rustc.llvmPackages.lld
+      pkgs.wasm-pack
+      # Must match wasm-bindgen in ui/Cargo.lock.
+      pkgs.wasm-bindgen-cli_0_2_122
+    ];
+    doCheck = false;
+    buildPhase = ''
+      runHook preBuild
+      export CARGO_NET_OFFLINE=true
+      export HOME="$TMPDIR/home"
+      export XDG_CACHE_HOME="$TMPDIR/cache"
+      mkdir -p "$HOME" "$XDG_CACHE_HOME"
+      cd ui
+      cargo build --release --bins
+      wasm-pack build --target web --release --mode no-install
+      runHook postBuild
+    '';
+    installPhase = ''
+      runHook preInstall
+      install -D -m 755 target/release/parquet_filter "$out/bin/parquet_filter"
+      install -D -m 755 target/release/parquet_to_csv "$out/bin/parquet_to_csv"
+      cp -R pkg "$out/pkg"
+      runHook postInstall
+    '';
+  };
+in {
   yatex = epkgs.melpaBuild {
     pname = "yatex";
     version = "0.0.1";
@@ -90,6 +126,55 @@
     version = "0.1.0";
     packageRequires = [epkgs.spinner];
   };
+  emacs-egui = epkgs.melpaBuild {
+    pname = "emacs-egui";
+    version = "0.1.0-unstable-${sources.emacs-egui.date}";
+    src = sources.emacs-egui.src;
+    files = ''("lisp/*.el")'';
+    postPatch = ''
+      # marimo's official renderer and its chunks use the .mjs extension.
+      substituteInPlace lisp/emacs-egui.el \
+        --replace-fail '("js"   "text/javascript; charset=utf-8")' '((or "js" "mjs") "text/javascript; charset=utf-8")'
+    '';
+    meta = {
+      description = "Web and native runtimes for egui applications in Emacs";
+      homepage = "https://github.com/nohzafk/emacs-egui";
+      license = pkgs.lib.licenses.mit;
+    };
+  };
+  emacs-parquet-explorer = epkgs.melpaBuild (finalAttrs: {
+    pname = "emacs-parquet-explorer";
+    version = parquetExplorerVersion;
+    src = parquetExplorerSource.src;
+    files = ''("lisp/*.el")'';
+    postPatch = ''
+      # package-build moves lisp/*.el to the package root. Keep the UI and
+      # binaries below that same root at runtime; emacs-egui is installed separately.
+      substituteInPlace lisp/emacs-parquet-explorer.el \
+        --replace-fail '"../emacs-egui/lisp/"' '"emacs-egui/lisp/"' \
+        --replace-fail '"../ui/"' '"ui/"' \
+        --replace-fail '(expand-file-name "../" emacs-parquet-explorer--dir)' 'emacs-parquet-explorer--dir' \
+        --replace-fail '(manifest-path (expand-file-name "ui/Cargo.toml" emacs-parquet-explorer--dir))' '(export-binary (expand-file-name "ui/target/release/parquet_to_csv" emacs-parquet-explorer--dir))' \
+        --replace-fail ':command (list "cargo" "run" "--release" "--manifest-path" manifest-path "--bin" "parquet_to_csv" "--" expanded-input expanded-output)' ':command (list export-binary expanded-input expanded-output)'
+    '';
+    preBuild = ''
+      export EMACSLOADPATH="$EMACSLOADPATH:$PWD/emacs-egui/lisp"
+    '';
+    postInstall = ''
+      LISPDIR="$out/share/emacs/site-lisp/elpa/${finalAttrs.ename}-${finalAttrs.melpaVersion}"
+      mkdir -p "$LISPDIR/ui/target/release"
+      install -m 644 ui/index.html "$LISPDIR/ui/index.html"
+      cp -R ${parquetExplorerUi}/pkg "$LISPDIR/ui/pkg"
+      install -m 755 ${parquetExplorerUi}/bin/parquet_filter "$LISPDIR/ui/target/release/parquet_filter"
+      install -m 755 ${parquetExplorerUi}/bin/parquet_to_csv "$LISPDIR/ui/target/release/parquet_to_csv"
+    '';
+    meta = {
+      description = "GPU-accelerated Parquet file explorer for Emacs";
+      homepage = "https://github.com/nohzafk/emacs-parquet-explorer";
+      license = pkgs.lib.licenses.mit;
+      platforms = pkgs.lib.platforms.darwin;
+    };
+  });
   # Upstream projectile ships projectile-consult.el, which unconditionally
   # (require 'consult), but nixpkgs' generated package doesn't declare it
   # as a dependency, breaking byte-compilation. Add it explicitly.

@@ -1,0 +1,127 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html,body{margin:0;padding:0}body{overflow-x:auto}#output{min-height:1px}#status{font:12px monospace;color:#666}#error{color:#b91c1c;white-space:pre-wrap}</style>
+</head><body><div id="status" role="status"></div><div id="output"></div><pre id="error"></pre>
+<script type="module">
+const fragment = new URLSearchParams(location.hash.replace(/^#/, ""));
+const eguiSession = fragment.get("session");
+let cellId = fragment.get("cell");
+const element = document.querySelector("#output");
+let sessionId = null;
+let listener;
+let renderer;
+let lastState;
+let lastHeight = 0;
+let lastRequest = 0;
+const pending = new Map();
+
+async function post(action, payload) {
+  const query = `session=${encodeURIComponent(eguiSession)}&action=${encodeURIComponent(action)}&payload=${encodeURIComponent(JSON.stringify(payload))}`;
+  const response = await fetch(`/api/event?${query}`);
+  if (!response.ok) throw new Error(await response.text());
+}
+
+function request(message) {
+  const requestId = ++lastRequest;
+  return new Promise((resolve, reject) => {
+    pending.set(requestId, { resolve, reject });
+    post("request", { ...message, cellId, sessionId, requestId }).catch((error) => {
+      pending.delete(requestId);
+      reject(error);
+    });
+  });
+}
+
+function fail(error) {
+  const message = String(error?.stack ?? error);
+  document.querySelector("#error").textContent = message;
+  window.marimoHost.error = message;
+  if (sessionId) request({ command: "renderer-error", params: { message } }).catch(() => {});
+}
+
+function render() {
+  if (!renderer || !lastState) return;
+  try {
+    document.querySelector("#status").textContent = `${lastState.status}${lastState.staleInputs ? " (stale)" : ""}`;
+    renderer.renderOutputItem({ id: cellId, mime: "application/vnd.marimo.ui+json",
+      json: () => ({ cellId, state: lastState }) }, element);
+    window.marimoHost.ready = true;
+    measure();
+  } catch (error) { fail(error); }
+}
+
+function measure() {
+  const height = Math.ceil(element.getBoundingClientRect().height + document.querySelector("#status").scrollHeight + document.querySelector("#error").scrollHeight + 8);
+  if (sessionId && Math.abs(height - lastHeight) > 2) {
+    lastHeight = height;
+    request({ command: "resize", params: { height } }).catch(() => {});
+  }
+}
+
+function text(node) {
+  let value = node.nodeType === Node.TEXT_NODE ? node.textContent : "";
+  if (node.shadowRoot) value += text(node.shadowRoot);
+  for (const child of node.childNodes) value += text(child);
+  return value;
+}
+
+window.marimoHost = { ready: false, error: null, request, text: () => text(element) };
+// macOS xwidget's default focus test does not enter web component shadow roots.
+if (typeof window.xwHasFocus === "function") {
+  window.xwHasFocus = () => {
+    let active = document.activeElement;
+    while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+    return !!active && (active.isContentEditable || active.matches(
+      "input,textarea,select,button,[role=combobox],[role=listbox],[role=menu],[role=option],[role=slider]"));
+  };
+}
+window.addEventListener("error", (event) => fail(event.error ?? event.message));
+window.addEventListener("unhandledrejection", (event) => fail(event.reason));
+new ResizeObserver(measure).observe(element);
+
+function receive(message) {
+  if (message.type === "state") {
+    cellId = message.cellId;
+    sessionId = message.sessionId;
+    lastState = message.state;
+    render();
+  } else if (message.type === "notification") {
+    if (message.sessionId === sessionId) listener?.(message.notification);
+  } else if (message.type === "reply") {
+    const request = pending.get(message.requestId);
+    if (request) {
+      pending.delete(message.requestId);
+      if (message.error) request.reject(new Error(message.error));
+      else request.resolve(null);
+    }
+  } else if (message.type === "remove") {
+    renderer?.disposeOutputItem(cellId);
+    lastState = null;
+    element.replaceChildren();
+    window.marimoHost.ready = false;
+  }
+}
+
+function pushState(json) {
+  receive(JSON.parse(json));
+}
+window.egui_push_state = pushState;
+window.eguiPushState = pushState;
+window.eguiPushTheme = (json) => {
+  const theme = JSON.parse(json);
+  if (theme.bg) document.body.style.backgroundColor = theme.bg;
+  if (theme.fg) document.body.style.color = theme.fg;
+};
+
+try {
+  const { activate } = await import("./vendor/renderer.mjs");
+  renderer = await activate({
+    workspace: { isTrusted: true },
+    getState: () => undefined, setState: () => {},
+    postMessage: (message) => { request(message).catch(fail); },
+    onDidReceiveMessage: (callback) => { listener = callback; return { dispose() { listener = null; } }; },
+  });
+  render();
+  await post("ready", { cellId });
+} catch (error) { fail(error); }
+</script></body></html>

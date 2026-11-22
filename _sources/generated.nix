@@ -74,6 +74,18 @@
     };
     date = "2026-02-16";
   };
+  emacs-egui = {
+    pname = "emacs-egui";
+    version = "cbcc900e73b8e0db1f84f52bfde07667279ff8ba";
+    src = fetchFromGitHub {
+      owner = "nohzafk";
+      repo = "emacs-egui";
+      rev = "cbcc900e73b8e0db1f84f52bfde07667279ff8ba";
+      fetchSubmodules = false;
+      sha256 = "sha256-gOJrmzVMPdBpLtwXYf+Seq+71v04FueovsklnVPGS3o=";
+    };
+    date = "2026-11-03";
+  };
   emacs-nano-modeline = {
     pname = "emacs-nano-modeline";
     version = "04676d57a1e602123a593836745a744d1b2028fb";
@@ -85,6 +97,18 @@
       sha256 = "sha256-CoADZ4L4JpoF3JRMb793z2nAq8s1VE3uqb3gqFD7IOA=";
     };
     date = "2024-04-29";
+  };
+  emacs-parquet-explorer = {
+    pname = "emacs-parquet-explorer";
+    version = "b857ea42cad8a5fef88d46e70811313a053adc74";
+    src = fetchFromGitHub {
+      owner = "nohzafk";
+      repo = "emacs-parquet-explorer";
+      rev = "b857ea42cad8a5fef88d46e70811313a053adc74";
+      fetchSubmodules = true;
+      sha256 = "sha256-VWj/k5qke7RaWHDKcX1Ju+AP4KSfOWl08pryUdOE3Rw=";
+    };
+    date = "2026-10-10";
   };
   emacs-typst-ts-mode = {
     pname = "emacs-typst-ts-mode";
