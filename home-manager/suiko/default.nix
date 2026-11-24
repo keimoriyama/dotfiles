@@ -27,6 +27,9 @@ in
 
     nativeBuildInputs = [pkgs.unzip];
 
+    # tests/batch_cli.rs の compare テストが git でリポジトリを組み立てる。
+    nativeCheckInputs = [pkgs.git];
+
     preBuild = ''
       unzip -p ${sudachiDictZip} '${rustConst "DICT_ZIP_ENTRY"}' > "$NIX_BUILD_TOP/system_core.dic"
       export SUIKO_SUDACHI_DICT="$NIX_BUILD_TOP/system_core.dic"

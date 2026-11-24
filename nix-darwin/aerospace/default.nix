@@ -194,15 +194,9 @@
           run = ["move-node-to-workspace e"];
         }
         {
-          "if".app-id = "com.google.Chrome";
-          run = [
-            "move-node-to-workspace c"
-          ];
-        }
-        {
           "if".app-id = "com.apple.Safari";
           run = [
-            "move-node-to-workspace b"
+            "move-node-to-workspace c"
           ];
         }
         {

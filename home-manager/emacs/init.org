@@ -321,7 +321,6 @@ carriage return も =^M= として表示しない。いずれも表示だけを�
 
 (defun add-prefix-to-list (prefix string-list)
   (mapcar (lambda (s) (concat prefix s)) string-list))
-
 (with-eval-after-load 'projectile
   ;; projectile-command-map には autoload がないので、読み込み後に割り当てる
   (keymap-global-set "C-c p" #'projectile-command-map)
