@@ -287,7 +287,6 @@ emacsclient 用にサーバーを起動する。モードラインには桁番�
 
 (defun add-prefix-to-list (prefix string-list)
   (mapcar (lambda (s) (concat prefix s)) string-list))
-
 (with-eval-after-load 'projectile
   ;; projectile-command-map には autoload がないので、読み込み後に割り当てる
   (keymap-global-set "C-c p" #'projectile-command-map)
