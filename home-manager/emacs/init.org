@@ -284,11 +284,29 @@ TTY や対話シェルを条件にした環境設定もコマンド実行時に�
 
 **** .out ファイルの ANSI カラーと carriage return
 色指定を表示へ反映し、エスケープシーケンス自体は削除せず非表示にする。
-carriage return も =^M= として表示しない。いずれも表示だけを変更し、
+carriage return も =^M= として表示しない。tqdm などのプログレスバーは
+端末と同様に上書きされたように見せるため、各行で最後の carriage return より
+前の部分を非表示にする。いずれも表示だけを変更し、
 バッファとファイルの内容は変更しない。
 #+begin_src emacs-lisp
+(defun my/hide-overwritten-by-carriage-return ()
+  "Hide text that a later carriage return on the same line overwrites.
+LIMITATION: the whole earlier part of the line is hidden, so a shorter
+final segment does not show the tail of a longer previous one."
+  (save-excursion
+    (goto-char (point-min))
+    (while (not (eobp))
+      (let ((bol (point))
+            (eol (line-end-position)))
+        (goto-char eol)
+        (skip-chars-backward "\r" bol)
+        (when (search-backward "\r" bol t)
+          (put-text-property bol (1+ (point)) 'invisible t))
+        (goto-char eol)
+        (forward-line 1)))))
+
 (defun my/ansi-colorize-out-file ()
-  "Render ANSI colors and hide carriage returns without changing .out files."
+  "Render ANSI colors and carriage returns without changing .out files."
   (when (and buffer-file-name
              (string-suffix-p ".out" buffer-file-name))
     (require 'ansi-color)
@@ -298,7 +316,8 @@ carriage return も =^M= として表示しない。いずれも表示だけを�
       (setq-local buffer-display-table table
                   ansi-color-context-region nil)
       (with-silent-modifications
-        (ansi-color-apply-on-region (point-min) (point-max) t)))))
+        (ansi-color-apply-on-region (point-min) (point-max) t)
+        (my/hide-overwritten-by-carriage-return)))))
 
 (add-hook 'find-file-hook #'my/ansi-colorize-out-file)
 (add-hook 'after-revert-hook #'my/ansi-colorize-out-file)
