@@ -7,5 +7,12 @@
       "~/.local/agent-review/**": "allow",
       "~/.claude/skills/**": "allow"
     }
+  },
+  "mcp": {
+    "textlint": {
+      "type": "local",
+      "command": ["textlint", "--mcp"],
+      "enabled": true
+    }
   }
 }

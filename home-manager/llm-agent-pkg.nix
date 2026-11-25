@@ -16,6 +16,26 @@
     // lib.optionalAttrs isDarwin {
       plugin = ["file://${opencodeSandbox}/lib/node_modules/opencode-sandbox/dist/index.js"];
     };
+
+  # ユーザースコープの MCP サーバーは ~/.claude.json に入り、CLI が書き換えるので Nix で管理できない。
+  # 代わりに起動時に --mcp-config で渡す。
+  # --mcp-config は可変長なので、= で値を結合しないと後続のプロンプトやサブコマンドを取り込んでしまう。
+  # LIMITATION: claude-agent-acp 経由のセッションにはこの MCP サーバーは渡らない。
+  claudeMcpConfig = pkgs.writeText "claude-mcp.json" (builtins.toJSON {
+    mcpServers.textlint = {
+      type = "stdio";
+      command = "textlint";
+      args = ["--mcp"];
+    };
+  });
+  claude-code = pkgs.symlinkJoin {
+    name = "claude-code-with-mcp";
+    paths = [inputs.llm-agents.packages.${system}.claude-code];
+    nativeBuildInputs = [pkgs.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/claude --add-flags "--mcp-config=${claudeMcpConfig}"
+    '';
+  };
 in {
   home.packages = with inputs.llm-agents.packages.${system};
     [
