@@ -95,6 +95,7 @@ in {
       // {
         ".emacs.d/init.el".text = tangleOrg ./init.org;
         ".emacs.d/lisp/marimo-renderer.html".source = ./marimo-renderer.html;
+        ".emacs.d/lisp/marimo-lsp-compat.py".source = ./marimo-lsp-compat.py;
         ".emacs.d/early-init.el".text = tangleOrg ./early-init.org;
         ".emacs.d/misc/yasnippet.org".source = ./yasnippet.org;
         # recursive=true で実ディレクトリ + ファイルごとのシンボリンクにし、

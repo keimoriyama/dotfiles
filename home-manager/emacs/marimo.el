@@ -24,10 +24,15 @@
 (require 'marimo-renderer)
 (require 'marimo-table)
 
+(defconst marimo--server-compat-script
+  (expand-file-name "marimo-lsp-compat.py"
+                    (file-name-directory (or load-file-name buffer-file-name)))
+  "Compatibility entry point installed alongside this library.")
+
 (defcustom marimo-server-command
-  '("uvx" "--from"
-    "git+https://github.com/marimo-team/marimo-lsp.git@4fe0df21a01e123b57113cd65c27e703c7bf91ca"
-    "marimo-lsp")
+  `("uvx" "--from"
+    "git+https://github.com/marimo-team/marimo-lsp.git@d75f0d2825d4c5c48a91d6580e23ebb37790d2ad"
+    "python" ,marimo--server-compat-script)
   "Command for the matching marimo-lsp server, without shell expansion."
   :type '(repeat string))
 
