@@ -5,19 +5,34 @@
 }: let
   parquetExplorerSource = sources.emacs-parquet-explorer;
   parquetExplorerVersion = "0.1.0-unstable-${parquetExplorerSource.date}";
+  parquetExplorerUiSource = pkgs.applyPatches {
+    name = "emacs-parquet-explorer-ui-source";
+    src = parquetExplorerSource.src;
+    patches = [
+      ./emacs-parquet-explorer-zstd.diff
+      ./emacs-parquet-explorer-nested.diff
+    ];
+  };
+  parquetExplorerWasmClang = pkgs.rustc.llvmPackages.clang-unwrapped;
   parquetExplorerUi = pkgs.rustPlatform.buildRustPackage {
     pname = "emacs-parquet-explorer-ui";
     version = parquetExplorerVersion;
-    src = parquetExplorerSource.src;
+    src = parquetExplorerUiSource;
     cargoRoot = "ui";
-    cargoLock.lockFile = "${parquetExplorerSource.src}/ui/Cargo.lock";
+    cargoLock.lockFile = "${parquetExplorerUiSource}/ui/Cargo.lock";
+    buildInputs = [pkgs.zstd];
     nativeBuildInputs = [
       pkgs.binaryen
+      pkgs.pkg-config
       pkgs.rustc.llvmPackages.lld
       pkgs.wasm-pack
       # Must match wasm-bindgen in ui/Cargo.lock.
       pkgs.wasm-bindgen-cli_0_2_122
     ];
+    CC_wasm32_unknown_unknown = "${parquetExplorerWasmClang}/bin/clang";
+    CFLAGS_wasm32_unknown_unknown = let
+      majorVersion = pkgs.lib.versions.major parquetExplorerWasmClang.version;
+    in "-isystem ${pkgs.lib.getLib pkgs.rustc.llvmPackages.libclang}/lib/clang/${majorVersion}/include -resource-dir ${pkgs.lib.getLib parquetExplorerWasmClang}/lib/clang/${majorVersion}";
     doCheck = false;
     buildPhase = ''
       runHook preBuild
@@ -27,6 +42,8 @@
       mkdir -p "$HOME" "$XDG_CACHE_HOME"
       cd ui
       cargo build --release --bins
+      # Native binaries use Nix's zstd.  WASM must build zstd-sys's bundled C source.
+      unset ZSTD_SYS_USE_PKG_CONFIG
       wasm-pack build --target web --release --mode no-install
       runHook postBuild
     '';
@@ -146,6 +163,8 @@ in {
     pname = "emacs-parquet-explorer";
     version = parquetExplorerVersion;
     src = parquetExplorerSource.src;
+    # The prebuilt sidecar cannot be rebuilt inside the read-only Nix store.
+    patches = [./emacs-parquet-explorer-sidecar.diff];
     files = ''("lisp/*.el")'';
     postPatch = ''
       # package-build moves lisp/*.el to the package root. Keep the UI and

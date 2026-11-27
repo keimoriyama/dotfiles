@@ -1,0 +1,78 @@
+--- a/lisp/emacs-parquet-explorer.el
++++ b/lisp/emacs-parquet-explorer.el
+@@ -37,7 +37,6 @@
+   (pending nil)   ; latest queued request plist (latest wins)
+   (acc "")    ; partial stdout line accumulator
+   out         ; temp file of the in-flight request's indices
+-  (building nil)  ; t while the one-time cargo build runs
+   inflight)   ; token of the in-flight request
+ 
+ (defvar emacs-parquet-explorer--sidecars (make-hash-table :test 'equal)
+@@ -179,10 +178,6 @@
+   (expand-file-name "ui/target/release/parquet_filter"
+                     (emacs-parquet-explorer--repo-root)))
+ 
+-(defun emacs-parquet-explorer--filter-manifest ()
+-  "Absolute path to the UI crate manifest."
+-  (expand-file-name "ui/Cargo.toml" (emacs-parquet-explorer--repo-root)))
+-
+ (defun emacs-parquet-explorer--send-result (session token &rest kv)
+   "Push a filter result for TOKEN (plus KV, e.g. :path/:error) to SESSION."
+   (emacs-egui-send-state session (list :filter_result (apply #'list :token token kv))))
+@@ -265,37 +260,11 @@
+                         :error "sidecar exited"))))))))
+     (setf (emacs-parquet-explorer--sidecar-proc sc) proc)
+     (emacs-parquet-explorer--sidecar-flush sc)))
+-
+-(defun emacs-parquet-explorer--sidecar-build-then-start (sc filepath)
+-  "Build `parquet_filter' asynchronously, then start the daemon for FILEPATH."
+-  (setf (emacs-parquet-explorer--sidecar-building sc) t)
+-  (message "emacs-parquet-explorer: building native filter sidecar...")
+-  (make-process
+-   :name "parquet-filter-build"
+-   :buffer (get-buffer-create " *Parquet Filter build*")
+-   :noquery t
+-   :command (list "cargo" "build" "--release"
+-                  "--manifest-path" (emacs-parquet-explorer--filter-manifest)
+-                  "--bin" "parquet_filter")
+-   :sentinel
+-   (lambda (proc event)
+-     (when (string-match-p "\\(finished\\|exited\\)" event)
+-       (setf (emacs-parquet-explorer--sidecar-building sc) nil)
+-       (if (and (= (process-exit-status proc) 0)
+-                (file-executable-p (emacs-parquet-explorer--filter-bin)))
+-           (progn
+-             (message "emacs-parquet-explorer: native filter sidecar ready")
+-             (emacs-parquet-explorer--sidecar-start sc filepath))
+-         (let ((req (emacs-parquet-explorer--sidecar-pending sc))
+-               (session (emacs-parquet-explorer--sidecar-session sc)))
+-           (when req
+-             (setf (emacs-parquet-explorer--sidecar-pending sc) nil)
+-             (emacs-parquet-explorer--send-result
+-              session (plist-get req :token) :error "sidecar build failed"))))))))
+ 
+ (defun emacs-parquet-explorer--sidecar-ensure (sc filepath)
+-  "Ensure SC has a live daemon for FILEPATH, building the binary if needed.
+-Return non-nil when the daemon is live now (otherwise startup is pending)."
++  "Ensure SC has a live daemon for FILEPATH.
++Return non-nil when the daemon is live now.  Otherwise report the missing
++binary to the UI so that it can use its in-process scanner."
+   (let ((proc (emacs-parquet-explorer--sidecar-proc sc)))
+     (cond
+      ((and (process-live-p proc)
+@@ -310,8 +279,13 @@
+         (emacs-parquet-explorer--sidecar-start sc filepath)
+         t)
+        (t
+-        (unless (emacs-parquet-explorer--sidecar-building sc)
+-          (emacs-parquet-explorer--sidecar-build-then-start sc filepath))
++        (let ((req (emacs-parquet-explorer--sidecar-pending sc))
++              (session (emacs-parquet-explorer--sidecar-session sc)))
++          (setf (emacs-parquet-explorer--sidecar-pending sc) nil)
++          (when req
++            (emacs-parquet-explorer--send-result
++             session (plist-get req :token)
++             :error "native filter binary unavailable")))
+         nil))))))
+ 
+ (defun emacs-parquet-explorer--sidecar-kill (session-id)

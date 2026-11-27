@@ -1,0 +1,172 @@
+--- a/ui/src/lib.rs
++++ b/ui/src/lib.rs
+@@ -4,8 +4,10 @@
+ use parquet::arrow::ProjectionMask;
+ use arrow_array::{Array, ArrayRef, StringArray};
+ use arrow_cast::cast;
++use arrow_cast::display::{ArrayFormatter, FormatOptions};
+ use arrow_schema::DataType;
+ use serde::{Deserialize, Serialize};
++use std::borrow::Cow;
+ use std::sync::Mutex;
+ #[cfg(target_arch = "wasm32")]
+ use wasm_bindgen::prelude::wasm_bindgen;
+@@ -135,10 +137,10 @@
+         let mut sorted_rows: Vec<Vec<String>> = Vec::with_capacity(sorted.len());
+         for batch in reader {
+             let batch = batch.map_err(|e| e.to_string())?;
+-            let utf8 = batch_to_utf8(&batch)?;
+-            let cols = downcast_utf8(&utf8);
++            let arrays = batch_columns(&batch);
++            let cols = column_formatters(&arrays)?;
+             for r in 0..batch.num_rows() {
+-                sorted_rows.push((0..cols.len()).map(|c| utf8_cell(&cols, r, c).to_string()).collect());
++                sorted_rows.push((0..cols.len()).map(|c| cols[c].value(r).to_string()).collect());
+             }
+         }
+ 
+@@ -183,32 +185,44 @@
+     RowSelection::from(selectors)
+ }
+ 
+-/// Cast every column of a batch to Utf8 once (vectorized) so values can be read
+-/// and searched as text with consistent formatting.
+-fn batch_to_utf8(batch: &arrow_array::RecordBatch) -> Result<Vec<ArrayRef>, String> {
++enum ColumnFormatter<'a> {
++    Utf8(&'a StringArray),
++    Display(ArrayFormatter<'a>),
++}
++
++impl<'a> ColumnFormatter<'a> {
++    fn value(&self, row: usize) -> Cow<'a, str> {
++        match self {
++            Self::Utf8(array) if array.is_null(row) => Cow::Borrowed("null"),
++            Self::Utf8(array) => Cow::Borrowed(array.value(row)),
++            Self::Display(formatter) => Cow::Owned(formatter.value(row).to_string()),
++        }
++    }
++}
++
++/// Cast columns to Utf8 when possible, preserving nested arrays for the display
++/// formatter rather than rejecting the whole batch.
++fn batch_columns(batch: &arrow_array::RecordBatch) -> Vec<ArrayRef> {
+     batch
+         .columns()
+         .iter()
+-        .map(|c| cast(c, &DataType::Utf8).map_err(|e| e.to_string()))
++        .map(|c| cast(c, &DataType::Utf8).unwrap_or_else(|_| c.clone()))
+         .collect()
+ }
+ 
+-/// Borrow each cast column as a concrete StringArray for fast cell access.
+-fn downcast_utf8(cols: &[ArrayRef]) -> Vec<&StringArray> {
++fn column_formatters(cols: &[ArrayRef]) -> Result<Vec<ColumnFormatter<'_>>, String> {
++    let options = FormatOptions::default().with_display_error(true);
+     cols.iter()
+-        .map(|a| a.as_any().downcast_ref::<StringArray>().expect("cast to Utf8 yields StringArray"))
++        .map(|array| {
++            if let Some(array) = array.as_any().downcast_ref::<StringArray>() {
++                Ok(ColumnFormatter::Utf8(array))
++            } else {
++                ArrayFormatter::try_new(array.as_ref(), &options)
++                    .map(ColumnFormatter::Display)
++                    .map_err(|e| e.to_string())
++            }
++        })
+         .collect()
+-}
+-
+-/// Read cell (row, col) as text, rendering null as "null".
+-#[inline]
+-fn utf8_cell<'a>(cols: &[&'a StringArray], row: usize, col: usize) -> &'a str {
+-    let a = cols[col];
+-    if a.is_null(row) {
+-        "null"
+-    } else {
+-        a.value(row)
+-    }
+ }
+ 
+ pub fn parse_parquet(bytes: Vec<u8>) -> Result<ParquetTable, String> {
+@@ -1345,14 +1359,14 @@
+ 
+         let batch = batch.map_err(|e| e.to_string())?;
+         let nrows = batch.num_rows();
+-        let utf8 = batch_to_utf8(&batch)?;
+-        let cols = downcast_utf8(&utf8);
++        let arrays = batch_columns(&batch);
++        let cols = column_formatters(&arrays)?;
+ 
+-        let mut row_buf: Vec<&str> = Vec::with_capacity(cols.len());
++        let mut row_buf: Vec<Cow<'_, str>> = Vec::with_capacity(cols.len());
+         for r in 0..nrows {
+             row_buf.clear();
+             for c in 0..cols.len() {
+-                row_buf.push(utf8_cell(&cols, r, c));
++                row_buf.push(cols[c].value(r));
+             }
+             if row_matches(&row_buf, &query, &filters, &proj_names) {
+                 filtered_indices.push(cursor + r);
+@@ -1411,13 +1425,13 @@
+     let mut cursor = start; // first selected row maps to global index `start`
+     for batch in reader {
+         let batch = batch.map_err(|e| e.to_string())?;
+-        let utf8 = batch_to_utf8(&batch)?;
+-        let cols = downcast_utf8(&utf8);
+-        let mut row_buf: Vec<&str> = Vec::with_capacity(cols.len());
++        let arrays = batch_columns(&batch);
++        let cols = column_formatters(&arrays)?;
++        let mut row_buf: Vec<Cow<'_, str>> = Vec::with_capacity(cols.len());
+         for r in 0..batch.num_rows() {
+             row_buf.clear();
+             for c in 0..cols.len() {
+-                row_buf.push(utf8_cell(&cols, r, c));
++                row_buf.push(cols[c].value(r));
+             }
+             if row_matches(&row_buf, query, filters, proj_names) {
+                 out.push(cursor + r);
+@@ -1488,6 +1502,30 @@
+             operator: operator.to_string(),
+             value: value.to_string(),
+         }
++    }
++
++    #[test]
++    fn test_nested_struct_column_rendering() {
++        use arrow_array::{RecordBatch, StructArray};
++        use arrow_schema::{Field, Fields, Schema};
++        use std::sync::Arc;
++
++        let plain: ArrayRef = Arc::new(StringArray::from(vec!["plain"]));
++        let nested: ArrayRef = Arc::new(StructArray::new(
++            Fields::from(vec![Field::new("text", DataType::Utf8, false)]),
++            vec![Arc::new(StringArray::from(vec!["nested"]))],
++            None,
++        ));
++        let schema = Schema::new(vec![
++            Field::new("plain", DataType::Utf8, false),
++            Field::new("nested", nested.data_type().clone(), false),
++        ]);
++        let batch = RecordBatch::try_new(Arc::new(schema), vec![plain, nested]).unwrap();
++        let arrays = batch_columns(&batch);
++        let cols = column_formatters(&arrays).unwrap();
++
++        assert_eq!(cols[0].value(0).as_ref(), "plain");
++        assert!(cols[1].value(0).contains("nested"));
+     }
+ 
+     #[test]
+@@ -1564,10 +1602,10 @@
+         let mut off = 0usize;
+         for batch in reader {
+             let batch = batch.unwrap();
+-            let utf8 = batch_to_utf8(&batch).unwrap();
+-            let cols = downcast_utf8(&utf8);
++            let arrays = batch_columns(&batch);
++            let cols = column_formatters(&arrays).unwrap();
+             for r in 0..batch.num_rows() {
+-                let row: Vec<&str> = (0..cols.len()).map(|c| utf8_cell(&cols, r, c)).collect();
++                let row: Vec<Cow<'_, str>> = (0..cols.len()).map(|c| cols[c].value(r)).collect();
+                 if row_matches(&row, &q, filters, &table.columns) {
+                     out.push(off + r);
+                 }
