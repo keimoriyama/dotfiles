@@ -36,6 +36,17 @@
                                     (string-prefix-p "OPENCODE_API_KEY=" entry))
                                   environment)))))))
 
+(ert-deftest agent-shell-sarashina-client-without-a-key-reports-instead-of-signalling ()
+  "A missing key yields no client, so agent-shell discards the new shell.
+The reason is shown as a warning rather than lost."
+  (let ((process-environment (cons "SARASHINA_API_KEY" process-environment))
+        warned)
+    (cl-letf (((symbol-function 'display-warning)
+               (lambda (_type message &rest _) (setq warned message))))
+      (with-temp-buffer
+        (should-not (my-agent-shell-sarashina-make-client (current-buffer)))
+        (should (string-match-p "SARASHINA_API_KEY" warned))))))
+
 (ert-deftest agent-shell-sarashina-api-key-comes-from-the-environment ()
   "The key is read from SARASHINA_API_KEY and a missing one is reported."
   (let ((process-environment (cons "SARASHINA_API_KEY=secret" process-environment)))

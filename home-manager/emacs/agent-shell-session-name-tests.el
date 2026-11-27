@@ -36,6 +36,54 @@
   (should (null (my-agent-shell-session-name--shorten "  \n\n")))
   (should (null (my-agent-shell-session-name--shorten nil))))
 
+(ert-deftest agent-shell-session-name-treats-empty-text-as-no-summary ()
+  "Empty or newline-only text gives no summary instead of signalling."
+  (should (null (my-agent-shell-session-name--shorten "")))
+  (should (null (my-agent-shell-session-name--shorten "\n"))))
+
+(ert-deftest agent-shell-session-name-skips-leading-blank-lines ()
+  "A reply that opens with blank lines still yields its first real line."
+  (should (equal (my-agent-shell-session-name--shorten "  \n要約\n説明")
+                 "要約")))
+
+(defun agent-shell-session-name-tests--summarise-with (command)
+  "Run the summariser as COMMAND and return the name it set, or nil.
+Waits until the summariser's scratch buffers are gone."
+  (let ((my-agent-shell-session-name-summary-command command)
+        renamed)
+    (cl-letf (((symbol-function 'shell-maker-set-buffer-name)
+               (lambda (_buffer name) (setq renamed name))))
+      (with-temp-buffer
+        (setq my-agent-shell-session-name--base "Claude@dotfiles")
+        (my-agent-shell-session-name--summarise (current-buffer) "依頼")
+        (let ((deadline (+ (float-time) 10)))
+          (while (and (< (float-time) deadline)
+                      (agent-shell-session-name-tests--scratch-buffers))
+            (accept-process-output nil 0.05)))))
+    renamed))
+
+(defun agent-shell-session-name-tests--scratch-buffers ()
+  "Return the summariser's live scratch buffers."
+  (seq-filter (lambda (buffer)
+                (string-prefix-p " *agent-shell-session-name"
+                                 (buffer-name buffer)))
+              (buffer-list)))
+
+(ert-deftest agent-shell-session-name-renames-from-the-summariser-output ()
+  "The summariser's reply becomes the buffer name and its buffers go away."
+  (skip-unless (executable-find "sh"))
+  (should (equal (agent-shell-session-name-tests--summarise-with
+                  '("sh" "-c" "cat >/dev/null; echo 要約"))
+                 "Claude@dotfiles 要約"))
+  (should-not (agent-shell-session-name-tests--scratch-buffers)))
+
+(ert-deftest agent-shell-session-name-cleans-up-after-an-empty-summary ()
+  "An empty reply leaves the name alone and still disposes of its buffers."
+  (skip-unless (executable-find "sh"))
+  (should-not (agent-shell-session-name-tests--summarise-with
+               '("sh" "-c" "cat >/dev/null")))
+  (should-not (agent-shell-session-name-tests--scratch-buffers)))
+
 (ert-deftest agent-shell-session-name-appends-a-summary-to-the-base-name ()
   "The summary follows the agent and project."
   (should (equal (my-agent-shell-session-name--compose "Claude@dotfiles" "要約")

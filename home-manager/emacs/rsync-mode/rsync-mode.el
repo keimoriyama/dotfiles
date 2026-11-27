@@ -11,7 +11,6 @@
 ;;; Code:
 
 (require 'cl-lib)
-(require 'seq)
 (require 'spinner)
 (require 'subr-x)
 (require 'time-stamp)
@@ -53,6 +52,8 @@
   '(" rsync" (:eval (and rsync--spinner (spinner-print rsync--spinner))))
   "Mode-line indicator for `rsync-mode'.")
 
+(defvar rsync-mode)
+
 (defun rsync--start-spinner ()
   "Start the current buffer's rsync spinner."
   (when rsync-mode
@@ -93,38 +94,35 @@
 
 (defun rsync--get-excludes ()
   "Return command arguments for global and project exclusions."
-  (mapcar (lambda (pattern)
-            (format "--exclude=%s" (shell-quote-argument pattern)))
+  (mapcar (lambda (pattern) (concat "--exclude=" pattern))
           (delete-dups
            (append rsync-excluded-dirs rsync-default-excluded-dirs))))
 
 (defun rsync--build-args (remote-path excludes local-path &optional dry-run file)
   "Build rsync arguments for REMOTE-PATH and LOCAL-PATH.
 EXCLUDES is a list of command arguments.  When DRY-RUN is non-nil, do not
-modify the destination.  When FILE is non-nil, synchronize only that path."
-  (let ((remote (string-join
-                 (mapcar #'shell-quote-argument
-                         (split-string remote-path ":"))
-                 ":")))
-    (seq-filter
-     #'identity
-     (append
-      (list (if file "-avR" "-av")
-            (and dry-run "--dry-run"))
-      excludes
-      (list (shell-quote-argument
-             (if file
-                 (concat (file-name-as-directory local-path) "./" file)
-               local-path))
-            remote)))))
+modify the destination.  When FILE is non-nil, synchronize only that path.
+The arguments go to rsync directly, not through a shell, so they are not
+quoted."
+  (append
+   (list (if file "-avR" "-av"))
+   (and dry-run (list "--dry-run"))
+   excludes
+   (list (if file
+             (concat (file-name-as-directory local-path) "./" file)
+           local-path)
+         remote-path)))
 
-(defun rsync--process-for (remote-path)
-  "Return a live process for REMOTE-PATH in the current buffer."
+(defun rsync--process-for (remote-path local-path)
+  "Return the live rsync process syncing LOCAL-PATH to REMOTE-PATH.
+Every buffer of a project shares one process per destination, so the
+search covers all processes rather than those of the current buffer."
   (cl-find-if
    (lambda (process)
      (and (process-live-p process)
-          (equal (process-get process 'rsync-remote-path) remote-path)))
-   rsync--processes))
+          (equal (process-get process 'rsync-remote-path) remote-path)
+          (equal (process-get process 'rsync-local-path) local-path)))
+   (process-list)))
 
 (defun rsync--finish-process (source process event)
   "Clean up PROCESS from SOURCE after receiving EVENT."
@@ -138,10 +136,41 @@ modify the destination.  When FILE is non-nil, synchronize only that path."
       (message "Rsync complete.")
     (message "Rsync process received abnormal event %s" event)))
 
+(defun rsync--merge-requests (queued request)
+  "Return the request list QUEUED with REQUEST added at its end.
+Each request is (SOURCE REMOTE-PATH EXCLUDES LOCAL-PATH FILE).  A queued
+request for the same FILE is replaced, since one run sends its latest state."
+  ;; Different files stay separate requests: widening them to a project
+  ;; sync would run the user's mirroring arguments, such as --delete, on a
+  ;; save that only asked for one file.
+  (append (cl-remove (nth 4 request) queued
+                     :key (lambda (r) (nth 4 r)) :test #'equal)
+          (list request)))
+
+(defun rsync--run-queued (process)
+  "Start the syncs queued on PROCESS while it was running, one at a time.
+The queued syncs start even when PROCESS failed: the failure may have been
+transient, and the newer changes still need sending.  Each request runs
+once, so a failing destination cannot loop."
+  (when-let* ((queue (process-get process 'rsync-queued)))
+    (process-put process 'rsync-queued nil)
+    (pcase-let ((`(,source ,remote-path ,excludes ,local-path ,file) (car queue)))
+      (if (buffer-live-p source)
+          (with-current-buffer source
+            (rsync--run remote-path excludes local-path nil file))
+        (with-temp-buffer
+          (rsync--run remote-path excludes local-path nil file)))
+      (when-let* ((next (rsync--process-for remote-path
+                                            (expand-file-name local-path))))
+        (dolist (request (cdr queue))
+          (rsync--queue next request nil))))))
+
 (defun rsync--make-process-sentinel (source)
   "Return a process sentinel that safely refers to SOURCE."
   (lambda (process event)
-    (rsync--finish-process source process event)))
+    (rsync--finish-process source process event)
+    (unless (process-live-p process)
+      (rsync--run-queued process))))
 
 (defun rsync--prepare-output-buffer (remote-path)
   "Return a process output buffer initialized for REMOTE-PATH."
@@ -152,25 +181,57 @@ modify the destination.  When FILE is non-nil, synchronize only that path."
     (insert (concat "\n\n" (time-stamp-string) "\n"))
     (current-buffer)))
 
+(defun rsync--queue (process request dry-run)
+  "Queue REQUEST to run after PROCESS finishes, unless it is a DRY-RUN.
+A dry run changes nothing, so skipping it loses no work."
+  (if dry-run
+      (message "An rsync process for %s is already running" (nth 1 request))
+    (process-put process 'rsync-queued
+                 (rsync--merge-requests (process-get process 'rsync-queued)
+                                        request))
+    (message "Rsync to %s is running; queued another sync" (nth 1 request))))
+
+(defun rsync--start (remote-path excludes local-path dry-run file)
+  "Start rsync from LOCAL-PATH to REMOTE-PATH and return the process.
+See `rsync--build-args' for EXCLUDES, DRY-RUN and FILE."
+  (let* ((source (current-buffer))
+         ;; A pipe leaves ssh without a terminal, so a password or host-key
+         ;; prompt fails immediately instead of waiting forever on a pty
+         ;; nobody reads.
+         (process
+          (make-process
+           :name "rsync"
+           :buffer (rsync--prepare-output-buffer remote-path)
+           :command (cons "rsync"
+                          (rsync--build-args remote-path excludes local-path
+                                             dry-run file))
+           :connection-type 'pipe
+           :noquery t
+           :sentinel (rsync--make-process-sentinel source))))
+    (process-put process 'rsync-remote-path remote-path)
+    (process-put process 'rsync-local-path local-path)
+    (push process rsync--processes)
+    (setq rsync--process process)
+    (rsync--start-spinner)
+    process))
+
 (defun rsync--run (remote-path excludes local-path &optional dry-run file)
   "Synchronize LOCAL-PATH to REMOTE-PATH with EXCLUDES.
-DRY-RUN and FILE are passed to `rsync--build-args'."
-  (if (rsync--process-for remote-path)
-      (message "An rsync process for %s is already running" remote-path)
-    (let* ((source (current-buffer))
-           (output (rsync--prepare-output-buffer remote-path))
-           (process
-            (apply #'start-process
-                   "rsync" output "rsync"
-                   (rsync--build-args remote-path excludes local-path
-                                      dry-run file))))
-      (process-put process 'rsync-remote-path remote-path)
-      (set-process-query-on-exit-flag process nil)
-      (set-process-sentinel process (rsync--make-process-sentinel source))
-      (push process rsync--processes)
-      (setq rsync--process process)
-      (rsync--start-spinner)
-      process)))
+DRY-RUN and FILE are passed to `rsync--build-args'.  While a sync to the
+same destination is running, queue the request instead of dropping it."
+  (let* ((local-path (expand-file-name local-path))
+         (running (rsync--process-for remote-path local-path)))
+    (if running
+        (rsync--queue running
+                      (list (current-buffer) remote-path excludes local-path
+                            file)
+                      dry-run)
+      (rsync--start remote-path excludes local-path dry-run file))))
+
+(defun rsync--check-local-path ()
+  "Signal a `user-error' unless the current buffer has a local path."
+  (unless rsync-local-path
+    (user-error "No local path configured for rsync-mode")))
 
 ;;;###autoload
 (defun rsync-all (&optional dry-run file)
@@ -178,15 +239,20 @@ DRY-RUN and FILE are passed to `rsync--build-args'."
 When DRY-RUN is non-nil, do not modify destinations.  FILE limits the sync to
 one project-relative path."
   (interactive)
-  (unless rsync-local-path
-    (user-error "No local path configured for rsync-mode"))
+  (rsync--check-local-path)
+  (unless rsync-remote-paths
+    (user-error "No remote configuration for rsync-mode"))
   (dolist (remote-path rsync-remote-paths)
     (rsync--run remote-path (rsync--get-excludes) rsync-local-path
                 dry-run file)))
 
 (defun rsync--select-remote ()
   "Prompt for one configured remote destination."
-  (completing-read "Rsync project to: " rsync-remote-paths nil t))
+  (let ((remote (completing-read "Rsync project to: "
+                                 rsync-remote-paths nil t)))
+    (when (string-empty-p remote)
+      (user-error "No rsync destination selected"))
+    remote))
 
 ;;;###autoload
 (defun rsync (&optional dry-run file)
@@ -194,8 +260,7 @@ one project-relative path."
 When DRY-RUN is non-nil, do not modify the destination.  FILE limits the sync
 to one project-relative path."
   (interactive)
-  (unless rsync-local-path
-    (user-error "No local path configured for rsync-mode"))
+  (rsync--check-local-path)
   (rsync--run (rsync--select-remote) (rsync--get-excludes)
               rsync-local-path dry-run file))
 

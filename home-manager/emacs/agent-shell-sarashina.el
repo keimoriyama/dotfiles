@@ -8,9 +8,14 @@
 ;; leaves a single tool-less "chat" agent.  The project's and the global
 ;; OpenCode/Claude Code setup are kept out so the session stays a plain chat.
 
+(require 'agent-shell)
 (require 'agent-shell-opencode)
 (require 'map)
 (require 'subr-x)
+
+(defgroup my-agent-shell-sarashina nil
+  "Chat with Sarashina through OpenCode."
+  :group 'agent-shell)
 
 (defcustom my-agent-shell-sarashina-opencode-config
   (expand-file-name "~/.config/opencode/sarashina.json")
@@ -44,14 +49,20 @@
           my-agent-shell-sarashina--isolation-environment))
 
 (defun my-agent-shell-sarashina-make-client (buffer)
-  "Create an OpenCode ACP client for a Sarashina chat in BUFFER."
-  (let ((agent-shell-opencode-authentication
-         (agent-shell-opencode-make-authentication :none t))
-        (agent-shell-opencode-environment
-         (append (my-agent-shell-sarashina-environment
-                  (my-agent-shell-sarashina--api-key))
-                 agent-shell-opencode-environment)))
-    (agent-shell-opencode-make-client :buffer buffer)))
+  "Create an OpenCode ACP client for a Sarashina chat in BUFFER.
+Return nil when the API key is missing, which makes agent-shell discard
+the half-made shell; signalling instead would leave it behind."
+  (condition-case err
+      (let ((agent-shell-opencode-authentication
+             (agent-shell-opencode-make-authentication :none t))
+            (agent-shell-opencode-environment
+             (append (my-agent-shell-sarashina-environment
+                      (my-agent-shell-sarashina--api-key))
+                     agent-shell-opencode-environment)))
+        (agent-shell-opencode-make-client :buffer buffer))
+    (user-error
+     (display-warning 'my-agent-shell-sarashina (error-message-string err) :error)
+     nil)))
 
 (defun my-agent-shell-sarashina-make-agent-config ()
   "Create the agent-shell configuration for chatting with Sarashina."

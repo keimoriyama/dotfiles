@@ -128,3 +128,92 @@
 
 (ert-deftest package-usage-build-report-serializes-to-json ()
   (should (stringp (json-serialize (package-usage-tests--report)))))
+
+(defmacro package-usage-tests--with-directory (var &rest body)
+  "Run BODY with VAR bound to a fresh scratch directory."
+  (declare (indent 1))
+  `(let ((,var (file-name-as-directory (make-temp-file "package-usage" t))))
+     (unwind-protect
+         (progn ,@body)
+       (dolist (file (directory-files ,var t "\\`[^.]\\|\\`\\.[^.]"))
+         (delete-file file))
+       (delete-directory ,var))))
+
+(ert-deftest package-usage-read-treats-a-header-only-file-as-empty ()
+  (package-usage-tests--with-directory dir
+    (let ((file (expand-file-name "usage.eld" dir)))
+      (with-temp-file file (insert ";;; -*- lisp-data -*-\n\n"))
+      (should (null (package-usage--read file)))
+      (should (file-exists-p file)))))
+
+(ert-deftest package-usage-read-moves-an-unreadable-file-aside ()
+  "Cut-short, malformed and non-plist contents are kept for recovery."
+  (dolist (contents '("(:version 1 :since 1 :sessions 50"
+                      "(:version 1 :sessions #<buffer x>)"
+                      "foo"))
+    (package-usage-tests--with-directory dir
+      (let ((file (expand-file-name "usage.eld" dir))
+            (warnings nil))
+        (with-temp-file file (insert contents))
+        (cl-letf (((symbol-function 'display-warning)
+                   (lambda (&rest args) (push args warnings))))
+          (should (null (package-usage--read file))))
+        (should-not (file-exists-p file))
+        (should (= 1 (length warnings)))
+        (let ((aside (directory-files dir t "\\`usage\\.eld\\.unreadable-")))
+          (should (= 1 (length aside)))
+          (should (equal contents
+                         (with-temp-buffer
+                           (insert-file-contents (car aside))
+                           (buffer-string)))))))))
+
+(ert-deftest package-usage-save-does-not-overwrite-an-unreadable-history ()
+  (package-usage-tests--with-directory dir
+    (let ((package-usage-file (expand-file-name "usage.eld" dir))
+          (package-usage--pending-commands (package-usage-tests--table 'foo '(1 . 5)))
+          (package-usage--pending-modes (package-usage-tests--table))
+          (package-usage--pending-sessions 0)
+          (package-usage--counted-packages nil)
+          (package-alist nil))
+      (with-temp-file package-usage-file (insert "(:version 1 :sessions 50"))
+      (cl-letf (((symbol-function 'display-warning) #'ignore))
+        (package-usage-save))
+      (should (equal '(1 . 5) (alist-get 'foo (plist-get (package-usage--read package-usage-file)
+                                                        :commands))))
+      (should (directory-files dir nil "\\.unreadable-")))))
+
+(ert-deftest package-usage-save-keeps-pending-counts-when-the-write-fails ()
+  (let ((package-usage-file "/nonexistent/dir/usage.eld")
+        (package-usage--pending-commands (package-usage-tests--table 'foo '(1 . 5)))
+        (package-usage--pending-modes (package-usage-tests--table))
+        (package-usage--pending-sessions 1)
+        (package-usage--counted-packages nil)
+        (package-alist nil))
+    (should-error (package-usage-save))
+    (should (equal '(1 . 5) (gethash 'foo package-usage--pending-commands)))
+    (should (= 1 package-usage--pending-sessions))))
+
+(ert-deftest package-usage-write-leaves-only-the-target-file ()
+  "The temporary file used for the replacement does not linger."
+  (package-usage-tests--with-directory dir
+    (let ((file (expand-file-name "usage.eld" dir)))
+      (package-usage--write file '(:version 1 :sessions 1))
+      (package-usage--write file '(:version 1 :sessions 2))
+      (should (equal '("usage.eld")
+                     (directory-files dir nil "\\`[^.]\\|\\`\\.[^.]")))
+      (should (= 2 (plist-get (package-usage--read file) :sessions))))))
+
+(ert-deftest package-usage-loaded-packages-lists-each-package-once-in-load-order ()
+  (let ((dirs '(("/elpa/magit-1/" . magit) ("/elpa/dash-2/" . dash)))
+        (load-history '(("/elpa/dash-2/dash.elc")
+                        ("/elpa/magit-1/lisp/magit.elc")
+                        ("/elpa/dash-2/dash-functional.elc")
+                        ("/usr/share/emacs/lisp/simple.elc")
+                        (nil)
+                        ("/elpa/magit-1/magit-status.elc"))))
+    (should (equal '(dash magit) (package-usage--loaded-packages dirs)))))
+
+(ert-deftest package-usage-loaded-packages-is-empty-without-package-files ()
+  (let ((load-history '(("/usr/share/emacs/lisp/simple.elc"))))
+    (should (null (package-usage--loaded-packages '(("/elpa/magit-1/" . magit)))))
+    (should (null (package-usage--loaded-packages nil)))))

@@ -553,4 +553,126 @@
         (should (null (agent-review--load "ffffff")))
       (delete-directory agent-review-directory))))
 
+(defmacro agent-review-tests--with-finish-session (var &rest body)
+  "Run BODY in a review buffer whose files session with one open comment is VAR."
+  (declare (indent 1))
+  `(let* ((agent-review-directory (make-temp-file "agent-review-test-" t))
+          (kill-ring nil)
+          (interprogram-cut-function nil)
+          (,var (agent-review--make-session
+                 :id "fin123" :mode 'files :root "/r/" :files nil
+                 :comments '((:id "c_1" :file "a" :start_line 1 :end_line 1
+                              :body "fix")))))
+     (unwind-protect
+         (with-temp-buffer
+           (agent-review-mode)
+           (setq agent-review--session ,var)
+           (cl-letf (((symbol-function 'agent-review--watch-replies) #'ignore))
+             ,@body))
+       (delete-directory agent-review-directory t))))
+
+(ert-deftest agent-review-finish-without-a-shell-can-send-again ()
+  "Without an agent-shell the prompt goes to the kill ring, and finishing again resends it."
+  (agent-review-tests--with-finish-session s
+    (cl-letf (((symbol-function 'agent-review--agent-shell) #'ignore))
+      (agent-review-finish)
+      (should (equal (agent-review-session-state s) "agent"))
+      (should (string-match-p "c_1" (car kill-ring)))
+      (should (string-match-p "send again" (agent-review--header-line)))
+      (setq kill-ring nil)
+      (agent-review-finish)
+      (should (equal (car kill-ring) (agent-review-session-prompt s))))))
+
+(ert-deftest agent-review-finish-keeps-the-round-open-when-delivery-fails ()
+  "A shell refusing the prompt leaves the round being reviewed."
+  (agent-review-tests--with-finish-session s
+    (cl-letf (((symbol-function 'agent-review--agent-shell)
+               (lambda (_) (current-buffer)))
+              ((symbol-function 'agent-shell-insert)
+               (lambda (&rest _) (user-error "Busy, try later"))))
+      (should-error (agent-review-finish) :type 'user-error)
+      (should (equal (agent-review-session-state s) "reviewing"))
+      (should (null (agent-review-session-prompt s))))))
+
+(ert-deftest agent-review-finish-copies-a-prompt-queued-for-an-agent-not-running ()
+  "A shell without a running agent queues the prompt, which also goes to the kill ring."
+  (agent-review-tests--with-finish-session s
+    (cl-letf (((symbol-function 'agent-review--agent-shell)
+               (lambda (_) (current-buffer)))
+              ((symbol-function 'agent-shell-insert) #'ignore))
+      (agent-review-finish)
+      (should (equal (agent-review-session-state s) "agent"))
+      (should (equal (car kill-ring) (agent-review-session-prompt s))))))
+
+(ert-deftest agent-review-send-again-does-not-queue-the-prompt-twice ()
+  "Sending again to a shell still waiting for its agent only refreshes the kill ring."
+  (agent-review-tests--with-finish-session s
+    (let ((agent-review--queued-shells (make-hash-table :test #'equal))
+          (inserts 0))
+      (cl-letf (((symbol-function 'agent-review--agent-shell)
+                 (lambda (_) (current-buffer)))
+                ((symbol-function 'agent-shell-insert)
+                 (lambda (&rest _) (cl-incf inserts) nil)))
+        (agent-review-finish)
+        (setq kill-ring nil)
+        (agent-review-finish)
+        (should (= inserts 1))
+        (should (equal (car kill-ring) (agent-review-session-prompt s)))))))
+
+(ert-deftest agent-review-finish-drops-replies-left-from-an-earlier-round ()
+  "A stale reply file is removed so it cannot start the next round early."
+  (agent-review-tests--with-finish-session s
+    (let ((file (agent-review--reply-file s)))
+      (make-directory (file-name-directory file) t)
+      (with-temp-file file (insert "[]"))
+      (cl-letf (((symbol-function 'agent-review--agent-shell) #'ignore))
+        (agent-review-finish))
+      (should-not (file-exists-p file))
+      (should (equal (agent-review-session-state s) "agent")))))
+
+(defmacro agent-review-tests--with-shells (dirs &rest body)
+  "Run BODY with agent-shell buffers started in DIRS.
+DIRS name subdirectories of a temporary directory bound to `top'; the
+buffers are bound to `shells'."
+  (declare (indent 1))
+  `(let* ((top (file-name-as-directory (make-temp-file "agent-review-shells-" t)))
+          (shells (mapcar (lambda (dir)
+                            (let ((cwd (file-name-as-directory (expand-file-name dir top)))
+                                  (b (generate-new-buffer "*shell*")))
+                              (make-directory cwd t)
+                              (with-current-buffer b (setq default-directory cwd))
+                              b))
+                          ,dirs)))
+     (unwind-protect
+         (dlet ((features (cons 'agent-shell features)))
+           (cl-letf (((symbol-function 'agent-shell-buffers) (lambda () shells))
+                     ((symbol-function 'agent-shell-cwd) (lambda () default-directory)))
+             ,@body))
+       (mapc #'kill-buffer shells)
+       (delete-directory top t))))
+
+(ert-deftest agent-review-agent-shell-picks-the-only-shell-of-the-project ()
+  "The single shell started above the reviewed root is chosen without asking."
+  (agent-review-tests--with-shells '("r" "other")
+    (make-directory (expand-file-name "r/sub" top))
+    (cl-letf (((symbol-function 'completing-read)
+               (lambda (&rest _) (error "Should not ask"))))
+      (should (eq (agent-review--agent-shell (expand-file-name "r/sub/" top))
+                  (car shells))))))
+
+(ert-deftest agent-review-agent-shell-asks-before-using-another-project ()
+  "Shells of other projects are only used when chosen, and empty input chooses none."
+  (agent-review-tests--with-shells '("other")
+    (make-directory (expand-file-name "r" top))
+    (let (asked)
+      (cl-letf (((symbol-function 'completing-read)
+                 (lambda (prompt &rest _) (setq asked prompt) "")))
+        (should (null (agent-review--agent-shell (expand-file-name "r/" top))))
+        (should (string-match-p "No agent-shell in this project" asked))))))
+
+(ert-deftest agent-review-agent-shell-is-nil-without-shells ()
+  "No shell at all means no candidate and no question."
+  (agent-review-tests--with-shells nil
+    (should (null (agent-review--agent-shell top)))))
+
 ;;; agent-review-tests.el ends here

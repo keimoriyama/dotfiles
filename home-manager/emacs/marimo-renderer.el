@@ -11,7 +11,7 @@
 (defvar marimo--session)
 (defvar marimo--connection)
 (declare-function marimo--uri "marimo")
-(declare-function marimo--cells "marimo")
+(declare-function marimo--find-cell "marimo")
 (declare-function marimo--sync "marimo")
 (declare-function jsonrpc-async-request "jsonrpc")
 (declare-function xwidget-live-p "xwidget.c")
@@ -172,8 +172,7 @@
          (message "Marimo renderer: %s" marimo-renderer--error)
          (funcall reply))
         ("navigate-to-cell"
-         (let ((cell (cl-find (plist-get params :cellId) (marimo--cells)
-                              :key (lambda (c) (plist-get c :id)) :test #'equal)))
+         (let ((cell (marimo--find-cell (plist-get params :cellId))))
            (when cell (goto-char (plist-get cell :begin))))
          (funcall reply))
         ((or "update-ui-element" "invoke-function" "set-model-value")
@@ -236,10 +235,6 @@
   (when marimo-renderer--widgets
     (mapc #'marimo-renderer--dispose (hash-table-keys marimo-renderer--widgets))))
 
-(defun marimo-renderer--cleanup ()
-  "Dispose all emacs-egui sessions owned by this notebook."
-  (marimo-renderer--reset))
-
 (defun marimo-renderer-notify (notification)
   "Relay a widget NOTIFICATION from the kernel to every renderer view."
   (when (member (plist-get notification :op)
@@ -281,7 +276,7 @@
                  (marker-buffer (plist-get record :marker))
                  (equal (get-text-property (plist-get record :marker) 'marimo-cell) id))
       (marimo-renderer--dispose id)
-      (let ((cell (cl-find id (marimo--cells) :key (lambda (c) (plist-get c :id)) :test #'equal))
+      (let ((cell (marimo--find-cell id))
             (modified (buffer-modified-p)) (inhibit-modification-hooks t))
         (when cell
           (undo-boundary)

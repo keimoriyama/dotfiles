@@ -11,6 +11,7 @@
     patches = [
       ./emacs-parquet-explorer-zstd.diff
       ./emacs-parquet-explorer-nested.diff
+      ./emacs-parquet-explorer-utf8.diff
     ];
   };
   parquetExplorerWasmClang = pkgs.rustc.llvmPackages.clang-unwrapped;
@@ -41,6 +42,7 @@
       export XDG_CACHE_HOME="$TMPDIR/cache"
       mkdir -p "$HOME" "$XDG_CACHE_HOME"
       cd ui
+      install -D -m 644 ${pkgs.ipafont}/share/fonts/truetype/ipag.ttf assets/ipag.ttf
       cargo build --release --bins
       # Native binaries use Nix's zstd.  WASM must build zstd-sys's bundled C source.
       unset ZSTD_SYS_USE_PKG_CONFIG
@@ -147,6 +149,7 @@ in {
     pname = "emacs-egui";
     version = "0.1.0-unstable-${sources.emacs-egui.date}";
     src = sources.emacs-egui.src;
+    patches = [./emacs-egui-utf8.diff];
     files = ''("lisp/*.el")'';
     postPatch = ''
       # marimo's official renderer and its chunks use the .mjs extension.

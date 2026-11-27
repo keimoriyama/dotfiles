@@ -37,4 +37,24 @@
                      '((:id "test") 7
                        (:error "native filter binary unavailable")))))))
 
+(ert-deftest emacs-egui-decodes-utf8-query-values ()
+  (let* ((params
+          (url-parse-query-string
+           "payload=%7B%22value%22%3A%22%E3%81%82%22%7D"))
+         (payload-json (car (assoc-default "payload" params)))
+         (payload (json-read-from-string
+                   (emacs-egui--decode-utf8-query-value payload-json)))
+         (value (cdr (assq 'value payload))))
+    (should (equal value "あ"))
+    (should (multibyte-string-p value))))
+
+(ert-deftest emacs-egui-preserves-percent-escapes-in-query-values ()
+  (let* ((params
+          (url-parse-query-string
+           "payload=%7B%22value%22%3A%22100%2520%22%7D"))
+         (payload-json (car (assoc-default "payload" params)))
+         (payload (json-read-from-string
+                   (emacs-egui--decode-utf8-query-value payload-json))))
+    (should (equal (cdr (assq 'value payload)) "100%20"))))
+
 ;;; emacs-parquet-explorer-tests.el ends here

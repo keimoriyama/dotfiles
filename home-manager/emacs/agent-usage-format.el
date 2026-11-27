@@ -8,8 +8,9 @@
 ;;     [5h 29%↻4h7m · 7d 15%↻6d3h]
 ;;
 ;; Each window is the spent share of its quota, an optional detail such as
-;; the spend behind that share, and how long until the window resets.  Callers embedding the result through `:eval' must
-;; double its percent signs; those going through symbol indirection must not.
+;; the spend behind that share, and how long until the window resets.
+;; Callers embedding the result through `:eval' must double its percent
+;; signs; those going through symbol indirection must not.
 
 ;;; Code:
 

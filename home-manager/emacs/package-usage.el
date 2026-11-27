@@ -111,10 +111,21 @@
   (package-usage--file-package (symbol-file symbol 'defun) dirs))
 
 (defun package-usage--loaded-packages (dirs)
-  "Return the packages in DIRS that have a file in `load-history'."
-  (delete-dups
-   (delq nil (mapcar (lambda (entry) (package-usage--file-package (car entry) dirs))
-                     load-history))))
+  "Return the packages in DIRS that have a file in `load-history'.
+This runs on a timer, so each directory is matched against DIRS once
+rather than every loaded file."
+  (let ((by-directory (make-hash-table :test #'equal))
+        (packages nil))
+    (dolist (entry load-history)
+      (when (stringp (car entry))
+        (let* ((directory (file-name-directory (car entry)))
+               (package (gethash directory by-directory 'unknown)))
+          (when (eq package 'unknown)
+            (setq package (package-usage--file-package (car entry) dirs))
+            (puthash directory package by-directory))
+          (when package
+            (cl-pushnew package packages)))))
+    (nreverse packages)))
 
 ;;;; Persistence
 
@@ -157,23 +168,52 @@ stamp, and :now."
           :loaded loaded)))
 
 (defun package-usage--read (file)
-  "Return the data stored in FILE, or nil when FILE is missing or empty."
+  "Return the data stored in FILE, or nil when FILE is missing or empty.
+A FILE that holds anything but a stored plist (cut short, or edited by
+hand) is moved aside with a warning: treating it as empty would let the
+next save overwrite the history, and signalling would fail every save."
   (when (file-readable-p file)
-    (with-temp-buffer
-      (insert-file-contents file)
-      (goto-char (point-min))
-      (condition-case nil
-          (read (current-buffer))
-        (end-of-file nil)))))
+    (let ((data (with-temp-buffer
+                  (insert-file-contents file)
+                  (set-syntax-table lisp-data-mode-syntax-table)
+                  (goto-char (point-min))
+                  (condition-case nil
+                      (let ((form (read (current-buffer))))
+                        (if (plistp form) form 'unreadable))
+                    (end-of-file
+                     (goto-char (point-min))
+                     (forward-comment (buffer-size))
+                     (unless (eobp) 'unreadable))
+                    (error 'unreadable)))))
+      (if (not (eq data 'unreadable))
+          data
+        (let ((aside (format "%s.unreadable-%s" file
+                             (format-time-string "%Y%m%dT%H%M%S"))))
+          (rename-file file aside t)
+          (display-warning
+           'package-usage
+           (format "%s could not be read; moved it to %s and started afresh"
+                   file aside))
+          nil)))))
 
 (defun package-usage--write (file data)
-  "Write DATA to FILE."
-  (let ((print-length nil)
-        (print-level nil))
-    (with-temp-file file
-      (insert ";;; -*- lisp-data -*-\n")
-      (prin1 data (current-buffer))
-      (insert "\n"))))
+  "Write DATA to FILE.
+The data goes to a temporary file that then replaces FILE, so a crash or
+another Emacs reading meanwhile never sees FILE half written."
+  (let* ((file (expand-file-name file))
+         (temp (make-temp-file (expand-file-name ".package-usage-"
+                                                 (file-name-directory file))))
+         (print-length nil)
+         (print-level nil))
+    (unwind-protect
+        (progn
+          (with-temp-file temp
+            (insert ";;; -*- lisp-data -*-\n")
+            (prin1 data (current-buffer))
+            (insert "\n"))
+          (rename-file temp file t))
+      (when (file-exists-p temp)
+        (delete-file temp)))))
 
 (defun package-usage-save ()
   "Add the counts recorded since the last save to `package-usage-file'.

@@ -1,0 +1,35 @@
+--- a/lisp/emacs-egui.el
++++ b/lisp/emacs-egui.el
+@@ -144,6 +144,11 @@
+              (setq res (concat res (char-to-string (string-to-number (substring str i (+ i 2)) 16)))))
+     res))
+ 
++(defun emacs-egui--decode-utf8-query-value (value)
++  "Decode UTF-8 VALUE returned by `url-parse-query-string'.
++The query string parser has already decoded percent escapes."
++  (decode-coding-string value 'utf-8))
++
+ (defun emacs-egui--httpd-respond (proc raw-path)
+   "Route and respond to request RAW-PATH over PROC."
+   (cond
+@@ -152,7 +157,8 @@
+     (let* ((query (cadr (split-string raw-path "\\?")))
+            (params (and query (url-parse-query-string query)))
+            (path-encoded (car (assoc-default "path" params)))
+-           (path (and path-encoded (url-unhex-string path-encoded))))
++           (path (and path-encoded
++                      (emacs-egui--decode-utf8-query-value path-encoded))))
+       (if (and path (file-readable-p path) (not (file-directory-p path)))
+           (progn
+             (message "emacs-egui: streaming file %s" path)
+@@ -168,7 +174,9 @@
+            (session-id (car (assoc-default "session" params)))
+            (action (car (assoc-default "action" params)))
+            (payload-json (car (assoc-default "payload" params)))
+-           (payload (and payload-json (json-read-from-string (url-unhex-string payload-json)))))
++           (payload (and payload-json
++                         (json-read-from-string
++                          (emacs-egui--decode-utf8-query-value payload-json)))))
+       (if (and session-id action)
+           (let ((cb (gethash (format "%s:%s" session-id action) emacs-egui--callbacks)))
+             (if cb

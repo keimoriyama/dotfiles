@@ -14,6 +14,7 @@
 (require 'cl-lib)
 (require 'jsonrpc)
 (require 'org)
+(require 'org-element)
 (require 'org-id)
 (require 'ob-core)
 (require 'dom)
@@ -72,10 +73,14 @@ The selected environment must contain a compatible marimo installation."
       (executable-find "python3")
       (user-error "No Python executable found")))
 
+(defun marimo--ensure-connected ()
+  "Signal a user error unless this notebook's server is running."
+  (unless (and marimo--connection (jsonrpc-running-p marimo--connection))
+    (user-error "Marimo server disconnected; reopen the notebook")))
+
 (defun marimo--command (params)
   "Send protocol command PARAMS to this notebook's server."
-  (unless (and marimo--connection (jsonrpc-running-p marimo--connection))
-    (user-error "Marimo server disconnected; reopen the notebook"))
+  (marimo--ensure-connected)
   (jsonrpc-request marimo--connection 'marimo/command params :timeout 60))
 
 (defun marimo--kernel-marimo-version ()
@@ -170,6 +175,10 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
                                   (user-error "Marimo cell config must be a JSON object"))
                                 value)
                       :begin (org-element-property :begin block))))))))))
+
+(defun marimo--find-cell (id)
+  "Return the current cell whose runtime ID is ID, or nil."
+  (cl-find id (marimo--cells) :key (lambda (c) (plist-get c :id)) :test #'equal))
 
 (defun marimo--lsp-cells (cells)
   "Build LSP cells and text documents for CELLS."
@@ -309,7 +318,7 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
   (marimo--uri)
   (widen)
   (let ((source (buffer-substring-no-properties (point-min) (point-max)))
-        (modified (buffer-modified-p)) success)
+        (modified (buffer-modified-p)) (undo buffer-undo-list) success)
     (unwind-protect
         (progn
           (marimo--connect)
@@ -327,8 +336,17 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
           (org-fold-hide-drawer-all)
           (marimo--sync)
           (setq success t))
-      (when (and (not success) marimo--connection)
-        (jsonrpc-shutdown marimo--connection)))))
+      (unless success
+        ;; A nil document marks the buffer as raw Python again, so
+        ;; `marimo-open' can retry and saving writes the text unchanged.
+        (when marimo--document
+          (let ((inhibit-read-only t) (inhibit-modification-hooks t))
+            (erase-buffer)
+            (insert source))
+          (setq marimo--document nil buffer-undo-list undo)
+          (set-buffer-modified-p modified))
+        (when marimo--connection
+          (jsonrpc-shutdown marimo--connection))))))
 
 ;;;###autoload
 (defun marimo-open (file)
@@ -375,13 +393,16 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
       source)))
 
 (defun marimo--save ()
-  "Write the Org notebook as native Python; return non-nil for save hooks."
-  (unless (verify-visited-file-modtime (current-buffer))
-    (user-error "Notebook changed on disk; revert it before saving"))
-  (write-region (marimo--source) nil buffer-file-name nil 'silent)
-  (set-visited-file-modtime)
-  (set-buffer-modified-p nil)
-  t)
+  "Write the Org notebook as native Python; return non-nil for save hooks.
+Without a document the buffer still holds raw Python, so return nil and
+let the normal save write it."
+  (when marimo--document
+    (unless (verify-visited-file-modtime (current-buffer))
+      (user-error "Notebook changed on disk; revert it before saving"))
+    (write-region (marimo--source) nil buffer-file-name nil 'silent)
+    (set-visited-file-modtime)
+    (set-buffer-modified-p nil)
+    t))
 
 (defun marimo--revert (_ignore-auto _noconfirm)
   "Rebuild the Org projection from disk after normal revert confirmation."
@@ -406,6 +427,7 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
   "Execute CELLS asynchronously in the persistent notebook kernel."
   (unless cells (user-error "No Python cells to execute"))
   (when marimo--executing (user-error "Marimo is executing; interrupt or wait before running again"))
+  (marimo--ensure-connected)
   (let ((buffer (current-buffer)) (python (marimo--python)))
     (dolist (cell (marimo--cells))
       (let* ((id (plist-get cell :id)) (state (gethash id marimo--outputs)))
@@ -575,13 +597,20 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
       (let ((coding-system-for-write 'no-conversion)) (write-region bytes nil file nil 'silent)))
     (format "[[file:%s]]\n" file)))
 
+(defun marimo--image-or-notice (mime data)
+  "Return an Org link for image DATA with MIME, or a notice if it is unusable.
+One bad image must not discard the rest of the cell's output."
+  (condition-case err
+      (marimo--image mime data)
+    (error (format "[Image not shown: %s]\n" (error-message-string err)))))
+
 (defun marimo--format-output (output)
   "Convert OUTPUT into safe Org text or an inline image link."
   (let ((data (plist-get output :data)) (mime (plist-get output :mimetype)))
     (cond
      ((null data) "")
      ((member mime '("image/png" "image/jpeg" "image/svg+xml"))
-      (marimo--image mime data))
+      (marimo--image-or-notice mime data))
      ((equal mime "application/vnd.marimo+error")
       (marimo--example
        (mapconcat (lambda (entry)
@@ -604,7 +633,7 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
                  (lambda (row)
                    (concat "| "
                            (mapconcat (lambda (col)
-                                        (replace-regexp-in-string "[|\n\r]" " " (dom-texts col)))
+                                        (replace-regexp-in-string "[|\n\r]" " " (marimo--dom-text col)))
                                       (cl-remove-if-not
                                        (lambda (n) (and (listp n) (memq (dom-tag n) '(td th))))
                                        (dom-children row)) " | ") " |\n"))
@@ -614,9 +643,15 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
           (lambda (img)
             (let ((src (dom-attr img 'src)))
               (if (and src (string-match "\\`data:\\(image/[^;]+\\);base64,\\(.*\\)\\'" src))
-                  (marimo--image (match-string 1 src) (match-string 2 src))
+                  (marimo--image-or-notice (match-string 1 src) (match-string 2 src))
                 "[Image requires an external resource]\n"))) images ""))))
      (t (marimo--example (if (stringp data) data (format "%S" data)))))))
+
+(defun marimo--dom-text (node &optional separator)
+  "Return the text of DOM NODE, joining text nodes with SEPARATOR."
+  ;; The replacement `dom-inner-text' needs Emacs 31.
+  (with-suppressed-warnings ((obsolete dom-texts))
+    (dom-texts node separator)))
 
 (defun marimo--example (text)
   "Quote TEXT so output cannot create executable Org blocks."
@@ -651,7 +686,7 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
   "Replace the results of cell ID from STATE without changing source state."
   (save-restriction
     (widen)
-    (let ((cell (cl-find id (marimo--cells) :key (lambda (c) (plist-get c :id)) :test #'equal)))
+    (let ((cell (marimo--find-cell id)))
       (when cell
         (let* ((modified (buffer-modified-p))
                (inhibit-modification-hooks t)
@@ -674,16 +709,21 @@ leaves every cell idle, so uv overrides its pinned marimo-base."
           (org-element-cache-reset)
           (set-buffer-modified-p modified)
           (undo-boundary)
-          (when (display-graphic-p) (org-display-inline-images)))))))
+          (when (display-graphic-p)
+            ;; The replacement `org-link-preview-region' needs Org 9.8.
+            (with-suppressed-warnings ((obsolete org-display-inline-images))
+              (org-display-inline-images))))))))
 
 (defun marimo--cleanup ()
-  "Close the server and its kernel when this editing buffer is killed."
+  "Close the server, its kernel, and its log buffers."
   (when (timerp marimo--sync-timer) (cancel-timer marimo--sync-timer))
-  (marimo-renderer--cleanup)
-  (when (and marimo--connection (jsonrpc-running-p marimo--connection))
-    (ignore-errors (jsonrpc-request marimo--connection 'shutdown nil :timeout 3))
-    (ignore-errors (jsonrpc-notify marimo--connection 'exit nil))
-    (jsonrpc-shutdown marimo--connection)))
+  (marimo-renderer--reset)
+  (when marimo--connection
+    (when (jsonrpc-running-p marimo--connection)
+      (ignore-errors (jsonrpc-request marimo--connection 'shutdown nil :timeout 3))
+      (ignore-errors (jsonrpc-notify marimo--connection 'exit nil)))
+    (jsonrpc-shutdown marimo--connection t)
+    (kill-buffer (jsonrpc-events-buffer marimo--connection))))
 
 (defun marimo--changed (&rest _)
   "Schedule source synchronization after editing has paused."

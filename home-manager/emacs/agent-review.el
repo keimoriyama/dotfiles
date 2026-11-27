@@ -126,6 +126,9 @@ For example, \"*.out\", \"logs/*\" or \"Cargo.lock\".  No escaping is needed."
 (defvar agent-review--reply-watches (make-hash-table :test #'equal)
   "Watches for the agent's reply file, as (DESCRIPTOR . TIMER) by session id.")
 
+(defvar agent-review--queued-shells (make-hash-table :test #'equal)
+  "Shell holding the prompt queued until its agent starts, by session id.")
+
 (defvar-local agent-review--session nil
   "Session shown in the current review buffer.")
 
@@ -954,7 +957,7 @@ the faces whether or not font-lock is on in the review buffer."
 (defun agent-review--header-line ()
   "Return the header line of the current review buffer."
   (let ((s agent-review--session))
-    (format " %s · %d open │ c comment  C general  r reply  R resolve  e edit  D delete  f files%s%s  N next review  C-c C-c finish"
+    (format " %s · %d open │ c comment  C general  r reply  R resolve  e edit  D delete  f files%s%s  N next review  C-c C-c %s"
             (cond
              ((equal (agent-review-session-state s) "reviewing") "reviewing")
              ((agent-review-session-approved s) "approved")
@@ -962,7 +965,8 @@ the faces whether or not font-lock is on in the review buffer."
             (length (agent-review--unresolved (agent-review-session-comments s)))
             (if (eq (agent-review-session-mode s) 'files) "  d review diff" "")
             (if (eq (agent-review-session-mode s) 'git)
-                "  s stage  S select commit" ""))))
+                "  s stage  S select commit" "")
+            (if (equal (agent-review-session-state s) "reviewing") "finish" "send again"))))
 
 ;;;; Buffers and file watching
 
@@ -1125,6 +1129,7 @@ Return non-nil when any stored comment changed."
 (defun agent-review--start-round (s)
   "Start the next round of session S."
   (agent-review--unwatch-replies s)
+  (remhash (agent-review-session-id s) agent-review--queued-shells)
   (cl-incf (agent-review-session-round s))
   (setf (agent-review-session-prev-snapshot s) (agent-review-session-snapshot s)
         (agent-review-session-snapshot s) (agent-review--read-snapshot s)
@@ -1149,13 +1154,16 @@ Return non-nil when the file was complete and has been consumed.  A file
 that does not parse yet is left alone, as the agent may still be writing it."
   (let* ((file (agent-review--reply-file s))
          (replies (and (file-readable-p file)
-                       (condition-case nil
+                       (condition-case err
                            (agent-review--parse-replies
                             (with-temp-buffer
                               (let ((coding-system-for-read 'utf-8))
                                 (insert-file-contents file))
                               (buffer-string)))
-                         (error 'invalid)))))
+                         (error
+                          (message "agent-review: waiting for valid replies in %s: %s"
+                                   file (error-message-string err))
+                          'invalid)))))
     (when (and replies (not (eq replies 'invalid)))
       (setf (agent-review-session-comments s)
             (agent-review--add-replies (agent-review-session-comments s)
@@ -1213,7 +1221,9 @@ that does not parse yet is left alone, as the agent may still be writing it."
 
 (defun agent-review--agent-shell (root)
   "Return the agent-shell buffer to send the review of ROOT to, or nil.
-Shells started in or above ROOT come first; with several, ask."
+The only shell started in or above ROOT is chosen without asking.
+Otherwise ask among those shells, or among every shell when none was
+started there; empty input chooses none."
   (when (featurep 'agent-shell)
     (let* ((all (agent-shell-buffers))
            (here (cl-remove-if-not
@@ -1222,10 +1232,14 @@ Shells started in or above ROOT come first; with several, ask."
                       (and cwd (file-in-directory-p root cwd))))
                   all))
            (candidates (or here all)))
-      (if (cdr candidates)
-          (get-buffer (completing-read "Send the review to: "
-                                       (mapcar #'buffer-name candidates) nil t))
-        (car candidates)))))
+      (cond
+       ((and here (null (cdr here))) (car here))
+       (candidates
+        (get-buffer (completing-read
+                     (if here
+                         "Send the review to (empty for the kill ring): "
+                       "No agent-shell in this project; send the review to (empty for the kill ring): ")
+                     (mapcar #'buffer-name candidates) nil t)))))))
 
 ;;;; Comment editing
 
@@ -1468,32 +1482,63 @@ buffer is closed."
     (goto-char (point-min))
     (forward-line (1- (plist-get loc :line)))))
 
+(defun agent-review--deliver (s prompt)
+  "Send PROMPT about session S to an agent-shell, or put it in the kill ring.
+Return a description of where PROMPT went."
+  (let ((shell (agent-review--agent-shell (agent-review-session-root s)))
+        (id (agent-review-session-id s)))
+    (cond
+     ((null shell)
+      (kill-new prompt)
+      "no agent-shell was chosen, so the prompt is in the kill ring")
+     ((eq shell (gethash id agent-review--queued-shells))
+      ;; Each queued insert submits once the agent starts, so queueing
+      ;; again would submit the prompt twice.
+      (kill-new prompt)
+      (format "%s still holds the prompt until its agent starts; it is also in the kill ring"
+              (buffer-name shell)))
+     ((agent-shell-insert :text prompt :submit t :shell-buffer shell)
+      (remhash id agent-review--queued-shells)
+      (format "sent to %s" (buffer-name shell)))
+     (t
+      ;; agent-shell queues the prompt until the agent starts, which may
+      ;; never happen when the agent fails to launch.
+      (puthash id shell agent-review--queued-shells)
+      (kill-new prompt)
+      (format "%s has no running agent yet; the prompt is queued there and also in the kill ring"
+              (buffer-name shell))))))
+
 (defun agent-review-finish ()
   "Finish the round and send the unresolved comments to an agent-shell.
 Without an agent-shell, the instructions go to the kill ring for pasting
-into the agent instead.  The next round starts when the agent replies."
+into the agent instead.  The next round starts when the agent replies.
+Once the round is finished, send the same instructions again."
   (interactive)
-  (let* ((s (agent-review--current))
-         (comments (agent-review-session-comments s))
-         (approved (null (agent-review--unresolved comments)))
-         (prompt (agent-review--finish-prompt comments (agent-review--reply-file s))))
-    (unless (equal (agent-review-session-state s) "reviewing")
-      (user-error "Review is already finished"))
-    (setf (agent-review-session-prompt s) prompt
-          (agent-review-session-approved s) approved
-          (agent-review-session-state s) "agent")
-    (agent-review--changed s)
-    (unless approved
-      (agent-review--watch-replies s))
-    (let ((shell (agent-review--agent-shell (agent-review-session-root s))))
-      (if shell
-          (agent-shell-insert :text prompt :submit t :shell-buffer shell)
-        (kill-new prompt))
-      (message "agent-review: %s; %s"
-               (if approved "approved" "finished with open comments")
-               (if shell
-                   (format "sent to %s" (buffer-name shell))
-                 "no agent-shell is running, so the prompt is in the kill ring")))))
+  (let ((s (agent-review--current)))
+    (if (not (equal (agent-review-session-state s) "reviewing"))
+        (let ((prompt (or (agent-review-session-prompt s)
+                          (user-error "No instructions to send again"))))
+          (message "agent-review: sent again; %s" (agent-review--deliver s prompt)))
+      (let* ((comments (agent-review-session-comments s))
+             (approved (null (agent-review--unresolved comments)))
+             (reply-file (agent-review--reply-file s))
+             (prompt (agent-review--finish-prompt comments reply-file)))
+        ;; A reply left over from an earlier round would start the next
+        ;; round before the agent has seen these comments.
+        (when (file-exists-p reply-file)
+          (delete-file reply-file))
+        ;; Deliver first so that a failure such as a busy shell or C-g
+        ;; leaves the round open to finish again.
+        (let ((where (agent-review--deliver s prompt)))
+          (setf (agent-review-session-prompt s) prompt
+                (agent-review-session-approved s) approved
+                (agent-review-session-state s) "agent")
+          (agent-review--changed s)
+          (unless approved
+            (agent-review--watch-replies s))
+          (message "agent-review: %s; %s"
+                   (if approved "approved" "finished with open comments")
+                   where))))))
 
 (defun agent-review-new-round ()
   "Start the next round without waiting for the agent's replies.

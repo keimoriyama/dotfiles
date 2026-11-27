@@ -21,6 +21,8 @@
 (require 'map)
 (require 'subr-x)
 
+(declare-function agent-shell-get-config "agent-shell")
+
 (defgroup claude-usage nil
   "Claude subscription usage in the mode line."
   :group 'mode-line)
@@ -42,19 +44,26 @@ they are read back from the tool installed as that status line."
   "Refresh interval in seconds."
   :type 'integer)
 
+(defcustom claude-usage-timeout
+  30
+  "Seconds a fetch may run before it is killed.
+A fetch still running blocks every later one, so a CLI stuck on the
+network would otherwise freeze the figures for the rest of the session."
+  :type 'integer)
+
 (defvar claude-usage--state
-  '(:five-hour nil
-    :seven-day nil
-    :five-hour-reset nil
-    :seven-day-reset nil
-    :org nil
-    :org-used-usd nil
-    :org-limit-usd nil
-    :org-currency nil
-    :org-reset nil
-    :enterprise nil
-    :updated-at nil
-    :error nil)
+  (list :five-hour nil
+        :seven-day nil
+        :five-hour-reset nil
+        :seven-day-reset nil
+        :org nil
+        :org-used-usd nil
+        :org-limit-usd nil
+        :org-currency nil
+        :org-reset nil
+        :enterprise nil
+        :updated-at nil
+        :error nil)
   "Latest known usage.
 :five-hour, :seven-day and :org hold the spent percentages, the :org-*
 keys the spending limit behind :org, :enterprise whether the seat is
@@ -94,66 +103,117 @@ last successful fetch.")
              (if error-message "ERROR" "OK")
              (if error-message (concat "\nError: " error-message) ""))))
 
+(defun claude-usage--program ()
+  "Return the program name of `claude-usage-command', for messages."
+  (car claude-usage-command))
+
 (defun claude-usage--fetch ()
   "Start an asynchronous usage fetch unless one is already running."
   (unless (process-live-p claude-usage--process)
-    (let ((buffer (generate-new-buffer " *claude-usage*")))
+    (let ((buffer (generate-new-buffer " *claude-usage*"))
+          (stderr nil))
       (condition-case err
-          (progn
-            (setq claude-usage--process
-                  (make-process
-                   :name "claude-usage"
-                   :buffer buffer
-                   :command claude-usage-command
-                   :noquery t
-                   :sentinel #'claude-usage--process-sentinel))
+          (let (process)
+            ;; Diagnostics the CLI prints on stderr would otherwise land in
+            ;; front of the JSON and make a successful run unparsable.
+            (setq stderr (make-pipe-process
+                          :name "claude-usage-stderr"
+                          :buffer (generate-new-buffer " *claude-usage-stderr*")
+                          :noquery t
+                          :sentinel #'ignore))
+            (setq process (make-process
+                           :name "claude-usage"
+                           :buffer buffer
+                           :command claude-usage-command
+                           :stderr stderr
+                           :noquery t
+                           :sentinel #'claude-usage--process-sentinel))
+            (process-put process 'claude-usage-stderr stderr)
+            (process-put process 'claude-usage-deadline
+                         (run-at-time claude-usage-timeout nil
+                                      #'claude-usage--time-out process))
+            (setq claude-usage--process process)
             ;; The CLI is normally fed stdin JSON by Claude Code's status-line
             ;; caller; without an EOF here it blocks waiting for stdin and
             ;; then exits with "stdin timeout".
-            (process-send-eof claude-usage--process))
+            (process-send-eof process))
         (error
-         ;; Typically `claude-usage' is not on PATH.
+         ;; Typically the CLI is not on PATH.
          (kill-buffer buffer)
+         (claude-usage--discard-stderr stderr)
          (claude-usage--record-error (error-message-string err)))))))
 
+(defun claude-usage--time-out (process)
+  "Kill PROCESS if it is still running past `claude-usage-timeout'."
+  (when (process-live-p process)
+    (process-put process 'claude-usage-timed-out t)
+    (delete-process process)))
+
+(defun claude-usage--discard-stderr (stderr)
+  "Delete the STDERR pipe process and its buffer."
+  (when (processp stderr)
+    (let ((buffer (process-buffer stderr)))
+      (delete-process stderr)
+      (when (buffer-live-p buffer)
+        (kill-buffer buffer)))))
+
+(defun claude-usage--buffer-text (buffer)
+  "Return the text of BUFFER, or the empty string when it is gone."
+  (if (buffer-live-p buffer)
+      (with-current-buffer buffer (buffer-string))
+    ""))
+
 (defun claude-usage--process-sentinel (process _event)
-  "Consume the output of PROCESS once it has exited."
+  "Consume the output of PROCESS once it has exited.
+A process that is no longer `claude-usage--process' was abandoned when
+the mode was turned off, so only its resources are released."
   (when (memq (process-status process) '(exit signal))
-    (unwind-protect
-        (cond
-         ((and (eq (process-status process) 'exit)
-               (zerop (process-exit-status process)))
-          (claude-usage--handle-output process))
-         ((eq (process-status process) 'exit)
-          (claude-usage--record-error
-           (format "%s exited with status %d"
-                   (car claude-usage-command)
-                   (process-exit-status process))))
-         (t
-          (claude-usage--record-error
-           (format "%s was killed by a signal" (car claude-usage-command)))))
+    (let* ((stderr-process (process-get process 'claude-usage-stderr))
+           (output (claude-usage--buffer-text (process-buffer process)))
+           ;; LIMITATION: stderr arrives through a separate pipe and may
+           ;; not be read in full by the time the main process exits.
+           (stderr (string-trim
+                    (claude-usage--buffer-text
+                     (and stderr-process (process-buffer stderr-process))))))
+      (when-let* ((deadline (process-get process 'claude-usage-deadline)))
+        (cancel-timer deadline))
       (when (buffer-live-p (process-buffer process))
         (kill-buffer (process-buffer process)))
+      (claude-usage--discard-stderr stderr-process)
       (when (eq process claude-usage--process)
-        (setq claude-usage--process nil)))))
+        (setq claude-usage--process nil)
+        (cond
+         ((process-get process 'claude-usage-timed-out)
+          (claude-usage--record-error
+           (format "%s timed out after %ds"
+                   (claude-usage--program) claude-usage-timeout)))
+         ((not (eq (process-status process) 'exit))
+          (claude-usage--record-error
+           (format "%s was killed by a signal" (claude-usage--program))))
+         ((not (zerop (process-exit-status process)))
+          (claude-usage--record-error
+           (format "%s exited with status %d%s"
+                   (claude-usage--program)
+                   (process-exit-status process)
+                   (if (string-empty-p stderr) "" (concat ": " stderr)))))
+         (t (claude-usage--handle-output output)))))))
 
-(defun claude-usage--handle-output (process)
-  "Install the usage reported in PROCESS's buffer, or record the failure."
-  (let ((output (with-current-buffer (process-buffer process)
-                  (buffer-string))))
-    (if (string-blank-p output)
-        (claude-usage--record-error "claude-usage produced no output")
-      (condition-case err
-          (progn
-            (setq claude-usage--state
-                  (plist-put (claude-usage--parse output)
-                             :enterprise (claude-usage--enterprise-p)))
-            (claude-usage--update-mode-line))
-        (error (claude-usage--record-error (error-message-string err)))))))
+(defun claude-usage--handle-output (output)
+  "Install the usage reported in OUTPUT, or record the failure."
+  (if (string-blank-p output)
+      (claude-usage--record-error
+       (format "%s produced no output" (claude-usage--program)))
+    (condition-case err
+        (progn
+          (setq claude-usage--state
+                (plist-put (claude-usage--parse output)
+                           :enterprise (claude-usage--enterprise-p)))
+          (claude-usage--update-mode-line))
+      (error (claude-usage--record-error (error-message-string err))))))
 
 (defun claude-usage--record-error (message)
   "Record MESSAGE in the state and refresh the mode line."
-  (plist-put claude-usage--state :error message)
+  (setq claude-usage--state (plist-put claude-usage--state :error message))
   (claude-usage--update-mode-line))
 
 (defvar claude-usage--enterprise-cache nil
@@ -302,6 +362,13 @@ This string reaches the mode line by symbol indirection, where
     (cancel-timer claude-usage--timer)
     (setq claude-usage--timer nil)))
 
+(defun claude-usage--abandon-fetch ()
+  "Kill the running fetch without letting it touch the state."
+  (when-let* ((process claude-usage--process))
+    (setq claude-usage--process nil)
+    (when (process-live-p process)
+      (delete-process process))))
+
 (defun claude-usage--install-mode-line ()
   "Put the usage segment right after the buffer name.
 `global-mode-string' renders at the far right, behind the minor-mode
@@ -328,6 +395,7 @@ list, which a narrow window cuts off before reaching it."
         (claude-usage--install-mode-line)
         (claude-usage--start-timer))
     (claude-usage--stop-timer)
+    (claude-usage--abandon-fetch)
     (claude-usage--remove-mode-line)
     (setq claude-usage-mode-line-string "")
     (force-mode-line-update t)))

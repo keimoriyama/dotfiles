@@ -2,9 +2,14 @@
 
 (require 'ert)
 (require 'cl-lib)
-(add-to-list 'load-path (file-name-directory (or load-file-name buffer-file-name)))
-(load (expand-file-name "marimo-renderer.el" (file-name-directory (or load-file-name buffer-file-name))) nil t)
-(load (expand-file-name "marimo.el" (file-name-directory (or load-file-name buffer-file-name))) nil t)
+(require 'subr-x)
+(eval-and-compile
+  (let ((directory (file-name-directory (or load-file-name buffer-file-name byte-compile-current-file))))
+    (add-to-list 'load-path directory)
+    ;; Load sources so a stale .elc never shadows the code under test.
+    (load (expand-file-name "marimo-table.el" directory) nil t)
+    (load (expand-file-name "marimo-renderer.el" directory) nil t)
+    (load (expand-file-name "marimo.el" directory) nil t)))
 
 (defmacro marimo-test--buffer (&rest body)
   "Run BODY in a disposable notebook projection."
@@ -221,7 +226,8 @@
   (marimo-test--buffer
     (setq marimo--connection 'fake marimo--session "s")
     (let (commands)
-      (cl-letf (((symbol-function 'jsonrpc-async-request)
+      (cl-letf (((symbol-function 'marimo--ensure-connected) #'ignore)
+                ((symbol-function 'jsonrpc-async-request)
                  (lambda (_ _method params &rest _) (push params commands))))
         (marimo--cell-output
          (list :cell_id "a" :status "idle"
@@ -306,6 +312,7 @@
   (marimo-test--buffer
     (let ((marimo--connection 'fake) payload)
       (cl-letf (((symbol-function 'marimo--python) (lambda () "/venv/bin/python"))
+                ((symbol-function 'marimo--ensure-connected) #'ignore)
                 ((symbol-function 'jsonrpc-async-request)
                  (lambda (_ method params &rest _callbacks)
                    (should (eq method 'marimo/command)) (setq payload params))))
@@ -439,6 +446,113 @@
               (should-error (marimo--revert nil nil) :type 'user-error)
               (should (equal before (buffer-string)))))
         (delete-file file)))))
+
+(defun marimo-test--server (name)
+  "Return a jsonrpc connection NAME backed by a short-lived local process."
+  (make-instance 'jsonrpc-process-connection :name name
+                 :process (lambda ()
+                            (make-process :name name :command '("sleep" "30")
+                                          :connection-type 'pipe :noquery t
+                                          :stderr (get-buffer-create (format "*%s stderr*" name))))))
+
+(ert-deftest marimo-unusable-images-become-notices-without-dropping-output ()
+  "An undecodable or unsupported image is replaced by a notice, keeping other output."
+  (marimo-test--buffer
+    (unwind-protect
+        (progn
+          (should (string-prefix-p "[[file:" (marimo--format-output
+                                              '(:mimetype "image/png" :data "aGVsbG8="))))
+          (should (string-match-p "\\[Image not shown: Invalid base64"
+                                  (marimo--format-output '(:mimetype "image/png" :data "%%%"))))
+          (when (fboundp 'libxml-parse-html-region)
+            (marimo--cell-output
+             '(:cell_id "a" :status "idle"
+                        :output (:mimetype "text/html"
+                                           :data "<p>caption</p><img src='data:image/gif;base64,R0lGODlh'>")))
+            (should (string-match-p "caption" (buffer-string)))
+            (should (string-match-p "\\[Image not shown: Unsupported image output: image/gif"
+                                    (buffer-string)))))
+      (when marimo--assets (delete-directory marimo--assets t)))))
+
+(ert-deftest marimo-execute-on-a-disconnected-server-keeps-the-notebook-runnable ()
+  "Executing without a live server signals a user error and leaves execution idle."
+  (marimo-test--buffer
+    (cl-letf (((symbol-function 'marimo--python) (lambda () "/venv/bin/python")))
+      (should-error (marimo--execute (marimo--cells)) :type 'user-error)
+      (should-not marimo--executing)
+      (should (equal marimo--status "ready"))
+      (setq marimo--connection (marimo-test--server "marimo-test-dead"))
+      (delete-process (jsonrpc--process marimo--connection))
+      (should-error (marimo--execute (marimo--cells)) :type 'user-error)
+      (should-not marimo--executing)
+      (marimo--cleanup)
+      (setq marimo--connection nil))))
+
+(ert-deftest marimo-cleanup-stops-the-server-and-kills-its-log-buffers ()
+  "Killing a notebook releases the server process and its output, stderr, and events buffers."
+  (marimo-test--buffer
+    (marimo--cleanup)
+    (let* ((name "marimo-test-cleanup")
+           (connection (marimo-test--server name))
+           (process (jsonrpc--process connection))
+           (buffers (list (process-buffer process) (jsonrpc-stderr-buffer connection)
+                          (jsonrpc-events-buffer connection))))
+      (setq marimo--connection connection)
+      (cl-letf (((symbol-function 'jsonrpc-request) #'ignore))
+        (marimo--cleanup))
+      (should-not (process-live-p process))
+      (should-not (cl-some #'buffer-live-p buffers))
+      (setq marimo--connection nil))))
+
+(ert-deftest marimo-failed-initialization-restores-the-python-source ()
+  "A failure after the Org projection is built restores the source, flag, and plain save."
+  (with-temp-buffer
+    (unwind-protect
+        (progn
+          (insert "import marimo\n# unsaved edit\n")
+          (setq buffer-file-name "/tmp/marimo-failed-init.py")
+          (set-buffer-modified-p t)
+          (cl-letf (((symbol-function 'marimo--connect) #'ignore)
+                    ((symbol-function 'marimo--command)
+                     (lambda (_) '(:kind "success" :document (:cells [(:id "a" :name "_" :code "1")]))))
+                    ((symbol-function 'marimo--sync) (lambda () (error "Sync failed"))))
+            (should-error (marimo-mode))
+            (should (equal (buffer-string) "import marimo\n# unsaved edit\n"))
+            (should (buffer-modified-p))
+            (should-not marimo--document)
+            (should-not (marimo--save))))
+      (set-buffer-modified-p nil)
+      (setq buffer-file-name nil))))
+
+(ert-deftest marimo-table-malformed-or-non-record-data-falls-back ()
+  "Only inline tables whose rows are JSON objects render as Org tables."
+  (let ((html (lambda (data)
+                (list :mimetype "text/html"
+                      :data (format "<marimo-ui-element object-id='t' random-id='r'><marimo-table data-data='%s' data-selection='null' data-total-rows='1'></marimo-table></marimo-ui-element>" data)))))
+    (when (fboundp 'libxml-parse-html-region)
+      (should (equal (plist-get (marimo-table--parse (funcall html "&quot;[{\\&quot;n\\&quot;: 1}]&quot;")) :rows)
+                     '(((n . 1)))))
+      (should-not (marimo-table--parse (funcall html "[{bad")))
+      (should-not (marimo-table--parse (funcall html "&quot;[[1, 2]]&quot;")))))
+  (should (equal (marimo-table--rows "[{\"n\": 1}, {}]") '(((n . 1)) nil)))
+  (should-not (marimo-table--rows "[1, 2]"))
+  (should-not (marimo-table--rows "data:text/csv,n")))
+
+(ert-deftest marimo-table-page-without-inline-rows-is-reported ()
+  "A page result without inline rows keeps the current page and tells the user."
+  (with-temp-buffer
+    (let ((table (list :object-id "t" :rows '(((n . 1))) :page 0))
+          messages)
+      (setq marimo-table--tables (make-hash-table :test #'equal)
+            marimo-table--calls (list (list "call" "t" 1)))
+      (puthash "t" table marimo-table--tables)
+      (cl-letf (((symbol-function 'message)
+                 (lambda (format &rest args) (push (apply #'format format args) messages))))
+        (marimo-table-function-result
+         '(:function_call_id "call" :status (:code "ok") :return_value (:data "data:text/csv,n"))))
+      (should (equal (plist-get table :page) 0))
+      (should-not marimo-table--calls)
+      (should (string-match-p "page 2 has no inline rows" (car messages))))))
 
 (defun marimo-test--wait (predicate)
   "Wait for asynchronous kernel output until PREDICATE succeeds."
@@ -591,10 +705,16 @@
   (dolist (output '(nil (:mimetype "text/html" :data "<table><tr><td>42</td></tr></table>")
                        (:mimetype "image/png" :data "AAAA")))
     (should-not (marimo-renderer-needed-p (list :output output))))
+  (when (featurep 'xwidget-internal)
+    (marimo-test--buffer
+      (cl-letf (((symbol-function 'display-graphic-p) (lambda (&rest _) t)))
+        (let ((marimo-renderer-assets-directory "/missing/marimo-renderer"))
+          (marimo--render "b" '(:output (:mimetype "text/html" :data "<marimo-table></marimo-table>")))
+          (should (string-match-p "marimo-install-renderer" (buffer-string)))))))
   (marimo-test--buffer
-    (let ((marimo-renderer-assets-directory "/missing/marimo-renderer"))
+    (cl-letf (((symbol-function 'display-graphic-p) #'ignore))
       (marimo--render "b" '(:output (:mimetype "text/html" :data "<marimo-table></marimo-table>")))
-      (should (string-match-p "marimo-install-renderer" (buffer-string)))))
+      (should (string-match-p "Rich output: Rich output requires" (buffer-string)))))
   (let ((marimo-renderer-assets-directory "/missing/marimo-renderer"))
     (should-error (marimo-renderer--start) :type 'user-error)))
 
@@ -634,7 +754,7 @@
 (ert-deftest marimo-renderer-egui-queues-and-routes-state ()
   (with-temp-buffer
     (let ((marimo-renderer--widgets (make-hash-table :test #'equal))
-          (record '(:session a :ready nil :pending nil))
+          (record (list :session 'a :ready nil :pending nil))
           sent)
       (puthash "a" record marimo-renderer--widgets)
       (puthash "b" '(:session b :ready t :pending nil) marimo-renderer--widgets)

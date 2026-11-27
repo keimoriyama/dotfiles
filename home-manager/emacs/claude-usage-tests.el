@@ -209,26 +209,116 @@
                (lambda (_) '((:identifier . unsupported)))))
       (should-not (claude-usage--mode-line)))))
 
+(defun claude-usage-tests--wait (predicate &optional seconds)
+  "Process events until PREDICATE holds or SECONDS (default 5) pass."
+  (let ((deadline (+ (float-time) (or seconds 5))))
+    (while (and (not (funcall predicate)) (< (float-time) deadline))
+      (accept-process-output nil 0.05))
+    (funcall predicate)))
+
+(defun claude-usage-tests--leftovers ()
+  "Return the fetch processes and buffers still alive."
+  (append
+   (seq-filter (lambda (process)
+                 (string-prefix-p "claude-usage" (process-name process)))
+               (process-list))
+   (seq-filter (lambda (buffer)
+                 (string-prefix-p " *claude-usage" (buffer-name buffer)))
+               (buffer-list))))
+
+(defmacro claude-usage-tests--with-fetch (command &rest body)
+  "Run BODY with `claude-usage-command' set to COMMAND and a clean state.
+The account file points nowhere so no real Claude Code file is read."
+  (declare (indent 1))
+  `(let ((claude-usage-command ,command)
+         (claude-usage-account-file "/nonexistent/claude.json")
+         (claude-usage--enterprise-cache nil)
+         (claude-usage--process nil)
+         (claude-usage--state (list :five-hour nil :seven-day nil :error nil))
+         (claude-usage-mode-line-string ""))
+     (unwind-protect
+         (progn ,@body)
+       (claude-usage--abandon-fetch)
+       (claude-usage-tests--wait
+        (lambda () (null (claude-usage-tests--leftovers)))))))
+
+(defun claude-usage-tests--fetch-and-wait ()
+  "Start a fetch and wait for its sentinel to settle the state."
+  (claude-usage--fetch)
+  (should (claude-usage-tests--wait (lambda () (null claude-usage--process)))))
+
+(ert-deftest claude-usage-fetch-installs-the-usage-printed-by-the-cli ()
+  (claude-usage-tests--with-fetch
+      '("sh" "-c" "echo '{\"five_hour\":{\"utilization_pct\":32},\"seven_day\":{\"utilization_pct\":47}}'")
+    (claude-usage-tests--fetch-and-wait)
+    (should (equal 32 (plist-get claude-usage--state :five-hour)))
+    (should (null (plist-get claude-usage--state :error)))))
+
+(ert-deftest claude-usage-fetch-keeps-stderr-out-of-the-json ()
+  "Warnings on stderr do not make a successful run unparsable."
+  (claude-usage-tests--with-fetch
+      '("sh" "-c" "echo 'warning: slow network' >&2; echo '{\"five_hour\":{\"utilization_pct\":1},\"seven_day\":{\"utilization_pct\":2}}'")
+    (claude-usage-tests--fetch-and-wait)
+    (should (equal 1 (plist-get claude-usage--state :five-hour)))
+    (should (null (plist-get claude-usage--state :error)))))
+
+(ert-deftest claude-usage-fetch-reports-a-failing-exit-status ()
+  (claude-usage-tests--with-fetch '("sh" "-c" "echo boom >&2; exit 3")
+    (claude-usage-tests--fetch-and-wait)
+    (should (equal "sh exited with status 3: boom"
+                   (plist-get claude-usage--state :error)))))
+
 (ert-deftest claude-usage-fetch-sends-eof-so-the-cli-does-not-block-on-stdin ()
   "The CLI waits for stdin JSON from Claude Code's status-line caller;
 outside that context it must see an immediate EOF or it hangs."
-  (let ((claude-usage--process nil)
-        (eof-sent-to nil))
-    (cl-letf (((symbol-function 'make-process)
-               (lambda (&rest _args) 'fake-process))
-              ((symbol-function 'process-send-eof)
-               (lambda (proc) (setq eof-sent-to proc))))
+  (claude-usage-tests--with-fetch '("cat")
+    (claude-usage-tests--fetch-and-wait)
+    (should (equal "cat produced no output"
+                   (plist-get claude-usage--state :error)))))
+
+(ert-deftest claude-usage-fetch-kills-a-hung-cli-after-the-timeout ()
+  "A CLI that never exits must not block every later fetch."
+  (claude-usage-tests--with-fetch '("sleep" "30")
+    (let ((claude-usage-timeout 1))
       (claude-usage--fetch)
-      (should (eq eof-sent-to 'fake-process)))))
+      (let ((hung claude-usage--process))
+        (should (process-live-p hung))
+        (claude-usage--fetch)
+        (should (eq hung claude-usage--process))
+        (should (claude-usage-tests--wait (lambda () (null claude-usage--process))))
+        (should-not (process-live-p hung))
+        (should (string-match-p "timed out"
+                                (plist-get claude-usage--state :error)))
+        (claude-usage--fetch)
+        (should (process-live-p claude-usage--process))
+        (should-not (eq hung claude-usage--process))))))
 
 (ert-deftest claude-usage-fetch-records-an-error-when-the-cli-is-missing ()
-  (let ((claude-usage--process nil)
-        (claude-usage--state '(:five-hour nil :seven-day nil :error nil))
-        (claude-usage-mode-line-string ""))
-    (cl-letf (((symbol-function 'make-process)
-               (lambda (&rest _args) (error "no such file"))))
-      (claude-usage--fetch)
-      (should (plist-get claude-usage--state :error)))))
+  (claude-usage-tests--with-fetch '("/nonexistent/claude-usage-line")
+    (claude-usage--fetch)
+    (should (plist-get claude-usage--state :error))
+    (should (null claude-usage--process))
+    (should (null (claude-usage-tests--leftovers)))))
+
+(ert-deftest claude-usage-fetch-leaves-no-processes-or-buffers-behind ()
+  (claude-usage-tests--with-fetch '("sh" "-c" "echo noise >&2; exit 1")
+    (dotimes (_ 3)
+      (claude-usage-tests--fetch-and-wait))
+    (should (claude-usage-tests--wait
+             (lambda () (null (claude-usage-tests--leftovers)))))
+    (should-not (seq-filter (lambda (timer)
+                              (eq (timer--function timer)
+                                  #'claude-usage--time-out))
+                            timer-list))))
+
+(ert-deftest claude-usage-abandoned-fetch-leaves-the-state-alone ()
+  "A fetch killed by turning the mode off is not reported as a failure."
+  (claude-usage-tests--with-fetch '("sleep" "30")
+    (claude-usage--fetch)
+    (claude-usage--abandon-fetch)
+    (should (claude-usage-tests--wait
+             (lambda () (null (claude-usage-tests--leftovers)))))
+    (should (null (plist-get claude-usage--state :error)))))
 
 (ert-deftest claude-usage-mode-registers-the-mode-line-string-once ()
   ;; The mode is global, so put the session back the way it was found.
@@ -279,6 +369,13 @@ where a narrow window would cut it off."
     (should (equal "boom" (plist-get claude-usage--state :error)))
     (should (string-match-p "\\` Claude \\[5h 32%↻.* · 7d 47%↻.*\\]\\*\\'"
                             claude-usage-mode-line-string))))
+
+(ert-deftest claude-usage-record-error-starts-a-state-when-there-is-none ()
+  (let ((claude-usage--state nil)
+        (claude-usage-mode-line-string ""))
+    (claude-usage--record-error "boom")
+    (should (equal "boom" (plist-get claude-usage--state :error)))
+    (should (equal " Claude ?" claude-usage-mode-line-string))))
 
 (provide 'claude-usage-tests)
 

@@ -13,6 +13,8 @@
 (defvar marimo--outputs)
 (declare-function marimo--uri "marimo")
 (declare-function marimo--render "marimo")
+(declare-function marimo--ensure-connected "marimo")
+(declare-function marimo--dom-text "marimo")
 (declare-function jsonrpc-async-request "jsonrpc")
 
 (defcustom marimo-table-column-width 40
@@ -34,14 +36,19 @@
   "Keymap active on rendered table results.")
 
 (defun marimo-table--json (text &optional object-type)
-  "Parse JSON TEXT, returning objects as OBJECT-TYPE (default plist)."
-  (json-parse-string text :object-type (or object-type 'plist) :array-type 'list
-                     :null-object nil :false-object "false"))
+  "Parse JSON TEXT, returning objects as OBJECT-TYPE (default plist).
+Return nil for malformed JSON so the output falls back to another renderer."
+  (ignore-error json-parse-error
+    (json-parse-string text :object-type (or object-type 'plist) :array-type 'list
+                       :null-object nil :false-object "false")))
 
 (defun marimo-table--rows (data)
-  "Decode the JSON-encoded row string DATA, or nil for non-inline data."
-  (and (stringp data) (string-prefix-p "[" data)
-       (marimo-table--json data 'alist)))
+  "Decode the JSON-encoded row string DATA into row alists.
+Return nil for non-inline data or rows that are not JSON objects."
+  (let ((rows (and (stringp data) (string-prefix-p "[" data)
+                   (marimo-table--json data 'alist))))
+    (and (cl-every (lambda (row) (and (listp row) (cl-every #'consp row))) rows)
+         rows)))
 
 (defun marimo-table--parse (output)
   "Return a table state plist when OUTPUT is exactly one inline mo.ui.table."
@@ -69,7 +76,7 @@
                 :label (let ((label (funcall attribute 'data-label)))
                          (and (stringp label)
                               (string-trim
-                               (dom-texts (with-temp-buffer
+                               (marimo--dom-text (with-temp-buffer
                                             (insert label)
                                             (libxml-parse-html-region (point-min) (point-max)))
                                           ""))))
@@ -162,6 +169,7 @@
 (defun marimo-table--command (command)
   "Send kernel COMMAND for this notebook's live session."
   (unless marimo--session (user-error "No running marimo kernel"))
+  (marimo--ensure-connected)
   (jsonrpc-async-request marimo--connection 'marimo/command
                          (append command (list :notebookUri (marimo--uri)
                                                :kernelSessionId marimo--session))
@@ -232,7 +240,10 @@
        ((not (equal (plist-get (plist-get notification :status) :code) "ok"))
         (message "Marimo table: %s" (or (plist-get (plist-get notification :status) :message)
                                         "page request failed")))
-       ((and table rows)
+       ((not table))
+       ((not rows)
+        (message "Marimo table: page %d has no inline rows to show" (1+ page)))
+       (t
         (plist-put table :rows rows)
         (plist-put table :page page)
         (when (plist-get result :total_rows) (plist-put table :total (plist-get result :total_rows)))

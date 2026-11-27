@@ -9,9 +9,16 @@
 ;; to a separate one-shot CLI, the same trick agent-shell-dashboard uses for
 ;; its "Needs you" sub-line.
 
-(require 'cl-lib)
 (require 'map)
 (require 'subr-x)
+
+(declare-function agent-shell-subscribe-to "agent-shell")
+(declare-function agent-shell-unsubscribe "agent-shell")
+(declare-function shell-maker-set-buffer-name "shell-maker")
+
+(defgroup my-agent-shell-session-name nil
+  "Summarised buffer names for agent-shell."
+  :group 'agent-shell)
 
 (defcustom my-agent-shell-session-name-summary-command
   '("claude" "-p" "--model" "haiku" "--allowed-tools" "")
@@ -38,7 +45,7 @@ The prompt is written to stdin and the summary read from stdout."
   "Return TEXT as a single line of at most the configured length.
 Returns nil when TEXT holds nothing usable."
   (when (stringp text)
-    (let* ((line (string-trim (car (split-string text "\n" t))))
+    (let* ((line (string-trim (car (split-string (string-trim text) "\n"))))
            (limit my-agent-shell-session-name-summary-length))
       (unless (string-empty-p line)
         (if (> (length line) limit)
@@ -85,15 +92,16 @@ Returns nil when TEXT holds nothing usable."
              :sentinel
              (lambda (process _event)
                (unless (process-live-p process)
-                 (when (buffer-live-p output)
-                   (when-let* (((zerop (process-exit-status process)))
-                               (summary (my-agent-shell-session-name--shorten
-                                         (with-current-buffer output
-                                           (buffer-string)))))
-                     (my-agent-shell-session-name--rename buffer summary))
-                   (kill-buffer output))
-                 (when (buffer-live-p errors)
-                   (kill-buffer errors)))))))
+                 (unwind-protect
+                     (when-let* (((zerop (process-exit-status process)))
+                                 ((buffer-live-p output))
+                                 (summary (my-agent-shell-session-name--shorten
+                                           (with-current-buffer output
+                                             (buffer-string)))))
+                       (my-agent-shell-session-name--rename buffer summary))
+                   (dolist (scratch (list output errors))
+                     (when (buffer-live-p scratch)
+                       (kill-buffer scratch)))))))))
       (process-send-string process
                            (my-agent-shell-session-name--summary-prompt prompt))
       (process-send-eof process))))

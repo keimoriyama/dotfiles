@@ -1,0 +1,144 @@
+--- a/ui/src/lib.rs
++++ b/ui/src/lib.rs
+@@ -223,6 +223,14 @@
+             }
+         })
+         .collect()
++}
++
++fn truncate_utf8_bytes(text: &str, max_bytes: usize) -> &str {
++    let mut end = max_bytes.min(text.len());
++    while !text.is_char_boundary(end) {
++        end -= 1;
++    }
++    &text[..end]
+ }
+ 
+ pub fn parse_parquet(bytes: Vec<u8>) -> Result<ParquetTable, String> {
+@@ -337,6 +345,19 @@
+     })
+ }
+ 
++
++fn explorer_font_definitions() -> egui::FontDefinitions {
++    let mut fonts = egui::FontDefinitions::default();
++    let font_name = "ipa-gothic".to_string();
++    fonts.font_data.insert(
++        font_name.clone(),
++        egui::FontData::from_static(include_bytes!("../assets/ipag.ttf")),
++    );
++    for family in [egui::FontFamily::Proportional, egui::FontFamily::Monospace] {
++        fonts.families.entry(family).or_default().push(font_name.clone());
++    }
++    fonts
++}
+ 
+ #[derive(Clone, Copy, PartialEq, Eq, Debug)]
+ pub enum ViewMode {
+@@ -346,6 +367,7 @@
+ 
+ pub struct ExplorerApp {
+     filepath: String,
++    fonts_initialized: bool,
+     parquet_table: Option<ParquetTable>,
+     loading: bool,
+     error_message: Option<String>,
+@@ -395,6 +417,7 @@
+     pub fn new() -> Self {
+         Self {
+             filepath: String::new(),
++            fonts_initialized: false,
+             parquet_table: None,
+             loading: false,
+             error_message: None,
+@@ -582,6 +605,11 @@
+     }
+ 
+     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
++        if !self.fonts_initialized {
++            ctx.set_fonts(explorer_font_definitions());
++            self.fonts_initialized = true;
++        }
++
+         // Poll for newly loaded data
+         if let Ok(mut guard) = LOADED_TABLE.lock() {
+             if let Some(res) = guard.take() {
+@@ -723,7 +751,7 @@
+ 
+                                 // Render the cell value first so it stays on the left next to the column name
+                                 let display_val = if cell_value.len() > 150 {
+-                                    format!("{}...", &cell_value[0..147])
++                                    format!("{}...", truncate_utf8_bytes(&cell_value, 147))
+                                 } else {
+                                     cell_value.clone()
+                                 };
+@@ -1053,14 +1081,14 @@
+                                                 // Conditionally truncate based on expand mode
+                                                 let display_name = if self.expand_mode {
+                                                     if col.len() > 80 {
+-                                                        format!("{}...", &col[0..77])
++                                                        format!("{}...", truncate_utf8_bytes(col, 77))
+                                                     } else {
+                                                         col.clone()
+                                                     }
+                                                 } else {
+                                                     let max_chars = ((col_width - 8.0) / 7.5) as usize;
+                                                     if col.len() > max_chars && max_chars > 3 {
+-                                                        format!("{}...", &col[0..max_chars - 3])
++                                                        format!("{}...", truncate_utf8_bytes(col, max_chars - 3))
+                                                     } else {
+                                                         col.clone()
+                                                     }
+@@ -1106,7 +1134,7 @@
+                                                         
+                                                         // Cell label button
+                                                         let cell_text = if cell.len() > 30 {
+-                                                            format!("{}...", &cell[0..27])
++                                                            format!("{}...", truncate_utf8_bytes(cell, 27))
+                                                         } else {
+                                                             cell.clone()
+                                                         };
+@@ -1501,10 +1529,43 @@
+             column: column.to_string(),
+             operator: operator.to_string(),
+             value: value.to_string(),
++        }
++    }
++
++    #[test]
++    fn test_truncate_utf8_bytes_preserves_ascii_and_short_text() {
++        assert_eq!(truncate_utf8_bytes("abcdef", 3), "abc");
++        assert_eq!(truncate_utf8_bytes("abcdef", 100), "abcdef");
++        assert_eq!(truncate_utf8_bytes("短い文字列", 100), "短い文字列");
++    }
++
++    #[test]
++    fn test_truncate_utf8_bytes_backs_up_to_char_boundary() {
++        let prefix = "a".repeat(26);
++        let text = format!("{prefix}なxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
++
++        assert_eq!(truncate_utf8_bytes(&text, 27), prefix);
++        assert_eq!(truncate_utf8_bytes(&text, 28), prefix);
++        assert_eq!(truncate_utf8_bytes(&text, 29), format!("{prefix}な"));
++
++        for max_bytes in 0..=text.len() {
++            let truncated = truncate_utf8_bytes(&text, max_bytes);
++            assert!(truncated.len() <= max_bytes);
++            assert!(text.starts_with(truncated));
++            assert!(text.is_char_boundary(truncated.len()));
+         }
+     }
+ 
+     #[test]
++    fn test_japanese_font_glyphs_are_available() {
++        let fonts = egui::text::Fonts::new(1.0, 1024, explorer_font_definitions());
++        for family in [egui::FontFamily::Proportional, egui::FontFamily::Monospace] {
++            let font_id = egui::FontId { size: 12.0, family };
++            assert!(fonts.has_glyphs(&font_id, "日本語校正"));
++        }
++    }
++
++    #[test]
+     fn test_nested_struct_column_rendering() {
+         use arrow_array::{RecordBatch, StructArray};
+         use arrow_schema::{Field, Fields, Schema};

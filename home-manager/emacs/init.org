@@ -1297,6 +1297,10 @@ embark-act からファイルターゲットに対しても呼び出せる。"
     (unless (string-prefix-p
              (file-name-as-directory (expand-file-name org-prj-dir)) file)
       (user-error "projects 以下のファイルではありません: %s" file))
+    ;; Why not ディレクトリ: 中のファイルを開いているバッファが
+    ;; 移動後も旧パスへ保存し続けてしまう
+    (unless (file-regular-p file)
+      (user-error "通常ファイルではありません: %s" file))
     (when (file-exists-p dest)
       (user-error "archive に同名ファイルがあります: %s" dest))
     (make-directory org-archive-dir t)
@@ -1324,12 +1328,15 @@ embark-act からファイルターゲットに対しても呼び出せる。"
   (unless (derived-mode-p 'org-mode)
     (user-error "org-mode のバッファではありません"))
   ;; アーカイブ実行で見出しが動くので、走査中には移動せず
-  ;; marker に退避してからまとめて移動する
+  ;; marker に退避してからまとめて移動する。
+  ;; 既存の archive 見出しが前にあると、移した見出しは次の DONE 見出しの
+  ;; 直前に貼られる。marker が貼った見出しへずれないよう、挿入位置の
+  ;; marker は挿入テキストの後ろへ進める。
   (let ((markers nil))
     (org-map-entries
      (lambda ()
        (when (member (org-get-todo-state) org-done-keywords)
-         (push (point-marker) markers)))
+         (push (copy-marker (point) t) markers)))
      "LEVEL=1")
     (dolist (marker markers)
       (org-with-point-at marker
@@ -2048,7 +2055,7 @@ JSON ファイルは ~jq~ で2スペースインデントに整形して表示�
   (add-hook 'agent-shell-mode-hook #'my-agent-shell-session-name-setup)
 
   ;; 大きなファイルの Read 結果や Write の diff で描画が固まらないよう、
-  ;; ツール出力を先頭と末尾の数行だけにする。
+  ;; ツール出力を先頭 150 行と末尾 50 行だけにする。
   (require 'agent-shell-tool-output-limit)
   (my-agent-shell-tool-output-limit-setup)
 
@@ -2088,7 +2095,9 @@ JSON ファイルは ~jq~ で2スペースインデントに整形して表示�
 ** agent-review
 エージェントの計画や差分を Emacs のバッファ上でレビューする (crit 相当)。
 C-c C-c でラウンドを終えると未解決コメントを agent-shell に送り、
-エージェントが =z-ai/= に返信を書くと次のラウンドが始まる。
+エージェントがセッションディレクトリの =replies.json= に返信を書くと次のラウンドが始まる。
+agent-shell が無いときや送信先で空入力したときは指示を kill ring に入れる。
+返信待ちの間に C-c C-c を押すと同じ指示を送り直し、N で返信を待たずに次のラウンドへ進む。
 Git レビューでは =s= で確認済みの hunk をステージして表示から除外し、
 =S= でローカルコミットまたは未コミット差分を選択する。
 =f= ではそのバッファに表示するファイルを選択する。
