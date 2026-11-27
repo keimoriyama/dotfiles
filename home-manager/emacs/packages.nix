@@ -105,7 +105,7 @@ in {
   agent-shell-attention = epkgs.melpaBuild {
     pname = "agent-shell-attention";
     src = sources.emacs-agent-shell-attention.src;
-    version = "0.0.2";
+    version = "0.0.5";
     packageRequires = [epkgs.agent-shell];
   };
   agent-shell-tramp = epkgs.melpaBuild {
