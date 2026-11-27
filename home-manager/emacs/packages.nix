@@ -128,7 +128,7 @@ in {
       epkgs.agent-shell
       # Optional at runtime — (require 'modus-themes nil t) — but needed so
       # byte-compilation resolves its faces. projectile stays out: it's only
-      # reached through fboundp guards, and our projectile is the override below.
+      # reached through fboundp guards.
       epkgs.modus-themes
     ];
   };
@@ -193,11 +193,5 @@ in {
       license = pkgs.lib.licenses.mit;
       platforms = pkgs.lib.platforms.darwin;
     };
-  });
-  # Upstream projectile ships projectile-consult.el, which unconditionally
-  # (require 'consult), but nixpkgs' generated package doesn't declare it
-  # as a dependency, breaking byte-compilation. Add it explicitly.
-  projectile = epkgs.projectile.overrideAttrs (old: {
-    propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [epkgs.consult];
   });
 }

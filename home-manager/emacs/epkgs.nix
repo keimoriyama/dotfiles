@@ -14,7 +14,7 @@ in
       nerd-icons-completion
       catppuccin-theme
       volatile-highlights
-      packages.projectile
+      projectile
       undo-tree
       bufferlo
       puni
